@@ -1,0 +1,21 @@
+dataset: Labour
+stage: A
+model: amazon/chronos-bolt-small
+context_length: 48
+horizon: 12
+seasonality: 12
+arms: [LORA, LORA_SELF, LORA_POOL, LORA_HIER]
+selection_seed: 92110
+learning_rates: [0.0001, 0.0003]
+repeat_seeds: [92111, 92112]
+max_fits: 16
+max_updates_per_fit: 512
+max_main_updates: 8192
+checkpoints: [0, 128, 256, 512]
+lora: {r: 8, alpha: 16, dropout: 0, targets: [q, v], expected_params: 294912}
+adapter: {hidden: 512, bottleneck: 8, expected_params: 8712}
+optimizer: {name: AdamW, weight_decay: 0, grad_clip: 1.0, scheduler: null}
+precision: float32
+split_months: {calibration: 24, validation: 24, test: 48}
+primary_reconciliation: mint_shrink
+reconciliation: [unreconciled, bottom_up, mint_shrink, ols]
