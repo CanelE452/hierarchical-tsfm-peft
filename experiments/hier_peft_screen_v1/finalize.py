@@ -1,1 +1,4 @@
-raise SystemExit("BLOCKED_IMPLEMENTATION: preflight implementation pending")
+from hier_peft.report import finalize
+
+if __name__ == "__main__":
+    finalize()
