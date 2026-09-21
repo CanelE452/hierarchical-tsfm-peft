@@ -6,8 +6,21 @@
       "cause": "PEFT0.21 requires embedding accessor when transformers5 tied_weights is a dict; upstream Chronos has shared but no accessor",
       "repair": "Expose existing shared embedding through local bound accessor before PEFT injection",
       "structure_recheck": "PASS: 294912 LoRA and 8712 adapter parameters",
-      "prediction_parity": "PENDING real Labour windows",
+      "prediction_parity": "PASS: exact real Labour F0 and same-seed step0 parity",
       "main_updates_consumed": 0
+    },
+    {
+      "type": "implementation_failure",
+      "status": "RECOVERED",
+      "timestamp": "2026-09-21T11:28:55.424095+00:00",
+      "error": "TypeError('Object of type bool is not JSON serializable')",
+      "cause": "NumPy boolean gate values were not converted to builtin bool for JSON serialization",
+      "repair": "Serialize equivalent builtin booleans from completed SEED_EFFECTS.csv; no thresholds, scores or selection changed",
+      "fits_repeated": 0,
+      "updates_repeated": 0,
+      "all_required_test_rows_present": true,
+      "checkpoint_count": 64,
+      "prediction_artifact_count": 79
     }
   ]
 }

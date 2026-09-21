@@ -37,6 +37,7 @@ def continuation(effects):
         checks[f"{other}_both_repeats_favorable"] = len(repeats) == 2 and all(e["primary_difference"] < -1e-8 for e in repeats)
         checks[f"{other}_bottom_no_large_harm"] = len(mint) == 3 and all(e["bottom_relative_difference"] <= 0.05 for e in mint)
         checks[f"{other}_raw_mean_favorable"] = len(raw) == 3 and np.mean([e["primary_difference"] for e in raw]) < -1e-8
+    checks = {name: bool(value) for name, value in checks.items()}
     return {"decision": "PROCEED_TO_TOURISM_CONFIRMATION" if all(checks.values()) else "STOP_CURRENT_HIER_ADAPTER_AFTER_LABOUR_SCREEN",
             "checks": checks, "nature": "project budget continuation rule, not statistical significance"}
 

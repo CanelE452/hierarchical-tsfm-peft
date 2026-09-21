@@ -1,4 +1,5 @@
 import pytest
+import json
 from hier_peft.screen import select_candidate, continuation
 
 
@@ -24,3 +25,12 @@ def test_gate_requires_both_repeats_and_pre_reconciliation_signal():
         if row["reconciliation"] == "unreconciled":
             row["primary_difference"] = 0.01
     assert continuation(rows)["decision"] == "STOP_CURRENT_HIER_ADAPTER_AFTER_LABOUR_SCREEN"
+
+
+def test_gate_round_trips_through_json_without_numpy_scalar_types():
+    rows = [dict(comparator=arm, seed=seed, reconciliation=rec, primary_difference=-0.01, bottom_relative_difference=0.0)
+            for arm in ["LORA_SELF", "LORA_POOL"] for seed in [92110, 92111, 92112]
+            for rec in ["mint_shrink", "unreconciled"]]
+    result = continuation(rows)
+    assert all(type(value) is bool for value in result["checks"].values())
+    assert json.loads(json.dumps(result)) == result
