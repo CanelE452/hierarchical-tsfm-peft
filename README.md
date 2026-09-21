@@ -31,7 +31,9 @@ Python 3.11로 새 `.venv`를 만들고 GPU에 맞는 공식 PyTorch CUDA wheel�
 환경의 출처·패키지 wheel 해시는 `ENVIRONMENT.json`에 있습니다.
 
 ```text
-python -m pip install -r requirements-lock.txt
+python -c "from pathlib import Path; Path('.cache').mkdir(exist_ok=True)"
+python -m pip install torch==2.10.0 --index-url https://download.pytorch.org/whl/cu128 --report .cache/torch-install.json
+python -m pip install -r requirements-lock.txt --report .cache/dependencies-install.json
 python -m pip install --no-deps -e .
 python -m hier_peft.env --verify
 python -m hier_peft.data
@@ -45,3 +47,15 @@ Preflight 미통과 시 학습을 실행하지 않습니다. Stage B는 Labour c
 Labour gate가 통과한 경우 finalize 전에 동일 CLI의 `--stage B`를 실행합니다.
 이미 main update가 존재하면 자동 재실행을 거부하여 fit/update 예산을 보호합니다.
 새 머신에서는 기존 실행 결과를 덮어쓰지 않는 별도 workspace/results가 필요합니다.
+
+## 완료된 Labour screen
+
+`STOP_CURRENT_HIER_ADAPTER_AFTER_LABOUR_SCREEN`: 16 fits / 8,192 main updates를 완료했습니다.
+HIER는 SELF·POOL 대비 두 repeat seed에서 일관된 추가 가치를 보이지 않아 TourismLarge 학습은 실행하지 않았습니다.
+
+- [한국어 보고서](results/hier_peft_screen_v1/REPORT_KO.md)
+- [최종 결정](results/hier_peft_screen_v1/FINAL_DECISION.md)
+- [Seed effects](results/hier_peft_screen_v1/SEED_EFFECTS.csv)
+- [Verification](results/hier_peft_screen_v1/VERIFICATION.json)
+
+실행 후 JSON boolean 직렬화 문제만 수정했습니다. 실행 당시 source seal과 후처리 수정 내역을 모두 보존했습니다.

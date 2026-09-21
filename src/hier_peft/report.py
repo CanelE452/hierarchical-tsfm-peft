@@ -74,7 +74,8 @@ def finalize():
               "`OPTIMIZATION_LIMIT_REACHED` 표시는 마지막 checkpoint의 validation이 계속 개선된 fit에만 남겼으며 학습을 연장하지 않았습니다.",
               "추가 LR/rank/adapter/graph/loss 탐색은 실행하지 않았습니다. 환경·구현 오류 기록은 IMPLEMENTATION_EVENTS.json에 있으며 과학적 결과와 분리했습니다.", "",
               "모든 fit과 TEST 평가가 끝난 뒤 continuation boolean의 JSON 직렬화 오류가 발생했습니다. 완료된 점수표에서 동일 조건을 재계산하고 Python bool로 저장해 복구했습니다. 재학습·추가 update는 0회입니다. 실행 당시 source seal은 보존했고, 재발 방지용 후처리 수정과 회귀 테스트는 POST_RUN_REPAIRS.json에 별도 기록했습니다.", ""]
-    (RESULTS / "REPORT_KO.md").write_text("\n".join(lines), encoding="utf-8", newline="\n")
+    report_text = "\n".join(line.rstrip() for line in "\n".join(lines).splitlines()) + "\n"
+    (RESULTS / "REPORT_KO.md").write_text(report_text, encoding="utf-8", newline="\n")
     (RESULTS / "FINAL_DECISION.md").write_text(f"# Final decision\n\n`{label}`\n\nLabour gate: `{decision['decision']}`\n\nStage B executed: {has_b}\n\n판단 근거와 seed/level 효과는 REPORT_KO.md와 SEED_EFFECTS.csv에 기록했습니다. 논문 PASS/FAIL을 선언하지 않습니다.\n", encoding="utf-8", newline="\n")
     checks = {}
     for out in [RESULTS] + ([stage_b] if has_b else []):
