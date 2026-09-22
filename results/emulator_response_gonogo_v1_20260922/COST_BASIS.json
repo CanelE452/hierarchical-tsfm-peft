@@ -1,0 +1,162 @@
+{
+  "rule": {
+    "all": [
+      [
+        "prepare",
+        "data_prepare"
+      ]
+    ],
+    "E": [
+      [
+        "compress",
+        "full_model_load"
+      ],
+      [
+        "compress",
+        "activation_collection"
+      ],
+      [
+        "compress",
+        "svd_factorization"
+      ],
+      [
+        "compress",
+        "emulator_build"
+      ]
+    ],
+    "VALUE": [
+      [
+        "calibrate",
+        "teacher_zero_calibration"
+      ],
+      [
+        "calibrate",
+        "initial_error_calibration"
+      ],
+      [
+        "calibrate",
+        "calibration_VALUE"
+      ]
+    ],
+    "RESPONSE": [
+      [
+        "calibrate",
+        "teacher_zero_calibration"
+      ],
+      [
+        "calibrate",
+        "teacher_probe_calibration"
+      ],
+      [
+        "calibrate",
+        "initial_error_calibration"
+      ],
+      [
+        "calibrate",
+        "calibration_RESPONSE"
+      ]
+    ],
+    "delta": [
+      [
+        "caches",
+        "f0_cache_train"
+      ],
+      [
+        "caches",
+        "f0_cache_val"
+      ]
+    ]
+  },
+  "charged": {
+    "F_FULL": {
+      "prepare:data_prepare": 0.17081029998371378
+    },
+    "F_TOP3": {
+      "prepare:data_prepare": 0.17081029998371378
+    },
+    "E_EMLOC": {
+      "prepare:data_prepare": 0.17081029998371378,
+      "compress:full_model_load": 4.548874799977057,
+      "compress:activation_collection": 1.5440908999880776,
+      "compress:svd_factorization": 8.475445100106299,
+      "compress:emulator_build": 0.9729842999950051
+    },
+    "E_DELTA": {
+      "prepare:data_prepare": 0.17081029998371378,
+      "compress:full_model_load": 4.548874799977057,
+      "compress:activation_collection": 1.5440908999880776,
+      "compress:svd_factorization": 8.475445100106299,
+      "compress:emulator_build": 0.9729842999950051,
+      "caches:f0_cache_train": 28.595736099989153,
+      "caches:f0_cache_val": 3.5800609000143595,
+      "caches:e0_cache_svd_train": 33.574019799998496,
+      "caches:e0_cache_svd_val": 4.339234700019006
+    },
+    "E_VALUE_DELTA": {
+      "prepare:data_prepare": 0.17081029998371378,
+      "compress:full_model_load": 4.548874799977057,
+      "compress:activation_collection": 1.5440908999880776,
+      "compress:svd_factorization": 8.475445100106299,
+      "compress:emulator_build": 0.9729842999950051,
+      "calibrate:teacher_zero_calibration": 1.292920799984131,
+      "calibrate:initial_error_calibration": 0.9491793999332003,
+      "calibrate:calibration_VALUE": 2.746051600028295,
+      "caches:f0_cache_train": 28.595736099989153,
+      "caches:f0_cache_val": 3.5800609000143595,
+      "caches:e0_cache_value_train": 35.28236700000707,
+      "caches:e0_cache_value_val": 4.714097200019751
+    },
+    "E_RESPONSE_DELTA": {
+      "prepare:data_prepare": 0.17081029998371378,
+      "compress:full_model_load": 4.548874799977057,
+      "compress:activation_collection": 1.5440908999880776,
+      "compress:svd_factorization": 8.475445100106299,
+      "compress:emulator_build": 0.9729842999950051,
+      "calibrate:teacher_zero_calibration": 1.292920799984131,
+      "calibrate:teacher_probe_calibration": 2.379945600114297,
+      "calibrate:initial_error_calibration": 0.9491793999332003,
+      "calibrate:calibration_RESPONSE": 8.679448299808428,
+      "caches:f0_cache_train": 28.595736099989153,
+      "caches:f0_cache_val": 3.5800609000143595,
+      "caches:e0_cache_response_train": 33.935853800037876,
+      "caches:e0_cache_response_val": 4.276710600010119
+    }
+  },
+  "stage_parts": {
+    "prepare": {
+      "data_prepare": 0.17081029998371378
+    },
+    "compress": {
+      "full_model_load": 4.548874799977057,
+      "activation_collection": 1.5440908999880776,
+      "svd_factorization": 8.475445100106299,
+      "emulator_build": 0.9729842999950051
+    },
+    "calibrate": {
+      "artifact_teacher_full_load": 4.573306399979629,
+      "teacher_zero_calibration": 1.292920799984131,
+      "teacher_probe_calibration": 2.379945600114297,
+      "diag_teacher_zero": 0.5376891001360491,
+      "diag_teacher_probe": 1.17945860006148,
+      "artifact_emulator_load": 0.8312986000091769,
+      "initial_error_calibration": 0.9491793999332003,
+      "calibration_VALUE": 2.746051600028295,
+      "calibration_RESPONSE": 8.679448299808428
+    },
+    "caches": {
+      "artifact_full_load": 4.71048609999707,
+      "f0_cache_train": 28.595736099989153,
+      "f0_cache_val": 3.5800609000143595,
+      "artifact_emulator_load_svd": 0.7689512000069954,
+      "e0_cache_svd_train": 33.574019799998496,
+      "e0_cache_svd_val": 4.339234700019006,
+      "artifact_emulator_load_value": 0.9922040000092238,
+      "e0_cache_value_train": 35.28236700000707,
+      "e0_cache_value_val": 4.714097200019751,
+      "artifact_emulator_load_response": 0.8238094000262208,
+      "e0_cache_response_train": 33.935853800037876,
+      "e0_cache_response_val": 4.276710600010119
+    }
+  },
+  "note": "cold-start charge per independent adaptation; physically shared stages are counted once in the experiment ledger"
+}

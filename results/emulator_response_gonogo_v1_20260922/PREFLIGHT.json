@@ -1,0 +1,502 @@
+{
+  "status": "PASS",
+  "original_model": {
+    "status": "PASS",
+    "checks": {
+      "native": {
+        "max_abs_raw": 0.0,
+        "loss_ours": 2.470759868621826,
+        "loss_official": 2.470759868621826,
+        "loss_from_raw": 2.4707601070404053,
+        "raw_native_roundtrip_max_abs": 2.559274435043335e-06,
+        "future_target_poison_invariant": true,
+        "group_isolation": true
+      },
+      "peft_parity": {
+        "max_abs": 0.0,
+        "peft_scaling": 2.0,
+        "modules": 97
+      },
+      "F_FULL": {
+        "initial_equals_f0": true,
+        "trainable_tensors": 194,
+        "trainable_parameters": 1206912,
+        "official_loraplus": {
+          "official_lr_mapping_equal": true,
+          "ratio": 16.0,
+          "groups": 2
+        },
+        "smoke": {
+          "step1": {
+            "loss": 2.470759868621826,
+            "A_nonzero_modules": 0,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          },
+          "step2": {
+            "loss": 2.5499863624572754,
+            "A_nonzero_modules": 97,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          }
+        },
+        "smoke_updates": 2
+      },
+      "F_TOP3": {
+        "initial_equals_f0": true,
+        "trainable_tensors": 50,
+        "trainable_parameters": 322176,
+        "official_loraplus": {
+          "official_lr_mapping_equal": true,
+          "ratio": 16.0,
+          "groups": 2
+        },
+        "smoke": {
+          "step1": {
+            "loss": 2.470759868621826,
+            "A_nonzero_modules": 0,
+            "B_nonzero_modules": 25,
+            "modules": 25
+          },
+          "step2": {
+            "loss": 2.592421770095825,
+            "A_nonzero_modules": 25,
+            "B_nonzero_modules": 25,
+            "modules": 25
+          }
+        },
+        "smoke_updates": 2
+      },
+      "top3_prefix": {
+        "no_grad_blocks": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "checkpointed_blocks": [
+          9,
+          10,
+          11
+        ]
+      }
+    },
+    "init_files": {
+      "92711": {
+        "path": ".cache/emulator_response_gonogo_v1_20260922/init/seed_92711.pt",
+        "sha256": "981d1d1ebf59fc743be68a420bdcb1d6e83865eebd34a5eb0734d9aecdefabde"
+      },
+      "92712": {
+        "path": ".cache/emulator_response_gonogo_v1_20260922/init/seed_92712.pt",
+        "sha256": "776a14ccdf16dd5b40e53600e89b1dc26c1738d033bff78f1b87a69bf2e9a187"
+      }
+    },
+    "canonical_modules": 97,
+    "top3_modules": 25
+  },
+  "emulator_path": {
+    "status": "PASS",
+    "checks": {
+      "full_rank_mapping": {
+        "max_weight_rel_error_fp64": 1.800109153660183e-11,
+        "max_native_prediction_abs_fp32": 2.86102294921875e-06,
+        "note": "full rank must reproduce the original; the half-rank emulator is not forced to"
+      },
+      "no_dense_forward": {
+        "frozen_folded": {
+          "module": "encoder.block.0.layer.0.self_attention.q",
+          "ops": [
+            [
+              "aten.randn.default",
+              [
+                3,
+                5,
+                768
+              ]
+            ],
+            [
+              "aten.t.default",
+              [
+                768,
+                192
+              ]
+            ],
+            [
+              "aten.view.default",
+              [
+                15,
+                768
+              ]
+            ],
+            [
+              "aten.mm.default",
+              [
+                15,
+                192
+              ]
+            ],
+            [
+              "aten._unsafe_view.default",
+              [
+                3,
+                5,
+                192
+              ]
+            ],
+            [
+              "aten.t.default",
+              [
+                192,
+                768
+              ]
+            ],
+            [
+              "aten.view.default",
+              [
+                15,
+                192
+              ]
+            ],
+            [
+              "aten.mm.default",
+              [
+                15,
+                768
+              ]
+            ],
+            [
+              "aten._unsafe_view.default",
+              [
+                3,
+                5,
+                768
+              ]
+            ]
+          ],
+          "dense_shaped_outputs": 0
+        },
+        "calibration_gamma": {
+          "module": "encoder.block.0.layer.0.self_attention.q",
+          "ops": [
+            [
+              "aten.randn.default",
+              [
+                3,
+                5,
+                768
+              ]
+            ],
+            [
+              "aten.t.default",
+              [
+                768,
+                192
+              ]
+            ],
+            [
+              "aten.view.default",
+              [
+                15,
+                768
+              ]
+            ],
+            [
+              "aten.mm.default",
+              [
+                15,
+                192
+              ]
+            ],
+            [
+              "aten._unsafe_view.default",
+              [
+                3,
+                5,
+                192
+              ]
+            ],
+            [
+              "aten.exp.default",
+              [
+                192
+              ]
+            ],
+            [
+              "aten.mul.Tensor",
+              [
+                3,
+                5,
+                192
+              ]
+            ],
+            [
+              "aten.t.default",
+              [
+                192,
+                768
+              ]
+            ],
+            [
+              "aten.view.default",
+              [
+                15,
+                192
+              ]
+            ],
+            [
+              "aten.mm.default",
+              [
+                15,
+                768
+              ]
+            ],
+            [
+              "aten._unsafe_view.default",
+              [
+                3,
+                5,
+                768
+              ]
+            ]
+          ],
+          "dense_shaped_outputs": 0
+        },
+        "emulator_tensor_bytes": 251347668,
+        "full_tensor_bytes": 477913812,
+        "remaining_dense_linear_in_blocks": 0
+      },
+      "gamma_roundtrip": {
+        "dense_map_max_rel": 1.3157500688976143e-07,
+        "native_fp32_max_abs": 3.0994415283203125e-06,
+        "fingerprint_stable": true,
+        "note": "same algebra, different rounding order (folded exp(gamma)); raw-space gaps are sinh-amplified"
+      },
+      "gamma": {
+        "parameters": 25800,
+        "frozen_in_main": "FrozenFactorizedLinear has no parameters"
+      },
+      "half_rank_emulator_vs_f0": {
+        "sigma_mse": 0.0057567016587825905
+      },
+      "transfer_theta0_equals_f0": true,
+      "emloc": {
+        "active_subspace_identity_rel": 1.468154299113856e-15,
+        "official_vs_port_scaling1_fp32_rel": 1.1917771871594596e-06,
+        "official_vs_port_scaling1_bf16_rel": 0.025593364611268044,
+        "verbatim_official_at_scaling2_subspace_rel_mismatch": 0.12197184562683105,
+        "clamped_basis_fraction_L3_random_B": 0.0,
+        "zero_B_noop": true,
+        "zero_limit_preserves_rel": 1.4956007134969695e-06,
+        "same_base_preserves_rel": 1.4956007134969695e-06,
+        "module": "encoder.block.0.layer.0.self_attention.q",
+        "scaling": 2.0,
+        "official_commit": "332d70e9189f8a2bec3dc8a238eef1439b30e938",
+        "official_scaling_note": "official config/peft/8B.json sets r=8 without lora_alpha -> PEFT default alpha=8, scaling 1; its B_-correction is exact only at scaling 1, so the port divides by alpha/r=2",
+        "official_lora_targets": "language_model.model.layers.*w([o123]|qkv): attention wqkv/wo AND MLP w1/w2/w3",
+        "baseline_status": "LIMITED_BASELINE: the contract map puts LoRA only on attention q/k/v/o + output head, so compressed MLP wi/wo errors are not correctable by EMLoC here (official corrects MLP too)"
+      },
+      "calibration_checks": {
+        "resolution": [
+          {
+            "probe_index": 0,
+            "origin": 1152,
+            "rel_error_bf16_vs_fp32": 56.94047546386719,
+            "zero_fraction_bf16": 0.8077444434165955,
+            "zero_fraction_fp32": 0.00343285477720201,
+            "target_mse_fp32": 3.336066978221197e-09,
+            "target_mse_bf16": 8.89806051418418e-06
+          },
+          {
+            "probe_index": 0,
+            "origin": 2520,
+            "rel_error_bf16_vs_fp32": 27.520566940307617,
+            "zero_fraction_bf16": 0.7282533645629883,
+            "zero_fraction_fp32": 0.010440288111567497,
+            "target_mse_fp32": 3.755363131574541e-09,
+            "target_mse_bf16": 3.823636234301375e-06
+          },
+          {
+            "probe_index": 1,
+            "origin": 1152,
+            "rel_error_bf16_vs_fp32": 5.647054195404053,
+            "zero_fraction_bf16": 0.7683138251304626,
+            "zero_fraction_fp32": 0.00028344671591185033,
+            "target_mse_fp32": 3.332401661282347e-07,
+            "target_mse_bf16": 1.0039912922366057e-05
+          },
+          {
+            "probe_index": 1,
+            "origin": 2520,
+            "rel_error_bf16_vs_fp32": 3.4894843101501465,
+            "zero_fraction_bf16": 0.6617851257324219,
+            "zero_fraction_fp32": 0.0011967751197516918,
+            "target_mse_fp32": 3.755015143269702e-07,
+            "target_mse_bf16": 5.646535100822803e-06
+          }
+        ],
+        "value_path_modules_with_gradient": 120,
+        "response_path_modules_with_gradient": 120,
+        "gamma_parameters": 25800,
+        "precision": "fp32"
+      },
+      "E_EMLOC": {
+        "trainable_tensors": 194,
+        "trainable_parameters": 1206912,
+        "official_loraplus": {
+          "official_lr_mapping_equal": true,
+          "ratio": 16.0,
+          "groups": 2
+        },
+        "anchored_train0_equals_f0": false,
+        "smoke_emulator": "svd (gamma 0); VALUE/RESPONSE arms share this code path and load sealed gammas in the fit",
+        "smoke": {
+          "step1": {
+            "loss": 2.439242362976074,
+            "A_nonzero_modules": 0,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          },
+          "step2": {
+            "loss": 2.514047622680664,
+            "A_nonzero_modules": 97,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          }
+        },
+        "smoke_updates": 2
+      },
+      "E_DELTA": {
+        "trainable_tensors": 194,
+        "trainable_parameters": 1206912,
+        "official_loraplus": {
+          "official_lr_mapping_equal": true,
+          "ratio": 16.0,
+          "groups": 2
+        },
+        "anchored_train0_equals_f0": true,
+        "smoke_emulator": "svd (gamma 0); VALUE/RESPONSE arms share this code path and load sealed gammas in the fit",
+        "smoke": {
+          "step1": {
+            "loss": 2.4707601070404053,
+            "A_nonzero_modules": 0,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          },
+          "step2": {
+            "loss": 2.551313638687134,
+            "A_nonzero_modules": 97,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          }
+        },
+        "smoke_updates": 2
+      },
+      "E_VALUE_DELTA": {
+        "trainable_tensors": 194,
+        "trainable_parameters": 1206912,
+        "official_loraplus": {
+          "official_lr_mapping_equal": true,
+          "ratio": 16.0,
+          "groups": 2
+        },
+        "anchored_train0_equals_f0": true,
+        "smoke_emulator": "svd (gamma 0); VALUE/RESPONSE arms share this code path and load sealed gammas in the fit",
+        "smoke": {
+          "step1": {
+            "loss": 2.4707601070404053,
+            "A_nonzero_modules": 0,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          },
+          "step2": {
+            "loss": 2.551313638687134,
+            "A_nonzero_modules": 97,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          }
+        },
+        "smoke_updates": 2
+      },
+      "E_RESPONSE_DELTA": {
+        "trainable_tensors": 194,
+        "trainable_parameters": 1206912,
+        "official_loraplus": {
+          "official_lr_mapping_equal": true,
+          "ratio": 16.0,
+          "groups": 2
+        },
+        "anchored_train0_equals_f0": true,
+        "smoke_emulator": "svd (gamma 0); VALUE/RESPONSE arms share this code path and load sealed gammas in the fit",
+        "smoke": {
+          "step1": {
+            "loss": 2.4707601070404053,
+            "A_nonzero_modules": 0,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          },
+          "step2": {
+            "loss": 2.551313638687134,
+            "A_nonzero_modules": 97,
+            "B_nonzero_modules": 97,
+            "modules": 97
+          }
+        },
+        "smoke_updates": 2
+      },
+      "calibration_smoke": {
+        "VALUE": {
+          "step1": {
+            "L_value": 0.9999982714653015,
+            "L_response": 0.0,
+            "gamma_grad_norm": 11.650675773620605
+          },
+          "step2": {
+            "L_value": 0.6519628167152405,
+            "L_response": 0.0,
+            "gamma_grad_norm": 4.980386734008789
+          }
+        },
+        "RESPONSE": {
+          "step1": {
+            "L_value": 0.9999982714653015,
+            "L_response": 0.08851434290409088,
+            "gamma_grad_norm": 250.22520446777344
+          },
+          "step2": {
+            "L_value": 0.9876423478126526,
+            "L_response": 0.1022399514913559,
+            "gamma_grad_norm": 8.990309715270996
+          }
+        },
+        "probe_effective_rel_norms": [
+          [
+            9.999999989862018e-05,
+            0.00010000000015492362
+          ],
+          [
+            0.000999999998795734,
+            0.0010000000015848631
+          ],
+          [
+            9.999999984890147e-05,
+            0.00010000000016772577
+          ],
+          [
+            0.000999999998495189,
+            0.0010000000011500378
+          ]
+        ]
+      },
+      "optimizer_separation": {
+        "calibration_targets": "gamma only (checked)",
+        "main_targets": "lora_A/lora_B only (checked)"
+      }
+    }
+  },
+  "note": "contract name; merges PREFLIGHT_BASE.json and PREFLIGHT_EMULATOR.json"
+}

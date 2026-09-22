@@ -1,0 +1,92 @@
+{
+  "kinds": [
+    "VALUE",
+    "RESPONSE"
+  ],
+  "updates_per_kind": 16,
+  "lr": 0.01,
+  "bound": "[-log 2, log 2] after each step",
+  "clip": 1.0,
+  "response_weight": 1.0,
+  "precision": "fp32",
+  "gamma_parameters": 25800,
+  "calibration_origins": [
+    1152,
+    2520,
+    3852,
+    5220,
+    6552,
+    7920,
+    9288,
+    10620,
+    11988,
+    13320,
+    14688,
+    16056,
+    17388,
+    21348,
+    28728,
+    31392
+  ],
+  "heldout_origins": [
+    1188,
+    4068,
+    6984,
+    9864,
+    12744,
+    15624,
+    21132,
+    31356
+  ],
+  "emulator_fingerprints": {
+    "svd": "4d3eabec4eae6dffaffa95ebb5f60f813b90271da433b7848155094594a032ee",
+    "value": "1bd5aeaeb9d62e61c0d0615b8e435ab1cedcb4ad0760a2defa481ae175275c18",
+    "response": "def44723f2c606bdaa21887956a694d4053fdc03618276ef1d4807ec86a379cf"
+  },
+  "stats": {
+    "VALUE": {
+      "peak": {
+        "peak_allocated_bytes": 1498520576,
+        "peak_reserved_bytes": 1606418432
+      },
+      "gamma_min": -0.13332656025886536,
+      "gamma_max": 0.13093732297420502,
+      "gamma_mean_abs": 0.03602435812354088,
+      "fraction_at_bound": 0.0,
+      "gamma_count": 25800,
+      "file_sha256": "6a4d9a48f44c8d04f8aef66b35cb4958af0cfba584156fd56555020ac82ce807"
+    },
+    "RESPONSE": {
+      "peak": {
+        "peak_allocated_bytes": 3741860864,
+        "peak_reserved_bytes": 3869245440
+      },
+      "gamma_min": -0.13243839144706726,
+      "gamma_max": 0.1313471645116806,
+      "gamma_mean_abs": 0.03553314134478569,
+      "fraction_at_bound": 0.0,
+      "gamma_count": 25800,
+      "file_sha256": "9db921264aca54e90f8f575fafc50b53a16e27a46e54d2e1fca294cee717d67a"
+    }
+  },
+  "seconds": {
+    "artifact_teacher_full_load": 4.573306399979629,
+    "teacher_zero_calibration": 1.292920799984131,
+    "teacher_probe_calibration": 2.379945600114297,
+    "diag_teacher_zero": 0.5376891001360491,
+    "diag_teacher_probe": 1.17945860006148,
+    "artifact_emulator_load": 0.8312986000091769,
+    "initial_error_calibration": 0.9491793999332003,
+    "calibration_VALUE": 2.746051600028295,
+    "calibration_RESPONSE": 8.679448299808428
+  },
+  "teacher_peak": {
+    "peak_allocated_bytes": 605513728,
+    "peak_reserved_bytes": 664797184
+  },
+  "forwards_per_update": {
+    "VALUE": 1,
+    "RESPONSE": 3
+  },
+  "note": "Both calibrations start from the same E_svd; the two main seeds share them (not a calibration-population replicate)."
+}

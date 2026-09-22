@@ -1,0 +1,207 @@
+{
+  "config": {
+    "experiment_id": "emulator_response_gonogo_v1_20260922",
+    "repository": "CanelE452/hierarchical-tsfm-peft",
+    "reference_code_commit": "e751052fdac50303e99a40d1f5d385d6a60a5094",
+    "reference_latest_commit": "bf8e9925b9ba09ef5f45e7b0e6d88285d6998e15",
+    "panel": "jena",
+    "backbone": "amazon/chronos-2",
+    "model_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+    "context": 1152,
+    "horizon": 144,
+    "seeds": [
+      92711,
+      92712
+    ],
+    "arms": [
+      "F_FULL",
+      "F_TOP3",
+      "E_EMLOC",
+      "E_DELTA",
+      "E_VALUE_DELTA",
+      "E_RESPONSE_DELTA"
+    ],
+    "candidate": "E_RESPONSE_DELTA",
+    "main_steps": 128,
+    "checkpoints": [
+      0,
+      16,
+      32,
+      64,
+      128
+    ],
+    "origins_per_update": 4,
+    "lora_rank": 8,
+    "lora_alpha": 16,
+    "lr_A": 1e-05,
+    "lr_B": 0.00016,
+    "lora_dropout": 0.0,
+    "weight_decay": 0.0,
+    "gradient_clip": 1.0,
+    "compression_weight_entry_fraction": 0.5,
+    "svd_relative_eigen_floor": 1e-07,
+    "calibration_origins": 16,
+    "diagnostic_origins": 8,
+    "gamma_updates_per_kind": 16,
+    "gamma_kinds": [
+      "VALUE",
+      "RESPONSE"
+    ],
+    "gamma_lr": 0.01,
+    "gamma_bound": "[-log(2),log(2)]",
+    "response_loss_weight": 1.0,
+    "probe_seed": 92703,
+    "diagnostic_probe_seed": 92704,
+    "probe_independent_directions": 2,
+    "probe_relative_weight_norms": [
+      0.0001,
+      0.001
+    ],
+    "emloc_correction_limit": 3.0,
+    "quality_relative_margin": 0.005,
+    "minimum_total_time_saving": 0.2,
+    "minimum_response_gain_over_value": 0.003,
+    "bootstrap_draws": 2000,
+    "bootstrap_block_days": 7,
+    "bootstrap_seed": 92705,
+    "max_main_updates": 1536,
+    "max_calibration_updates": 32,
+    "max_smoke_updates": 16,
+    "max_optimizer_updates": 1584,
+    "primary_cost": "cold preparation plus entire fixed-128-step selection procedure plus transfer/export",
+    "labels": {
+      "status": "UNTESTED_REAL_MODEL",
+      "purpose": "bounded development go/no-go, not paper PASS"
+    }
+  },
+  "settings": {
+    "note": "Implementation constants that config.json (the bundle's config_proposal.json, byte-identical) leaves to the CLI. Fixed before any fit.",
+    "reused_experiment": "internal_adaptation_gap_v1_20260922",
+    "reused_code_commit": "e751052fdac50303e99a40d1f5d385d6a60a5094",
+    "reused_gap_screen_files": [
+      "config.json",
+      "gap_screen/io.py",
+      "gap_screen/data.py",
+      "gap_screen/model.py",
+      "gap_screen/runner.py",
+      "gap_screen/metrics.py",
+      "gap_screen/report.py",
+      "COMPAT_REVISION_KO.md"
+    ],
+    "reused_result_files": [
+      "jena/DATA_AUDIT.json",
+      "jena/MODEL_RECEIPT.json",
+      "jena/SCORES.csv",
+      "jena/CURVES.csv",
+      "jena/RESOURCES.csv"
+    ],
+    "jena_file": "E:/CODING/proj/mltimeseries/data/jena_mpi_roof/mpi_roof_2024.csv",
+    "jena_sha256": "65a47db98ad85b0600f2deab1e11055af8fef9c5aedceadbdcd0011748120558",
+    "reused_panel_cache": ".cache/internal_adaptation_gap_v1_20260922/jena/panel.npz",
+    "top3_first_trainable_block": 9,
+    "prediction_rtol": 1e-05,
+    "prediction_atol": 1e-05,
+    "full_rank_weight_rel_tol_fp64": 1e-08,
+    "full_rank_prediction_abs_tol_native_fp32": 0.001,
+    "official_emloc_fp32_rel_tol": 1e-05,
+    "official_emloc_bf16_rel_tol": 0.05,
+    "timing_cv_limit": 0.2,
+    "seed_throughput_rel_limit": 0.2,
+    "timing_trim_steps": 16,
+    "head_reference_arm": "HEAD",
+    "smoke_updates_per_main_arm": 2,
+    "smoke_updates_per_calibration_kind": 2,
+    "calibration_precision": "fp32",
+    "calibration_precision_reason": "under BF16 autocast the 1e-4/1e-3 probe responses measured 5-60x rounding error vs FP32 with 55-81% exact zeros (pre-seal measurement, COMPAT_REVISION_KO.md); teacher and emulator calibration forwards both run in FP32",
+    "gamma_roundtrip_dense_rel_tol": 1e-06
+  },
+  "base_config_used_for_data_and_model": {
+    "experiment_id": "internal_adaptation_gap_v1_20260922",
+    "backbone": "amazon/chronos-2",
+    "model_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+    "reference_repo": "CanelE452/tsfm-peft-method-screen",
+    "reference_commit": "9c692e7722eb539cb86974c8d33350c8ca543b4b",
+    "panels": [
+      "ettm2",
+      "jena"
+    ],
+    "seeds": [
+      92601,
+      92602
+    ],
+    "arms": [
+      "HEAD",
+      "LORA",
+      "LORAPLUS"
+    ],
+    "context_days": 8,
+    "short_context_days": 4,
+    "horizon_days": 1,
+    "train_fraction": 0.6,
+    "validation_fraction": 0.2,
+    "train_stride_hours": 6,
+    "evaluation_stride_hours": 24,
+    "max_steps": 512,
+    "checkpoints": [
+      0,
+      32,
+      64,
+      128,
+      256,
+      512
+    ],
+    "accumulate_origins": 4,
+    "head_learning_rate": 0.0003,
+    "lora_learning_rate": 0.0001,
+    "loraplus_a_learning_rate": 1e-05,
+    "loraplus_ratio": 16.0,
+    "lora_rank": 8,
+    "lora_alpha": 16,
+    "head_mlp_width": 533,
+    "head_kind": {
+      "ettm2": "mlp",
+      "jena": "full"
+    },
+    "gradient_clip": 1.0,
+    "precision": "bf16",
+    "gradient_checkpointing": true,
+    "model_shape_contract": {
+      "d_model": 768,
+      "num_layers": 12,
+      "num_quantiles": 21,
+      "output_patch_size": 16,
+      "lora_parameters": 1206912,
+      "lora_modules": 97
+    },
+    "minimum_train_origins": 128,
+    "minimum_validation_origins": 16,
+    "minimum_test_origins": 32,
+    "source_urls": {
+      "ettm2": "https://raw.githubusercontent.com/zhouhaoyi/ETDataset/main/ETT-small/ETTm2.csv",
+      "jena": "https://weather.bgc-jena.mpg.de/mpi_roof_2024.zip"
+    },
+    "expected_channels": {
+      "ettm2": 7,
+      "jena": 21
+    },
+    "frequency_seconds": {
+      "ettm2": 900,
+      "jena": 600
+    },
+    "bootstrap_repetitions": 2000,
+    "bootstrap_block_days": 7,
+    "bootstrap_seed": 92603,
+    "target_relative_tolerance": 0.01,
+    "quality_gap_screen_pct": 1.0,
+    "cost_gap_screen_ratio": 1.5,
+    "head_boundary_improvement_pct": 0.2,
+    "timing_noise_cv_limit": 0.2,
+    "max_main_updates": 6144,
+    "max_smoke_updates": 12,
+    "prediction_rtol": 1e-05,
+    "prediction_atol": 1e-05,
+    "min_free_ram_gib": 6.0,
+    "max_single_artifact_bytes": 20000000,
+    "notes": "A bounded problem-gap study, not a proposed novel PEFT. Historical head kinds are fixed; no current TEST/HPO head selection. Native training loss; TRAIN-scale raw quantile scoring."
+  }
+}

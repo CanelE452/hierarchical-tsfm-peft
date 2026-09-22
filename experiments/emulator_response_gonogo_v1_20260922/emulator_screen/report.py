@@ -22,6 +22,9 @@ def _load():
 
 def build_tables():
     panel, levels, fits, sel = _load()
+    pb, pe = read_json(OUT/'PREFLIGHT_BASE.json'), read_json(OUT/'PREFLIGHT_EMULATOR.json')
+    write_json(OUT/'PREFLIGHT.json', dict(status='PASS' if pb['status'] == pe['status'] == 'PASS' else 'FAIL',
+        original_model=pb, emulator_path=pe, note='contract name; merges PREFLIGHT_BASE.json and PREFLIGHT_EMULATOR.json'))
     y = panel.targets('test'); pred = CACHE/'test_predictions'; seeds = CFG['seeds']
     labels = panel.timestamps[panel.origins['test']]//int(CFG['bootstrap_block_days']*86400*10**9)
     per, score_rows, origin_rows, channel_rows = {}, [], [], []
@@ -293,6 +296,12 @@ def write_markdown(d):
           f'실제 원래 모델 TEST에서 E_RESPONSE_DELTA의 오차 감소: E_VALUE_DELTA 대비 {_pct(rv["mean_gain_pct"])} '
           f'(seed {_pct(rv["seed1_gain_pct"])} / {_pct(rv["seed2_gain_pct"])}, CI [{float(rv["ci_low"]):+.2f}, {float(rv["ci_high"]):+.2f}]), '
           f'E_DELTA 대비 {_pct(rd["mean_gain_pct"])}. 대리 지표의 개선은 예측 성공의 증거가 아니다.', '',
+          ('불일치: 보정 뒤 L_value가 1보다 크다(VALUE 검사 원점 ' + _f(cmean('value', 'heldout', 'L_value'), 3) + ', RESPONSE ' + _f(cmean('response', 'heldout', 'L_value'), 3) +
+           '). 즉 계약의 고정 recipe(AdamW lr 1e-2, 원점 하나씩 16 update)로 한 gamma 보정이 대리모델 출력을 원래 모델에서 오히려 더 멀어지게 했다. '
+           '반응 오차 L_response도 보정 전보다 ' + ('나빠졌다' if (cmean('response', 'heldout', 'L_response') or 0) > (cmean('svd', 'heldout', 'L_response') or 0) else '줄었다') +
+           '. 계약에 따라 lr과 update 수는 바꾸지 않았다. 원인으로는 Adam 초기 step이 25,800개 gamma를 모두 약 ±lr씩 움직인 과도 이동을 추정한다 [추정].')
+          if (cmean('value', 'heldout', 'L_value') or 0) > 1 else '보정 뒤 검사 원점 L_value가 1 이하로 줄었다.', '',
+          '1e-4 probe의 FP32 반응 크기(MSE/σ² ≈ 3×10⁻⁹)는 L_response 분모의 ε(1e-8)보다 작다. 그래서 그 probe가 쓰인 보정 step(원점 j mod 4 ∈ {0, 2})에서는 반응 항이 약해진다. ε은 계약 고정값이다.', '',
           '![VALUE 대비 RESPONSE: 반응 대리 지표와 실제 TEST](figures/fig5_response_ablation.png)', '']
     # 7. decision and limits
     crit = [dict(c='1) 후보 품질: F_FULL 대비 평균·두 seed 모두 0.5% 이내 손해', v=str(b['quality_ok'] and not d['quality_failure'])),
@@ -307,6 +316,7 @@ def write_markdown(d):
            f'- 시간 신뢰도: step CV 0.2 초과 {d["noisy_fits"] or "없음"}, seed 간 throughput 차이 {({k: round(v, 3) for k, v in d["seed_throughput_gap"].items()})}.',
            f'- EMLoC 대조는 Chronos로 옮긴 핵심 수식이다(`{d["emloc_baseline"]}`). 공식 함수와 FP32 parity를 확인했지만 원논문 VLM 결과의 재현은 아니다. 보정은 FP32로 체크포인트마다 적용했다.',
            '- 반응 보정 forward(교사와 대리모델)는 FP32로 실행했다. BF16에서는 1e-4/1e-3 probe의 반응이 반올림 잡음으로 측정됐기 때문이다(사전검사 기록). 본학습은 계약대로 BF16이다.',
+           '- 이 계약의 판정표에서 EMLoC 대조는 항상 LIMITED_BASELINE(MLP 보정 불가)이므로, 후보가 받을 수 있는 최선의 판정은 HOLD_NO_AUTO_RESCUE다(산술 GO도 보류). 산술 원판정은 base_outcome에 따로 남겼다.',
            '- 두 seed 간 차이가 0.3% 기준과 같은 크기일 수 있고(이전 LoRA+ 두 seed TEST 차이 0.445%), gamma는 lr 1e-2 × 16 update로 [−log 2, log 2] 경계에 거의 닿지 않을 것으로 결과 전에 예상했다.',
            '- 이 PC는 Windows 데스크톱 GPU라 다른 앱의 간헐적 GPU 사용이 시간 잡음을 만들 수 있다. 잡음은 재실행으로 숨기지 않았다.',
            '- Jena TEST는 이전 개발에 쓰인 자료다. 독립 확증이 아니다.',
@@ -320,7 +330,7 @@ def write_markdown(d):
           'NO_GO여도 모든 대리모델 PEFT가 불가능하다는 뜻이 아니고, 현재 구현의 한계로 남긴다.', '', *lim, '',
           '## 8. 재검산 자료', '',
           '[자료](DATA_MANIFEST.json) · [모듈 지도](MODULE_MAP.json) · [대리모델](EMULATOR_MANIFEST.json) · [보정](CALIBRATION_MANIFEST.json) · '
-          '[probe](PROBE_MANIFEST.json) · [사전검사(원래)](PREFLIGHT_BASE.json) · [사전검사(대리)](PREFLIGHT_EMULATOR.json) · [비용 기준](COST_BASIS.json)', '',
+          '[probe](PROBE_MANIFEST.json) · [사전검사](PREFLIGHT.json) · [사전검사(원래)](PREFLIGHT_BASE.json) · [사전검사(대리)](PREFLIGHT_EMULATOR.json) · [비용 기준](COST_BASIS.json)', '',
           '[선택 봉인](MODEL_SELECTION.json) · [예측 hash](PREDICTIONS_MANIFEST.json) · [점수](SCORES.csv) · [seed 효과](SEED_EFFECTS.csv) · '
           '[자원](RESOURCES.csv) · [비용 성분](COST_COMPONENTS.csv) · [이식 차이](TRANSFER_GAP.csv) · [보정 반응](CALIBRATION_RESPONSE.csv) · '
           '[학습곡선](CURVES.csv) · [판정](DECISION.json) · [검산](VERIFICATION.json) · [그림 값](FIGURE_VALUES.csv) · [캡션](CAPTIONS.md)', '',

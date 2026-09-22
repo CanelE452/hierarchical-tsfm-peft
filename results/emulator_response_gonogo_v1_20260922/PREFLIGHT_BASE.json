@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "checks": {
+    "native": {
+      "max_abs_raw": 0.0,
+      "loss_ours": 2.470759868621826,
+      "loss_official": 2.470759868621826,
+      "loss_from_raw": 2.4707601070404053,
+      "raw_native_roundtrip_max_abs": 2.559274435043335e-06,
+      "future_target_poison_invariant": true,
+      "group_isolation": true
+    },
+    "peft_parity": {
+      "max_abs": 0.0,
+      "peft_scaling": 2.0,
+      "modules": 97
+    },
+    "F_FULL": {
+      "initial_equals_f0": true,
+      "trainable_tensors": 194,
+      "trainable_parameters": 1206912,
+      "official_loraplus": {
+        "official_lr_mapping_equal": true,
+        "ratio": 16.0,
+        "groups": 2
+      },
+      "smoke": {
+        "step1": {
+          "loss": 2.470759868621826,
+          "A_nonzero_modules": 0,
+          "B_nonzero_modules": 97,
+          "modules": 97
+        },
+        "step2": {
+          "loss": 2.5499863624572754,
+          "A_nonzero_modules": 97,
+          "B_nonzero_modules": 97,
+          "modules": 97
+        }
+      },
+      "smoke_updates": 2
+    },
+    "F_TOP3": {
+      "initial_equals_f0": true,
+      "trainable_tensors": 50,
+      "trainable_parameters": 322176,
+      "official_loraplus": {
+        "official_lr_mapping_equal": true,
+        "ratio": 16.0,
+        "groups": 2
+      },
+      "smoke": {
+        "step1": {
+          "loss": 2.470759868621826,
+          "A_nonzero_modules": 0,
+          "B_nonzero_modules": 25,
+          "modules": 25
+        },
+        "step2": {
+          "loss": 2.592421770095825,
+          "A_nonzero_modules": 25,
+          "B_nonzero_modules": 25,
+          "modules": 25
+        }
+      },
+      "smoke_updates": 2
+    },
+    "top3_prefix": {
+      "no_grad_blocks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "checkpointed_blocks": [
+        9,
+        10,
+        11
+      ]
+    }
+  },
+  "init_files": {
+    "92711": {
+      "path": ".cache/emulator_response_gonogo_v1_20260922/init/seed_92711.pt",
+      "sha256": "981d1d1ebf59fc743be68a420bdcb1d6e83865eebd34a5eb0734d9aecdefabde"
+    },
+    "92712": {
+      "path": ".cache/emulator_response_gonogo_v1_20260922/init/seed_92712.pt",
+      "sha256": "776a14ccdf16dd5b40e53600e89b1dc26c1738d033bff78f1b87a69bf2e9a187"
+    }
+  },
+  "canonical_modules": 97,
+  "top3_modules": 25
+}
