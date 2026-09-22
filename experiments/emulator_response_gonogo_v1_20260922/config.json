@@ -1,0 +1,75 @@
+{
+  "experiment_id": "emulator_response_gonogo_v1_20260922",
+  "repository": "CanelE452/hierarchical-tsfm-peft",
+  "reference_code_commit": "e751052fdac50303e99a40d1f5d385d6a60a5094",
+  "reference_latest_commit": "bf8e9925b9ba09ef5f45e7b0e6d88285d6998e15",
+  "panel": "jena",
+  "backbone": "amazon/chronos-2",
+  "model_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+  "context": 1152,
+  "horizon": 144,
+  "seeds": [
+    92711,
+    92712
+  ],
+  "arms": [
+    "F_FULL",
+    "F_TOP3",
+    "E_EMLOC",
+    "E_DELTA",
+    "E_VALUE_DELTA",
+    "E_RESPONSE_DELTA"
+  ],
+  "candidate": "E_RESPONSE_DELTA",
+  "main_steps": 128,
+  "checkpoints": [
+    0,
+    16,
+    32,
+    64,
+    128
+  ],
+  "origins_per_update": 4,
+  "lora_rank": 8,
+  "lora_alpha": 16,
+  "lr_A": 1e-05,
+  "lr_B": 0.00016,
+  "lora_dropout": 0.0,
+  "weight_decay": 0.0,
+  "gradient_clip": 1.0,
+  "compression_weight_entry_fraction": 0.5,
+  "svd_relative_eigen_floor": 1e-07,
+  "calibration_origins": 16,
+  "diagnostic_origins": 8,
+  "gamma_updates_per_kind": 16,
+  "gamma_kinds": [
+    "VALUE",
+    "RESPONSE"
+  ],
+  "gamma_lr": 0.01,
+  "gamma_bound": "[-log(2),log(2)]",
+  "response_loss_weight": 1.0,
+  "probe_seed": 92703,
+  "diagnostic_probe_seed": 92704,
+  "probe_independent_directions": 2,
+  "probe_relative_weight_norms": [
+    0.0001,
+    0.001
+  ],
+  "emloc_correction_limit": 3.0,
+  "quality_relative_margin": 0.005,
+  "minimum_total_time_saving": 0.2,
+  "minimum_response_gain_over_value": 0.003,
+  "bootstrap_draws": 2000,
+  "bootstrap_block_days": 7,
+  "bootstrap_seed": 92705,
+  "max_main_updates": 1536,
+  "max_calibration_updates": 32,
+  "max_smoke_updates": 16,
+  "max_optimizer_updates": 1584,
+  "primary_cost": "cold preparation plus entire fixed-128-step selection procedure plus transfer/export",
+  "labels": {
+    "status": "UNTESTED_REAL_MODEL",
+    "purpose": "bounded development go/no-go, not paper PASS"
+  }
+}

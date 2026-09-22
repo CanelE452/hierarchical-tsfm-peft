@@ -1,0 +1,41 @@
+{
+  "note": "Implementation constants that config.json (the bundle's config_proposal.json, byte-identical) leaves to the CLI. Fixed before any fit.",
+  "reused_experiment": "internal_adaptation_gap_v1_20260922",
+  "reused_code_commit": "e751052fdac50303e99a40d1f5d385d6a60a5094",
+  "reused_gap_screen_files": [
+    "config.json",
+    "gap_screen/io.py",
+    "gap_screen/data.py",
+    "gap_screen/model.py",
+    "gap_screen/runner.py",
+    "gap_screen/metrics.py",
+    "gap_screen/report.py",
+    "COMPAT_REVISION_KO.md"
+  ],
+  "reused_result_files": [
+    "jena/DATA_AUDIT.json",
+    "jena/MODEL_RECEIPT.json",
+    "jena/SCORES.csv",
+    "jena/CURVES.csv",
+    "jena/RESOURCES.csv"
+  ],
+  "jena_file": "E:/CODING/proj/mltimeseries/data/jena_mpi_roof/mpi_roof_2024.csv",
+  "jena_sha256": "65a47db98ad85b0600f2deab1e11055af8fef9c5aedceadbdcd0011748120558",
+  "reused_panel_cache": ".cache/internal_adaptation_gap_v1_20260922/jena/panel.npz",
+  "top3_first_trainable_block": 9,
+  "prediction_rtol": 1e-05,
+  "prediction_atol": 1e-05,
+  "full_rank_weight_rel_tol_fp64": 1e-08,
+  "full_rank_prediction_abs_tol_native_fp32": 0.001,
+  "official_emloc_fp32_rel_tol": 1e-05,
+  "official_emloc_bf16_rel_tol": 0.05,
+  "timing_cv_limit": 0.2,
+  "seed_throughput_rel_limit": 0.2,
+  "timing_trim_steps": 16,
+  "head_reference_arm": "HEAD",
+  "smoke_updates_per_main_arm": 2,
+  "smoke_updates_per_calibration_kind": 2,
+  "calibration_precision": "fp32",
+  "calibration_precision_reason": "under BF16 autocast the 1e-4/1e-3 probe responses measured 5-60x rounding error vs FP32 with 55-81% exact zeros (pre-seal measurement, COMPAT_REVISION_KO.md); teacher and emulator calibration forwards both run in FP32",
+  "gamma_roundtrip_dense_rel_tol": 1e-06
+}
