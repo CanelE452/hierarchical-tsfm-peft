@@ -1,0 +1,113 @@
+{
+  "python": "3.11.16 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:36:16) [MSC v.1942 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "packages": {
+    "torch": "2.10.0+cu128",
+    "chronos-forecasting": "2.3.2",
+    "transformers": "5.17.0",
+    "peft": "0.21.0",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.2",
+    "huggingface-hub": "1.32.0"
+  },
+  "torch_cuda": "12.8",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4070",
+  "existing_head": "ab5ef0d5392c62d38beb6c2839192b0227c83e66",
+  "free_ram_bytes": 14506205184,
+  "config": {
+    "experiment_id": "internal_adaptation_gap_v1_20260922",
+    "backbone": "amazon/chronos-2",
+    "model_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+    "reference_repo": "CanelE452/tsfm-peft-method-screen",
+    "reference_commit": "9c692e7722eb539cb86974c8d33350c8ca543b4b",
+    "panels": [
+      "ettm2",
+      "jena"
+    ],
+    "seeds": [
+      92601,
+      92602
+    ],
+    "arms": [
+      "HEAD",
+      "LORA",
+      "LORAPLUS"
+    ],
+    "context_days": 8,
+    "short_context_days": 4,
+    "horizon_days": 1,
+    "train_fraction": 0.6,
+    "validation_fraction": 0.2,
+    "train_stride_hours": 6,
+    "evaluation_stride_hours": 24,
+    "max_steps": 512,
+    "checkpoints": [
+      0,
+      32,
+      64,
+      128,
+      256,
+      512
+    ],
+    "accumulate_origins": 4,
+    "head_learning_rate": 0.0003,
+    "lora_learning_rate": 0.0001,
+    "loraplus_a_learning_rate": 1e-05,
+    "loraplus_ratio": 16.0,
+    "lora_rank": 8,
+    "lora_alpha": 16,
+    "head_mlp_width": 533,
+    "head_kind": {
+      "ettm2": "mlp",
+      "jena": "full"
+    },
+    "gradient_clip": 1.0,
+    "precision": "bf16",
+    "gradient_checkpointing": true,
+    "model_shape_contract": {
+      "d_model": 768,
+      "num_layers": 12,
+      "num_quantiles": 21,
+      "output_patch_size": 16,
+      "lora_parameters": 1206912,
+      "lora_modules": 97
+    },
+    "minimum_train_origins": 128,
+    "minimum_validation_origins": 16,
+    "minimum_test_origins": 32,
+    "source_urls": {
+      "ettm2": "https://raw.githubusercontent.com/zhouhaoyi/ETDataset/main/ETT-small/ETTm2.csv",
+      "jena": "https://weather.bgc-jena.mpg.de/mpi_roof_2024.zip"
+    },
+    "expected_channels": {
+      "ettm2": 7,
+      "jena": 21
+    },
+    "frequency_seconds": {
+      "ettm2": 900,
+      "jena": 600
+    },
+    "bootstrap_repetitions": 2000,
+    "bootstrap_block_days": 7,
+    "bootstrap_seed": 92603,
+    "target_relative_tolerance": 0.01,
+    "quality_gap_screen_pct": 1.0,
+    "cost_gap_screen_ratio": 1.5,
+    "head_boundary_improvement_pct": 0.2,
+    "timing_noise_cv_limit": 0.2,
+    "max_main_updates": 6144,
+    "max_smoke_updates": 12,
+    "prediction_rtol": 1e-05,
+    "prediction_atol": 1e-05,
+    "min_free_ram_gib": 6.0,
+    "max_single_artifact_bytes": 20000000,
+    "notes": "A bounded problem-gap study, not a proposed novel PEFT. Historical head kinds are fixed; no current TEST/HPO head selection. Native training loss; TRAIN-scale raw quantile scoring."
+  },
+  "native_loss": "official normalized native pinball; summed quantiles",
+  "evaluation": "sorted raw predictions / TRAIN std; equal channels",
+  "authenticity": "REAL_MODEL_RUN",
+  "created_utc": 1790069855.191842
+}
