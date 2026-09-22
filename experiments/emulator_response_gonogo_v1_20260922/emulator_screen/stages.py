@@ -176,7 +176,8 @@ def stage_preflight_base():
     models = {}
     for arm, names in (('F_FULL', canon), ('F_TOP3', tops)):
         model, _ = load_base(BASECFG, DEVICE); bb0 = backbone_digest(model)
-        attach_adapters(model, names); load_lora(model, torch.load(CACHE/'init'/f'seed_{CFG["seeds"][0]}.pt', weights_only=True))
+        init0 = torch.load(CACHE/'init'/f'seed_{CFG["seeds"][0]}.pt', weights_only=True)
+        attach_adapters(model, names); load_lora(model, {k: v for k, v in init0.items() if k.rsplit('.', 2)[0] in names})
         trainable = set_trainable_lora(model, names)
         if arm == 'F_TOP3': install_top3_prefix(model)
         else: enable_checkpointing(model)
