@@ -1,0 +1,11 @@
+# Figure captions - gap atlas Stage 2
+
+English captions for the figures of contract section 7. Every number below is computed by `figures.py` from the CSVs in this directory, and every plotted coordinate is exported to `FIGURE_VALUES.csv`, so any mark can be recomputed without rerunning the study. The gap is G = (CRPS_F0 - CRPS_ACH) / CRPS_F0, positive when the trained arm beats the zero-shot arm. No verdict is recomputed here; the verdicts are read from `STABILITY.csv`.
+
+## Figure 1 - `fig1_stability_gap`
+
+Gap of the best trained arm against Chronos-2 zero-shot for every configuration of the contract, with the earlier period P1 and the official test period P2 side by side; whiskers are the 95% bootstrap interval of G and the arm named above each bar is the arm that the validation block selected. Read it by column: a configuration supports the gap claim only when both of its bars clear the dotted decision threshold at 0.10 and both whiskers stay above zero, and the negative controls on the right should stay below it. C1 (bitbrains_rnd/5T/medium): G = -0.048 in P1 [-0.185, 0.102] and 0.296 in P2 [0.152, 0.435], verdict UNSTABLE_GAP. C4 (bizitobs_l2c/5T/medium): G = 0.114 in P1 [-0.033, 0.267] and 0.160 in P2 [-0.029, 0.356], verdict NO_GAP. N1 (bitbrains_rnd/5T/short): G = -0.037 in P1 [-0.050, -0.021] and 0.050 in P2 [0.031, 0.074], verdict NO_GAP / CONTROL_OK. N3 (electricity/H/short): G = -0.003 in P1 [-0.005, 0.002] and 0.064 in P2 [0.048, 0.080], verdict NO_GAP / CONTROL_OK. The largest movement between the two periods among the candidates is 0.343 (C1); 0 of 2 feasible candidates are STABLE_GAP and 1 is UNSTABLE_GAP. 3 configurations are INFEASIBLE under contract 5.2 (C2, C3, N2) and carry no bar. Limits: two periods cannot separate a stable gap from a slowly drifting one, the bootstrap resamples evaluation units and so understates the shared-window correlation, and the ACH arm is only as strong as the three trained arms of contract 5.3 - a small gap can mean a weak reference rather than an easy dataset.
+
+## Figures 2 and 3
+
+Not produced: `figures.py` ran with `--no-localization`, so the contract L1 and L6 tables were not read. Rerun without that flag once `LOCALIZATION/` holds the tables for the configurations of interest.

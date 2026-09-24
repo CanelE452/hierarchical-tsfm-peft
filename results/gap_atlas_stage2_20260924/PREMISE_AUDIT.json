@@ -1,0 +1,363 @@
+{
+  "utc": 1790249416.0490804,
+  "date": "2026-09-24 20:30:16",
+  "contract_sha256": "c16578f0f7e741975e0d1f4f456c49904d5e9d76060468b5179ed44792ccdda7",
+  "stage1_csv_sha256": "3bbe3632986813d76b54d99716a8bdd7c40e6756b9f01218e4adce5590ec6937",
+  "stage1_script_sha256": "0223ed01980adfff07fd5b3e99e5589c36da1b8f5a765da9db2c2ad2b2e3ad42",
+  "gate_section_10": {
+    "1_tools_exist": {
+      "verdict": "PARTIAL",
+      "detail": "the GIFT-Eval data, the official loader, gluonts and a deep-learning library were all absent from this machine. Data downloaded from Salesforce/GiftEval, loader vendored, gluonts 0.17.0 + neuralforecast 3.2.2 installed (additive, no existing package changed). The notebook argument `predict_batches_jointly` does not exist under that name in chronos-forecasting 2.3.2; it is the deprecated alias of `cross_learning` (chronos/chronos2/pipeline.py:570-577), so the semantics are unchanged."
+    },
+    "2_numbers_match": {
+      "verdict": "DEFERRED",
+      "detail": "E0a and E0b decide"
+    },
+    "3_no_leakage": {
+      "verdict": "DEFERRED",
+      "detail": "E0c checks the indices"
+    },
+    "4_outputs_absent": {
+      "verdict": "FAIL",
+      "existing": [
+        "E0_REPORT.json"
+      ]
+    },
+    "5_denominator": {
+      "verdict": "DEFERRED",
+      "detail": "checked per configuration when the gap is formed; ga.gap returns nan at noise level"
+    }
+  },
+  "Q1_official_geometry": {
+    "status": "CONFIRMED",
+    "per_config": {
+      "C1": {
+        "id": "C1",
+        "key": "bitbrains_rnd/5T/medium",
+        "role": "candidate",
+        "freq": "5T",
+        "prediction_length": 480,
+        "windows": 2,
+        "validation_windows": 2,
+        "series": 500,
+        "target_dim": 2,
+        "min_series_length": 8640,
+        "sum_series_length": 8640000,
+        "train_length_P1": 5760,
+        "train_length_P2": 6720,
+        "required_train_length": 4448,
+        "required_train_length_strict": 10592,
+        "feasible": true,
+        "feasible_strict": false,
+        "note": "P1 needs 2W+V windows held out; P2 needs W+V. INFEASIBLE if the P1 training segment is shorter than context + 5H (contract 5.2)",
+        "stride": 480
+      },
+      "C2": {
+        "id": "C2",
+        "key": "bitbrains_rnd/H/short",
+        "role": "candidate",
+        "freq": "H",
+        "prediction_length": 48,
+        "windows": 2,
+        "validation_windows": 2,
+        "series": 500,
+        "target_dim": 2,
+        "min_series_length": 720,
+        "sum_series_length": 720000,
+        "train_length_P1": 432,
+        "train_length_P2": 528,
+        "required_train_length": 2288,
+        "required_train_length_strict": 8432,
+        "feasible": false,
+        "feasible_strict": false,
+        "note": "P1 needs 2W+V windows held out; P2 needs W+V. INFEASIBLE if the P1 training segment is shorter than context + 5H (contract 5.2)",
+        "stride": 48
+      },
+      "C3": {
+        "id": "C3",
+        "key": "bitbrains_fast_storage/H/short",
+        "role": "candidate",
+        "freq": "H",
+        "prediction_length": 48,
+        "windows": 2,
+        "validation_windows": 2,
+        "series": 1250,
+        "target_dim": 2,
+        "min_series_length": 721,
+        "sum_series_length": 1802500,
+        "train_length_P1": 433,
+        "train_length_P2": 529,
+        "required_train_length": 2288,
+        "required_train_length_strict": 8432,
+        "feasible": false,
+        "feasible_strict": false,
+        "note": "P1 needs 2W+V windows held out; P2 needs W+V. INFEASIBLE if the P1 training segment is shorter than context + 5H (contract 5.2)",
+        "stride": 48
+      },
+      "C4": {
+        "id": "C4",
+        "key": "bizitobs_l2c/5T/medium",
+        "role": "candidate",
+        "freq": "5T",
+        "prediction_length": 480,
+        "windows": 7,
+        "validation_windows": 3,
+        "series": 1,
+        "target_dim": 7,
+        "min_series_length": 31968,
+        "sum_series_length": 223776,
+        "train_length_P1": 23808,
+        "train_length_P2": 27168,
+        "required_train_length": 4448,
+        "required_train_length_strict": 10592,
+        "feasible": true,
+        "feasible_strict": true,
+        "note": "P1 needs 2W+V windows held out; P2 needs W+V. INFEASIBLE if the P1 training segment is shorter than context + 5H (contract 5.2)",
+        "stride": 480
+      },
+      "N1": {
+        "id": "N1",
+        "key": "bitbrains_rnd/5T/short",
+        "role": "control",
+        "freq": "5T",
+        "prediction_length": 48,
+        "windows": 18,
+        "validation_windows": 3,
+        "series": 500,
+        "target_dim": 2,
+        "min_series_length": 8640,
+        "sum_series_length": 8640000,
+        "train_length_P1": 6768,
+        "train_length_P2": 7632,
+        "required_train_length": 2288,
+        "required_train_length_strict": 8432,
+        "feasible": true,
+        "feasible_strict": false,
+        "note": "P1 needs 2W+V windows held out; P2 needs W+V. INFEASIBLE if the P1 training segment is shorter than context + 5H (contract 5.2)",
+        "stride": 48
+      },
+      "N2": {
+        "id": "N2",
+        "key": "bizitobs_l2c/H/medium",
+        "role": "control",
+        "freq": "H",
+        "prediction_length": 480,
+        "windows": 1,
+        "validation_windows": 1,
+        "series": 1,
+        "target_dim": 7,
+        "min_series_length": 2664,
+        "sum_series_length": 18648,
+        "train_length_P1": 1224,
+        "train_length_P2": 1704,
+        "required_train_length": 4448,
+        "required_train_length_strict": 10592,
+        "feasible": false,
+        "feasible_strict": false,
+        "note": "P1 needs 2W+V windows held out; P2 needs W+V. INFEASIBLE if the P1 training segment is shorter than context + 5H (contract 5.2)",
+        "stride": 480
+      },
+      "N3": {
+        "id": "N3",
+        "key": "electricity/H/short",
+        "role": "control",
+        "freq": "H",
+        "prediction_length": 48,
+        "windows": 20,
+        "validation_windows": 3,
+        "series": 370,
+        "target_dim": 1,
+        "min_series_length": 35064,
+        "sum_series_length": 12973680,
+        "train_length_P1": 33000,
+        "train_length_P2": 33960,
+        "required_train_length": 2288,
+        "required_train_length_strict": 8432,
+        "feasible": true,
+        "feasible_strict": true,
+        "note": "P1 needs 2W+V windows held out; P2 needs W+V. INFEASIBLE if the P1 training segment is shorter than context + 5H (contract 5.2)",
+        "stride": 48
+      }
+    },
+    "source": "gift_eval_data.py Dataset.prediction_length/.windows/.test_data (vendored from SalesforceAIResearch/gift-eval src/gift_eval/data.py)",
+    "loader_sha256": "5a3ddfd9701418a43a8a8a15090b6e654645888cdd36912e65fd4a48608da35c",
+    "rule": "windows = clip(ceil(0.1*min_series_length/H), 1, 20); test stride = H"
+  },
+  "Q1b_context_length": {
+    "status": "CONTRACT_AMBIGUOUS",
+    "model_default_context": 8192,
+    "source": "amazon/chronos-2 config.json chronos_config.context_length",
+    "practical_context_used": 2048,
+    "feasible_practical": [
+      "C1",
+      "C4",
+      "N1",
+      "N3"
+    ],
+    "feasible_strict": [
+      "C4",
+      "N3"
+    ],
+    "measured": "bench_context.py, 12 optimizer steps per setting at the contract batch size 32: C4 (7 variates) 0.47 s/step at 512, 0.40 at 2048, 2.60 at 8192 with a 12.62 GiB peak; C1 (2 variates) 0.38 / 0.41 / 3.32 s/step with a 9.21 GiB peak",
+    "decision": "fits run at context 2048 and the section 5.2 rule uses the same number. Fitting at the model default 8192 peaks at 12.62 GiB on this 12 GiB card and thrashes, so it is not runnable at the batch size the contract fixes; contract Q4 allows changing the compute implementation and recording it. The feasible set at 2048 is the same as at 512, so this choice does not select a favourable subset.",
+    "effect": "F0 always predicts at the package default, unchanged from the official notebook. For LORA and FULL the prediction context (2048 or 8192) is chosen on the validation block and recorded in SEAL.json."
+  },
+  "Q2_feasibility": {
+    "status": "PARTIAL",
+    "infeasible": [
+      "C2",
+      "C3",
+      "N2"
+    ],
+    "per_config": {
+      "C1": {
+        "key": "bitbrains_rnd/5T/medium",
+        "role": "candidate",
+        "prediction_length": 480,
+        "windows": 2,
+        "validation_windows": 2,
+        "min_series_length": 8640,
+        "train_length_P1": 5760,
+        "train_length_P2": 6720,
+        "required_train_length": 4448,
+        "feasible": true
+      },
+      "C2": {
+        "key": "bitbrains_rnd/H/short",
+        "role": "candidate",
+        "prediction_length": 48,
+        "windows": 2,
+        "validation_windows": 2,
+        "min_series_length": 720,
+        "train_length_P1": 432,
+        "train_length_P2": 528,
+        "required_train_length": 2288,
+        "feasible": false
+      },
+      "C3": {
+        "key": "bitbrains_fast_storage/H/short",
+        "role": "candidate",
+        "prediction_length": 48,
+        "windows": 2,
+        "validation_windows": 2,
+        "min_series_length": 721,
+        "train_length_P1": 433,
+        "train_length_P2": 529,
+        "required_train_length": 2288,
+        "feasible": false
+      },
+      "C4": {
+        "key": "bizitobs_l2c/5T/medium",
+        "role": "candidate",
+        "prediction_length": 480,
+        "windows": 7,
+        "validation_windows": 3,
+        "min_series_length": 31968,
+        "train_length_P1": 23808,
+        "train_length_P2": 27168,
+        "required_train_length": 4448,
+        "feasible": true
+      },
+      "N1": {
+        "key": "bitbrains_rnd/5T/short",
+        "role": "control",
+        "prediction_length": 48,
+        "windows": 18,
+        "validation_windows": 3,
+        "min_series_length": 8640,
+        "train_length_P1": 6768,
+        "train_length_P2": 7632,
+        "required_train_length": 2288,
+        "feasible": true
+      },
+      "N2": {
+        "key": "bizitobs_l2c/H/medium",
+        "role": "control",
+        "prediction_length": 480,
+        "windows": 1,
+        "validation_windows": 1,
+        "min_series_length": 2664,
+        "train_length_P1": 1224,
+        "train_length_P2": 1704,
+        "required_train_length": 4448,
+        "feasible": false
+      },
+      "N3": {
+        "key": "electricity/H/short",
+        "role": "control",
+        "prediction_length": 48,
+        "windows": 20,
+        "validation_windows": 3,
+        "min_series_length": 35064,
+        "train_length_P1": 33000,
+        "train_length_P2": 33960,
+        "required_train_length": 2288,
+        "feasible": true
+      }
+    },
+    "rule": "contract 5.2: P1 training segment >= the fit context (2048) + 5*H",
+    "consequence": "contract 3 Q2 and 8: an INFEASIBLE configuration is excluded and is not replaced by another one"
+  },
+  "Q3_environment": {
+    "status": "CONFIRMED",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.16",
+    "gpu": "NVIDIA GeForce RTX 4070",
+    "vram_gib": 11.99,
+    "cuda": "12.8",
+    "packages": {
+      "torch": "2.10.0+cu128",
+      "chronos-forecasting": "2.3.2",
+      "transformers": "5.17.0",
+      "peft": "0.21.0",
+      "accelerate": "1.15.0",
+      "gluonts": "0.17.0",
+      "neuralforecast": "3.2.2",
+      "pytorch-lightning": "2.5.6",
+      "datasets": "4.8.5",
+      "numpy": "2.4.6",
+      "pandas": "2.3.3",
+      "scipy": "1.17.1",
+      "pyarrow": "25.0.1",
+      "toolz": "0.12.1",
+      "python-dotenv": "1.2.3",
+      "matplotlib": "3.11.2"
+    },
+    "repo": "E:\\CODING\\proj\\hierarchical-tsfm-peft",
+    "repo_commit": "bc37df57612aa574ec0edffadd6353cdcc3defee",
+    "model": "amazon/chronos-2",
+    "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+    "gift_eval_package": "NOT INSTALLED — salesforce-gift-eval pins numpy~=1.26, datasets~=2.17, scipy~=1.11 and would downgrade this environment; the loader module is vendored instead",
+    "note": "the contract does not assume an environment; these are the observed values"
+  },
+  "Q5_dl_library": {
+    "status": "CONFIRMED",
+    "library": "neuralforecast",
+    "version": "3.2.2",
+    "models": [
+      "PatchTST",
+      "NHITS"
+    ],
+    "loss": "MQLoss(level from quantiles 0.1-0.9)",
+    "defaults": "library defaults except input_size, h, max_steps, early stopping on the validation block; recorded per fit in GAP_TABLE.csv",
+    "lightning": "2.5.6"
+  },
+  "Q6_toto": {
+    "status": "BLOCKED_TOTO_ENV",
+    "available_weights": "Datadog/Toto-2.0-2.5B (public, not gated)",
+    "blocker": "the inference package toto-ts 0.2.0 resolves torch 2.7.0, numpy 1.26.4, datasets 2.17.1, gluonts 0.16.2 and would downgrade this environment (pip install --dry-run)",
+    "decision": "contract 3 Q6: the TOTO arm is skipped and recorded; it was report-only"
+  },
+  "Q4_full_finetune": {
+    "status": "CONFIRMED",
+    "ran": true,
+    "error": null,
+    "batch_size": 32,
+    "steps": 5,
+    "seconds": 3.7,
+    "peak_vram_gib": 3.01,
+    "series": 64,
+    "note": "smoke only; these 5 steps are counted in the optimizer-update ledger"
+  },
+  "verdict": "PREMISES_OK_EXCEPT_Q6_toto"
+}

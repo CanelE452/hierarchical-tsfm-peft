@@ -1,0 +1,80 @@
+# Analysis / diagnostic figure style — viz-expert 분석 모드 진실원천
+#
+# Usage:
+#   from pathlib import Path
+#   plt.style.use(Path.home() / '.claude/agents/viz-expert/assets/analysis.mplstyle')
+#
+# 목적: 내가 모델을 뜯어볼 때 쓰는 그림. 정보밀도를 최대로 올리되,
+#       색·폰트·저장 규칙은 논문 모드와 동일하게 고정해 어제 그림과 나란히 비교 가능하게 한다.
+#
+# prop_cycle 은 ieee.mplstyle 과 **같은 순서** 여야 한다.
+# 분석에서 파란 선이었던 계열이 논문에서 주황이 되면 안 된다.
+
+# Figure properties — 화면에서 오래 들여다보는 용도. 레시피가 필요시 figsize 를 덮어쓴다
+figure.dpi: 110
+figure.facecolor: white
+figure.autolayout: False
+figure.constrained_layout.use: True
+figure.figsize: 14, 8
+
+# Font properties — Windows·Ubuntu 양쪽에 확실히 있는 것부터
+font.size: 10
+font.family: sans-serif
+font.sans-serif: DejaVu Sans, Arial, Helvetica
+font.monospace: DejaVu Sans Mono, Consolas, Courier New
+
+# Axes properties — 값을 읽어야 하므로 grid 를 켠다 (논문 모드와 갈리는 지점)
+axes.linewidth: 0.8
+axes.labelsize: 11
+axes.titlesize: 12
+axes.titleweight: normal
+axes.labelweight: normal
+axes.spines.top: False
+axes.spines.right: False
+axes.spines.left: True
+axes.spines.bottom: True
+axes.edgecolor: black
+axes.labelcolor: black
+axes.axisbelow: True
+axes.grid: True
+axes.prop_cycle: cycler('color', ['E69F00', '56B4E9', '009E73', '0072B2', 'D55E00', 'CC79A7', 'F0E442', '000000'])
+
+grid.alpha: 0.3
+grid.linewidth: 0.5
+grid.linestyle: -
+
+# Tick properties
+xtick.major.size: 4
+xtick.minor.size: 2
+xtick.major.width: 0.8
+xtick.labelsize: 9
+xtick.direction: out
+ytick.major.size: 4
+ytick.minor.size: 2
+ytick.major.width: 0.8
+ytick.labelsize: 9
+ytick.direction: out
+
+# Line properties
+lines.linewidth: 1.5
+lines.markersize: 5
+lines.markeredgewidth: 0.5
+
+# Legend properties — 패널이 조밀하므로 프레임을 켜서 겹침을 막는다
+legend.fontsize: 9
+legend.frameon: True
+legend.framealpha: 0.85
+legend.edgecolor: 0.7
+legend.loc: best
+
+# Save properties — 화면 확인용 PNG
+savefig.dpi: 150
+savefig.format: png
+savefig.bbox: tight
+savefig.pad_inches: 0.1
+savefig.facecolor: white
+
+# Image properties — 기본은 sequential. ieee.mplstyle 과 같은 값이어야 한다.
+# attention/saliency 오버레이는 imshow(cmap=CMAP['overlay']) 로 명시 지정 (palette.py)
+image.cmap: viridis
+image.aspect: auto
