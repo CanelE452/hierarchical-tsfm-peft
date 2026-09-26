@@ -1,0 +1,39 @@
+{
+  "status": "confirmed_budget_deviation",
+  "approved_attempt_limit": 20,
+  "approved_rule": "Separate optimizer-update checks also count as attempts, per PLAN.md.",
+  "real_data_fit_attempts": 20,
+  "separate_cpu_synthetic_optimizer_check_attempts": 2,
+  "corrected_total_attempts": 22,
+  "excess_attempts": 2,
+  "gpu_job_seconds_unchanged": 3489.449200400035,
+  "command": ".venv/Scripts/python.exe -B research/tsfm_peft_followup_v2_20260926/test_training.py",
+  "synthetic_check_runs": [
+    {
+      "started_utc": "2026-09-26T15:39:37.188Z",
+      "output_utc": "2026-09-26T15:39:40.716Z",
+      "tool_output_chunk": "861d1d",
+      "exit_code": 0,
+      "tests": 10,
+      "optimizer_steps": 2,
+      "unittest_seconds": 1.148,
+      "tool_wall_seconds": 3.142948,
+      "note": "Passed with a tensor-to-scalar warning. This successful run was missing from training_tests.json."
+    },
+    {
+      "started_utc": "2026-09-26T15:40:34.622Z",
+      "output_utc": "2026-09-26T15:40:37.653Z",
+      "tool_output_chunk": "066dd5",
+      "exit_code": 0,
+      "tests": 10,
+      "optimizer_steps": 2,
+      "unittest_seconds": 0.849,
+      "tool_wall_seconds": 2.8370554,
+      "note": "Passed after the scalar warning fix. This is the run recorded in training_tests.json."
+    }
+  ],
+  "verification": "The execution agent located both historical tool calls and outputs; root read the corresponding session records. No tests were rerun to produce this correction.",
+  "scope": "CPU fake backbone and synthetic tensors; no GPU use, real-data training or empirical performance evidence from these checks.",
+  "cause": "The attempt guard counted real-data fit records but excluded synthetic optimizer checks, contrary to the approved PLAN. The initial test receipt also omitted the first successful run.",
+  "response": "Preserve PLAN.md, training_tests.json and all fit records; disclose the corrected 22/20 count; perform no more experiments in this round. This correction is not retroactive authorization."
+}

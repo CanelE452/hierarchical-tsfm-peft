@@ -1,0 +1,130 @@
+{
+  "recorded_before_fit_utc": 1790439573.2341444,
+  "branch": "bull_latent4_to8",
+  "status": "authorized_conditional_branch_selected",
+  "evidence_sha256": {
+    "all_modes_selection.json": "be2f52483a3c29e37122ab6de4142cef40279147891064f5fd40cc532a9c006c",
+    "all_modes_development.json": "47ba78cd92ddfc753d5c3404fbf50abc0839c027ec6af68d48ef7d642e268e1e",
+    "all_modes_verification.json": "e67613b31e5c0e377cef4c357e8f0fffd468522e34dbb9584d160edbb59d550c",
+    "fixed_diagnostics.json": "b1aa8689c03de264094a6f21a39c260edb227440f3e8d859aa5a6f119729e8cf"
+  },
+  "observations": {
+    "completed_fits": 16,
+    "failed_fits": 0,
+    "max_epochs_completed": 70,
+    "bull_val_selection": {
+      "residual": {
+        "status": "selected",
+        "mode": "fixed_ed",
+        "latent": 4,
+        "variant": "fixed_ed:k4",
+        "mean_best_val_mse": 0.3743767133958866,
+        "variant_scores": {
+          "current:k4": 0.4050682602391885,
+          "fixed_ed:k4": 0.3743767133958866,
+          "slow_ed:k4": 0.3845305456676529
+        },
+        "fits": [
+          "v2_bull_residual_fixed_ed_92601",
+          "v2_bull_residual_fixed_ed_92602"
+        ],
+        "variant_fits": {
+          "current:k4": [
+            "bull_final_residual_92601_0.001",
+            "bull_final_residual_92602_0.001"
+          ],
+          "fixed_ed:k4": [
+            "v2_bull_residual_fixed_ed_92601",
+            "v2_bull_residual_fixed_ed_92602"
+          ],
+          "slow_ed:k4": [
+            "v2_bull_residual_slow_ed_92601",
+            "v2_bull_residual_slow_ed_92602"
+          ]
+        },
+        "available_variants": [
+          "current:k4",
+          "fixed_ed:k4",
+          "slow_ed:k4"
+        ],
+        "available_modes": [
+          "current",
+          "fixed_ed",
+          "slow_ed"
+        ]
+      },
+      "raw_bypass": {
+        "status": "selected",
+        "mode": "current",
+        "latent": 4,
+        "variant": "current:k4",
+        "mean_best_val_mse": 0.4502722072343609,
+        "variant_scores": {
+          "current:k4": 0.4502722072343609,
+          "fixed_ed:k4": 0.48904722287114727,
+          "slow_ed:k4": 0.4544727965491251
+        },
+        "fits": [
+          "bull_final_raw_bypass_92601_0.001",
+          "bull_final_raw_bypass_92602_0.001"
+        ],
+        "variant_fits": {
+          "current:k4": [
+            "bull_final_raw_bypass_92601_0.001",
+            "bull_final_raw_bypass_92602_0.001"
+          ],
+          "fixed_ed:k4": [
+            "v2_bull_raw_bypass_fixed_ed_92601",
+            "v2_bull_raw_bypass_fixed_ed_92602"
+          ],
+          "slow_ed:k4": [
+            "v2_bull_raw_bypass_slow_ed_92601",
+            "v2_bull_raw_bypass_slow_ed_92602"
+          ]
+        },
+        "available_variants": [
+          "current:k4",
+          "fixed_ed:k4",
+          "slow_ed:k4"
+        ],
+        "available_modes": [
+          "current",
+          "fixed_ed",
+          "slow_ed"
+        ]
+      },
+      "selection_opportunity": {
+        "status": "matched",
+        "residual_variants": [
+          "current:k4",
+          "fixed_ed:k4",
+          "slow_ed:k4"
+        ],
+        "raw_variants": [
+          "current:k4",
+          "fixed_ed:k4",
+          "slow_ed:k4"
+        ],
+        "final_fair_selection_comparison": true,
+        "reason": "same completed (mode, latent) and paired seed opportunities"
+      }
+    },
+    "bull_e1_fixed_res_mse": 0.21036526629203148,
+    "bull_e1_fixed_vs_raw_gain_pct": 60.59592533855058,
+    "fixed_e1_vs_lora_q_common_excess_approx": 0.001608,
+    "fixed_e1_vs_lora_q_orthogonal_excess_approx": 0.046707
+  },
+  "hypothesis": "Increasing the fixed TRAIN-PCA decoder space may reduce the remaining Bull E1 prediction gap by allocating more directions to F0. This is unproven; complete-vector E2 diagnostics show a different tradeoff and do not decompose the full masked score.",
+  "change": "Bull latent K4 -> K8 only; FIXED_ED for both RESIDUAL and RAW; rank32 G, same LR/seed/sampling/maximum120/patience6/loss retained.",
+  "support": "Lower K8 vs K4 error under the matched fixed recipe, with same-K RES vs RAW advantage remaining, supports a useful allocation change; report both periods and measured cost. No universal threshold or all-period win requirement.",
+  "counterevidence": "Unchanged/worse errors or loss of same-K residual advantage weakens this configuration. E2 can worsen as the decoder space grows and the residual complement shrinks. No causal proof from this comparison.",
+  "selection": "Two-seed mean VAL over current/fixed/slow K4 and fixed K8, equally for RES/RAW, before new development predictions. All variants and period tradeoffs reported.",
+  "alternatives_not_run": "No120-boundary issue requires240 extension; linear F0 replacement and nonlinear G are not added.",
+  "budget_before": {
+    "fit_attempts": 16,
+    "gpu_seconds": 1865.0413187999511
+  },
+  "new_fits": 4,
+  "remaining_fit_attempts_after_success": 0,
+  "scope": "Exposed development only; no new confirmation data."
+}

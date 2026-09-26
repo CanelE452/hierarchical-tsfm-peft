@@ -1,0 +1,82 @@
+{
+  "status": "pass",
+  "scope": "Recorded from completed tool executions; no tests, cache checks, model inference, or GPU work were repeated to create this record. Execution-agent checks, not independent replication.",
+  "working_directory": "E:/CODING/proj/hierarchical-tsfm-peft",
+  "current_artifact_sha256": {
+    "evaluate_v2.py": "912ec9a0d2b8a18b4d51bcb5197d6063c32e81ddc4038c149cc31949cbde16ad",
+    "test_evaluate_v2.py": "54fd3645e5aa11782ba75cfa43c546489045beac9f952a934e6b3bbf6b7b5895"
+  },
+  "synthetic_cpu_tests": {
+    "command": ".\\.venv\\Scripts\\python.exe research/tsfm_peft_followup_v2_20260926/test_evaluate_v2.py",
+    "tool_chunk_id": "7f5e72",
+    "exit_code": 0,
+    "test_count": 14,
+    "unittest_reported_seconds": 1.383,
+    "observed_output": "Ran 14 tests in 1.383s; OK",
+    "coverage": [
+      "VAL loss mean across fixed paired seeds, with separate RAW and RESIDUAL mode selection",
+      "unequal mode selection opportunities yield pending final selection comparison",
+      "stable CURRENT-first validation tie selection",
+      "reject incomplete paired seeds, duplicate mode/seed fits, and nonfinite VAL values",
+      "channel macro weighting and missing targets, including masked NaN targets",
+      "mean seed losses are not a prediction-ensemble loss",
+      "zero-reference relative effects marked unavailable",
+      "target windows remain inside the unchanged split boundaries",
+      "prediction hash, origin identity, and stored metric checks",
+      "synthetic full evaluator saves selection before mocked inference",
+      "completed v2 prediction reuse avoids mocked inference and accounts zero new GPU time",
+      "named evaluation attempts cannot be overwritten"
+    ],
+    "runtime_scope": "Synthetic arrays and temporary local files; model, torch GPU operations, and GPUJob were stubbed. No research-data model execution or neural fit.",
+    "artifact_sha256_at_execution": {
+      "evaluate_v2.py": "baaceb12137fa08544ade32edf82a2610642cdd956e0a1b6959dfdfdb7fdc732",
+      "test_evaluate_v2.py": "5913a0e8014ac8d6baabcd0532488851f8837af347a492637e1eccaa90564422"
+    }
+  },
+  "legacy_cache_preflight": {
+    "tool_chunk_id": "bc0aae",
+    "exit_code": 0,
+    "tool_reported_wall_seconds": 2.226062,
+    "prediction_caches_verified": 36,
+    "fit_checkpoint_hashes_verified": 16,
+    "data_boundaries_verified": true,
+    "model_execution": false,
+    "gpu_execution": false,
+    "execution_source_sha256": null,
+    "source_note": "The preflight source hash was not captured at execution. The current evaluator hash above is a later snapshot after a reporting-only mean_scores addition; it is not misrepresented as the historical preflight source hash.",
+    "verified_scope": "V1 prediction hashes where the original report recorded them; exact origin identity; recomputed MSE/MAE versus stored report scores within absolute 1e-8; 16 referenced fit checkpoint hashes; Electricity and Bull TRAIN/VAL/development target boundaries and origin counts. F0/linear Electricity caches without prior prediction hashes were validated by identity and stored scores, and received current read receipts only.",
+    "observed_output": {
+      "legacy_prediction_caches_verified": 36,
+      "legacy_fit_checkpoint_hashes_verified": 16,
+      "data_boundaries_verified": true,
+      "model_execution": false
+    },
+    "reproduce_powershell": "$env:PYTHONIOENCODING='utf-8'\n@'\nimport sys\nfrom pathlib import Path\nsys.path.insert(0,str(Path('research/tsfm_peft_followup_v2_20260926').resolve()))\nimport evaluate_v2 as e\nfrom run import load_data\ncatalog,fits,receipts=e.legacy_catalog()\ncontract=e.read_json(e.V1/'data_contract.json')\nfor dataset in e.PERIODS:\n data=load_data(dataset)\n for period in ['train','val']+e.PERIODS[dataset]: e.validate_origins(data,dataset,period,contract)\n for old in catalog:\n  if old['dataset']!=dataset: continue\n  origins=e.validate_origins(data,dataset,old['period'],contract)\n  target,mask=e.windows(data,origins)\n  e.read_prediction(old['path'],origins,target,mask,old['expected_hash'],old['old_scores'])\nprint({'legacy_prediction_caches_verified':len(catalog),'legacy_fit_checkpoint_hashes_verified':len(fits),'data_boundaries_verified':True,'model_execution':False})\n'@ | .\\.venv\\Scripts\\python.exe -"
+  },
+  "schema2_extension_checks": {
+    "status": "pass",
+    "command": ".\\.venv\\Scripts\\python.exe research/tsfm_peft_followup_v2_20260926/test_evaluate_v2.py",
+    "tool_chunk_id": "098d41",
+    "exit_code": 0,
+    "test_count": 19,
+    "unittest_reported_seconds": 2.076,
+    "observed_output": "Ran 19 tests in 2.076s; OK",
+    "artifact_sha256": {
+      "evaluate_v2.py": "912ec9a0d2b8a18b4d51bcb5197d6063c32e81ddc4038c149cc31949cbde16ad",
+      "test_evaluate_v2.py": "54fd3645e5aa11782ba75cfa43c546489045beac9f952a934e6b3bbf6b7b5895"
+    },
+    "schema_version": 2,
+    "model_execution": false,
+    "gpu_execution": false,
+    "additional_coverage": [
+      "Same E/D mode and seed at K4/K8 remain distinct and select using paired mean VAL only",
+      "Equal E/D modes at unequal latent counts do not count as equal selection opportunities",
+      "Exact VAL ties favor the existing base-K CURRENT configuration",
+      "Same-(mode,K) RESIDUAL/RAW, fixed K8/K4 within-arm, and selected-best comparisons are distinct",
+      "Incomplete paired seeds for a new latent option reject the cohort",
+      "Schema1 cached predictions without latent recover it only from the hash-verified fit result",
+      "Explicit cached latent/spec disagreement is rejected before inference"
+    ],
+    "scope": "Synthetic fixtures only, including mocked model/GPU evaluation and old-report reuse. No actual K8 fit or prediction performed by these tests."
+  }
+}

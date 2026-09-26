@@ -1,0 +1,29 @@
+--- measure_cost.py (failed neural_cost)
++++ measure_cost.py (neural_cost_corrected)
+@@ -17,7 +17,9 @@
+ 
+ 
+ def cuda_cleanup():
++    torch.cuda.synchronize()
+     gc.collect()
++    torch._C._cuda_clearCublasWorkspaces()
+     torch.cuda.empty_cache()
+     torch.cuda.synchronize()
+     return {'allocated': torch.cuda.memory_allocated(), 'reserved': torch.cuda.memory_reserved()}
+@@ -117,6 +119,7 @@
+                 job.heartbeat(f'cost block{block} {spec["id"]}')
+                 for batch_size in (1, 4):
+                     torch.cuda.synchronize()
++                    torch._C._cuda_clearCublasWorkspaces()
+                     torch.cuda.empty_cache()
+                     chunks = list(inputs.split(batch_size))
+                     for warmup in range(10):
+@@ -156,7 +159,7 @@
+                        'cuda_version': torch.version.cuda, 'float32_matmul_precision': torch.get_float32_matmul_precision(),
+                        'allow_tf32_matmul': torch.backends.cuda.matmul.allow_tf32,
+                        'precision': 'float32', 'warmup_calls': 10, 'passes_per_order_block': 20, 'order_blocks': 3,
+-                       'memory_scope': 'Before each batch shape, synchronize and empty unused CUDA cache; warm up that shape, then reset peaks. Allocated includes resident model and active tensors; reserved includes the warmed allocator pool. RSS is the entire process.',
++                       'memory_scope': 'Before each batch shape, synchronize, clear cuBLAS workspaces and empty unused CUDA cache; warm up that shape, then reset peaks. Timed inference retains normal warmed cuBLAS workspaces. Allocated includes resident model, active tensors and workspaces; reserved includes the warmed allocator pool. RSS is the entire process.',
+                        'timed_scope': 'common standardized CPU tensor -> H2D -> model -> entire CPU output; synchronized. Excludes model loading, disk I/O, scoring and ledger writes. No precomputed backbone output.',
+                        'uncertainty': 'Repeated timing on one device; blocks/repeats are not independent dataset evidence.'})
+ 

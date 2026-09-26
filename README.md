@@ -78,3 +78,14 @@ HIER는 SELF·POOL 대비 두 repeat seed에서 일관된 추가 가치를 보�
 잔차 rank를 8에서 32로 늘린 수정의 개발 MSE는 0.165850입니다. 동일 용량 원입력 보정보다 8.11%, 강화한 선형 대조보다 7.06% 낮고 두 seed와 두 기간에서 같은 방향입니다. 미압축 TSFM과 LoRA보다는 각각 0.80%, 2.95% 높은 오차입니다. 압축 차원을 두 배로 늘린 대조보다도 20.01% 낮은 오차였습니다. 보호 Bull E1/E2에서는 같은 용량 원입력 보정보다 52.89%/9.02% 낮지만, 강한 선형 대조 대비 1.96%/15.48% 이득의 불확실성 구간은 모두 0을 포함합니다. 특히 E1에서는 미압축 LoRA보다 MSE가 65.29% 높습니다. 개발 근거에 따라 한 방법을 조건부 선택했으며 전이 우위를 확증했다고 부르지 않습니다.
 
 Electricity의 기존 노출 구간은 개발에 사용했고, BDG2 Bull Office는 최종 설정을 봉인·게시한 뒤 고정 평가했습니다. 총 42완료 fit/43attempt, GPU 작업 점유 3.22시간을 사용했습니다. 보호 점수에 맞춘 재튜닝은 없으며 독립 외부 확증·독립 재현을 주장하지 않습니다. 원자료·가중치·예측 배열은 Git에 포함하지 않습니다.
+
+## 채널 압축 잔차 PEFT 후속 개발 v2 (2026-09-27)
+
+별도 승인된 후속 회차에서 E/D 고정·느린 적응, 같은 변경의 RAW 대조, Bull K4→8을 신규20fit로 비교했습니다. Bull E1은 E/D 고정으로 기존 MSE0.267849에서0.210365로21.46% 줄었지만 E2는1.156667에서1.246580으로7.77% 늘었습니다. Electricity에서는 기존 공동학습이 유지됐습니다. 이 회차의 Bull E1/E2는 **노출된 개발 평가**이며 새 확증이 아닙니다. v1 원본·보호 봉인·실행 기록은 보존했습니다.
+
+판정은 **부분 정확도 개선, 논문 주력 확대와 배포 추가 가치는 보류**입니다. Bull FIXED는 대응 RAW 대비 E1 MSE가60.60% 낮지만 LoRA 대비 추론 속도 이점을 확보하지 못했습니다. 비용 블록 변동도 함께 보고합니다. GPU 점유는58.157분이었습니다. 별도 CPU optimizer 검사를 attempt 상한에서 누락한 계상 오류가 있어 승인20회 대비 22회가 실행됐으며, 이 이탈을 최종 보고서에 명시했습니다.
+
+- [v2 방법·결과·비용·다음 연구 판단](research/tsfm_peft_followup_v2_20260926/TOPIC_DECISION.md)
+- [전체 개발 비교](research/tsfm_peft_followup_v2_20260926/final_development.json) 및 [20fit 검산](research/tsfm_peft_followup_v2_20260926/final_verification.json)
+- [반복 비용 요약](research/tsfm_peft_followup_v2_20260926/cost_summary.json) 및 [최종 예측·선택·비용 검산](research/tsfm_peft_followup_v2_20260926/final_artifact_checks_retry1.json)
+- [승인 계획](research/tsfm_peft_followup_v2_20260926/PLAN.md), [진행·변경·예산 기록](research/tsfm_peft_followup_v2_20260926/STATUS.md)

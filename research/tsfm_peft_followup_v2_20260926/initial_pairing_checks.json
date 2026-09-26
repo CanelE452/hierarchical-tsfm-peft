@@ -1,0 +1,191 @@
+{
+  "status": "pass_with_crossK_initialization_limitation",
+  "scope": "CPU checkpoint tensor/hash and schedule reconstruction only; no model construction, inference, scoring or training",
+  "cross_K": [
+    {
+      "seed": 92601,
+      "g_down_k4_sha256": "eb16ea26985dff7988befffd19a4ab067bf8d4c79fc1ef4a5893da1ddf209547",
+      "g_down_k8_sha256": "abf635e34b18d82afa5be9cac506a26cb6d3cc76033f981552c057bf921ba9da",
+      "g_down_exact_equal": false,
+      "g_up_exact_equal": true,
+      "g_up_both_zero": true,
+      "basis4_equals_basis8_first4": true,
+      "basis_max_abs_difference": 0.0
+    },
+    {
+      "seed": 92602,
+      "g_down_k4_sha256": "73a009f8bdd9dfc292cc2ed2f162058fffb74a435b865a7562213ec2cbe27b21",
+      "g_down_k8_sha256": "640c0b2f8c21aa58288d941156aa8afa8f9bb7927e4ba2226944f125386104a8",
+      "g_down_exact_equal": false,
+      "g_up_exact_equal": true,
+      "g_up_both_zero": true,
+      "basis4_equals_basis8_first4": true,
+      "basis_max_abs_difference": 0.0
+    }
+  ],
+  "same_K_residual_vs_raw": [
+    {
+      "seed": 92601,
+      "latent": 4,
+      "all_initial_adapter_tensors_bitwise_equal": true,
+      "tensor_checks": {
+        "encoder.weight": true,
+        "decoder.weight": true,
+        "residual.down.weight": true,
+        "residual.up.weight": true
+      },
+      "basis_bitwise_equal": true,
+      "shared_schedule_prefix_epochs": 7,
+      "shared_schedule_prefix_sha256": "1b869ba97c6188e33eff7f94bd514ed123df530ffaa2abf56ec9d1873836d317",
+      "schedule_interpretation": "Both full recorded schedule hashes match the same pure (TRAIN origins, seed, epoch, n=512) generator; stopping epochs may differ."
+    },
+    {
+      "seed": 92601,
+      "latent": 8,
+      "all_initial_adapter_tensors_bitwise_equal": true,
+      "tensor_checks": {
+        "encoder.weight": true,
+        "decoder.weight": true,
+        "residual.down.weight": true,
+        "residual.up.weight": true
+      },
+      "basis_bitwise_equal": true,
+      "shared_schedule_prefix_epochs": 6,
+      "shared_schedule_prefix_sha256": "69a372d25ac613130252b2b0ea39a32c6e54f7e997fe24dfe74e9ca09a5cd266",
+      "schedule_interpretation": "Both full recorded schedule hashes match the same pure (TRAIN origins, seed, epoch, n=512) generator; stopping epochs may differ."
+    },
+    {
+      "seed": 92602,
+      "latent": 4,
+      "all_initial_adapter_tensors_bitwise_equal": true,
+      "tensor_checks": {
+        "encoder.weight": true,
+        "decoder.weight": true,
+        "residual.down.weight": true,
+        "residual.up.weight": true
+      },
+      "basis_bitwise_equal": true,
+      "shared_schedule_prefix_epochs": 13,
+      "shared_schedule_prefix_sha256": "986afb5f644ea55793d897151c5e2dd4ba9e7083a0b1c919fccd3237e3560171",
+      "schedule_interpretation": "Both full recorded schedule hashes match the same pure (TRAIN origins, seed, epoch, n=512) generator; stopping epochs may differ."
+    },
+    {
+      "seed": 92602,
+      "latent": 8,
+      "all_initial_adapter_tensors_bitwise_equal": true,
+      "tensor_checks": {
+        "encoder.weight": true,
+        "decoder.weight": true,
+        "residual.down.weight": true,
+        "residual.up.weight": true
+      },
+      "basis_bitwise_equal": true,
+      "shared_schedule_prefix_epochs": 6,
+      "shared_schedule_prefix_sha256": "49f874bdefa98f77e46efd52eaacbec90d54bdc7554b785b9ae89f98c4b06c6b",
+      "schedule_interpretation": "Both full recorded schedule hashes match the same pure (TRAIN origins, seed, epoch, n=512) generator; stopping epochs may differ."
+    }
+  ],
+  "full_schedule_checks": [
+    {
+      "id": "v2_bull_residual_fixed_ed_92601",
+      "epochs": 13,
+      "sha256": "54d0c63f979b6fc5ba888d596b395afc555c3fdae82db409c8253335deed04cd",
+      "matches_recorded_full_schedule": true
+    },
+    {
+      "id": "v2_bull_raw_bypass_fixed_ed_92601",
+      "epochs": 7,
+      "sha256": "1b869ba97c6188e33eff7f94bd514ed123df530ffaa2abf56ec9d1873836d317",
+      "matches_recorded_full_schedule": true
+    },
+    {
+      "id": "v2_bull_k8_residual_fixed_ed_92601",
+      "epochs": 17,
+      "sha256": "bd950c391a4854b01a5e35955c9b25152881b2e1cf16f7303710ace138dfb71b",
+      "matches_recorded_full_schedule": true
+    },
+    {
+      "id": "v2_bull_k8_raw_bypass_fixed_ed_92601",
+      "epochs": 6,
+      "sha256": "69a372d25ac613130252b2b0ea39a32c6e54f7e997fe24dfe74e9ca09a5cd266",
+      "matches_recorded_full_schedule": true
+    },
+    {
+      "id": "v2_bull_residual_fixed_ed_92602",
+      "epochs": 14,
+      "sha256": "49961d2c1629034e4aaa736c322c27014524b063dcb00baf958dd7d7b70b4571",
+      "matches_recorded_full_schedule": true
+    },
+    {
+      "id": "v2_bull_raw_bypass_fixed_ed_92602",
+      "epochs": 13,
+      "sha256": "986afb5f644ea55793d897151c5e2dd4ba9e7083a0b1c919fccd3237e3560171",
+      "matches_recorded_full_schedule": true
+    },
+    {
+      "id": "v2_bull_k8_residual_fixed_ed_92602",
+      "epochs": 22,
+      "sha256": "4bcc8470ad7b624786a45f89632f037aa3f295bf3112dabf50a4ce6d223919af",
+      "matches_recorded_full_schedule": true
+    },
+    {
+      "id": "v2_bull_k8_raw_bypass_fixed_ed_92602",
+      "epochs": 6,
+      "sha256": "49f874bdefa98f77e46efd52eaacbec90d54bdc7554b785b9ae89f98c4b06c6b",
+      "matches_recorded_full_schedule": true
+    }
+  ],
+  "receipts": {
+    "v2_bull_residual_fixed_ed_92601": {
+      "initial_checkpoint": ".cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92601/initial.pt",
+      "initial_checkpoint_sha256": "f884496fdd13d02f7b478d454cbf0d13672ad058da048b0e702f41f22e891142",
+      "result_file": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92601/result.json",
+      "result_sha256": "41d096908e5dd9022ef11d6d4b7b93735b29f75d4f4f575dd09978ddfd0660a9"
+    },
+    "v2_bull_raw_bypass_fixed_ed_92601": {
+      "initial_checkpoint": ".cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92601/initial.pt",
+      "initial_checkpoint_sha256": "d918749a186d1728759bc8c7837f65189817d32710705f097f12336908ae8b54",
+      "result_file": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92601/result.json",
+      "result_sha256": "94a0be0e1b9cf01fed9005590ef2611bca71f07b75e42b59e1f99dbfba72772c"
+    },
+    "v2_bull_k8_residual_fixed_ed_92601": {
+      "initial_checkpoint": ".cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_k8_residual_fixed_ed_92601/initial.pt",
+      "initial_checkpoint_sha256": "9d592a4876a731537c3e550712d92c7b89e0b7c55ac2e4ee7e854b6204a17883",
+      "result_file": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_k8_residual_fixed_ed_92601/result.json",
+      "result_sha256": "f8a972b423f7ce11c4eb1f1405b0516de83ebc90133c6d15dfe55f27849e2efa"
+    },
+    "v2_bull_k8_raw_bypass_fixed_ed_92601": {
+      "initial_checkpoint": ".cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_k8_raw_bypass_fixed_ed_92601/initial.pt",
+      "initial_checkpoint_sha256": "e1a882180c2b514dc425182705cbf79a6494fe0b3b3473251d995f600477383f",
+      "result_file": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_k8_raw_bypass_fixed_ed_92601/result.json",
+      "result_sha256": "c67406bac4e29cec211f7071c1b4c41f2acca4835d3492f5c58d200e20d2319a"
+    },
+    "v2_bull_residual_fixed_ed_92602": {
+      "initial_checkpoint": ".cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92602/initial.pt",
+      "initial_checkpoint_sha256": "eaefa17f436eb53c1b0ed6d4c019c7adc11a8680f513bdd9c5afd484c5fc279e",
+      "result_file": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92602/result.json",
+      "result_sha256": "bb4947cdf9f1516ab6fec20327a878eb41178eb9c6754e26a1ae20fc7a25d22f"
+    },
+    "v2_bull_raw_bypass_fixed_ed_92602": {
+      "initial_checkpoint": ".cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92602/initial.pt",
+      "initial_checkpoint_sha256": "8a9c393439d713d904aabe794693ff48a48da9f75c7604d870887a12691a6052",
+      "result_file": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92602/result.json",
+      "result_sha256": "8deb2e9d9294e0dc0af0878ba7dfe4f3845f1d2f0f55fde9f22a92a86ed87ca1"
+    },
+    "v2_bull_k8_residual_fixed_ed_92602": {
+      "initial_checkpoint": ".cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_k8_residual_fixed_ed_92602/initial.pt",
+      "initial_checkpoint_sha256": "2aeed7a4bd2c1bee286b354d0f096ced7d78944c38c534cddb811d0d713ba74c",
+      "result_file": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_k8_residual_fixed_ed_92602/result.json",
+      "result_sha256": "5f56616575001810305d504272c6ff5f8f14d4229b2454f4821096f2b1598538"
+    },
+    "v2_bull_k8_raw_bypass_fixed_ed_92602": {
+      "initial_checkpoint": ".cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_k8_raw_bypass_fixed_ed_92602/initial.pt",
+      "initial_checkpoint_sha256": "feff89a6d9041fbef92be40c66d473d2f1b35ff57f6fff85a7757ab28593c64f",
+      "result_file": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_k8_raw_bypass_fixed_ed_92602/result.json",
+      "result_sha256": "fb2d65f76050db8e2ddfd5cc7f300306e087740fe4b370bbb455e418b9ef3a49"
+    }
+  },
+  "source_run_sha256": "91a53bb3779538d8108071b12196967b22b38488ab3de06df7e473163c047c41",
+  "data_sha256": "a11d826ac01de745765c5f30d88201b3176efe239216cb7ef12f6250a9542ed3",
+  "limitation": "Encoder/decoder Linear construction consumes different random draws when K changes before G is constructed. K4-to-K8 comparisons also change G-down initialization; they are not a pure capacity-only causal ablation. Within each K, same-seed residual/raw initial adapter tensors and shared schedule prefixes match. G-up is zero initially. No new fits are required by this diagnostic."
+}
