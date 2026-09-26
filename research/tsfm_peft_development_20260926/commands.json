@@ -93,6 +93,18 @@
     {
       "command": "python research/tsfm_peft_development_20260926/evaluate_development.py --name revision1_rank32 --cohort research/tsfm_peft_development_20260926/revision1_rank32_cohort.json",
       "status": "queued session49747 after PID50376 exits, all16cohort complete and saved-result checks pass"
+    },
+    {
+      "command": "python -m pytest research/tsfm_peft_development_20260926/test_masked_linear.py -q",
+      "result": "6 passed in0.06s; synthetic-only missing-target ridge checks; normal-equation reference; no actual data/Bull/GPU"
+    },
+    {
+      "command": "python research/tsfm_peft_development_20260926/verify_results.py",
+      "result": "26 completed fits verified; max scalar MSE error9.4369e-16; rank32 firstseed4fits complete, secondseed ongoing"
+    },
+    {
+      "command": "python research/tsfm_peft_development_20260926/diagnose_saved_validation.py",
+      "result": "28records=26neural+2linear; CPU0.49s saved Electricity VAL only; no new model predictions"
     }
   ]
 }
