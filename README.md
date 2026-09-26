@@ -67,5 +67,8 @@ HIER는 SELF·POOL 대비 두 repeat seed에서 일관된 추가 가치를 보�
 - [승인된 계획 원문](research/tsfm_peft_development_20260926/PLAN.md)
 - [현재 진행 상태와 다음 판단](research/tsfm_peft_development_20260926/STATUS.md)
 - [재현 명령과 검산 범위](research/tsfm_peft_development_20260926/commands.json)
+- [최초 16fit 개발 비교](research/tsfm_peft_development_20260926/initial_development.json) 및 [교정된 평가 비용](research/tsfm_peft_development_20260926/initial_cost_recheck_development.json)
+
+최초 비교에서 잔차 경로는 압축만 한 대조와 원입력 보정보다 나았지만, 강화한 선형 대조 대비 이득은 작고 기간에 따라 달랐습니다. 상한까지 개선된 설정의 학습량을 보완하는 단계이며, 주제 확보를 선언하지 않았습니다.
 
 Electricity의 기존 노출 구간은 개발에만 사용합니다. BDG2 Bull Office의 보호 구간은 최종 설정을 확정하기 전까지 평가하지 않습니다. 원자료·가중치·예측 배열은 Git에 포함하지 않습니다.

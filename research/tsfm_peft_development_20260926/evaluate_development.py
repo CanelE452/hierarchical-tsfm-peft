@@ -1,12 +1,14 @@
 import argparse
+import gc
 import json
 from pathlib import Path
+import time
 
 import numpy as np
 import torch
 
 from model import make_model, pca_basis
-from run import CACHE, HERE, GPUJob, digest, evaluate, load_data, save_json, score_arrays, source_receipt
+from run import CACHE, HERE, PROTOCOL, GPUJob, digest, evaluate, load_data, save_json, score_arrays, source_receipt
 
 
 def select_initial():
@@ -71,6 +73,16 @@ def validation_scores(prediction, data):
     return {'full': score_arrays(prediction, target, mask), 'halves': [score_arrays(prediction[part], target[part], mask[part]) for part in (slice(None, middle), slice(middle, None))]}
 
 
+def measured_evaluate(model, data, origins, job, label):
+    torch.cuda.synchronize()
+    torch.cuda.reset_peak_memory_stats()
+    started = time.perf_counter()
+    scores, prediction = evaluate(model, data, origins, job, label)
+    torch.cuda.synchronize()
+    cost = {'wall_seconds': time.perf_counter() - started, 'peak_allocated_bytes': torch.cuda.max_memory_allocated(), 'origins': len(origins), 'batch_origins': PROTOCOL['eval_batch_origins'], 'scope': 'single end-to-end evaluation including input transfer, forward, output transfer, CPU metrics and ledger heartbeat; excludes model loading; not a repeated latency benchmark'}
+    return scores, prediction, cost
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', default='initial')
@@ -89,13 +101,14 @@ def main():
     with GPUJob(args.name + '_development_evaluation') as job:
         basis = pca_basis(data['x'][:int(data['train_end'])], 8)
         f0 = make_model('f0', basis)
-        f0_scores, f0_pred = evaluate(f0, data, data['dev_origins'], job, 'F0 development')
-        _, f0_val = evaluate(f0, data, data['val_origins'], job, 'F0 validation periods')
+        f0_scores, f0_pred, f0_cost = measured_evaluate(f0, data, data['dev_origins'], job, 'F0 development')
+        _, f0_val, f0_val_cost = measured_evaluate(f0, data, data['val_origins'], job, 'F0 validation periods')
         predictions['f0'] = [f0_pred]
         np.savez_compressed(local / 'f0.npz', prediction=f0_pred, origins=data['dev_origins'])
         np.savez_compressed(local / 'f0_val.npz', prediction=f0_val, origins=data['val_origins'])
-        rows.append({'arm': 'f0', 'fit': None, 'seed': None, 'scores': f0_scores, 'validation': validation_scores(f0_val, data)})
+        rows.append({'arm': 'f0', 'fit': None, 'seed': None, 'scores': f0_scores, 'validation': validation_scores(f0_val, data), 'evaluation_cost': f0_cost, 'validation_cost': f0_val_cost})
         del f0
+        gc.collect()
         torch.cuda.empty_cache()
         for arm, selected in selection.items():
             predictions[arm] = []
@@ -105,14 +118,15 @@ def main():
                 spec = saved['spec']
                 model = make_model(spec['arm'], saved['basis'], residual_rank=spec.get('residual_rank', 8))
                 model.restore_adapter(saved['state'])
-                scores, pred = evaluate(model, data, data['dev_origins'], job, fit_id + ' development')
+                scores, pred, cost = measured_evaluate(model, data, data['dev_origins'], job, fit_id + ' development')
                 predictions[arm].append(pred)
                 np.savez_compressed(local / f'{fit_id}.npz', prediction=pred, origins=data['dev_origins'])
                 with np.load(Path(result['checkpoint']).with_name('best_val.npz')) as archive:
                     assert np.array_equal(archive['origins'], data['val_origins'])
                     validation = validation_scores(archive['prediction'], data)
-                rows.append({'arm': arm, 'fit': fit_id, 'seed': spec['seed'], 'scores': scores, 'validation': validation, 'prediction_sha256': digest(local / f'{fit_id}.npz')})
+                rows.append({'arm': arm, 'fit': fit_id, 'seed': spec['seed'], 'scores': scores, 'validation': validation, 'evaluation_cost': cost, 'prediction_sha256': digest(local / f'{fit_id}.npz')})
                 del model
+                gc.collect()
                 torch.cuda.empty_cache()
     baseline_path = HERE / 'linear_fulltrain_baselines.json'
     baselines = json.loads(baseline_path.read_text())

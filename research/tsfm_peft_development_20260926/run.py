@@ -1,5 +1,6 @@
 import argparse
 import contextlib
+import gc
 import hashlib
 import json
 import os
@@ -76,6 +77,9 @@ class GPUJob:
 
     def heartbeat(self, progress):
         self.record.update(elapsed_s=time.perf_counter() - self.started, heartbeat_utc=time.time(), progress=progress)
+        if torch.cuda.is_initialized():
+            self.record['peak_allocated_bytes'] = max(self.record.get('peak_allocated_bytes', 0), torch.cuda.max_memory_allocated())
+            self.record['peak_scope'] = 'maximum observed allocator high-water across segment resets; excludes reserved memory'
         save_json(self.path, self.jobs)
         if self.used + self.record['elapsed_s'] >= PROTOCOL['gpu_budget_seconds']:
             raise RuntimeError('GPU_TOTAL_BUDGET_REACHED')
@@ -85,7 +89,7 @@ class GPUJob:
         if exc:
             self.record['error'] = ''.join(traceback.format_exception(kind, exc, tb))
         if torch.cuda.is_initialized():
-            self.record['peak_allocated_bytes'] = torch.cuda.max_memory_allocated()
+            self.record['peak_allocated_bytes'] = max(self.record.get('peak_allocated_bytes', 0), torch.cuda.max_memory_allocated())
         save_json(self.path, self.jobs)
         self.lock.unlink()
 
@@ -158,6 +162,26 @@ def frozen_hash(model):
     return h.hexdigest()
 
 
+def backward_batch(model, x, target, mask, loss_kind, microbatch_origins=1):
+    count = None
+    if loss_kind == 'mse' and microbatch_origins < len(x) and not bool(mask.all()):
+        count = mask.sum(dim=(0, 1))
+    batch_loss = 0.0
+    for start in range(0, len(x), microbatch_origins):
+        part = slice(start, start + microbatch_origins)
+        if loss_kind == 'native':
+            loss = model.native_loss(x[part], target[part], mask[part])
+        else:
+            loss = macro_loss(model(x[part]), target[part], mask[part], channel_count=count)
+        if count is None:
+            loss = loss / (len(x) / len(x[part]))
+        if not torch.isfinite(loss):
+            raise RuntimeError('nonfinite training loss')
+        loss.backward()
+        batch_loss += loss.detach().item()
+    return batch_loss
+
+
 def fit(data, spec, job):
     fit_id = spec['id']
     out = HERE / 'runs' / fit_id
@@ -198,17 +222,9 @@ def fit(data, spec, job):
                 for start in range(0, len(schedule), PROTOCOL['effective_batch_origins']):
                     batch_origins = schedule[start:start + PROTOCOL['effective_batch_origins']]
                     optimizer.zero_grad(set_to_none=True)
-                    batch_loss = 0.0
-                    for origin in batch_origins:
-                        x, y, mask = tensors(data, [origin])
-                        if spec['arm'] == 'lora' and spec.get('loss', 'native') == 'native':
-                            loss = model.native_loss(x, y, mask)
-                        else:
-                            loss = macro_loss(model(x), y, mask)
-                        if not torch.isfinite(loss):
-                            raise RuntimeError('nonfinite training loss')
-                        (loss / len(batch_origins)).backward()
-                        batch_loss += loss.detach().item() / len(batch_origins)
+                    x, y, mask = tensors(data, batch_origins)
+                    loss_kind = 'native' if spec['arm'] == 'lora' and spec.get('loss', 'native') == 'native' else 'mse'
+                    batch_loss = backward_batch(model, x, y, mask, loss_kind, spec.get('microbatch_origins', PROTOCOL['microbatch_origins']))
                     norm = torch.nn.utils.clip_grad_norm_(params, 1.0, error_if_nonfinite=True)
                     optimizer.step()
                     train_losses.append(batch_loss)
@@ -236,6 +252,7 @@ def fit(data, spec, job):
         changes = {k: float((trained[k] - initial[k]).abs().max()) for k in initial}
         saved = torch.load(local / 'best.pt', map_location='cpu', weights_only=False)
         del optimizer, scheduler, params, model
+        gc.collect()
         torch.cuda.empty_cache()
         restored = make_model(spec['arm'], basis, residual_rank=spec.get('residual_rank', 8))
         restored.restore_adapter(saved['state'])
@@ -248,6 +265,7 @@ def fit(data, spec, job):
         attempt.update(status='complete', elapsed_s=result['elapsed_s'])
         save_json(out / 'attempt.json', attempt)
         del restored
+        gc.collect()
         torch.cuda.empty_cache()
     except BaseException:
         attempt.update(status='failed', elapsed_s=time.perf_counter() - started, error=traceback.format_exc())

@@ -4,7 +4,7 @@ import torch
 
 from evaluate_development import paired_block_effect
 from model import macro_loss
-from run import score_arrays
+from run import backward_batch, score_arrays
 
 
 def test_channel_macro_with_unequal_observation_counts():
@@ -46,7 +46,8 @@ def test_zero_loss_reference_has_no_percentage_effect():
 
 
 @pytest.mark.parametrize('missing', [False, True])
-def test_global_count_microbatch_formula_matches_full_batch_gradient(missing):
+@pytest.mark.parametrize('microbatch', [1, 4])
+def test_training_batch_matches_full_batch_gradient(missing, microbatch):
     target = torch.zeros((4, 3, 3), dtype=torch.float64)
     mask = torch.ones_like(target, dtype=torch.bool)
     if missing:
@@ -58,14 +59,7 @@ def test_global_count_microbatch_formula_matches_full_batch_gradient(missing):
     micro = values.clone().requires_grad_()
     reference = macro_loss(full, target, mask)
     reference.backward()
-    count = mask.sum(dim=(0, 1))
-    valid = count > 0
-    micro_value = 0.0
-    for i in range(len(micro)):
-        total = ((micro[i:i + 1] - target[i:i + 1]).square() * mask[i:i + 1]).sum(dim=(0, 1))
-        loss = (total[valid] / count[valid]).mean()
-        micro_value += loss.item()
-        loss.backward()
+    micro_value = backward_batch(torch.nn.Identity(), micro, target, mask, 'mse', microbatch)
     assert micro_value == pytest.approx(reference.item(), abs=1e-12)
     torch.testing.assert_close(micro.grad, full.grad, rtol=1e-12, atol=1e-12)
     old = torch.stack([macro_loss(full[i:i + 1], target[i:i + 1], mask[i:i + 1]) for i in range(len(full))]).mean()

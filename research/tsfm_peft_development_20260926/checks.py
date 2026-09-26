@@ -1,7 +1,10 @@
 import argparse
 import copy
+import gc
 import importlib.metadata
+import json
 import platform
+import time
 from types import SimpleNamespace
 
 import numpy as np
@@ -9,7 +12,7 @@ import torch
 from torch import nn
 
 from model import ForecastAdapter, SNAPSHOT, make_model, macro_loss, pca_basis
-from run import CACHE, HERE, GPUJob, digest, frozen_hash, load_data, phase_sample, save_json, score_arrays, source_receipt, tensors
+from run import CACHE, HERE, GPUJob, backward_batch, digest, frozen_hash, load_data, phase_sample, save_json, score_arrays, source_receipt, tensors
 
 
 class ToyBackbone(nn.Module):
@@ -134,10 +137,95 @@ def gpu_checks():
         print('GPU real-checkpoint checks PASS')
 
 
+def lifetime_checks():
+    output = HERE / 'object_lifetime_audit.json'
+    if output.exists():
+        raise RuntimeError('Preserve the completed lifetime audit')
+    records = []
+    with GPUJob('model_object_lifetime_audit') as job:
+        for arm in ('lora', 'raw_bypass', 'residual'):
+            gc.collect()
+            torch.cuda.empty_cache()
+            before = torch.cuda.memory_allocated()
+            model = make_model(arm, np.eye(32, 8, dtype=np.float32))
+            torch.cuda.synchronize()
+            loaded = torch.cuda.memory_allocated()
+            del model
+            torch.cuda.empty_cache()
+            after_del = torch.cuda.memory_allocated()
+            collected = gc.collect()
+            torch.cuda.empty_cache()
+            after_gc = torch.cuda.memory_allocated()
+            assert after_gc == before, (arm, before, after_gc)
+            records.append({'arm': arm, 'before_bytes': before, 'loaded_bytes': loaded, 'after_del_bytes': after_del, 'after_gc_bytes': after_gc, 'collected_objects': collected})
+            job.heartbeat(f'{arm} lifetime audited')
+    save_json(output, {'source': source_receipt(), 'scope': 'real model load/release only, no predictions or learning; artificial identity basis only sets C32/r8 adapter dimensions', 'records': records})
+    print(records, flush=True)
+
+
+def batching_checks():
+    output = HERE / 'batching_checks.json'
+    if output.exists():
+        raise RuntimeError('Preserve the completed batching audit')
+    data = load_data('electricity')
+    selection = json.loads((HERE / 'initial_selection.json').read_text())
+    records = []
+    with GPUJob('effective_batch_gradient_parity') as job:
+        origins = phase_sample(data['train_origins'], 92601, 1)[:4]
+        x, target, observed = tensors(data, origins)
+        missing = observed.clone()
+        missing[1:, :, 0] = False
+        missing[:, ::3, 1] = False
+        missing[:, :, 2] = False
+        for arm in ('lora', 'compress', 'residual', 'raw_bypass'):
+            fit_id = selection[arm]['fits'][0]
+            result = json.loads((HERE / 'runs' / fit_id / 'result.json').read_text())
+            saved = torch.load(result['checkpoint'], map_location='cpu', weights_only=False)
+            model = make_model(arm, saved['basis'])
+            model.restore_adapter(saved['state'])
+            model.train()
+            loss_kind = 'native' if arm == 'lora' else 'mse'
+            for mask_name, mask in (('complete', observed), ('synthetic_missing', missing)):
+                measurements, gradients = {}, {}
+                for microbatch in (1, 4):
+                    model.zero_grad(set_to_none=True)
+                    backward_batch(model, x, target, mask, loss_kind, microbatch)
+                    model.zero_grad(set_to_none=True)
+                    torch.cuda.synchronize()
+                    torch.cuda.reset_peak_memory_stats()
+                    started = time.perf_counter()
+                    for _ in range(4):
+                        model.zero_grad(set_to_none=True)
+                        loss = backward_batch(model, x, target, mask, loss_kind, microbatch)
+                    torch.cuda.synchronize()
+                    measurements[microbatch] = {'loss': loss, 'seconds_per_backward_batch': (time.perf_counter() - started) / 4, 'peak_allocated_bytes': torch.cuda.max_memory_allocated()}
+                    gradients[microbatch] = torch.cat([p.grad.detach().cpu().reshape(-1).double() for p in model.parameters() if p.requires_grad])
+                    job.heartbeat(f'{arm}/{mask_name}/micro{microbatch}')
+                error = gradients[4] - gradients[1]
+                relative_error = error.norm().item() / max(gradients[1].norm().item(), 1e-12)
+                assert relative_error < 2e-5, (arm, mask_name, relative_error)
+                torch.testing.assert_close(gradients[4], gradients[1], rtol=1e-4, atol=1e-6)
+                assert abs(measurements[4]['loss'] - measurements[1]['loss']) < 1e-5 * max(1, abs(measurements[1]['loss']))
+                records.append({'arm': arm, 'checkpoint_sha256': result['checkpoint_sha256'], 'mask': mask_name, 'relative_gradient_l2_error': relative_error, 'max_gradient_abs_error': error.abs().max().item(), 'measurements': measurements})
+            model.zero_grad(set_to_none=True)
+            del model
+            gc.collect()
+            torch.cuda.empty_cache()
+    save_json(output, {'passed': True, 'source': source_receipt(), 'data_sha256': digest(data['_path']), 'origins': origins.tolist(), 'scope': 'same effective batch4 and trained checkpoints; gradient-only checks, zero optimizer updates, complete and artificial missing masks; short warmed timing informs execution choice, not a paper latency benchmark', 'records': records})
+    print(json.dumps(records), flush=True)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--gpu', action='store_true')
+    parser.add_argument('--lifetime', action='store_true')
+    parser.add_argument('--batching', action='store_true')
     args = parser.parse_args()
-    cpu_checks()
-    if args.gpu:
-        gpu_checks()
+    if args.lifetime:
+        lifetime_checks()
+    elif args.batching:
+        batching_checks()
+    else:
+        cpu_checks()
+        if args.gpu:
+            gpu_checks()

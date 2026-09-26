@@ -96,8 +96,8 @@ def make_model(arm, basis, device='cuda', residual_rank=8):
     return ForecastAdapter(backbone, arm, basis, residual_rank=residual_rank).to(device)
 
 
-def macro_loss(pred, target, mask):
+def macro_loss(pred, target, mask, channel_count=None):
     squared = (pred - target).square() * mask
-    count = mask.sum(dim=(0, 1))
+    count = mask.sum(dim=(0, 1)) if channel_count is None else channel_count
     valid = count > 0
     return (squared.sum(dim=(0, 1))[valid] / count[valid]).mean()

@@ -1,0 +1,180 @@
+{
+  "passed": true,
+  "source": {
+    "checks.py": "ac759c5ba2af9ae9da98482c6a3766f27d0728b0a35c9f08facf3b94560b2532",
+    "data_prepare.py": "a5aa5216d9b39d7795678a21af1bd89397c25a0ba06ff98d56a5e1ea3beecb08",
+    "diagnose_saved_validation.py": "9718598844b3b4f5d7b22e56dded51cffa7345f6d7cd0d98eb879efabf037370",
+    "evaluate_development.py": "b0cf455f7af4175427f2573eaf03a42c3da23c976af048a02e35c969c32b9909",
+    "linear_baselines.py": "11a5350099cd8fa6530f39b75a32d8b7c143d8468204acc46baedcfdb00e21de",
+    "linear_fulltrain.py": "811521cf8244f70e4765ad38e25f86d42ab590f94356b51ad1e749f053fe3401",
+    "model.py": "3235255108e7a372f66847aac99e71d3845921f7b5c73ea5b2975f24fff784dc",
+    "run.py": "12eaeee0e03ca3054cd08e9364cadb8a95c4d4b1e3a683065f514754151d8d05",
+    "test_data.py": "28bc7a44a7c08bd68302db261aa992f7b3cdabb9a8ed755b7126c98b996f394c",
+    "test_evaluation.py": "c3862fdb2f74153b61d7f6f32c9af196609a80840400015ca5893aa866066ad9",
+    "verify_results.py": "90a9d4f1b422fe6c314d79b691770ced6f309e1e3eebc14afc6293b54f9f995e",
+    "protocol.json": "35f09af16438e6150a936efaee9b07fa19b58de4b54eb15bd0d137908fd218a6",
+    "PLAN.md": "f75c2dcf88d594c875dfab05bc2cb651e186a1074d54255b39ca3d8545580a63"
+  },
+  "data_sha256": "65b3e7dbb89433a75b26e6ad7071702dcb81b259dd33ab74dc6eea0d9b7d2bb5",
+  "origins": [
+    9859,
+    12352,
+    1457,
+    1708
+  ],
+  "scope": "same effective batch4 and trained checkpoints; gradient-only checks, zero optimizer updates, complete and artificial missing masks; short warmed timing informs execution choice, not a paper latency benchmark",
+  "records": [
+    {
+      "arm": "lora",
+      "checkpoint_sha256": "7592bdf166c8c058a27c54289524aa55aab0a112f1f698279f1843f0e1a8ba4c",
+      "mask": "complete",
+      "relative_gradient_l2_error": 3.5476765435284243e-07,
+      "max_gradient_abs_error": 2.9802322387695312e-08,
+      "measurements": {
+        "1": {
+          "loss": 10.27625298500061,
+          "seconds_per_backward_batch": 0.13070627499837428,
+          "peak_allocated_bytes": 390917632
+        },
+        "4": {
+          "loss": 10.276252746582031,
+          "seconds_per_backward_batch": 0.05847109999740496,
+          "peak_allocated_bytes": 928103936
+        }
+      }
+    },
+    {
+      "arm": "lora",
+      "checkpoint_sha256": "7592bdf166c8c058a27c54289524aa55aab0a112f1f698279f1843f0e1a8ba4c",
+      "mask": "synthetic_missing",
+      "relative_gradient_l2_error": 3.428535130855208e-07,
+      "max_gradient_abs_error": 2.60770320892334e-08,
+      "measurements": {
+        "1": {
+          "loss": 9.096235275268555,
+          "seconds_per_backward_batch": 0.13306130000273697,
+          "peak_allocated_bytes": 390917632
+        },
+        "4": {
+          "loss": 9.096235275268555,
+          "seconds_per_backward_batch": 0.05655942499288358,
+          "peak_allocated_bytes": 928103936
+        }
+      }
+    },
+    {
+      "arm": "compress",
+      "checkpoint_sha256": "472d16640dbfc012b03f9b844ac407f35e55e3fda1522355c3449653ce5ab41a",
+      "mask": "complete",
+      "relative_gradient_l2_error": 4.924315541578709e-07,
+      "max_gradient_abs_error": 1.6763806343078613e-08,
+      "measurements": {
+        "1": {
+          "loss": 0.20283269882202148,
+          "seconds_per_backward_batch": 0.10615715000312775,
+          "peak_allocated_bytes": 253536768
+        },
+        "4": {
+          "loss": 0.2028326839208603,
+          "seconds_per_backward_batch": 0.02567972498945892,
+          "peak_allocated_bytes": 386318848
+        }
+      }
+    },
+    {
+      "arm": "compress",
+      "checkpoint_sha256": "472d16640dbfc012b03f9b844ac407f35e55e3fda1522355c3449653ce5ab41a",
+      "mask": "synthetic_missing",
+      "relative_gradient_l2_error": 5.839457700958948e-07,
+      "max_gradient_abs_error": 1.4901161193847656e-08,
+      "measurements": {
+        "1": {
+          "loss": 0.15351704135537148,
+          "seconds_per_backward_batch": 0.10022487500100397,
+          "peak_allocated_bytes": 253537280
+        },
+        "4": {
+          "loss": 0.15351703763008118,
+          "seconds_per_backward_batch": 0.026948725018883124,
+          "peak_allocated_bytes": 386318848
+        }
+      }
+    },
+    {
+      "arm": "residual",
+      "checkpoint_sha256": "f3385e6966a417dfded2c28a68615efe137c4f44c55d8095d1dfec749703f1b9",
+      "mask": "complete",
+      "relative_gradient_l2_error": 3.609330501833087e-07,
+      "max_gradient_abs_error": 1.210719347000122e-08,
+      "measurements": {
+        "1": {
+          "loss": 0.1688740160316229,
+          "seconds_per_backward_batch": 0.1022645249904599,
+          "peak_allocated_bytes": 253588992
+        },
+        "4": {
+          "loss": 0.16887402534484863,
+          "seconds_per_backward_batch": 0.02689795001060702,
+          "peak_allocated_bytes": 386420224
+        }
+      }
+    },
+    {
+      "arm": "residual",
+      "checkpoint_sha256": "f3385e6966a417dfded2c28a68615efe137c4f44c55d8095d1dfec749703f1b9",
+      "mask": "synthetic_missing",
+      "relative_gradient_l2_error": 4.2676375708360037e-07,
+      "max_gradient_abs_error": 9.313225746154785e-09,
+      "measurements": {
+        "1": {
+          "loss": 0.11661912128329277,
+          "seconds_per_backward_batch": 0.09983777499292046,
+          "peak_allocated_bytes": 253589504
+        },
+        "4": {
+          "loss": 0.11661912500858307,
+          "seconds_per_backward_batch": 0.026577074982924387,
+          "peak_allocated_bytes": 386420224
+        }
+      }
+    },
+    {
+      "arm": "raw_bypass",
+      "checkpoint_sha256": "b15c8505137c8e3552e83d783df0670a652d6192a8e9fcd3268a95d980807d46",
+      "mask": "complete",
+      "relative_gradient_l2_error": 3.3175758546441623e-07,
+      "max_gradient_abs_error": 1.4901161193847656e-08,
+      "measurements": {
+        "1": {
+          "loss": 0.18064884655177593,
+          "seconds_per_backward_batch": 0.09938494997913949,
+          "peak_allocated_bytes": 253572608
+        },
+        "4": {
+          "loss": 0.1806488335132599,
+          "seconds_per_backward_batch": 0.02606204999028705,
+          "peak_allocated_bytes": 386354688
+        }
+      }
+    },
+    {
+      "arm": "raw_bypass",
+      "checkpoint_sha256": "b15c8505137c8e3552e83d783df0670a652d6192a8e9fcd3268a95d980807d46",
+      "mask": "synthetic_missing",
+      "relative_gradient_l2_error": 3.409197241218632e-07,
+      "max_gradient_abs_error": 1.1175870895385742e-08,
+      "measurements": {
+        "1": {
+          "loss": 0.13458951003849506,
+          "seconds_per_backward_batch": 0.09581892500864342,
+          "peak_allocated_bytes": 253573120
+        },
+        "4": {
+          "loss": 0.13458949327468872,
+          "seconds_per_backward_batch": 0.025926300004357472,
+          "peak_allocated_bytes": 386354688
+        }
+      }
+    }
+  ]
+}
