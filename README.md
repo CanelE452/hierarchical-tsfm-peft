@@ -1,7 +1,7 @@
 # Hierarchical TSFM PEFT screen
 
 동일 Chronos-Bolt-small + LoRA에서 실제 hierarchy 관계의 추가 예측 가치를 평가합니다.
-유일한 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다.
+이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
 ## Data
@@ -62,8 +62,10 @@ HIER는 SELF·POOL 대비 두 repeat seed에서 일관된 추가 가치를 보�
 
 ## 승인된 채널 압축 잔차 PEFT 개발 (2026-09-26)
 
-동결 TSFM의 입력 채널 압축에서 남은 재구성 잔차를 작은 시간 예측기로 보완하는 방법을 개발 중입니다. 위 hierarchy screen의 단발 계약과 별도로 승인된 연구이며, 아직 주제를 확보한 상태는 아닙니다.
+동결 TSFM의 입력 채널 압축에서 남은 재구성 잔차를 작은 시간 예측기로 보완하는 방법을 **조건부 개발 주제**로 선택했습니다. 위 hierarchy screen의 단발 계약과 별도로 승인된 연구입니다. 강한 선형 대조 대비 보호 확증과 논문 전체 확증은 미확보입니다.
 
+- [최종 주제 판단과 전체 비교](research/tsfm_peft_development_20260926/TOPIC_DECISION.md)
+- [고정 보호 결과](research/tsfm_peft_development_20260926/protected_evaluation.json) 및 [저장 예측 검산](research/tsfm_peft_development_20260926/protected_verification.json)
 - [승인된 계획 원문](research/tsfm_peft_development_20260926/PLAN.md)
 - [현재 진행 상태와 다음 판단](research/tsfm_peft_development_20260926/STATUS.md)
 - [재현 명령과 검산 범위](research/tsfm_peft_development_20260926/commands.json)
@@ -73,6 +75,6 @@ HIER는 SELF·POOL 대비 두 repeat seed에서 일관된 추가 가치를 보�
 - [잔차 용량 수정 후 개발 비교](research/tsfm_peft_development_20260926/revision1_rank32_development.json)
 - [압축 차원 증가 대조](research/tsfm_peft_development_20260926/compression16_development.json) 및 [보호 확인 설정 봉인](research/tsfm_peft_development_20260926/final_seal.json)
 
-잔차 rank를 8에서 32로 늘린 수정의 개발 MSE는 0.165850입니다. 동일 용량 원입력 보정보다 8.11%, 강화한 선형 대조보다 7.06% 낮고 두 seed와 두 기간에서 같은 방향입니다. 미압축 TSFM과 LoRA보다는 각각 0.80%, 2.95% 높은 오차입니다. 압축 차원을 두 배로 늘린 대조보다도 20.01% 낮은 오차였습니다. 한 방법으로 수렴하여 보호 로컬 확인 설정을 봉인했으며, 이 개발 결과를 독립 확증이나 주제 확보 완료로 부르지 않습니다.
+잔차 rank를 8에서 32로 늘린 수정의 개발 MSE는 0.165850입니다. 동일 용량 원입력 보정보다 8.11%, 강화한 선형 대조보다 7.06% 낮고 두 seed와 두 기간에서 같은 방향입니다. 미압축 TSFM과 LoRA보다는 각각 0.80%, 2.95% 높은 오차입니다. 압축 차원을 두 배로 늘린 대조보다도 20.01% 낮은 오차였습니다. 보호 Bull E1/E2에서는 같은 용량 원입력 보정보다 52.89%/9.02% 낮지만, 강한 선형 대조 대비 1.96%/15.48% 이득의 불확실성 구간은 모두 0을 포함합니다. 특히 E1에서는 미압축 LoRA보다 MSE가 65.29% 높습니다. 개발 근거에 따라 한 방법을 조건부 선택했으며 전이 우위를 확증했다고 부르지 않습니다.
 
-Electricity의 기존 노출 구간은 개발에만 사용합니다. BDG2 Bull Office의 보호 구간은 최종 설정을 확정하기 전까지 평가하지 않습니다. 원자료·가중치·예측 배열은 Git에 포함하지 않습니다.
+Electricity의 기존 노출 구간은 개발에 사용했고, BDG2 Bull Office는 최종 설정을 봉인·게시한 뒤 고정 평가했습니다. 총 42완료 fit/43attempt, GPU 작업 점유 3.22시간을 사용했습니다. 보호 점수에 맞춘 재튜닝은 없으며 독립 외부 확증·독립 재현을 주장하지 않습니다. 원자료·가중치·예측 배열은 Git에 포함하지 않습니다.
