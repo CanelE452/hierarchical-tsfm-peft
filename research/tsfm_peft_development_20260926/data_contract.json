@@ -1,0 +1,413 @@
+{
+  "created_by": "research/tsfm_peft_development_20260926/data_prepare.py",
+  "scope": "CPU data preparation only; no model training, prediction, or protected metric evaluation.",
+  "context_length": 512,
+  "horizon": 48,
+  "origin_stride_eval": 24,
+  "npz_interface": {
+    "x": "float32 [T,C], standardized with train-only mean/std; missing inputs imputed to standardized 0",
+    "raw": "float32 [T,C], original values with NaN for missing",
+    "mean": "float32 [C], train-only",
+    "std": "float32 [C], train-only with invalid std replaced by 1 only after QC reporting",
+    "times": "int64 ns [T]",
+    "targetmask": "bool [T,C], finite target availability before imputation",
+    "origins": "int64 origin indices; context[o-512:o], target[o:o+48]",
+    "columns": "str [C]"
+  },
+  "datasets": {
+    "electricity_first32": {
+      "npz": ".cache\\tsfm_peft_development_20260926\\data\\electricity_first32_l512_h48.npz",
+      "source": "E:\\CODING\\proj\\mltimeseries\\data\\electricity\\electricity.csv",
+      "source_sha256": "7e45845d54c5219bad0ae6bc1b5316cf8ff9cead5d33fa998a5a51c2e4a497ad",
+      "timestamp_note": "Timestamps are read as-is from mltimeseries/data/electricity/electricity.csv; this file spans 2016-07-01 02:00:00 through 2019-07-02 01:00:00. This preparation does not synthesize or remap dates. Earlier canonical Electricity artifacts may use different source-year conventions and must not be conflated with this local file.",
+      "time_range": [
+        "2016-07-01 02:00:00",
+        "2019-07-02 01:00:00"
+      ],
+      "rows": 26304,
+      "columns": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31"
+      ],
+      "shape": [
+        26304,
+        32
+      ],
+      "split_bounds": {
+        "train": [
+          0,
+          18412
+        ],
+        "val": [
+          18412,
+          21043
+        ],
+        "dev": [
+          21043,
+          26304
+        ]
+      },
+      "origin_counts": {
+        "train": 17853,
+        "val": 108,
+        "dev": 218
+      },
+      "train_availability": {
+        "min": 1.0,
+        "max": 1.0,
+        "all_ge_95pct": true
+      },
+      "train_nonconstant_all": true
+    },
+    "bdg2_bull_office": {
+      "npz": ".cache\\tsfm_peft_development_20260926\\data\\bdg2_bull_office17_l512_h48.npz",
+      "source": "E:\\CODING\\proj\\mltimeseries\\data_external\\bdg2_coarse_supervision_v1\\raw\\electricity.csv",
+      "source_sha256": "039d909d8981e2d69eaeb366144e6ab7e84fa5e7e216aee42bddd95384a66418",
+      "metadata": "E:\\CODING\\proj\\mltimeseries\\data_external\\bdg2_coarse_supervision_v1\\raw\\metadata.csv",
+      "metadata_sha256": "992d0b29f24f96ad4332bc4dbb534b7bdd7dd2689aad093f94e93068ecddca02",
+      "sealed_columns_all": [
+        "Bull_office_Lilla",
+        "Bull_office_Hilton",
+        "Bull_office_Myron",
+        "Bull_office_Nicolas",
+        "Bull_office_Mai",
+        "Bull_office_Anne",
+        "Bull_office_Rob",
+        "Bull_office_Chantel",
+        "Bull_office_Efren",
+        "Bull_office_Yvonne",
+        "Bull_office_Ella",
+        "Bull_office_Ivette",
+        "Bull_office_Marco",
+        "Bull_office_Claudia",
+        "Bull_office_Sally",
+        "Bull_office_Debbie",
+        "Bull_office_Trevor"
+      ],
+      "selected_columns": [
+        "Bull_office_Lilla",
+        "Bull_office_Hilton",
+        "Bull_office_Myron",
+        "Bull_office_Nicolas",
+        "Bull_office_Mai",
+        "Bull_office_Anne",
+        "Bull_office_Rob",
+        "Bull_office_Chantel",
+        "Bull_office_Efren",
+        "Bull_office_Yvonne",
+        "Bull_office_Ella",
+        "Bull_office_Ivette",
+        "Bull_office_Marco",
+        "Bull_office_Claudia",
+        "Bull_office_Sally",
+        "Bull_office_Debbie"
+      ],
+      "selected_count": 16,
+      "selection_rule": "Train-only observed fraction >= 0.95 and train nonconstant; no protected target outcome used.",
+      "train_availability_by_sealed_column": {
+        "Bull_office_Lilla": 0.9974899598393574,
+        "Bull_office_Hilton": 0.9954819277108434,
+        "Bull_office_Myron": 0.9959839357429718,
+        "Bull_office_Nicolas": 0.9964859437751004,
+        "Bull_office_Mai": 0.9974899598393574,
+        "Bull_office_Anne": 0.9954819277108434,
+        "Bull_office_Rob": 0.9984939759036144,
+        "Bull_office_Chantel": 0.9969879518072289,
+        "Bull_office_Efren": 0.9994979919678715,
+        "Bull_office_Yvonne": 0.9959839357429718,
+        "Bull_office_Ella": 0.9994979919678715,
+        "Bull_office_Ivette": 0.9974899598393574,
+        "Bull_office_Marco": 0.9949799196787149,
+        "Bull_office_Claudia": 0.9974899598393574,
+        "Bull_office_Sally": 0.9984939759036144,
+        "Bull_office_Debbie": 0.9954819277108434,
+        "Bull_office_Trevor": 0.9994979919678715
+      },
+      "train_nonconstant_by_sealed_column": {
+        "Bull_office_Lilla": true,
+        "Bull_office_Hilton": true,
+        "Bull_office_Myron": true,
+        "Bull_office_Nicolas": true,
+        "Bull_office_Mai": true,
+        "Bull_office_Anne": true,
+        "Bull_office_Rob": true,
+        "Bull_office_Chantel": true,
+        "Bull_office_Efren": true,
+        "Bull_office_Yvonne": true,
+        "Bull_office_Ella": true,
+        "Bull_office_Ivette": true,
+        "Bull_office_Marco": true,
+        "Bull_office_Claudia": true,
+        "Bull_office_Sally": true,
+        "Bull_office_Debbie": true,
+        "Bull_office_Trevor": false
+      },
+      "split_periods": {
+        "precontext": [
+          "2016-01-01T00:00:00",
+          "2016-01-23T00:00:00"
+        ],
+        "train": [
+          "2016-01-23T00:00:00",
+          "2016-04-15T00:00:00"
+        ],
+        "val": [
+          "2016-04-17T00:00:00",
+          "2016-05-18T00:00:00"
+        ],
+        "eval_e1": [
+          "2016-05-20T00:00:00",
+          "2016-06-30T00:00:00"
+        ],
+        "eval_e2": [
+          "2016-06-30T00:00:00",
+          "2016-08-10T00:00:00"
+        ]
+      },
+      "split_rows": {
+        "precontext": 528,
+        "train": 1992,
+        "val": 744,
+        "eval_e1": 984,
+        "eval_e2": 984
+      },
+      "origin_counts": {
+        "train": 1945,
+        "val": 30,
+        "eval_e1": 40,
+        "eval_e2": 40
+      },
+      "time_range": [
+        "2016-01-01 00:00:00",
+        "2017-12-31 23:00:00"
+      ]
+    }
+  },
+  "exposure": {
+    "ledger": "E:\\CODING\\proj\\mltimeseries\\results\\peft_paper_closure_v1\\data_exposure_ledger.csv",
+    "ledger_exists": true,
+    "bdg2_rows_in_ledger": 2,
+    "bull_office_exact_rows_in_ledger": 0,
+    "fresh_manifest": "E:\\CODING\\proj\\mltimeseries\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.md",
+    "fresh_manifest_mentions_bull_ready": true,
+    "fresh_manifest_notes": [
+      "Bull office meters are recorded as not existing PEFT target-label units in the manifest.",
+      "BDG2 raw source family was already inspected locally, so this is not final independent holdout evidence."
+    ],
+    "holdout_availability": "E:\\CODING\\proj\\mltimeseries\\results\\peft_paper_closure_v1\\holdout_availability.md",
+    "holdout_certified_stage_a_zero": true,
+    "holdout_certified_final_zero": true,
+    "claim_boundary": "Do not call Bull Office fully independent; use as target-blind local protected candidate after sealing.",
+    "reference_repo_search": {
+      "patterns": [
+        "Bull_office",
+        "Bull Office",
+        "word-boundary Bull"
+      ],
+      "excluded_paths": [
+        "**/.cache/**",
+        "**/data/**",
+        "**/data_external/**",
+        "**/*.csv",
+        "**/*.txt",
+        "**/*.gz",
+        "**/*.npz",
+        "**/*.npy",
+        "**/*.parquet"
+      ],
+      "repos": {
+        "mltimeseries": {
+          "path": "E:\\CODING\\proj\\mltimeseries",
+          "exists": true,
+          "rg_exit_code": 0,
+          "match_count": 42,
+          "matches": [
+            ".\\_docs\\history\\2026-09-12.md:19:[확인] `results/peft_paper_closure_v1/fresh_stage_a_candidate_manifest.{md,json}` 및 read-only 재현 script 추가. Household post-P1은 train48h 결측 창 때문에 BLOCKED; BDG2 Bull Office2016A는 target-blind READY. 별도 source hash/split geometry/각 target 관측률 검산과 원자료 재현 PASS. Fresh 학습·forecast0, pretraining overlap UNKNOWN.",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:211:      \"status_reason\": \"[판정] The candidate has fixed target-blind source/period/series, no local PEFT target-label overlap for the selected Bull office meters, feasible L336/H48 train/V/E1/E2 splits, and passes aggregate plus per-origin availability gates.\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:222:        \"selection_rule\": \"Exclude previously exposed Eagle/Lamb sites; prefer Office usage to stay close to prior BDG2 office diagnostics; iterate site_id alphabetically; choose the first site whose first four metadata-order office electricity meters pass target-blind availability/nonconstant gates. Bobcat was checked first and failed availability; Bull was the first passing site.\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:223:        \"site_id\": \"Bull\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:266:          \"Bull_office_Lilla\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:267:          \"Bull_office_Hilton\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:268:          \"Bull_office_Myron\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:269:          \"Bull_office_Nicolas\"",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:272:          \"Bull_office_Lilla\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:273:          \"Bull_office_Hilton\"",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:276:          \"Bull_office_Myron\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:277:          \"Bull_office_Nicolas\"",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:284:            \"Bull_office_Lilla\": 0.9967592592592592,",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:285:            \"Bull_office_Hilton\": 0.9949074074074075",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:288:            \"Bull_office_Lilla\": 1.0,",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:289:            \"Bull_office_Hilton\": 0.9972222222222222",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:292:            \"Bull_office_Lilla\": 1.0,",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:293:            \"Bull_office_Hilton\": 1.0",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:296:            \"Bull_office_Lilla\": 0.9947916666666666,",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:297:            \"Bull_office_Hilton\": 0.9947916666666666",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:340:          \"site_id\": \"Bull\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:342:            \"Bull_office_Lilla\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:343:            \"Bull_office_Hilton\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:344:            \"Bull_office_Myron\",",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:345:            \"Bull_office_Nicolas\"",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.json:370:    \"interpretation\": \"[판정] BDG2 Bull Office can be used as one target-blind prepared Stage A development unit. Household post-P1 still needs a target-blind gap/exclusion or split revision before it is READY.\"",
+            ".\\results\\peft_paper_closure_v1\\prepare_fresh_stage_a_candidates.py:572:            \"interpretation\": \"[판정] BDG2 Bull Office can be used as one target-blind prepared Stage A development unit. Household post-P1 still needs a target-blind gap/exclusion or split revision before it is READY.\",",
+            ".\\results\\peft_paper_closure_v1\\PAPER_READINESS.md:9:[판정] [Target-blind fresh manifest](fresh_stage_a_candidate_manifest.md)는 BDG2 Bull Office READY, Household post-P1 BLOCKED로 1/2 준비 상태다. 별도 sealed final reserve는 확보되지 않았고 pretraining overlap은 UNKNOWN이다. 이후 fresh 계획에는 native-head-frozen LORA_ONLY를 포함하되, 기존 Stage A 초안은 아직 executable 계약으로 바뀌지 않았다. 이번 요청에서 fresh Stage A 학습은 실행하지 않는다.",
+            ".\\_docs\\notes\\tsfm_topics\\04_objective_observation\\17_coarse_supervision_data_entry_plan_20260908.md:11:[GIFT Table14](https://arxiv.org/html/2410.10393v2)는 BDG2 Panther/Fox/Rat/Bear/Hog/Bull/Cockatoo를 pretraining 목록에 포함한다. 이 사이트들은 제외한다. 남은 metadata에서 `electricity=Yes`, `primaryspaceusage=Office`가 많은 순으로 Eagle40개, Lamb17개, Robin17개다. 동률은 이름순이므로 Eagle/Lamb을 값 조회 전에 선택한다. 각각 US/Eastern, Europe/London이다. [Chronos2 AppendixA](https://arxiv.org/html/2510.15821v1)의 Buildings900K와 BDG2를 같은 자료라고 취급하지 않는다. 정확한 가중치의 전체 학습 manifest를 확인한 것은 아니므로 선택 사이트의 비중복은 여전히 UNKNOWN이다.",
+            ".\\_docs\\notes\\tsfm_topics\\07_research_direction\\README.md:3:- [38. Native-path LoRA-only 진단](38_lora_only_diagnostic_20260912.md) — [확인] 16fit/8D/4zero-update gate 완료. 모든8cell/view에서 LoRA-only와 JOINT가 F0보다 나빠 CASE C. LoRA-only는 JOINT보다7/8에서 좋지만 BMRA seed30001 S180은 반대. [판정] 추가 head만으로 손해 설명 불가; fresh 검증 우선. BDG2 Bull READY, Household post-P1 BLOCKED. Fresh 학습0.",
+            ".\\_docs\\notes\\tsfm_topics\\07_research_direction\\38_lora_only_diagnostic_20260912.md:55:[판정] Fresh Stage A: BDG2 Bull Office 2016-01-01~2016-08-10 READY(개발 후보); Household post-P1 BLOCKED(48h target 결측 창). Household는 성능을 보지 않은 origin exclusion/gap 또는 split 정책을 먼저 정해야 한다. 두 후보 pretraining overlap은 UNKNOWN. Fresh 학습/forecast는0회다.",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.md:30:BDG2 Bull Office 2016A             READY     Bull office target-label exposure가 기존 PEFT 장부에 없고, train/V/E1/E2 모든 origin availability gate를 통과했다.",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.md:55:## BDG2 Bull Office 2016A",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.md:59:[확인] 기존 BDG2 PEFT exposure는 Eagle/Lamb coarse supervision과 Eagle 2017 contribution/future diagnostics다. Bull office meters는 장부상 기존 PEFT target-label unit이 아니다. 다만 BDG2 raw source family 자체는 이미 로컬에서 inspect되었으므로 final holdout으로 부르지 않는다.",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.md:64:site                Bull",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.md:66:targets             Bull_office_Lilla, Bull_office_Hilton",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.md:67:context-only        Bull_office_Myron, Bull_office_Nicolas",
+            ".\\results\\peft_paper_closure_v1\\fresh_stage_a_candidate_manifest.md:85:[판정] 현재는 `PARTIAL_READY_ONE_OF_TWO`다. BDG2 Bull Office는 준비됐지만 Household post-P1은 gap/exclusion 정책 없이는 READY가 아니다. Fresh Stage A를 두 source-period로 시작하려면 Household rescue manifest를 다시 만들거나, 같은 수준의 target-blind 후보 하나를 추가로 준비해야 한다.",
+            ".\\results\\peft_lora_only_diagnostic_v1\\write_report.py:63:              '[판정] Fresh Stage A: BDG2 Bull Office 2016-01-01~2016-08-10 READY(개발 후보); Household post-P1 BLOCKED(48h target 결측 창). Household는 성능을 보지 않은 origin exclusion/gap 또는 split 정책을 먼저 정해야 한다. 두 후보 pretraining overlap은 UNKNOWN. Fresh 학습/forecast는0회다.', '',",
+            ".\\results\\peft_lora_only_diagnostic_v1\\verify_final.py:79:          'fresh_manifest_reproducer': {'script': 'results/peft_paper_closure_v1/prepare_fresh_stage_a_candidates.py', 'observed_exit_code': 0, 'observed_result': 'VERIFY PASS; Household BLOCKED / BDG2 Bull READY'},",
+            ".\\results\\peft_lora_only_diagnostic_v1\\verification.json:30:    \"observed_result\": \"VERIFY PASS; Household BLOCKED / BDG2 Bull READY\"",
+            ".\\results\\peft_lora_only_diagnostic_v1\\STATUS.md:55:[판정] Fresh Stage A: BDG2 Bull Office 2016-01-01~2016-08-10 READY(개발 후보); Household post-P1 BLOCKED(48h target 결측 창). Household는 성능을 보지 않은 origin exclusion/gap 또는 split 정책을 먼저 정해야 한다. 두 후보 pretraining overlap은 UNKNOWN. Fresh 학습/forecast는0회다."
+          ],
+          "truncated": false
+        },
+        "forecast-revision-peft": {
+          "path": "E:\\CODING\\proj\\forecast-revision-peft",
+          "exists": false
+        },
+        "hierarchical-tsfm-peft": {
+          "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft",
+          "exists": true,
+          "rg_exit_code": 0,
+          "match_count": 198,
+          "matches": [
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:98:        \"Bull_office_Lilla\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:99:        \"Bull_office_Hilton\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:100:        \"Bull_office_Myron\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:101:        \"Bull_office_Nicolas\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:102:        \"Bull_office_Mai\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:103:        \"Bull_office_Anne\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:104:        \"Bull_office_Rob\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:105:        \"Bull_office_Chantel\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:106:        \"Bull_office_Efren\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:107:        \"Bull_office_Yvonne\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:108:        \"Bull_office_Ella\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:109:        \"Bull_office_Ivette\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:110:        \"Bull_office_Marco\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:111:        \"Bull_office_Claudia\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:112:        \"Bull_office_Sally\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:113:        \"Bull_office_Debbie\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:114:        \"Bull_office_Trevor\"",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:117:        \"Bull_office_Lilla\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:118:        \"Bull_office_Hilton\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:119:        \"Bull_office_Myron\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:120:        \"Bull_office_Nicolas\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:121:        \"Bull_office_Mai\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:122:        \"Bull_office_Anne\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:123:        \"Bull_office_Rob\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:124:        \"Bull_office_Chantel\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:125:        \"Bull_office_Efren\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:126:        \"Bull_office_Yvonne\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:127:        \"Bull_office_Ella\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:128:        \"Bull_office_Ivette\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:129:        \"Bull_office_Marco\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:130:        \"Bull_office_Claudia\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:131:        \"Bull_office_Sally\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:132:        \"Bull_office_Debbie\"",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:137:        \"Bull_office_Lilla\": 0.9974899598393574,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:138:        \"Bull_office_Hilton\": 0.9954819277108434,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:139:        \"Bull_office_Myron\": 0.9959839357429718,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:140:        \"Bull_office_Nicolas\": 0.9964859437751004,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:141:        \"Bull_office_Mai\": 0.9974899598393574,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:142:        \"Bull_office_Anne\": 0.9954819277108434,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:143:        \"Bull_office_Rob\": 0.9984939759036144,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:144:        \"Bull_office_Chantel\": 0.9969879518072289,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:145:        \"Bull_office_Efren\": 0.9994979919678715,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:146:        \"Bull_office_Yvonne\": 0.9959839357429718,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:147:        \"Bull_office_Ella\": 0.9994979919678715,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:148:        \"Bull_office_Ivette\": 0.9974899598393574,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:149:        \"Bull_office_Marco\": 0.9949799196787149,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:150:        \"Bull_office_Claudia\": 0.9974899598393574,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:151:        \"Bull_office_Sally\": 0.9984939759036144,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:152:        \"Bull_office_Debbie\": 0.9954819277108434,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:153:        \"Bull_office_Trevor\": 0.9994979919678715",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:156:        \"Bull_office_Lilla\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:157:        \"Bull_office_Hilton\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:158:        \"Bull_office_Myron\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:159:        \"Bull_office_Nicolas\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:160:        \"Bull_office_Mai\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:161:        \"Bull_office_Anne\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:162:        \"Bull_office_Rob\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:163:        \"Bull_office_Chantel\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:164:        \"Bull_office_Efren\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:165:        \"Bull_office_Yvonne\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:166:        \"Bull_office_Ella\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:167:        \"Bull_office_Ivette\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:168:        \"Bull_office_Marco\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:169:        \"Bull_office_Claudia\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:170:        \"Bull_office_Sally\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:171:        \"Bull_office_Debbie\": true,",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:172:        \"Bull_office_Trevor\": false",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:223:      \"Bull office meters are recorded as not existing PEFT target-label units in the manifest.\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_contract.json:229:    \"claim_boundary\": \"Do not call Bull Office fully independent; use as target-blind local protected candidate after sealing.\"",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:42:      \"Bull_office_Lilla\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:43:      \"Bull_office_Hilton\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:44:      \"Bull_office_Myron\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:45:      \"Bull_office_Nicolas\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:46:      \"Bull_office_Mai\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:47:      \"Bull_office_Anne\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:48:      \"Bull_office_Rob\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:49:      \"Bull_office_Chantel\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:50:      \"Bull_office_Efren\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:51:      \"Bull_office_Yvonne\",",
+            ".\\research\\tsfm_peft_development_20260926\\data_audit.json:52:      \"Bull_office_Ella\","
+          ],
+          "truncated": true
+        },
+        "covariate-trust-pilot": {
+          "path": "E:\\CODING\\proj\\covariate-trust-pilot",
+          "exists": true,
+          "rg_exit_code": 1,
+          "match_count": 0,
+          "matches": [],
+          "truncated": false
+        },
+        "tsfm-peft-method-screen": {
+          "path": "E:\\CODING\\proj\\tsfm-peft-method-screen",
+          "exists": true,
+          "rg_exit_code": 1,
+          "match_count": 0,
+          "matches": [],
+          "truncated": false
+        }
+      },
+      "summary": "Search covered local code/results/history artifacts, excluding raw data and local caches. Absence is not a global literature or remote-only proof."
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "working_directory": "E:/CODING/proj/hierarchical-tsfm-peft",
+  "python": ".venv/Scripts/python.exe",
+  "commands": [
+    {"command": "python research/tsfm_peft_development_20260926/data_prepare.py", "purpose": "CPU preparation and target-blind contract; raw sources are read-only"},
+    {"command": "python -m pytest research/tsfm_peft_development_20260926/test_data.py -q", "result": "6 passed"},
+    {"command": "python research/tsfm_peft_development_20260926/checks.py --gpu", "result": "PASS; 3 smoke updates; gpu_jobs.json owns charged time"},
+    {"command": "python -u research/tsfm_peft_development_20260926/run.py initial", "purpose": "16 planned fits, skips completed results, never overwrites failed attempt directories"},
+    {"command": "python research/tsfm_peft_development_20260926/linear_baselines.py", "result": "9 CPU ridge fits, validation-only penalty selection, development predictions saved"}
+  ]
+}
