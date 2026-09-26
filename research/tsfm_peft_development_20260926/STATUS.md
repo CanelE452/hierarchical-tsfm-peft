@@ -28,3 +28,16 @@
 11. LoRA 등록 파라미터294912 중 실제 갱신245760. 갱신0인 항목은 decoder self-attention q뿐이다. 설치된 chronos_bolt.py:428에서 decoder sequence길이1, 이 attention의softmax값1이라q가출력에영향을주지않는 구조로 설명된다. encoder/cross-attention q와v는 갱신됨. 비용 보고에서 등록 수와 실갱신 수를 구분한다.
 12. COMPRESS(92601,1e-4) 완료:24epoch,선택18epoch,검증 MSE0.266497,복원오차0,encoder/decoder 모두 갱신. 다른 학습률과 잔차/원입력 보정이 미완료라 주제 판정에는 사용하지 않는다. 현재 별도 구조 수정 없음.
 13. COMPRESS(92601,1e-3)도 완료:20epoch,선택14epoch,검증 MSE0.261520,복원오차0. LoRA/COMPRESS 첫seed의 총4fit 저장 예측 검산 통과(최대MSE오차8.4e-16이하). RESIDUAL 첫 설정 학습 중. 게시되는4fit은 최초16fit의 부분 결과이며 최종 비교가 아니다.
+14. RESIDUAL(92601,1e-4) 완료:40epoch,선택40epoch,검증 MSE0.185112. 상한에서 개선 중이라 학습량 충분성을 확정하지 않는다. 완료5fit 저장 예측/선택/checkpoint/표본 검산 통과. 두 번째 학습률 및 RAW-BYPASS·두 번째 seed 비교가 남아 있다.
+15. 결측 MSE 수정식 CPU 검산: 원점별 loss를 평균하는 대신 effective batch 전체의 채널별 count로 각 microbatch squared sum을 나누어 더하면, full-batch loss와 gradient가 일치한다. 결측 반례는 기존13.375 vs 정확한50.5; 완전 관측에서는 동일하다. test_evaluation.py 총6개 PASS. 아직 실행 중인 학습 코드에 적용하지 않았으며, 최초 비교 종료 후 이 수식을 통합하고 통합 검산해야 한다.
+16. RESIDUAL(92601,1e-3)는37epoch 조기 종료,선택31epoch,검증 MSE0.178411. 완료6fit의 저장 예측 검산 통과. RAW-BYPASS 첫 설정이 진행 중이며, 이 핵심 대조와 두 번째seed가 끝나기 전까지 잔차 분리의 추가 가치 판단을 유보한다.
+17. 검증 두 기간의 MSE/MAE 보고를 평가기에 추가했다. 저장된 RESIDUAL(92601,1e-3) 검증 예측으로 전체0.178411 및 두 기간0.160062/0.196761의 집계 일치를 CPU 검산했다. checkpoint 선택은 기존 전체VAL 최저값 규칙을 유지한다.
+18. 실행 전 진단 기록: 기존 CPU 선형 대조는512 TRAIN 창만 사용하지만 신경망은 매epoch512창을 다시 추출한다. 자료 활용량 차이가 TSFM 추가 가치를 과장할 수 있다는 우려를 검사하기 위해, 같은 모델·PCA·penalty3개·VAL선택으로 TRAIN17853창 전체를 쓰는 선형 대조를 추가한다. 아직 원인으로 확정하지 않는다. CPU 충분통계 적합9회 추가(총18회; 최초6–12는예상), thread2/chunk128. 데이터/분할·GPU/신경망 상한 변경 없음. 원본 결과는 보존하고 새 linear_fulltrain_baselines.json에 기록한다. 이 대조로 차이가 사라지면 TSFM 기여 주장을 낮춘다.
+19. 강화 선형 대조 완료: 전체TRAIN17853창, CPU10.44초. VAL선택 penalty0.001에서 factor-linear VAL0.174000/DEV0.178457, shared-linear VAL0.177003/DEV0.180795. 현재 첫seed RESIDUAL의VAL0.178411보다 factor-linear가 낮아 TSFM 추가 가치는 아직 확보되지 않았다. 이후 주 비교는 이 강화 대조를 사용하며 최초512창 대조를 덮어쓰지 않는다. 충분통계와 직접 ridge의 인공 예측차이8e-15이하, 선택된4개 저장예측의 별도 scalar MSE 재계산 오차3.3e-11이하(저장float32 반올림 포함). 검산은 독립 재현이 아니다.
+20. 첫seed8fit 완료. RAW-BYPASS(1e-4)는40epoch/선택40/VAL0.219982로 상한에서 개선 중이고, 1e-3은29epoch/선택23/VAL0.202339로 정체 종료했다. 완료8fit의 저장예측·선택·복원 기록 검산 PASS. 두 번째seed 실행 중. 현재 총GPU 점유 약1.03시간/24시간(정확한 누적은 실시간 원장), 구조 수정0/2. 미완료 비교와 학습 상한을 고려하여 주제 판단은 유보한다.
+
+## 추가 선행 확인과 주장 경계
+
+- [COSA 공식 논문집](https://proceedings.iclr.cc/paper_files/paper/2026/hash/2a8ce71baac4c89bf9ff479d8240c7d9-Abstract-Conference.html): ICLR2026 게재 확인. 공식 초록과 [저자 README](https://github.com/bigbases/COSA_ICLR2026)를 읽었으며 전체 구현은 검증하지 않았다. 동결 예측기 출력과 최근 관측 통계로 선형·gate 잔차를 적응한다.
+- [ORCA](https://arxiv.org/html/2606.14222v1): 2026-06-12 arXiv v1, 이 조회에서 학회 게재는 확인하지 않았다. 원문 §3.1–3.6을 읽었다. 입력·기존 예측에 조건화한 출력 오차를 선형 경로로 보정하며, 온라인 buffer·routing·predictive-space regularization을 사용한다.
+- 판단: 작은 잔차 경로나 선형 보정 자체를 신규성으로 주장하지 않는다. 현재 후보는 학습형 채널 압축의 재구성 잔차 R=X-D(E(X))를 별도 예측한다는 선택으로 구별되지만, 식의 차이만으로 추가 가치가 증명되지는 않는다. RAW-BYPASS와 FACTOR-LINEAR를 넘는 근거가 필요하다. 이 확인으로 데이터 계약·방법·실행 범위를 확대하지 않았다.

@@ -62,6 +62,15 @@ def paired_block_effect(predictions, references, target, mask, block=7):
     return {'gain_pct': gain(np.arange(n)), 'paired_seed_gain_pct': seed_gains, 'period_halves_gain_pct': [gain(np.arange(0, n // 2)), gain(np.arange(n // 2, n))], 'conditional_block95_pct': np.quantile(draws, [0.025, 0.975]).tolist(), 'block_origins': block, 'draws': len(draws), 'scope': 'paired non-circular moving time-block resampling, all channels together; trained seeds fixed, development reuse and selection uncertainty not represented'}
 
 
+def validation_scores(prediction, data):
+    origins = data['val_origins']
+    target = np.stack([data['x'][o:o + 48] for o in origins])
+    mask = np.stack([data['finite'][o:o + 48] for o in origins])
+    assert prediction.shape == target.shape
+    middle = len(origins) // 2
+    return {'full': score_arrays(prediction, target, mask), 'halves': [score_arrays(prediction[part], target[part], mask[part]) for part in (slice(None, middle), slice(middle, None))]}
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', default='initial')
@@ -81,9 +90,11 @@ def main():
         basis = pca_basis(data['x'][:int(data['train_end'])], 8)
         f0 = make_model('f0', basis)
         f0_scores, f0_pred = evaluate(f0, data, data['dev_origins'], job, 'F0 development')
+        _, f0_val = evaluate(f0, data, data['val_origins'], job, 'F0 validation periods')
         predictions['f0'] = [f0_pred]
         np.savez_compressed(local / 'f0.npz', prediction=f0_pred, origins=data['dev_origins'])
-        rows.append({'arm': 'f0', 'fit': None, 'seed': None, 'scores': f0_scores})
+        np.savez_compressed(local / 'f0_val.npz', prediction=f0_val, origins=data['val_origins'])
+        rows.append({'arm': 'f0', 'fit': None, 'seed': None, 'scores': f0_scores, 'validation': validation_scores(f0_val, data)})
         del f0
         torch.cuda.empty_cache()
         for arm, selected in selection.items():
@@ -97,21 +108,33 @@ def main():
                 scores, pred = evaluate(model, data, data['dev_origins'], job, fit_id + ' development')
                 predictions[arm].append(pred)
                 np.savez_compressed(local / f'{fit_id}.npz', prediction=pred, origins=data['dev_origins'])
-                rows.append({'arm': arm, 'fit': fit_id, 'seed': spec['seed'], 'scores': scores, 'prediction_sha256': digest(local / f'{fit_id}.npz')})
+                with np.load(Path(result['checkpoint']).with_name('best_val.npz')) as archive:
+                    assert np.array_equal(archive['origins'], data['val_origins'])
+                    validation = validation_scores(archive['prediction'], data)
+                rows.append({'arm': arm, 'fit': fit_id, 'seed': spec['seed'], 'scores': scores, 'validation': validation, 'prediction_sha256': digest(local / f'{fit_id}.npz')})
                 del model
                 torch.cuda.empty_cache()
-    baselines = json.loads((HERE / 'linear_baselines.json').read_text())
+    baseline_path = HERE / 'linear_fulltrain_baselines.json'
+    baselines = json.loads(baseline_path.read_text())
+    assert baselines['data_sha256'] == digest(data['_path'])
+    baseline_cache = CACHE / baselines['cache_subdirectory']
     for arm, record in baselines['selected'].items():
-        with np.load(CACHE / 'baselines' / f'{arm}_{record["ridge_penalty"]:g}_dev.npz') as archive:
+        with np.load(baseline_cache / f'{arm}_{record["ridge_penalty"]:g}_dev.npz') as archive:
+            assert np.array_equal(archive['origins'], data['dev_origins'])
             predictions[arm] = [archive['prediction']]
-        rows.append({'arm': arm, 'fit': None, 'seed': None, 'scores': record['scores']['dev']})
-    with np.load(CACHE / 'baselines' / 'seasonal_dev.npz') as archive:
+        with np.load(baseline_cache / f'{arm}_{record["ridge_penalty"]:g}_val.npz') as archive:
+            assert np.array_equal(archive['origins'], data['val_origins'])
+            validation = validation_scores(archive['prediction'], data)
+        rows.append({'arm': arm, 'fit': None, 'seed': None, 'scores': record['scores']['dev'], 'validation': validation})
+    with np.load(baseline_cache / 'seasonal_dev.npz') as archive:
         predictions['seasonal'] = [archive['prediction']]
-    rows.append({'arm': 'seasonal', 'fit': None, 'seed': None, 'scores': baselines['seasonal']['dev']})
+    with np.load(baseline_cache / 'seasonal_val.npz') as archive:
+        validation = validation_scores(archive['prediction'], data)
+    rows.append({'arm': 'seasonal', 'fit': None, 'seed': None, 'scores': baselines['seasonal']['dev'], 'validation': validation})
     target = np.stack([data['x'][o:o + 48] for o in data['dev_origins']])
     mask = np.stack([data['finite'][o:o + 48] for o in data['dev_origins']])
     effects = {ref: paired_block_effect(predictions['residual'], forecasts, target, mask) for ref, forecasts in predictions.items() if ref != 'residual'}
-    report = {'status': 'complete', 'scope': 'Electricity reused development; no protected Bull scores', 'source': source_receipt(), 'selection': selection, 'selection_sha256': digest(selection_path), 'data_sha256': digest(data['_path']), 'rows': rows, 'residual_vs': effects}
+    report = {'status': 'complete', 'scope': 'Electricity reused development; no protected Bull scores', 'source': source_receipt(), 'selection': selection, 'selection_sha256': digest(selection_path), 'data_sha256': digest(data['_path']), 'linear_baseline_report': baseline_path.name, 'linear_baseline_report_sha256': digest(baseline_path), 'rows': rows, 'residual_vs': effects}
     save_json(output, report)
     print(json.dumps({'mean_dev_mse': {arm: float(np.mean([r['scores']['mse'] for r in rows if r['arm'] == arm])) for arm in predictions}, 'residual_vs': effects}), flush=True)
 
