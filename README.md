@@ -59,3 +59,13 @@ HIER는 SELF·POOL 대비 두 repeat seed에서 일관된 추가 가치를 보�
 - [Verification](results/hier_peft_screen_v1/VERIFICATION.json)
 
 실행 후 JSON boolean 직렬화 문제만 수정했습니다. 실행 당시 source seal과 후처리 수정 내역을 모두 보존했습니다.
+
+## 승인된 채널 압축 잔차 PEFT 개발 (2026-09-26)
+
+동결 TSFM의 입력 채널 압축에서 남은 재구성 잔차를 작은 시간 예측기로 보완하는 방법을 개발 중입니다. 위 hierarchy screen의 단발 계약과 별도로 승인된 연구이며, 아직 주제를 확보한 상태는 아닙니다.
+
+- [승인된 계획 원문](research/tsfm_peft_development_20260926/PLAN.md)
+- [현재 진행 상태와 다음 판단](research/tsfm_peft_development_20260926/STATUS.md)
+- [재현 명령과 검산 범위](research/tsfm_peft_development_20260926/commands.json)
+
+Electricity의 기존 노출 구간은 개발에만 사용합니다. BDG2 Bull Office의 보호 구간은 최종 설정을 확정하기 전까지 평가하지 않습니다. 원자료·가중치·예측 배열은 Git에 포함하지 않습니다.
