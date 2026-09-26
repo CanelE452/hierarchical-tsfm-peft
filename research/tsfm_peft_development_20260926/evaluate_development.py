@@ -11,18 +11,23 @@ from model import make_model, pca_basis
 from run import CACHE, HERE, PROTOCOL, GPUJob, digest, evaluate, load_data, save_json, score_arrays, source_receipt
 
 
-def select_initial():
-    specs = json.loads((HERE / 'initial_specs.json').read_text())
+def select_initial(cohort=None):
+    specs = json.loads((Path(cohort) if cohort else HERE / 'initial_specs.json').read_text(encoding='utf-8'))
     rows = []
     for spec in specs:
         path = HERE / 'runs' / spec['id'] / 'result.json'
-        row = json.loads(path.read_text())
+        row = json.loads(path.read_text(encoding='utf-8'))
         assert row['status'] == 'complete'
+        assert all(row[key] == spec[key] for key in ('id', 'dataset', 'arm', 'seed', 'lr'))
+        assert row['dataset'] == 'electricity'
         rows.append(row)
+    assert len({(r['arm'], r['seed'], r['lr']) for r in rows}) == len(rows)
     selection = {}
     for arm in sorted({row['arm'] for row in rows}):
         arm_rows = [r for r in rows if r['arm'] == arm]
         lrs = sorted({r['lr'] for r in arm_rows})
+        seeds = sorted({r['seed'] for r in arm_rows})
+        assert all(sorted(r['seed'] for r in arm_rows if r['lr'] == lr) == seeds for lr in lrs)
         mean_val = {lr: float(np.mean([r['best_val_mse'] for r in arm_rows if r['lr'] == lr])) for lr in lrs}
         best_lr = min(lrs, key=lambda lr: (mean_val[lr], lr))
         selection[arm] = {'lr': best_lr, 'mean_best_validation': mean_val[best_lr], 'lr_scores': mean_val, 'fits': [r['id'] for r in arm_rows if r['lr'] == best_lr]}
@@ -86,12 +91,14 @@ def measured_evaluate(model, data, origins, job, label):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', default='initial')
-    parser.add_argument('--selection', help='optional prewritten validation-only selection JSON')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--selection', help='optional prewritten validation-only selection JSON')
+    group.add_argument('--cohort', help='complete fit specifications selected using validation only')
     args = parser.parse_args()
     output = HERE / f'{args.name}_development.json'
     if output.exists():
         raise RuntimeError('Never overwrite completed evaluation')
-    selection = json.loads(Path(args.selection).read_text()) if args.selection else select_initial()
+    selection = json.loads(Path(args.selection).read_text(encoding='utf-8')) if args.selection else select_initial(args.cohort)
     selection_path = HERE / f'{args.name}_selection.json'
     save_json(selection_path, selection)
     data = load_data('electricity')
@@ -113,7 +120,7 @@ def main():
         for arm, selected in selection.items():
             predictions[arm] = []
             for fit_id in selected['fits']:
-                result = json.loads((HERE / 'runs' / fit_id / 'result.json').read_text())
+                result = json.loads((HERE / 'runs' / fit_id / 'result.json').read_text(encoding='utf-8'))
                 saved = torch.load(result['checkpoint'], map_location='cpu', weights_only=False)
                 spec = saved['spec']
                 model = make_model(spec['arm'], saved['basis'], residual_rank=spec.get('residual_rank', 8))
@@ -129,7 +136,7 @@ def main():
                 gc.collect()
                 torch.cuda.empty_cache()
     baseline_path = HERE / 'linear_fulltrain_baselines.json'
-    baselines = json.loads(baseline_path.read_text())
+    baselines = json.loads(baseline_path.read_text(encoding='utf-8'))
     assert baselines['data_sha256'] == digest(data['_path'])
     baseline_cache = CACHE / baselines['cache_subdirectory']
     for arm, record in baselines['selected'].items():

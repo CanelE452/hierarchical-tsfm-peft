@@ -1,12 +1,12 @@
 # 승인된 채널 압축 잔차 PEFT 개발
 
-- 상태: INITIAL_EVALUATED_EXTENSION_READY (2026-09-26)
+- 상태: EXTENSION_RECOVERY_RUNNING (2026-09-26)
 - 사용자 승인: 현재 대화의 전체 계획 승인 및 자율 실행 목표. PLAN.md는 직전 계획 응답 원문을 현재 대화 rollout에서 정확히 추출했다.
 - 기준 commit: 06023468c36fb379554fd90f5d9b6947d5979af9, main, origin=CanelE452/hierarchical-tsfm-peft.
 - 재개 확인: 승인 폴더/PLAN/STATUS가 없었으며 GPU Python 프로세스도 없었다. 완료된 신규 실험은 발견되지 않았다. 기존 미추적 history/transient 연구/체크포인트를 보존한다.
 - 주력: 학습형 채널 압축 + 재구성 잔차 시간 예측. 예비 0개. 중심 가치는 점예측 정확도. 새 주제 확보는 아직 미확인.
-- GPU 사용: 현재 완료6706.82초(약1.86시간)/86400초, 정확한 실시간 원장은 gpu_jobs.json. 신경망16/48attempt 완료, 다음 연장6개를 포함하면22/48. 구조·목적 수정0/2. GPU는 루트 실행자만 사용한다.
-- 현재 작업: 최초16fit·후속평가·비용 재검사·batch gradient 검사를 모두 종료했다. session78200/37265/38334/83891은 종료코드0. 초기 방법의 압축/원입력 대비 이득은 있으나 TSFM 추가 가치와 학습 충분성은 미확보다.
+- GPU 사용: 현재 원장 합계7512.79초(약2.09시간)/86400초, 진행 중 시간 포함 스냅샷이며 정확한 실시간 원장은 gpu_jobs.json. 신경망18/48attempt 완료, 연장 전체 완료 시22/48. 구조·목적 수정0/2. GPU는 루트 실행자만 사용한다.
+- 현재 작업: 최초16fit·연장2fit 완료, 파일저장 실패1attempt 보존. 복구4fit가 session42065/PID38696에서 순차 실행 중이다. atomic저장 재시도/UTF8읽기 수정과CPU12검사 완료. 미실행과실패를방법음성으로해석하지않는다.
 - 다음 행동: extension_specs.json의6개 설정을 최대120epoch, 동일 초기화/seed/LR/표본순서/effective batch4로 별도 fit한다. microbatch4는 실제 gradient 정합성 확인 후 사용한다. 기존 조기종료10fit는 재사용하고, 상한에 걸린6개를 연장 결과로 대체해 VAL-only 선택을 다시 한 뒤 같은DEV를 개발 비교한다. Bull 적응·보호 평가는 아직 금지한다.
 - 불확실성: 압축 잔차의 예측 유용성, 사전학습 backbone의 추가 가치, 원입력 보정 대비 차이, 학습량의 충분성, 보호 구간으로의 전이. Bull은 TRAIN 규칙으로16채널을 확정했으나 사전학습 중복은 미확인이다.
 - 보호: Bull E1/E2의 예측/손실 접근 금지. Electricity 마지막20%는 이미 노출된 개발 자료.
@@ -44,6 +44,25 @@
 27. 메모리 측정 오류 확인: 실제 LoRA 삭제 후192052736bytes가 남고 gc.collect 후0으로 해제됨(object_lifetime_audit.json). 최초fit별/평가별 allocator peak는 다른 모델 잔존분이 섞일 수 있어 모델간 비용 비교에 사용하지 않는다. 원본 수치 보존, 원장에 범위 주석을 추가했다. run/evaluator에 명시적GC와 job 전체 peak 추적을 보강하고 initial_cost_recheck로 동일선택·동일예측을 재평가했다. 저장10NPZ의 모든배열·선택·효과수치가 원본과 정확히 같음. 교정된평가 peak는 LoRA 두seed346351616bytes,RAW/RESIDUAL 두seed237306880bytes로 일치. 정확도 결과 무효화는 필요하지 않으며 비용에는 교정기록을 사용한다.
 28. 결측 손실 보정 완료: run.backward_batch가 effective batch 전체 채널count로 누적한다. 완전관측/결측×micro1/4의 실제 학습함수 CPU 검사 포함8개 PASS. 실제4군×2mask의 GPU gradient 비교도PASS(최대상대L2오차5.84e-7,optimizer update0). 동일effective batch4를 한 번에 처리한 짧은 warmed backward 측정은 어댑터약0.10→0.026초,LoRA약0.13→0.057초; 학술 latency benchmark는 아님. 관측peak최대0.93GB로 로컬메모리 내이며 후속fit에 micro4를 명시한다. 모델 구조·목적 변경은 아니다.
 29. 다음 실행 전 근거: 초기상한40에서 best epoch40인6설정(LoRA고LR seed1,RESIDUAL저LR 두seed·고LR seed2,RAW저LR 두seed)은 학습 충분성이 미확정이다. 초기원본을 보존하고 최대120epoch로 같은초기화부터 새fit한다. 기존조기종료·LR scheduler규칙은 유지하며120도 충분성 보장이 아니다. 재학습되는초기40epoch를 포함한 모든GPU시간과6attempt를 예산에 계상한다. microbatch변경은 동일목적·effective batch의 수치정합성 검사를 통과했지만 bitwise동일 궤적을 주장하지 않는다. RAW가 따라잡거나 선형대조 우위가 남으면 방법주장을 낮춘다. 근거 없는 모듈 추가는 하지 않는다.
+
+30. 연장 실행 시작: session99539/PID60552, run.py fits --specs extension_specs.json. 첫 LoRA 연장의 관측 epoch 시간은 약9초로 초기 약18초보다 짧다. extended_cohort.json은 기존조기종료10개+연장6개로16설정을 실행 중 미리 고정했다. 평가기는 결과id/설정/완전한seed짝을 확인하고 VAL 평균으로 LR을 선택한다. DEV 점수로 초기/연장 결과를 고르지 않는다.
+
+31. 실행 전 CPU 진단 근거: 선택 RESIDUAL 두seed에서 고정PCA 잔차공간 오차가 factor-linear보다 높고, 학습된G는 rank8이 붕괴되지 않았다. fullTRAIN ridge residual weight의 top8 Frobenius energy는53.05%이지만 이 수치만으로 예측 용량 부족을 확정할 수 없다. 이를 구별하려고 동일TRAIN/PCA/penalty0.001/common map에서 residual map만 rank8/16/32/48 TRAIN 최적 reduced-rank ridge로 제한한 VAL 진단4개를 수행한다. 입력 covariance로 가중한 quadratic의 최적해를 사용하고 rank48 원본일치/인공 목적함수 검산을 포함한다. CPU fit성격의진단4개 추가(총22), 새DEV/Bull/GPU 접근 없음. 구조수정은 아직0/2.
+32. 연장6fit 종료 후 검산→저장VAL분해→extended DEV평가를 session72349에 순차 연결했다. PID60552 종료 및6개완료/id일치가 모두 필요하며 어느 단계든 실패하면 다음으로 진행하지 않는다. cohort 선택의 seed누락반례를 포함한 CPU9검사 PASS.
+
+33. 연장 중간 결과: LoRA고LR seed1은46epoch에서 정체 종료,선택40epoch VAL0.165126으로 초기0.165129와 거의 같다. RESIDUAL저LR seed1은63epoch에서 정체 종료,선택57epoch VAL0.183260으로 기존40epoch0.185112보다 개선됐지만 고LR0.178411에는 미달한다. 나머지4연장 및 VAL-only 군선택은 진행 중이며 부분결과로 DEV 선택을 바꾸지 않는다. 신규cache 사용량83.6MB/30GiB(조회시점).
+
+34. 원본 중단: extended120_raw_bypass_92601_0.0001이 epoch30 검증 중 gpu_jobs.json.tmp→gpu_jobs.json 교체 WinError5로 실패했다. 시도/곡선/error와137.50초를 보존, 이 partial fit은 군선택·효과수치에 사용하지 않는다. 완료18fit은 영향 없음. 동일한 최종종료기록 저장은 성공했으므로 일시적 파일 점유 가능성이 있으나 점유 주체는 확인하지 못했다. 권한/ACL/다른프로세스는 변경하지 않았다. atomic save에 최대6회·누적1.55초 재시도를 적용하고 일시/영구 거부 반례에서 기존파일 보존과 오류전파를 확인했다(CPU11검사 PASS). 같은설정 retry1을 새attempt로 전체 재학습하고 미실행3개도 이어간다. 실패1개까지 계상하여 완료예정22fit/총23attempt, 구조수정0/2. 평가 cohort는 original→retry ID만 바꾼 extended_recovery_cohort.json이며 원본cohort도 보존한다.
+35. CPU rank 진단 완료(8.18초): 동일 fullTRAIN/PCA8/common map에서 residual rank8/16/32/48의 VAL MSE는0.187223/0.178386/0.174407/0.174000이다. rank8 제한의손해0.013223는두기간에동일방향이며 rank32는fullrank에근접한다. weight replay0, rank48저장예측MSE차1.21e-11, 인공rank/목적함수검산PASS. 신경망 TSFM 경로와는최적화·함수류가달라 직접적인개선보장은없지만, 후속 잔차기의용량수정을검토할근거가강해졌다. CPU22fits/transform, DEV/Bull/GPU추가0.
+
+36. 재시작 사전단계 실패: 원장에 저장된 한글 WinError 메시지를 Windows 기본cp949로 읽어 UnicodeDecodeError가 발생했다. GPUJob 진입 전이라 GPU/fit 추가0. run/evaluator/checks/verifier의JSON 읽기를 저장규칙과같은UTF-8로 명시하고, 한글 실패원장의 보존·재진입·lock해제를 실제GPU없는 lifecycle검사로 확인했다. CPU12검사 PASS. 이는원래파일교체문제에연결된직렬화버그이며방법실패/구조변경으로세지않는다.
+
+37. 복구 학습은 session42065/PID38696에서 시작했고 실제epoch진행을확인했다. 후속session46590은해당PID종료→복구cohort16결과완료검사→CPU검산→저장VAL분해→extended DEV평가를순차수행한다. GPUJob lock/24시간원장/48attempt상한을그대로적용한다. 실패또는gate불충족시평가는진행하지않는다.
+
+38. 저장수정의영향확인: 실패원본과retry1의공통30검증시점(epoch0–29)에서epoch/step/TRAINloss/VALMSE/VALMAE/LR이모두exact equal. retry는원래중단지점을정상통과했다. 파일오류만을이유로재실행했으며원본실패는유지한다.
+39. 다음수정후보를미리구체화: 잔차기만rank8→32, latent8/E/D/backbone/손실/표본/optimizer는유지. 같은rank32 RAW와함께2LR×2seed=8fit를revision1_rank32_specs.json에준비했다. rank32는CPU진단에서fullrank와VAL차0.000407로근접했으며 rank16에는0.004386 차이가남았다. 이는신경망개선의증명이아니다. 현재연장/평가가끝난뒤TSFM추가가치가여전히미확보이고해석가능한병목이라판단되면첫구조수정으로실행한다. 현재는준비만했고실행cycle0/2. 이득이지지되면동일질문의불필요한추가실험을하지않는다.
+
+40. 코드기반 주장경계 점검: G는bias없는공유시간선형함수라 RESIDUAL은 D(F(EX)-G(EX))+G(X)로도쓸수있다. 두군은같은원정보/파라미터수를쓰지만 잔차군에는E/D를통한추가gradient가있고, 학습후DE는직교projection이아니다. CPU진단은고정PCA·affine ridge·전체TRAIN최적화이므로신경망rank8의하한이아니다(실제neural VAL은CPU rank8보다낮음). FACTOR-LINEAR는강한실용대조이며사전학습유무만의인과절제는아니다. F0의좋은DEV성능은이과제에서의유의미한기준성능으로만해석한다. rank32는측정후보중fullrank에가까운첫설정이지보편적인충분rank가아니다. 이점검의동의자체는과학적증거로세지않는다.
 
 ## 추가 선행 확인과 주장 경계
 

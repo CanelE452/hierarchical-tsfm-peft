@@ -168,7 +168,7 @@ def batching_checks():
     if output.exists():
         raise RuntimeError('Preserve the completed batching audit')
     data = load_data('electricity')
-    selection = json.loads((HERE / 'initial_selection.json').read_text())
+    selection = json.loads((HERE / 'initial_selection.json').read_text(encoding='utf-8'))
     records = []
     with GPUJob('effective_batch_gradient_parity') as job:
         origins = phase_sample(data['train_origins'], 92601, 1)[:4]
@@ -179,7 +179,7 @@ def batching_checks():
         missing[:, :, 2] = False
         for arm in ('lora', 'compress', 'residual', 'raw_bypass'):
             fit_id = selection[arm]['fits'][0]
-            result = json.loads((HERE / 'runs' / fit_id / 'result.json').read_text())
+            result = json.loads((HERE / 'runs' / fit_id / 'result.json').read_text(encoding='utf-8'))
             saved = torch.load(result['checkpoint'], map_location='cpu', weights_only=False)
             model = make_model(arm, saved['basis'])
             model.restore_adapter(saved['state'])

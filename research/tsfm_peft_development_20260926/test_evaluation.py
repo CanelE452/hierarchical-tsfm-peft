@@ -1,6 +1,11 @@
 import numpy as np
 import pytest
 import torch
+import json
+from types import SimpleNamespace
+
+import evaluate_development
+import run
 
 from evaluate_development import paired_block_effect
 from model import macro_loss
@@ -43,6 +48,70 @@ def test_zero_loss_reference_has_no_percentage_effect():
     mask = np.ones_like(target, dtype=bool)
     with pytest.raises(ValueError, match='zero-loss'):
         paired_block_effect([target], [target], target, mask)
+
+
+def test_cohort_selection_uses_paired_validation_and_rejects_missing_seed(tmp_path, monkeypatch):
+    monkeypatch.setattr(evaluate_development, 'HERE', tmp_path)
+    specs = []
+    for lr, values in ((0.001, (0.2, 0.4)), (0.01, (0.28, 0.29))):
+        for seed, val in zip((1, 2), values):
+            spec = dict(id=f'fit_{lr}_{seed}', dataset='electricity', arm='residual', seed=seed, lr=lr)
+            specs.append(spec)
+            out = tmp_path / 'runs' / spec['id']
+            out.mkdir(parents=True)
+            (out / 'result.json').write_text(json.dumps(dict(spec, status='complete', best_val_mse=val)))
+    cohort = tmp_path / 'cohort.json'
+    cohort.write_text(json.dumps(specs))
+    selected = evaluate_development.select_initial(cohort)['residual']
+    assert selected['lr'] == 0.01
+    assert selected['fits'] == ['fit_0.01_1', 'fit_0.01_2']
+    cohort.write_text(json.dumps(specs[:-1]))
+    with pytest.raises(AssertionError):
+        evaluate_development.select_initial(cohort)
+
+
+@pytest.mark.parametrize('denials', [2, 6])
+def test_atomic_json_retry_preserves_old_file_on_persistent_denial(tmp_path, monkeypatch, denials):
+    path = tmp_path / 'ledger.json'
+    path.write_text('{"old": true}')
+    original_replace = type(path).replace
+    attempts, waits = [], []
+    def replace(source, destination):
+        attempts.append(source)
+        if len(attempts) <= denials:
+            assert json.loads(path.read_text()) == {'old': True}
+            raise PermissionError('simulated Windows destination sharing denial')
+        return original_replace(source, destination)
+    monkeypatch.setattr(type(path), 'replace', replace)
+    monkeypatch.setattr(run.time, 'sleep', waits.append)
+    if denials < 6:
+        run.save_json(path, {'new': True})
+        assert json.loads(path.read_text()) == {'new': True}
+        assert len(attempts) == denials + 1
+    else:
+        with pytest.raises(PermissionError):
+            run.save_json(path, {'new': True})
+        assert len(attempts) == 6
+        assert json.loads(path.read_text()) == {'old': True}
+        assert json.loads(path.with_suffix('.json.tmp').read_text()) == {'new': True}
+    assert sum(waits) <= 1.55
+
+
+def test_gpu_job_reads_and_preserves_utf8_failure_without_starting_gpu(tmp_path, monkeypatch):
+    monkeypatch.setattr(run, 'HERE', tmp_path)
+    monkeypatch.setattr(run, 'CACHE', tmp_path / 'cache')
+    monkeypatch.setattr(run, 'source_receipt', lambda: {})
+    monkeypatch.setattr(run.subprocess, 'run', lambda *a, **k: SimpleNamespace(stdout=''))
+    monkeypatch.setattr(run.torch.cuda, 'is_initialized', lambda: False)
+    previous = {'status': 'failed', 'elapsed_s': 3.0, 'error': '액세스가 거부되었습니다'}
+    path = tmp_path / 'gpu_jobs.json'
+    run.save_json(path, [previous])
+    with run.GPUJob('CPU-only mocked lifecycle') as job:
+        assert job.used == 3.0
+    records = json.loads(path.read_text(encoding='utf-8'))
+    assert records[0] == previous
+    assert records[1]['status'] == 'complete'
+    assert not (run.CACHE / 'gpu.lock').exists()
 
 
 @pytest.mark.parametrize('missing', [False, True])

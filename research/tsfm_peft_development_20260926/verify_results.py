@@ -26,7 +26,7 @@ def scalar_mse(prediction, origins, data):
 
 
 def verify(path, data):
-    row = json.loads(path.read_text())
+    row = json.loads(path.read_text(encoding='utf-8'))
     assert row['status'] == 'complete'
     assert digest(data['_path']) == row['data_sha256']
     checkpoint = Path(row['checkpoint'])
@@ -41,7 +41,7 @@ def verify(path, data):
     metric = scalar_mse(prediction, origins, data)
     metric_error = abs(metric - row['best_val_mse'])
     assert metric_error < 1e-10, metric_error
-    curve = json.loads(path.with_name('curve.json').read_text())
+    curve = json.loads(path.with_name('curve.json').read_text(encoding='utf-8'))
     selected = min(curve, key=lambda item: (item['val_mse'], item['epoch']))
     assert selected['epoch'] == row['selected_epoch']
     assert selected['val_mse'] == row['best_val_mse']
@@ -67,7 +67,7 @@ def verify(path, data):
 
 def verify_linear(data):
     path = HERE / 'linear_fulltrain_baselines.json'
-    report = json.loads(path.read_text())
+    report = json.loads(path.read_text(encoding='utf-8'))
     assert report['data_sha256'] == digest(data['_path'])
     assert report['actual_training_origin_count'] == len(data['train_origins'])
     assert report['actual_training_origin_hash'] == hashlib.sha256(data['train_origins'].astype('<i8').tobytes()).hexdigest()
@@ -93,7 +93,7 @@ def verify_linear(data):
 def main():
     rows, datasets = [], {}
     for path in sorted((HERE / 'runs').glob('*/result.json')):
-        record = json.loads(path.read_text())
+        record = json.loads(path.read_text(encoding='utf-8'))
         dataset = record['dataset']
         if dataset not in datasets:
             datasets[dataset] = load_data(dataset)

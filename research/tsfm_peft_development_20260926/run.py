@@ -27,7 +27,16 @@ def save_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + '.tmp')
     tmp.write_text(json.dumps(data, indent=2, ensure_ascii=False, allow_nan=False) + '\n', encoding='utf-8')
-    tmp.replace(path)
+    for retry in range(6):
+        try:
+            tmp.replace(path)
+            break
+        except PermissionError:
+            if retry == 5:
+                raise
+            if retry == 0:
+                print(f'Atomic JSON replacement temporarily denied; bounded retry: {path.name}', file=sys.stderr, flush=True)
+            time.sleep(0.05 * 2 ** retry)
 
 
 def digest(path):
@@ -52,11 +61,11 @@ class GPUJob:
         CACHE.mkdir(parents=True, exist_ok=True)
         self.lock = CACHE / 'gpu.lock'
         if self.lock.exists():
-            old = json.loads(self.lock.read_text())
+            old = json.loads(self.lock.read_text(encoding='utf-8'))
             if psutil.pid_exists(old['pid']):
                 raise RuntimeError(f'GPU job already live: {old}')
             raise RuntimeError('Stale GPU lock: inspect original job before explicit repair')
-        jobs = json.loads(self.path.read_text()) if self.path.exists() else []
+        jobs = json.loads(self.path.read_text(encoding='utf-8')) if self.path.exists() else []
         if any(j['status'] == 'running' for j in jobs):
             raise RuntimeError('Unclosed GPU ledger entry; inspect process before repair')
         self.used = sum(j['elapsed_s'] for j in jobs)
@@ -293,18 +302,18 @@ def main():
         specs = initial_specs()
         path = HERE / 'initial_specs.json'
         if path.exists():
-            assert json.loads(path.read_text()) == specs
+            assert json.loads(path.read_text(encoding='utf-8')) == specs
         else:
             save_json(path, specs)
     elif args.command == 'fits':
-        specs = json.loads(Path(args.specs).read_text())
+        specs = json.loads(Path(args.specs).read_text(encoding='utf-8'))
     else:
         raise ValueError('Use a sealed evaluation script; no generic protected-scoring command')
     pending = []
     for spec in specs:
         result = HERE / 'runs' / spec['id'] / 'result.json'
         if result.exists():
-            assert json.loads(result.read_text())['status'] == 'complete'
+            assert json.loads(result.read_text(encoding='utf-8'))['status'] == 'complete'
         else:
             pending.append(spec)
     if args.limit:

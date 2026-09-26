@@ -68,6 +68,7 @@ HIER는 SELF·POOL 대비 두 repeat seed에서 일관된 추가 가치를 보�
 - [현재 진행 상태와 다음 판단](research/tsfm_peft_development_20260926/STATUS.md)
 - [재현 명령과 검산 범위](research/tsfm_peft_development_20260926/commands.json)
 - [최초 16fit 개발 비교](research/tsfm_peft_development_20260926/initial_development.json) 및 [교정된 평가 비용](research/tsfm_peft_development_20260926/initial_cost_recheck_development.json)
+- [잔차 예측 rank의 제한적 CPU 진단](research/tsfm_peft_development_20260926/residual_rank_diagnostics.json)
 
 최초 비교에서 잔차 경로는 압축만 한 대조와 원입력 보정보다 나았지만, 강화한 선형 대조 대비 이득은 작고 기간에 따라 달랐습니다. 상한까지 개선된 설정의 학습량을 보완하는 단계이며, 주제 확보를 선언하지 않았습니다.
 
