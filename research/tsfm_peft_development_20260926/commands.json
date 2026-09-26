@@ -84,7 +84,7 @@
     },
     {
       "command": "python -u research/tsfm_peft_development_20260926/run.py fits --specs research/tsfm_peft_development_20260926/revision1_rank32_specs.json",
-      "status": "running: session34971/PID50376; first structural revision1/2;8fits; normal early stopping; no Bull"
+      "status": "complete exit0 session34971;8fits all plateau-stop; total30complete plus1failed attempt"
     },
     {
       "command": "python -m pytest research/tsfm_peft_development_20260926/test_evaluation.py research/tsfm_peft_development_20260926/test_protected_protocol.py -q",
@@ -92,7 +92,7 @@
     },
     {
       "command": "python research/tsfm_peft_development_20260926/evaluate_development.py --name revision1_rank32 --cohort research/tsfm_peft_development_20260926/revision1_rank32_cohort.json",
-      "status": "queued session49747 after PID50376 exits, all16cohort complete and saved-result checks pass"
+      "status": "complete exit0 session49747 after30fit verification; validation-only selection and reused Electricity DEV evaluation"
     },
     {
       "command": "python -m pytest research/tsfm_peft_development_20260926/test_masked_linear.py -q",
@@ -105,6 +105,23 @@
     {
       "command": "python research/tsfm_peft_development_20260926/diagnose_saved_validation.py",
       "result": "28records=26neural+2linear; CPU0.49s saved Electricity VAL only; no new model predictions"
+    },
+    {
+      "command": "python -m pytest research/tsfm_peft_development_20260926/test_evaluation.py research/tsfm_peft_development_20260926/test_protected_protocol.py research/tsfm_peft_development_20260926/test_protected_adaptation.py research/tsfm_peft_development_20260926/test_protected_evaluation.py research/tsfm_peft_development_20260926/test_masked_linear.py -q",
+      "result": "103 passed in3.65s; synthetic guards, actual training entry routing with mocked data/GPU, mocked protected pipeline and masked linear checks; no actual protected access"
+    },
+    {
+      "command": "python -u research/tsfm_peft_development_20260926/run.py fits --specs research/tsfm_peft_development_20260926/compression16_specs.json",
+      "status": "running session10903/PID56132;4simple capacity-control fits; not a primary-method structural revision"
+    },
+    {
+      "command": "python research/tsfm_peft_development_20260926/evaluate_compression_control.py",
+      "status": "queued session53527 afterPID56132 exits,4complete/id checks and saved-result verification; reuse rank32 residual forecasts"
+    },
+    {
+      "command": "python - (feed stdin below from the recorded working directory)",
+      "stdin": "import json,sys\nfrom pathlib import Path\nimport numpy as np\nr=Path('research/tsfm_peft_development_20260926').resolve()\nsys.path.insert(0,str(r))\nfrom run import CACHE,digest,load_data\nfrom verify_results import scalar_mse\nreport=json.loads((r/'revision1_rank32_development.json').read_text(encoding='utf-8'))\ndata=load_data('electricity')\nassert report['data_sha256']==digest(data['_path'])\nassert report['selection_sha256']==digest(r/'revision1_rank32_selection.json')\nerrors=[]\nfor row in report['rows']:\n if row['fit'] is None and row['arm']!='f0': continue\n path=CACHE/'revision1_rank32_evaluation'/((row['fit'] or 'f0')+'.npz')\n if row['fit']: assert digest(path)==row['prediction_sha256']\n with np.load(path,allow_pickle=False) as a:\n  assert np.array_equal(a['origins'],data['dev_origins'])\n  error=abs(scalar_mse(a['prediction'],a['origins'],data)-row['scores']['mse'])\n  assert error<1e-10\n  errors.append(error)\nprint(len(errors),max(errors))\n",
+      "result": "9 stored DEV models verified; max scalar MSE error2.44249e-15; CPU only; no new predictions/protected access; not independent reproduction"
     }
   ]
 }

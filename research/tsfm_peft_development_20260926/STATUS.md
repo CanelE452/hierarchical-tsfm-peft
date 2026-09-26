@@ -1,13 +1,13 @@
 # 승인된 채널 압축 잔차 PEFT 개발
 
-- 상태: REVISION1_RUNNING (2026-09-26)
+- 상태: COMPRESSION_CONTROL_RUNNING (2026-09-26)
 - 사용자 승인: 현재 대화의 전체 계획 승인 및 자율 실행 목표. PLAN.md는 직전 계획 응답 원문을 현재 대화 rollout에서 정확히 추출했다.
 - 기준 commit: 06023468c36fb379554fd90f5d9b6947d5979af9, main, origin=CanelE452/hierarchical-tsfm-peft.
 - 재개 확인: 승인 폴더/PLAN/STATUS가 없었으며 GPU Python 프로세스도 없었다. 완료된 신규 실험은 발견되지 않았다. 기존 미추적 history/transient 연구/체크포인트를 보존한다.
 - 주력: 학습형 채널 압축 + 재구성 잔차 시간 예측. 예비 0개. 중심 가치는 점예측 정확도. 새 주제 확보는 아직 미확인.
-- GPU 사용: 현재 원장합계 9896.96초(약 2.75시간)/86400초. 이번 검산 시점 26완료fit+실패1attempt; rank32 두 번째seed 실행 중. 수정8fit완료시30완료/31attempt. 구조·목적수정1/2. 정확한실시간원장은gpu_jobs.json.
-- 현재 작업: 초기16fit+연장6fit 및extended DEV평가 완료. rank32 첫seed4fit까지 완료하여 총26완료fit 검산PASS. 두 번째seed의4fit가session34971/PID50376에서실행중이다. 첫seed만으로주제확보를판정하지않는다.
-- 다음 행동: revision1_rank32_specs.json의8fit(RESIDUAL/RAW×2LR×2seed),같은latent8·손실·초기화방식·effectivebatch4·정체종료규칙. 기존LoRA/COMPRESS는재사용하고revision1_rank32_cohort.json에서VAL-only선택후DEV비교. 이후해석가능한추가가치가남는지판단한다. Bull적응·보호평가는아직금지.
+- GPU 사용: 첫수정평가종료누적10664.17초(약2.96시간)/86400초. 30완료fit+실패1attempt=31/48attempt. 다음단순대조4fit후35attempt예정, 보호8fit를포함해43attempt예상. 구조·목적수정1/2. 정확한실시간원장은gpu_jobs.json.
+- 현재 작업: rank32 RESIDUAL/RAW 8fit와DEV평가완료. RESIDUAL DEV0.165850은동일용량RAW대비8.11%,강화factor대비7.06%낮은MSE이며두seed/두기간모두이득. 미압축F0보다0.80%,LoRA보다2.95%높은MSE. 아직보호확인/주제최종선택전.
+- 다음 행동: compression16_specs.json의압축차원만늘린단순대조4fit를실행하고VAL-only선택후기존rank32예측과비교. 이득이유지되면방법·레시피를확정하고Bull보호계약을봉인한다. 아직final_seal/Bull적응/보호평가없음.
 - 불확실성: 압축 잔차의 예측 유용성, 사전학습 backbone의 추가 가치, 원입력 보정 대비 차이, 학습량의 충분성, 보호 구간으로의 전이. Bull은 TRAIN 규칙으로16채널을 확정했으나 사전학습 중복은 미확인이다.
 - 보호: Bull E1/E2의 예측/손실 접근 금지. Electricity 마지막20%는 이미 노출된 개발 자료.
 - 권한: 승인 범위의 버그 수정·재실행·학습 조정 가능. 다른 프로세스 종료, 과거 기록 수정, 새 데이터/서버/총예산 증액 불가.
@@ -76,6 +76,16 @@
 46. 첫수정의첫seed4fit완료: rank32 RESIDUAL 저/고LR VAL0.173028/0.167624, RAW 저/고LR0.192668/0.178235. 각fit는91/47/72/42epoch에서정체종료했고모두checkpoint재생오차0. highLR 첫seed에서제안방법은factor-linear0.174000보다낮지만,두번째seed·VAL-only선택·DEV비교는아직남아있다. 총26완료fit의저장예측검산최대오차9.44e-16; 저장VAL분해28기록(26신경망+2선형)검산PASS. 첫seedrank32 RESIDUAL고LR의고정PCA common/residual오차0.077462/0.090162는factor0.083186/0.090814와비교할수있지만branch인과효과증명은아니다.
 
 47. 보호평가용결측선형대조의순수배열함수준비: masked_linear.py/test_masked_linear.py, 합성CPU6검사PASS. 테스트기준해는별도정상방정식solve로계산하며dense/결측/poison-target/부분벡터제외반례를확인했다. ridge의수치floor는기존fullTRAIN구현과1e-9로맞췄다(예정penalty0.001에는영향없음). shared는관측target수에따른평균목적이라결측시equal-channel macro학습과다르고,factor는horizon별전체채널관측origin만써서정보가줄수있다. 실제사용count를보고해야하며,아직실제자료fit/Bull읽기·적응·평가/final_seal생성은없다. CPU실자료fit/transform수22는변경없음.
+
+48. 첫수정전체완료: rank32 8fit모두정체종료,합계30완료fit/실패1attempt. 저장검산최대오차9.44e-16,VAL분해32기록PASS. VAL-only선택은RESIDUAL/RAW모두LR0.001이며평균VAL0.169076/0.178276. DEV MSE는RESIDUAL0.165850/RAW0.180489/factor0.178457/F00.164537/LoRA0.161096이다. RAW대비이득8.111%(seed9.223/7.008%,기간7.967/8.273%,조건부block95[6.463,9.849]);factor대비7.064%(seed8.573/5.555%,기간8.199/5.744%,조건부block95[4.149,9.814]). 재사용개발·선택불확실성은CI에포함되지않으며독립확증이아니다. 채널별2seed평균손실이낮은수는RAW31/32,factor21/32,공유선형24/32,F013/32,LoRA6/32이며채널을독립표본으로세지않는다.
+
+49. 다음실행전근거: 수정후동일용량RAW와강한선형대조에대해두seed/기간에서이득이남아,PLAN의가까운단순대안인압축차원만8→16으로늘린COMPRESS를확인한다. compression16_specs는2LR×2seed=4fit,같은120epoch상한/정체규칙/MSE/effectivebatch4,추가모듈없음. 이는기준선용량대조이며주력구조수정횟수는1/2를유지한다. 만약이단순대안으로충분하면잔차모듈필요성을낮춰판정한다. 평가기는VAL만으로LR을선택하고rank32저장DEV예측을hash/origin/지표검산후재사용하므로기존모델중복예측은없다.
+
+50. 보호실행연결준비완료: current_protected_hashes/prepare_protected_adaptation은배열로드전에봉인spec/현재artifact해시와최초receipt를고정·검사한다. run.main에이순서를연결했고Bull attempt/result에같은receipt를저장한다. evaluate_protected.py는전체봉인cohort와checkpoint/data/source/receipt를검사한뒤한번평가하며,실패/부분출력을보존한다. 결측ridge/gate/main연결/합성전체평가기검사총103개PASS(3.65초). 합성평가의모델/GPU/data호출은모두대체했고실제보호점수는없다. final_seal/보호adaptation receipt/평가attempt모두실제파일부재확인.
+
+51. 압축차원대조실행: session10903/PID56132. 후속session53527은PID종료와4fit완료gate후저장검산→compression16평가로진행한다. 두세션종료전run/model및실행평가기는수정하지않는다. 보호평가는연결하지않았으며단순대조결과에따라최종설정을결정한다.
+
+52. 저장DEV별도검산: rank32보고서의F0+선택신경망8개,총9개cache를원점/hash와대조하고 verify_results.scalar_mse의float/math.fsum으로MSE재계산했다. 최대오차2.44e-15,새예측/GPU/보호자료접근0. 실행주체의검산이며독립재현은아니다.
 
 ## 추가 선행 확인과 주장 경계
 

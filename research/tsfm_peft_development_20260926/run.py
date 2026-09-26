@@ -17,6 +17,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 from model import SNAPSHOT, make_model, macro_loss, pca_basis
+from protected_protocol import prepare_protected_adaptation
 
 CACHE = ROOT / '.cache/tsfm_peft_development_20260926'
 PROTOCOL = json.loads((HERE / 'protocol.json').read_text(encoding='utf-8'))
@@ -191,7 +192,9 @@ def backward_batch(model, x, target, mask, loss_kind, microbatch_origins=1):
     return batch_loss
 
 
-def fit(data, spec, job):
+def fit(data, spec, job, protected_receipt=None):
+    if spec['dataset'] == 'bull' and protected_receipt is None:
+        raise RuntimeError('Bull fit requires a validated and pinned final seal receipt')
     fit_id = spec['id']
     out = HERE / 'runs' / fit_id
     if out.exists():
@@ -204,6 +207,8 @@ def fit(data, spec, job):
     local.mkdir(parents=True)
     started = time.perf_counter()
     attempt = dict(spec, status='running', started_utc=time.time(), pid=os.getpid(), source=source_receipt(), data_sha256=digest(data['_path']))
+    if protected_receipt is not None:
+        attempt['protected_receipt'] = protected_receipt
     save_json(out / 'attempt.json', attempt)
     try:
         torch.manual_seed(spec['seed'])
@@ -309,6 +314,7 @@ def main():
         specs = json.loads(Path(args.specs).read_text(encoding='utf-8'))
     else:
         raise ValueError('Use a sealed evaluation script; no generic protected-scoring command')
+    receipts = prepare_protected_adaptation(specs, HERE, ROOT)
     pending = []
     for spec in specs:
         result = HERE / 'runs' / spec['id'] / 'result.json'
@@ -324,9 +330,7 @@ def main():
     datasets = {spec['dataset']: load_data(spec['dataset']) for spec in pending}
     with GPUJob(args.command) as job:
         for spec in pending:
-            if spec['dataset'] != 'electricity' and not (HERE / 'final_seal.json').exists():
-                raise RuntimeError('Protected-source adaptation needs final configuration seal')
-            fit(datasets[spec['dataset']], spec, job)
+            fit(datasets[spec['dataset']], spec, job, protected_receipt=receipts.get(spec['id']))
 
 
 if __name__ == '__main__':

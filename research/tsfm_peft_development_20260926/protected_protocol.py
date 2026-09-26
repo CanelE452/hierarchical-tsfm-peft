@@ -155,3 +155,44 @@ def validate_protected_evaluation(seal_path, completed_fit_ids, expected_hashes)
     if missing or unexpected:
         raise ValueError(f'protected cohort incomplete: missing={sorted(missing)}, unexpected={sorted(unexpected)}')
     return receipt
+
+
+def current_protected_hashes(here, root):
+    """Hash artifact bytes without loading dataset arrays or a model."""
+    here, root = Path(here), Path(root)
+    contract = json.loads((here / 'data_contract.json').read_text(encoding='utf-8'))
+    paths = {name: here / name for name in HASH_KEYS if name != 'protected_npz'}
+    paths['protected_npz'] = root / contract['datasets']['bdg2_bull_office']['npz']
+    hashes = {}
+    for name, path in paths.items():
+        hasher = hashlib.sha256()
+        with path.open('rb') as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+                hasher.update(chunk)
+        hashes[name] = hasher.hexdigest()
+    return hashes
+
+
+def prepare_protected_adaptation(specs, here, root):
+    """Validate all requested Bull fits and pin one receipt before data loading."""
+    protected = [spec for spec in specs if spec['dataset'] == 'bull']
+    if not protected:
+        return {}
+    here = Path(here)
+    hashes = current_protected_hashes(here, root)
+    receipts = {
+        spec['id']: validate_protected_fit(spec, here / 'final_seal.json', hashes)
+        for spec in protected
+    }
+    receipt = next(iter(receipts.values()))
+    if any(other != receipt for other in receipts.values()):
+        raise ValueError('final seal changed during adaptation preflight')
+    pin = here / 'protected_adaptation_receipt.json'
+    if pin.exists():
+        if json.loads(pin.read_text(encoding='utf-8')) != receipt:
+            raise ValueError('adaptation receipt differs from the originally pinned seal')
+    else:
+        with pin.open('x', encoding='utf-8', newline='\n') as stream:
+            json.dump(receipt, stream, indent=2, allow_nan=False)
+            stream.write('\n')
+    return receipts
