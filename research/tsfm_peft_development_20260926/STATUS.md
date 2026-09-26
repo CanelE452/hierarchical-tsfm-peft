@@ -1,13 +1,13 @@
 # 승인된 채널 압축 잔차 PEFT 개발
 
-- 상태: EXTENSION_RECOVERY_RUNNING (2026-09-26)
+- 상태: REVISION1_RUNNING (2026-09-26)
 - 사용자 승인: 현재 대화의 전체 계획 승인 및 자율 실행 목표. PLAN.md는 직전 계획 응답 원문을 현재 대화 rollout에서 정확히 추출했다.
 - 기준 commit: 06023468c36fb379554fd90f5d9b6947d5979af9, main, origin=CanelE452/hierarchical-tsfm-peft.
 - 재개 확인: 승인 폴더/PLAN/STATUS가 없었으며 GPU Python 프로세스도 없었다. 완료된 신규 실험은 발견되지 않았다. 기존 미추적 history/transient 연구/체크포인트를 보존한다.
 - 주력: 학습형 채널 압축 + 재구성 잔차 시간 예측. 예비 0개. 중심 가치는 점예측 정확도. 새 주제 확보는 아직 미확인.
-- GPU 사용: 현재 원장 합계7512.79초(약2.09시간)/86400초, 진행 중 시간 포함 스냅샷이며 정확한 실시간 원장은 gpu_jobs.json. 신경망18/48attempt 완료, 연장 전체 완료 시22/48. 구조·목적 수정0/2. GPU는 루트 실행자만 사용한다.
-- 현재 작업: 최초16fit·연장2fit 완료, 파일저장 실패1attempt 보존. 복구4fit가 session42065/PID38696에서 순차 실행 중이다. atomic저장 재시도/UTF8읽기 수정과CPU12검사 완료. 미실행과실패를방법음성으로해석하지않는다.
-- 다음 행동: extension_specs.json의6개 설정을 최대120epoch, 동일 초기화/seed/LR/표본순서/effective batch4로 별도 fit한다. microbatch4는 실제 gradient 정합성 확인 후 사용한다. 기존 조기종료10fit는 재사용하고, 상한에 걸린6개를 연장 결과로 대체해 VAL-only 선택을 다시 한 뒤 같은DEV를 개발 비교한다. Bull 적응·보호 평가는 아직 금지한다.
+- GPU 사용: 현재 원장합계8770.36초(약2.44시간)/86400초. 22완료fit+실패1attempt+현재첫수정실행. 수정8fit완료시30완료/31attempt. 구조·목적수정1/2. 정확한실시간원장은gpu_jobs.json.
+- 현재 작업: 초기16fit+연장6fit 및extended DEV평가 완료(실패1attempt 별도보존). 22완료/23attempt. rank8의원입력대비이득은남지만강한선형대조대비추가가치는여전히미확보. 첫구조수정rank32의동일용량RAW대조8fit가session34971/PID50376에서실행중이다.
+- 다음 행동: revision1_rank32_specs.json의8fit(RESIDUAL/RAW×2LR×2seed),같은latent8·손실·초기화방식·effectivebatch4·정체종료규칙. 기존LoRA/COMPRESS는재사용하고revision1_rank32_cohort.json에서VAL-only선택후DEV비교. 이후해석가능한추가가치가남는지판단한다. Bull적응·보호평가는아직금지.
 - 불확실성: 압축 잔차의 예측 유용성, 사전학습 backbone의 추가 가치, 원입력 보정 대비 차이, 학습량의 충분성, 보호 구간으로의 전이. Bull은 TRAIN 규칙으로16채널을 확정했으나 사전학습 중복은 미확인이다.
 - 보호: Bull E1/E2의 예측/손실 접근 금지. Electricity 마지막20%는 이미 노출된 개발 자료.
 - 권한: 승인 범위의 버그 수정·재실행·학습 조정 가능. 다른 프로세스 종료, 과거 기록 수정, 새 데이터/서버/총예산 증액 불가.
@@ -63,6 +63,15 @@
 39. 다음수정후보를미리구체화: 잔차기만rank8→32, latent8/E/D/backbone/손실/표본/optimizer는유지. 같은rank32 RAW와함께2LR×2seed=8fit를revision1_rank32_specs.json에준비했다. rank32는CPU진단에서fullrank와VAL차0.000407로근접했으며 rank16에는0.004386 차이가남았다. 이는신경망개선의증명이아니다. 현재연장/평가가끝난뒤TSFM추가가치가여전히미확보이고해석가능한병목이라판단되면첫구조수정으로실행한다. 현재는준비만했고실행cycle0/2. 이득이지지되면동일질문의불필요한추가실험을하지않는다.
 
 40. 코드기반 주장경계 점검: G는bias없는공유시간선형함수라 RESIDUAL은 D(F(EX)-G(EX))+G(X)로도쓸수있다. 두군은같은원정보/파라미터수를쓰지만 잔차군에는E/D를통한추가gradient가있고, 학습후DE는직교projection이아니다. CPU진단은고정PCA·affine ridge·전체TRAIN최적화이므로신경망rank8의하한이아니다(실제neural VAL은CPU rank8보다낮음). FACTOR-LINEAR는강한실용대조이며사전학습유무만의인과절제는아니다. F0의좋은DEV성능은이과제에서의유의미한기준성능으로만해석한다. rank32는측정후보중fullrank에가까운첫설정이지보편적인충분rank가아니다. 이점검의동의자체는과학적증거로세지않는다.
+
+41. 복구 진행: RAW저LR seed1은80epoch/선택74/VAL0.211069로정상종료했지만고LR0.202339보다높다. RESIDUAL저LR seed2도정체종료했고고LR보다높다. 아직마지막고LR잔차와RAW저LR seed2의연장및완료후DEV비교가남았다. 원본저학습량문제와방법추가가치부족을구별하여계속비교한다.
+
+42. 첫구조수정의실행근거확정: RESIDUAL저LR는두seed모두정체종료(첫seed63/선택57,두번째88/선택82). 고LR두번째연장도46/선택40/VAL0.178316으로정체종료하여선택군평균VAL약0.178363는factor-linear0.174000보다높다. 최초seed고LR도37epoch정체종료여서현재선택군의부족을단순학습상한만으로설명하기어렵다. CPU rank제약진단과함께rank32만늘리는첫수정비교를수행할근거로삼는다. 기대되는지지는같은용량RAW보다잔차분리이득이남고강한선형대조와의차이가줄어드는것이다. 반대로RAW만따라잡거나선형대조로충분하면방법주장을낮춘다. 현재마지막연장/extended DEV평가종료후8fit를실행한다. 최종군선택은각군2seed평균VAL로하며기존LoRA/COMPRESS8fit를재사용하는cohort16설정을미리저장했다.
+43. 보호계약검사준비: protected_protocol.py는봉인된Bull full spec과data_contract/NPZ/protocol/model/run 해시를검사한다. 합성seal CPU45검사PASS. 현재학습코드에는아직연결하지않았고실제final_seal도생성하지않았다. 보호평가를앞당기거나과학적근거로세지않는다.
+
+44. 연장완료: RAW저LR seed2도70epoch/선택64/VAL0.215464로정체종료했다(정확수치는result.json). 모든6연장설정은최대120에도달하기전에정체종료했고,22완료fit 저장검산오차최대9.44e-16. extended DEV의RESIDUAL0.176131/RAW0.203863/factor-linear0.178457/F00.164537/LoRA0.161096. factor대비이득1.303%,두기간+3.046%/-0.726%,조건부block95[-1.816%,3.931%]. 학습량보완후에도추가가치불확실성이유지된다. 이근거와CPU용량진단에따라첫구조수정rank32비교8fit로진행한다. 별도후보추가/주장전환/보호평가없음.
+
+45. 첫수정실행시작: session34971/PID50376,rank32 RESIDUAL/RAW총8fit. 구조수정1/2이며기존GPU/48attempt상한을유지한다. 후속session49747은해당PID종료와cohort16결과완료확인후검산→저장VAL분해→revision1_rank32 DEV평가로진행한다. 합성보호계약검사를포함한현재CPU57검사PASS. 실제Bull최종seal/적응/보호평가는여전히없다.
 
 ## 추가 선행 확인과 주장 경계
 
