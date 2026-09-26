@@ -93,3 +93,9 @@ Bull_office_Claudia
 Bull_office_Sally
 Bull_office_Debbie
 ```
+
+## Bounded remote follow-up before final configuration seal
+
+2026-09-26: GitHub API read-only로 forecast-revision-peft 최신 commit `237d2456991fbdabc764a4be1e4e18d2fbbd16fd`를 확인했다. [README](https://github.com/CanelE452/forecast-revision-peft/blob/237d2456991fbdabc764a4be1e4e18d2fbbd16fd/README.md)와 [pilot v1 results](https://github.com/CanelE452/forecast-revision-peft/blob/237d2456991fbdabc764a4be1e4e18d2fbbd16fd/docs/RESULTS_PILOT_V1.md)를 읽었고 Bull 언급은 없었다. blob SHA는 각각 `082424757d8bd318d0a25032412c3afecbf0de68`, `3a0ffd643f3f4c70daa93dcabfdfdaca8ac5c28e`다.
+
+이는 로컬 checkout 부재 때문에 읽지 못했던 결과 진입점의 확인을 보완한다. 전체 저장소 이력·미게시 결과·사전학습 자료의 미노출 인증이 아니며, Bull을 완전 독립 확증으로 부르지 않는 판단은 유지한다. 데이터 계약·ID·기간·원자료는 변경하지 않았다.

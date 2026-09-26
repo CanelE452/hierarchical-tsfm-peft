@@ -112,16 +112,20 @@
     },
     {
       "command": "python -u research/tsfm_peft_development_20260926/run.py fits --specs research/tsfm_peft_development_20260926/compression16_specs.json",
-      "status": "running session10903/PID56132;4simple capacity-control fits; not a primary-method structural revision"
+      "status": "complete exit0 session10903;4capacity-control fits all plateau-stop;34complete plus1failed"
     },
     {
       "command": "python research/tsfm_peft_development_20260926/evaluate_compression_control.py",
-      "status": "queued session53527 afterPID56132 exits,4complete/id checks and saved-result verification; reuse rank32 residual forecasts"
+      "status": "complete exit0 session53527;34fit verification; selected2compression models evaluated and existingrank32 predictions reused"
     },
     {
       "command": "python - (feed stdin below from the recorded working directory)",
       "stdin": "import json,sys\nfrom pathlib import Path\nimport numpy as np\nr=Path('research/tsfm_peft_development_20260926').resolve()\nsys.path.insert(0,str(r))\nfrom run import CACHE,digest,load_data\nfrom verify_results import scalar_mse\nreport=json.loads((r/'revision1_rank32_development.json').read_text(encoding='utf-8'))\ndata=load_data('electricity')\nassert report['data_sha256']==digest(data['_path'])\nassert report['selection_sha256']==digest(r/'revision1_rank32_selection.json')\nerrors=[]\nfor row in report['rows']:\n if row['fit'] is None and row['arm']!='f0': continue\n path=CACHE/'revision1_rank32_evaluation'/((row['fit'] or 'f0')+'.npz')\n if row['fit']: assert digest(path)==row['prediction_sha256']\n with np.load(path,allow_pickle=False) as a:\n  assert np.array_equal(a['origins'],data['dev_origins'])\n  error=abs(scalar_mse(a['prediction'],a['origins'],data)-row['scores']['mse'])\n  assert error<1e-10\n  errors.append(error)\nprint(len(errors),max(errors))\n",
       "result": "9 stored DEV models verified; max scalar MSE error2.44249e-15; CPU only; no new predictions/protected access; not independent reproduction"
+    },
+    {
+      "command": "protected_protocol.validate_protected_fit for every protected_specs entry using current_protected_hashes",
+      "result": "all8specs validated against final_seal SHA256 4b6ff5faf49d56ea156b7ee05c0530979f8d205b34bc3896a56a6fae00234b7f; no Bull arrays loaded and no GPU job started"
     }
   ]
 }

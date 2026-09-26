@@ -1,15 +1,15 @@
 # 승인된 채널 압축 잔차 PEFT 개발
 
-- 상태: COMPRESSION_CONTROL_RUNNING (2026-09-26)
+- 상태: PROTECTED_SEALED_READY (2026-09-26)
 - 사용자 승인: 현재 대화의 전체 계획 승인 및 자율 실행 목표. PLAN.md는 직전 계획 응답 원문을 현재 대화 rollout에서 정확히 추출했다.
 - 기준 commit: 06023468c36fb379554fd90f5d9b6947d5979af9, main, origin=CanelE452/hierarchical-tsfm-peft.
 - 재개 확인: 승인 폴더/PLAN/STATUS가 없었으며 GPU Python 프로세스도 없었다. 완료된 신규 실험은 발견되지 않았다. 기존 미추적 history/transient 연구/체크포인트를 보존한다.
 - 주력: 학습형 채널 압축 + 재구성 잔차 시간 예측. 예비 0개. 중심 가치는 점예측 정확도. 새 주제 확보는 아직 미확인.
-- GPU 사용: 첫수정평가종료누적10664.17초(약2.96시간)/86400초. 30완료fit+실패1attempt=31/48attempt. 다음단순대조4fit후35attempt예정, 보호8fit를포함해43attempt예상. 구조·목적수정1/2. 정확한실시간원장은gpu_jobs.json.
-- 현재 작업: rank32 RESIDUAL/RAW 8fit와DEV평가완료. RESIDUAL DEV0.165850은동일용량RAW대비8.11%,강화factor대비7.06%낮은MSE이며두seed/두기간모두이득. 미압축F0보다0.80%,LoRA보다2.95%높은MSE. 아직보호확인/주제최종선택전.
-- 다음 행동: compression16_specs.json의압축차원만늘린단순대조4fit를실행하고VAL-only선택후기존rank32예측과비교. 이득이유지되면방법·레시피를확정하고Bull보호계약을봉인한다. 아직final_seal/Bull적응/보호평가없음.
+- GPU 사용: 개발종료누적11060.33초(약3.07시간)/86400초. 34완료fit+실패1attempt=35/48attempt. 봉인된보호8fit후43attempt예정. CPU기존22component fits/transforms;보호선형대조는3component(각48horizon별해,최대144solve)추가예정. 구조·목적수정1/2. 신규cache124653418bytes/30GiB.
+- 현재 작업: 압축차원16대조4fit와DEV평가완료. 제안방법은같은용량RAW/강화선형/압축차원16보다각8.11%/7.06%/20.01%낮은개발MSE. 한방법의개발근거를확보하여고정된로컬확인으로진행한다. 최종주제판정은보호결과후.
+- 다음 행동: final_seal.json과protected_specs.json을게시한뒤Bull고정8fit를적응한다. C16→latent4,잔차rank32,개발선택LR(LoRA1e-4/나머지1e-3),seed2개,최대120epoch/정체6. Bull VAL은checkpoint만선택하며구조/LR탐색금지. 완료검산후E1/E2한번평가.
 - 불확실성: 압축 잔차의 예측 유용성, 사전학습 backbone의 추가 가치, 원입력 보정 대비 차이, 학습량의 충분성, 보호 구간으로의 전이. Bull은 TRAIN 규칙으로16채널을 확정했으나 사전학습 중복은 미확인이다.
-- 보호: Bull E1/E2의 예측/손실 접근 금지. Electricity 마지막20%는 이미 노출된 개발 자료.
+- 보호: Bull E1/E2의예측/손실은아직미열람. 최종seal SHA256 4b6ff5faf49d56ea156b7ee05c0530979f8d205b34bc3896a56a6fae00234b7f. Electricity 마지막20%는노출된개발자료. Bull은이번방법선택에쓰지않은로컬확인이며전역미노출/독립확증을주장하지않음.
 - 권한: 승인 범위의 버그 수정·재실행·학습 조정 가능. 다른 프로세스 종료, 과거 기록 수정, 새 데이터/서버/총예산 증액 불가.
 - 산출물: raw/checkpoint/prediction은 프로젝트 .cache/tsfm_peft_development_20260926/ (ignored); 공개 코드/설정/집계/원장/hash는 이 폴더.
 
@@ -86,6 +86,12 @@
 51. 압축차원대조실행: session10903/PID56132. 후속session53527은PID종료와4fit완료gate후저장검산→compression16평가로진행한다. 두세션종료전run/model및실행평가기는수정하지않는다. 보호평가는연결하지않았으며단순대조결과에따라최종설정을결정한다.
 
 52. 저장DEV별도검산: rank32보고서의F0+선택신경망8개,총9개cache를원점/hash와대조하고 verify_results.scalar_mse의float/math.fsum으로MSE재계산했다. 최대오차2.44e-15,새예측/GPU/보호자료접근0. 실행주체의검산이며독립재현은아니다.
+
+53. 압축차원16단순대조완료:4fit는각25/14/21/13epoch정체종료,VAL-only선택LR0.001. DEV두seed MSE0.207277/0.207397(평균0.207337),잔차rank32대비이득20.009%(seed21.285/18.734%,기간20.145/19.855%,조건부block95[17.391,22.715]). 전체34완료fit 검산PASS,기존rank32예측은재사용했다. 단순히latent를두배로늘려서는이번제안방법을설명하지못한다. scope는이개발설정이며미압축LoRA보다우월하다는주장은없다.
+
+54. 최종방법/평가봉인: final_seal.json 및protected_specs.json 생성,실제8spec를현재hash로검증했다. 개발C32→8의4배압축규칙을Bull선정C16→4로전이하고H48이같으므로G rank32는유지한다. 이는Bull결과를보지않고선택한새전이규칙이며기존데이터봉인의일부였다고소급하지않는다. 모델가중치/config와추가LoRA소스hash도봉인에기록. Bull TRAIN/VAL적응전이며actualarrays load/GPU0. 게시후만고정8fit를시작한다.
+
+55. 노출감사범위보강: forecast-revision-peft의원격최신commit237d2456991fbdabc764a4be1e4e18d2fbbd16fd를확인하고README 및docs/RESULTS_PILOT_V1.md를읽었다. 두파일에서Bull기록을찾지못했지만전체이력/원자료/미게시결과부재를인증한것은아니다. 기존local-checkout-missing기록을보존하고exposure_audit에확인범위만추가했다. Bull raw-family선행노출/pretraining UNKNOWN은여전하다.
 
 ## 추가 선행 확인과 주장 경계
 

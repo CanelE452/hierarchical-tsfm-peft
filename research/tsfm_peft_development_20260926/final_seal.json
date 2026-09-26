@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "status": "sealed",
+  "method_fixed": true,
+  "created_utc": "2026-09-26T10:09:06.321816+00:00",
+  "source_git_commit": "350830b27ffc5e9cad22c751ab49559a6003169d",
+  "plan_sha256": "f75c2dcf88d594c875dfab05bc2cb651e186a1074d54255b39ca3d8545580a63",
+  "hashes": {
+    "data_contract.json": "a572c087b1f50c2dd29887838728f4f443e6906351adc62b93c86f79ddded921",
+    "protocol.json": "35f09af16438e6150a936efaee9b07fa19b58de4b54eb15bd0d137908fd218a6",
+    "model.py": "3235255108e7a372f66847aac99e71d3845921f7b5c73ea5b2975f24fff784dc",
+    "run.py": "cb50770a3266c68db0095c9effe412159e33868361c301c253095afd82e473a6",
+    "protected_npz": "a11d826ac01de745765c5f30d88201b3176efe239216cb7ef12f6250a9542ed3"
+  },
+  "allowed_fits": [
+    {
+      "id": "bull_final_lora_92601_0.0001",
+      "dataset": "bull",
+      "arm": "lora",
+      "seed": 92601,
+      "lr": 0.0001,
+      "latent": 4,
+      "loss": "native",
+      "epochs": 120,
+      "epoch_origins": 512,
+      "microbatch_origins": 4,
+      "weight_decay": 0.0,
+      "reason": "Fixed after Electricity development; preserve C/4 channel compression on eligible Bull C16, no Bull LR or structure selection"
+    },
+    {
+      "id": "bull_final_compress_92601_0.001",
+      "dataset": "bull",
+      "arm": "compress",
+      "seed": 92601,
+      "lr": 0.001,
+      "latent": 4,
+      "loss": "mse",
+      "epochs": 120,
+      "epoch_origins": 512,
+      "microbatch_origins": 4,
+      "weight_decay": 0.0,
+      "reason": "Fixed after Electricity development; preserve C/4 channel compression on eligible Bull C16, no Bull LR or structure selection"
+    },
+    {
+      "id": "bull_final_residual_92601_0.001",
+      "dataset": "bull",
+      "arm": "residual",
+      "seed": 92601,
+      "lr": 0.001,
+      "latent": 4,
+      "loss": "mse",
+      "epochs": 120,
+      "epoch_origins": 512,
+      "microbatch_origins": 4,
+      "weight_decay": 0.0,
+      "reason": "Fixed after Electricity development; preserve C/4 channel compression on eligible Bull C16, no Bull LR or structure selection",
+      "residual_rank": 32
+    },
+    {
+      "id": "bull_final_raw_bypass_92601_0.001",
+      "dataset": "bull",
+      "arm": "raw_bypass",
+      "seed": 92601,
+      "lr": 0.001,
+      "latent": 4,
+      "loss": "mse",
+      "epochs": 120,
+      "epoch_origins": 512,
+      "microbatch_origins": 4,
+      "weight_decay": 0.0,
+      "reason": "Fixed after Electricity development; preserve C/4 channel compression on eligible Bull C16, no Bull LR or structure selection",
+      "residual_rank": 32
+    },
+    {
+      "id": "bull_final_lora_92602_0.0001",
+      "dataset": "bull",
+      "arm": "lora",
+      "seed": 92602,
+      "lr": 0.0001,
+      "latent": 4,
+      "loss": "native",
+      "epochs": 120,
+      "epoch_origins": 512,
+      "microbatch_origins": 4,
+      "weight_decay": 0.0,
+      "reason": "Fixed after Electricity development; preserve C/4 channel compression on eligible Bull C16, no Bull LR or structure selection"
+    },
+    {
+      "id": "bull_final_compress_92602_0.001",
+      "dataset": "bull",
+      "arm": "compress",
+      "seed": 92602,
+      "lr": 0.001,
+      "latent": 4,
+      "loss": "mse",
+      "epochs": 120,
+      "epoch_origins": 512,
+      "microbatch_origins": 4,
+      "weight_decay": 0.0,
+      "reason": "Fixed after Electricity development; preserve C/4 channel compression on eligible Bull C16, no Bull LR or structure selection"
+    },
+    {
+      "id": "bull_final_residual_92602_0.001",
+      "dataset": "bull",
+      "arm": "residual",
+      "seed": 92602,
+      "lr": 0.001,
+      "latent": 4,
+      "loss": "mse",
+      "epochs": 120,
+      "epoch_origins": 512,
+      "microbatch_origins": 4,
+      "weight_decay": 0.0,
+      "reason": "Fixed after Electricity development; preserve C/4 channel compression on eligible Bull C16, no Bull LR or structure selection",
+      "residual_rank": 32
+    },
+    {
+      "id": "bull_final_raw_bypass_92602_0.001",
+      "dataset": "bull",
+      "arm": "raw_bypass",
+      "seed": 92602,
+      "lr": 0.001,
+      "latent": 4,
+      "loss": "mse",
+      "epochs": 120,
+      "epoch_origins": 512,
+      "microbatch_origins": 4,
+      "weight_decay": 0.0,
+      "reason": "Fixed after Electricity development; preserve C/4 channel compression on eligible Bull C16, no Bull LR or structure selection",
+      "residual_rank": 32
+    }
+  ],
+  "evaluation": {
+    "periods": [
+      "e1",
+      "e2"
+    ],
+    "block_origins": 7,
+    "linear_penalty": 0.001,
+    "seasonal_period": 24,
+    "primary_metric": "train_std_equal_channel_macro_mse",
+    "latent": 4
+  },
+  "evaluation_source_hashes": {
+    "evaluate_protected.py": "ee7d84e17a25fc8c9e72a716b5272985283669dfad99ef60167ab6d731ef7713",
+    "evaluate_development.py": "b233c36893f3cff054e4ae12fcba00655600ed39b513c11246ecf302ae00cca5",
+    "masked_linear.py": "c522ff8336ccd314251d884686f9e3d909fb433913ca3b99db11a7c9d2fc4f68",
+    "protected_protocol.py": "bf1f3532dfd867e046aad9e456c852217e3b8b35cc6eb41521573d6be07db67a",
+    "data_prepare.py": "a5aa5216d9b39d7795678a21af1bd89397c25a0ba06ff98d56a5e1ea3beecb08"
+  },
+  "backbone": {
+    "model": "amazon/chronos-bolt-small",
+    "revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+    "files": {
+      "config.json": "9ca0ebbe049ccebacb0546361e8aa728f0cf104cd18d1838d78d296aa317bd21",
+      "model.safetensors": "06a6a19bbe74bc10a9cd193bd4bf2bf638ae07f7e0d51653ae7ab8ea968a21dd"
+    },
+    "role": "frozen pretrained latent temporal forecaster; encoder/decoder/residual learn; standard LoRA is a separate control"
+  },
+  "extra_source_hashes": {
+    "src/hier_peft/lora.py": "4daba732bda84f846be6c4437b120d5a5beadae777a68bd0999e450439255047"
+  },
+  "development_decision": {
+    "method": "learned channel compression with reconstruction-residual temporal prediction, rank32",
+    "formula": "z=E(X); R=X-D(E(X)); prediction=D(F0(z))+G(R)",
+    "claim": "point forecasting accuracy under C/4 channel compression compared with compression-only, matched-capacity raw bypass and strong linear controls",
+    "transfer_rule": "latent=C/4: Electricity32->8 and Bull eligible16->4; temporal residual rank32 retained for unchanged H48; fixed before any Bull fitting or scoring",
+    "evidence": {
+      "revision1_rank32_selection.json": "ddda81d2e3d68d42cc457ac14b7e370888d65d0b238a9824fddff44cb4c75db8",
+      "revision1_rank32_development.json": "07aa95537e98444dffa96f9fbe00e00fe4ff58031f28017a7bc77aa9d09819f0",
+      "compression16_selection.json": "e93610c7feb3d691797fea824ab4d979d38a3b1d4b7c4a376b99b41ecb905f58",
+      "compression16_development.json": "de259d7bd9d07ca544d0d5af84ef7401e1c8f40fc16c746cb050c99d151e4a6d",
+      "fit_verification.json": "5c54940be1cf09f5abfcb2433c9f17ce3c5b3a97f6196554d2364092f7d14103"
+    },
+    "residual_vs_raw_gain_pct": 8.110730553029086,
+    "residual_vs_factor_gain_pct": 7.064203019706226,
+    "residual_vs_compress16_gain_pct": 20.009371534183842,
+    "status": "development evidence supports advancing this one method to fixed local confirmation; final topic decision still pending"
+  },
+  "checkpoint_selection": "minimum full Bull VAL equal-channel normalized MSE, earliest tie including step0; no Bull LR/structure/rank selection",
+  "training_limits": "max120 epochs, patience6 validation stagnation, ReduceLROnPlateau factor0.5 patience2; cap does not prove convergence; no automatic protected recipe changes",
+  "information": "all normalization, imputation and PCA from TRAIN only; legal TRAIN target windows; model selection uses VAL only; E1/E2 are unopened until final fixed evaluation",
+  "baseline_contract": "shared ridge uses observed target examples per horizon; factor ridge uses fully observed channel vectors, reports actual counts and unavailability; fixed penalty0.001, no Bull tuning",
+  "limitations": [
+    "Electricity DEV reused for development; conditional bootstrap omits selection uncertainty",
+    "Bull source family previously inspected, global exposure and pretraining overlap not certified; local unselected confirmation only",
+    "Factor-linear is a practical non-TSFM control, not a pure pretrained-weight causal ablation",
+    "No claim of accuracy superiority over uncompressed F0 or LoRA, noninferiority, universal improvement or independent reproduction"
+  ],
+  "budget": {
+    "gpu_seconds_total": 86400,
+    "fit_attempts_total": 48,
+    "concurrent_neural_training": 1,
+    "completed_attempts_before_protected": 35,
+    "planned_protected_fits": 8
+  }
+}

@@ -71,7 +71,8 @@ HIER는 SELF·POOL 대비 두 repeat seed에서 일관된 추가 가치를 보�
 - [잔차 예측 rank의 제한적 CPU 진단](research/tsfm_peft_development_20260926/residual_rank_diagnostics.json)
 - [학습량 보완 후 개발 비교](research/tsfm_peft_development_20260926/extended_development.json)
 - [잔차 용량 수정 후 개발 비교](research/tsfm_peft_development_20260926/revision1_rank32_development.json)
+- [압축 차원 증가 대조](research/tsfm_peft_development_20260926/compression16_development.json) 및 [보호 확인 설정 봉인](research/tsfm_peft_development_20260926/final_seal.json)
 
-잔차 rank를 8에서 32로 늘린 수정의 개발 MSE는 0.165850입니다. 동일 용량 원입력 보정보다 8.11%, 강화한 선형 대조보다 7.06% 낮고 두 seed와 두 기간에서 같은 방향입니다. 미압축 TSFM과 LoRA보다는 각각 0.80%, 2.95% 높은 오차입니다. 현재 압축 차원만 늘린 단순 대안을 확인 중이며, 이 개발 결과를 독립 확증이나 주제 확보 완료로 부르지 않습니다.
+잔차 rank를 8에서 32로 늘린 수정의 개발 MSE는 0.165850입니다. 동일 용량 원입력 보정보다 8.11%, 강화한 선형 대조보다 7.06% 낮고 두 seed와 두 기간에서 같은 방향입니다. 미압축 TSFM과 LoRA보다는 각각 0.80%, 2.95% 높은 오차입니다. 압축 차원을 두 배로 늘린 대조보다도 20.01% 낮은 오차였습니다. 한 방법으로 수렴하여 보호 로컬 확인 설정을 봉인했으며, 이 개발 결과를 독립 확증이나 주제 확보 완료로 부르지 않습니다.
 
 Electricity의 기존 노출 구간은 개발에만 사용합니다. BDG2 Bull Office의 보호 구간은 최종 설정을 확정하기 전까지 평가하지 않습니다. 원자료·가중치·예측 배열은 Git에 포함하지 않습니다.
