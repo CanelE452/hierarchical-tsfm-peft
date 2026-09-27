@@ -1,9 +1,9 @@
 # v3 진행 상태
 
-- 상태: 최초8+대응 LINEAR_RAW4 = 실자료12fit·두 비교, CPU 비용48행·GPU 두 범위192행, 제한 profile·그림·최종 검산 완료. 관련 파일 게시 준비.
+- 상태: 최초8+대응 LINEAR_RAW4 = 실자료12fit·두 비교, CPU 비용48행·GPU 두 범위192행, 제한 profile·그림·최종 검산 및 origin/main 결과 게시 완료.
 - 시작 기준: origin/main = main = e15c913520d9ec5100459077dfcc58518b22a363. 추적 파일 변경 없음; 기존 미추적 4항목 보존.
 - PLAN.md는 직전 계획 응답 원문이다. 사용자 전체 승인으로 해당 계획 내 구현·수리·실행·일반 commit/push가 허용됨.
-- 다음 행동: 관련 변경만 검사·일반 commit·origin/main push하고 원격 SHA 확인. 새 실험은 없음. 후속 결정은 미사용 이력이 확인된 비-Bull 사무동 하나에서 고정 TSFM_RES/LINEAR_RES/LoRA를 새로 확인할지다.
+- 다음 행동: 이번 회차 종료, 새 실험 없음. 남은 결정 하나는 미사용 이력이 확인된 비-Bull 사무동 하나에서 고정 TSFM_RES/LINEAR_RES/LoRA를 새로 확인할지다. 이번 결과를 자동으로 새 데이터 실험 승인으로 확장하지 않는다.
 - 예산: 실자료12/16완료·실자료실패0; 합성 optimizer2/6세션(각8step); GPU2094.124854초(34.902분)/10800초. CPU검사8.310051초/900초; 별도 CPU비용/그림31.406370초. 실자료 fit 시간은 GPU job에 중복 가산하지 않음. 저장 상한5GiB, 최종 검산 시42,669,260bytes. 실제 원장은 ledger.json.
 - 실행 주체: root만 검사/학습/비용 실행. worker는 지정 코드만 작성. 실제 PID·시작/종료·실패·갱신은 ledger.json.
 - 불확실성: 선형 경로의 합리적 학습은 확인했지만 전역 최적 수렴은 증명하지 않음. TSFM의 개발 정확도 이점은 관측됐으나 Bull E2 구간은 넓고 모두 노출 자료임. CPU 및 GPU상주 측정의 큰 변동이 남고 근본 원인은 미확정. Electricity v1 초기 checkpoint 부재 제한을 유지.
@@ -17,3 +17,6 @@
 - profile 수리: 첫 profile의 ProfilerStep CPU구간에 원장 조회 포함. 원본/diff를 repairs에 남기고 budget 조회를 trace 밖으로 이동, model_forward 범위를 표시해 두 번째 profile 완료. 첫 profile도 GPU시간에 포함하며 정확도·일반 benchmark 수치에 영향 없음.
 - 검산: final_checks.json PASS. PLAN 및 v1/v2 원본327개 hash·12fit·저장 예측과 선택·RAW 대조·GPU192/CPU48행·예산 확인. 자체 검산이지 독립 재현 아님. 비교 그림 PNG/SVG를 생성하고 잘림·수치 범위를 육안 확인함.
 - 최종 판단: 정확도 중심의 TSFM 경로는 조건부 유지. 선형의 큰 비용 이점과 정확도 손해를 함께 보고하며, 잔차 PEFT 주력 논문 주제는 미확보·보류. 현재 실행 중 연구 job0.
+- 게시: 관련81파일을 개별 staging하여 5d05c1b25e0794fffbb701a78bd71a7056a6a9be로 일반 commit, CanelE452/hierarchical-tsfm-peft origin/main push 후 원격 SHA 일치 확인. 현재 게시 완료 기록은 후속 일반 commit에 포함한다. 원본 raw/weight/예측/trace와 기존 무관 미추적4항목은 게시하지 않았다.
+- 게시 전 저장 스냅샷: 연구 폴더4,352,937bytes + 새 cache38,349,626bytes =42,702,563bytes(약40.72MiB); 이후 게시 상태 문구만 소폭 추가. 승인5GiB보다 작음.
+- 게시 검사: 코드/문서 공백검사·공개 대상 범위·비밀정보 패턴검사 통과. 원본 hash를 보존하기 위해 Matplotlib SVG path의 공백과 보존용 unified patch context 공백에만 제한된 diff 공백검사 예외를 사용했고 SVG XML/hash 정합을 별도로 확인했다. hook 우회/force/이력 재작성 없음.
