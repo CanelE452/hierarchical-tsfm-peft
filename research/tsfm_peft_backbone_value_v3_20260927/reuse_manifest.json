@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "scope": "v3 read-only reuse pointers from v2 final development records; existing arrays are reused for aligned comparison, not regenerated",
+  "sources": {
+    "final_development": {
+      "path": "research/tsfm_peft_followup_v2_20260926/final_development.json",
+      "sha256": "5c16a7f5f1bcf60f69ca1577117a65de137fc98ceb9d92db5a1b7e9a51fc81f7"
+    },
+    "final_selection": {
+      "path": "research/tsfm_peft_followup_v2_20260926/final_selection.json",
+      "sha256": "50f2f6b68a33e7b52dc71463891b42021f4f3c312c0122c33d7bc40b9d406b86"
+    },
+    "protocol": {
+      "path": "research/tsfm_peft_followup_v2_20260926/protocol.json",
+      "sha256": "34e0720c48473c42928a10a636b0455c9d4799efd946e52eab30c94b33dbb239"
+    },
+    "data_contract": {
+      "path": "research/tsfm_peft_development_20260926/data_contract.json",
+      "sha256": "a572c087b1f50c2dd29887838728f4f443e6906351adc62b93c86f79ddded921"
+    },
+    "chronos_bolt_small_backbone": {
+      "model_id": "amazon/chronos-bolt-small",
+      "pinned_revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+      "snapshot_path": ".cache/huggingface/models--amazon--chronos-bolt-small/snapshots/772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+      "hash_scope": "actual files resolved from snapshot symlinks; no file copied into v3 outputs",
+      "files": {
+        "config.json": {
+          "snapshot_link_target": "../../blobs/d8f9b65552d4d211e28d332ad5666484092bbf77",
+          "actual_path": ".cache/huggingface/models--amazon--chronos-bolt-small/blobs/d8f9b65552d4d211e28d332ad5666484092bbf77",
+          "bytes": 1121,
+          "sha256": "9ca0ebbe049ccebacb0546361e8aa728f0cf104cd18d1838d78d296aa317bd21"
+        },
+        "model.safetensors": {
+          "snapshot_link_target": "../../blobs/06a6a19bbe74bc10a9cd193bd4bf2bf638ae07f7e0d51653ae7ab8ea968a21dd",
+          "actual_path": ".cache/huggingface/blobs/61/61439ff1becff564d030cdbe1ce9dfce0673fc0ebc4ca0a009d3fe02ce60bba0",
+          "bytes": 190888824,
+          "sha256": "06a6a19bbe74bc10a9cd193bd4bf2bf638ae07f7e0d51653ae7ab8ea968a21dd"
+        }
+      }
+    }
+  },
+  "selected_linear_schema": {
+    "type": "object",
+    "required_datasets": ["electricity", "bull"],
+    "dataset_value_schema": {
+      "lr": "number; selected T_phi learning rate, checked against each run spec t_lr",
+      "run_ids": ["seed92601_run_id", "seed92602_run_id"]
+    },
+    "example": {
+      "electricity": {"lr": 0.001, "run_ids": ["v3_electricity_linear_res_92601_0.001", "v3_electricity_linear_res_92602_0.001"]},
+      "bull": {"lr": 0.0001, "run_ids": ["v3_bull_linear_res_92601_0.0001", "v3_bull_linear_res_92602_0.0001"]}
+    }
+  },
+  "notes": [
+    "Bull selected RAW is current:k4. The fixed_ed:k4 RAW rows are retained as same_variant_raw_control and must not be reported as the selected RAW.",
+    "Legacy v1 fit records do not contain initial checkpoint pointers. Those fields are null with missing_reason=legacy_record_has_no_initial_checkpoint.",
+    "The final_development rows below are existing exposed development predictions. Evaluation scripts must load these arrays and verify hashes instead of recreating baseline predictions."
+  ],
+  "datasets": {
+    "electricity": {
+      "selected_tsfm_residual": {
+        "variant": "current:k8",
+        "run_ids": ["revision1_rank32_residual_92601_0.001", "revision1_rank32_residual_92602_0.001"]
+      },
+      "selected_raw": {
+        "variant": "current:k8",
+        "run_ids": ["revision1_rank32_raw_bypass_92601_0.001", "revision1_rank32_raw_bypass_92602_0.001"]
+      },
+      "periods": {
+        "dev": {
+          "origin_count": 218,
+          "reused_predictions": [
+            {"role": "f0", "arm": "f0", "key": "f0", "fit": null, "seed": null, "ed_mode": null, "latent": null, "mse": 0.1645366587340259, "mae": 0.253276446154135, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/revision1_rank32_evaluation/f0.npz", "prediction_sha256": "c3b6eaaeba47763c71f164a9f234515630f08cf32fcf668b244ddb6c8c77713f"},
+            {"role": "lora", "arm": "lora", "key": "extended120_lora_92601_0.0001", "fit": "extended120_lora_92601_0.0001", "seed": 92601, "ed_mode": null, "latent": 8, "mse": 0.1609833265711731, "mae": 0.2503399332072077, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/revision1_rank32_evaluation/extended120_lora_92601_0.0001.npz", "prediction_sha256": "368751cdd09f16b24b224951d82452b4c3ed4a146d19459f9aeedf42b941804b"},
+            {"role": "lora", "arm": "lora", "key": "initial_lora_92602_0.0001", "fit": "initial_lora_92602_0.0001", "seed": 92602, "ed_mode": null, "latent": 8, "mse": 0.1612096430298963, "mae": 0.250498257148383, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/revision1_rank32_evaluation/initial_lora_92602_0.0001.npz", "prediction_sha256": "45823261e29b66a7070d65d7d0d845bc1157d72f270200fade4034cd1e8ca2c8"},
+            {"role": "selected_tsfm_residual", "arm": "residual", "key": "revision1_rank32_residual_92601_0.001", "fit": "revision1_rank32_residual_92601_0.001", "seed": 92601, "ed_mode": "current", "latent": 8, "mse": 0.16315684663854102, "mae": 0.2675478032008408, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/revision1_rank32_evaluation/revision1_rank32_residual_92601_0.001.npz", "prediction_sha256": "107698ebbb9a8f9abcd190f17799058bccc97b49473eb096ca3b97b89c0305e7"},
+            {"role": "selected_tsfm_residual", "arm": "residual", "key": "revision1_rank32_residual_92602_0.001", "fit": "revision1_rank32_residual_92602_0.001", "seed": 92602, "ed_mode": "current", "latent": 8, "mse": 0.16854362657422878, "mae": 0.274234970466077, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/revision1_rank32_evaluation/revision1_rank32_residual_92602_0.001.npz", "prediction_sha256": "4f68788780e9bae8f7cd2cab85dab6a6076edd0c443d3545a60b4af8eb26dee5"},
+            {"role": "selected_raw", "arm": "raw_bypass", "key": "revision1_rank32_raw_bypass_92601_0.001", "fit": "revision1_rank32_raw_bypass_92601_0.001", "seed": 92601, "ed_mode": "current", "latent": 8, "mse": 0.1797337529834494, "mae": 0.28960811625761806, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/revision1_rank32_evaluation/revision1_rank32_raw_bypass_92601_0.001.npz", "prediction_sha256": "3f898b2f2561a22d6a12dc6cb3e60a421105afad9a934a4dddb57727f9b63f34"},
+            {"role": "selected_raw", "arm": "raw_bypass", "key": "revision1_rank32_raw_bypass_92602_0.001", "fit": "revision1_rank32_raw_bypass_92602_0.001", "seed": 92602, "ed_mode": "current", "latent": 8, "mse": 0.18124471077960536, "mae": 0.29105701628284397, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/revision1_rank32_evaluation/revision1_rank32_raw_bypass_92602_0.001.npz", "prediction_sha256": "37a5cac0012830e8a22ed5e54dbfde7b26b4c3737c85f293bc1e74ccb507ef6e"},
+            {"role": "factor_linear", "arm": "factor_linear", "key": "factor_linear", "fit": null, "seed": null, "ed_mode": null, "latent": null, "mse": 0.17845678629253336, "mae": 0.2804748714986782, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/baselines_fulltrain/factor_linear_0.001_dev.npz", "prediction_sha256": "4ee380b619af415ddc7cfdfcd60a7e8825c0cd2f7d5228aebcca5e9f09e9b3d1"},
+            {"role": "shared_linear", "arm": "shared_linear", "key": "shared_linear", "fit": null, "seed": null, "ed_mode": null, "latent": null, "mse": 0.18079492306249323, "mae": 0.2807478583597953, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/baselines_fulltrain/shared_linear_0.001_dev.npz", "prediction_sha256": "fdc9134bafc01b7cece4f88bbb0bf8076fea9cbd3eedd05879aa4f72bbbc3b67"}
+          ]
+        }
+      }
+    },
+    "bull": {
+      "selected_tsfm_residual": {
+        "variant": "fixed_ed:k4",
+        "run_ids": ["v2_bull_residual_fixed_ed_92601", "v2_bull_residual_fixed_ed_92602"]
+      },
+      "selected_raw": {
+        "variant": "current:k4",
+        "run_ids": ["bull_final_raw_bypass_92601_0.001", "bull_final_raw_bypass_92602_0.001"]
+      },
+      "same_variant_raw_control": {
+        "variant": "fixed_ed:k4",
+        "run_ids": ["v2_bull_raw_bypass_fixed_ed_92601", "v2_bull_raw_bypass_fixed_ed_92602"]
+      },
+      "periods": {
+        "e1": {
+          "origin_count": 40,
+          "reused_predictions": [
+            {"role": "f0", "arm": "f0", "key": "f0", "fit": null, "seed": null, "ed_mode": null, "latent": null, "mse": 0.16436700644441152, "mae": 0.20816571349750462, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e1_f0.npz", "prediction_sha256": "d75ae31709bae82535c893614bf13a82c6f4701552d018fa24c280aa6d007303"},
+            {"role": "lora", "arm": "lora", "key": "bull_final_lora_92601_0.0001", "fit": "bull_final_lora_92601_0.0001", "seed": 92601, "ed_mode": null, "latent": 4, "mse": 0.16298879871425856, "mae": 0.20541414504661096, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e1_bull_final_lora_92601_0.0001.npz", "prediction_sha256": "5a903a9a114fdf96d4f0d2f1c7d1fa80141a2e05bda9b21695bd4be153225a5d"},
+            {"role": "lora", "arm": "lora", "key": "bull_final_lora_92602_0.0001", "fit": "bull_final_lora_92602_0.0001", "seed": 92602, "ed_mode": null, "latent": 4, "mse": 0.16111120902250364, "mae": 0.20445609144838384, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e1_bull_final_lora_92602_0.0001.npz", "prediction_sha256": "6bad7a98416d868f4b02bbddadd6d749910db1cc59788a574d6b2d9c40fc065c"},
+            {"role": "selected_tsfm_residual", "arm": "residual", "key": "v2_bull_residual_fixed_ed_92601", "fit": "v2_bull_residual_fixed_ed_92601", "seed": 92601, "ed_mode": "fixed_ed", "latent": 4, "mse": 0.21251518579774525, "mae": 0.26896712483015606, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/first_modes_evaluation/e1_v2_bull_residual_fixed_ed_92601.npz", "prediction_sha256": "1da0933795fa08a914a7a3ecfc7d6779468d2f7bf5d9a473ed6fcade55d63edb"},
+            {"role": "selected_tsfm_residual", "arm": "residual", "key": "v2_bull_residual_fixed_ed_92602", "fit": "v2_bull_residual_fixed_ed_92602", "seed": 92602, "ed_mode": "fixed_ed", "latent": 4, "mse": 0.2082153467863177, "mae": 0.2635127312957233, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/first_modes_evaluation/e1_v2_bull_residual_fixed_ed_92602.npz", "prediction_sha256": "8d95562f1477f926e4fd07b2a8322f16f389dceb67499378f1476d15776bc21e"},
+            {"role": "selected_raw", "arm": "raw_bypass", "key": "bull_final_raw_bypass_92601_0.001", "fit": "bull_final_raw_bypass_92601_0.001", "seed": 92601, "ed_mode": "current", "latent": 4, "mse": 0.568028398502116, "mae": 0.4112314189717172, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e1_bull_final_raw_bypass_92601_0.001.npz", "prediction_sha256": "b9e5773044cdef83753614e48e2aa5955b3252dac243dd493bc830b252427d21"},
+            {"role": "selected_raw", "arm": "raw_bypass", "key": "bull_final_raw_bypass_92602_0.001", "fit": "bull_final_raw_bypass_92602_0.001", "seed": 92602, "ed_mode": "current", "latent": 4, "mse": 0.5691711112101421, "mae": 0.4253272550933975, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e1_bull_final_raw_bypass_92602_0.001.npz", "prediction_sha256": "b1c84fc62ff6b30cde0698df3ad2b2eadcc821cad18e96cf36f7d0b77ea27467"},
+            {"role": "same_variant_raw_control", "arm": "raw_bypass", "key": "v2_bull_raw_bypass_fixed_ed_92601", "fit": "v2_bull_raw_bypass_fixed_ed_92601", "seed": 92601, "ed_mode": "fixed_ed", "latent": 4, "mse": 0.5407864232719345, "mae": 0.4595677928427165, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/all_modes_evaluation/e1_v2_bull_raw_bypass_fixed_ed_92601.npz", "prediction_sha256": "21fd21eaf886a4fbb4502a2a19a27d7b286c8ec00a384633087e6846142a864b"},
+            {"role": "same_variant_raw_control", "arm": "raw_bypass", "key": "v2_bull_raw_bypass_fixed_ed_92602", "fit": "v2_bull_raw_bypass_fixed_ed_92602", "seed": 92602, "ed_mode": "fixed_ed", "latent": 4, "mse": 0.5269471453980199, "mae": 0.45463875522263486, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/all_modes_evaluation/e1_v2_bull_raw_bypass_fixed_ed_92602.npz", "prediction_sha256": "330e699fabf3c1dc993d0d1e8d686a2388e2189d47e76b74324680fe2dded57d"},
+            {"role": "factor_linear", "arm": "factor_linear", "key": "factor_linear", "fit": null, "seed": null, "ed_mode": null, "latent": null, "mse": 0.2732116432176149, "mae": 0.3112207690766466, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e1_factor_linear.npz", "prediction_sha256": "5d8e37110e88d51d3c375594eca5ebd0e8015cf4dd0b16c6bb3560256f988496"},
+            {"role": "shared_linear", "arm": "shared_linear", "key": "shared_linear", "fit": null, "seed": null, "ed_mode": null, "latent": null, "mse": 0.27817733538014605, "mae": 0.30677937983953973, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e1_shared_linear.npz", "prediction_sha256": "857eac136a0fdccc469759e38c7b4abe04499aecb3f2a371ae3cccf9f2b1d25b"}
+          ]
+        },
+        "e2": {
+          "origin_count": 40,
+          "reused_predictions": [
+            {"role": "f0", "arm": "f0", "key": "f0", "fit": null, "seed": null, "ed_mode": null, "latent": null, "mse": 1.2013833913921381, "mae": 0.37823874189648854, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e2_f0.npz", "prediction_sha256": "5ccff05ac35c28efd9d99800b3715022e32ed74e84b78ac56cf9c0164bca2053"},
+            {"role": "lora", "arm": "lora", "key": "bull_final_lora_92601_0.0001", "fit": "bull_final_lora_92601_0.0001", "seed": 92601, "ed_mode": null, "latent": 4, "mse": 1.179287780552932, "mae": 0.4066933276503256, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e2_bull_final_lora_92601_0.0001.npz", "prediction_sha256": "b411c37ed1894434a7c690a7eaeb14bf2920203383dbb639e0e3caf203daa75e"},
+            {"role": "lora", "arm": "lora", "key": "bull_final_lora_92602_0.0001", "fit": "bull_final_lora_92602_0.0001", "seed": 92602, "ed_mode": null, "latent": 4, "mse": 1.204663436485348, "mae": 0.4022399925131721, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e2_bull_final_lora_92602_0.0001.npz", "prediction_sha256": "ada7698e3a9d70620d5994d716972f5464ef9ab959744e7a8e54da5c8ecac2a4"},
+            {"role": "selected_tsfm_residual", "arm": "residual", "key": "v2_bull_residual_fixed_ed_92601", "fit": "v2_bull_residual_fixed_ed_92601", "seed": 92601, "ed_mode": "fixed_ed", "latent": 4, "mse": 1.2466995708721456, "mae": 0.4450537931927576, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/first_modes_evaluation/e2_v2_bull_residual_fixed_ed_92601.npz", "prediction_sha256": "0b03da74ab639b06f6643d760a5792e5b17d56414ca4c268ed07478448b08657"},
+            {"role": "selected_tsfm_residual", "arm": "residual", "key": "v2_bull_residual_fixed_ed_92602", "fit": "v2_bull_residual_fixed_ed_92602", "seed": 92602, "ed_mode": "fixed_ed", "latent": 4, "mse": 1.246461046391261, "mae": 0.4424604703888235, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/first_modes_evaluation/e2_v2_bull_residual_fixed_ed_92602.npz", "prediction_sha256": "9a41b820186e9d81bdce63df80e547297ba6626fe454e478f46de585b432982b"},
+            {"role": "selected_raw", "arm": "raw_bypass", "key": "bull_final_raw_bypass_92601_0.001", "fit": "bull_final_raw_bypass_92601_0.001", "seed": 92601, "ed_mode": "current", "latent": 4, "mse": 1.2491846613291293, "mae": 0.5383542904252356, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e2_bull_final_raw_bypass_92601_0.001.npz", "prediction_sha256": "83fe39759656f2df86f180c9578252b3e108ae03ea0bb9976b19adc9947f2266"},
+            {"role": "selected_raw", "arm": "raw_bypass", "key": "bull_final_raw_bypass_92602_0.001", "fit": "bull_final_raw_bypass_92602_0.001", "seed": 92602, "ed_mode": "current", "latent": 4, "mse": 1.2935356106644067, "mae": 0.5472836451812677, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e2_bull_final_raw_bypass_92602_0.001.npz", "prediction_sha256": "c46c31e6def30c0a4f83dc8949bd6d597d87e0f57f63cb8ea9a0550080ae63fc"},
+            {"role": "same_variant_raw_control", "arm": "raw_bypass", "key": "v2_bull_raw_bypass_fixed_ed_92601", "fit": "v2_bull_raw_bypass_fixed_ed_92601", "seed": 92601, "ed_mode": "fixed_ed", "latent": 4, "mse": 1.3364726936385425, "mae": 0.5522818200908753, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/all_modes_evaluation/e2_v2_bull_raw_bypass_fixed_ed_92601.npz", "prediction_sha256": "996aed10c92441376b9455b41a5b53fca74ec1e4ca6b65e77889694e71252189"},
+            {"role": "same_variant_raw_control", "arm": "raw_bypass", "key": "v2_bull_raw_bypass_fixed_ed_92602", "fit": "v2_bull_raw_bypass_fixed_ed_92602", "seed": 92602, "ed_mode": "fixed_ed", "latent": 4, "mse": 1.329527242168655, "mae": 0.5510873092485744, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/all_modes_evaluation/e2_v2_bull_raw_bypass_fixed_ed_92602.npz", "prediction_sha256": "a06e7fedf379eb0f8ef0ee2a11b04ff71eed8fd65f8e69cac5f3fd3454123afa"},
+            {"role": "factor_linear", "arm": "factor_linear", "key": "factor_linear", "fit": null, "seed": null, "ed_mode": null, "latent": null, "mse": 1.3685640923930626, "mae": 0.5748880747962111, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e2_factor_linear.npz", "prediction_sha256": "faaf67f8b95ef90c1adb18d614199cfa5b6cf19477c0d6fca0e7239f96c6bb39"},
+            {"role": "shared_linear", "arm": "shared_linear", "key": "shared_linear", "fit": null, "seed": null, "ed_mode": null, "latent": null, "mse": 1.3239467350078895, "mae": 0.5551719559422265, "prediction_path": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/protected_evaluation/e2_shared_linear.npz", "prediction_sha256": "bf54d8cc99dc9b67be0f7e0a3de5b12c6ce3491ca2f91c9165689051514fea19"}
+          ]
+        }
+      }
+    }
+  },
+  "fit_records": {
+    "revision1_rank32_residual_92601_0.001": {"result_path": "research/tsfm_peft_development_20260926/runs/revision1_rank32_residual_92601_0.001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/revision1_rank32_residual_92601_0.001/best.pt", "checkpoint_sha256": "02279277c76035481b561cdaa0cc8ccc98993a848207e4c87faf41dd010f1ed5", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 41, "selected_steps": 5248, "total_steps": 6016, "trainable_parameters": 18432},
+    "revision1_rank32_residual_92602_0.001": {"result_path": "research/tsfm_peft_development_20260926/runs/revision1_rank32_residual_92602_0.001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/revision1_rank32_residual_92602_0.001/best.pt", "checkpoint_sha256": "3fbad00d01491da65a4dec1243c9c6bc47ee6dba5797ae0ed231f8221ee9d4da", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 15, "selected_steps": 1920, "total_steps": 2688, "trainable_parameters": 18432},
+    "revision1_rank32_raw_bypass_92601_0.001": {"result_path": "research/tsfm_peft_development_20260926/runs/revision1_rank32_raw_bypass_92601_0.001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/revision1_rank32_raw_bypass_92601_0.001/best.pt", "checkpoint_sha256": "751ab12820a5d4846222a94f9ac7103f07b1470cd24515c955bdbaba98815e4b", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 36, "selected_steps": 4608, "total_steps": 5376, "trainable_parameters": 18432},
+    "revision1_rank32_raw_bypass_92602_0.001": {"result_path": "research/tsfm_peft_development_20260926/runs/revision1_rank32_raw_bypass_92602_0.001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/revision1_rank32_raw_bypass_92602_0.001/best.pt", "checkpoint_sha256": "b168b2c8e92f80b4e088023e301149f12e94d971af69b05d5a9e626ad80930c3", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 38, "selected_steps": 4864, "total_steps": 5632, "trainable_parameters": 18432},
+    "v2_bull_residual_fixed_ed_92601": {"result_path": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92601/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92601/best.pt", "checkpoint_sha256": "5fc6c802a56db4b8ad03eefb0e72753dfe0f5d81c6e1fb513b8edb8a22f5192f", "initial_checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92601/initial.pt", "initial_checkpoint_sha256": "f884496fdd13d02f7b478d454cbf0d13672ad058da048b0e702f41f22e891142", "selected_epoch": 7, "selected_steps": 896, "total_steps": 1664, "trainable_parameters": 17920},
+    "v2_bull_residual_fixed_ed_92602": {"result_path": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92602/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92602/best.pt", "checkpoint_sha256": "69779bdd2377c834bf9b165912d6c35eef2b0962709a6779a2b8948108b47cc4", "initial_checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_residual_fixed_ed_92602/initial.pt", "initial_checkpoint_sha256": "eaefa17f436eb53c1b0ed6d4c019c7adc11a8680f513bdd9c5afd484c5fc279e", "selected_epoch": 8, "selected_steps": 1024, "total_steps": 1792, "trainable_parameters": 17920},
+    "v2_bull_raw_bypass_fixed_ed_92601": {"result_path": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92601/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92601/best.pt", "checkpoint_sha256": "94f60af8c050d79912fe3c173180f8f66a347fe4420d3cff40eb3cdc8a1bf795", "initial_checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92601/initial.pt", "initial_checkpoint_sha256": "d918749a186d1728759bc8c7837f65189817d32710705f097f12336908ae8b54", "selected_epoch": 1, "selected_steps": 128, "total_steps": 896, "trainable_parameters": 17920},
+    "v2_bull_raw_bypass_fixed_ed_92602": {"result_path": "research/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92602/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92602/best.pt", "checkpoint_sha256": "c347a790389368191f35b5e1853bdb51336160a713bbafd2c60462b8dc7532a3", "initial_checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_followup_v2_20260926/runs/v2_bull_raw_bypass_fixed_ed_92602/initial.pt", "initial_checkpoint_sha256": "8a9c393439d713d904aabe794693ff48a48da9f75c7604d870887a12691a6052", "selected_epoch": 7, "selected_steps": 896, "total_steps": 1664, "trainable_parameters": 17920},
+    "extended120_lora_92601_0.0001": {"result_path": "research/tsfm_peft_development_20260926/runs/extended120_lora_92601_0.0001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/extended120_lora_92601_0.0001/best.pt", "checkpoint_sha256": "4413cbb2156e3943f2b0db706f8a2e473def294bc69f90c3ab356eda5d57bf56", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 40, "selected_steps": 5120, "total_steps": 5888, "trainable_parameters": 294912},
+    "initial_lora_92602_0.0001": {"result_path": "research/tsfm_peft_development_20260926/runs/initial_lora_92602_0.0001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/initial_lora_92602_0.0001/best.pt", "checkpoint_sha256": "a76a53de1ac454c81047bc2bd4cefcab02e56cde6dfa03aad0ec29638e28d420", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 15, "selected_steps": 1920, "total_steps": 2688, "trainable_parameters": 294912},
+    "bull_final_lora_92601_0.0001": {"result_path": "research/tsfm_peft_development_20260926/runs/bull_final_lora_92601_0.0001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/bull_final_lora_92601_0.0001/best.pt", "checkpoint_sha256": "77728123ec3e6c22415420b34327afa4abc20bda4439229e4cf705b799365249", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 4, "selected_steps": 512, "total_steps": 1280, "trainable_parameters": 294912},
+    "bull_final_lora_92602_0.0001": {"result_path": "research/tsfm_peft_development_20260926/runs/bull_final_lora_92602_0.0001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/bull_final_lora_92602_0.0001/best.pt", "checkpoint_sha256": "99a447216585afab3dd41620a8b7600f28ccc12ea592dc963578ab77f38bcfa9", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 3, "selected_steps": 384, "total_steps": 1152, "trainable_parameters": 294912},
+    "bull_final_raw_bypass_92601_0.001": {"result_path": "research/tsfm_peft_development_20260926/runs/bull_final_raw_bypass_92601_0.001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/bull_final_raw_bypass_92601_0.001/best.pt", "checkpoint_sha256": "c9c78d4303e0769738f4ca2563f7d6d72d5ba3247b28642e92b810d068bf745f", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 22, "selected_steps": 2816, "total_steps": 3584, "trainable_parameters": 18048},
+    "bull_final_raw_bypass_92602_0.001": {"result_path": "research/tsfm_peft_development_20260926/runs/bull_final_raw_bypass_92602_0.001/result.json", "checkpoint": "E:/CODING/proj/hierarchical-tsfm-peft/.cache/tsfm_peft_development_20260926/runs/bull_final_raw_bypass_92602_0.001/best.pt", "checkpoint_sha256": "8d611b41624cc5cfe142df8b2456895f2050a92fadf766f8854d093956aa43f6", "initial_checkpoint": null, "initial_checkpoint_sha256": null, "missing_reason": "legacy_record_has_no_initial_checkpoint", "selected_epoch": 48, "selected_steps": 6144, "total_steps": 6912, "trainable_parameters": 18048}
+  }
+}

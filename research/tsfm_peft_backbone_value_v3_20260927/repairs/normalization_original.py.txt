@@ -1,0 +1,139 @@
+import copy
+
+import torch
+from torch import nn
+
+
+class TemporalResidual(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.down = nn.Linear(512, 32, bias=False, device='cpu', dtype=torch.float32)
+        self.up = nn.Linear(32, 48, bias=False, device='cpu', dtype=torch.float32)
+        nn.init.zeros_(self.up.weight)
+
+    def forward(self, x):
+        return self.up(self.down(x.transpose(1, 2))).transpose(1, 2)
+
+
+class LinearResidual(nn.Module):
+    initial_names = {
+        'encoder.weight', 'decoder.weight',
+        'residual.down.weight', 'residual.up.weight',
+    }
+
+    def __init__(self, spec, initial_state):
+        super().__init__()
+        self.spec = copy.deepcopy(spec)
+        self.arm = spec.get('arm', 'residual')
+        self.ed_mode = spec['ed_mode']
+        self.normalization = spec.get('normalization', 'context')
+        self.context = 512
+        self.horizon = 48
+        self.residual_rank = 32
+        self.eps = 1e-5
+        self.temporal_seed = int(spec['seed']) + 3_000_000
+        if self.arm not in ('residual', 'raw_bypass'):
+            raise ValueError(f'unsupported arm: {self.arm}')
+        if self.ed_mode not in ('current', 'fixed_ed'):
+            raise ValueError(f'unsupported E/D mode: {self.ed_mode}')
+        if self.normalization not in ('context', 'raw'):
+            raise ValueError(f'unsupported normalization: {self.normalization}')
+        if set(initial_state) != self.initial_names:
+            raise ValueError('initial state must contain exactly the four pre-training E/D/G tensors')
+        rank, channels = initial_state['encoder.weight'].shape
+        if rank != spec['latent']:
+            raise ValueError('latent dimension does not match initial state')
+        self.channels = channels
+        self.latent = rank
+        # Construction of E/D/G cannot consume the caller's random stream.
+        with torch.random.fork_rng(devices=[]):
+            torch.default_generator.manual_seed(0)
+            self.encoder = nn.Linear(channels, rank, bias=False, device='cpu', dtype=torch.float32)
+            self.decoder = nn.Linear(rank, channels, bias=False, device='cpu', dtype=torch.float32)
+            self.residual = TemporalResidual()
+        with torch.no_grad():
+            for name, parameter in self.named_parameters():
+                value = initial_state[name]
+                if parameter.shape != value.shape:
+                    raise ValueError(f'initial tensor shape mismatch: {name}')
+                parameter.copy_(value.detach().to(device='cpu', dtype=torch.float32))
+        if torch.count_nonzero(self.residual.up.weight).item():
+            raise ValueError('G output weights must come from the zero-output initial state')
+        with torch.random.fork_rng(devices=[]):
+            torch.default_generator.manual_seed(self.temporal_seed)
+            self.temporal = nn.Linear(self.context, self.horizon, bias=True, device='cpu', dtype=torch.float32)
+        if self.ed_mode == 'fixed_ed':
+            self.encoder.requires_grad_(False)
+            self.decoder.requires_grad_(False)
+
+    def normalize_context(self, z):
+        original_dtype = z.dtype
+        z = z.to(torch.float32)
+        loc = torch.nan_to_num(torch.nanmean(z, dim=-1, keepdim=True), nan=0.0)
+        scale = torch.nan_to_num((z - loc).square().nanmean(dim=-1, keepdim=True).sqrt(), nan=1.0)
+        scale = torch.where(scale == 0, self.eps, scale)
+        normalized = (z - loc) / scale
+        normalized = torch.where(torch.isnan(z), 0.0, normalized)
+        return normalized.to(original_dtype), loc, scale
+
+    def temporal_point(self, z):
+        latent = z.transpose(1, 2)
+        if self.normalization == 'context':
+            normalized, loc, scale = self.normalize_context(latent)
+            prediction = self.temporal(normalized).to(torch.float32) * scale + loc
+        else:
+            prediction = self.temporal(latent)
+        return prediction.transpose(1, 2)
+
+    def components(self, x):
+        if x.ndim != 3 or x.shape[1:] != (self.context, self.channels):
+            raise ValueError('expected [batch, 512, channels] input')
+        z = self.encoder(x)
+        # Frozen decoder parameters still permit gradients from the main path to T.
+        main = self.decoder(self.temporal_point(z))
+        reconstruction = self.decoder(z)
+        correction_input = x - reconstruction if self.arm == 'residual' else x
+        return main, self.residual(correction_input)
+
+    def forward(self, x):
+        main, correction = self.components(x)
+        return main + correction
+
+    def adapter_state(self):
+        return {name: value.detach().cpu().clone() for name, value in self.state_dict().items()}
+
+    def restore_adapter(self, state):
+        self.load_state_dict(state, strict=True)
+
+    def model_config(self):
+        return {
+            'schema_version': 1,
+            'model': 'LinearResidual',
+            'spec': copy.deepcopy(self.spec),
+            'context': self.context,
+            'horizon': self.horizon,
+            'channels': self.channels,
+            'latent': self.latent,
+            'residual_rank': self.residual_rank,
+            'normalization': self.normalization,
+            'normalization_eps': self.eps,
+            'normalization_arcsinh': False,
+            'normalization_detach': False,
+            'temporal_bias': True,
+            'temporal_seed': self.temporal_seed,
+            'temporal_initializer': 'PyTorch Linear.reset_parameters, separate CPU fork_rng',
+        }
+
+    def checkpoint_payload(self):
+        return {'state': self.adapter_state(), 'model_config': self.model_config()}
+
+
+def macro_loss(pred, target, mask, channel_count=None):
+    if pred.shape != target.shape or pred.shape != mask.shape or pred.ndim != 3:
+        raise ValueError('prediction, target and mask must share [batch, horizon, channel] shape')
+    squared = (pred - target).square() * mask
+    count = mask.sum(dim=(0, 1)) if channel_count is None else channel_count
+    valid = count > 0
+    if not bool(valid.any()):
+        raise ValueError('loss has no observed target')
+    return (squared.sum(dim=(0, 1))[valid] / count[valid]).mean()

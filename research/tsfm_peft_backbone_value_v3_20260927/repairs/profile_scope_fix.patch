@@ -1,0 +1,33 @@
+diff --git a/research/tsfm_peft_backbone_value_v3_20260927/repairs/profile_scope_original.py.txt b/research/tsfm_peft_backbone_value_v3_20260927/cost_v3.py
+index af077ff..0901a05 100644
+--- a/research/tsfm_peft_backbone_value_v3_20260927/repairs/profile_scope_original.py.txt
++++ b/research/tsfm_peft_backbone_value_v3_20260927/cost_v3.py
+@@ -506,13 +506,15 @@ def profile_selected(args, specs, prepared, job):
+             forward_cpu_output(model, chunk, 'cuda')
+         torch.cuda.synchronize()
+         trace = trace_dir / f'{spec["id"]}.trace.json'
++        job.check_limits()
+         with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA],
+                                     schedule=torch.profiler.schedule(wait=0, warmup=1, active=3, repeat=1),
+                                     record_shapes=False, with_stack=False, profile_memory=False) as profiler:
+             for step in range(4):
+-                job.check_limits()
+-                forward_cpu_output(model, chunk, 'cuda')
++                with torch.profiler.record_function('v3_model_forward'):
++                    forward_cpu_output(model, chunk, 'cuda')
+                 profiler.step()
++        job.check_limits()
+         profiler.export_chrome_trace(str(trace))
+         operators = profiler.key_averages()
+         records.append(dict(row_metadata(spec), trace=receipt(trace), trace_bytes=trace.stat().st_size,
+@@ -531,7 +533,9 @@ def profile_selected(args, specs, prepared, job):
+         if cuda_cleanup()['allocated']:
+             raise RuntimeError('Profiled model retains CUDA memory')
+         job.heartbeat(f'{args.name}: profile {spec["id"]} complete')
+-    return dict(reason=args.reason, profiles=records, performance_claim='Diagnostic traces only, excluded from timing comparisons.')
++    return dict(reason=args.reason, profiles=records,
++                forward_scope='v3_model_forward includes CPU input -> H2D -> complete CPU output; ledger checks are outside the profile. ProfilerStep also includes instrumentation overhead, not model-only time.',
++                performance_claim='Diagnostic traces only, excluded from timing comparisons.')
+ 
+ 
+ def main():

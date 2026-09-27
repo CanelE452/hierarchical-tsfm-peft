@@ -1,0 +1,1860 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "command": [
+    "research/tsfm_peft_backbone_value_v3_20260927/plot_v3.py"
+  ],
+  "sources": {
+    "development": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_backbone_value_v3_20260927\\final_development.json",
+      "sha256": "f5064b33ba2950def36dc7f4aef543e9df509f669a7602c213ec6368d62310ed"
+    },
+    "gpu_cost": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_backbone_value_v3_20260927\\cost_gpu_01.json",
+      "sha256": "23f7bce11bd457b7b98589f6b0c977d1a8699f45ddf2694a3bdd9460102d0db3"
+    },
+    "cpu_cost": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_backbone_value_v3_20260927\\cost_cpu_01.json",
+      "sha256": "4f3d3ae5c0a81a93d81878dd97e4920fd072a236eccfaf87d585872b116b4171"
+    }
+  },
+  "script": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_backbone_value_v3_20260927\\plot_v3.py",
+    "sha256": "80ca321be6fa8a4d3a7ffa29fc4d0f45bebd359b361ea77b57e6e55ee1aea8b5"
+  },
+  "selected_linear": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_backbone_value_v3_20260927\\selected_linear.json",
+    "sha256": "b25f467dc676bf6e82587d629c68541889012ba1f2055a9ad54d5100ea382f41",
+    "selection": {
+      "electricity": {
+        "lr": 0.001,
+        "mean_best_val_mse": 0.1734288908838671,
+        "run_ids": [
+          "v3_electricity_res_norm_92601_lr1e3",
+          "v3_electricity_res_norm_92602_lr1e3"
+        ],
+        "lr_candidates": {
+          "0.001": {
+            "mean_best_val_mse": 0.1734288908838671,
+            "run_ids": [
+              "v3_electricity_res_norm_92601_lr1e3",
+              "v3_electricity_res_norm_92602_lr1e3"
+            ]
+          },
+          "0.0001": {
+            "mean_best_val_mse": 0.1776049072321843,
+            "run_ids": [
+              "v3_electricity_res_norm_92601_lr1e4",
+              "v3_electricity_res_norm_92602_lr1e4"
+            ]
+          }
+        },
+        "criterion": "two individual seed best VAL losses averaged; no DEV/E1/E2 selection"
+      },
+      "bull": {
+        "lr": 0.001,
+        "mean_best_val_mse": 0.43892884275115374,
+        "run_ids": [
+          "v3_bull_res_norm_92601_lr1e3",
+          "v3_bull_res_norm_92602_lr1e3"
+        ],
+        "lr_candidates": {
+          "0.001": {
+            "mean_best_val_mse": 0.43892884275115374,
+            "run_ids": [
+              "v3_bull_res_norm_92601_lr1e3",
+              "v3_bull_res_norm_92602_lr1e3"
+            ]
+          },
+          "0.0001": {
+            "mean_best_val_mse": 0.4507554630168722,
+            "run_ids": [
+              "v3_bull_res_norm_92601_lr1e4",
+              "v3_bull_res_norm_92602_lr1e4"
+            ]
+          }
+        },
+        "criterion": "two individual seed best VAL losses averaged; no DEV/E1/E2 selection"
+      }
+    }
+  },
+  "figure": {
+    "inches": [
+      12,
+      8.5
+    ],
+    "png_dpi": 300,
+    "palette": {
+      "electricity": "#0072B2",
+      "bull": "#D55E00"
+    },
+    "font": "Arial with DejaVu Sans fallback",
+    "new_fits": 0,
+    "new_predictions": 0,
+    "new_bootstrap_draws": 0,
+    "significance_tests": 0
+  },
+  "panels": {
+    "A": {
+      "plotted_comparisons": [
+        {
+          "dataset": "electricity",
+          "period": "dev",
+          "origins": 218,
+          "target_shape": [
+            218,
+            48,
+            32
+          ],
+          "mean_relative_pct": 9.720928792939958,
+          "conditional_block95_pct": [
+            6.354456344180414,
+            13.16387315856942
+          ],
+          "full": {
+            "linear_mse": 0.1819724200098133,
+            "reference_mse": 0.16585023660638426,
+            "delta_mse_linear_minus_reference": 0.016122183403429052,
+            "relative_to_reference_pct": 9.720928792939958
+          },
+          "block_origins": 7,
+          "draws": 2000,
+          "interval_scope": "non-circular 7-origin time blocks, all channels move together, trained seeds fixed; exposed development interval, not independent confirmation",
+          "seed_points": [
+            {
+              "seed": 92601,
+              "relative_to_reference_pct": 11.346354789002481,
+              "linear_fit": "v3_electricity_res_norm_92601_lr1e3",
+              "reference_fit": "revision1_rank32_residual_92601_0.001",
+              "linear_mse": 0.18166920132069855,
+              "reference_mse": 0.16315684663854102
+            },
+            {
+              "seed": 92602,
+              "relative_to_reference_pct": 8.147452623284558,
+              "linear_fit": "v3_electricity_res_norm_92602_lr1e3",
+              "reference_fit": "revision1_rank32_residual_92602_0.001",
+              "linear_mse": 0.1822756386989297,
+              "reference_mse": 0.16854362657422878
+            }
+          ]
+        },
+        {
+          "dataset": "bull",
+          "period": "e1",
+          "origins": 40,
+          "target_shape": [
+            40,
+            48,
+            16
+          ],
+          "mean_relative_pct": 22.313620011567018,
+          "conditional_block95_pct": [
+            10.63297590666063,
+            31.263316023046528
+          ],
+          "full": {
+            "linear_mse": 0.25730537244875856,
+            "reference_mse": 0.2103652662920332,
+            "delta_mse_linear_minus_reference": 0.046940106156725364,
+            "relative_to_reference_pct": 22.313620011567018
+          },
+          "block_origins": 7,
+          "draws": 2000,
+          "interval_scope": "non-circular 7-origin time blocks, all channels move together, trained seeds fixed; exposed development interval, not independent confirmation",
+          "seed_points": [
+            {
+              "seed": 92601,
+              "relative_to_reference_pct": 19.827012297481293,
+              "linear_fit": "v3_bull_res_norm_92601_lr1e3",
+              "reference_fit": "v2_bull_residual_fixed_ed_92601",
+              "linear_mse": 0.2546505978198794,
+              "reference_mse": 0.21251518579774525
+            },
+            {
+              "seed": 92602,
+              "relative_to_reference_pct": 24.85157846910329,
+              "linear_fit": "v3_bull_res_norm_92602_lr1e3",
+              "reference_fit": "v2_bull_residual_fixed_ed_92602",
+              "linear_mse": 0.259960147077635,
+              "reference_mse": 0.2082153467863177
+            }
+          ]
+        },
+        {
+          "dataset": "bull",
+          "period": "e2",
+          "origins": 40,
+          "target_shape": [
+            40,
+            48,
+            16
+          ],
+          "mean_relative_pct": 9.860068443875097,
+          "conditional_block95_pct": [
+            -30.700298328277523,
+            110.23697309614664
+          ],
+          "full": {
+            "linear_mse": 1.3694939802706516,
+            "reference_mse": 1.2465803086316969,
+            "delta_mse_linear_minus_reference": 0.12291367163895472,
+            "relative_to_reference_pct": 9.860068443875097
+          },
+          "block_origins": 7,
+          "draws": 2000,
+          "interval_scope": "non-circular 7-origin time blocks, all channels move together, trained seeds fixed; exposed development interval, not independent confirmation",
+          "seed_points": [
+            {
+              "seed": 92601,
+              "relative_to_reference_pct": 8.550427402351826,
+              "linear_fit": "v3_bull_res_norm_92601_lr1e3",
+              "reference_fit": "v2_bull_residual_fixed_ed_92601",
+              "linear_mse": 1.353297712605,
+              "reference_mse": 1.2466995708721456
+            },
+            {
+              "seed": 92602,
+              "relative_to_reference_pct": 11.169960100088705,
+              "linear_fit": "v3_bull_res_norm_92602_lr1e3",
+              "reference_fit": "v2_bull_residual_fixed_ed_92602",
+              "linear_mse": 1.3856902479363131,
+              "reference_mse": 1.246461046391261
+            }
+          ]
+        }
+      ],
+      "formula": "100*(LINEAR_RES MSE - TSFM_RES MSE)/TSFM_RES MSE; positive favors TSFM_RES",
+      "interval": "Stored 95% non-circular time-block interval; trained seeds fixed, all channels move together. No interval is recomputed; no independent confirmation is claimed.",
+      "seed_delta_formula": "Same percentage formula applied to each recorded matched-seed pair of MSEs."
+    },
+    "B": {
+      "source": "gpu_cost",
+      "selector": {
+        "scope": "deployment_cpu_to_cpu",
+        "batch_origins": 1,
+        "include_in_primary": true,
+        "families": [
+          "f0",
+          "merged_lora",
+          "tsfm_res",
+          "linear_res"
+        ]
+      },
+      "raw_row_points": [
+        {
+          "source_row_index": 0,
+          "id": "electricity_f0",
+          "dataset": "electricity",
+          "family": "f0",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": "pre",
+          "order_position": 0,
+          "median_ms_per_origin": 25.548985414692048,
+          "within_block_q25_ms": 25.07085833349265,
+          "within_block_q75_ms": 26.83330104143048
+        },
+        {
+          "source_row_index": 4,
+          "id": "extended120_lora_92601_0.0001",
+          "dataset": "electricity",
+          "family": "merged_lora",
+          "seed": 92601,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 1,
+          "median_ms_per_origin": 25.14554791802463,
+          "within_block_q25_ms": 24.99746145864871,
+          "within_block_q75_ms": 25.87309375182182
+        },
+        {
+          "source_row_index": 8,
+          "id": "revision1_rank32_residual_92601_0.001",
+          "dataset": "electricity",
+          "family": "tsfm_res",
+          "seed": 92601,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 2,
+          "median_ms_per_origin": 25.867506250506267,
+          "within_block_q25_ms": 25.381048960601525,
+          "within_block_q75_ms": 26.70454375038389
+        },
+        {
+          "source_row_index": 12,
+          "id": "v3_electricity_res_norm_92601_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 3,
+          "median_ms_per_origin": 1.3713770822505467,
+          "within_block_q25_ms": 1.2594447944138665,
+          "within_block_q75_ms": 1.5616208365827333
+        },
+        {
+          "source_row_index": 16,
+          "id": "initial_lora_92602_0.0001",
+          "dataset": "electricity",
+          "family": "merged_lora",
+          "seed": 92602,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 4,
+          "median_ms_per_origin": 25.302129167054467,
+          "within_block_q25_ms": 24.92682187463894,
+          "within_block_q75_ms": 26.584434373944532
+        },
+        {
+          "source_row_index": 20,
+          "id": "revision1_rank32_residual_92602_0.001",
+          "dataset": "electricity",
+          "family": "tsfm_res",
+          "seed": 92602,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 5,
+          "median_ms_per_origin": 25.29412291914923,
+          "within_block_q25_ms": 25.126951039662043,
+          "within_block_q75_ms": 26.228247914938645
+        },
+        {
+          "source_row_index": 24,
+          "id": "v3_electricity_res_norm_92602_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 6,
+          "median_ms_per_origin": 1.308922915389606,
+          "within_block_q25_ms": 1.268264584117181,
+          "within_block_q75_ms": 1.3844781254495804
+        },
+        {
+          "source_row_index": 32,
+          "id": "bull_f0",
+          "dataset": "bull",
+          "family": "f0",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": "pre",
+          "order_position": 0,
+          "median_ms_per_origin": 24.90224375166387,
+          "within_block_q25_ms": 24.63536770907619,
+          "within_block_q75_ms": 25.40150833374355
+        },
+        {
+          "source_row_index": 36,
+          "id": "bull_final_lora_92601_0.0001",
+          "dataset": "bull",
+          "family": "merged_lora",
+          "seed": 92601,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 1,
+          "median_ms_per_origin": 25.110639585667137,
+          "within_block_q25_ms": 24.65977916775349,
+          "within_block_q75_ms": 25.454599999648053
+        },
+        {
+          "source_row_index": 40,
+          "id": "v2_bull_residual_fixed_ed_92601",
+          "dataset": "bull",
+          "family": "tsfm_res",
+          "seed": 92601,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 2,
+          "median_ms_per_origin": 25.32783124964529,
+          "within_block_q25_ms": 25.065454168119082,
+          "within_block_q75_ms": 26.06589895731304
+        },
+        {
+          "source_row_index": 44,
+          "id": "v3_bull_res_norm_92601_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 3,
+          "median_ms_per_origin": 1.3864999976552403,
+          "within_block_q25_ms": 1.3007989582547452,
+          "within_block_q75_ms": 1.4562354178148478
+        },
+        {
+          "source_row_index": 48,
+          "id": "bull_final_lora_92602_0.0001",
+          "dataset": "bull",
+          "family": "merged_lora",
+          "seed": 92602,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 4,
+          "median_ms_per_origin": 25.533445831873298,
+          "within_block_q25_ms": 24.889337497976765,
+          "within_block_q75_ms": 26.51799374992455
+        },
+        {
+          "source_row_index": 52,
+          "id": "v2_bull_residual_fixed_ed_92602",
+          "dataset": "bull",
+          "family": "tsfm_res",
+          "seed": 92602,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 5,
+          "median_ms_per_origin": 25.82744583439004,
+          "within_block_q25_ms": 25.696144793376636,
+          "within_block_q75_ms": 26.66419062613083
+        },
+        {
+          "source_row_index": 56,
+          "id": "v3_bull_res_norm_92602_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 6,
+          "median_ms_per_origin": 1.278679167929416,
+          "within_block_q25_ms": 1.2303614554790936,
+          "within_block_q75_ms": 1.3283083353599068
+        },
+        {
+          "source_row_index": 64,
+          "id": "electricity_f0",
+          "dataset": "electricity",
+          "family": "f0",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": "pre",
+          "order_position": 0,
+          "median_ms_per_origin": 25.990320832837217,
+          "within_block_q25_ms": 25.553407290620576,
+          "within_block_q75_ms": 27.53631771095873
+        },
+        {
+          "source_row_index": 68,
+          "id": "v3_electricity_res_norm_92602_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 1,
+          "median_ms_per_origin": 0.5610437510767952,
+          "within_block_q25_ms": 0.5474906235273618,
+          "within_block_q75_ms": 0.5966874972121635
+        },
+        {
+          "source_row_index": 72,
+          "id": "revision1_rank32_residual_92602_0.001",
+          "dataset": "electricity",
+          "family": "tsfm_res",
+          "seed": 92602,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 2,
+          "median_ms_per_origin": 26.16536458420645,
+          "within_block_q25_ms": 25.363011461498296,
+          "within_block_q75_ms": 26.958135416255875
+        },
+        {
+          "source_row_index": 76,
+          "id": "initial_lora_92602_0.0001",
+          "dataset": "electricity",
+          "family": "merged_lora",
+          "seed": 92602,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 3,
+          "median_ms_per_origin": 25.46218124916777,
+          "within_block_q25_ms": 25.003713542294765,
+          "within_block_q75_ms": 26.33121979185186
+        },
+        {
+          "source_row_index": 80,
+          "id": "v3_electricity_res_norm_92601_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 4,
+          "median_ms_per_origin": 1.398158332449384,
+          "within_block_q25_ms": 1.2926927095880576,
+          "within_block_q75_ms": 1.4716385412611999
+        },
+        {
+          "source_row_index": 84,
+          "id": "revision1_rank32_residual_92601_0.001",
+          "dataset": "electricity",
+          "family": "tsfm_res",
+          "seed": 92601,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 5,
+          "median_ms_per_origin": 25.944627086573746,
+          "within_block_q25_ms": 25.353465625812532,
+          "within_block_q75_ms": 27.050940625485964
+        },
+        {
+          "source_row_index": 88,
+          "id": "extended120_lora_92601_0.0001",
+          "dataset": "electricity",
+          "family": "merged_lora",
+          "seed": 92601,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 6,
+          "median_ms_per_origin": 26.372620835900307,
+          "within_block_q25_ms": 25.30685520832776,
+          "within_block_q75_ms": 27.439880207869766
+        },
+        {
+          "source_row_index": 96,
+          "id": "bull_f0",
+          "dataset": "bull",
+          "family": "f0",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": "pre",
+          "order_position": 0,
+          "median_ms_per_origin": 25.30744583297443,
+          "within_block_q25_ms": 24.724438542762073,
+          "within_block_q75_ms": 25.948936458007665
+        },
+        {
+          "source_row_index": 100,
+          "id": "v3_bull_res_norm_92602_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 1,
+          "median_ms_per_origin": 1.2571541665238328,
+          "within_block_q25_ms": 1.2172979162035822,
+          "within_block_q75_ms": 1.3076864561298862
+        },
+        {
+          "source_row_index": 104,
+          "id": "v2_bull_residual_fixed_ed_92602",
+          "dataset": "bull",
+          "family": "tsfm_res",
+          "seed": 92602,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 2,
+          "median_ms_per_origin": 25.272687499333795,
+          "within_block_q25_ms": 24.847559373786982,
+          "within_block_q75_ms": 26.31555104017025
+        },
+        {
+          "source_row_index": 108,
+          "id": "bull_final_lora_92602_0.0001",
+          "dataset": "bull",
+          "family": "merged_lora",
+          "seed": 92602,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 3,
+          "median_ms_per_origin": 25.00010833318811,
+          "within_block_q25_ms": 24.671477084969712,
+          "within_block_q75_ms": 25.675077083481785
+        },
+        {
+          "source_row_index": 112,
+          "id": "v3_bull_res_norm_92601_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 4,
+          "median_ms_per_origin": 1.3275770834297873,
+          "within_block_q25_ms": 1.273230209335452,
+          "within_block_q75_ms": 1.5104520813717197
+        },
+        {
+          "source_row_index": 116,
+          "id": "v2_bull_residual_fixed_ed_92601",
+          "dataset": "bull",
+          "family": "tsfm_res",
+          "seed": 92601,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 5,
+          "median_ms_per_origin": 26.16092499859709,
+          "within_block_q25_ms": 25.46155520758475,
+          "within_block_q75_ms": 26.703920833824668
+        },
+        {
+          "source_row_index": 120,
+          "id": "bull_final_lora_92601_0.0001",
+          "dataset": "bull",
+          "family": "merged_lora",
+          "seed": 92601,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 6,
+          "median_ms_per_origin": 26.116306248392597,
+          "within_block_q25_ms": 25.78946458500771,
+          "within_block_q75_ms": 26.814126042154385
+        },
+        {
+          "source_row_index": 128,
+          "id": "electricity_f0",
+          "dataset": "electricity",
+          "family": "f0",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": "pre",
+          "order_position": 0,
+          "median_ms_per_origin": 25.146604163940843,
+          "within_block_q25_ms": 24.73383437488034,
+          "within_block_q75_ms": 26.388133333966834
+        },
+        {
+          "source_row_index": 132,
+          "id": "initial_lora_92602_0.0001",
+          "dataset": "electricity",
+          "family": "merged_lora",
+          "seed": 92602,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 1,
+          "median_ms_per_origin": 25.278456249604158,
+          "within_block_q25_ms": 24.862337500962894,
+          "within_block_q75_ms": 26.20799270880525
+        },
+        {
+          "source_row_index": 136,
+          "id": "revision1_rank32_residual_92602_0.001",
+          "dataset": "electricity",
+          "family": "tsfm_res",
+          "seed": 92602,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 2,
+          "median_ms_per_origin": 25.446270835042622,
+          "within_block_q25_ms": 25.119076042756205,
+          "within_block_q75_ms": 26.460315624717623
+        },
+        {
+          "source_row_index": 140,
+          "id": "v3_electricity_res_norm_92602_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 3,
+          "median_ms_per_origin": 1.2772854170179926,
+          "within_block_q25_ms": 1.236102082960618,
+          "within_block_q75_ms": 1.3215895839190732
+        },
+        {
+          "source_row_index": 144,
+          "id": "extended120_lora_92601_0.0001",
+          "dataset": "electricity",
+          "family": "merged_lora",
+          "seed": 92601,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 4,
+          "median_ms_per_origin": 25.229704166122247,
+          "within_block_q25_ms": 25.061289584603703,
+          "within_block_q75_ms": 25.989103124932928
+        },
+        {
+          "source_row_index": 148,
+          "id": "revision1_rank32_residual_92601_0.001",
+          "dataset": "electricity",
+          "family": "tsfm_res",
+          "seed": 92601,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 5,
+          "median_ms_per_origin": 25.39789999718778,
+          "within_block_q25_ms": 25.052528123827262,
+          "within_block_q75_ms": 26.086257291657
+        },
+        {
+          "source_row_index": 152,
+          "id": "v3_electricity_res_norm_92601_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 6,
+          "median_ms_per_origin": 1.3925583334639668,
+          "within_block_q25_ms": 1.3144354161340743,
+          "within_block_q75_ms": 1.6399479172832798
+        },
+        {
+          "source_row_index": 160,
+          "id": "bull_f0",
+          "dataset": "bull",
+          "family": "f0",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": "pre",
+          "order_position": 0,
+          "median_ms_per_origin": 25.23208750062622,
+          "within_block_q25_ms": 24.70931041777173,
+          "within_block_q75_ms": 25.745468746511808
+        },
+        {
+          "source_row_index": 164,
+          "id": "bull_final_lora_92602_0.0001",
+          "dataset": "bull",
+          "family": "merged_lora",
+          "seed": 92602,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 1,
+          "median_ms_per_origin": 24.774254166307706,
+          "within_block_q25_ms": 24.50246458708231,
+          "within_block_q75_ms": 25.373089581989916
+        },
+        {
+          "source_row_index": 168,
+          "id": "v2_bull_residual_fixed_ed_92602",
+          "dataset": "bull",
+          "family": "tsfm_res",
+          "seed": 92602,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 2,
+          "median_ms_per_origin": 25.706035417291183,
+          "within_block_q25_ms": 24.880156249613115,
+          "within_block_q75_ms": 26.55745833302111
+        },
+        {
+          "source_row_index": 172,
+          "id": "v3_bull_res_norm_92602_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 3,
+          "median_ms_per_origin": 1.3793708324859228,
+          "within_block_q25_ms": 1.2913302089145873,
+          "within_block_q75_ms": 1.48943645641945
+        },
+        {
+          "source_row_index": 176,
+          "id": "bull_final_lora_92601_0.0001",
+          "dataset": "bull",
+          "family": "merged_lora",
+          "seed": 92601,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 4,
+          "median_ms_per_origin": 24.873308335372712,
+          "within_block_q25_ms": 24.539943751733517,
+          "within_block_q75_ms": 25.68613125185948
+        },
+        {
+          "source_row_index": 180,
+          "id": "v2_bull_residual_fixed_ed_92601",
+          "dataset": "bull",
+          "family": "tsfm_res",
+          "seed": 92601,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 5,
+          "median_ms_per_origin": 26.198083333535276,
+          "within_block_q25_ms": 25.510769792163046,
+          "within_block_q75_ms": 26.928848956837708
+        },
+        {
+          "source_row_index": 184,
+          "id": "v3_bull_res_norm_92601_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 6,
+          "median_ms_per_origin": 1.3084312498297852,
+          "within_block_q25_ms": 1.2674968760014356,
+          "within_block_q75_ms": 1.389461455498046
+        }
+      ],
+      "recorded_group_centers": [
+        {
+          "dataset": "electricity",
+          "family": "f0",
+          "mean_fit_median_ms_per_origin": 25.548985414692048,
+          "fit_ids": [
+            "electricity_f0"
+          ]
+        },
+        {
+          "dataset": "electricity",
+          "family": "merged_lora",
+          "mean_fit_median_ms_per_origin": 25.265916666588357,
+          "fit_ids": [
+            "extended120_lora_92601_0.0001",
+            "initial_lora_92602_0.0001"
+          ]
+        },
+        {
+          "dataset": "electricity",
+          "family": "tsfm_res",
+          "mean_fit_median_ms_per_origin": 25.656888542774446,
+          "fit_ids": [
+            "revision1_rank32_residual_92601_0.001",
+            "revision1_rank32_residual_92602_0.001"
+          ]
+        },
+        {
+          "dataset": "electricity",
+          "family": "linear_res",
+          "mean_fit_median_ms_per_origin": 1.3349218752409797,
+          "fit_ids": [
+            "v3_electricity_res_norm_92601_lr1e3",
+            "v3_electricity_res_norm_92602_lr1e3"
+          ]
+        },
+        {
+          "dataset": "bull",
+          "family": "f0",
+          "mean_fit_median_ms_per_origin": 25.23208750062622,
+          "fit_ids": [
+            "bull_f0"
+          ]
+        },
+        {
+          "dataset": "bull",
+          "family": "merged_lora",
+          "mean_fit_median_ms_per_origin": 25.055373959427623,
+          "fit_ids": [
+            "bull_final_lora_92601_0.0001",
+            "bull_final_lora_92602_0.0001"
+          ]
+        },
+        {
+          "dataset": "bull",
+          "family": "tsfm_res",
+          "mean_fit_median_ms_per_origin": 25.933480207944136,
+          "fit_ids": [
+            "v2_bull_residual_fixed_ed_92601",
+            "v2_bull_residual_fixed_ed_92602"
+          ]
+        },
+        {
+          "dataset": "bull",
+          "family": "linear_res",
+          "mean_fit_median_ms_per_origin": 1.3031281256796017,
+          "fit_ids": [
+            "v3_bull_res_norm_92601_lr1e3",
+            "v3_bull_res_norm_92602_lr1e3"
+          ]
+        }
+      ],
+      "summary_definition": "Per fit: median and linear-interpolated quartiles of three block medians; group center is the mean across trained seeds. F0 post-sentinels are excluded. Within-block 20-pass IQR remains in each raw row. No combined confidence interval."
+    },
+    "C": {
+      "source": "cpu_cost",
+      "selector": {
+        "scope": "cpu_fp32",
+        "batch_origins": 1,
+        "include_in_primary": true,
+        "families": [
+          "linear_res",
+          "shared_linear",
+          "factor_linear"
+        ]
+      },
+      "raw_row_points": [
+        {
+          "source_row_index": 0,
+          "id": "v3_electricity_res_norm_92601_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 0,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 0,
+          "median_ms_per_origin": 0.2441687514268172,
+          "within_block_q25_ms": 0.24194583238568157,
+          "within_block_q75_ms": 0.2473770837241318
+        },
+        {
+          "source_row_index": 2,
+          "id": "v3_electricity_res_norm_92602_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 0,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 1,
+          "median_ms_per_origin": 0.2507791650714353,
+          "within_block_q25_ms": 0.23985000007087365,
+          "within_block_q75_ms": 0.25568124935186154
+        },
+        {
+          "source_row_index": 4,
+          "id": "v3_bull_res_norm_92601_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 0,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 2,
+          "median_ms_per_origin": 0.24617916642455384,
+          "within_block_q25_ms": 0.2286374983668793,
+          "within_block_q75_ms": 0.25646666714843985
+        },
+        {
+          "source_row_index": 6,
+          "id": "v3_bull_res_norm_92602_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 0,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 3,
+          "median_ms_per_origin": 0.5537645847653039,
+          "within_block_q25_ms": 0.5398583355903005,
+          "within_block_q75_ms": 0.5690947909897659
+        },
+        {
+          "source_row_index": 8,
+          "id": "electricity_shared_linear",
+          "dataset": "electricity",
+          "family": "shared_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 4,
+          "median_ms_per_origin": 0.05586041515925899,
+          "within_block_q25_ms": 0.049851039269318186,
+          "within_block_q75_ms": 0.06964479083156525
+        },
+        {
+          "source_row_index": 10,
+          "id": "electricity_factor_linear",
+          "dataset": "electricity",
+          "family": "factor_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 5,
+          "median_ms_per_origin": 0.24514791584806517,
+          "within_block_q25_ms": 0.22478021007070006,
+          "within_block_q75_ms": 0.2867427113718198
+        },
+        {
+          "source_row_index": 12,
+          "id": "bull_shared_linear",
+          "dataset": "bull",
+          "family": "shared_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 6,
+          "median_ms_per_origin": 0.04880625298634793,
+          "within_block_q25_ms": 0.04310937705061709,
+          "within_block_q75_ms": 0.05402500270671832
+        },
+        {
+          "source_row_index": 14,
+          "id": "bull_factor_linear",
+          "dataset": "bull",
+          "family": "factor_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 0,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 7,
+          "median_ms_per_origin": 0.210816668792783,
+          "within_block_q25_ms": 0.20236562583401488,
+          "within_block_q75_ms": 0.2591666670923587
+        },
+        {
+          "source_row_index": 16,
+          "id": "bull_factor_linear",
+          "dataset": "bull",
+          "family": "factor_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 0,
+          "median_ms_per_origin": 0.2219395852686527,
+          "within_block_q25_ms": 0.193267710225579,
+          "within_block_q75_ms": 0.2539552078815177
+        },
+        {
+          "source_row_index": 18,
+          "id": "bull_shared_linear",
+          "dataset": "bull",
+          "family": "shared_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 1,
+          "median_ms_per_origin": 0.04622083361027762,
+          "within_block_q25_ms": 0.04335729196706476,
+          "within_block_q75_ms": 0.0554687503608875
+        },
+        {
+          "source_row_index": 20,
+          "id": "electricity_factor_linear",
+          "dataset": "electricity",
+          "family": "factor_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 2,
+          "median_ms_per_origin": 0.2635770821749854,
+          "within_block_q25_ms": 0.22416562448294525,
+          "within_block_q75_ms": 0.2815145841547443
+        },
+        {
+          "source_row_index": 22,
+          "id": "electricity_shared_linear",
+          "dataset": "electricity",
+          "family": "shared_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 1,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 3,
+          "median_ms_per_origin": 0.061145830841269344,
+          "within_block_q25_ms": 0.050620831946919985,
+          "within_block_q75_ms": 0.07000520539198381
+        },
+        {
+          "source_row_index": 24,
+          "id": "v3_bull_res_norm_92602_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 1,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 4,
+          "median_ms_per_origin": 0.5506645829882473,
+          "within_block_q25_ms": 0.512812502468781,
+          "within_block_q75_ms": 0.5845999997594238
+        },
+        {
+          "source_row_index": 26,
+          "id": "v3_bull_res_norm_92601_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 1,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 5,
+          "median_ms_per_origin": 0.5478395833051763,
+          "within_block_q25_ms": 0.527013543129821,
+          "within_block_q75_ms": 0.5699302067417497
+        },
+        {
+          "source_row_index": 28,
+          "id": "v3_electricity_res_norm_92602_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 1,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 6,
+          "median_ms_per_origin": 0.5758895834636253,
+          "within_block_q25_ms": 0.5525281242929244,
+          "within_block_q75_ms": 0.5869374969430888
+        },
+        {
+          "source_row_index": 30,
+          "id": "v3_electricity_res_norm_92601_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 1,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 7,
+          "median_ms_per_origin": 0.5711729172617197,
+          "within_block_q25_ms": 0.5431760412951311,
+          "within_block_q75_ms": 0.6195458336151205
+        },
+        {
+          "source_row_index": 32,
+          "id": "electricity_shared_linear",
+          "dataset": "electricity",
+          "family": "shared_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 0,
+          "median_ms_per_origin": 0.06500833599905793,
+          "within_block_q25_ms": 0.052295832574600354,
+          "within_block_q75_ms": 0.11306458327453583
+        },
+        {
+          "source_row_index": 34,
+          "id": "electricity_factor_linear",
+          "dataset": "electricity",
+          "family": "factor_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 1,
+          "median_ms_per_origin": 0.26938124938169494,
+          "within_block_q25_ms": 0.23368020750543414,
+          "within_block_q75_ms": 0.29362916393438354
+        },
+        {
+          "source_row_index": 36,
+          "id": "bull_shared_linear",
+          "dataset": "bull",
+          "family": "shared_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 2,
+          "median_ms_per_origin": 0.05183958273846656,
+          "within_block_q25_ms": 0.04401874806111058,
+          "within_block_q75_ms": 0.05908124876441434
+        },
+        {
+          "source_row_index": 38,
+          "id": "bull_factor_linear",
+          "dataset": "bull",
+          "family": "factor_linear",
+          "seed": null,
+          "ed_mode": null,
+          "latent": null,
+          "block": 2,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 3,
+          "median_ms_per_origin": 0.20827083547677225,
+          "within_block_q25_ms": 0.19032291432570977,
+          "within_block_q75_ms": 0.23631041646391773
+        },
+        {
+          "source_row_index": 40,
+          "id": "v3_electricity_res_norm_92601_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 2,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 4,
+          "median_ms_per_origin": 0.5813229169386128,
+          "within_block_q25_ms": 0.5493624994414859,
+          "within_block_q75_ms": 0.6134666643144252
+        },
+        {
+          "source_row_index": 42,
+          "id": "v3_electricity_res_norm_92602_lr1e3",
+          "dataset": "electricity",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "current",
+          "latent": 8,
+          "block": 2,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 5,
+          "median_ms_per_origin": 0.5865999992238358,
+          "within_block_q25_ms": 0.5710760427367253,
+          "within_block_q75_ms": 0.6201229189173318
+        },
+        {
+          "source_row_index": 44,
+          "id": "v3_bull_res_norm_92601_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92601,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 2,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 6,
+          "median_ms_per_origin": 0.5418270836040999,
+          "within_block_q25_ms": 0.5126062533236109,
+          "within_block_q75_ms": 0.5590989603661001
+        },
+        {
+          "source_row_index": 46,
+          "id": "v3_bull_res_norm_92602_lr1e3",
+          "dataset": "bull",
+          "family": "linear_res",
+          "seed": 92602,
+          "ed_mode": "fixed_ed",
+          "latent": 4,
+          "block": 2,
+          "scope": "cpu_fp32",
+          "batch_origins": 1,
+          "sentinel_role": null,
+          "order_position": 7,
+          "median_ms_per_origin": 0.5616124981315807,
+          "within_block_q25_ms": 0.5392687477675887,
+          "within_block_q75_ms": 0.5797041679519074
+        }
+      ],
+      "recorded_group_centers": [
+        {
+          "dataset": "electricity",
+          "family": "linear_res",
+          "mean_fit_median_ms_per_origin": 0.5735312503626725,
+          "fit_ids": [
+            "v3_electricity_res_norm_92601_lr1e3",
+            "v3_electricity_res_norm_92602_lr1e3"
+          ]
+        },
+        {
+          "dataset": "electricity",
+          "family": "shared_linear",
+          "mean_fit_median_ms_per_origin": 0.061145830841269344,
+          "fit_ids": [
+            "electricity_shared_linear"
+          ]
+        },
+        {
+          "dataset": "electricity",
+          "family": "factor_linear",
+          "mean_fit_median_ms_per_origin": 0.2635770821749854,
+          "fit_ids": [
+            "electricity_factor_linear"
+          ]
+        },
+        {
+          "dataset": "bull",
+          "family": "linear_res",
+          "mean_fit_median_ms_per_origin": 0.5477958341847019,
+          "fit_ids": [
+            "v3_bull_res_norm_92601_lr1e3",
+            "v3_bull_res_norm_92602_lr1e3"
+          ]
+        },
+        {
+          "dataset": "bull",
+          "family": "shared_linear",
+          "mean_fit_median_ms_per_origin": 0.04880625298634793,
+          "fit_ids": [
+            "bull_shared_linear"
+          ]
+        },
+        {
+          "dataset": "bull",
+          "family": "factor_linear",
+          "mean_fit_median_ms_per_origin": 0.210816668792783,
+          "fit_ids": [
+            "bull_factor_linear"
+          ]
+        }
+      ],
+      "summary_definition": "Per fit: median and linear-interpolated quartiles of three block medians; group center is the mean across trained seeds. F0 post-sentinels are excluded. Within-block 20-pass IQR remains in each raw row. No combined confidence interval."
+    },
+    "D": {
+      "source": "gpu_cost",
+      "selector": {
+        "family": "f0",
+        "batch_origins": 1,
+        "sentinel_roles": [
+          "pre",
+          "post"
+        ]
+      },
+      "raw_row_points": [
+        {
+          "source_row_index": 0,
+          "dataset": "electricity",
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "pre",
+          "id": "electricity_f0",
+          "order_position": 0,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 25.548985414692048,
+          "within_block_q25_ms": 25.07085833349265,
+          "within_block_q75_ms": 26.83330104143048
+        },
+        {
+          "source_row_index": 1,
+          "dataset": "electricity",
+          "block": 0,
+          "scope": "gpu_resident",
+          "sentinel_role": "pre",
+          "id": "electricity_f0",
+          "order_position": 0,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 25.496640523274742,
+          "within_block_q25_ms": 25.09642728169759,
+          "within_block_q75_ms": 26.886379877726238
+        },
+        {
+          "source_row_index": 28,
+          "dataset": "electricity",
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "post",
+          "id": "electricity_f0",
+          "order_position": 7,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 25.13297291685982,
+          "within_block_q25_ms": 24.839590624954628,
+          "within_block_q75_ms": 25.88128645948018
+        },
+        {
+          "source_row_index": 29,
+          "dataset": "electricity",
+          "block": 0,
+          "scope": "gpu_resident",
+          "sentinel_role": "post",
+          "id": "electricity_f0",
+          "order_position": 7,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 25.191177368164062,
+          "within_block_q25_ms": 24.973365783691406,
+          "within_block_q75_ms": 25.78978157043457
+        },
+        {
+          "source_row_index": 32,
+          "dataset": "bull",
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "pre",
+          "id": "bull_f0",
+          "order_position": 0,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 24.90224375166387,
+          "within_block_q25_ms": 24.63536770907619,
+          "within_block_q75_ms": 25.40150833374355
+        },
+        {
+          "source_row_index": 33,
+          "dataset": "bull",
+          "block": 0,
+          "scope": "gpu_resident",
+          "sentinel_role": "pre",
+          "id": "bull_f0",
+          "order_position": 0,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 25.251502990722656,
+          "within_block_q25_ms": 24.31123415629069,
+          "within_block_q75_ms": 26.971458435058594
+        },
+        {
+          "source_row_index": 60,
+          "dataset": "bull",
+          "block": 0,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "post",
+          "id": "bull_f0",
+          "order_position": 7,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 26.015379167802166,
+          "within_block_q25_ms": 25.60391041333787,
+          "within_block_q75_ms": 26.310860414620645
+        },
+        {
+          "source_row_index": 61,
+          "dataset": "bull",
+          "block": 0,
+          "scope": "gpu_resident",
+          "sentinel_role": "post",
+          "id": "bull_f0",
+          "order_position": 7,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 26.00326410929362,
+          "within_block_q25_ms": 25.071730931599937,
+          "within_block_q75_ms": 26.649611790974934
+        },
+        {
+          "source_row_index": 64,
+          "dataset": "electricity",
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "pre",
+          "id": "electricity_f0",
+          "order_position": 0,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 25.990320832837217,
+          "within_block_q25_ms": 25.553407290620576,
+          "within_block_q75_ms": 27.53631771095873
+        },
+        {
+          "source_row_index": 65,
+          "dataset": "electricity",
+          "block": 1,
+          "scope": "gpu_resident",
+          "sentinel_role": "pre",
+          "id": "electricity_f0",
+          "order_position": 0,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 11.880191802978516,
+          "within_block_q25_ms": 11.625412305196125,
+          "within_block_q75_ms": 12.135835329691568
+        },
+        {
+          "source_row_index": 92,
+          "dataset": "electricity",
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "post",
+          "id": "electricity_f0",
+          "order_position": 7,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 26.215156251661632,
+          "within_block_q25_ms": 25.84331250060738,
+          "within_block_q75_ms": 26.66101041540969
+        },
+        {
+          "source_row_index": 93,
+          "dataset": "electricity",
+          "block": 1,
+          "scope": "gpu_resident",
+          "sentinel_role": "post",
+          "id": "electricity_f0",
+          "order_position": 7,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 25.049893697102867,
+          "within_block_q25_ms": 24.74549674987793,
+          "within_block_q75_ms": 25.49062283833822
+        },
+        {
+          "source_row_index": 96,
+          "dataset": "bull",
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "pre",
+          "id": "bull_f0",
+          "order_position": 0,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 25.30744583297443,
+          "within_block_q25_ms": 24.724438542762073,
+          "within_block_q75_ms": 25.948936458007665
+        },
+        {
+          "source_row_index": 97,
+          "dataset": "bull",
+          "block": 1,
+          "scope": "gpu_resident",
+          "sentinel_role": "pre",
+          "id": "bull_f0",
+          "order_position": 0,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 24.83957544962565,
+          "within_block_q25_ms": 24.58713658650716,
+          "within_block_q75_ms": 25.21897315979004
+        },
+        {
+          "source_row_index": 124,
+          "dataset": "bull",
+          "block": 1,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "post",
+          "id": "bull_f0",
+          "order_position": 7,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 25.18981041794177,
+          "within_block_q25_ms": 25.04365416583217,
+          "within_block_q75_ms": 25.790281248191604
+        },
+        {
+          "source_row_index": 125,
+          "dataset": "bull",
+          "block": 1,
+          "scope": "gpu_resident",
+          "sentinel_role": "post",
+          "id": "bull_f0",
+          "order_position": 7,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 24.927942911783852,
+          "within_block_q25_ms": 24.403039932250977,
+          "within_block_q75_ms": 25.241353352864586
+        },
+        {
+          "source_row_index": 128,
+          "dataset": "electricity",
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "pre",
+          "id": "electricity_f0",
+          "order_position": 0,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 25.146604163940843,
+          "within_block_q25_ms": 24.73383437488034,
+          "within_block_q75_ms": 26.388133333966834
+        },
+        {
+          "source_row_index": 129,
+          "dataset": "electricity",
+          "block": 2,
+          "scope": "gpu_resident",
+          "sentinel_role": "pre",
+          "id": "electricity_f0",
+          "order_position": 0,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 25.529342651367188,
+          "within_block_q25_ms": 25.03936004638672,
+          "within_block_q75_ms": 27.339366912841797
+        },
+        {
+          "source_row_index": 156,
+          "dataset": "electricity",
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "post",
+          "id": "electricity_f0",
+          "order_position": 7,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 25.079320832446683,
+          "within_block_q25_ms": 24.58973958346178,
+          "within_block_q75_ms": 25.27208645551582
+        },
+        {
+          "source_row_index": 157,
+          "dataset": "electricity",
+          "block": 2,
+          "scope": "gpu_resident",
+          "sentinel_role": "post",
+          "id": "electricity_f0",
+          "order_position": 7,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 25.00918960571289,
+          "within_block_q25_ms": 24.6839116414388,
+          "within_block_q75_ms": 25.6940180460612
+        },
+        {
+          "source_row_index": 160,
+          "dataset": "bull",
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "pre",
+          "id": "bull_f0",
+          "order_position": 0,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 25.23208750062622,
+          "within_block_q25_ms": 24.70931041777173,
+          "within_block_q75_ms": 25.745468746511808
+        },
+        {
+          "source_row_index": 161,
+          "dataset": "bull",
+          "block": 2,
+          "scope": "gpu_resident",
+          "sentinel_role": "pre",
+          "id": "bull_f0",
+          "order_position": 0,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 24.781007130940758,
+          "within_block_q25_ms": 24.38308842976888,
+          "within_block_q75_ms": 25.323746999104817
+        },
+        {
+          "source_row_index": 188,
+          "dataset": "bull",
+          "block": 2,
+          "scope": "deployment_cpu_to_cpu",
+          "sentinel_role": "post",
+          "id": "bull_f0",
+          "order_position": 7,
+          "timing_field": "milliseconds_per_origin",
+          "median_ms_per_origin": 24.950058330432512,
+          "within_block_q25_ms": 24.70126354213183,
+          "within_block_q75_ms": 25.37579062360843
+        },
+        {
+          "source_row_index": 189,
+          "dataset": "bull",
+          "block": 2,
+          "scope": "gpu_resident",
+          "sentinel_role": "post",
+          "id": "bull_f0",
+          "order_position": 7,
+          "timing_field": "cuda_event_milliseconds_per_origin",
+          "median_ms_per_origin": 24.72456487019857,
+          "within_block_q25_ms": 24.372152964274086,
+          "within_block_q75_ms": 25.269247690836586
+        }
+      ],
+      "interpretation": "Deployment synchronized wall versus resident CUDA-event interval; events can include CPU-dispatch idle gaps. Differences are not transfer-only estimates."
+    }
+  },
+  "timing_scope": {
+    "gpu": {
+      "deployment_cpu_to_cpu": "Standardized CPU FP32 inputs -> H2D -> complete [B,48,C] CPU output, synchronized wall time.",
+      "gpu_resident": "Inputs and outputs remain on GPU; same full forward, CUDA event and synchronized wall measured together. Event interval can include idle gaps from late CPU dispatch; not a sum of pure kernel times."
+    },
+    "cpu": {
+      "cpu_fp32": "Standardized CPU FP32 inputs -> complete CPU [B,48,C] output; no GPU calls."
+    },
+    "device": "NVIDIA GeForce RTX 4070",
+    "gpu_uncertainty": "Repeated timing on one device/session; block and pass repeats are not independent scientific replication.",
+    "cpu_uncertainty": "Repeated timing on one device/session; block and pass repeats are not independent scientific replication."
+  },
+  "caption": "Exposed-development accuracy and batch-one inference latency. A uses existing channel-macro MSE and fixed-seed conditional block intervals for Electricity DEV and Bull E1/E2. B/C show all selected order-block medians, not confidence intervals from repeated timing. F0 post-sentinels appear only in D and are excluded from B group centers. The three timing blocks share one local device/session. Shapes and fill provide redundant encoding beyond the colorblind-safe dataset palette.",
+  "outputs": {
+    "png": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_backbone_value_v3_20260927\\comparison.png",
+      "sha256": "b6708450bb2aa53dab2db684aae09eb7d70c74c4bf2b8650749983c7b120b15d"
+    },
+    "svg": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_backbone_value_v3_20260927\\comparison.svg",
+      "sha256": "566ef5c6a2f37a86e531f8d731f5f5075f08265613916e6556aad035827fc86b"
+    }
+  }
+}

@@ -89,3 +89,16 @@ Electricity의 기존 노출 구간은 개발에 사용했고, BDG2 Bull Office�
 - [전체 개발 비교](research/tsfm_peft_followup_v2_20260926/final_development.json) 및 [20fit 검산](research/tsfm_peft_followup_v2_20260926/final_verification.json)
 - [반복 비용 요약](research/tsfm_peft_followup_v2_20260926/cost_summary.json) 및 [최종 예측·선택·비용 검산](research/tsfm_peft_followup_v2_20260926/final_artifact_checks_retry1.json)
 - [승인 계획](research/tsfm_peft_followup_v2_20260926/PLAN.md), [진행·변경·예산 기록](research/tsfm_peft_followup_v2_20260926/STATUS.md)
+
+## 잔차 PEFT v3: TSFM 대체 대조와 비용 진단 (2026-09-27)
+
+동일 E/D·G에서 동결 Chronos-Bolt를 문맥 정규화를 포함한 공유 시간 affine 예측기로 대체하는 직접 비교를 신규12fit(첫8+대응 RAW4)로 완료했습니다. LINEAR_RES의 MSE는 TSFM_RES보다 Electricity DEV9.72%, Bull E1 22.31%, E2 9.86% 높았습니다. E2의 조건부 시간블록 구간은0을 포함합니다. RAW 후속도 격차를 닫지 못했습니다. 모든 점수는 노출 개발 결과입니다.
+
+선형 대체의 배포 비용은 크게 작습니다. GPU배포 batch1 중심값은 TSFM_RES 약25.66/25.93ms, LINEAR_RES 약1.33/1.30ms이며 CPU LINEAR는0.57/0.55ms(Electricity/Bull)입니다. GPU상주·CPU 측정의 큰 블록 변동도 남아 있어 원인이 해결됐다고 주장하지 않습니다. **정확도 중심의 TSFM 경로는 조건부 유지, 잔차 PEFT 주력 논문 주제 확보는 보류**입니다. 미압축 F0/LoRA의 더 좋은 점수와 비용 절충을 함께 보고합니다.
+
+실자료12/16attempt, 합성 optimizer2/6세션(각8step), GPU34.902분/180분으로 신규 상한 안에서 종료했습니다. v2의22/20 위반은 그대로 보존했습니다. 새 데이터·새 보호평가·새 PEFT 후보는 추가하지 않았습니다.
+
+- [v3 최종 판단·정확도·비용·그림](research/tsfm_peft_backbone_value_v3_20260927/TOPIC_DECISION.md)
+- [직접 대체 비교](research/tsfm_peft_backbone_value_v3_20260927/final_development.json), [대응 LINEAR_RAW 비교](research/tsfm_peft_backbone_value_v3_20260927/linear_raw_development.json)
+- [GPU 두 측정 범위](research/tsfm_peft_backbone_value_v3_20260927/cost_gpu_01.json), [CPU 배포](research/tsfm_peft_backbone_value_v3_20260927/cost_cpu_01.json), [구간 수리 후 대표 profile](research/tsfm_peft_backbone_value_v3_20260927/cost_profile_02.json)
+- [최종 검산](research/tsfm_peft_backbone_value_v3_20260927/final_checks.json), [승인 계획](research/tsfm_peft_backbone_value_v3_20260927/PLAN.md), [상태·예산·게시 기록](research/tsfm_peft_backbone_value_v3_20260927/STATUS.md)

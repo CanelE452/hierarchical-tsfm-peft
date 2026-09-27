@@ -1,0 +1,605 @@
+"""Bounded v3 deployment timing; execution is reserved by the root operator."""
+
+import argparse
+import gc
+import importlib.util
+import json
+import os
+import subprocess
+import sys
+import time
+import traceback
+from collections import defaultdict
+from pathlib import Path
+
+from runtime import (CACHE, HERE, ROOT, Job, digest, environment_receipt,
+                     load_data, save_json, source_receipt)
+
+
+V2 = ROOT / 'research/tsfm_peft_followup_v2_20260926'
+SEEDS = (92601, 92602)
+SCOPES = ('deployment_cpu_to_cpu', 'gpu_resident')
+INITIAL_KEYS = ('encoder.weight', 'decoder.weight', 'residual.down.weight', 'residual.up.weight')
+
+
+def read_json(path):
+    return json.loads(Path(path).read_text(encoding='utf-8'))
+
+
+def rel(path):
+    return Path(path).resolve().relative_to(ROOT).as_posix()
+
+
+def receipt(path):
+    return {'path': rel(path), 'sha256': digest(Path(path))}
+
+
+def load_module(path, name):
+    if name not in sys.modules:
+        specification = importlib.util.spec_from_file_location(name, path)
+        module = importlib.util.module_from_spec(specification)
+        sys.modules[name] = module
+        specification.loader.exec_module(module)
+    return sys.modules[name]
+
+
+def summary(values):
+    return {'median': float(np.median(values)), 'q25': float(np.quantile(values, .25)),
+            'q75': float(np.quantile(values, .75)), 'min': float(min(values)), 'max': float(max(values))}
+
+
+def cuda_cleanup():
+    torch.cuda.synchronize()
+    gc.collect()
+    torch._C._cuda_clearCublasWorkspaces()
+    torch.cuda.empty_cache()
+    torch.cuda.synchronize()
+    return {'allocated': torch.cuda.memory_allocated(), 'reserved': torch.cuda.memory_reserved()}
+
+
+def gpu_telemetry():
+    fields = ['index', 'uuid', 'temperature.gpu', 'clocks.current.sm', 'clocks.current.memory',
+              'utilization.gpu', 'power.draw', 'pstate']
+    result = subprocess.run(['nvidia-smi', '--query-gpu=' + ','.join(fields),
+                             '--format=csv,noheader,nounits'], capture_output=True, text=True)
+    processes = subprocess.run(['nvidia-smi', '--query-compute-apps=pid,used_gpu_memory',
+                                '--format=csv,noheader'], capture_output=True, text=True)
+    return {'utc': time.time(), 'fields': fields, 'gpu_rows': result.stdout.strip().splitlines(),
+            'query_exit': result.returncode, 'query_error': result.stderr.strip(),
+            'own_process_gpu_memory': [line for line in processes.stdout.splitlines()
+                                       if line.split(',')[0].strip() == str(os.getpid())],
+            'process_query_exit': processes.returncode,
+            'scope': 'Read-only device telemetry; N/A is not a measured zero.'}
+
+
+def cpu_memory():
+    info = psutil.Process().memory_info()
+    return {key: int(getattr(info, key)) for key in ('rss', 'vms', 'peak_wset') if hasattr(info, key)}
+
+
+def build_specs(selection_path):
+    old_specs = read_json(V2 / 'cost_specs.json')
+    selected = read_json(selection_path)
+    selections = selected.get('selection', selected)
+    result = []
+    for spec in old_specs:
+        arm = spec['arm']
+        if arm not in ('f0', 'lora') and not (
+                arm == 'residual' and spec.get('selected_for_own_arm_by_final_VAL')):
+            continue
+        family = {'f0': 'f0', 'lora': 'merged_lora', 'residual': 'tsfm_res'}[arm]
+        result.append(dict(spec, family=family))
+    for dataset in ('electricity', 'bull'):
+        chosen = selections[dataset]
+        if len(chosen['run_ids']) != 2:
+            raise ValueError('Cost requires the two selected LINEAR_RES seeds')
+        for identifier in chosen['run_ids']:
+            result_path = HERE / 'runs' / identifier / 'result.json'
+            fit = read_json(result_path)
+            if fit['status'] != 'complete':
+                raise ValueError(f'{identifier}: incomplete fit')
+            if fit['dataset'] != dataset or fit['t_lr'] != chosen['lr'] or fit['arm'] != 'residual':
+                raise ValueError(f'{identifier}: selected LINEAR_RES dataset/LR/arm mismatch')
+            checkpoint = CACHE / 'runs' / identifier / 'best.pt'
+            if digest(checkpoint) != fit['checkpoint_sha256']:
+                raise ValueError(f'{identifier}: selected checkpoint hash mismatch')
+            spec = {key: fit[key] for key in ('id', 'dataset', 'seed', 'arm', 'ed_mode', 'latent',
+                                              'normalization', 't_lr')}
+            spec.update(id=identifier, family='linear_res', dataset=dataset,
+                        checkpoint=rel(checkpoint), checkpoint_sha256=fit['checkpoint_sha256'],
+                        result_file=rel(result_path), result_sha256=digest(result_path),
+                        best_val_file=rel(checkpoint.with_name('best_val.npz')),
+                        best_val_sha256=digest(checkpoint.with_name('best_val.npz')),
+                        initial_checkpoint=rel(checkpoint.with_name('initial.pt')),
+                        initial_checkpoint_sha256=fit['initial_checkpoint_sha256'],
+                        linear_selection=receipt(selection_path))
+            result.append(spec)
+    if len(result) != 14 or len({s['id'] for s in result}) != 14:
+        raise ValueError('Expected exactly 14 unique selected GPU models')
+    for dataset in ('electricity', 'bull'):
+        for family in ('merged_lora', 'tsfm_res', 'linear_res'):
+            seeds = sorted(s['seed'] for s in result if s['dataset'] == dataset and s['family'] == family)
+            if seeds != list(SEEDS):
+                raise ValueError(f'{dataset}/{family}: missing selected seed')
+    return result
+
+
+def prepare_inputs(specs):
+    result = {}
+    for dataset in sorted({s['dataset'] for s in specs}):
+        data = load_data(dataset)
+        indices = np.linspace(0, len(data['val_origins']) - 1, 24, dtype=int)
+        origins = data['val_origins'][indices]
+        if len(np.unique(origins)) != 24:
+            raise ValueError('Cost requires 24 distinct existing VAL origins')
+        inputs = torch.from_numpy(np.stack([data['x'][o - 512:o] for o in origins]))
+        if inputs.dtype != torch.float32 or not bool(torch.isfinite(inputs).all()):
+            raise ValueError('Expected finite FP32 standardized CPU input')
+        result[dataset] = dict(data=data, inputs=inputs, indices=indices, origins=origins.tolist())
+    return result
+
+
+def forward_cpu_output(model, chunk, device):
+    return model(chunk.to(device=device, dtype=torch.float32)).float().cpu()
+
+
+def load_candidate(spec, prepared, device, job):
+    if str(ROOT / 'src') not in sys.path:
+        sys.path.insert(0, str(ROOT / 'src'))
+    family = spec['family']
+    if spec.get('checkpoint'):
+        path = ROOT / spec['checkpoint']
+        if digest(path) != spec['checkpoint_sha256']:
+            raise ValueError('Checkpoint changed since cost cohort preparation')
+        if digest(ROOT / spec['result_file']) != spec['result_sha256']:
+            raise ValueError('Result changed since cost cohort preparation')
+        saved = torch.load(path, map_location='cpu', weights_only=False)
+        config = saved['spec']
+        if family == 'linear_res':
+            module = load_module(HERE / 'model.py', '_v3_cost_linear_model')
+            initial_path = ROOT / spec['initial_checkpoint']
+            if digest(initial_path) != spec['initial_checkpoint_sha256']:
+                raise ValueError('Selected LINEAR_RES initial checkpoint changed')
+            initial_saved = torch.load(initial_path, map_location='cpu', weights_only=False)
+            initial = {key: initial_saved['state'][key] for key in INITIAL_KEYS}
+            model = module.LinearResidual(config, initial)
+            del initial_saved, initial
+        else:
+            module = load_module(V2 / 'model.py', '_v3_cost_v2_model')
+            model = module.make_model(config['arm'], saved['basis'], device='cpu',
+                                      residual_rank=config.get('residual_rank', 32),
+                                      ed_mode=config.get('ed_mode', 'current'))
+        model.restore_adapter(saved['state'])
+        if family == 'linear_res' and model.model_config() != saved['model_config']:
+            raise ValueError('Selected LINEAR_RES model_config does not match restored implementation')
+        del saved
+    else:
+        module = load_module(V2 / 'model.py', '_v3_cost_v2_model')
+        channels = prepared['inputs'].shape[-1]
+        # F0 does not use the basis; avoid an unnecessary new PCA calculation.
+        model = module.make_model('f0', np.zeros((channels, 1), dtype=np.float32), device='cpu')
+    model.to(device).eval()
+    info = {'registered_trainable_parameters_before_merge': sum(p.numel() for p in model.parameters() if p.requires_grad),
+            'total_parameters_before_merge': sum(p.numel() for p in model.parameters()),
+            'task_channels': prepared['inputs'].shape[-1],
+            'backbone_series_per_origin': (0 if family == 'linear_res' else
+                prepared['inputs'].shape[-1] if family in ('f0', 'merged_lora') else spec['latent'])}
+    before = torch.cat([forward_cpu_output(model, x, device) for x in prepared['inputs'].split(4)])
+    if before.shape != (24, 48, prepared['inputs'].shape[-1]) or not bool(torch.isfinite(before).all()):
+        raise ValueError('Deployment must produce every original channel and 48 horizons')
+    if spec.get('checkpoint'):
+        prediction_path = ROOT / spec['best_val_file']
+        if digest(prediction_path) != spec['best_val_sha256']:
+            raise ValueError('Saved VAL prediction changed')
+        with np.load(prediction_path, allow_pickle=False) as archive:
+            if not np.array_equal(archive['origins'], prepared['data']['val_origins']):
+                raise ValueError('Saved VAL origin mismatch')
+            stored = torch.from_numpy(archive['prediction'][prepared['indices']].copy())
+        atol, rtol = (1e-5, 1e-4) if device == 'cpu' else (1e-6, 1e-5)
+        torch.testing.assert_close(before, stored, atol=atol, rtol=rtol)
+        info['validation_replay'] = {'pass': True, 'max_abs_error': float((before - stored).abs().max()),
+                                     'atol': atol, 'rtol': rtol, 'prediction': receipt(prediction_path)}
+        del stored
+    if family == 'merged_lora':
+        job.heartbeat(f'{spec["id"]}: verify safe merge')
+        model.backbone = model.backbone.merge_and_unload(safe_merge=True)
+        after = torch.cat([forward_cpu_output(model, x, device) for x in prepared['inputs'].split(4)])
+        torch.testing.assert_close(after, before, atol=1e-5, rtol=1e-4)
+        info['merge_parity'] = {'pass': True, 'max_abs_error': float((after - before).abs().max()),
+                                'atol': 1e-5, 'rtol': 1e-4, 'origins': 24}
+        del after
+    info.update(total_deployed_parameters=sum(p.numel() for p in model.parameters()),
+                deployed_parameter_bytes=sum(p.numel() * p.element_size() for p in model.parameters()),
+                deployed_buffer_bytes=sum(b.numel() * b.element_size() for b in model.buffers()))
+    info['total_deployed_tensor_bytes'] = info['deployed_parameter_bytes'] + info['deployed_buffer_bytes']
+    if family == 'linear_res':
+        info['model_config'] = model.model_config()
+    del before
+    return model, info
+
+
+def block_order(specs, dataset, block):
+    rows = [s for s in specs if s['dataset'] == dataset]
+    f0 = next(s for s in rows if s['family'] == 'f0')
+    lookup = {(s['family'], s.get('seed')): s for s in rows}
+    middle = [lookup[(family, seed)] for seed in SEEDS
+              for family in ('merged_lora', 'tsfm_res', 'linear_res')]
+    if block == 1:
+        middle.reverse()
+    elif block == 2:
+        middle = middle[3:] + middle[:3]
+    return [(f0, 'pre')] + [(spec, None) for spec in middle] + [(f0, 'post')]
+
+
+def measure_gpu_scope(model, inputs, batch, scope, job):
+    torch.cuda.synchronize()
+    torch._C._cuda_clearCublasWorkspaces()
+    torch.cuda.empty_cache()
+    chunks = list(inputs.split(batch))
+    if scope == 'gpu_resident':
+        chunks = [chunk.to('cuda') for chunk in chunks]
+    def forward(chunk):
+        return model(chunk) if scope == 'gpu_resident' else forward_cpu_output(model, chunk, 'cuda')
+    for warmup in range(10):
+        forward(chunks[warmup % len(chunks)])
+    torch.cuda.synchronize()
+    start_event = end_event = None
+    if scope == 'gpu_resident':
+        start_event = torch.cuda.Event(enable_timing=True)
+        end_event = torch.cuda.Event(enable_timing=True)
+        start_event.record()
+        end_event.record()
+        end_event.synchronize()
+    torch.cuda.reset_peak_memory_stats()
+    durations, events = [], []
+    for repeat in range(20):
+        job.check_limits()
+        torch.cuda.synchronize()
+        tick = time.perf_counter()
+        if start_event is not None:
+            start_event.record()
+        for chunk in chunks:
+            forward(chunk)
+        if end_event is not None:
+            end_event.record()
+            end_event.synchronize()
+        else:
+            torch.cuda.synchronize()
+        durations.append(time.perf_counter() - tick)
+        if start_event is not None:
+            events.append(start_event.elapsed_time(end_event))
+    result = {'seconds_per_24_origins': durations,
+              'milliseconds_per_origin': summary([t * 1000 / 24 for t in durations]),
+              'origins_per_second': summary([24 / t for t in durations]),
+              'peak_allocated_bytes': torch.cuda.max_memory_allocated(),
+              'peak_reserved_bytes': torch.cuda.max_memory_reserved(),
+              'resident_allocated_bytes': torch.cuda.memory_allocated(),
+              'process_cpu_memory_bytes': cpu_memory()}
+    if events:
+        result.update(cuda_event_milliseconds_per_24_origins=events,
+                      cuda_event_milliseconds_per_origin=summary([t / 24 for t in events]),
+                      cuda_event_origins_per_second=summary([24000 / t for t in events]))
+    return result
+
+
+def sentinel_checks(rows):
+    grouped = defaultdict(dict)
+    for row in rows:
+        if row.get('sentinel_role'):
+            grouped[(row['dataset'], row['block'], row['batch_origins'], row['scope'])][row['sentinel_role']] = row
+    result = []
+    for (dataset, block, batch, scope), pair in sorted(grouped.items()):
+        if set(pair) != {'pre', 'post'}:
+            continue
+        pre, post = (pair[key]['milliseconds_per_origin'] for key in ('pre', 'post'))
+        result.append(dict(dataset=dataset, block=block, batch_origins=batch, scope=scope,
+                           pre_median_ms=pre['median'], post_median_ms=post['median'],
+                           post_over_pre=post['median'] / pre['median'],
+                           absolute_change_ms=abs(post['median'] - pre['median']),
+                           pre_post_iqr_disjoint=(pre['q75'] < post['q25'] or post['q75'] < pre['q25']),
+                           interpretation='Drift diagnostic only; no automatic correction, deletion, or repeat.'))
+    return result
+
+
+def cost_summaries(rows):
+    grouped = defaultdict(list)
+    for row in rows:
+        if row.get('include_in_primary', True):
+            grouped[(row['id'], row['batch_origins'], row['scope'])].append(row)
+    fits = []
+    for (identifier, batch, scope), members in sorted(grouped.items()):
+        if len(members) != 3 or {r['block'] for r in members} != {0, 1, 2}:
+            raise ValueError('Primary cost summary requires exactly three order blocks')
+        first = members[0]
+        item = {key: first.get(key) for key in ('dataset', 'family', 'seed', 'ed_mode', 'latent')}
+        item.update(id=identifier, batch_origins=batch, scope=scope,
+                    milliseconds_per_origin=summary([r['milliseconds_per_origin']['median'] for r in members]),
+                    origins_per_second=summary([r['origins_per_second']['median'] for r in members]))
+        if scope == 'gpu_resident':
+            item['cuda_event_milliseconds_per_origin'] = summary(
+                [r['cuda_event_milliseconds_per_origin']['median'] for r in members])
+        fits.append(item)
+    groups = defaultdict(list)
+    for item in fits:
+        key = (item['dataset'], item['family'], item['ed_mode'], item['latent'], item['batch_origins'], item['scope'])
+        groups[key].append(item)
+    means = []
+    for key, items in groups.items():
+        dataset, family, mode, latent, batch, scope = key
+        means.append(dict(dataset=dataset, family=family, ed_mode=mode, latent=latent,
+                          batch_origins=batch, scope=scope, fits=[r['id'] for r in items],
+                          mean_fit_median_ms_per_origin=float(np.mean([r['milliseconds_per_origin']['median'] for r in items])),
+                          mean_fit_median_origins_per_second=float(np.mean([r['origins_per_second']['median'] for r in items]))))
+    return {'fits': fits, 'groups': means,
+            'definition': 'Per fit: median and linear-interpolated quartiles of three block medians; group center is the mean across trained seeds. F0 post-sentinels are excluded. Within-block 20-pass IQR remains in each raw row. No combined confidence interval.'}
+
+
+def row_metadata(spec):
+    family = spec['family']
+    compressed = family in ('tsfm_res', 'linear_res')
+    return {'id': spec['id'], 'dataset': spec['dataset'], 'seed': spec.get('seed'),
+            'family': family, 'ed_mode': spec.get('ed_mode', 'current') if compressed else None,
+            'latent': spec.get('latent') if compressed else None}
+
+
+def measure_gpu(args, specs, prepared, job):
+    rows = []
+    for block in range(3):
+        for dataset in ('electricity', 'bull'):
+            for ordinal, (spec, sentinel) in enumerate(block_order(specs, dataset, block)):
+                job.check_limits()
+                baseline = cuda_cleanup()
+                if baseline['allocated'] != 0:
+                    raise RuntimeError(f'Prior model retains CUDA memory: {baseline}')
+                data = prepared[dataset]
+                model, info = load_candidate(spec, data, 'cuda', job)
+                for batch in (1, 4):
+                    for scope in SCOPES:
+                        job.heartbeat(f'{args.name}: block{block} {spec["id"]} {sentinel} b{batch} {scope}')
+                        before = gpu_telemetry()
+                        metrics = measure_gpu_scope(model, data['inputs'], batch, scope, job)
+                        row = dict(row_metadata(spec), block=block, order_position=ordinal,
+                                   sentinel_role=sentinel, include_in_primary=sentinel != 'post',
+                                   batch_origins=batch, scope=scope, baseline_cuda_bytes=baseline,
+                                   telemetry_before=before, telemetry_after=gpu_telemetry(), **info, **metrics)
+                        rows.append(row)
+                        save_json(HERE / f'{args.name}_partial.json', {'status': 'running', 'rows': rows})
+                del model
+                released = cuda_cleanup()
+                if released['allocated'] != 0:
+                    raise RuntimeError(f'Model release left CUDA allocations: {released}')
+                print(json.dumps({'block': block, 'id': spec['id'], 'sentinel': sentinel, 'complete': True}), flush=True)
+    if len(rows) != 192:
+        raise ValueError('Approved GPU timing design requires 192 rows')
+    return dict(rows=rows, sentinel_checks=sentinel_checks(rows), summary=cost_summaries(rows),
+                device=torch.cuda.get_device_name(),
+                timed_scopes={
+                    'deployment_cpu_to_cpu': 'Standardized CPU FP32 inputs -> H2D -> complete [B,48,C] CPU output, synchronized wall time.',
+                    'gpu_resident': 'Inputs and outputs remain on GPU; same full forward, CUDA event and synchronized wall measured together. Event interval can include idle gaps from late CPU dispatch; not a sum of pure kernel times.'},
+                memory_scope='Each scope/batch clears inactive cache and cuBLAS workspaces before its own warmup, then resets peaks. Resident input tensors are included only in resident scope. Allocated, reserved, CPU RSS and deployed bytes are distinct; N/A process GPU memory is unmeasured.',
+                scope_difference_caution='Deployment minus resident time is not automatically transfer-only time; dispatch and synchronization differ.')
+
+
+def existing_linear(weights, family):
+    class ExistingLinear(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            keys = ('weight', 'bias') if family == 'shared_linear' else (
+                'basis', 'common_weight', 'common_bias', 'residual_weight', 'residual_bias')
+            for key in keys:
+                self.register_buffer(key, torch.as_tensor(weights[key], dtype=torch.float32).clone())
+
+        def temporal(self, x, weight, bias):
+            return (x.transpose(1, 2) @ weight + bias).transpose(1, 2)
+
+        def forward(self, x):
+            if family == 'shared_linear':
+                return self.temporal(x, self.weight, self.bias)
+            z = x @ self.basis
+            return (self.temporal(z, self.common_weight, self.common_bias) @ self.basis.T
+                    + self.temporal(x - z @ self.basis.T, self.residual_weight, self.residual_bias))
+    return ExistingLinear()
+
+
+def load_existing_linear(spec, inputs):
+    report_path = V2 / 'linear_cost.json'
+    saved = read_json(report_path)['weight_receipts'][spec['id']]
+    for path_key, hash_key in (('weights_file', 'weights_sha256'), ('report_file', 'report_sha256')):
+        if digest(ROOT / saved[path_key]) != saved[hash_key]:
+            raise ValueError('Existing strong linear baseline source changed')
+    with np.load(ROOT / saved['weights_file'], allow_pickle=False) as archive:
+        weights = {key: archive[key].copy() for key in archive.files}
+    if spec['dataset'] == 'electricity' and spec['family'] == 'shared_linear':
+        weights = {'weight': weights['direct_weight'], 'bias': weights['direct_bias']}
+    model = existing_linear(weights, spec['family']).eval()
+    x = inputs.numpy().astype(np.float64)
+    def temporal(value, weight, bias):
+        return np.einsum('blc,lh->bhc', value, weight) + bias[None, :, None]
+    if spec['family'] == 'shared_linear':
+        reference = temporal(x, weights['weight'], weights['bias'])
+    else:
+        z = x @ weights['basis']
+        reference = (temporal(z, weights['common_weight'], weights['common_bias']) @ weights['basis'].T
+                     + temporal(x - z @ weights['basis'].T, weights['residual_weight'], weights['residual_bias']))
+    with torch.no_grad():
+        actual = model(inputs).numpy()
+    np.testing.assert_allclose(actual, reference, atol=1e-5, rtol=1e-4)
+    info = {'weights': saved, 'source_cost_report': receipt(report_path),
+            'deployment_parity': {'pass': True, 'max_abs_error': float(np.max(np.abs(actual - reference))),
+                                  'atol': 1e-5, 'rtol': 1e-4, 'reference': 'Original FP64 affine/factor formula; no target scoring'},
+            'task_channels': inputs.shape[-1], 'backbone_series_per_origin': 0,
+            'fitted_coefficient_count': sum(getattr(model, k).numel() for k in (
+                ('weight', 'bias') if spec['family'] == 'shared_linear' else
+                ('common_weight', 'common_bias', 'residual_weight', 'residual_bias'))),
+            'fixed_basis_elements': model.basis.numel() if hasattr(model, 'basis') else 0,
+            'registered_trainable_parameters_before_merge': 0,
+            'deployed_parameter_bytes': 0,
+            'deployed_buffer_bytes': sum(b.numel() * b.element_size() for b in model.buffers())}
+    info['total_deployed_tensor_bytes'] = info['deployed_buffer_bytes']
+    return model, info
+
+
+def measure_cpu(args, specs, prepared, job):
+    cpu_specs = [s for s in specs if s['family'] == 'linear_res']
+    cpu_specs += [dict(id=f'{dataset}_{family}', dataset=dataset, family=family, seed=None)
+                  for dataset in ('electricity', 'bull') for family in ('shared_linear', 'factor_linear')]
+    rows = []
+    for block in range(3):
+        order = cpu_specs.copy()
+        if block == 1:
+            order.reverse()
+        elif block == 2:
+            order = order[4:] + order[:4]
+        for ordinal, spec in enumerate(order):
+            job.check_limits()
+            data = prepared[spec['dataset']]
+            if spec['family'] == 'linear_res':
+                model, info = load_candidate(spec, data, 'cpu', job)
+            else:
+                model, info = load_existing_linear(spec, data['inputs'])
+            for batch in (1, 4):
+                chunks = list(data['inputs'].split(batch))
+                for warmup in range(10):
+                    model(chunks[warmup % len(chunks)])
+                baseline = cpu_memory()
+                durations = []
+                for repeat in range(20):
+                    job.check_limits()
+                    tick = time.perf_counter()
+                    for chunk in chunks:
+                        model(chunk)
+                    durations.append(time.perf_counter() - tick)
+                rows.append(dict(row_metadata(spec), block=block, order_position=ordinal,
+                                 scope='cpu_fp32', batch_origins=batch, include_in_primary=True,
+                                 seconds_per_24_origins=durations,
+                                 milliseconds_per_origin=summary([t * 1000 / 24 for t in durations]),
+                                 origins_per_second=summary([24 / t for t in durations]),
+                                 baseline_process_cpu_memory_bytes=baseline,
+                                 process_cpu_memory_bytes=cpu_memory(), **info))
+                save_json(HERE / f'{args.name}_partial.json', {'status': 'running', 'rows': rows})
+                job.heartbeat(f'{args.name}: CPU block{block} {spec["id"]} b{batch}')
+            del model
+    if len(rows) != 48:
+        raise ValueError('Approved CPU cost design requires 48 rows')
+    return dict(rows=rows, summary=cost_summaries(rows),
+                timed_scopes={'cpu_fp32': 'Standardized CPU FP32 inputs -> complete CPU [B,48,C] output; no GPU calls.'},
+                memory_scope='Whole-process CPU RSS/peak working set includes interpreter/data; no model-specific CPU allocator peak is claimed.',
+                new_fits=0, new_target_scores=0)
+
+
+def profile_selected(args, specs, prepared, job):
+    if not args.reason:
+        raise ValueError('Conditional profiling requires an observed reason recorded by the root operator')
+    chosen = [s for s in specs if s['dataset'] == 'bull' and s['family'] in ('f0', 'tsfm_res', 'linear_res')
+              and s.get('seed') in (None, 92601)]
+    trace_dir = CACHE / args.name
+    trace_dir.mkdir(parents=True, exist_ok=False)
+    records = []
+    for spec in chosen:
+        job.check_limits()
+        baseline = cuda_cleanup()
+        if baseline['allocated']:
+            raise RuntimeError('Prior model retains CUDA memory')
+        model, info = load_candidate(spec, prepared['bull'], 'cuda', job)
+        chunk = prepared['bull']['inputs'][:1]
+        for _ in range(10):
+            forward_cpu_output(model, chunk, 'cuda')
+        torch.cuda.synchronize()
+        trace = trace_dir / f'{spec["id"]}.trace.json'
+        job.check_limits()
+        with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA],
+                                    schedule=torch.profiler.schedule(wait=0, warmup=1, active=3, repeat=1),
+                                    record_shapes=False, with_stack=False, profile_memory=False) as profiler:
+            for step in range(4):
+                with torch.profiler.record_function('v3_model_forward'):
+                    forward_cpu_output(model, chunk, 'cuda')
+                profiler.step()
+        job.check_limits()
+        profiler.export_chrome_trace(str(trace))
+        operators = profiler.key_averages()
+        records.append(dict(row_metadata(spec), trace=receipt(trace), trace_bytes=trace.stat().st_size,
+                            operator_table=operators.table(sort_by='self_device_time_total', row_limit=30),
+                            cpu_operator_table=operators.table(sort_by='self_cpu_time_total', row_limit=30),
+                            operator_aggregate_time_unit='microseconds',
+                            operator_aggregates=[dict(key=op.key, count=op.count,
+                                                      device_type=str(op.device_type),
+                                                      cpu_time_total=op.cpu_time_total,
+                                                      self_cpu_time_total=op.self_cpu_time_total,
+                                                      device_time_total=op.device_time_total,
+                                                      self_device_time_total=op.self_device_time_total)
+                                                 for op in operators],
+                            **info))
+        del operators, profiler, model
+        if cuda_cleanup()['allocated']:
+            raise RuntimeError('Profiled model retains CUDA memory')
+        job.heartbeat(f'{args.name}: profile {spec["id"]} complete')
+    return dict(reason=args.reason, profiles=records,
+                forward_scope='v3_model_forward includes CPU input -> H2D -> complete CPU output; ledger checks are outside the profile. ProfilerStep also includes instrumentation overhead, not model-only time.',
+                performance_claim='Diagnostic traces only, excluded from timing comparisons.')
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--stage', choices=('gpu', 'cpu', 'profile'), required=True)
+    parser.add_argument('--name', required=True)
+    parser.add_argument('--selection', type=Path, default=HERE / 'selected_linear.json')
+    parser.add_argument('--reserve-seconds', type=float, required=True)
+    parser.add_argument('--reason', default='')
+    args = parser.parse_args()
+    if not args.name or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-' for c in args.name):
+        raise ValueError('Invalid unique cost name')
+    paths = [HERE / f'{args.name}{suffix}.json' for suffix in ('', '_partial', '_attempt')]
+    if any(path.exists() for path in paths):
+        raise FileExistsError('Preserve all prior cost attempts; use a new name')
+    if args.stage == 'profile' and not args.reason:
+        raise ValueError('Profiling is conditional; the root operator must record the observed reason')
+    started = time.perf_counter()
+    record = dict(status='running', stage=args.stage, pid=os.getpid(), started_utc=time.time(),
+                  command=sys.argv, source=source_receipt(), environment=environment_receipt(),
+                  selection=receipt(args.selection))
+    save_json(paths[-1], record)
+    try:
+        category = 'gpu' if args.stage in ('gpu', 'profile') else 'cpu_analysis'
+        with Job(args.name, category=category, reserve_seconds=args.reserve_seconds) as job:
+            global np, psutil, torch
+            import numpy as np
+            import psutil
+            import torch
+            from threadpoolctl import threadpool_info, threadpool_limits
+            torch.set_num_threads(4)
+            torch.backends.cuda.matmul.allow_tf32 = False
+            torch.backends.cudnn.allow_tf32 = False
+            with threadpool_limits(limits=4), torch.no_grad():
+                specs = build_specs(args.selection)
+                prepared = prepare_inputs(specs)
+                if args.stage == 'gpu':
+                    result = measure_gpu(args, specs, prepared, job)
+                elif args.stage == 'cpu':
+                    result = measure_cpu(args, specs, prepared, job)
+                else:
+                    result = profile_selected(args, specs, prepared, job)
+                result.update(status='complete', stage=args.stage, schema_version=1, specs=specs,
+                              selection=receipt(args.selection), v2_cost_specs=receipt(V2 / 'cost_specs.json'),
+                              external_sources=[receipt(V2 / 'model.py'), receipt(V2 / 'measure_linear_cost.py'),
+                                                receipt(V2 / 'linear_cost.json')],
+                              val_origins={key: value['origins'] for key, value in prepared.items()},
+                              source=source_receipt(), environment=environment_receipt(),
+                              torch_threads=torch.get_num_threads(), threadpools=threadpool_info(),
+                              precision='float32', allow_tf32_matmul=False, allow_tf32_cudnn=False,
+                              warmup_calls=10, passes_per_order_block=20, order_blocks=3,
+                              elapsed_seconds=time.perf_counter() - started,
+                              uncertainty='Repeated timing on one device/session; block and pass repeats are not independent scientific replication.')
+                save_json(paths[0], result)
+        record['status'] = 'complete'
+        print(json.dumps({'status': 'complete', 'stage': args.stage, 'output': rel(paths[0]),
+                          'rows': len(result.get('rows', []))}), flush=True)
+    except BaseException:
+        record.update(status='failed', traceback=traceback.format_exc())
+        raise
+    finally:
+        record['ended_utc'] = time.time()
+        save_json(paths[-1], record)
+
+
+if __name__ == '__main__':
+    main()

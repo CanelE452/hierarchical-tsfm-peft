@@ -1,0 +1,19 @@
+# v3 진행 상태
+
+- 상태: 최초8+대응 LINEAR_RAW4 = 실자료12fit·두 비교, CPU 비용48행·GPU 두 범위192행, 제한 profile·그림·최종 검산 완료. 관련 파일 게시 준비.
+- 시작 기준: origin/main = main = e15c913520d9ec5100459077dfcc58518b22a363. 추적 파일 변경 없음; 기존 미추적 4항목 보존.
+- PLAN.md는 직전 계획 응답 원문이다. 사용자 전체 승인으로 해당 계획 내 구현·수리·실행·일반 commit/push가 허용됨.
+- 다음 행동: 관련 변경만 검사·일반 commit·origin/main push하고 원격 SHA 확인. 새 실험은 없음. 후속 결정은 미사용 이력이 확인된 비-Bull 사무동 하나에서 고정 TSFM_RES/LINEAR_RES/LoRA를 새로 확인할지다.
+- 예산: 실자료12/16완료·실자료실패0; 합성 optimizer2/6세션(각8step); GPU2094.124854초(34.902분)/10800초. CPU검사8.310051초/900초; 별도 CPU비용/그림31.406370초. 실자료 fit 시간은 GPU job에 중복 가산하지 않음. 저장 상한5GiB, 최종 검산 시42,669,260bytes. 실제 원장은 ledger.json.
+- 실행 주체: root만 검사/학습/비용 실행. worker는 지정 코드만 작성. 실제 PID·시작/종료·실패·갱신은 ledger.json.
+- 불확실성: 선형 경로의 합리적 학습은 확인했지만 전역 최적 수렴은 증명하지 않음. TSFM의 개발 정확도 이점은 관측됐으나 Bull E2 구간은 넓고 모두 노출 자료임. CPU 및 GPU상주 측정의 큰 변동이 남고 근본 원인은 미확정. Electricity v1 초기 checkpoint 부재 제한을 유지.
+- v2의22/20attempt 위반·결과·봉인은 보존하며 이번 예산으로 소급 승인하지 않음.
+- 구현 확인: E/D/T/G 독립 파라미터, T의 실제 갱신, Bull E/D 불변, Electricity E/D 갱신, G down의 첫 step 0→후속 gradient, 전체 상태와 optimizer/scheduler 재시작은 첫 합성 검사에서 통과. 합성 성공을 실자료 학습 충분성으로 해석하지 않음.
+- 수리: sqrt 전에 정확히 0인 분산만 안전한 값으로 바꾸고 원래 scale=1e-5를 유지. 원본·diff는 repairs/. cpu_checks_02.json은 일반/0/상수/작은 scale/결측 전방값 정합과 상수 역전파를 통과. all-NaN 역전파의 정상성을 주장하지 않으며 실제 입력은 TRAIN 처리로 finite.
+- 주 비교: VAL은 Electricity0.173428891, Bull0.438928843으로 둘 다 T LR1e-3 선택. 개발 평균 MSE는 LINEAR/TSFM 순서로 Electricity0.181972420/0.165850237, Bull E1 0.257305372/0.210365266, E2 1.369493980/1.246580309. LINEAR 손해는 TSFM 분모로9.72%/22.31%/9.86%. E2 블록95%구간은0포함; 모든 평가가 노출 개발이라는 제한 유지.
+- 학습: 8실행 모두 step0 이후 선택, 최대120epoch 미도달, 고정 TRAIN probe 개선·T/G 갱신·자료별 E/D 동결 및 선택/restart 복원 확인. 이 증거는 합리적 학습의 확인이지 전역 최적 수렴 증명은 아님.
+- 분기 B 결과: LINEAR_RAW MSE는 Electricity0.186462924, Bull E1 0.535526560, E2 1.439332885. 같은 레시피 LINEAR_RES 대비2.47%/108.13%/5.10% 증가이며 E2의 RAW-RES 블록95%구간은0포함. RAW에는 전체 LR 탐색을 주지 않았으므로 best-selected 대결이 아닌 대응 레시피 비교. 원본 주 선택/주 지표를 바꾸지 않음.
+- 비용: GPU배포 batch1 TSFM_RES/LINEAR_RES는 Electricity25.657/1.335ms, Bull25.933/1.303ms. CPU LINEAR는0.574/0.548ms. Electricity F0 GPU상주 블록1 전후11.886→25.052ms, CPU LINEAR 일부0.24~0.25→0.54~0.59ms 변동을 원본·그림에 보존. 대표 profile에서는 F0/TSFM_RES/LINEAR kernel호출662/639/41회/forward이며, 호출·스케줄링 영향의 단서는 있으나 과거 변동의 원인 확정은 아님.
+- profile 수리: 첫 profile의 ProfilerStep CPU구간에 원장 조회 포함. 원본/diff를 repairs에 남기고 budget 조회를 trace 밖으로 이동, model_forward 범위를 표시해 두 번째 profile 완료. 첫 profile도 GPU시간에 포함하며 정확도·일반 benchmark 수치에 영향 없음.
+- 검산: final_checks.json PASS. PLAN 및 v1/v2 원본327개 hash·12fit·저장 예측과 선택·RAW 대조·GPU192/CPU48행·예산 확인. 자체 검산이지 독립 재현 아님. 비교 그림 PNG/SVG를 생성하고 잘림·수치 범위를 육안 확인함.
+- 최종 판단: 정확도 중심의 TSFM 경로는 조건부 유지. 선형의 큰 비용 이점과 정확도 손해를 함께 보고하며, 잔차 PEFT 주력 논문 주제는 미확보·보류. 현재 실행 중 연구 job0.

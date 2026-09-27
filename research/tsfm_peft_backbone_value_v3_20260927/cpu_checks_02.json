@@ -1,0 +1,103 @@
+{
+  "status": "pass",
+  "data": "synthetic only",
+  "device": "cpu",
+  "optimizer_updates": 8,
+  "optimizer_update_limit": 10,
+  "checks": [
+    {
+      "name": "structure_and_normalization",
+      "status": "pass",
+      "details": {
+        "parameters": 43056,
+        "state_keys": [
+          "decoder.weight",
+          "encoder.weight",
+          "residual.down.weight",
+          "residual.up.weight",
+          "temporal.bias",
+          "temporal.weight"
+        ],
+        "caller_rng_unchanged": true
+      }
+    },
+    {
+      "name": "constant_input_gradient",
+      "status": "pass",
+      "details": {
+        "constant_output_and_backward_finite": true
+      }
+    },
+    {
+      "name": "normalization_forward_parity",
+      "status": "pass",
+      "details": {
+        "exact_forward_parity_cases": [
+          "random",
+          "zero",
+          "constant",
+          "small_scale",
+          "all_nan",
+          "partial_nan"
+        ],
+        "all_nan_backward_claimed": false
+      }
+    },
+    {
+      "name": "masked_loss",
+      "status": "pass",
+      "details": {
+        "equal_channel_weighting": true,
+        "masked_targets_have_zero_gradient": true
+      }
+    },
+    {
+      "name": "current_updates",
+      "status": "pass",
+      "details": {
+        "changed_scalars": {
+          "encoder.weight": 256,
+          "decoder.weight": 256,
+          "residual.down.weight": 16384,
+          "residual.up.weight": 1536,
+          "temporal.weight": 24576,
+          "temporal.bias": 48
+        },
+        "G_down_nonzero_gradient_counts": [
+          0,
+          16384
+        ]
+      }
+    },
+    {
+      "name": "fixed_ed_updates",
+      "status": "pass",
+      "details": {
+        "changed_scalars": {
+          "encoder.weight": 0,
+          "decoder.weight": 0,
+          "residual.down.weight": 16384,
+          "residual.up.weight": 1536,
+          "temporal.weight": 24576,
+          "temporal.bias": 48
+        },
+        "G_down_nonzero_gradient_counts": [
+          0,
+          16384
+        ]
+      }
+    },
+    {
+      "name": "checkpoint_and_restart",
+      "status": "pass",
+      "details": {
+        "serialized_restore_exact": true,
+        "optimizer_scheduler_restart_exact": true,
+        "checkpoint_includes_T": true,
+        "checkpoint_bytes": 523178
+      }
+    }
+  ],
+  "elapsed_s": 0.7688792000990361,
+  "ledger_id": 1
+}

@@ -1,0 +1,86 @@
+{
+  "status": "failed",
+  "data": "synthetic only",
+  "device": "cpu",
+  "optimizer_updates": 8,
+  "optimizer_update_limit": 10,
+  "checks": [
+    {
+      "name": "structure_and_normalization",
+      "status": "pass",
+      "details": {
+        "parameters": 43056,
+        "state_keys": [
+          "decoder.weight",
+          "encoder.weight",
+          "residual.down.weight",
+          "residual.up.weight",
+          "temporal.bias",
+          "temporal.weight"
+        ],
+        "caller_rng_unchanged": true
+      }
+    },
+    {
+      "name": "constant_input_gradient",
+      "status": "failed",
+      "error": "Traceback (most recent call last):\n  File \"E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_backbone_value_v3_20260927\\test_model.py\", line 82, in check\n    details = callback()\n              ^^^^^^^^^^\n  File \"E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_backbone_value_v3_20260927\\test_model.py\", line 129, in constant_gradient\n    assert torch.isfinite(latent.grad).all(), 'nonfinite constant-input latent gradient'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: nonfinite constant-input latent gradient\n"
+    },
+    {
+      "name": "masked_loss",
+      "status": "pass",
+      "details": {
+        "equal_channel_weighting": true,
+        "masked_targets_have_zero_gradient": true
+      }
+    },
+    {
+      "name": "current_updates",
+      "status": "pass",
+      "details": {
+        "changed_scalars": {
+          "encoder.weight": 256,
+          "decoder.weight": 256,
+          "residual.down.weight": 16384,
+          "residual.up.weight": 1536,
+          "temporal.weight": 24576,
+          "temporal.bias": 48
+        },
+        "G_down_nonzero_gradient_counts": [
+          0,
+          16384
+        ]
+      }
+    },
+    {
+      "name": "fixed_ed_updates",
+      "status": "pass",
+      "details": {
+        "changed_scalars": {
+          "encoder.weight": 0,
+          "decoder.weight": 0,
+          "residual.down.weight": 16384,
+          "residual.up.weight": 1536,
+          "temporal.weight": 24576,
+          "temporal.bias": 48
+        },
+        "G_down_nonzero_gradient_counts": [
+          0,
+          16384
+        ]
+      }
+    },
+    {
+      "name": "checkpoint_and_restart",
+      "status": "pass",
+      "details": {
+        "serialized_restore_exact": true,
+        "optimizer_scheduler_restart_exact": true,
+        "checkpoint_includes_T": true,
+        "checkpoint_bytes": 523114
+      }
+    }
+  ],
+  "elapsed_s": 0.8097397999372333,
+  "ledger_id": 0
+}

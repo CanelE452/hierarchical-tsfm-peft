@@ -1,0 +1,35 @@
+{
+  "stage": "v3_exposed_backbone_replacement",
+  "context": 512,
+  "horizon": 48,
+  "residual_rank": 32,
+  "seeds": [
+    92601,
+    92602
+  ],
+  "epochs": 120,
+  "patience": 6,
+  "epoch_origins": 512,
+  "effective_batch_origins": 4,
+  "microbatch_origins": 4,
+  "eval_batch_origins": 4,
+  "optimizer": "AdamW",
+  "weight_decay": 0.0,
+  "clip_grad_norm": 1.0,
+  "scheduler": "ReduceLROnPlateau(factor=0.5,patience=2,threshold=1e-4,threshold_mode=rel,min_lr=0,eps=1e-8); synchronize T LR to original ratio of E/D/G LR",
+  "selection": "minimum full VAL macro MSE including step0; earliest tie; dataset LR by two-seed best VAL mean before development scoring",
+  "sampling": "512 TRAIN origins per epoch, phase-balanced modulo24, paired by seed and epoch",
+  "loss": "masked equal-channel macro normalized MSE",
+  "backbone_dropout": "disabled, gradients through backbone retained for trainable E",
+  "precision": "float32",
+  "gpu_budget_seconds": 10800,
+  "fit_attempt_budget": 16,
+  "storage_budget_bytes": 5368709120,
+  "data_sha256": {
+    "electricity": "65b3e7dbb89433a75b26e6ad7071702dcb81b259dd33ab74dc6eea0d9b7d2bb5",
+    "bull": "a11d826ac01de745765c5f30d88201b3176efe239216cb7ef12f6250a9542ed3"
+  },
+  "backbone_revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+  "data_contract": "research/tsfm_peft_development_20260926/data_contract.json",
+  "evaluation_scope": "Electricity DEV and Bull E1/E2 are exposed development. No new confirmation data."
+}

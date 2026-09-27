@@ -1,0 +1,27 @@
+{
+  "scope": "approved branch B only; no normalization/LR/new-data search",
+  "observations": {
+    "first8_completed": 8,
+    "max_epochs_hit": 0,
+    "all_selected_after_step0": true,
+    "all_replay_error": 0,
+    "linear_minus_tsfm": {
+      "electricity_dev": 0.016122183403429052,
+      "bull_e1": 0.046940106156725364,
+      "bull_e2": 0.12291367163895472
+    },
+    "uncertainty": "Bull E2 conditional interval crosses zero; Electricity and E1 positive in both seeds/halves",
+    "linear_position": "Electricity LINEAR_RES 0.181972 is around existing SHARED 0.180795 / FACTOR 0.178457; Bull E1 improves those linears but E2 does not clearly do so"
+  },
+  "question": "Could the residual-input restriction in the learned replacement, rather than the retained TSFM path, leave a stronger simple alternative untested and change the next research choice?",
+  "change": "Only residual G input X-D(E(X)) -> X; same selected t_lr=0.001, seed, initial E/D/G/T, E/D mode, 120epoch/patience6, sampling and objective",
+  "interpretation": {
+    "raw_closes_gap": "TSFM_RES versus LINEAR_RES comparison remains valid, but TSFM practical necessity weakens against a simple raw-input alternative; do not claim best-selected fairness",
+    "raw_similar_or_worse": "No evidence that this one G-input change removes observed TSFM advantage; stop training and measure approved selected main routes",
+    "mixed": "Report all periods/seeds, no post-hoc routing or evaluation-based recipe selection"
+  },
+  "attempts": 4,
+  "remaining_after_if_all_start": 4,
+  "selection": "One fixed recipe per dataset, not full RAW LR search; selected_linear.json untouched",
+  "prohibited": "No copying trained TSFM/LINEAR final weights; no new data; no automatic further branches"
+}

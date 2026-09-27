@@ -1,0 +1,27 @@
+diff --git research/tsfm_peft_backbone_value_v3_20260927/repairs/normalization_original.py.txt research/tsfm_peft_backbone_value_v3_20260927/model.py
+index bbe1eb1..1aff082 100644
+--- research/tsfm_peft_backbone_value_v3_20260927/repairs/normalization_original.py.txt
++++ research/tsfm_peft_backbone_value_v3_20260927/model.py
+@@ -70,8 +70,12 @@ class LinearResidual(nn.Module):
+         original_dtype = z.dtype
+         z = z.to(torch.float32)
+         loc = torch.nan_to_num(torch.nanmean(z, dim=-1, keepdim=True), nan=0.0)
+-        scale = torch.nan_to_num((z - loc).square().nanmean(dim=-1, keepdim=True).sqrt(), nan=1.0)
+-        scale = torch.where(scale == 0, self.eps, scale)
++        variance = (z - loc).square().nanmean(dim=-1, keepdim=True)
++        zero_variance = variance == 0
++        # Preserve the forward fallback while avoiding sqrt(0)'s undefined backward.
++        safe_variance = torch.where(zero_variance, torch.ones_like(variance), variance)
++        scale = torch.nan_to_num(safe_variance.sqrt(), nan=1.0)
++        scale = torch.where(zero_variance, self.eps, scale)
+         normalized = (z - loc) / scale
+         normalized = torch.where(torch.isnan(z), 0.0, normalized)
+         return normalized.to(original_dtype), loc, scale
+@@ -119,6 +123,7 @@ class LinearResidual(nn.Module):
+             'normalization_eps': self.eps,
+             'normalization_arcsinh': False,
+             'normalization_detach': False,
++            'zero_variance_backward': 'zero scale derivative; same forward eps fallback',
+             'temporal_bias': True,
+             'temporal_seed': self.temporal_seed,
+             'temporal_initializer': 'PyTorch Linear.reset_parameters, separate CPU fork_rng',
