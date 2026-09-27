@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "status": "code_repair_recorded_execution_pending",
+  "changed_utc": "2026-09-27T02:47:19.6582888Z",
+  "category": "cost_validation_and_interrupted_measurement_resume",
+  "original_code": {
+    "sha256": "537a59f23abb0c30b526024edee9b1a8e57661df70c5222986668a93d462df9a",
+    "path": ".cache/tsfm_peft_fresh_group_v4_20260927/repairs/cost_v4_before_replay_fix.py"
+  },
+  "repaired_code": {
+    "sha256": "7a57849eac0e4eb8c1447c96a37c53a6e30cb2e2ad8d65d254f37d5f3a2900b9",
+    "path": "research/tsfm_peft_fresh_group_v4_20260927/cost_v4.py"
+  },
+  "patch": {
+    "sha256": "cbec6b6002f9015a7c4fb1295b2e32b09f4c754b339cd4c75466ddb9d505f25c",
+    "path": "research/tsfm_peft_fresh_group_v4_20260927/repairs/cost_replay_fix.patch"
+  },
+  "original_failed_attempt": {
+    "sha256": "b24ab1b235c5a7a05b833686076aef2d4c48a7bdcb08ff768d3f05c4f832d725",
+    "path": "research/tsfm_peft_fresh_group_v4_20260927/v4_cost_gpu_01_attempt.json"
+  },
+  "original_partial": {
+    "sha256": "211f08f3ee030081f07436a7d766216f14cd8248c4c775f0d70b9f953af9e745",
+    "path": "research/tsfm_peft_fresh_group_v4_20260927/v4_cost_gpu_01_partial.json"
+  },
+  "diagnosis": {
+    "sha256": "43a7868955a29bacb00d0f5bf562ba44d9af797dc428e6cffaf5eb9f9740157d",
+    "path": "research/tsfm_peft_fresh_group_v4_20260927/cost_replay_diagnostic_01.json"
+  },
+  "evaluation_seal": {
+    "sha256": "4c4531f3d5ea6f3bfb92755da59ea82c05d8caca60fca61abd98bbdafff1127b",
+    "path": "research/tsfm_peft_fresh_group_v4_20260927/evaluation_seal.json"
+  },
+  "unchanged_test_result": {
+    "sha256": "11064e881d6de6ca7d49dd0e090a757c449bc8549f36f532bf69dab8ac1de262",
+    "path": "research/tsfm_peft_fresh_group_v4_20260927/v4_test_01.json"
+  },
+  "observation": {
+    "original_gpu_replay_failed_elements": 2,
+    "compared_elements": 36864,
+    "greatest_absolute_error_among_failing_elements": 1.3709068298339844E-06,
+    "original_full_30_val_grouping_vs_saved_max_abs_both_linear_seeds": 0,
+    "rearranged_val24_max_abs": 1.9073486328125E-06,
+    "no_grad_vs_inference_max_abs_both_linear_seeds": 0,
+    "standalone_diagnostic_old_tolerance_failures": 0,
+    "interpretation": "Exact original grouping restored saved predictions. Regrouped FP32 predictions differ slightly. The standalone diagnosis did not reproduce the two original threshold violations, so the unique cause of the original failure is not established."
+  },
+  "repair": {
+    "all_future_cpu_gpu_replay_atol": 1E-05,
+    "all_future_cpu_gpu_replay_rtol": 0.0001,
+    "justification": "Use the existing CPU replay and LoRA merge output-equivalence bounds consistently for subsequent deployment replays; retain max absolute error and stricter old GPU threshold violation counts.",
+    "old_gpu_diagnostic_atol": 1E-06,
+    "old_gpu_diagnostic_rtol": 1E-05,
+    "models_training_test_scores_changed": false,
+    "timed_forward_warmup_pass_order_precision_changed": false,
+    "old_measurements_retimed": false,
+    "completed_original_rows": 10,
+    "preserved_old_tolerances": true,
+    "reuse_command_argument": "--reuse-cost research/tsfm_peft_fresh_group_v4_20260927/v4_cost_gpu_01_partial.json",
+    "resumed_block_interpretation": "Block 0 spans a failed attempt, the VAL-only diagnosis, and a new process. Original F0 pre and all completed timings are retained; no uninterrupted-session claim."
+  },
+  "verification": "Code and record only. No model import, forward, scoring, benchmark, compile or test executed by this agent."
+}

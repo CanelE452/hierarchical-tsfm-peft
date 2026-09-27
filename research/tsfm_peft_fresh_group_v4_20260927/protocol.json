@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "stage": "v4_fresh_hog_fixed_confirmation",
+  "base_commit": "5eaeb55fda2d980055a33b3721b99cd3eab9e9d2",
+  "site": "Hog",
+  "dataset": "hog",
+  "selected_columns": [
+    "Hog_office_Alexis",
+    "Hog_office_Almeda",
+    "Hog_office_Bessie",
+    "Hog_office_Betsy",
+    "Hog_office_Bill",
+    "Hog_office_Buford",
+    "Hog_office_Byron",
+    "Hog_office_Candi",
+    "Hog_office_Carri",
+    "Hog_office_Catalina",
+    "Hog_office_Catharine",
+    "Hog_office_Charla",
+    "Hog_office_Clemencia",
+    "Hog_office_Cordelia",
+    "Hog_office_Corey",
+    "Hog_office_Corie",
+    "Hog_office_Cornell",
+    "Hog_office_Cortney",
+    "Hog_office_Darline",
+    "Hog_office_Denita",
+    "Hog_office_Elizbeth",
+    "Hog_office_Elke",
+    "Hog_office_Elnora",
+    "Hog_office_Eloise",
+    "Hog_office_Elsy",
+    "Hog_office_Emmanuel",
+    "Hog_office_Garrett",
+    "Hog_office_Guadalupe",
+    "Hog_office_Gustavo",
+    "Hog_office_Joey",
+    "Hog_office_Josefina",
+    "Hog_office_Lanell"
+  ],
+  "channels": 32,
+  "latent": 8,
+  "context": 512,
+  "horizon": 48,
+  "residual_rank": 32,
+  "seeds": [
+    92601,
+    92602
+  ],
+  "epochs": 120,
+  "patience": 6,
+  "epoch_origins": 512,
+  "effective_batch_origins": 4,
+  "microbatch_origins": 4,
+  "eval_batch_origins": 4,
+  "optimizer": "AdamW",
+  "weight_decay": 0,
+  "clip_grad_norm": 1,
+  "scheduler": {
+    "factor": 0.5,
+    "patience": 2,
+    "threshold": 0.0001,
+    "threshold_mode": "rel",
+    "min_lr": 0,
+    "eps": 1e-8
+  },
+  "checkpoint_selection": "minimum full VAL macro MSE including step0; exact ties retain earliest",
+  "mode_selection": "independent family minimum mean of two seed best VAL MSE; exact tie prefers fixed_ed",
+  "ridge_penalties": [
+    0.001,
+    0.1,
+    10
+  ],
+  "ridge_selection": "minimum VAL macro MSE; exact tie first listed penalty",
+  "sampling": "phase-balanced modulo24; SeedSequence([seed,epoch]); 512 origins without replacement per phase",
+  "backbone_revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+  "precision": "float32",
+  "tf32": false,
+  "cpu_threads": 4,
+  "backbone_dropout": "disabled; retain input gradient for CURRENT E",
+  "splits": {
+    "precontext": [
+      "2016-01-01",
+      "2016-01-23"
+    ],
+    "train": [
+      "2016-01-23",
+      "2016-04-15"
+    ],
+    "val": [
+      "2016-04-17",
+      "2016-05-18"
+    ],
+    "test_a": [
+      "2016-05-20",
+      "2016-06-30"
+    ],
+    "test_b": [
+      "2016-06-30",
+      "2016-08-10"
+    ]
+  },
+  "expected_origins": {
+    "train": 1945,
+    "val": 30,
+    "test_a": 40,
+    "test_b": 40
+  },
+  "evaluation_stride": 24,
+  "primary_metric": "combined TEST-A/B channel-equal masked normalized MSE; per-channel SSE/count pooled before macro; arithmetic mean of individual seed losses",
+  "primary_residual_comparison": "TSFM_RES minus TSFM_RAW at RES VAL-selected E/D mode",
+  "test_selection_prohibited": true,
+  "bootstrap": {
+    "block_origins": 7,
+    "draws": 2000,
+    "seed": 9262026,
+    "stratify_periods": true,
+    "channels_and_methods_paired": true
+  },
+  "cost": {
+    "val_origins": 24,
+    "val_origin_selection": "np.linspace(0,29,24,dtype=int)",
+    "batches": [
+      1,
+      4
+    ],
+    "warmup_calls": 10,
+    "passes": 20,
+    "blocks": 3,
+    "primary_scope": "standardized CPU FP32 input -> H2D -> complete CPU [B,48,C] output; synchronized wall time",
+    "primary_interests": [
+      "batch4 origins/sec",
+      "peak allocated GPU bytes"
+    ],
+    "cpu_paths": [
+      "linear_res",
+      "shared"
+    ],
+    "conditional_diagnostic_sessions": 1,
+    "conditional_diagnostic_max_gpu_seconds": 600
+  },
+  "extension": {
+    "maximum_epochs": 240,
+    "once": true,
+    "trigger": "reached 120 without patience termination; strict best improved within last 6 epochs",
+    "rule": "same eligibility across methods; all eligible continuations must fit remaining recovery budget, otherwise retain original caps; converged seeds not resumed"
+  },
+  "limits": {
+    "real_fit": 24,
+    "synthetic_sessions": 6,
+    "synthetic_steps": 10,
+    "gpu_seconds": 14400,
+    "cpu_check_seconds": 900,
+    "storage_bytes": 10737418240,
+    "download_bytes": 0,
+    "conflict_wait_per_incident_seconds": 1800,
+    "conflict_wait_total_seconds": 3600
+  },
+  "fits": [
+    {
+      "id": "v4_hog_tsfm_res_current_92601",
+      "dataset": "hog",
+      "family": "tsfm_res",
+      "arm": "residual",
+      "ed_mode": "current",
+      "seed": 92601,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_tsfm_res_current_92602",
+      "dataset": "hog",
+      "family": "tsfm_res",
+      "arm": "residual",
+      "ed_mode": "current",
+      "seed": 92602,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_tsfm_res_fixed_ed_92601",
+      "dataset": "hog",
+      "family": "tsfm_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_tsfm_res_fixed_ed_92602",
+      "dataset": "hog",
+      "family": "tsfm_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_tsfm_raw_current_92601",
+      "dataset": "hog",
+      "family": "tsfm_raw",
+      "arm": "raw_bypass",
+      "ed_mode": "current",
+      "seed": 92601,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_tsfm_raw_current_92602",
+      "dataset": "hog",
+      "family": "tsfm_raw",
+      "arm": "raw_bypass",
+      "ed_mode": "current",
+      "seed": 92602,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_tsfm_raw_fixed_ed_92601",
+      "dataset": "hog",
+      "family": "tsfm_raw",
+      "arm": "raw_bypass",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_tsfm_raw_fixed_ed_92602",
+      "dataset": "hog",
+      "family": "tsfm_raw",
+      "arm": "raw_bypass",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_linear_res_current_92601",
+      "dataset": "hog",
+      "family": "linear_res",
+      "arm": "residual",
+      "ed_mode": "current",
+      "seed": 92601,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_linear_res_current_92602",
+      "dataset": "hog",
+      "family": "linear_res",
+      "arm": "residual",
+      "ed_mode": "current",
+      "seed": 92602,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_linear_res_fixed_ed_92601",
+      "dataset": "hog",
+      "family": "linear_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_linear_res_fixed_ed_92602",
+      "dataset": "hog",
+      "family": "linear_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "latent": 8,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v4_hog_lora_92601",
+      "dataset": "hog",
+      "family": "lora",
+      "arm": "lora",
+      "ed_mode": "current",
+      "seed": 92601,
+      "latent": 8,
+      "residual_rank": 32,
+      "lr": 0.0001
+    },
+    {
+      "id": "v4_hog_lora_92602",
+      "dataset": "hog",
+      "family": "lora",
+      "arm": "lora",
+      "ed_mode": "current",
+      "seed": 92602,
+      "latent": 8,
+      "residual_rank": 32,
+      "lr": 0.0001
+    },
+    {
+      "id": "v4_hog_compress_92601",
+      "dataset": "hog",
+      "family": "compress",
+      "arm": "compress",
+      "ed_mode": "current",
+      "seed": 92601,
+      "latent": 8,
+      "residual_rank": 32,
+      "lr": 0.001
+    },
+    {
+      "id": "v4_hog_compress_92602",
+      "dataset": "hog",
+      "family": "compress",
+      "arm": "compress",
+      "ed_mode": "current",
+      "seed": 92602,
+      "latent": 8,
+      "residual_rank": 32,
+      "lr": 0.001
+    }
+  ],
+  "scope_limit": "one new local-method-selection group; bounded history search, not certified pretraining-disjoint; no post-TEST model/data change"
+}

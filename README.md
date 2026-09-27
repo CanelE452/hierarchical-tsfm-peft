@@ -102,3 +102,18 @@ Electricity의 기존 노출 구간은 개발에 사용했고, BDG2 Bull Office�
 - [직접 대체 비교](research/tsfm_peft_backbone_value_v3_20260927/final_development.json), [대응 LINEAR_RAW 비교](research/tsfm_peft_backbone_value_v3_20260927/linear_raw_development.json)
 - [GPU 두 측정 범위](research/tsfm_peft_backbone_value_v3_20260927/cost_gpu_01.json), [CPU 배포](research/tsfm_peft_backbone_value_v3_20260927/cost_cpu_01.json), [구간 수리 후 대표 profile](research/tsfm_peft_backbone_value_v3_20260927/cost_profile_02.json)
 - [최종 검산](research/tsfm_peft_backbone_value_v3_20260927/final_checks.json), [승인 계획](research/tsfm_peft_backbone_value_v3_20260927/PLAN.md), [상태·예산·게시 기록](research/tsfm_peft_backbone_value_v3_20260927/STATUS.md)
+
+## 잔차 PEFT v4: Hog 새 집단 고정 확인 (2026-09-27)
+
+BDG2 Hog 사무용 전력32채널/K8에서 사전에 고정한 CURRENT/FIXED_ED·VAL 선택 정책으로 신경망16+CPU ridge3fit를 완료했습니다. 제한된 로컬 이력 조회에서 Hog의 직접 방법선택 흔적을 찾지 못했으나, 백본 사전학습 비중복은 미확정입니다. TEST-A/B를 함께 고정 평가했고 점수에 따른 재튜닝은 없었습니다.
+
+**잔차 입력 설계는 후속 방법으로 유지하며, 현 구성은 GPU 메모리와 정확도 절충을 위한 조건부 선택지입니다.** 선택 RES의 전체 MSE3.220290은 RAW/COMPRESS4.591135보다29.86%, LINEAR_RES3.445439보다6.53% 낮았습니다. 반면 미압축 F0보다17.61%, 병합LoRA보다20.00% 높았습니다. RAW는 정상 학습 후 VAL이step0을 선택해 COMPRESS와 같은 함수이며, 이를 두 독립적인 승리로 세지 않습니다. MAE와 CPU 비용에서는 단순 선형 대안이 더 유리합니다.
+
+RES의 batch4 처리량 중심값357.14원점/초는 LoRA172.52보다 약2.07배지만, 첫 블록에서는 순위가 뒤집혔으므로 안정적인 두 배 속도를 주장하지 않습니다. batch4 peak allocated는225.859MiB로 F0/LoRA보다31.28% 낮았습니다. 백본 저장 크기 자체는 줄지 않습니다. **다음에는 확증 확대보다 알려진 정확도 손해를 줄이는 개발을 우선할 것을 권고합니다.** 한 site 결과가 논문 전체의 신규성·범용 우수성을 확정하지는 않습니다.
+
+실자료19/24attempt, 합성 optimizer1/6세션(총10update), GPU21.533분/240분으로 종료했습니다. 비용 VAL 재생 허용오차 수리1회와 중단된 블록의 원자료를 보존했으며 학습·TEST 수치는 바꾸지 않았습니다. 이전406개 파일 및 v2의22/20회 위반 기록도 보존했습니다.
+
+- [v4 최종 판단·전체/기간/seed·비용·그림](research/tsfm_peft_fresh_group_v4_20260927/TOPIC_DECISION.md)
+- [자료 계약](research/tsfm_peft_fresh_group_v4_20260927/data_contract.json), [TEST 전 봉인](research/tsfm_peft_fresh_group_v4_20260927/evaluation_seal.json), [고정 평가](research/tsfm_peft_fresh_group_v4_20260927/v4_test_01.json)
+- [GPU 비용](research/tsfm_peft_fresh_group_v4_20260927/v4_cost_gpu_02.json), [CPU 비용](research/tsfm_peft_fresh_group_v4_20260927/v4_cost_cpu_01.json), [제한된 GPU상주 진단](research/tsfm_peft_fresh_group_v4_20260927/v4_cost_diagnostic_01.json)
+- [최종 검산](research/tsfm_peft_fresh_group_v4_20260927/final_checks.json), [승인 계획](research/tsfm_peft_fresh_group_v4_20260927/PLAN.md), [상태·예산·게시 기록](research/tsfm_peft_fresh_group_v4_20260927/STATUS.md)
