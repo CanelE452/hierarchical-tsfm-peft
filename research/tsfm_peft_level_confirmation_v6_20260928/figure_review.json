@@ -1,0 +1,29 @@
+{
+  "status": "reviewed",
+  "original_code": {
+    "path": "research/tsfm_peft_level_confirmation_v6_20260928/repairs/plot_v6_before_layout02.py",
+    "sha256": "40fe5093597b0536be11ab9f4afb94b749d284114aac98614b909ac9de166768"
+  },
+  "corrected_code": {
+    "path": "research/tsfm_peft_level_confirmation_v6_20260928/plot_v6.py",
+    "sha256": "a66c766e448df023ea23a36cee409886d98f231a18f9f48a684ee90eaa5b0474"
+  },
+  "original_manifest": {
+    "path": "research/tsfm_peft_level_confirmation_v6_20260928/figures/manifest.json",
+    "sha256": "c4667949b0298029691af03d102c4b928a713c04b2150f239e3ff22ab7cbffb0"
+  },
+  "final_manifest": {
+    "path": "research/tsfm_peft_level_confirmation_v6_20260928/figures_layout02/manifest.json",
+    "sha256": "fe474d0c5ac138cfc4b676ed0d4be67d06082991a1be7e8aa6dd1e95baafe8e9"
+  },
+  "observed_defects": [
+    "Shared accuracy axes excluded TEST-A COMPRESS point from visible range after repeated set_xlim(left=0).",
+    "CPU SHARED point was clipped by inherited upper y limit.",
+    "GPU logarithmic tick labels overlapped."
+  ],
+  "correction": "Explicit all-period maxima and padded all-point y maxima; concise axis captions; sparse numeric logarithmic ticks.",
+  "visual_inspection": "Root viewed method plus all three revised plots; all methods/periods and marks are visible without clipped points or overlapping tick labels.",
+  "no_score_or_timing_change": true,
+  "new_model_runs": 0,
+  "diff": "--- original\n+++ layout02\n@@ -10,6 +10,7 @@\n import matplotlib.pyplot as plt\n from matplotlib.lines import Line2D\n from matplotlib.patches import FancyArrowPatch, FancyBboxPatch\n+from matplotlib.ticker import FuncFormatter, LogLocator, NullLocator\n \n from runtime_v6 import HERE, ROOT, Job, digest, save_json\n \n@@ -145,9 +146,9 @@\n \n \n def accuracy_figure(report, source, directory):\n-    fig, axes = plt.subplots(2, 3, figsize=(9.5, 7.4), sharex='row', sharey=True)\n-    fig.subplots_adjust(left=0.18, right=0.985, bottom=0.14, top=0.865,\n-                        hspace=0.35, wspace=0.20)\n+    fig, axes = plt.subplots(2, 3, figsize=(10.5, 8.2), sharex='row', sharey=True)\n+    fig.subplots_adjust(left=0.18, right=0.985, bottom=0.18, top=0.865,\n+                        hspace=0.42, wspace=0.20)\n     fig.suptitle('Robin Fixed Comparison: Accuracy by Period', y=0.985)\n     handles = [Line2D([], [], marker=mark, color='#333333', linestyle='none',\n                       markersize=5, markerfacecolor='white' if mark != 'D' else '#333333', label=label)\n@@ -157,6 +158,8 @@\n                ncol=4, frameon=False, handletextpad=0.4, columnspacing=1.2)\n     numeric = []\n     for metric_index, metric in enumerate(('mse', 'mae')):\n+        row_max = max(model['scores'][period][metric] for model in report['models'].values()\n+                      for period in PERIODS if model['scores'][period][metric] is not None)\n         for period_index, period in enumerate(PERIODS):\n             ax = axes[metric_index, period_index]\n             for y, role in enumerate(ROLES):\n@@ -187,8 +190,8 @@\n                                 'pointer': f'role_scores.{role}.{period}.{metric}'})\n             ax.set_yticks(range(len(ROLES)), [LABELS[role] for role in ROLES])\n             ax.set_ylim(len(ROLES) - 0.4, -0.6)\n-            ax.set_xlim(left=0)\n-            ax.set_xlabel(f'TRAIN-standardized macro {metric.upper()} (lower is better)')\n+            ax.set_xlim(0, row_max * 1.10)\n+            ax.set_xlabel(f'Macro {metric.upper()}\\nTRAIN-standardized; lower is better')\n             ax.set_title({'combined': 'Combined TEST-A/B', 'test_a': 'TEST-A', 'test_b': 'TEST-B'}[period])\n             ax.grid(axis='x', color='#e5e5e5', linewidth=0.55)\n             ax.set_axisbelow(True)\n@@ -296,8 +299,11 @@\n         axes[1].set_title('Lower-left is better', fontsize=8)\n     for axis in axes:\n         axis.set_xscale('log')\n-        axis.set_ylim(bottom=0)\n-        axis.margins(x=0.16, y=0.12)\n+        axis.xaxis.set_major_locator(LogLocator(base=10, subs=(1, 2, 5)))\n+        axis.xaxis.set_major_formatter(FuncFormatter(lambda value, position: f'{value:g}'))\n+        axis.xaxis.set_minor_locator(NullLocator())\n+        axis.set_ylim(0, max(p['mse'] for p in points if p['mse'] is not None) * 1.12)\n+        axis.margins(x=0.16)\n         axis.grid(color='#e5e5e5', linewidth=0.55)\n         axis.set_axisbelow(True)\n     drift = cost.get('drift_checks')\n"
+}

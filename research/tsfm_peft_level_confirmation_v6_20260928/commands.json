@@ -1,0 +1,40 @@
+{
+  "scope": "Executed primary preparation/training/evaluation/cost command record, not permission to duplicate runs. Preserve current cache/seal/exposure; a separate reproducibility checkout must resolve source paths from data_contract.",
+  "working_directory": "E:\\CODING\\proj\\hierarchical-tsfm-peft",
+  "python": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.venv\\Scripts\\python.exe",
+  "primary_commands": [
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/prepare_v6.py",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_initial01 --prepare-initial",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/check_v6.py --job v6_synthetic01 --output synthetic01.json",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_level_res_92601_gpu01 --id v6_robin_level_res_92601 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_level_res_92602_gpu01 --id v6_robin_level_res_92602 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_old_res_92601_gpu01 --id v6_robin_old_res_92601 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_old_res_92602_gpu01 --id v6_robin_old_res_92602 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_level_raw_92601_gpu01 --id v6_robin_level_raw_92601 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_level_raw_92602_gpu01 --id v6_robin_level_raw_92602 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_level_linear_res_92601_gpu01 --id v6_robin_level_linear_res_92601 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_level_linear_res_92602_gpu01 --id v6_robin_level_linear_res_92602 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_lora_92601_gpu01 --id v6_robin_lora_92601 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_robin_lora_92602_gpu01 --id v6_robin_lora_92602 --reserve-seconds 1200",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/fit_shared_v6.py",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_references01 --references --reserve-seconds 300",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/train_v6.py --job v6_select01 --select-only",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/evaluate_v6.py --seal --name v6_seal01 --reserve-seconds 30",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/evaluate_v6.py --evaluate --name evaluation01 --reserve-seconds 900",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/cost_v6.py --stage gpu --name cost_gpu01 --reserve-seconds 1800",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/cost_v6.py --stage cpu --name cost_cpu01 --reserve-seconds 180"
+  ],
+  "diagnostic_command_source": {
+    "path": "research/tsfm_peft_level_confirmation_v6_20260928/cost_diagnostic01_attempt.json",
+    "sha256": "5fb7ebf8d1969a97a84c48d73b3e54c8341b0f470a4cb1c7952ec2d728319ba9"
+  },
+  "plotting_commands": [
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/plot_v6.py --name v6_plot01 --evaluation evaluation01.json --gpu-cost cost_gpu01.json --cpu-cost cost_cpu01.json",
+    "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/plot_v6.py --name v6_plot_layout02 --evaluation evaluation01.json --gpu-cost cost_gpu01.json --cpu-cost cost_cpu01.json --directory figures_layout02"
+  ],
+  "assembly_command": "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/assemble_v6.py --evaluation research/tsfm_peft_level_confirmation_v6_20260928/evaluation01.json --gpu-cost research/tsfm_peft_level_confirmation_v6_20260928/cost_gpu01.json --cpu-cost research/tsfm_peft_level_confirmation_v6_20260928/cost_cpu01.json --job v6_assemble01",
+  "report_command": "./.venv/Scripts/python.exe -B research/tsfm_peft_level_confirmation_v6_20260928/summarize_v6.py --name v6_summarize01",
+  "source_versions": "Per-run receipt/source hashes identify executed code; all model/evaluation/cost code unchanged after measurement. Rendering/report/verifier fixes are recorded separately.",
+  "local_arrays_and_weights": ".cache/tsfm_peft_level_confirmation_v6_20260928",
+  "no_downloads_or_installs": true
+}

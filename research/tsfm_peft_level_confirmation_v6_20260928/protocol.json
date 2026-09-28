@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "stage": "v6_robin_level_fixed_confirmation",
+  "base_commit": "9ddc0368716d32007b9af89859c7e91aa66be6fa",
+  "site": "Robin",
+  "dataset": "robin",
+  "selected_columns": [
+    "Robin_office_Addie",
+    "Robin_office_Adolph",
+    "Robin_office_Antonina",
+    "Robin_office_Dina",
+    "Robin_office_Donald",
+    "Robin_office_Erma",
+    "Robin_office_Gayle",
+    "Robin_office_Lindsay",
+    "Robin_office_Maryann",
+    "Robin_office_Sammie",
+    "Robin_office_Saul",
+    "Robin_office_Serena",
+    "Robin_office_Shirlene",
+    "Robin_office_Soledad",
+    "Robin_office_Victor",
+    "Robin_office_Wai",
+    "Robin_office_Zelma"
+  ],
+  "channels": 17,
+  "latent": 5,
+  "context": 512,
+  "horizon": 48,
+  "residual_rank": 32,
+  "seeds": [
+    92601,
+    92602
+  ],
+  "epochs": 120,
+  "patience": 6,
+  "epoch_origins": 512,
+  "effective_batch_origins": 4,
+  "microbatch_origins": 4,
+  "eval_batch_origins": 4,
+  "optimizer": "AdamW",
+  "weight_decay": 0,
+  "clip_grad_norm": 1,
+  "scheduler": {
+    "factor": 0.5,
+    "patience": 2,
+    "threshold": 0.0001,
+    "threshold_mode": "rel",
+    "min_lr": 0,
+    "eps": 1e-08
+  },
+  "checkpoint_selection": "minimum full VAL macro MSE including step0; exact ties retain earliest",
+  "mode_selection": "FIXED_ED only; no mode selection",
+  "ridge_penalties": [
+    0.001,
+    0.1
+  ],
+  "ridge_selection": "minimum VAL macro MSE; exact tie first listed penalty",
+  "sampling": "phase-balanced modulo24; SeedSequence([seed,epoch]); 512 origins without replacement per phase",
+  "backbone_revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+  "precision": "float32",
+  "tf32": false,
+  "cpu_threads": 4,
+  "backbone_dropout": "disabled; frozen backbone and E/D",
+  "splits": {
+    "precontext": [
+      "2016-01-01",
+      "2016-01-23"
+    ],
+    "train": [
+      "2016-01-23",
+      "2016-04-15"
+    ],
+    "val": [
+      "2016-04-17",
+      "2016-05-18"
+    ],
+    "test_a": [
+      "2016-05-20",
+      "2016-06-30"
+    ],
+    "test_b": [
+      "2016-06-30",
+      "2016-08-10"
+    ]
+  },
+  "expected_origins": {
+    "train": 1945,
+    "val": 30,
+    "test_a": 40,
+    "test_b": 40
+  },
+  "evaluation_stride": 24,
+  "primary_metric": "combined TEST-A/B channel-equal masked normalized MSE; per-channel SSE/count pooled before macro; arithmetic mean of individual seed losses",
+  "primary_residual_comparison": "LEVEL_RES minus OLD_RES; matched LEVEL_RAW and LEVEL_ONLY secondary mechanism questions",
+  "test_selection_prohibited": true,
+  "bootstrap": {
+    "block_origins": 7,
+    "draws": 2000,
+    "seed": 9262026,
+    "stratify_periods": true,
+    "channels_and_methods_paired": true
+  },
+  "cost": {
+    "val_origins": 24,
+    "val_origin_selection": "np.linspace(0,29,24,dtype=int)",
+    "batches": [
+      1,
+      4
+    ],
+    "warmup_calls": 10,
+    "passes": 20,
+    "blocks": 3,
+    "primary_scope": "standardized CPU FP32 input -> H2D -> complete CPU [B,48,C] output; synchronized wall time",
+    "primary_interests": [
+      "batch4 origins/sec",
+      "peak allocated GPU bytes"
+    ],
+    "cpu_paths": [
+      "level_linear_res",
+      "shared"
+    ],
+    "conditional_diagnostic_sessions": 1,
+    "conditional_diagnostic_max_gpu_seconds": 600
+  },
+  "extension": {
+    "maximum_epochs": 240,
+    "once": true,
+    "trigger": "reached 120 without patience termination; strict best improved within last 6 epochs",
+    "rule": "same eligibility across methods; all eligible continuations must fit remaining recovery budget, otherwise retain original caps; converged seeds not resumed"
+  },
+  "limits": {
+    "real_fit": 16,
+    "synthetic_sessions": 6,
+    "synthetic_steps": 10,
+    "gpu_seconds": 14400,
+    "cpu_check_seconds": 900,
+    "storage_bytes": 5368709120,
+    "download_bytes": 0,
+    "conflict_wait_per_incident_seconds": 1800,
+    "conflict_wait_total_seconds": 3600
+  },
+  "fits": [
+    {
+      "id": "v6_robin_level_res_92601",
+      "dataset": "robin",
+      "family": "level_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v6_robin_level_res_92602",
+      "dataset": "robin",
+      "family": "level_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v6_robin_old_res_92601",
+      "dataset": "robin",
+      "family": "old_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v6_robin_old_res_92602",
+      "dataset": "robin",
+      "family": "old_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v6_robin_level_raw_92601",
+      "dataset": "robin",
+      "family": "level_raw",
+      "arm": "raw_bypass",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v6_robin_level_raw_92602",
+      "dataset": "robin",
+      "family": "level_raw",
+      "arm": "raw_bypass",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v6_robin_level_linear_res_92601",
+      "dataset": "robin",
+      "family": "level_linear_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v6_robin_level_linear_res_92602",
+      "dataset": "robin",
+      "family": "level_linear_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v6_robin_lora_92601",
+      "dataset": "robin",
+      "family": "lora",
+      "arm": "lora",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.0001,
+      "t_lr": 0.001
+    },
+    {
+      "id": "v6_robin_lora_92602",
+      "dataset": "robin",
+      "family": "lora",
+      "arm": "lora",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "latent": 5,
+      "channels": 17,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.0001,
+      "t_lr": 0.001
+    }
+  ],
+  "scope_limit": "one new local-method-selection group; bounded history search, not certified pretraining-disjoint; no post-TEST model/data change",
+  "base_real_fits": 12,
+  "base_neural_fits": 10,
+  "reserve_real_fits": 4,
+  "references": [
+    "f0",
+    "compress",
+    "level_only"
+  ],
+  "level_statistic": "last imputed past input, detached",
+  "formulas": {
+    "level_res": "b+P_H(r)+G(r-P_L(r))",
+    "level_raw": "b+P_H(r)+G(X-P_L(X))",
+    "old_res": "b+G(r)",
+    "level_only": "b+P_H(r)",
+    "compress": "b",
+    "level_linear_res": "D(T_tilde(E(X)))+P_H(r)+G(r-P_L(r))"
+  }
+}

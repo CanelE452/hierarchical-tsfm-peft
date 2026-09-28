@@ -1,0 +1,59 @@
+{
+  "title": "Fixed LEVEL Residual Adapter and Matched Controls",
+  "caption": "The frozen TSFM forecasts five PCA latent series, while the learned shared temporal map predicts changes in the observed channel-reconstruction residual. The same residual last-level term is restored in LEVEL_RES and LEVEL_RAW; RAW centers its original input instead. Only G is learned in these fixed-PCA variants. Arrows show information flow, not numerical attribution of forecast accuracy. LEVEL_LINEAR_RES substitutes a learned normalized time-linear main predictor; its deployment has no F0.",
+  "sources": [
+    {
+      "path": "research/tsfm_peft_level_confirmation_v6_20260928/PLAN.md",
+      "sha256": "fe971912073704af18a1a283255f37bfa23a2b6d8f0eaa77cb0f7757863334c4"
+    },
+    {
+      "path": "research/tsfm_peft_level_confirmation_v6_20260928/protocol.json",
+      "sha256": "61f7ab3d9b5c7a8ae87058fc961906f5e939f2d429bb0d3c55fa6d60afc240a0"
+    },
+    {
+      "path": "research/tsfm_peft_level_confirmation_v6_20260928/model_v6.py",
+      "sha256": "8b928bc5d80b92c1ffb539413b6497ee0977bfc1664c1061a86b0bed436b39d4"
+    }
+  ],
+  "formula": {
+    "level_res": "b + repeat(last(r), H) + G(r - last(r))",
+    "level_raw": "b + repeat(last(r), H) + G(X - last(X))",
+    "old_res": "b + G(r)",
+    "level_only": "b + repeat(last(r), H)",
+    "compress": "b",
+    "b": "D(F0(E(X)))",
+    "r": "X - D(E(X))"
+  },
+  "scope": "Fixed architecture diagram; no empirical mechanism or novelty proof.",
+  "stem": "method",
+  "figure_text": [
+    "Past X\n512 x 17",
+    "Fixed E\nTRAIN PCA\n17 -> 5",
+    "Frozen F0\n5 latent series",
+    "Fixed D\n5 -> 17",
+    "Forecast\nb + level + G",
+    "b",
+    "r = X - D(E(X))\nPast residual",
+    "Subtract last(r)\nDetached level",
+    "Train G only\n512 -> 32 -> 48",
+    "Repeat last(r) for 48 steps",
+    "Matched RAW: same residual level; G receives X - last(X).\nOLD_RES: b + G(r).  LEVEL_ONLY: b + last(r).  COMPRESS: b.",
+    "Fixed LEVEL Residual Adapter and Matched Controls",
+    "Robin: C = 17, K = 5; frozen PCA and Chronos-Bolt-small; 17,920 learned G parameters.\nG is shared, bias-free and linear; zero output initialization starts at LEVEL_ONLY, not COMPRESS."
+  ],
+  "png_dpi": 300,
+  "figure_size_inches": [
+    9.0,
+    4.3
+  ],
+  "outputs": [
+    {
+      "path": "research/tsfm_peft_level_confirmation_v6_20260928/figures_layout02/method.png",
+      "sha256": "2704dab628a2567e8244846cd4dc7b232be07d42f4822fbc92d6a016be748a7d"
+    },
+    {
+      "path": "research/tsfm_peft_level_confirmation_v6_20260928/figures_layout02/method.svg",
+      "sha256": "8187570967d0fd1f1e2745bc33fd0eb805f340e910adb780edb870111089236d"
+    }
+  ]
+}

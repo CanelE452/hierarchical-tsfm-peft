@@ -1,0 +1,453 @@
+{
+  "title": "Robin Accuracy and CPU Deployment",
+  "caption": "Robin combined MSE and batch-4 cost for identical saved model identities. Per-fit costs use the median of three block medians, then family centers average the individual seed values. Diamonds are family centers; hollow seed markers and three block points/ranges retain measured variation. Spans are not confidence intervals. Logarithmic cost axes display all approved models, including fast small linear alternatives, without cropping unfavorable errors. This panel contains CPU FP32 deployment only and is a separate practical alternative, not a GPU-kernel speed comparison. No GPU memory claim is assigned to CPU models.",
+  "sources": [
+    {
+      "path": "research/tsfm_peft_level_confirmation_v6_20260928/evaluation01.json",
+      "sha256": "0e34d29d8447df64b14fd2e2cd86eae0006a3a3d2d834460e683cf8741de07ff"
+    },
+    {
+      "path": "research/tsfm_peft_level_confirmation_v6_20260928/cost_cpu01.json",
+      "sha256": "2e06159bd0a22d677ef128e4a357425131eee2c46d032bc14a475a3fffb341d7"
+    }
+  ],
+  "numeric_values": [
+    {
+      "id": "v6_robin_level_linear_res_92601",
+      "role": "level_linear_res",
+      "seed": 92601,
+      "mse": 0.3117604972701643,
+      "throughput": [
+        4844.007654785654,
+        4673.8633803775665,
+        5104.816265691942
+      ],
+      "throughput_center": 4844.007654785654,
+      "allocated_mib": null,
+      "allocated_center_mib": null,
+      "source_peak_allocated_bytes": [
+        null,
+        null,
+        null
+      ],
+      "block_ids": [
+        0,
+        1,
+        2
+      ],
+      "measurement_runs": [
+        "cost_cpu01",
+        "cost_cpu01",
+        "cost_cpu01"
+      ],
+      "accuracy_pointer": "models.v6_robin_level_linear_res_92601.scores.combined.mse",
+      "cost_pointer": "rows[id=v6_robin_level_linear_res_92601,batch_origins=4,include_in_primary=true]"
+    },
+    {
+      "id": "v6_robin_level_linear_res_92602",
+      "role": "level_linear_res",
+      "seed": 92602,
+      "mse": 0.3195313713338564,
+      "throughput": [
+        4665.680299793325,
+        4470.889125093208,
+        4548.906067092521
+      ],
+      "throughput_center": 4548.906067092521,
+      "allocated_mib": null,
+      "allocated_center_mib": null,
+      "source_peak_allocated_bytes": [
+        null,
+        null,
+        null
+      ],
+      "block_ids": [
+        0,
+        1,
+        2
+      ],
+      "measurement_runs": [
+        "cost_cpu01",
+        "cost_cpu01",
+        "cost_cpu01"
+      ],
+      "accuracy_pointer": "models.v6_robin_level_linear_res_92602.scores.combined.mse",
+      "cost_pointer": "rows[id=v6_robin_level_linear_res_92602,batch_origins=4,include_in_primary=true]"
+    },
+    {
+      "id": "shared_ridge_p0p001",
+      "role": "shared",
+      "seed": null,
+      "mse": 0.33727667428897823,
+      "throughput": [
+        111967.14603184171,
+        49120.52964306401,
+        54675.97835597483
+      ],
+      "throughput_center": 54675.97835597483,
+      "allocated_mib": null,
+      "allocated_center_mib": null,
+      "source_peak_allocated_bytes": [
+        null,
+        null,
+        null
+      ],
+      "block_ids": [
+        0,
+        1,
+        2
+      ],
+      "measurement_runs": [
+        "cost_cpu01",
+        "cost_cpu01",
+        "cost_cpu01"
+      ],
+      "accuracy_pointer": "models.shared_ridge_p0p001.scores.combined.mse",
+      "cost_pointer": "rows[id=shared_ridge_p0p001,batch_origins=4,include_in_primary=true]"
+    }
+  ],
+  "family_centers": [
+    {
+      "role": "level_linear_res",
+      "mse": 0.3156459343020104,
+      "throughput": 4696.456860939088,
+      "allocated_mib": null
+    },
+    {
+      "role": "shared",
+      "mse": 0.33727667428897823,
+      "throughput": 54675.97835597483,
+      "allocated_mib": null
+    }
+  ],
+  "unavailable_mse_roles": [],
+  "drift_checks": null,
+  "scope": "cpu_fp32",
+  "cost_summary": {
+    "fits": [
+      {
+        "dataset": "robin",
+        "family": "shared",
+        "seed": null,
+        "ed_mode": null,
+        "latent": null,
+        "id": "shared_ridge_p0p001",
+        "batch_origins": 1,
+        "scope": "cpu_fp32",
+        "milliseconds_per_origin": {
+          "median": 0.04421666866013159,
+          "q25": 0.031114583786499374,
+          "q75": 0.049956250829078876,
+          "min": 0.01801249891286716,
+          "max": 0.05569583299802616
+        },
+        "origins_per_second": {
+          "median": 22616.469643578377,
+          "q25": 20286.03987893502,
+          "q75": 39066.9172489926,
+          "min": 17955.61011429166,
+          "max": 55517.36485440682
+        },
+        "peak_allocated_bytes": [
+          null,
+          null,
+          null
+        ],
+        "peak_reserved_bytes": [
+          null,
+          null,
+          null
+        ],
+        "total_deployed_tensor_bytes": 98496
+      },
+      {
+        "dataset": "robin",
+        "family": "shared",
+        "seed": null,
+        "ed_mode": null,
+        "latent": null,
+        "id": "shared_ridge_p0p001",
+        "batch_origins": 4,
+        "scope": "cpu_fp32",
+        "milliseconds_per_origin": {
+          "median": 0.0182895867813689,
+          "q25": 0.013610418439687539,
+          "q75": 0.01932395995633366,
+          "min": 0.008931250098006178,
+          "max": 0.020358333131298423
+        },
+        "origins_per_second": {
+          "median": 54675.97835597483,
+          "q25": 51898.253999519424,
+          "q75": 83321.56219390826,
+          "min": 49120.52964306401,
+          "max": 111967.14603184171
+        },
+        "peak_allocated_bytes": [
+          null,
+          null,
+          null
+        ],
+        "peak_reserved_bytes": [
+          null,
+          null,
+          null
+        ],
+        "total_deployed_tensor_bytes": 98496
+      },
+      {
+        "dataset": "robin",
+        "family": "level_linear_res",
+        "seed": 92601,
+        "ed_mode": "fixed_ed",
+        "latent": 5,
+        "id": "v6_robin_level_linear_res_92601",
+        "batch_origins": 1,
+        "scope": "cpu_fp32",
+        "milliseconds_per_origin": {
+          "median": 0.5447000003186986,
+          "q25": 0.38557395843478537,
+          "q75": 0.5518322929371304,
+          "min": 0.2264479165508722,
+          "max": 0.5589645855555622
+        },
+        "origins_per_second": {
+          "median": 1835.892178248606,
+          "q25": 1812.4571431039708,
+          "q75": 3126.30658851784,
+          "min": 1789.0221079593357,
+          "max": 4416.720998787074
+        },
+        "peak_allocated_bytes": [
+          null,
+          null,
+          null
+        ],
+        "peak_reserved_bytes": [
+          null,
+          null,
+          null
+        ],
+        "total_deployed_tensor_bytes": 170856
+      },
+      {
+        "dataset": "robin",
+        "family": "level_linear_res",
+        "seed": 92601,
+        "ed_mode": "fixed_ed",
+        "latent": 5,
+        "id": "v6_robin_level_linear_res_92601",
+        "batch_origins": 4,
+        "scope": "cpu_fp32",
+        "milliseconds_per_origin": {
+          "median": 0.20644374793240178,
+          "q25": 0.20116874899637574,
+          "q75": 0.2102010403177701,
+          "min": 0.1958937500603497,
+          "max": 0.21395833270313838
+        },
+        "origins_per_second": {
+          "median": 4844.007654785654,
+          "q25": 4758.935517581611,
+          "q75": 4974.411960238798,
+          "min": 4673.8633803775665,
+          "max": 5104.816265691942
+        },
+        "peak_allocated_bytes": [
+          null,
+          null,
+          null
+        ],
+        "peak_reserved_bytes": [
+          null,
+          null,
+          null
+        ],
+        "total_deployed_tensor_bytes": 170856
+      },
+      {
+        "dataset": "robin",
+        "family": "level_linear_res",
+        "seed": 92602,
+        "ed_mode": "fixed_ed",
+        "latent": 5,
+        "id": "v6_robin_level_linear_res_92602",
+        "batch_origins": 1,
+        "scope": "cpu_fp32",
+        "milliseconds_per_origin": {
+          "median": 0.5488375002945152,
+          "q25": 0.5473354176501743,
+          "q75": 0.5494177081952026,
+          "min": 0.5458333350058335,
+          "max": 0.5499979160958901
+        },
+        "origins_per_second": {
+          "median": 1822.0888958649311,
+          "q25": 1820.1388015190423,
+          "q75": 1827.0780030670826,
+          "min": 1818.1887071731535,
+          "max": 1832.067110269234
+        },
+        "peak_allocated_bytes": [
+          null,
+          null,
+          null
+        ],
+        "peak_reserved_bytes": [
+          null,
+          null,
+          null
+        ],
+        "total_deployed_tensor_bytes": 170856
+      },
+      {
+        "dataset": "robin",
+        "family": "level_linear_res",
+        "seed": 92602,
+        "ed_mode": "fixed_ed",
+        "latent": 5,
+        "id": "v6_robin_level_linear_res_92602",
+        "batch_origins": 4,
+        "scope": "cpu_fp32",
+        "milliseconds_per_origin": {
+          "median": 0.2199749991026086,
+          "q25": 0.21715937449092354,
+          "q75": 0.22182291650096886,
+          "min": 0.2143437498792385,
+          "max": 0.22367083389932912
+        },
+        "origins_per_second": {
+          "median": 4548.906067092521,
+          "q25": 4509.897596092865,
+          "q75": 4607.293183442923,
+          "min": 4470.889125093208,
+          "max": 4665.680299793325
+        },
+        "peak_allocated_bytes": [
+          null,
+          null,
+          null
+        ],
+        "peak_reserved_bytes": [
+          null,
+          null,
+          null
+        ],
+        "total_deployed_tensor_bytes": 170856
+      }
+    ],
+    "groups": [
+      {
+        "family": "shared",
+        "ed_mode": null,
+        "batch_origins": 1,
+        "scope": "cpu_fp32",
+        "fit_ids": [
+          "shared_ridge_p0p001"
+        ],
+        "mean_fit_median_ms_per_origin": 0.04421666866013159,
+        "mean_fit_median_origins_per_second": 22616.469643578377
+      },
+      {
+        "family": "shared",
+        "ed_mode": null,
+        "batch_origins": 4,
+        "scope": "cpu_fp32",
+        "fit_ids": [
+          "shared_ridge_p0p001"
+        ],
+        "mean_fit_median_ms_per_origin": 0.0182895867813689,
+        "mean_fit_median_origins_per_second": 54675.97835597483
+      },
+      {
+        "family": "level_linear_res",
+        "ed_mode": "fixed_ed",
+        "batch_origins": 1,
+        "scope": "cpu_fp32",
+        "fit_ids": [
+          "v6_robin_level_linear_res_92601",
+          "v6_robin_level_linear_res_92602"
+        ],
+        "mean_fit_median_ms_per_origin": 0.5467687503066069,
+        "mean_fit_median_origins_per_second": 1828.9905370567685
+      },
+      {
+        "family": "level_linear_res",
+        "ed_mode": "fixed_ed",
+        "batch_origins": 4,
+        "scope": "cpu_fp32",
+        "fit_ids": [
+          "v6_robin_level_linear_res_92601",
+          "v6_robin_level_linear_res_92602"
+        ],
+        "mean_fit_median_ms_per_origin": 0.21320937351750519,
+        "mean_fit_median_origins_per_second": 4696.456860939088
+      }
+    ],
+    "definition": "Per fit: median of three block medians; group center: arithmetic mean of individual fit medians. F0 post excluded. Within-block raw 20-pass IQR remains in rows. No independent-sample confidence interval."
+  },
+  "measurement_contract": {
+    "stage": "cpu",
+    "device": null,
+    "scope": "Standardized FP32 CPU input -> complete CPU [B,48,17] output; synchronized wall for GPU.",
+    "precision": "float32",
+    "torch_threads": 4,
+    "order_blocks": 3,
+    "warmup_calls": 10,
+    "passes_per_order_block": 20
+  },
+  "calculations": {
+    "mse": "Stored combined loss, mean of model losses; no ensemble or target rescore.",
+    "cost": "Per fit median of three block medians, then mean over role members.",
+    "memory": "MiB = bytes / 1024**2; CPU has no GPU-memory value."
+  },
+  "stem": "robin_cpu_accuracy_cost",
+  "figure_text": [
+    "Batch-4 throughput (origins/s; log scale)",
+    "$\\mathdefault{10^{3}}$",
+    "$\\mathdefault{10^{3}}$",
+    "$\\mathdefault{10^{4}}$",
+    "$\\mathdefault{10^{4}}$",
+    "$\\mathdefault{10^{5}}$",
+    "$\\mathdefault{10^{5}}$",
+    "$\\mathdefault{10^{6}}$",
+    "$\\mathdefault{10^{6}}$",
+    "Combined TRAIN-standardized macro MSE",
+    "0.00",
+    "0.00",
+    "0.05",
+    "0.05",
+    "0.10",
+    "0.10",
+    "0.15",
+    "0.15",
+    "0.20",
+    "0.20",
+    "0.25",
+    "0.25",
+    "0.30",
+    "0.30",
+    "0.35",
+    "0.35",
+    "Lower-right is better",
+    "Robin Accuracy and CPU Deployment",
+    "Diamond: mean seed loss and mean per-seed median block cost.\nHollow: individual seed; small points / spans: three block medians / range.\nCPU FP32 alternatives only; GPU memory is not a CPU cost measure.",
+    "LEVEL_LINEAR_RES",
+    "SHARED ridge"
+  ],
+  "png_dpi": 300,
+  "figure_size_inches": [
+    6.5,
+    4.3
+  ],
+  "outputs": [
+    {
+      "path": "research/tsfm_peft_level_confirmation_v6_20260928/figures/robin_cpu_accuracy_cost.png",
+      "sha256": "544f3e30565ba5134d6511bcc025a59a6cd4014d219df0f217c12ed4c7633aa8"
+    },
+    {
+      "path": "research/tsfm_peft_level_confirmation_v6_20260928/figures/robin_cpu_accuracy_cost.svg",
+      "sha256": "2700fb81534766107947331dcc66d36c70f31d79821382f7b811a69517ada1cc"
+    }
+  ]
+}

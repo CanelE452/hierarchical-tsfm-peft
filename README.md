@@ -130,3 +130,17 @@ Bull은 기존 RES보다 개선했지만 matched RAW의 전체 MSE가 더 낮고
 - [기존 예측 진단](research/tsfm_peft_accuracy_recovery_v5_20260927/v5_hog_diagnosis_01/diagnosis.json), [최종 비교 JSON](research/tsfm_peft_accuracy_recovery_v5_20260927/final_comparison.json), [CSV](research/tsfm_peft_accuracy_recovery_v5_20260927/final_comparison.csv)
 - [같은 회차 비용](research/tsfm_peft_accuracy_recovery_v5_20260927/cost01.json), [검산](research/tsfm_peft_accuracy_recovery_v5_20260927/final_checks.json)
 - [승인 계약](research/tsfm_peft_accuracy_recovery_v5_20260927/PLAN.md), [상태·예산·게시](research/tsfm_peft_accuracy_recovery_v5_20260927/STATUS.md), [준비 시간 계상 한계](research/tsfm_peft_accuracy_recovery_v5_20260927/preparation_accounting.json)
+
+## 잔차 PEFT v6: Robin 고정 확인과 영문 논문 초안 (2026-09-28)
+
+v5에서 선택한 수준 보존 잔차 PEFT를 Robin Office17채널/K5의 고정 PCA 설정으로 확인했습니다. 신경망10+CPU ridge2fit,14개 선택/무학습 모델의 TEST-A/B 고정 비교를 완료했습니다. 제한된 로컬 기록에서 방법 선택 사용 흔적이 없었던 집단이며, 백본 사전학습 비중복은 미확정입니다. TEST 뒤 모델·자료를 바꾸지 않았습니다.
+
+**수준 보존 잔차 설계를 제한된 논문 기여로 유지할 근거가 강화됐습니다.** 전체 MSE0.275196은 OLD_RES0.538776보다48.92%, 대응 LEVEL_RAW보다20.61%, LEVEL_ONLY보다21.16% 낮았습니다. 두 선형 대조보다도 낮았지만 F0/LoRA보다20.12%/23.07% 높은 오차가 남았습니다. 기존 원리의 결합과 조건부 구조 성질을 구분한 영문 논문 초안을 작성했습니다.
+
+실용 주장은 **메모리–정확도 절충**으로 제한합니다. LEVEL의 batch4 peak allocated214.49MiB는 F0/LoRA265.49MiB보다19.21% 작았지만, 처리량162.32원점/초 대 병합LoRA161.39의 작은 차이는 안정적 우위가 아닙니다. 블록 순위 뒤집힘과 빠른 CPU 선형 대안도 보존했습니다. 실자료12/16attempt, 합성1/6세션10update, GPU25.61분/240분을 사용했습니다. 새 집단 확인·원고 초안과 논문 제출 준비 완료는 다른 상태입니다.
+
+- [v6 최종 판단·정확도·비용·다음 결정](research/tsfm_peft_level_confirmation_v6_20260928/TOPIC_DECISION.md), [영문 논문 초안](research/tsfm_peft_level_confirmation_v6_20260928/PAPER_DRAFT.md), [선행·기여 경계](research/tsfm_peft_level_confirmation_v6_20260928/CLAIMS_PRIOR_ART.md)
+- [고정 평가](research/tsfm_peft_level_confirmation_v6_20260928/evaluation01.json), [최종 비교](research/tsfm_peft_level_confirmation_v6_20260928/final_comparison.json), [채널별 CSV](research/tsfm_peft_level_confirmation_v6_20260928/final_channel_metrics.csv)
+- [GPU 비용](research/tsfm_peft_level_confirmation_v6_20260928/cost_gpu01.json), [CPU 비용](research/tsfm_peft_level_confirmation_v6_20260928/cost_cpu01.json), [한 차례 상주 진단](research/tsfm_peft_level_confirmation_v6_20260928/cost_diagnostic01.json)
+- [방법·전체/기간·비용 그림](research/tsfm_peft_level_confirmation_v6_20260928/figures_layout02/manifest.json), [검산](research/tsfm_peft_level_confirmation_v6_20260928/final_checks.json), [실행 명령](research/tsfm_peft_level_confirmation_v6_20260928/commands.json)
+- [승인 원문](research/tsfm_peft_level_confirmation_v6_20260928/APPROVAL.txt), [계획](research/tsfm_peft_level_confirmation_v6_20260928/PLAN.md), [진행·예산·게시](research/tsfm_peft_level_confirmation_v6_20260928/STATUS.md)
