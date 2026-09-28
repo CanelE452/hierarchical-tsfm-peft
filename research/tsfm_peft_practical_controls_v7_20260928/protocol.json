@@ -1,0 +1,411 @@
+{
+  "context": 512,
+  "horizon": 48,
+  "residual_rank": 32,
+  "seeds": [
+    92601,
+    92602
+  ],
+  "epochs": 120,
+  "patience": 6,
+  "epoch_origins": 512,
+  "effective_batch_origins": 4,
+  "microbatch_origins": 4,
+  "eval_batch_origins": 4,
+  "optimizer": "AdamW",
+  "weight_decay": 0,
+  "clip_grad_norm": 1,
+  "scheduler": {
+    "factor": 0.5,
+    "patience": 2,
+    "threshold": 0.0001,
+    "threshold_mode": "rel",
+    "min_lr": 0,
+    "eps": 1e-08
+  },
+  "checkpoint_selection": "minimum full VAL macro MSE including step0; exact ties retain earliest",
+  "backbone_revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+  "precision": "float32",
+  "tf32": false,
+  "cpu_threads": 4,
+  "extension": {
+    "maximum_epochs": 240,
+    "once": true,
+    "trigger": "reached 120 without patience termination; strict best improved within last 6 epochs",
+    "rule": "same eligibility across methods; all eligible continuations must fit remaining recovery budget, otherwise retain original caps; converged seeds not resumed"
+  },
+  "level_statistic": "last imputed past input, detached",
+  "schema_version": 1,
+  "stage": "v7_practical_controls",
+  "base_commit": "a3ccb0a3ae25c075c79015545a0b8d7013ad6550",
+  "limits": {
+    "real_fit": 20,
+    "synthetic_sessions": 6,
+    "synthetic_steps": 10,
+    "gpu_seconds": 14400,
+    "cpu_check_seconds": 900,
+    "storage_bytes": 5368709120,
+    "download_bytes": 0,
+    "conflict_wait_per_incident_seconds": 1800,
+    "conflict_wait_total_seconds": 3600
+  },
+  "base_real_fits": 16,
+  "reserve_real_fits": 4,
+  "references": [
+    "f0",
+    "compress",
+    "level_only"
+  ],
+  "direct_lrs": [
+    0.001,
+    0.0001
+  ],
+  "direct_lr_selection": "mean two seed minimum full VAL macro MSE; exact tie listed first",
+  "test_selection_prohibited": true,
+  "datasets": {
+    "robin": {
+      "channels": 17,
+      "latent": 5,
+      "phase_period": 24,
+      "interval_minutes": 60,
+      "bootstrap_block_origins": 7,
+      "expected_origins": {
+        "train": 1945,
+        "val": 30,
+        "test_a": 40,
+        "test_b": 40
+      },
+      "splits": {
+        "precontext": [
+          "2016-01-01",
+          "2016-01-23"
+        ],
+        "train": [
+          "2016-01-23",
+          "2016-04-15"
+        ],
+        "val": [
+          "2016-04-17",
+          "2016-05-18"
+        ],
+        "test_a": [
+          "2016-05-20",
+          "2016-06-30"
+        ],
+        "test_b": [
+          "2016-06-30",
+          "2016-08-10"
+        ]
+      },
+      "evaluation_stride": 24,
+      "status": "v6 exposed; v7 follow-up direct comparison"
+    },
+    "jena": {
+      "channels": 21,
+      "latent": 6,
+      "phase_period": 144,
+      "interval_minutes": 10,
+      "bootstrap_block_origins": 42,
+      "expected_origins": {
+        "train": 25648,
+        "val": 371,
+        "test_a": 365,
+        "test_b": 365
+      },
+      "splits": {
+        "train": [
+          "2024-01-01T00:10",
+          "2024-07-01T00:00"
+        ],
+        "val": [
+          "2024-07-01T00:00",
+          "2024-09-01T00:00"
+        ],
+        "test_a": [
+          "2024-09-01T00:00",
+          "2024-11-01T00:00"
+        ],
+        "test_b": [
+          "2024-11-01T00:00",
+          "2025-01-01T00:10"
+        ]
+      },
+      "evaluation_stride": 24,
+      "status": "previously exposed source; fixed other-domain extension, not independent confirmation"
+    }
+  },
+  "formulas": {
+    "level_res": "b+P_H(r)+G(r-P_L(r))",
+    "level_raw": "b+P_H(r)+G(X-P_L(X))",
+    "old_res": "b+G(r)",
+    "level_only": "b+P_H(r)",
+    "compress": "b",
+    "direct_nlinear": "P_H(X)+T(X-P_L(X)); shared affine Linear(512,48); last input detached"
+  },
+  "bootstrap": {
+    "draws": 2000,
+    "seed": 9262026,
+    "stratify_periods": true,
+    "channels_and_methods_paired": true
+  },
+  "cost": {
+    "val_origins": 24,
+    "batches": [
+      1,
+      4
+    ],
+    "warmup_calls": 10,
+    "passes": 20,
+    "blocks": 3,
+    "primary_gpu_rows": 117,
+    "cpu_rows": 12,
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "scope": "standardized CPU FP32 input to complete CPU [B,48,C] output; load/disk/scoring/ledger excluded",
+    "generic_output_policy": "one preallocated GPU median buffer; no retained raw quantile outputs, no per-chunk model reload or cache flush",
+    "conditional_diagnostic_max_gpu_seconds": 600,
+    "conditional_diagnostic_sessions": 1
+  },
+  "fits": [
+    {
+      "id": "v7_robin_direct_nlinear_lr0.001_92601",
+      "dataset": "robin",
+      "family": "direct_nlinear",
+      "arm": "direct",
+      "ed_mode": "none",
+      "seed": 92601,
+      "channels": 17,
+      "latent": 0,
+      "residual_rank": 32,
+      "normalization": "train_standardization_only",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_robin_direct_nlinear_lr0.001_92602",
+      "dataset": "robin",
+      "family": "direct_nlinear",
+      "arm": "direct",
+      "ed_mode": "none",
+      "seed": 92602,
+      "channels": 17,
+      "latent": 0,
+      "residual_rank": 32,
+      "normalization": "train_standardization_only",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_robin_direct_nlinear_lr0.0001_92601",
+      "dataset": "robin",
+      "family": "direct_nlinear",
+      "arm": "direct",
+      "ed_mode": "none",
+      "seed": 92601,
+      "channels": 17,
+      "latent": 0,
+      "residual_rank": 32,
+      "normalization": "train_standardization_only",
+      "lr": 0.0001,
+      "t_lr": 0.0001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_robin_direct_nlinear_lr0.0001_92602",
+      "dataset": "robin",
+      "family": "direct_nlinear",
+      "arm": "direct",
+      "ed_mode": "none",
+      "seed": 92602,
+      "channels": 17,
+      "latent": 0,
+      "residual_rank": 32,
+      "normalization": "train_standardization_only",
+      "lr": 0.0001,
+      "t_lr": 0.0001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_level_res_92601",
+      "dataset": "jena",
+      "family": "level_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "channels": 21,
+      "latent": 6,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_level_res_92602",
+      "dataset": "jena",
+      "family": "level_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "channels": 21,
+      "latent": 6,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_old_res_92601",
+      "dataset": "jena",
+      "family": "old_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "channels": 21,
+      "latent": 6,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_old_res_92602",
+      "dataset": "jena",
+      "family": "old_res",
+      "arm": "residual",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "channels": 21,
+      "latent": 6,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_level_raw_92601",
+      "dataset": "jena",
+      "family": "level_raw",
+      "arm": "raw",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "channels": 21,
+      "latent": 6,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_level_raw_92602",
+      "dataset": "jena",
+      "family": "level_raw",
+      "arm": "raw",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "channels": 21,
+      "latent": 6,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_lora_92601",
+      "dataset": "jena",
+      "family": "lora",
+      "arm": "lora",
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "channels": 21,
+      "latent": 6,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.0001,
+      "t_lr": 0.0001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_lora_92602",
+      "dataset": "jena",
+      "family": "lora",
+      "arm": "lora",
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "channels": 21,
+      "latent": 6,
+      "residual_rank": 32,
+      "normalization": "context",
+      "lr": 0.0001,
+      "t_lr": 0.0001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_direct_nlinear_lr0.001_92601",
+      "dataset": "jena",
+      "family": "direct_nlinear",
+      "arm": "direct",
+      "ed_mode": "none",
+      "seed": 92601,
+      "channels": 21,
+      "latent": 0,
+      "residual_rank": 32,
+      "normalization": "train_standardization_only",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_direct_nlinear_lr0.001_92602",
+      "dataset": "jena",
+      "family": "direct_nlinear",
+      "arm": "direct",
+      "ed_mode": "none",
+      "seed": 92602,
+      "channels": 21,
+      "latent": 0,
+      "residual_rank": 32,
+      "normalization": "train_standardization_only",
+      "lr": 0.001,
+      "t_lr": 0.001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_direct_nlinear_lr0.0001_92601",
+      "dataset": "jena",
+      "family": "direct_nlinear",
+      "arm": "direct",
+      "ed_mode": "none",
+      "seed": 92601,
+      "channels": 21,
+      "latent": 0,
+      "residual_rank": 32,
+      "normalization": "train_standardization_only",
+      "lr": 0.0001,
+      "t_lr": 0.0001,
+      "epochs": 120
+    },
+    {
+      "id": "v7_jena_direct_nlinear_lr0.0001_92602",
+      "dataset": "jena",
+      "family": "direct_nlinear",
+      "arm": "direct",
+      "ed_mode": "none",
+      "seed": 92602,
+      "channels": 21,
+      "latent": 0,
+      "residual_rank": 32,
+      "normalization": "train_standardization_only",
+      "lr": 0.0001,
+      "t_lr": 0.0001,
+      "epochs": 120
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "status": "PASS",
+  "synthetic_only": true,
+  "real_data": false,
+  "backbone": "synthetic scalar fake; actual Bolt/LoRA not loaded",
+  "optimizer_updates": 10,
+  "checks": {
+    "level_res": {
+      "finite_loss_gradient": true,
+      "frozen_parameters_unchanged": true,
+      "required_parameters_updated": [
+        "residual.down.weight",
+        "residual.up.weight"
+      ],
+      "initial_hashes": {
+        "encoder.weight": "6dc2ab63a746d1b8a8abb647f45a07d481a22dd9dd8d4c96c5395aac3b6e58a1",
+        "decoder.weight": "ce5444beeedd8372055eb7bf7b5d3d1e2f68a4de0fd894c646627b607184ad4b",
+        "residual.down.weight": "67f109b5d795bd7a59c8112faa614fb8955cd14b4696cee510a309a302795d6d",
+        "residual.up.weight": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0"
+      },
+      "first_two_gradients": [
+        {
+          "residual.down.weight": 0.0,
+          "residual.up.weight": 0.036293528974056244
+        },
+        {
+          "residual.down.weight": 0.002454709727317095,
+          "residual.up.weight": 0.035880036652088165
+        }
+      ],
+      "optimizer_updates": 2
+    },
+    "old_res": {
+      "finite_loss_gradient": true,
+      "frozen_parameters_unchanged": true,
+      "required_parameters_updated": [
+        "residual.down.weight",
+        "residual.up.weight"
+      ],
+      "initial_hashes": {
+        "encoder.weight": "6dc2ab63a746d1b8a8abb647f45a07d481a22dd9dd8d4c96c5395aac3b6e58a1",
+        "decoder.weight": "ce5444beeedd8372055eb7bf7b5d3d1e2f68a4de0fd894c646627b607184ad4b",
+        "residual.down.weight": "67f109b5d795bd7a59c8112faa614fb8955cd14b4696cee510a309a302795d6d",
+        "residual.up.weight": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0"
+      },
+      "first_two_gradients": [
+        {
+          "residual.down.weight": 0.0,
+          "residual.up.weight": 0.005421955604106188
+        },
+        {
+          "residual.down.weight": 0.00011032974725821987,
+          "residual.up.weight": 0.00537800882011652
+        }
+      ],
+      "optimizer_updates": 2
+    },
+    "level_raw": {
+      "finite_loss_gradient": true,
+      "frozen_parameters_unchanged": true,
+      "required_parameters_updated": [
+        "residual.down.weight",
+        "residual.up.weight"
+      ],
+      "initial_hashes": {
+        "encoder.weight": "6dc2ab63a746d1b8a8abb647f45a07d481a22dd9dd8d4c96c5395aac3b6e58a1",
+        "decoder.weight": "ce5444beeedd8372055eb7bf7b5d3d1e2f68a4de0fd894c646627b607184ad4b",
+        "residual.down.weight": "67f109b5d795bd7a59c8112faa614fb8955cd14b4696cee510a309a302795d6d",
+        "residual.up.weight": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0"
+      },
+      "first_two_gradients": [
+        {
+          "residual.down.weight": 0.0,
+          "residual.up.weight": 0.03598524257540703
+        },
+        {
+          "residual.down.weight": 0.002449497114866972,
+          "residual.up.weight": 0.035520099103450775
+        }
+      ],
+      "optimizer_updates": 2
+    },
+    "direct_nlinear": {
+      "finite_loss_gradient": true,
+      "frozen_parameters_unchanged": true,
+      "required_parameters_updated": [
+        "temporal.weight",
+        "temporal.bias"
+      ],
+      "initial_hashes": {
+        "temporal.weight": "b70be5f149be2c00c5b24ff8d514d516a242e8bf710ccc06f3f8017295515549",
+        "temporal.bias": "4ec2cc17b5bf82ac84a7c9cbcabc3be5e9fa2bc37db5b4f095d48afa99cb8661"
+      },
+      "first_two_gradients": [
+        {
+          "temporal.weight": 0.1341153383255005,
+          "temporal.bias": 0.011732191778719425
+        },
+        {
+          "temporal.weight": 0.10438045114278793,
+          "temporal.bias": 0.010167250409722328
+        }
+      ],
+      "optimizer_updates": 2
+    }
+  },
+  "direct_author_shared_forward_parity": true,
+  "reference_source": "https://github.com/cure-lab/LTSF-Linear/blob/main/models/NLinear.py",
+  "reference_scope": "Transcribed shared forward with identical W/bias; not an official training reproduction",
+  "initial_level_raw_correspondence": true,
+  "initial_old_compress_correspondence": true,
+  "fixed_PCA_complement_correction": true,
+  "masked_macro_loss_checked": true,
+  "restart_equal_after_one_update_each": true,
+  "real_LoRA_check_scope": "deferred to reserved real fits; not covered by this synthetic result",
+  "not_evidence_of_real_data_convergence": true,
+  "source": {
+    "research/tsfm_peft_practical_controls_v7_20260928/bootstrap_v7.py": "61beab4939aed1619bfcc5b3721ad133be5fd719025162f476e867dfee5c9a00",
+    "research/tsfm_peft_practical_controls_v7_20260928/check_models_v7.py": "2c93c55ebef28e5f31bbc99bdf4fe1f2a374b190c674f43d42126a8ea0644f0e",
+    "research/tsfm_peft_practical_controls_v7_20260928/check_static_v7.py": "9d14d5195486c9231407774d42142e740791d7b71669cdb5bd50f48d5ac3ebce",
+    "research/tsfm_peft_practical_controls_v7_20260928/cost_v7.py": "03c4b8472d7c9af91cf7a9d9f43a3743363aa673f00dfe2bd61b849a62dd75d0",
+    "research/tsfm_peft_practical_controls_v7_20260928/data_prepare_v7.py": "cd5273b6633ee15b70f610946fe4264a706cf1c33919dc2d95d1879d65f8219e",
+    "research/tsfm_peft_practical_controls_v7_20260928/diagnose_robin_v7.py": "0c0e4ae09d7e0a19888655a73e0c2ca8ed84ef17cabbfc6d0e5b4c9ccd284c83",
+    "research/tsfm_peft_practical_controls_v7_20260928/evaluate_v7.py": "bc5bc729db5524a6cab1412cf68684041417ced445cd42fe5594ff790f7f0b02",
+    "research/tsfm_peft_practical_controls_v7_20260928/model_v7.py": "1748a40170016d6b26dd0c8204ef4fd67db0f6a896569cb429a20ec93a3074ab",
+    "research/tsfm_peft_practical_controls_v7_20260928/runtime_v7.py": "ca8b6a7ba4adaa049e9c615e7ccdfe595402a1d900561aadf72905898768d5e5",
+    "research/tsfm_peft_practical_controls_v7_20260928/run_fits_v7.py": "7eed4402a994bd89733a7d7b01de71efded4422b5f0a0c7120b38d3331561bad",
+    "research/tsfm_peft_practical_controls_v7_20260928/train_v7.py": "671647488a05149482a535b901a068fa448342ba28b0a18774b39da827fa3401",
+    "research/tsfm_peft_practical_controls_v7_20260928/PLAN.md": "56d5e9dbb44e234a6bc199a32c5619b23c41aca0b3ee6965c2327b76c2e93b31",
+    "research/tsfm_peft_practical_controls_v7_20260928/protocol.json": "2fa795d86d87f91f97000e070d5824843fde02df48d84f3d036dfe11ed1a1fd8"
+  }
+}

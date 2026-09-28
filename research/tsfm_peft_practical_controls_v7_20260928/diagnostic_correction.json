@@ -1,0 +1,37 @@
+{
+  "schema": "tsfm_peft_practical_controls_v7_diagnostic_correction_v1",
+  "status": "original_diagnostic_invalid_for_mean_seed_conclusions",
+  "created_utc": 1790609633.1564178,
+  "original_script": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_practical_controls_v7_20260928\\diagnose_robin_v7.py",
+    "exists": true,
+    "sha256": "0c0e4ae09d7e0a19888655a73e0c2ca8ed84ef17cabbfc6d0e5b4c9ccd284c83"
+  },
+  "original_result": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_practical_controls_v7_20260928\\robin_diagnostics_v7.json",
+    "exists": true,
+    "sha256": "c582e7bc678e940761c5f0a92e3aa1078d9071dc7f5ef134f93124fa8b52888f"
+  },
+  "original_diagnostics_dir": {
+    "path": "research/tsfm_peft_practical_controls_v7_20260928/diagnostics",
+    "exists": true
+  },
+  "corrected_script": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_practical_controls_v7_20260928\\diagnose_robin_corrected_v7.py",
+    "sha256": "d99461b33f7f3f0c525be07bac327893116dcedc371e38a1590e494bbf6293ea"
+  },
+  "evaluation": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_practical_controls_v7_20260928\\robin_eval01.json",
+    "sha256": "ea3c5b763759afd810394321c5190a3e48087175a256a8ddf981f9f548c634cc"
+  },
+  "does_not_invalidate": "robin_eval01 score/evaluation files remain valid; only the original diagnostic aggregation was wrong.",
+  "root_cause": "The original diagnostic averaged seed/member predictions before computing squared/absolute errors, producing ensemble-style diagnostics under labels that implied mean seed loss.",
+  "fix_summary": [
+    "compute squared/absolute/signed errors per member first",
+    "aggregate role and pair diagnostics as mean of per-member or paired-member losses",
+    "broadcast deterministic singleton references for paired seed deltas",
+    "preserve original script/results and write corrected outputs under diagnostics_corrected/",
+    "store detailed complete-row P/Q diagnostics under local cache and publish only a compact period/role/member summary",
+    "add positive/negative/net excess concentration and descriptive residual-context correlations"
+  ]
+}

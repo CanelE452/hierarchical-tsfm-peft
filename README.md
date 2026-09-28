@@ -144,3 +144,14 @@ v5에서 선택한 수준 보존 잔차 PEFT를 Robin Office17채널/K5의 고�
 - [GPU 비용](research/tsfm_peft_level_confirmation_v6_20260928/cost_gpu01.json), [CPU 비용](research/tsfm_peft_level_confirmation_v6_20260928/cost_cpu01.json), [한 차례 상주 진단](research/tsfm_peft_level_confirmation_v6_20260928/cost_diagnostic01.json)
 - [방법·전체/기간·비용 그림](research/tsfm_peft_level_confirmation_v6_20260928/figures_layout02/manifest.json), [검산](research/tsfm_peft_level_confirmation_v6_20260928/final_checks.json), [실행 명령](research/tsfm_peft_level_confirmation_v6_20260928/commands.json)
 - [승인 원문](research/tsfm_peft_level_confirmation_v6_20260928/APPROVAL.txt), [계획](research/tsfm_peft_level_confirmation_v6_20260928/PLAN.md), [진행·예산·게시](research/tsfm_peft_level_confirmation_v6_20260928/STATUS.md)
+
+## 잔차 PEFT v7: 직접 선형·소배치 대조와 적용범위 (2026-09-29)
+
+Robin 직접 NLinear4fit와 노출된 Jena2024 도메인 확장12fit, 같은 회차 GPU117/CPU12행 비용, 정정된 Robin 오차 진단을 완료했습니다. LEVEL의 Robin MSE0.275196은 직접 NLinear0.327724보다16.03% 낮지만 LoRA0.223610보다23.07% 높습니다. 미압축 F0/LoRA도 소배치로 LEVEL보다 낮은 할당 메모리를 달성했으며, 이 경우 처리량은 낮았습니다. 압축의 고유한 메모리 절감이나 안정적인 일반 속도 우위로 확대하지 않습니다.
+
+Jena에서는 LEVEL0.324359가 OLD0.323305와 가까우며 RAW0.291159, 직접 NLinear0.273984, LoRA0.240590보다 나빴습니다. **건물 전력에서의 조건부 기여는 유지하고 범용 우위 주장은 축소합니다.** 두 자료를 종합 점수로 합치지 않았고, TEST 이후 재튜닝도 하지 않았습니다. 검산·게시의 최종 상태는 아래 기록을 따릅니다.
+
+- [최종 판단](research/tsfm_peft_practical_controls_v7_20260928/TOPIC_DECISION.md), [영문 본문](research/tsfm_peft_practical_controls_v7_20260928/PAPER_DRAFT.md), [부록](research/tsfm_peft_practical_controls_v7_20260928/APPENDIX.md), [선행·기여 경계](research/tsfm_peft_practical_controls_v7_20260928/CLAIMS_PRIOR_ART.md)
+- [전체 비교 수치](research/tsfm_peft_practical_controls_v7_20260928/report_values.json), [정확도 CSV](research/tsfm_peft_practical_controls_v7_20260928/accuracy_comparison.csv), [비용 CSV](research/tsfm_peft_practical_controls_v7_20260928/cost_comparison.csv), [그림](research/tsfm_peft_practical_controls_v7_20260928/figure_manifest.json)
+- [Robin 평가](research/tsfm_peft_practical_controls_v7_20260928/robin_eval01.json), [Jena 평가](research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json), [소배치 정합성](research/tsfm_peft_practical_controls_v7_20260928/microbatch_parity.json), [진단 정정](research/tsfm_peft_practical_controls_v7_20260928/diagnostic_correction.json)
+- [승인 계획](research/tsfm_peft_practical_controls_v7_20260928/PLAN.md), [승인문](research/tsfm_peft_practical_controls_v7_20260928/APPROVAL.txt), [진행·예산·게시](research/tsfm_peft_practical_controls_v7_20260928/STATUS.md), [최종 검산](research/tsfm_peft_practical_controls_v7_20260928/final_checks.json)
