@@ -1,0 +1,665 @@
+{
+  "id": "v5_electricity_level_res_92602",
+  "spec": {
+    "id": "v5_electricity_level_res_92602",
+    "dataset": "electricity",
+    "method": "level",
+    "variant": "res",
+    "seed": 92602,
+    "channels": 32,
+    "latent": 8,
+    "ed_mode": "current",
+    "lr": 0.001,
+    "epochs": 120
+  },
+  "status": "complete",
+  "ledger_id": 24,
+  "source": {
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/check_models_v5.py": "3d355fedbb7a0af03b6f85cdddce49e84348c160fcef22ffce0713b8fc4f5d62",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/cost_v5.py": "dde93ba2550d5ae4ca66ae19bebbdb9c79387620f24f95dc723c6e9759997d55",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/diagnose_v5.py": "e35653d0b8acd8472e530345a4557a32f597afac70f562743005ba4e7dfae3f4",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/evaluate_v5.py": "5391c8755ebfd1d93030a811853ae6dd41e9dde4a4fc80339bf821e3ebdbfcb3",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/model_v5.py": "5775abb214269d0be997454e39e48cee34d92d7cc29d236da665038bbc4093af",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/plot_v5.py": "7fe66ed868c1047fe9f99d5ffdb250323403c3864aeaf1ac3f02fc9bab1a6a92",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/reuse_v5.py": "41fc44ef75d898f320d421f8e2b264895529862900fa36f1e2e165343e49b4ff",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/runtime_v5.py": "8fd4ef2fca6e2d5111d3c433446e89afc60a12c03c2b09c057b353ca8a097db6",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/train_v5.py": "0a43677e6a4b68ef8c678eada45d27f0139ba46fed9747d6fae23df3aa437599",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/PLAN.md": "416f434b9334be4cec384aa2de9ac80020d1e9091a0add92561e0f17fc5b1564",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/protocol.json": "d35ea86f685ff38e36858fc79fae256ea8a95f04b57239aad285582a94c16609"
+  },
+  "environment": {
+    "python": "3.11.16 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:36:16) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.venv\\Scripts\\python.exe",
+    "command": [
+      "research/tsfm_peft_accuracy_recovery_v5_20260927/train_v5.py",
+      "--dataset",
+      "electricity",
+      "--method",
+      "level",
+      "--variant",
+      "res",
+      "--seed",
+      "92602",
+      "--name",
+      "v5_electricity_level_res_92602",
+      "--job-label",
+      "v5_electricity_level_res_92602_gpu"
+    ],
+    "cwd": "E:\\CODING\\proj\\hierarchical-tsfm-peft",
+    "versions": {
+      "torch": "2.10.0+cu128",
+      "numpy": "2.4.6",
+      "peft": "0.21.0",
+      "chronos-forecasting": "2.3.2",
+      "transformers": "5.17.0"
+    }
+  },
+  "data_sha256": "65b3e7dbb89433a75b26e6ad7071702dcb81b259dd33ab74dc6eea0d9b7d2bb5",
+  "decision_receipt": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_accuracy_recovery_v5_20260927\\decision.json",
+    "sha256": "b7f86c4e8392eaa5b57462496efbbb180013681654a2cd90e18c086abbd30f11",
+    "decision": {
+      "first_method": "level",
+      "reserve_method": "full",
+      "active_method": "level",
+      "approved_datasets": [
+        "hog",
+        "bull",
+        "electricity"
+      ],
+      "authorized_supplements": [],
+      "created_utc": 1790569310.4778,
+      "diagnosis_path": "research\\tsfm_peft_accuracy_recovery_v5_20260927\\v5_hog_diagnosis_01\\diagnosis.json",
+      "diagnosis_sha256": "d1eb618b5b863f1c5a46df6035c8a1bc5011e923c93b3263dce743c2539f96ff",
+      "evidence": {
+        "first_modification": "LEVEL",
+        "level_gate": true,
+        "level_only_improves_compress_combined_mse": true,
+        "mean_seed_last_residual_direction_dot": 1.084029155747304,
+        "k_gate": false,
+        "completecase_full_directions_match_for_both_seeds": true,
+        "rule": "LEVEL if LEVEL_ONLY combined masked MSE improves COMPRESS and mean-seed channel-equal observed dot(last residual, target-RES)>0; else K if both-seed complete/full directions agree and positive added-Q16-minus-Q8 excess exceeds positive outside-Q16 excess; else FULL.",
+        "interpretation": "A bounded development choice, not a causal mechanism finding. FULL fallback tests the remaining low-rank restriction; it is not itself evidence that rank is the cause."
+      },
+      "observation": "LEVEL_ONLY MSE3.132837 vs COMPRESS4.591135 and oldRES3.220290; last residual aligns with desired correction. K priority false.",
+      "question": "Does learning centered residual dynamics reduce loss beyond persistence and matched RAW?",
+      "change": "LEVEL only, same restoration residual for both arms, original K8 fixed ED.",
+      "first_runs": [
+        "v5_hog_level_res_92601",
+        "v5_hog_level_res_92602",
+        "v5_hog_level_raw_92601",
+        "v5_hog_level_raw_92602"
+      ],
+      "reserve_trigger": "If LEVEL inadequately addresses remaining nonlevel temporal error, test FULL at original K only; not combined.",
+      "retained_method": "level",
+      "branch_observation": "Hog mean-seed MSE2.666809<oldRES3.220290, matchedRAW2.949584, LEVEL_ONLY3.132837. Both arms improve; paired residue input adds further benefit. LoRA combined gap small with uncertainty, B/MAE losses remain.",
+      "next_action": "Extend exactly LEVEL RES/RAW x2 seeds to both Bull and Electricity; then paired Hog cost. No reserve needed at this point."
+    }
+  },
+  "best_val_mse": 0.1724033246368175,
+  "selected_epoch": 15,
+  "checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_electricity_level_res_92602\\best.pt",
+  "checkpoint_sha256": "87dcad69de7aafacb21e6396c0892ac5a7c675f9f0911264c5c098ebfde23b29",
+  "best_val_prediction": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_electricity_level_res_92602\\best_val.npz",
+    "sha256": "5eb5d6cd1cf30905adbfb9b64cb6f0c6359da0023dede82e75d0b1fe1e017713"
+  },
+  "initial_source": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\initial\\electricity_level_92602.pt",
+    "sha256": "fbb4cf74b984aef0d1ac4d20816433c9d7110fc155b22b74d5320d2d28923152",
+    "tensor_hashes": {
+      "encoder.weight": "8acccc9d9a3a60873486216fe465f4b134213a881a6b2551758a803c6cd780e3",
+      "decoder.weight": "fb5dee38cf711f454a32639b6d414aa477273d51b4610cf7a94aec8499b0ed80",
+      "residual.down.weight": "40473301d065e57d2a2e30c8a7cc4ca0ec2ff7fa936953233f5eb114b29ae113",
+      "residual.up.weight": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0"
+    },
+    "basis_sha256": "fb5dee38cf711f454a32639b6d414aa477273d51b4610cf7a94aec8499b0ed80",
+    "old_basis_sha256": "fb5dee38cf711f454a32639b6d414aa477273d51b4610cf7a94aec8499b0ed80",
+    "data_sha256": "65b3e7dbb89433a75b26e6ad7071702dcb81b259dd33ab74dc6eea0d9b7d2bb5",
+    "source": {
+      "kind": "new_explicit_paired_seed_state",
+      "old_v1_initial_equivalence": "unverified; v1 did not preserve complete initial tensors"
+    },
+    "preparation_elapsed_s": 0.020970300072804093,
+    "pca_statistic_count": 0,
+    "predictive_fit_attempts": 0
+  },
+  "initial_parameter_sha256": {
+    "encoder.weight": "8acccc9d9a3a60873486216fe465f4b134213a881a6b2551758a803c6cd780e3",
+    "decoder.weight": "fb5dee38cf711f454a32639b6d414aa477273d51b4610cf7a94aec8499b0ed80",
+    "residual.down.weight": "40473301d065e57d2a2e30c8a7cc4ca0ec2ff7fa936953233f5eb114b29ae113",
+    "residual.up.weight": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0"
+  },
+  "initial_checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_electricity_level_res_92602\\initial.pt",
+  "initial_checkpoint_sha256": "919f395985e00bd4f07cb2f170b49485cf7eae5bb37b3a6da41d554b45e82a5e",
+  "first_update_gradients": {
+    "1": {
+      "encoder.weight": {
+        "requires_grad": true,
+        "max_abs": 0.02760128304362297,
+        "finite": true
+      },
+      "decoder.weight": {
+        "requires_grad": true,
+        "max_abs": 0.09548091888427734,
+        "finite": true
+      },
+      "residual.down.weight": {
+        "requires_grad": true,
+        "max_abs": 0.0,
+        "finite": true
+      },
+      "residual.up.weight": {
+        "requires_grad": true,
+        "max_abs": 0.010198057629168034,
+        "finite": true
+      }
+    },
+    "2": {
+      "encoder.weight": {
+        "requires_grad": true,
+        "max_abs": 0.025034131482243538,
+        "finite": true
+      },
+      "decoder.weight": {
+        "requires_grad": true,
+        "max_abs": 0.05987529084086418,
+        "finite": true
+      },
+      "residual.down.weight": {
+        "requires_grad": true,
+        "max_abs": 0.0003099868190474808,
+        "finite": true
+      },
+      "residual.up.weight": {
+        "requires_grad": true,
+        "max_abs": 0.010018465109169483,
+        "finite": true
+      }
+    }
+  },
+  "parameter_max_updates": {
+    "encoder.weight": 0.56803297996521,
+    "decoder.weight": 0.6307498812675476,
+    "residual.down.weight": 0.2960969805717468,
+    "residual.up.weight": 0.1120440661907196
+  },
+  "changed_parameter_scalars": {
+    "encoder.weight": 256,
+    "decoder.weight": 256,
+    "residual.down.weight": 16352,
+    "residual.up.weight": 1536
+  },
+  "selected_parameter_max_updates": {
+    "encoder.weight": 0.5270255208015442,
+    "decoder.weight": 0.5671705007553101,
+    "residual.down.weight": 0.31143859028816223,
+    "residual.up.weight": 0.10484108328819275
+  },
+  "frozen_parameters_verified": {
+    "no_gradient": true,
+    "version_unchanged": true,
+    "backbone_sha256_unchanged": "3608dcf804e430c273a805597e1f879899efaae1221eadc741d84c769be7a736",
+    "optimizer_exclusion": true
+  },
+  "initial_train_probe": {
+    "mse": 0.3361243204384176,
+    "mae": 0.41803869982963304,
+    "channel_mse": [
+      0.41884994948571797,
+      0.40281044907553915,
+      0.5101290324121943,
+      0.15572533950107148,
+      0.37919503898367424,
+      0.19891257739146662,
+      0.2003451402582538,
+      0.3047904209579502,
+      0.5705792900354977,
+      0.5601044854965794,
+      0.3049630873686938,
+      0.2353142730569038,
+      0.38541385712693776,
+      0.2617282476013048,
+      0.18601957209763872,
+      0.27331086443498864,
+      0.3270229309239665,
+      0.45454213555063483,
+      0.22889479545381017,
+      0.47377410370288053,
+      0.3754687898718248,
+      0.37447107657182416,
+      0.24145643510926373,
+      0.2270955591321303,
+      0.21786522630470267,
+      0.499636577563997,
+      0.2575857441725187,
+      0.34176575279294874,
+      0.5105952642525069,
+      0.2685416916021504,
+      0.295440603300933,
+      0.3136299424388588
+    ],
+    "channel_mae": [
+      0.39576146164138964,
+      0.4330511657584187,
+      0.26831622379187237,
+      0.30306750266299787,
+      0.44938284903448295,
+      0.3432375098412624,
+      0.26364662852130194,
+      0.43250989877450746,
+      0.5665749374818714,
+      0.5540515878714763,
+      0.4061244625930461,
+      0.3572783168358203,
+      0.46483995447367005,
+      0.3932846205285172,
+      0.3321954131099321,
+      0.40669095424114704,
+      0.43923374307673335,
+      0.5200678973406967,
+      0.36028313433467296,
+      0.5284582454736564,
+      0.47439027375973336,
+      0.48026942420488516,
+      0.37165636871335056,
+      0.36188054390408475,
+      0.36050424062523234,
+      0.5371344045637064,
+      0.39263029223932083,
+      0.4532965237307912,
+      0.5223949284949817,
+      0.3811530483299066,
+      0.38760370530998345,
+      0.43626813328480946
+    ],
+    "squared_error_sums": [
+      1930.0605672301883,
+      1856.1505493400844,
+      2350.674581355391,
+      717.5823644209374,
+      1747.3307396367709,
+      916.5891566198782,
+      923.1904063100336,
+      1404.4742597742347,
+      2629.229368483573,
+      2580.961469168238,
+      1405.2699065949412,
+      1084.3281702462127,
+      1775.9870536409292,
+      1206.0437649468126,
+      857.1781882259193,
+      1259.4164633164276,
+      1506.9216656976378,
+      2094.5301606173252,
+      1054.7472174511572,
+      2183.1510698628736,
+      1730.1601837293688,
+      1725.5627208429657,
+      1112.6312529834872,
+      1046.4563364808564,
+      1003.92296281207,
+      2302.325349414898,
+      1186.9551091469664,
+      1574.856588869908,
+      2352.8229776755516,
+      1237.4401149027092,
+      1361.3903000106993,
+      1445.2067747582612
+    ],
+    "absolute_error_sums": [
+      1823.6688152435236,
+      1995.4997718147933,
+      1236.401159232948,
+      1396.5350522710942,
+      2070.7561683508975,
+      1581.638445348537,
+      1214.8836642261595,
+      1993.0056135529303,
+      2610.777311916463,
+      2553.069716911763,
+      1871.4215236287564,
+      1646.3384839794599,
+      2141.9825102146715,
+      1812.2555313954072,
+      1530.7564636105672,
+      1874.0319171432056,
+      2023.9890880975872,
+      2396.4728709459305,
+      1660.184683014173,
+      2435.1355951426085,
+      2185.9903814848512,
+      2213.081506736111,
+      1712.5925470311195,
+      1667.5455463100225,
+      1661.2035408010706,
+      2475.115336229559,
+      1809.2403866387904,
+      2088.790381351486,
+      2407.1958305048756,
+      1756.3532467042096,
+      1786.0778740684036,
+      2010.323558176402
+    ],
+    "target_counts": [
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608
+    ],
+    "origins": 96
+  },
+  "selected_train_probe": {
+    "mse": 0.1871145771214283,
+    "mae": 0.28679071821948,
+    "channel_mse": [
+      0.4089492932463028,
+      0.25312369479597036,
+      0.4423422616437318,
+      0.0970821921257398,
+      0.19914133365566833,
+      0.10013177566473133,
+      0.16080212205666095,
+      0.15219609216343857,
+      0.30206553421223475,
+      0.46546520725058077,
+      0.16941966121889662,
+      0.10203763328196087,
+      0.13938951695038776,
+      0.12852783587134162,
+      0.10228977236450415,
+      0.1257752183038745,
+      0.19116529293719994,
+      0.24068669176028243,
+      0.12343495938634476,
+      0.18283745481992597,
+      0.18740448747817895,
+      0.14215531411128624,
+      0.12617846383041662,
+      0.11721448207239495,
+      0.11525548307852598,
+      0.19301642516820902,
+      0.12470315339877883,
+      0.20737600721297966,
+      0.20754682307485636,
+      0.15492278407664486,
+      0.18027663999734722,
+      0.1447528606763082
+    ],
+    "channel_mae": [
+      0.38429438530137205,
+      0.3149381859889723,
+      0.1820043300896638,
+      0.22312120283994671,
+      0.32157893312886976,
+      0.2302521010399611,
+      0.20327246326956405,
+      0.2878658343974949,
+      0.3857237457424263,
+      0.47274779005318934,
+      0.2944771439332625,
+      0.21626807769497544,
+      0.24643870211891933,
+      0.25598990968293517,
+      0.2369793912914449,
+      0.26320080806283386,
+      0.3238938541265573,
+      0.3719582759719439,
+      0.24423164293249203,
+      0.2952164253039579,
+      0.328529130842071,
+      0.2794904034528069,
+      0.25593354206244434,
+      0.25231551825992127,
+      0.2551573606726581,
+      0.2962558893148323,
+      0.2612462169577662,
+      0.33840648070488694,
+      0.3323189963132083,
+      0.2769437861488768,
+      0.2747394551317181,
+      0.2715130001913874
+    ],
+    "squared_error_sums": [
+      1884.4383432789632,
+      1166.3939856198315,
+      2038.3131416543163,
+      447.354741315409,
+      917.6432654853197,
+      461.40722226308196,
+      740.9761784370936,
+      701.319592689125,
+      1391.9179816499777,
+      2144.863675010676,
+      780.6857988966756,
+      470.1894141632757,
+      642.3068941073868,
+      592.2562676951421,
+      471.3512710556351,
+      579.5722059442537,
+      880.8896698546173,
+      1109.0842756313814,
+      568.7882928522766,
+      842.5149918102188,
+      863.5598782994485,
+      655.051687424807,
+      581.4303613305598,
+      540.1243333895959,
+      531.0972660258477,
+      889.4196871751071,
+      574.6321308615728,
+      955.5886412374103,
+      956.3757607289381,
+      713.8841890251796,
+      830.714757107776,
+      667.0211819964281
+    ],
+    "absolute_error_sums": [
+      1770.8285274687223,
+      1451.2351610371843,
+      838.6759530531708,
+      1028.1425026864745,
+      1481.835723857832,
+      1061.0016815921408,
+      936.6795107461512,
+      1326.4857649036567,
+      1777.4150203811005,
+      2178.4218165650964,
+      1356.9506792444736,
+      996.5633020184468,
+      1135.5895393639803,
+      1179.6015038189653,
+      1092.001035070978,
+      1212.8293235535384,
+      1492.5028798151761,
+      1713.9837356787175,
+      1125.4194106329232,
+      1360.357287800638,
+      1513.8622349202633,
+      1287.8917791105341,
+      1179.3417618237436,
+      1162.6699081417173,
+      1175.7651179796085,
+      1365.1471379627474,
+      1203.8225677413866,
+      1559.377063088119,
+      1531.325935011264,
+      1276.1569665740244,
+      1265.999409246957,
+      1251.1319048819132
+    ],
+    "target_counts": [
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608,
+      4608
+    ],
+    "origins": 96
+  },
+  "initial_val_mse": 0.27753738268176104,
+  "epochs_completed": 21,
+  "total_steps": 2688,
+  "attempt_updates": 2688,
+  "final_stale": 6,
+  "extension_eligible": false,
+  "restart_checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_electricity_level_res_92602\\restart.pt",
+  "restart_sha256": "1ad457826bd60ee5c77da285da8f1ba33957b24cb1a3a0493b3d2d41aac132d2",
+  "restart_roundtrip": {
+    "model": true,
+    "optimizer": true,
+    "scheduler": true,
+    "rng": true,
+    "extra_updates": 0
+  },
+  "replay_error": 0.0,
+  "total_parameters": 47736448,
+  "trainable_parameters": 18432,
+  "training_peak": {
+    "allocated_bytes": 386521600,
+    "reserved_bytes": 400556032,
+    "scope": "one model, optimizer and initial TRAIN probe/full VAL; before selected restore"
+  },
+  "schedules": [
+    {
+      "epoch": 1,
+      "sha256": "0c3fd57ad780a8b84bc11eeee956dcc302209aeaac72b2da71a4abd885521de1"
+    },
+    {
+      "epoch": 2,
+      "sha256": "c93cecd9cd8d98400a0d14d58cf3c9b5360af587ac707572faef6880a47003cd"
+    },
+    {
+      "epoch": 3,
+      "sha256": "a0f0c367188a68a8efdc7b57246586b1c7e2a5e1c4d2fbd95499695b7409e5b7"
+    },
+    {
+      "epoch": 4,
+      "sha256": "7775c4128b40b730d6349b7e14ab2003b73dc4552de6b1af3de40762556efa90"
+    },
+    {
+      "epoch": 5,
+      "sha256": "cb94aa8810ef72b02778c1a31411415b7e02c6a3a5726b5ad4c5fd6c8b1278d8"
+    },
+    {
+      "epoch": 6,
+      "sha256": "44ec698bd8940c74f8ffb247d1107e5d29550ec6027294eca659bbb80c8843d9"
+    },
+    {
+      "epoch": 7,
+      "sha256": "f6043d31b053ef589499bffe17295f610a47bf2741e5dd3ea70d547f65441b90"
+    },
+    {
+      "epoch": 8,
+      "sha256": "d6c429c8d7dec48176d38d388aaf2697a9ff32c2512d1a1a7a9d10e5eaddadd0"
+    },
+    {
+      "epoch": 9,
+      "sha256": "28dc8a10b3b3081a2e3f3548307afca4f96fb15a8a5f3fa46e7e4c3f163d75e2"
+    },
+    {
+      "epoch": 10,
+      "sha256": "1cc9e16ef36213de68c5939ef7cfde4fd74962dc7a4ca678591a5655f2c7214a"
+    },
+    {
+      "epoch": 11,
+      "sha256": "ca049747e3424aaa339c542a69d3448a87b22c0ce3eefe507408255e602a197a"
+    },
+    {
+      "epoch": 12,
+      "sha256": "0745a19c86cd91caf863ab74bea53baaa920de231a664ec1e92fe62d278517b5"
+    },
+    {
+      "epoch": 13,
+      "sha256": "f62c889e9539181ce0a37b157d317fae194ebce906fe27dde35ec6f67351c673"
+    },
+    {
+      "epoch": 14,
+      "sha256": "f1d05ef80ca93dc62f46cfa789cd74eb9fbcb0ba8cabbfbb85c324f93dcda670"
+    },
+    {
+      "epoch": 15,
+      "sha256": "d64714030e1dff1bdbe4a746904ff699271e63b4706d60d2e0f36418873eb514"
+    },
+    {
+      "epoch": 16,
+      "sha256": "a3db2f483d6132fe620393d0273754df87433fb1f888bf365849c0d30dd1a8fc"
+    },
+    {
+      "epoch": 17,
+      "sha256": "d789b9dc3e6101dc1556536cf650c3460b1f1f91081ba794c58c26fdb0bb23a1"
+    },
+    {
+      "epoch": 18,
+      "sha256": "a897b79cd1eebaef5c1153fa12a3ca071a45f3520845b3cb4a56b49da00e6d09"
+    },
+    {
+      "epoch": 19,
+      "sha256": "4c1b1e087d64adfe0b5dfb94dbfe1f210bbe961f356d470189e579402aa6ab7b"
+    },
+    {
+      "epoch": 20,
+      "sha256": "1ce91918dd90b0d78175c5b14579899acfd3cbbf605e21aaa586e38f8c5b9e12"
+    },
+    {
+      "epoch": 21,
+      "sha256": "e0e8c70bc09b72cbb30151563b47f3a6b6ef9a9bcf1526295c74f2e48f88eefb"
+    }
+  ],
+  "elapsed_s": 108.42177130002528
+}

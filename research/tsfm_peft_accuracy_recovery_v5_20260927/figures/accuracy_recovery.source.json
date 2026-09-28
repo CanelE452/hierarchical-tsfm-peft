@@ -1,0 +1,810 @@
+{
+  "title": "Accuracy Recovery and Period-Specific Trade-offs",
+  "caption": "Relative normalized macro MSE change from the original RES within each dataset and period. Each point uses the ratio of stored mean individual-seed losses, not prediction ensembling. Circles and triangles show the two separate periods; diamonds show pooled-within-dataset combined errors/counts, or Electricity DEV. Panels use different horizontal ranges and no dataset-wide score is formed. LEVEL_ONLY is the untrained level-restoration reference. All three datasets are exposed development evidence for v5, including the previously evaluated Hog periods. The plot does not establish independent confirmation or superiority on MAE.",
+  "sources": [
+    {
+      "path": "research/tsfm_peft_accuracy_recovery_v5_20260927/hog_level_01.json",
+      "sha256": "40934349ec1f310cac13a74c6380c1913c99cdb3d8e81f399102123ef542bf56"
+    },
+    {
+      "path": "research/tsfm_peft_accuracy_recovery_v5_20260927/bull_level_01.json",
+      "sha256": "224df31159839e65f810cf0e7cbc06c852b8a45a58403ef7606b76469e66eed6"
+    },
+    {
+      "path": "research/tsfm_peft_accuracy_recovery_v5_20260927/electricity_level_01.json",
+      "sha256": "077e7b6ee42d5d3a151994669309430c5058fe864f43e825d2c694d9f6eeb3f8"
+    }
+  ],
+  "numeric_values": [
+    {
+      "dataset": "hog",
+      "role": "modified_res",
+      "period": "test_a",
+      "mse": 2.2216592684418286,
+      "old_res_mse": 2.5487224648460884,
+      "relative_mse_change_pct": -12.832436678193226,
+      "mse_pointer": "role_scores.modified_res.test_a.mse",
+      "denominator_pointer": "role_scores.old_res.test_a.mse",
+      "seed_mse": [
+        {
+          "id": "v5_hog_level_res_92601",
+          "seed": 92601,
+          "mse": 2.2150536800472014
+        },
+        {
+          "id": "v5_hog_level_res_92602",
+          "seed": 92602,
+          "mse": 2.2282648568364554
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "modified_res",
+      "period": "test_b",
+      "mse": 3.119826558388075,
+      "old_res_mse": 3.909009093701607,
+      "relative_mse_change_pct": -20.18881298038172,
+      "mse_pointer": "role_scores.modified_res.test_b.mse",
+      "denominator_pointer": "role_scores.old_res.test_b.mse",
+      "seed_mse": [
+        {
+          "id": "v5_hog_level_res_92601",
+          "seed": 92601,
+          "mse": 3.1146835096696432
+        },
+        {
+          "id": "v5_hog_level_res_92602",
+          "seed": 92602,
+          "mse": 3.1249696071065065
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "modified_res",
+      "period": "combined",
+      "mse": 2.666809359631549,
+      "old_res_mse": 3.220289617255274,
+      "relative_mse_change_pct": -17.187281996563677,
+      "mse_pointer": "role_scores.modified_res.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "v5_hog_level_res_92601",
+          "seed": 92601,
+          "mse": 2.6609325242076025
+        },
+        {
+          "id": "v5_hog_level_res_92602",
+          "seed": 92602,
+          "mse": 2.672686195055496
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "modified_raw",
+      "period": "test_a",
+      "mse": 2.4594917604315922,
+      "old_res_mse": 2.5487224648460884,
+      "relative_mse_change_pct": -3.500997289631713,
+      "mse_pointer": "role_scores.modified_raw.test_a.mse",
+      "denominator_pointer": "role_scores.old_res.test_a.mse",
+      "seed_mse": [
+        {
+          "id": "v5_hog_level_raw_92601",
+          "seed": 92601,
+          "mse": 2.4738369524083144
+        },
+        {
+          "id": "v5_hog_level_raw_92602",
+          "seed": 92602,
+          "mse": 2.44514656845487
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "modified_raw",
+      "period": "test_b",
+      "mse": 3.447669972068005,
+      "old_res_mse": 3.909009093701607,
+      "relative_mse_change_pct": -11.801945469426888,
+      "mse_pointer": "role_scores.modified_raw.test_b.mse",
+      "denominator_pointer": "role_scores.old_res.test_b.mse",
+      "seed_mse": [
+        {
+          "id": "v5_hog_level_raw_92601",
+          "seed": 92601,
+          "mse": 3.3687895733704862
+        },
+        {
+          "id": "v5_hog_level_raw_92602",
+          "seed": 92602,
+          "mse": 3.5265503707655235
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "modified_raw",
+      "period": "combined",
+      "mse": 2.94958378057785,
+      "old_res_mse": 3.220289617255274,
+      "relative_mse_change_pct": -8.406257475318412,
+      "mse_pointer": "role_scores.modified_raw.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "v5_hog_level_raw_92601",
+          "seed": 92601,
+          "mse": 2.9170756322703837
+        },
+        {
+          "id": "v5_hog_level_raw_92602",
+          "seed": 92602,
+          "mse": 2.982091928885316
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "f0",
+      "period": "test_a",
+      "mse": 2.383851981594088,
+      "old_res_mse": 2.5487224648460884,
+      "relative_mse_change_pct": -6.46874995320279,
+      "mse_pointer": "role_scores.f0.test_a.mse",
+      "denominator_pointer": "role_scores.old_res.test_a.mse",
+      "seed_mse": [
+        {
+          "id": "v4_hog_f0",
+          "seed": null,
+          "mse": 2.383851981594088
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "f0",
+      "period": "test_b",
+      "mse": 3.1002837773240275,
+      "old_res_mse": 3.909009093701607,
+      "relative_mse_change_pct": -20.688755052543595,
+      "mse_pointer": "role_scores.f0.test_b.mse",
+      "denominator_pointer": "role_scores.old_res.test_b.mse",
+      "seed_mse": [
+        {
+          "id": "v4_hog_f0",
+          "seed": null,
+          "mse": 3.1002837773240275
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "f0",
+      "period": "combined",
+      "mse": 2.7380442153643942,
+      "old_res_mse": 3.220289617255274,
+      "relative_mse_change_pct": -14.975218356351084,
+      "mse_pointer": "role_scores.f0.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "v4_hog_f0",
+          "seed": null,
+          "mse": 2.7380442153643942
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "lora",
+      "period": "test_a",
+      "mse": 2.3863951907829617,
+      "old_res_mse": 2.5487224648460884,
+      "relative_mse_change_pct": -6.3689662684763615,
+      "mse_pointer": "role_scores.lora.test_a.mse",
+      "denominator_pointer": "role_scores.old_res.test_a.mse",
+      "seed_mse": [
+        {
+          "id": "v4_hog_lora_92601",
+          "seed": 92601,
+          "mse": 2.376393626101699
+        },
+        {
+          "id": "v4_hog_lora_92602",
+          "seed": 92602,
+          "mse": 2.3963967554642243
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "lora",
+      "period": "test_b",
+      "mse": 2.989048451841211,
+      "old_res_mse": 3.909009093701607,
+      "relative_mse_change_pct": -23.534369447814363,
+      "mse_pointer": "role_scores.lora.test_b.mse",
+      "denominator_pointer": "role_scores.old_res.test_b.mse",
+      "seed_mse": [
+        {
+          "id": "v4_hog_lora_92601",
+          "seed": 92601,
+          "mse": 2.98932435674055
+        },
+        {
+          "id": "v4_hog_lora_92602",
+          "seed": 92602,
+          "mse": 2.9887725469418718
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "lora",
+      "period": "combined",
+      "mse": 2.683559680642655,
+      "old_res_mse": 3.220289617255274,
+      "relative_mse_change_pct": -16.667132475807765,
+      "mse_pointer": "role_scores.lora.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "v4_hog_lora_92601",
+          "seed": 92601,
+          "mse": 2.678683265479899
+        },
+        {
+          "id": "v4_hog_lora_92602",
+          "seed": 92602,
+          "mse": 2.6884360958054114
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "level_only",
+      "period": "test_a",
+      "mse": 2.652519871210341,
+      "old_res_mse": 2.5487224648460884,
+      "relative_mse_change_pct": 4.072526836323109,
+      "mse_pointer": "role_scores.level_only.test_a.mse",
+      "denominator_pointer": "role_scores.old_res.test_a.mse",
+      "seed_mse": [
+        {
+          "id": "hog_level_only",
+          "seed": null,
+          "mse": 2.652519871210341
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "level_only",
+      "period": "test_b",
+      "mse": 3.6240162719948437,
+      "old_res_mse": 3.909009093701607,
+      "relative_mse_change_pct": -7.2906666338013455,
+      "mse_pointer": "role_scores.level_only.test_b.mse",
+      "denominator_pointer": "role_scores.old_res.test_b.mse",
+      "seed_mse": [
+        {
+          "id": "hog_level_only",
+          "seed": null,
+          "mse": 3.6240162719948437
+        }
+      ]
+    },
+    {
+      "dataset": "hog",
+      "role": "level_only",
+      "period": "combined",
+      "mse": 3.1328370060562936,
+      "old_res_mse": 3.220289617255274,
+      "relative_mse_change_pct": -2.715675345794466,
+      "mse_pointer": "role_scores.level_only.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "hog_level_only",
+          "seed": null,
+          "mse": 3.1328370060562936
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "modified_res",
+      "period": "e1",
+      "mse": 0.1849720329393787,
+      "old_res_mse": 0.21036526629203323,
+      "relative_mse_change_pct": -12.07101999310245,
+      "mse_pointer": "role_scores.modified_res.e1.mse",
+      "denominator_pointer": "role_scores.old_res.e1.mse",
+      "seed_mse": [
+        {
+          "id": "v5_bull_level_res_92601",
+          "seed": 92601,
+          "mse": 0.1867963767021198
+        },
+        {
+          "id": "v5_bull_level_res_92602",
+          "seed": 92602,
+          "mse": 0.1831476891766376
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "modified_res",
+      "period": "e2",
+      "mse": 1.2339125935361792,
+      "old_res_mse": 1.2465803086316969,
+      "relative_mse_change_pct": -1.0161972724743507,
+      "mse_pointer": "role_scores.modified_res.e2.mse",
+      "denominator_pointer": "role_scores.old_res.e2.mse",
+      "seed_mse": [
+        {
+          "id": "v5_bull_level_res_92601",
+          "seed": 92601,
+          "mse": 1.2331551537867251
+        },
+        {
+          "id": "v5_bull_level_res_92602",
+          "seed": 92602,
+          "mse": 1.2346700332856333
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "modified_res",
+      "period": "combined",
+      "mse": 0.7086160568815505,
+      "old_res_mse": 0.7276590894539953,
+      "relative_mse_change_pct": -2.6170266885189086,
+      "mse_pointer": "role_scores.modified_res.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "v5_bull_level_res_92601",
+          "seed": 92601,
+          "mse": 0.7091506124678357
+        },
+        {
+          "id": "v5_bull_level_res_92602",
+          "seed": 92602,
+          "mse": 0.7080815012952654
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "modified_raw",
+      "period": "e1",
+      "mse": 0.21931665432109854,
+      "old_res_mse": 0.21036526629203323,
+      "relative_mse_change_pct": 4.255164451263926,
+      "mse_pointer": "role_scores.modified_raw.e1.mse",
+      "denominator_pointer": "role_scores.old_res.e1.mse",
+      "seed_mse": [
+        {
+          "id": "v5_bull_level_raw_92601",
+          "seed": 92601,
+          "mse": 0.22115596123061204
+        },
+        {
+          "id": "v5_bull_level_raw_92602",
+          "seed": 92602,
+          "mse": 0.217477347411585
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "modified_raw",
+      "period": "e2",
+      "mse": 1.1775687037897196,
+      "old_res_mse": 1.2465803086316969,
+      "relative_mse_change_pct": -5.5360737181648245,
+      "mse_pointer": "role_scores.modified_raw.e2.mse",
+      "denominator_pointer": "role_scores.old_res.e2.mse",
+      "seed_mse": [
+        {
+          "id": "v5_bull_level_raw_92601",
+          "seed": 92601,
+          "mse": 1.1714965581136116
+        },
+        {
+          "id": "v5_bull_level_raw_92602",
+          "seed": 92602,
+          "mse": 1.1836408494658275
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "modified_raw",
+      "period": "combined",
+      "mse": 0.6977311779539122,
+      "old_res_mse": 0.7276590894539953,
+      "relative_mse_change_pct": -4.1129028598460575,
+      "mse_pointer": "role_scores.modified_raw.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "v5_bull_level_raw_92601",
+          "seed": 92601,
+          "mse": 0.6956262040172301
+        },
+        {
+          "id": "v5_bull_level_raw_92602",
+          "seed": 92602,
+          "mse": 0.6998361518905942
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "f0",
+      "period": "e1",
+      "mse": 0.16436700644441288,
+      "old_res_mse": 0.21036526629203323,
+      "relative_mse_change_pct": -21.865900515993285,
+      "mse_pointer": "role_scores.f0.e1.mse",
+      "denominator_pointer": "role_scores.old_res.e1.mse",
+      "seed_mse": [
+        {
+          "id": "f0",
+          "seed": null,
+          "mse": 0.16436700644441288
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "f0",
+      "period": "e2",
+      "mse": 1.2013833913921323,
+      "old_res_mse": 1.2465803086316969,
+      "relative_mse_change_pct": -3.6256723234441846,
+      "mse_pointer": "role_scores.f0.e2.mse",
+      "denominator_pointer": "role_scores.old_res.e2.mse",
+      "seed_mse": [
+        {
+          "id": "f0",
+          "seed": null,
+          "mse": 1.2013833913921323
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "f0",
+      "period": "combined",
+      "mse": 0.6820521549488907,
+      "old_res_mse": 0.7276590894539953,
+      "relative_mse_change_pct": -6.267623831831203,
+      "mse_pointer": "role_scores.f0.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "f0",
+          "seed": null,
+          "mse": 0.6820521549488907
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "lora",
+      "period": "e1",
+      "mse": 0.1620500038683827,
+      "old_res_mse": 0.21036526629203323,
+      "relative_mse_change_pct": -22.967319308586966,
+      "mse_pointer": "role_scores.lora.e1.mse",
+      "denominator_pointer": "role_scores.old_res.e1.mse",
+      "seed_mse": [
+        {
+          "id": "bull_final_lora_92601_0.0001",
+          "seed": 92601,
+          "mse": 0.1629887987142602
+        },
+        {
+          "id": "bull_final_lora_92602_0.0001",
+          "seed": 92602,
+          "mse": 0.1611112090225052
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "lora",
+      "period": "e2",
+      "mse": 1.1919756085191344,
+      "old_res_mse": 1.2465803086316969,
+      "relative_mse_change_pct": -4.380359591312577,
+      "mse_pointer": "role_scores.lora.e2.mse",
+      "denominator_pointer": "role_scores.old_res.e2.mse",
+      "seed_mse": [
+        {
+          "id": "bull_final_lora_92601_0.0001",
+          "seed": 92601,
+          "mse": 1.1792877805529267
+        },
+        {
+          "id": "bull_final_lora_92602_0.0001",
+          "seed": 92602,
+          "mse": 1.2046634364853424
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "lora",
+      "period": "combined",
+      "mse": 0.6761906256013395,
+      "old_res_mse": 0.7276590894539953,
+      "relative_mse_change_pct": -7.073156179671381,
+      "mse_pointer": "role_scores.lora.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "bull_final_lora_92601_0.0001",
+          "seed": 92601,
+          "mse": 0.6703340954730707
+        },
+        {
+          "id": "bull_final_lora_92602_0.0001",
+          "seed": 92602,
+          "mse": 0.6820471557296084
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "level_only",
+      "period": "e1",
+      "mse": 0.23507606824037183,
+      "old_res_mse": 0.21036526629203323,
+      "relative_mse_change_pct": 11.746616912525187,
+      "mse_pointer": "role_scores.level_only.e1.mse",
+      "denominator_pointer": "role_scores.old_res.e1.mse",
+      "seed_mse": [
+        {
+          "id": "bull_level_only",
+          "seed": null,
+          "mse": 0.23507606824037183
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "level_only",
+      "period": "e2",
+      "mse": 1.2894363174764027,
+      "old_res_mse": 1.2465803086316969,
+      "relative_mse_change_pct": 3.4378859146063867,
+      "mse_pointer": "role_scores.level_only.e2.mse",
+      "denominator_pointer": "role_scores.old_res.e2.mse",
+      "seed_mse": [
+        {
+          "id": "bull_level_only",
+          "seed": null,
+          "mse": 1.2894363174764027
+        }
+      ]
+    },
+    {
+      "dataset": "bull",
+      "role": "level_only",
+      "period": "combined",
+      "mse": 0.7614323361824543,
+      "old_res_mse": 0.7276590894539953,
+      "relative_mse_change_pct": 4.64135571422617,
+      "mse_pointer": "role_scores.level_only.combined.mse",
+      "denominator_pointer": "role_scores.old_res.combined.mse",
+      "seed_mse": [
+        {
+          "id": "bull_level_only",
+          "seed": null,
+          "mse": 0.7614323361824543
+        }
+      ]
+    },
+    {
+      "dataset": "electricity",
+      "role": "modified_res",
+      "period": "dev",
+      "mse": 0.16745756901023034,
+      "old_res_mse": 0.16585023660638426,
+      "relative_mse_change_pct": 0.9691468862120356,
+      "mse_pointer": "role_scores.modified_res.dev.mse",
+      "denominator_pointer": "role_scores.old_res.dev.mse",
+      "seed_mse": [
+        {
+          "id": "v5_electricity_level_res_92601",
+          "seed": 92601,
+          "mse": 0.1645552036400521
+        },
+        {
+          "id": "v5_electricity_level_res_92602",
+          "seed": 92602,
+          "mse": 0.17035993438040858
+        }
+      ]
+    },
+    {
+      "dataset": "electricity",
+      "role": "modified_raw",
+      "period": "dev",
+      "mse": 0.23335576014008597,
+      "old_res_mse": 0.16585023660638426,
+      "relative_mse_change_pct": 40.70269956497796,
+      "mse_pointer": "role_scores.modified_raw.dev.mse",
+      "denominator_pointer": "role_scores.old_res.dev.mse",
+      "seed_mse": [
+        {
+          "id": "v5_electricity_level_raw_92601",
+          "seed": 92601,
+          "mse": 0.22945487660371466
+        },
+        {
+          "id": "v5_electricity_level_raw_92602",
+          "seed": 92602,
+          "mse": 0.2372566436764573
+        }
+      ]
+    },
+    {
+      "dataset": "electricity",
+      "role": "f0",
+      "period": "dev",
+      "mse": 0.16453665873402534,
+      "old_res_mse": 0.16585023660638426,
+      "relative_mse_change_pct": -0.792026529016332,
+      "mse_pointer": "role_scores.f0.dev.mse",
+      "denominator_pointer": "role_scores.old_res.dev.mse",
+      "seed_mse": [
+        {
+          "id": "f0",
+          "seed": null,
+          "mse": 0.16453665873402534
+        }
+      ]
+    },
+    {
+      "dataset": "electricity",
+      "role": "lora",
+      "period": "dev",
+      "mse": 0.1610964848005344,
+      "old_res_mse": 0.16585023660638426,
+      "relative_mse_change_pct": -2.8662918444500196,
+      "mse_pointer": "role_scores.lora.dev.mse",
+      "denominator_pointer": "role_scores.old_res.dev.mse",
+      "seed_mse": [
+        {
+          "id": "extended120_lora_92601_0.0001",
+          "seed": 92601,
+          "mse": 0.1609833265711728
+        },
+        {
+          "id": "initial_lora_92602_0.0001",
+          "seed": 92602,
+          "mse": 0.161209643029896
+        }
+      ]
+    },
+    {
+      "dataset": "electricity",
+      "role": "level_only",
+      "period": "dev",
+      "mse": 0.33604442782040345,
+      "old_res_mse": 0.16585023660638426,
+      "relative_mse_change_pct": 102.61920314165395,
+      "mse_pointer": "role_scores.level_only.dev.mse",
+      "denominator_pointer": "role_scores.old_res.dev.mse",
+      "seed_mse": [
+        {
+          "id": "electricity_level_only",
+          "seed": null,
+          "mse": 0.33604442782040345
+        }
+      ]
+    }
+  ],
+  "calculation": "100 * (role_scores[role][period].mse / role_scores[old_res][period].mse - 1)",
+  "uncertainty": "Displayed points are descriptive mean-loss comparisons. They are not confidence intervals; seed and conditional temporal uncertainty remain in the source comparison JSON.",
+  "prohibited_claim": "A pooled cross-dataset success score, a fresh holdout, a pure causal mechanism proof, or percent-point improvement.",
+  "stem": "accuracy_recovery",
+  "figure_text": [
+    "MSE change vs. original RES\n(%) ↓",
+    "−30",
+    "−30",
+    "−20",
+    "−20",
+    "−10",
+    "−10",
+    "0",
+    "0",
+    "10",
+    "10",
+    "LEVEL_RES",
+    "LEVEL_RES",
+    "Matched LEVEL_RAW",
+    "Matched LEVEL_RAW",
+    "F0",
+    "F0",
+    "LoRA",
+    "LoRA",
+    "LEVEL_ONLY",
+    "LEVEL_ONLY",
+    "Hog (FIXED_ED, K8)",
+    "MSE change vs. original RES\n(%) ↓",
+    "−40",
+    "−40",
+    "−20",
+    "−20",
+    "0",
+    "0",
+    "20",
+    "20",
+    "LEVEL_RES",
+    "LEVEL_RES",
+    "Matched LEVEL_RAW",
+    "Matched LEVEL_RAW",
+    "F0",
+    "F0",
+    "LoRA",
+    "LoRA",
+    "LEVEL_ONLY",
+    "LEVEL_ONLY",
+    "Bull (FIXED_ED, K4)",
+    "MSE change vs. original RES\n(%) ↓",
+    "−50",
+    "−50",
+    "0",
+    "0",
+    "50",
+    "50",
+    "100",
+    "100",
+    "150",
+    "150",
+    "LEVEL_RES",
+    "LEVEL_RES",
+    "Matched LEVEL_RAW",
+    "Matched LEVEL_RAW",
+    "F0",
+    "F0",
+    "LoRA",
+    "LoRA",
+    "LEVEL_ONLY",
+    "LEVEL_ONLY",
+    "Electricity (CURRENT, K8)",
+    "Accuracy Recovery and Period-Specific Trade-offs",
+    "Zero: original RES in the same period. Lower is better.\nEach panel uses its own horizontal range; datasets are not pooled.",
+    "TEST-A / E1",
+    "TEST-B / E2",
+    "Combined / DEV"
+  ],
+  "png_dpi": 300,
+  "figure_size_inches": [
+    7.2,
+    4.1
+  ],
+  "outputs": [
+    {
+      "path": "research/tsfm_peft_accuracy_recovery_v5_20260927/figures/accuracy_recovery.png",
+      "sha256": "b3f0ec16cead932f3b382102855ff4935e0806e6cd04edee56eba5fd6d1f8a12"
+    },
+    {
+      "path": "research/tsfm_peft_accuracy_recovery_v5_20260927/figures/accuracy_recovery.svg",
+      "sha256": "f7db709874a144f662ebd769969df9e969b2334e94a5e27c48810996a3363dd9"
+    }
+  ]
+}

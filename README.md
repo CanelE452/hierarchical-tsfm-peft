@@ -117,3 +117,16 @@ RES의 batch4 처리량 중심값357.14원점/초는 LoRA172.52보다 약2.07배
 - [자료 계약](research/tsfm_peft_fresh_group_v4_20260927/data_contract.json), [TEST 전 봉인](research/tsfm_peft_fresh_group_v4_20260927/evaluation_seal.json), [고정 평가](research/tsfm_peft_fresh_group_v4_20260927/v4_test_01.json)
 - [GPU 비용](research/tsfm_peft_fresh_group_v4_20260927/v4_cost_gpu_02.json), [CPU 비용](research/tsfm_peft_fresh_group_v4_20260927/v4_cost_cpu_01.json), [제한된 GPU상주 진단](research/tsfm_peft_fresh_group_v4_20260927/v4_cost_diagnostic_01.json)
 - [최종 검산](research/tsfm_peft_fresh_group_v4_20260927/final_checks.json), [승인 계획](research/tsfm_peft_fresh_group_v4_20260927/PLAN.md), [상태·예산·게시 기록](research/tsfm_peft_fresh_group_v4_20260927/STATUS.md)
+
+## 잔차 PEFT v5: Hog 정확도 회복 개발 (2026-09-28)
+
+기존 예측 진단으로 선택한 LEVEL(잔차의 마지막 수준 제거·복원)을 matched RAW와 Hog/Bull/Electricity에서 총12fit 비교했습니다. **Hog 개발 구성으로 LEVEL을 조건부 유지합니다.** Hog 전체 MSE는 기존 RES3.220290에서2.666809로17.19% 줄었고, 같은 수준 복원항의 RAW2.949584보다9.59% 낮았습니다. LoRA2.683560 대비 작은 점추정 차이는 우위나 동등성을 확정하지 않으며, Hog B기간·MAE 손해도 남습니다.
+
+Bull은 기존 RES보다 개선했지만 matched RAW의 전체 MSE가 더 낮고, Electricity는 기존 RES보다0.97% 나빠졌습니다. 모든 자료에 LEVEL을 적용하는 권고는 하지 않습니다. 이번 Hog 포함 세 자료는 모두 노출된 개발 평가입니다.
+
+같은 회차 Hog의 LEVEL RES batch4 처리량353.73원점/초와 peak allocated225.86MiB는 병합 LoRA167.33원점/초·328.68MiB와 절충을 보였습니다. 기존 RES와 처리량은 거의 같고, batch1·블록 변동과 전체 배포크기를 함께 보고합니다. 실자료12/24attempt, 합성1/6세션(10update), GPU21.60분/240분으로 종료했습니다. 다음에는 고정 LEVEL의 미사용 집단 확인 여부를 결정할 것을 권고하며 독립 확증·논문 신규성 완료로 세지 않습니다.
+
+- [v5 최종 판단·기간/seed·손익·비용·그림](research/tsfm_peft_accuracy_recovery_v5_20260927/TOPIC_DECISION.md)
+- [기존 예측 진단](research/tsfm_peft_accuracy_recovery_v5_20260927/v5_hog_diagnosis_01/diagnosis.json), [최종 비교 JSON](research/tsfm_peft_accuracy_recovery_v5_20260927/final_comparison.json), [CSV](research/tsfm_peft_accuracy_recovery_v5_20260927/final_comparison.csv)
+- [같은 회차 비용](research/tsfm_peft_accuracy_recovery_v5_20260927/cost01.json), [검산](research/tsfm_peft_accuracy_recovery_v5_20260927/final_checks.json)
+- [승인 계약](research/tsfm_peft_accuracy_recovery_v5_20260927/PLAN.md), [상태·예산·게시](research/tsfm_peft_accuracy_recovery_v5_20260927/STATUS.md), [준비 시간 계상 한계](research/tsfm_peft_accuracy_recovery_v5_20260927/preparation_accounting.json)

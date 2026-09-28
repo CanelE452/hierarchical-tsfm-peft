@@ -1,0 +1,19 @@
+{
+  "status": "complete_with_accounting_limitation",
+  "train_standardization": "Reused original TRAIN-only arrays/statistics; no new fit.",
+  "pca_calls": {
+    "hog_diagnostic_train_eigh": 1,
+    "bull_electricity_runtime_train_eigh": 12,
+    "breakdown": "8 training loads + 2 prediction loads + 2 aggregation loads"
+  },
+  "basis_use": "Hog reused existing basis; Bull/Electricity recomputed deterministic TRAIN covariance PCA on each load. No predictive-model attempt was hidden.",
+  "timing": "Included in enclosing ledger GPU/CPU analysis jobs; isolated PCA duration was not measured. data_prepare_seconds=0 means no standalone job, not zero preparation work.",
+  "limitation": "The approved separate preparation-timing request was only met at enclosing-job granularity; cannot reconstruct isolated time without inventing it. No unnecessary rerun to manufacture an old timing.",
+  "evidence": [
+    "runtime_v5.py:load_data",
+    "train_v5.py:main",
+    "evaluate_v5.py:predict and aggregate",
+    "repairs/diagnose01_executed.py",
+    "ledger.json"
+  ]
+}

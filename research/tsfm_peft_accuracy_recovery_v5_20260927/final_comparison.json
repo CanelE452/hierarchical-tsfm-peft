@@ -1,0 +1,3113 @@
+{
+  "status": "complete",
+  "evidence": "confirmed stored results; no new prediction or target scoring",
+  "evaluation_scope": "exposed development, mean individual-seed losses, no cross-dataset composite",
+  "datasets": {
+    "hog": {
+      "role_scores": {
+        "old_res": {
+          "test_a": {
+            "mse": 2.5487224648460884,
+            "mae": 0.8628658718145448
+          },
+          "test_b": {
+            "mse": 3.909009093701607,
+            "mae": 1.133340389296562
+          },
+          "combined": {
+            "mse": 3.220289617255274,
+            "mae": 0.9965223491859595
+          }
+        },
+        "old_raw": {
+          "test_a": {
+            "mse": 3.4595470914705553,
+            "mae": 1.128889152269096
+          },
+          "test_b": {
+            "mse": 5.752751434013145,
+            "mae": 1.5574243178673086
+          },
+          "combined": {
+            "mse": 4.59113491272831,
+            "mae": 1.3407601945456156
+          }
+        },
+        "f0": {
+          "test_a": {
+            "mse": 2.383851981594088,
+            "mae": 0.6013448553238903
+          },
+          "test_b": {
+            "mse": 3.1002837773240275,
+            "mae": 0.6724840321921141
+          },
+          "combined": {
+            "mse": 2.7380442153643942,
+            "mae": 0.6361020968432587
+          }
+        },
+        "lora": {
+          "test_a": {
+            "mse": 2.3863951907829617,
+            "mae": 0.5908244422095876
+          },
+          "test_b": {
+            "mse": 2.989048451841211,
+            "mae": 0.6486617124028949
+          },
+          "combined": {
+            "mse": 2.683559680642655,
+            "mae": 0.6189024191954751
+          }
+        },
+        "modified_res": {
+          "test_a": {
+            "mse": 2.2216592684418286,
+            "mae": 0.7233922877766341
+          },
+          "test_b": {
+            "mse": 3.119826558388075,
+            "mae": 0.8836830976291757
+          },
+          "combined": {
+            "mse": 2.666809359631549,
+            "mae": 0.8026490205905296
+          }
+        },
+        "modified_raw": {
+          "test_a": {
+            "mse": 2.4594917604315922,
+            "mae": 0.8188359658940244
+          },
+          "test_b": {
+            "mse": 3.447669972068005,
+            "mae": 0.9557181354679234
+          },
+          "combined": {
+            "mse": 2.94958378057785,
+            "mae": 0.8864554100324473
+          }
+        },
+        "level_only": {
+          "test_a": {
+            "mse": 2.652519871210341,
+            "mae": 0.828735286188387
+          },
+          "test_b": {
+            "mse": 3.6240162719948437,
+            "mae": 0.9462595798118361
+          },
+          "combined": {
+            "mse": 3.1328370060562936,
+            "mae": 0.8865850770046579
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "name": "modified_res_minus_old_res",
+          "left": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right": [
+            "v4_hog_tsfm_res_fixed_ed_92601",
+            "v4_hog_tsfm_res_fixed_ed_92602"
+          ],
+          "direction": "modified_res minus old_res; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "v4_hog_tsfm_res_fixed_ed_92601",
+            "v4_hog_tsfm_res_fixed_ed_92602"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "test_a": {
+              "full": {
+                "left_mse": 2.2216592684418277,
+                "reference_mse": 2.5487224648460884,
+                "delta_mse": -0.32706319640426074,
+                "relative_to_reference_pct": -12.83243667819326
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v4_hog_tsfm_res_fixed_ed_92601",
+                  "left_mse": 2.2150536800472014,
+                  "reference_mse": 2.511488378959633,
+                  "delta_mse": -0.29643469891243157,
+                  "relative_to_reference_pct": -11.80314834007823
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v4_hog_tsfm_res_fixed_ed_92602",
+                  "left_mse": 2.2282648568364554,
+                  "reference_mse": 2.5859565507325435,
+                  "delta_mse": -0.3576916938960881,
+                  "relative_to_reference_pct": -13.832084448393461
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.5385696055888851,
+                  -0.21002224141231346
+                ],
+                "relative_to_reference_pct": [
+                  -18.69768576386348,
+                  -10.186124798816637
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a"
+              ]
+            },
+            "test_b": {
+              "full": {
+                "left_mse": 3.119826558388075,
+                "reference_mse": 3.909009093701607,
+                "delta_mse": -0.789182535313532,
+                "relative_to_reference_pct": -20.188812980381723
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v4_hog_tsfm_res_fixed_ed_92601",
+                  "left_mse": 3.1146835096696432,
+                  "reference_mse": 3.8115869984886332,
+                  "delta_mse": -0.69690348881899,
+                  "relative_to_reference_pct": -18.28381430347321
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v4_hog_tsfm_res_fixed_ed_92602",
+                  "left_mse": 3.1249696071065065,
+                  "reference_mse": 4.006431188914581,
+                  "delta_mse": -0.8814615818080744,
+                  "relative_to_reference_pct": -22.001166131269045
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -1.0813285167767048,
+                  -0.6494507473084903
+                ],
+                "relative_to_reference_pct": [
+                  -28.03815244102019,
+                  -15.484670397587001
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_b"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 2.666809359631549,
+                "reference_mse": 3.2202896172552746,
+                "delta_mse": -0.5534802576237254,
+                "relative_to_reference_pct": -17.187281996563687
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v4_hog_tsfm_res_fixed_ed_92601",
+                  "left_mse": 2.6609325242076025,
+                  "reference_mse": 3.1534037414071117,
+                  "delta_mse": -0.49247121719950915,
+                  "relative_to_reference_pct": -15.617131759340104
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v4_hog_tsfm_res_fixed_ed_92602",
+                  "left_mse": 2.672686195055496,
+                  "reference_mse": 3.2871754931034367,
+                  "delta_mse": -0.6144892980479408,
+                  "relative_to_reference_pct": -18.69353490062068
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.7539589686816812,
+                  -0.4794060510666783
+                ],
+                "relative_to_reference_pct": [
+                  -22.91956052793893,
+                  -14.955253091278756
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a",
+                "test_b"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_modified_raw",
+          "left": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right": [
+            "v5_hog_level_raw_92601",
+            "v5_hog_level_raw_92602"
+          ],
+          "direction": "modified_res minus modified_raw; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "v5_hog_level_raw_92601",
+            "v5_hog_level_raw_92602"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "test_a": {
+              "full": {
+                "left_mse": 2.2216592684418277,
+                "reference_mse": 2.4594917604315922,
+                "delta_mse": -0.23783249198976453,
+                "relative_to_reference_pct": -9.669985312251244
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v5_hog_level_raw_92601",
+                  "left_mse": 2.2150536800472014,
+                  "reference_mse": 2.4738369524083144,
+                  "delta_mse": -0.258783272361113,
+                  "relative_to_reference_pct": -10.460805515463898
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v5_hog_level_raw_92602",
+                  "left_mse": 2.2282648568364554,
+                  "reference_mse": 2.44514656845487,
+                  "delta_mse": -0.21688171161841474,
+                  "relative_to_reference_pct": -8.869885937163513
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.4429596618391872,
+                  -0.0857535555875863
+                ],
+                "relative_to_reference_pct": [
+                  -14.955440200211696,
+                  -4.523078448224867
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a"
+              ]
+            },
+            "test_b": {
+              "full": {
+                "left_mse": 3.119826558388075,
+                "reference_mse": 3.447669972068004,
+                "delta_mse": -0.3278434136799291,
+                "relative_to_reference_pct": -9.5091298278553
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v5_hog_level_raw_92601",
+                  "left_mse": 3.1146835096696432,
+                  "reference_mse": 3.3687895733704862,
+                  "delta_mse": -0.254106063700843,
+                  "relative_to_reference_pct": -7.542948532894233
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v5_hog_level_raw_92602",
+                  "left_mse": 3.1249696071065065,
+                  "reference_mse": 3.5265503707655235,
+                  "delta_mse": -0.40158076365901696,
+                  "relative_to_reference_pct": -11.387353686708977
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.4731469925810434,
+                  -0.07197807139207554
+                ],
+                "relative_to_reference_pct": [
+                  -14.551962437530113,
+                  -2.0894741324240838
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_b"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 2.666809359631549,
+                "reference_mse": 2.94958378057785,
+                "delta_mse": -0.2827744209463008,
+                "relative_to_reference_pct": -9.586926223567135
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v5_hog_level_raw_92601",
+                  "left_mse": 2.6609325242076025,
+                  "reference_mse": 2.9170756322703837,
+                  "delta_mse": -0.2561431080627812,
+                  "relative_to_reference_pct": -8.780818201255308
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v5_hog_level_raw_92602",
+                  "left_mse": 2.672686195055496,
+                  "reference_mse": 2.982091928885316,
+                  "delta_mse": -0.30940573382981995,
+                  "relative_to_reference_pct": -10.375459281883156
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.39581842126951183,
+                  -0.12120106581232326
+                ],
+                "relative_to_reference_pct": [
+                  -13.194212325561171,
+                  -4.448638999994248
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a",
+                "test_b"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_f0",
+          "left": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right": [
+            "v4_hog_f0"
+          ],
+          "direction": "modified_res minus f0; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "v4_hog_f0",
+            "v4_hog_f0"
+          ],
+          "deterministic_reference_broadcast": true,
+          "periods": {
+            "test_a": {
+              "full": {
+                "left_mse": 2.2216592684418277,
+                "reference_mse": 2.383851981594088,
+                "delta_mse": -0.16219271315226047,
+                "relative_to_reference_pct": -6.803808055389486
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v4_hog_f0",
+                  "left_mse": 2.2150536800472014,
+                  "reference_mse": 2.383851981594088,
+                  "delta_mse": -0.1687983015468868,
+                  "relative_to_reference_pct": -7.080905309985351
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v4_hog_f0",
+                  "left_mse": 2.2282648568364554,
+                  "reference_mse": 2.383851981594088,
+                  "delta_mse": -0.1555871247576328,
+                  "relative_to_reference_pct": -6.526710800793566
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.371332867340529,
+                  0.04350722928784969
+                ],
+                "relative_to_reference_pct": [
+                  -14.688347337906269,
+                  2.0775238899133917
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a"
+              ]
+            },
+            "test_b": {
+              "full": {
+                "left_mse": 3.119826558388075,
+                "reference_mse": 3.1002837773240275,
+                "delta_mse": 0.01954278106404761,
+                "relative_to_reference_pct": 0.6303545890536422
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v4_hog_f0",
+                  "left_mse": 3.1146835096696432,
+                  "reference_mse": 3.1002837773240275,
+                  "delta_mse": 0.014399732345615757,
+                  "relative_to_reference_pct": 0.4644649773978017
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v4_hog_f0",
+                  "left_mse": 3.1249696071065065,
+                  "reference_mse": 3.1002837773240275,
+                  "delta_mse": 0.02468582978247902,
+                  "relative_to_reference_pct": 0.7962442007094684
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.3576844734986269,
+                  0.1701146215646191
+                ],
+                "relative_to_reference_pct": [
+                  -10.64846892345501,
+                  6.1280611824903515
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_b"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 2.666809359631549,
+                "reference_mse": 2.7380442153643942,
+                "delta_mse": -0.07123485573284505,
+                "relative_to_reference_pct": -2.6016692985859877
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v4_hog_f0",
+                  "left_mse": 2.6609325242076025,
+                  "reference_mse": 2.7380442153643942,
+                  "delta_mse": -0.07711169115679173,
+                  "relative_to_reference_pct": -2.8163055484671666
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v4_hog_f0",
+                  "left_mse": 2.672686195055496,
+                  "reference_mse": 2.7380442153643942,
+                  "delta_mse": -0.06535802030889837,
+                  "relative_to_reference_pct": -2.3870330487048093
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.2959743674644886,
+                  0.032730541851993665
+                ],
+                "relative_to_reference_pct": [
+                  -10.226545998991822,
+                  1.3858862627762216
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a",
+                "test_b"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_lora",
+          "left": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right": [
+            "v4_hog_lora_92601",
+            "v4_hog_lora_92602"
+          ],
+          "direction": "modified_res minus lora; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "v4_hog_lora_92601",
+            "v4_hog_lora_92602"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "test_a": {
+              "full": {
+                "left_mse": 2.2216592684418277,
+                "reference_mse": 2.3863951907829617,
+                "delta_mse": -0.164735922341134,
+                "relative_to_reference_pct": -6.903128324151757
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v4_hog_lora_92601",
+                  "left_mse": 2.2150536800472014,
+                  "reference_mse": 2.376393626101699,
+                  "delta_mse": -0.16133994605449775,
+                  "relative_to_reference_pct": -6.789277007074126
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v4_hog_lora_92602",
+                  "left_mse": 2.2282648568364554,
+                  "reference_mse": 2.3963967554642243,
+                  "delta_mse": -0.1681318986277689,
+                  "relative_to_reference_pct": -7.016029305013759
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.4156681996969461,
+                  0.02965040862693878
+                ],
+                "relative_to_reference_pct": [
+                  -16.202021250120804,
+                  1.5676901769841463
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a"
+              ]
+            },
+            "test_b": {
+              "full": {
+                "left_mse": 3.119826558388075,
+                "reference_mse": 2.989048451841211,
+                "delta_mse": 0.13077810654686406,
+                "relative_to_reference_pct": 4.375242109786029
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v4_hog_lora_92601",
+                  "left_mse": 3.1146835096696432,
+                  "reference_mse": 2.98932435674055,
+                  "delta_mse": 0.1253591529290934,
+                  "relative_to_reference_pct": 4.1935614195369695
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v4_hog_lora_92602",
+                  "left_mse": 3.1249696071065065,
+                  "reference_mse": 2.9887725469418718,
+                  "delta_mse": 0.13619706016463473,
+                  "relative_to_reference_pct": 4.556956343298599
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.16025986811394316,
+                  0.208450683167214
+                ],
+                "relative_to_reference_pct": [
+                  -4.865492910351533,
+                  7.885845044013506
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_b"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 2.666809359631549,
+                "reference_mse": 2.683559680642655,
+                "delta_mse": -0.01675032101110574,
+                "relative_to_reference_pct": -0.62418291390838
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "v4_hog_lora_92601",
+                  "left_mse": 2.6609325242076025,
+                  "reference_mse": 2.678683265479899,
+                  "delta_mse": -0.017750741272296366,
+                  "relative_to_reference_pct": -0.6626666728780357
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "v4_hog_lora_92602",
+                  "left_mse": 2.672686195055496,
+                  "reference_mse": 2.6884360958054114,
+                  "delta_mse": -0.015749900749915557,
+                  "relative_to_reference_pct": -0.5858387623380404
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.223763744638055,
+                  0.06359437647826197
+                ],
+                "relative_to_reference_pct": [
+                  -7.865192902348296,
+                  2.581963428410658
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a",
+                "test_b"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_raw_minus_old_raw",
+          "left": [
+            "v5_hog_level_raw_92601",
+            "v5_hog_level_raw_92602"
+          ],
+          "right": [
+            "v4_hog_tsfm_raw_fixed_ed_92601",
+            "v4_hog_tsfm_raw_fixed_ed_92602"
+          ],
+          "direction": "modified_raw minus old_raw; negative favors modified_raw",
+          "left_seed_ids": [
+            "v5_hog_level_raw_92601",
+            "v5_hog_level_raw_92602"
+          ],
+          "right_seed_ids": [
+            "v4_hog_tsfm_raw_fixed_ed_92601",
+            "v4_hog_tsfm_raw_fixed_ed_92602"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "test_a": {
+              "full": {
+                "left_mse": 2.4594917604315922,
+                "reference_mse": 3.4595470914705553,
+                "delta_mse": -1.000055331038963,
+                "relative_to_reference_pct": -28.907117162954066
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_raw_92601",
+                  "right_id": "v4_hog_tsfm_raw_fixed_ed_92601",
+                  "left_mse": 2.4738369524083144,
+                  "reference_mse": 3.4595470914705553,
+                  "delta_mse": -0.9857101390622409,
+                  "relative_to_reference_pct": -28.49246196106102
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_raw_92602",
+                  "right_id": "v4_hog_tsfm_raw_fixed_ed_92602",
+                  "left_mse": 2.44514656845487,
+                  "reference_mse": 3.4595470914705553,
+                  "delta_mse": -1.0144005230156852,
+                  "relative_to_reference_pct": -29.321772364847106
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -1.4936435330750122,
+                  -0.684170411372217
+                ],
+                "relative_to_reference_pct": [
+                  -38.9134670621079,
+                  -22.976033156557396
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a"
+              ]
+            },
+            "test_b": {
+              "full": {
+                "left_mse": 3.447669972068004,
+                "reference_mse": 5.752751434013145,
+                "delta_mse": -2.305081461945141,
+                "relative_to_reference_pct": -40.069199727913606
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_raw_92601",
+                  "right_id": "v4_hog_tsfm_raw_fixed_ed_92601",
+                  "left_mse": 3.3687895733704862,
+                  "reference_mse": 5.752751434013145,
+                  "delta_mse": -2.383961860642659,
+                  "relative_to_reference_pct": -41.44037662652142
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_raw_92602",
+                  "right_id": "v4_hog_tsfm_raw_fixed_ed_92602",
+                  "left_mse": 3.5265503707655235,
+                  "reference_mse": 5.752751434013145,
+                  "delta_mse": -2.226201063247622,
+                  "relative_to_reference_pct": -38.69802282930577
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -3.1491207921637128,
+                  -1.8592751425023784
+                ],
+                "relative_to_reference_pct": [
+                  -51.65159438951943,
+                  -32.575733486614105
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_b"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 2.94958378057785,
+                "reference_mse": 4.59113491272831,
+                "delta_mse": -1.6415511321504601,
+                "relative_to_reference_pct": -35.75480057446097
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_raw_92601",
+                  "right_id": "v4_hog_tsfm_raw_fixed_ed_92601",
+                  "left_mse": 2.9170756322703837,
+                  "reference_mse": 4.59113491272831,
+                  "delta_mse": -1.6740592804579264,
+                  "relative_to_reference_pct": -36.462864025555426
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_raw_92602",
+                  "right_id": "v4_hog_tsfm_raw_fixed_ed_92602",
+                  "left_mse": 2.982091928885316,
+                  "reference_mse": 4.59113491272831,
+                  "delta_mse": -1.6090429838429943,
+                  "relative_to_reference_pct": -35.04673712336653
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -2.1809136212740348,
+                  -1.4198791861741504
+                ],
+                "relative_to_reference_pct": [
+                  -45.2228747090384,
+                  -31.366312042982987
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a",
+                "test_b"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_level_only",
+          "left": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right": [
+            "hog_level_only"
+          ],
+          "direction": "modified_res minus level_only; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_hog_level_res_92601",
+            "v5_hog_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "hog_level_only",
+            "hog_level_only"
+          ],
+          "deterministic_reference_broadcast": true,
+          "periods": {
+            "test_a": {
+              "full": {
+                "left_mse": 2.2216592684418277,
+                "reference_mse": 2.652519871210341,
+                "delta_mse": -0.43086060276851335,
+                "relative_to_reference_pct": -16.24344486331453
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "hog_level_only",
+                  "left_mse": 2.2150536800472014,
+                  "reference_mse": 2.652519871210341,
+                  "delta_mse": -0.4374661911631397,
+                  "relative_to_reference_pct": -16.492475547922076
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "hog_level_only",
+                  "left_mse": 2.2282648568364554,
+                  "reference_mse": 2.652519871210341,
+                  "delta_mse": -0.4242550143738857,
+                  "relative_to_reference_pct": -15.994414178706934
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.7620995548868601,
+                  -0.17150424681223383
+                ],
+                "relative_to_reference_pct": [
+                  -24.27430043317075,
+                  -8.166653318393461
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a"
+              ]
+            },
+            "test_b": {
+              "full": {
+                "left_mse": 3.119826558388075,
+                "reference_mse": 3.6240162719948437,
+                "delta_mse": -0.5041897136067686,
+                "relative_to_reference_pct": -13.912457223301505
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "hog_level_only",
+                  "left_mse": 3.1146835096696432,
+                  "reference_mse": 3.6240162719948437,
+                  "delta_mse": -0.5093327623252004,
+                  "relative_to_reference_pct": -14.054372941455853
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "hog_level_only",
+                  "left_mse": 3.1249696071065065,
+                  "reference_mse": 3.6240162719948437,
+                  "delta_mse": -0.49904666488833715,
+                  "relative_to_reference_pct": -13.77054150514717
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.8861843096817854,
+                  -0.3222925761165831
+                ],
+                "relative_to_reference_pct": [
+                  -24.49831783668813,
+                  -9.328648139769504
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_b"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 2.666809359631549,
+                "reference_mse": 3.1328370060562936,
+                "delta_mse": -0.46602764642474437,
+                "relative_to_reference_pct": -14.87557908451144
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_hog_level_res_92601",
+                  "right_id": "hog_level_only",
+                  "left_mse": 2.6609325242076025,
+                  "reference_mse": 3.1328370060562936,
+                  "delta_mse": -0.47190448184869105,
+                  "relative_to_reference_pct": -15.063167376292524
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_hog_level_res_92602",
+                  "right_id": "hog_level_only",
+                  "left_mse": 2.672686195055496,
+                  "reference_mse": 3.1328370060562936,
+                  "delta_mse": -0.4601508110007977,
+                  "relative_to_reference_pct": -14.687990792730353
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.7405788613422468,
+                  -0.3233410806052039
+                ],
+                "relative_to_reference_pct": [
+                  -22.082098578867395,
+                  -11.204709437616458
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "test_a",
+                "test_b"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        }
+      ],
+      "models": {
+        "old_res": [
+          "v4_hog_tsfm_res_fixed_ed_92601",
+          "v4_hog_tsfm_res_fixed_ed_92602"
+        ],
+        "old_raw": [
+          "v4_hog_tsfm_raw_fixed_ed_92601",
+          "v4_hog_tsfm_raw_fixed_ed_92602"
+        ],
+        "f0": [
+          "v4_hog_f0"
+        ],
+        "lora": [
+          "v4_hog_lora_92601",
+          "v4_hog_lora_92602"
+        ],
+        "modified_res": [
+          "v5_hog_level_res_92601",
+          "v5_hog_level_res_92602"
+        ],
+        "modified_raw": [
+          "v5_hog_level_raw_92601",
+          "v5_hog_level_raw_92602"
+        ],
+        "level_only": [
+          "hog_level_only"
+        ]
+      }
+    },
+    "bull": {
+      "role_scores": {
+        "old_res": {
+          "e1": {
+            "mse": 0.21036526629203323,
+            "mae": 0.26623992806293967
+          },
+          "e2": {
+            "mse": 1.2465803086316969,
+            "mae": 0.44375713179079057
+          },
+          "combined": {
+            "mse": 0.7276590894539953,
+            "mae": 0.3548177099618239
+          }
+        },
+        "old_raw": {
+          "e1": {
+            "mse": 0.5338667843349765,
+            "mae": 0.4571032740326757
+          },
+          "e2": {
+            "mse": 1.3329999679035938,
+            "mae": 0.5516845646697248
+          },
+          "combined": {
+            "mse": 0.9328559446169904,
+            "mae": 0.5042897043736825
+          }
+        },
+        "f0": {
+          "e1": {
+            "mse": 0.16436700644441288,
+            "mae": 0.20816571349750462
+          },
+          "e2": {
+            "mse": 1.2013833913921323,
+            "mae": 0.37823874189648854
+          },
+          "combined": {
+            "mse": 0.6820521549488907,
+            "mae": 0.29303154766120465
+          }
+        },
+        "lora": {
+          "e1": {
+            "mse": 0.1620500038683827,
+            "mae": 0.20493511824749738
+          },
+          "e2": {
+            "mse": 1.1919756085191344,
+            "mae": 0.40446666008174886
+          },
+          "combined": {
+            "mse": 0.6761906256013395,
+            "mae": 0.3044927590294407
+          }
+        },
+        "modified_res": {
+          "e1": {
+            "mse": 0.1849720329393787,
+            "mae": 0.2482943210389332
+          },
+          "e2": {
+            "mse": 1.2339125935361792,
+            "mae": 0.4347307491434688
+          },
+          "combined": {
+            "mse": 0.7086160568815505,
+            "mae": 0.34132619189578606
+          }
+        },
+        "modified_raw": {
+          "e1": {
+            "mse": 0.21931665432109854,
+            "mae": 0.2895819690637514
+          },
+          "e2": {
+            "mse": 1.1775687037897196,
+            "mae": 0.513454997476525
+          },
+          "combined": {
+            "mse": 0.6977311779539122,
+            "mae": 0.4012875882577229
+          }
+        },
+        "level_only": {
+          "e1": {
+            "mse": 0.23507606824037183,
+            "mae": 0.3038025039993746
+          },
+          "e2": {
+            "mse": 1.2894363174764027,
+            "mae": 0.4863363292265489
+          },
+          "combined": {
+            "mse": 0.7614323361824543,
+            "mae": 0.39488662560581556
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "name": "modified_res_minus_old_res",
+          "left": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right": [
+            "v2_bull_residual_fixed_ed_92601",
+            "v2_bull_residual_fixed_ed_92602"
+          ],
+          "direction": "modified_res minus old_res; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "v2_bull_residual_fixed_ed_92601",
+            "v2_bull_residual_fixed_ed_92602"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "e1": {
+              "full": {
+                "left_mse": 0.18497203293937867,
+                "reference_mse": 0.2103652662920332,
+                "delta_mse": -0.025393233352654532,
+                "relative_to_reference_pct": -12.071019993102448
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "v2_bull_residual_fixed_ed_92601",
+                  "left_mse": 0.1867963767021198,
+                  "reference_mse": 0.2125151857977471,
+                  "delta_mse": -0.02571880909562732,
+                  "relative_to_reference_pct": -12.102104138621028
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "v2_bull_residual_fixed_ed_92602",
+                  "left_mse": 0.1831476891766376,
+                  "reference_mse": 0.20821534678631934,
+                  "delta_mse": -0.025067657609681743,
+                  "relative_to_reference_pct": -12.039293931300552
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.07203281504889304,
+                  -0.0003106058219943721
+                ],
+                "relative_to_reference_pct": [
+                  -27.251014738316158,
+                  -0.1599428299716033
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1"
+              ]
+            },
+            "e2": {
+              "full": {
+                "left_mse": 1.233912593536179,
+                "reference_mse": 1.2465803086316969,
+                "delta_mse": -0.012667715095517895,
+                "relative_to_reference_pct": -1.0161972724743706
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "v2_bull_residual_fixed_ed_92601",
+                  "left_mse": 1.2331551537867251,
+                  "reference_mse": 1.2466995708721402,
+                  "delta_mse": -0.013544417085415095,
+                  "relative_to_reference_pct": -1.0864218936034422
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "v2_bull_residual_fixed_ed_92602",
+                  "left_mse": 1.2346700332856333,
+                  "reference_mse": 1.2464610463912538,
+                  "delta_mse": -0.011791013105620474,
+                  "relative_to_reference_pct": -0.945959213066284
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.026528366133465202,
+                  -0.00834085031066647
+                ],
+                "relative_to_reference_pct": [
+                  -13.127623410098819,
+                  -0.41308310086190964
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e2"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.7086160568815505,
+                "reference_mse": 0.7276590894539952,
+                "delta_mse": -0.019043032572444663,
+                "relative_to_reference_pct": -2.617026688518899
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "v2_bull_residual_fixed_ed_92601",
+                  "left_mse": 0.7091506124678357,
+                  "reference_mse": 0.7287950350886168,
+                  "delta_mse": -0.019644422620781032,
+                  "relative_to_reference_pct": -2.6954660329693927
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "v2_bull_residual_fixed_ed_92602",
+                  "left_mse": 0.7080815012952654,
+                  "reference_mse": 0.7265231438193738,
+                  "delta_mse": -0.018441642524108404,
+                  "relative_to_reference_pct": -2.5383420584731318
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.04532494650665424,
+                  -0.0073832273134673675
+                ],
+                "relative_to_reference_pct": [
+                  -19.10722025199864,
+                  -1.0654307215422145
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1",
+                "e2"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_modified_raw",
+          "left": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right": [
+            "v5_bull_level_raw_92601",
+            "v5_bull_level_raw_92602"
+          ],
+          "direction": "modified_res minus modified_raw; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "v5_bull_level_raw_92601",
+            "v5_bull_level_raw_92602"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "e1": {
+              "full": {
+                "left_mse": 0.18497203293937867,
+                "reference_mse": 0.21931665432109854,
+                "delta_mse": -0.03434462138171987,
+                "relative_to_reference_pct": -15.659832805691252
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "v5_bull_level_raw_92601",
+                  "left_mse": 0.1867963767021198,
+                  "reference_mse": 0.22115596123061204,
+                  "delta_mse": -0.03435958452849225,
+                  "relative_to_reference_pct": -15.536359199770128
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "v5_bull_level_raw_92602",
+                  "left_mse": 0.1831476891766376,
+                  "reference_mse": 0.217477347411585,
+                  "delta_mse": -0.03432965823494741,
+                  "relative_to_reference_pct": -15.785394958849249
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.04432156427465682,
+                  -0.027920690198182177
+                ],
+                "relative_to_reference_pct": [
+                  -23.377172390944313,
+                  -10.861224236235701
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1"
+              ]
+            },
+            "e2": {
+              "full": {
+                "left_mse": 1.233912593536179,
+                "reference_mse": 1.1775687037897198,
+                "delta_mse": 0.05634388974645921,
+                "relative_to_reference_pct": 4.784764537740349
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "v5_bull_level_raw_92601",
+                  "left_mse": 1.2331551537867251,
+                  "reference_mse": 1.1714965581136116,
+                  "delta_mse": 0.06165859567311349,
+                  "relative_to_reference_pct": 5.263233190577914
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "v5_bull_level_raw_92602",
+                  "left_mse": 1.2346700332856333,
+                  "reference_mse": 1.1836408494658275,
+                  "delta_mse": 0.05102918381980581,
+                  "relative_to_reference_pct": 4.3112050283525685
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.0920090846293013,
+                  0.3314248368449648
+                ],
+                "relative_to_reference_pct": [
+                  -38.8839816592109,
+                  20.44390950580367
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e2"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.7086160568815505,
+                "reference_mse": 0.6977311779539124,
+                "delta_mse": 0.01088487892763812,
+                "relative_to_reference_pct": 1.5600390625452465
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "v5_bull_level_raw_92601",
+                  "left_mse": 0.7091506124678357,
+                  "reference_mse": 0.6956262040172301,
+                  "delta_mse": 0.013524408450605652,
+                  "relative_to_reference_pct": 1.9442062953497743
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "v5_bull_level_raw_92602",
+                  "left_mse": 0.7080815012952654,
+                  "reference_mse": 0.6998361518905942,
+                  "delta_mse": 0.008245349404671143,
+                  "relative_to_reference_pct": 1.1781828335670408
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.06482254770196175,
+                  0.14598561624542195
+                ],
+                "relative_to_reference_pct": [
+                  -28.590001130185122,
+                  14.134553996344932
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1",
+                "e2"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_f0",
+          "left": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right": [
+            "f0"
+          ],
+          "direction": "modified_res minus f0; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "f0",
+            "f0"
+          ],
+          "deterministic_reference_broadcast": true,
+          "periods": {
+            "e1": {
+              "full": {
+                "left_mse": 0.18497203293937867,
+                "reference_mse": 0.16436700644441288,
+                "delta_mse": 0.02060502649496579,
+                "relative_to_reference_pct": 12.53598696033573
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "f0",
+                  "left_mse": 0.1867963767021198,
+                  "reference_mse": 0.16436700644441288,
+                  "delta_mse": 0.022429370257706915,
+                  "relative_to_reference_pct": 13.645907863688134
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "f0",
+                  "left_mse": 0.1831476891766376,
+                  "reference_mse": 0.16436700644441288,
+                  "delta_mse": 0.01878068273222472,
+                  "relative_to_reference_pct": 11.426066056983364
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.0017368030354351315,
+                  0.03227942136467308
+                ],
+                "relative_to_reference_pct": [
+                  -1.0225675750941188,
+                  18.935479845140183
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1"
+              ]
+            },
+            "e2": {
+              "full": {
+                "left_mse": 1.233912593536179,
+                "reference_mse": 1.2013833913921323,
+                "delta_mse": 0.03252920214404664,
+                "relative_to_reference_pct": 2.7076454008867756
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "f0",
+                  "left_mse": 1.2331551537867251,
+                  "reference_mse": 1.2013833913921323,
+                  "delta_mse": 0.031771762394592784,
+                  "relative_to_reference_pct": 2.644598104338406
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "f0",
+                  "left_mse": 1.2346700332856333,
+                  "reference_mse": 1.2013833913921323,
+                  "delta_mse": 0.033286641893500946,
+                  "relative_to_reference_pct": 2.7706926974351824
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.00939289415723425,
+                  0.06426921256699417
+                ],
+                "relative_to_reference_pct": [
+                  -3.994188708345353,
+                  41.43450569369065
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e2"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.7086160568815505,
+                "reference_mse": 0.6820521549488907,
+                "delta_mse": 0.026563901932659784,
+                "relative_to_reference_pct": 3.894702441729011
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "f0",
+                  "left_mse": 0.7091506124678357,
+                  "reference_mse": 0.6820521549488907,
+                  "delta_mse": 0.02709845751894502,
+                  "relative_to_reference_pct": 3.973077032646518
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "f0",
+                  "left_mse": 0.7080815012952654,
+                  "reference_mse": 0.6820521549488907,
+                  "delta_mse": 0.02602934634637466,
+                  "relative_to_reference_pct": 3.81632785081152
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  0.0006907789451419145,
+                  0.04106351398459126
+                ],
+                "relative_to_reference_pct": [
+                  0.19162754812224114,
+                  22.62008418989294
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1",
+                "e2"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_lora",
+          "left": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right": [
+            "bull_final_lora_92601_0.0001",
+            "bull_final_lora_92602_0.0001"
+          ],
+          "direction": "modified_res minus lora; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "bull_final_lora_92601_0.0001",
+            "bull_final_lora_92602_0.0001"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "e1": {
+              "full": {
+                "left_mse": 0.18497203293937867,
+                "reference_mse": 0.1620500038683827,
+                "delta_mse": 0.02292202907099597,
+                "relative_to_reference_pct": 14.145034571929589
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "bull_final_lora_92601_0.0001",
+                  "left_mse": 0.1867963767021198,
+                  "reference_mse": 0.1629887987142602,
+                  "delta_mse": 0.023807577987859596,
+                  "relative_to_reference_pct": 14.60687984429977
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "bull_final_lora_92602_0.0001",
+                  "left_mse": 0.1831476891766376,
+                  "reference_mse": 0.1611112090225052,
+                  "delta_mse": 0.0220364801541324,
+                  "relative_to_reference_pct": 13.677806955724714
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  0.005014262448620423,
+                  0.03281970401763045
+                ],
+                "relative_to_reference_pct": [
+                  3.1173954507790724,
+                  18.82298221173373
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1"
+              ]
+            },
+            "e2": {
+              "full": {
+                "left_mse": 1.233912593536179,
+                "reference_mse": 1.1919756085191349,
+                "delta_mse": 0.041936985017044126,
+                "relative_to_reference_pct": 3.5182754342721023
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "bull_final_lora_92601_0.0001",
+                  "left_mse": 1.2331551537867251,
+                  "reference_mse": 1.1792877805529267,
+                  "delta_mse": 0.05386737323379842,
+                  "relative_to_reference_pct": 4.567788636675426
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "bull_final_lora_92602_0.0001",
+                  "left_mse": 1.2346700332856333,
+                  "reference_mse": 1.2046634364853424,
+                  "delta_mse": 0.03000659680029094,
+                  "relative_to_reference_pct": 2.4908697227365417
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.00485642852975741,
+                  0.3171410379714085
+                ],
+                "relative_to_reference_pct": [
+                  -0.16345670366924883,
+                  151.66434460190482
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e2"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.7086160568815505,
+                "reference_mse": 0.6761906256013396,
+                "delta_mse": 0.032425431280210915,
+                "relative_to_reference_pct": 4.795309200179287
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "bull_final_lora_92601_0.0001",
+                  "left_mse": 0.7091506124678357,
+                  "reference_mse": 0.6703340954730707,
+                  "delta_mse": 0.03881651699476507,
+                  "relative_to_reference_pct": 5.790622505539023
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "bull_final_lora_92602_0.0001",
+                  "left_mse": 0.7080815012952654,
+                  "reference_mse": 0.6820471557296084,
+                  "delta_mse": 0.02603434556565698,
+                  "relative_to_reference_pct": 3.8170887961268867
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  0.002861941031464536,
+                  0.16760704991707345
+                ],
+                "relative_to_reference_pct": [
+                  0.2753400163460937,
+                  52.57371978870076
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1",
+                "e2"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_raw_minus_old_raw",
+          "left": [
+            "v5_bull_level_raw_92601",
+            "v5_bull_level_raw_92602"
+          ],
+          "right": [
+            "v2_bull_raw_bypass_fixed_ed_92601",
+            "v2_bull_raw_bypass_fixed_ed_92602"
+          ],
+          "direction": "modified_raw minus old_raw; negative favors modified_raw",
+          "left_seed_ids": [
+            "v5_bull_level_raw_92601",
+            "v5_bull_level_raw_92602"
+          ],
+          "right_seed_ids": [
+            "v2_bull_raw_bypass_fixed_ed_92601",
+            "v2_bull_raw_bypass_fixed_ed_92602"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "e1": {
+              "full": {
+                "left_mse": 0.21931665432109854,
+                "reference_mse": 0.5338667843349764,
+                "delta_mse": -0.3145501300138778,
+                "relative_to_reference_pct": -58.91921716120709
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_raw_92601",
+                  "right_id": "v2_bull_raw_bypass_fixed_ed_92601",
+                  "left_mse": 0.22115596123061204,
+                  "reference_mse": 0.5407864232719338,
+                  "delta_mse": -0.3196304620413218,
+                  "relative_to_reference_pct": -59.104749728636584
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_raw_92602",
+                  "right_id": "v2_bull_raw_bypass_fixed_ed_92602",
+                  "left_mse": 0.217477347411585,
+                  "reference_mse": 0.526947145398019,
+                  "delta_mse": -0.30946979798643404,
+                  "relative_to_reference_pct": -58.72881192907539
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.5442422039304143,
+                  -0.21456854994944138
+                ],
+                "relative_to_reference_pct": [
+                  -71.82601003177179,
+                  -50.82593911163855
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1"
+              ]
+            },
+            "e2": {
+              "full": {
+                "left_mse": 1.1775687037897198,
+                "reference_mse": 1.332999967903594,
+                "delta_mse": -0.1554312641138742,
+                "relative_to_reference_pct": -11.660260154268464
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_raw_92601",
+                  "right_id": "v2_bull_raw_bypass_fixed_ed_92601",
+                  "left_mse": 1.1714965581136116,
+                  "reference_mse": 1.3364726936385378,
+                  "delta_mse": -0.16497613552492618,
+                  "relative_to_reference_pct": -12.34414562378972
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_raw_92602",
+                  "right_id": "v2_bull_raw_bypass_fixed_ed_92602",
+                  "left_mse": 1.1836408494658275,
+                  "reference_mse": 1.32952724216865,
+                  "delta_mse": -0.14588639270282244,
+                  "relative_to_reference_pct": -10.97280206645941
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.35572110363816,
+                  -0.06006387832757229
+                ],
+                "relative_to_reference_pct": [
+                  -38.27165957001208,
+                  -9.649237562334154
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e2"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.6977311779539124,
+                "reference_mse": 0.9328559446169903,
+                "delta_mse": -0.2351247666630779,
+                "relative_to_reference_pct": -25.204831251797923
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_raw_92601",
+                  "right_id": "v2_bull_raw_bypass_fixed_ed_92601",
+                  "left_mse": 0.6956262040172301,
+                  "reference_mse": 0.9380573303479862,
+                  "delta_mse": -0.24243112633075614,
+                  "relative_to_reference_pct": -25.84395627939102
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_raw_92602",
+                  "right_id": "v2_bull_raw_bypass_fixed_ed_92602",
+                  "left_mse": 0.6998361518905942,
+                  "reference_mse": 0.9276545588859947,
+                  "delta_mse": -0.22781840699540046,
+                  "relative_to_reference_pct": -24.55853903946571
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.39727963018934265,
+                  -0.16005826046683883
+                ],
+                "relative_to_reference_pct": [
+                  -57.46393415310964,
+                  -19.183004877066345
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1",
+                "e2"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_level_only",
+          "left": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right": [
+            "bull_level_only"
+          ],
+          "direction": "modified_res minus level_only; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_bull_level_res_92601",
+            "v5_bull_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "bull_level_only",
+            "bull_level_only"
+          ],
+          "deterministic_reference_broadcast": true,
+          "periods": {
+            "e1": {
+              "full": {
+                "left_mse": 0.18497203293937867,
+                "reference_mse": 0.23507606824037183,
+                "delta_mse": -0.050104035300993166,
+                "relative_to_reference_pct": -21.313966868699026
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "bull_level_only",
+                  "left_mse": 0.1867963767021198,
+                  "reference_mse": 0.23507606824037183,
+                  "delta_mse": -0.04827969153825204,
+                  "relative_to_reference_pct": -20.537901582089038
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "bull_level_only",
+                  "left_mse": 0.1831476891766376,
+                  "reference_mse": 0.23507606824037183,
+                  "delta_mse": -0.05192837906373424,
+                  "relative_to_reference_pct": -22.090032155308986
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.08107481796898049,
+                  -0.03274063058108606
+                ],
+                "relative_to_reference_pct": [
+                  -31.288901055531863,
+                  -14.711026632029114
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1"
+              ]
+            },
+            "e2": {
+              "full": {
+                "left_mse": 1.233912593536179,
+                "reference_mse": 1.2894363174764027,
+                "delta_mse": -0.05552372394022376,
+                "relative_to_reference_pct": -4.306046230254397
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "bull_level_only",
+                  "left_mse": 1.2331551537867251,
+                  "reference_mse": 1.2894363174764027,
+                  "delta_mse": -0.056281163689677616,
+                  "relative_to_reference_pct": -4.364788157962487
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "bull_level_only",
+                  "left_mse": 1.2346700332856333,
+                  "reference_mse": 1.2894363174764027,
+                  "delta_mse": -0.054766284190769454,
+                  "relative_to_reference_pct": -4.247304302546271
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.0732586378526177,
+                  -0.04940081911332701
+                ],
+                "relative_to_reference_pct": [
+                  -39.25119136161109,
+                  -2.0449651329574277
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e2"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.7086160568815505,
+                "reference_mse": 0.7614323361824543,
+                "delta_mse": -0.05281627930090382,
+                "relative_to_reference_pct": -6.936437657179821
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_bull_level_res_92601",
+                  "right_id": "bull_level_only",
+                  "left_mse": 0.7091506124678357,
+                  "reference_mse": 0.7614323361824543,
+                  "delta_mse": -0.05228172371461859,
+                  "relative_to_reference_pct": -6.866233705904874
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_bull_level_res_92602",
+                  "right_id": "bull_level_only",
+                  "left_mse": 0.7080815012952654,
+                  "reference_mse": 0.7614323361824543,
+                  "delta_mse": -0.05335083488718895,
+                  "relative_to_reference_pct": -7.006641608454757
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.07160121921559925,
+                  -0.04540178175062231
+                ],
+                "relative_to_reference_pct": [
+                  -30.38563917924001,
+                  -3.7653056657932407
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "e1",
+                "e2"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        }
+      ],
+      "models": {
+        "old_res": [
+          "v2_bull_residual_fixed_ed_92601",
+          "v2_bull_residual_fixed_ed_92602"
+        ],
+        "old_raw": [
+          "v2_bull_raw_bypass_fixed_ed_92601",
+          "v2_bull_raw_bypass_fixed_ed_92602"
+        ],
+        "f0": [
+          "f0"
+        ],
+        "lora": [
+          "bull_final_lora_92601_0.0001",
+          "bull_final_lora_92602_0.0001"
+        ],
+        "modified_res": [
+          "v5_bull_level_res_92601",
+          "v5_bull_level_res_92602"
+        ],
+        "modified_raw": [
+          "v5_bull_level_raw_92601",
+          "v5_bull_level_raw_92602"
+        ],
+        "level_only": [
+          "bull_level_only"
+        ]
+      }
+    },
+    "electricity": {
+      "role_scores": {
+        "old_res": {
+          "dev": {
+            "mse": 0.16585023660638426,
+            "mae": 0.2708913868334589
+          },
+          "combined": {
+            "mse": 0.16585023660638426,
+            "mae": 0.2708913868334589
+          }
+        },
+        "old_raw": {
+          "dev": {
+            "mse": 0.18048923188152666,
+            "mae": 0.290332566270231
+          },
+          "combined": {
+            "mse": 0.18048923188152666,
+            "mae": 0.290332566270231
+          }
+        },
+        "f0": {
+          "dev": {
+            "mse": 0.16453665873402534,
+            "mae": 0.253276446154135
+          },
+          "combined": {
+            "mse": 0.16453665873402534,
+            "mae": 0.253276446154135
+          }
+        },
+        "lora": {
+          "dev": {
+            "mse": 0.1610964848005344,
+            "mae": 0.25041909517779537
+          },
+          "combined": {
+            "mse": 0.1610964848005344,
+            "mae": 0.25041909517779537
+          }
+        },
+        "modified_res": {
+          "dev": {
+            "mse": 0.16745756901023034,
+            "mae": 0.2716371883978257
+          },
+          "combined": {
+            "mse": 0.16745756901023034,
+            "mae": 0.2716371883978257
+          }
+        },
+        "modified_raw": {
+          "dev": {
+            "mse": 0.23335576014008597,
+            "mae": 0.34303821468369716
+          },
+          "combined": {
+            "mse": 0.23335576014008597,
+            "mae": 0.34303821468369716
+          }
+        },
+        "level_only": {
+          "dev": {
+            "mse": 0.33604442782040345,
+            "mae": 0.4280402168051849
+          },
+          "combined": {
+            "mse": 0.33604442782040345,
+            "mae": 0.4280402168051849
+          }
+        }
+      },
+      "comparisons": [
+        {
+          "name": "modified_res_minus_old_res",
+          "left": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right": [
+            "revision1_rank32_residual_92601_0.001",
+            "revision1_rank32_residual_92602_0.001"
+          ],
+          "direction": "modified_res minus old_res; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "revision1_rank32_residual_92601_0.001",
+            "revision1_rank32_residual_92602_0.001"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "dev": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.16585023660638426,
+                "delta_mse": 0.0016073324038460846,
+                "relative_to_reference_pct": 0.9691468862120464
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "revision1_rank32_residual_92601_0.001",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.16315684663854035,
+                  "delta_mse": 0.001398357001511752,
+                  "relative_to_reference_pct": 0.8570630226812908
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "revision1_rank32_residual_92602_0.001",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.16854362657422814,
+                  "delta_mse": 0.001816307806180445,
+                  "relative_to_reference_pct": 1.077648465918423
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  0.0009216250208494856,
+                  0.0024156197170515205
+                ],
+                "relative_to_reference_pct": [
+                  0.561118594993101,
+                  1.4843904675232544
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.16585023660638426,
+                "delta_mse": 0.0016073324038460846,
+                "relative_to_reference_pct": 0.9691468862120464
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "revision1_rank32_residual_92601_0.001",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.16315684663854035,
+                  "delta_mse": 0.001398357001511752,
+                  "relative_to_reference_pct": 0.8570630226812908
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "revision1_rank32_residual_92602_0.001",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.16854362657422814,
+                  "delta_mse": 0.001816307806180445,
+                  "relative_to_reference_pct": 1.077648465918423
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  0.0009216250208494856,
+                  0.0024156197170515205
+                ],
+                "relative_to_reference_pct": [
+                  0.561118594993101,
+                  1.4843904675232544
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_modified_raw",
+          "left": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right": [
+            "v5_electricity_level_raw_92601",
+            "v5_electricity_level_raw_92602"
+          ],
+          "direction": "modified_res minus modified_raw; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "v5_electricity_level_raw_92601",
+            "v5_electricity_level_raw_92602"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "dev": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.23335576014008602,
+                "delta_mse": -0.06589819112985568,
+                "relative_to_reference_pct": -28.23936768918679
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "v5_electricity_level_raw_92601",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.22945487660371466,
+                  "delta_mse": -0.06489967296366256,
+                  "relative_to_reference_pct": -28.284285749022906
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "v5_electricity_level_raw_92602",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.2372566436764573,
+                  "delta_mse": -0.06689670929604871,
+                  "relative_to_reference_pct": -28.195926680676884
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.074283122389608,
+                  -0.05850172829644577
+                ],
+                "relative_to_reference_pct": [
+                  -31.354987133840833,
+                  -25.230588350530383
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.23335576014008602,
+                "delta_mse": -0.06589819112985568,
+                "relative_to_reference_pct": -28.23936768918679
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "v5_electricity_level_raw_92601",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.22945487660371466,
+                  "delta_mse": -0.06489967296366256,
+                  "relative_to_reference_pct": -28.284285749022906
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "v5_electricity_level_raw_92602",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.2372566436764573,
+                  "delta_mse": -0.06689670929604871,
+                  "relative_to_reference_pct": -28.195926680676884
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.074283122389608,
+                  -0.05850172829644577
+                ],
+                "relative_to_reference_pct": [
+                  -31.354987133840833,
+                  -25.230588350530383
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_f0",
+          "left": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right": [
+            "f0"
+          ],
+          "direction": "modified_res minus f0; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "f0",
+            "f0"
+          ],
+          "deterministic_reference_broadcast": true,
+          "periods": {
+            "dev": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.16453665873402534,
+                "delta_mse": 0.002920910276205002,
+                "relative_to_reference_pct": 1.7752337373804787
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "f0",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.16453665873402534,
+                  "delta_mse": 1.8544906026762842e-05,
+                  "relative_to_reference_pct": 0.011270987371112727
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "f0",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.16453665873402534,
+                  "delta_mse": 0.005823275646383241,
+                  "relative_to_reference_pct": 3.539196487389845
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.0012117889494504595,
+                  0.006942432972119708
+                ],
+                "relative_to_reference_pct": [
+                  -0.681489127297782,
+                  4.713506161957926
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.16453665873402534,
+                "delta_mse": 0.002920910276205002,
+                "relative_to_reference_pct": 1.7752337373804787
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "f0",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.16453665873402534,
+                  "delta_mse": 1.8544906026762842e-05,
+                  "relative_to_reference_pct": 0.011270987371112727
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "f0",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.16453665873402534,
+                  "delta_mse": 0.005823275646383241,
+                  "relative_to_reference_pct": 3.539196487389845
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.0012117889494504595,
+                  0.006942432972119708
+                ],
+                "relative_to_reference_pct": [
+                  -0.681489127297782,
+                  4.713506161957926
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_lora",
+          "left": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right": [
+            "extended120_lora_92601_0.0001",
+            "initial_lora_92602_0.0001"
+          ],
+          "direction": "modified_res minus lora; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "extended120_lora_92601_0.0001",
+            "initial_lora_92602_0.0001"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "dev": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.16109648480053435,
+                "delta_mse": 0.006361084209696,
+                "relative_to_reference_pct": 3.9486176359292604
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "extended120_lora_92601_0.0001",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.1609833265711728,
+                  "delta_mse": 0.0035718770688792922,
+                  "relative_to_reference_pct": 2.2187869669223907
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "initial_lora_92602_0.0001",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.161209643029896,
+                  "delta_mse": 0.009150291350512596,
+                  "relative_to_reference_pct": 5.676019857457097
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  0.002911157104912492,
+                  0.010019074222639366
+                ],
+                "relative_to_reference_pct": [
+                  1.6527241204819254,
+                  6.65705526308343
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.16109648480053435,
+                "delta_mse": 0.006361084209696,
+                "relative_to_reference_pct": 3.9486176359292604
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "extended120_lora_92601_0.0001",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.1609833265711728,
+                  "delta_mse": 0.0035718770688792922,
+                  "relative_to_reference_pct": 2.2187869669223907
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "initial_lora_92602_0.0001",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.161209643029896,
+                  "delta_mse": 0.009150291350512596,
+                  "relative_to_reference_pct": 5.676019857457097
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  0.002911157104912492,
+                  0.010019074222639366
+                ],
+                "relative_to_reference_pct": [
+                  1.6527241204819254,
+                  6.65705526308343
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_raw_minus_old_raw",
+          "left": [
+            "v5_electricity_level_raw_92601",
+            "v5_electricity_level_raw_92602"
+          ],
+          "right": [
+            "revision1_rank32_raw_bypass_92601_0.001",
+            "revision1_rank32_raw_bypass_92602_0.001"
+          ],
+          "direction": "modified_raw minus old_raw; negative favors modified_raw",
+          "left_seed_ids": [
+            "v5_electricity_level_raw_92601",
+            "v5_electricity_level_raw_92602"
+          ],
+          "right_seed_ids": [
+            "revision1_rank32_raw_bypass_92601_0.001",
+            "revision1_rank32_raw_bypass_92602_0.001"
+          ],
+          "deterministic_reference_broadcast": false,
+          "periods": {
+            "dev": {
+              "full": {
+                "left_mse": 0.23335576014008602,
+                "reference_mse": 0.1804892318815266,
+                "delta_mse": 0.05286652825855942,
+                "relative_to_reference_pct": 29.29068272242473
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_raw_92601",
+                  "right_id": "revision1_rank32_raw_bypass_92601_0.001",
+                  "left_mse": 0.22945487660371466,
+                  "reference_mse": 0.1797337529834487,
+                  "delta_mse": 0.049721123620265956,
+                  "relative_to_reference_pct": 27.663765316715256
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_raw_92602",
+                  "right_id": "revision1_rank32_raw_bypass_92602_0.001",
+                  "left_mse": 0.2372566436764573,
+                  "reference_mse": 0.18124471077960458,
+                  "delta_mse": 0.05601193289685272,
+                  "relative_to_reference_pct": 30.904037230065047
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  0.045690394881296996,
+                  0.06151605787035008
+                ],
+                "relative_to_reference_pct": [
+                  24.431868159250385,
+                  34.86190708262378
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.23335576014008602,
+                "reference_mse": 0.1804892318815266,
+                "delta_mse": 0.05286652825855942,
+                "relative_to_reference_pct": 29.29068272242473
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_raw_92601",
+                  "right_id": "revision1_rank32_raw_bypass_92601_0.001",
+                  "left_mse": 0.22945487660371466,
+                  "reference_mse": 0.1797337529834487,
+                  "delta_mse": 0.049721123620265956,
+                  "relative_to_reference_pct": 27.663765316715256
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_raw_92602",
+                  "right_id": "revision1_rank32_raw_bypass_92602_0.001",
+                  "left_mse": 0.2372566436764573,
+                  "reference_mse": 0.18124471077960458,
+                  "delta_mse": 0.05601193289685272,
+                  "relative_to_reference_pct": 30.904037230065047
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  0.045690394881296996,
+                  0.06151605787035008
+                ],
+                "relative_to_reference_pct": [
+                  24.431868159250385,
+                  34.86190708262378
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        },
+        {
+          "name": "modified_res_minus_level_only",
+          "left": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right": [
+            "electricity_level_only"
+          ],
+          "direction": "modified_res minus level_only; negative favors modified_res",
+          "left_seed_ids": [
+            "v5_electricity_level_res_92601",
+            "v5_electricity_level_res_92602"
+          ],
+          "right_seed_ids": [
+            "electricity_level_only",
+            "electricity_level_only"
+          ],
+          "deterministic_reference_broadcast": true,
+          "periods": {
+            "dev": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.33604442782040345,
+                "delta_mse": -0.1685868588101731,
+                "relative_to_reference_pct": -50.16802685991066
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "electricity_level_only",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.33604442782040345,
+                  "delta_mse": -0.17148922418035134,
+                  "relative_to_reference_pct": -51.03171187590783
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "electricity_level_only",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.33604442782040345,
+                  "delta_mse": -0.16568449343999486,
+                  "relative_to_reference_pct": -49.3043418439135
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.1834343017543446,
+                  -0.15444030715805618
+                ],
+                "relative_to_reference_pct": [
+                  -53.790024655305125,
+                  -46.73950867688173
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            },
+            "combined": {
+              "full": {
+                "left_mse": 0.16745756901023034,
+                "reference_mse": 0.33604442782040345,
+                "delta_mse": -0.1685868588101731,
+                "relative_to_reference_pct": -50.16802685991066
+              },
+              "paired_seed_deltas": [
+                {
+                  "seed": 92601,
+                  "left_id": "v5_electricity_level_res_92601",
+                  "right_id": "electricity_level_only",
+                  "left_mse": 0.1645552036400521,
+                  "reference_mse": 0.33604442782040345,
+                  "delta_mse": -0.17148922418035134,
+                  "relative_to_reference_pct": -51.03171187590783
+                },
+                {
+                  "seed": 92602,
+                  "left_id": "v5_electricity_level_res_92602",
+                  "right_id": "electricity_level_only",
+                  "left_mse": 0.17035993438040858,
+                  "reference_mse": 0.33604442782040345,
+                  "delta_mse": -0.16568449343999486,
+                  "relative_to_reference_pct": -49.3043418439135
+                }
+              ],
+              "conditional_block95": {
+                "delta_mse": [
+                  -0.1834343017543446,
+                  -0.15444030715805618
+                ],
+                "relative_to_reference_pct": [
+                  -53.790024655305125,
+                  -46.73950867688173
+                ]
+              },
+              "draws": 2000,
+              "unavailable_draws": 0,
+              "interval_status": "available",
+              "strata": [
+                "dev"
+              ]
+            }
+          },
+          "interval_scope": "Non-circular 7-origin blocks within each period, common resamples across channels/models; two trained seeds fixed. Does not include training or selection uncertainty."
+        }
+      ],
+      "models": {
+        "old_res": [
+          "revision1_rank32_residual_92601_0.001",
+          "revision1_rank32_residual_92602_0.001"
+        ],
+        "old_raw": [
+          "revision1_rank32_raw_bypass_92601_0.001",
+          "revision1_rank32_raw_bypass_92602_0.001"
+        ],
+        "f0": [
+          "f0"
+        ],
+        "lora": [
+          "extended120_lora_92601_0.0001",
+          "initial_lora_92602_0.0001"
+        ],
+        "modified_res": [
+          "v5_electricity_level_res_92601",
+          "v5_electricity_level_res_92602"
+        ],
+        "modified_raw": [
+          "v5_electricity_level_raw_92601",
+          "v5_electricity_level_raw_92602"
+        ],
+        "level_only": [
+          "electricity_level_only"
+        ]
+      }
+    }
+  },
+  "cost": {
+    "f0": {
+      "1": {
+        "mean_seed_median_block_latency_ms": 10.727535416663159,
+        "mean_seed_median_block_throughput_origins_s": 93.2180899372961,
+        "peak_allocated_bytes_observed": [
+          236428800
+        ],
+        "peak_reserved_bytes_observed": [
+          247463936
+        ],
+        "block_throughput_range": [
+          90.63024027190755,
+          94.06221185727628
+        ]
+      },
+      "4": {
+        "mean_seed_median_block_latency_ms": 5.9605229156053,
+        "mean_seed_median_block_throughput_origins_s": 167.7705269379859,
+        "peak_allocated_bytes_observed": [
+          344641536
+        ],
+        "peak_reserved_bytes_observed": [
+          392167424
+        ],
+        "block_throughput_range": [
+          165.7532515495509,
+          168.27785246763477
+        ]
+      },
+      "registered_trainable_parameters_before_merge": 0,
+      "total_deployed_parameters": 47718016,
+      "total_deployed_tensor_bytes": 190872100
+    },
+    "lora": {
+      "1": {
+        "mean_seed_median_block_latency_ms": 10.825720831538394,
+        "mean_seed_median_block_throughput_origins_s": 92.37433377060384,
+        "peak_allocated_bytes_observed": [
+          236428800
+        ],
+        "peak_reserved_bytes_observed": [
+          247463936
+        ],
+        "block_throughput_range": [
+          84.55471486988742,
+          93.42813434959967
+        ]
+      },
+      "4": {
+        "mean_seed_median_block_latency_ms": 5.976284373900853,
+        "mean_seed_median_block_throughput_origins_s": 167.32990868073148,
+        "peak_allocated_bytes_observed": [
+          344641536
+        ],
+        "peak_reserved_bytes_observed": [
+          392167424
+        ],
+        "block_throughput_range": [
+          165.05351041836843,
+          169.52847078431398
+        ]
+      },
+      "registered_trainable_parameters_before_merge": 294912,
+      "total_deployed_parameters": 47718016,
+      "total_deployed_tensor_bytes": 190872100
+    },
+    "old_res": {
+      "1": {
+        "mean_seed_median_block_latency_ms": 10.036377083451953,
+        "mean_seed_median_block_throughput_origins_s": 99.63784274785357,
+        "peak_allocated_bytes_observed": [
+          209531392
+        ],
+        "peak_reserved_bytes_observed": [
+          236978176
+        ],
+        "block_throughput_range": [
+          98.43200526664873,
+          100.28921147490047
+        ]
+      },
+      "4": {
+        "mean_seed_median_block_latency_ms": 2.8279083332260297,
+        "mean_seed_median_block_throughput_origins_s": 353.64873075661,
+        "peak_allocated_bytes_observed": [
+          236830208
+        ],
+        "peak_reserved_bytes_observed": [
+          247463936
+        ],
+        "block_throughput_range": [
+          346.90971015644004,
+          366.77820360380827
+        ]
+      },
+      "registered_trainable_parameters_before_merge": 17920,
+      "total_deployed_parameters": 47736448,
+      "total_deployed_tensor_bytes": 190945828
+    },
+    "modified_res": {
+      "1": {
+        "mean_seed_median_block_latency_ms": 10.241578125715023,
+        "mean_seed_median_block_throughput_origins_s": 97.64621883632523,
+        "peak_allocated_bytes_observed": [
+          209531392
+        ],
+        "peak_reserved_bytes_observed": [
+          236978176
+        ],
+        "block_throughput_range": [
+          95.10874774044777,
+          99.57351555636555
+        ]
+      },
+      "4": {
+        "mean_seed_median_block_latency_ms": 2.827450000040699,
+        "mean_seed_median_block_throughput_origins_s": 353.72537851971106,
+        "peak_allocated_bytes_observed": [
+          236830208
+        ],
+        "peak_reserved_bytes_observed": [
+          247463936
+        ],
+        "block_throughput_range": [
+          347.4114907056444,
+          357.91025565149033
+        ]
+      },
+      "registered_trainable_parameters_before_merge": 17920,
+      "total_deployed_parameters": 47736448,
+      "total_deployed_tensor_bytes": 190945828
+    },
+    "matched_raw": {
+      "1": {
+        "mean_seed_median_block_latency_ms": 10.169912499501757,
+        "mean_seed_median_block_throughput_origins_s": 98.3321948924269,
+        "peak_allocated_bytes_observed": [
+          209531392
+        ],
+        "peak_reserved_bytes_observed": [
+          236978176
+        ],
+        "block_throughput_range": [
+          97.26737067454674,
+          98.93690327790722
+        ]
+      },
+      "4": {
+        "mean_seed_median_block_latency_ms": 2.8650947933783755,
+        "mean_seed_median_block_throughput_origins_s": 349.17701572088913,
+        "peak_allocated_bytes_observed": [
+          236830208
+        ],
+        "peak_reserved_bytes_observed": [
+          247463936
+        ],
+        "block_throughput_range": [
+          337.90608341791915,
+          359.0241523328014
+        ]
+      },
+      "registered_trainable_parameters_before_merge": 17920,
+      "total_deployed_parameters": 47736448,
+      "total_deployed_tensor_bytes": 190945828
+    }
+  },
+  "sources": {
+    "hog": {
+      "path": "research\\tsfm_peft_accuracy_recovery_v5_20260927\\hog_level_01.json",
+      "sha256": "40934349ec1f310cac13a74c6380c1913c99cdb3d8e81f399102123ef542bf56"
+    },
+    "bull": {
+      "path": "research\\tsfm_peft_accuracy_recovery_v5_20260927\\bull_level_01.json",
+      "sha256": "224df31159839e65f810cf0e7cbc06c852b8a45a58403ef7606b76469e66eed6"
+    },
+    "electricity": {
+      "path": "research\\tsfm_peft_accuracy_recovery_v5_20260927\\electricity_level_01.json",
+      "sha256": "077e7b6ee42d5d3a151994669309430c5058fe864f43e825d2c694d9f6eeb3f8"
+    },
+    "cost": {
+      "path": "research\\tsfm_peft_accuracy_recovery_v5_20260927\\cost01.json",
+      "sha256": "2ce69d366a1249b0c1a603f763c3594e66c2313d25c8378b7f34044d372d8bb2"
+    }
+  },
+  "cost_scope": "Hog same-session standardized CPU input to full CPU forecast; cost01 retains every block and drift; process GPU memory unavailable",
+  "decision": "Retain LEVEL for Hog development; do not universally replace existing RES; F0/LoRA B-period and MAE losses remain; no independent confirmation or novelty certification.",
+  "cost_aggregation": "Per-fit median of three block medians, then mean over seed models; deterministic F0 once."
+}

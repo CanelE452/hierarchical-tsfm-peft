@@ -1,0 +1,455 @@
+{
+  "id": "v5_bull_level_raw_92602",
+  "spec": {
+    "id": "v5_bull_level_raw_92602",
+    "dataset": "bull",
+    "method": "level",
+    "variant": "raw",
+    "seed": 92602,
+    "channels": 16,
+    "latent": 4,
+    "ed_mode": "fixed_ed",
+    "lr": 0.001,
+    "epochs": 120
+  },
+  "status": "complete",
+  "ledger_id": 20,
+  "source": {
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/check_models_v5.py": "3d355fedbb7a0af03b6f85cdddce49e84348c160fcef22ffce0713b8fc4f5d62",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/cost_v5.py": "dde93ba2550d5ae4ca66ae19bebbdb9c79387620f24f95dc723c6e9759997d55",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/diagnose_v5.py": "e35653d0b8acd8472e530345a4557a32f597afac70f562743005ba4e7dfae3f4",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/evaluate_v5.py": "5391c8755ebfd1d93030a811853ae6dd41e9dde4a4fc80339bf821e3ebdbfcb3",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/model_v5.py": "5775abb214269d0be997454e39e48cee34d92d7cc29d236da665038bbc4093af",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/reuse_v5.py": "41fc44ef75d898f320d421f8e2b264895529862900fa36f1e2e165343e49b4ff",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/runtime_v5.py": "8fd4ef2fca6e2d5111d3c433446e89afc60a12c03c2b09c057b353ca8a097db6",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/train_v5.py": "0a43677e6a4b68ef8c678eada45d27f0139ba46fed9747d6fae23df3aa437599",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/PLAN.md": "416f434b9334be4cec384aa2de9ac80020d1e9091a0add92561e0f17fc5b1564",
+    "research/tsfm_peft_accuracy_recovery_v5_20260927/protocol.json": "d35ea86f685ff38e36858fc79fae256ea8a95f04b57239aad285582a94c16609"
+  },
+  "environment": {
+    "python": "3.11.16 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:36:16) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.venv\\Scripts\\python.exe",
+    "command": [
+      "research/tsfm_peft_accuracy_recovery_v5_20260927/train_v5.py",
+      "--dataset",
+      "bull",
+      "--method",
+      "level",
+      "--variant",
+      "raw",
+      "--seed",
+      "92602",
+      "--name",
+      "v5_bull_level_raw_92602",
+      "--job-label",
+      "v5_bull_level_raw_92602_gpu"
+    ],
+    "cwd": "E:\\CODING\\proj\\hierarchical-tsfm-peft",
+    "versions": {
+      "torch": "2.10.0+cu128",
+      "numpy": "2.4.6",
+      "peft": "0.21.0",
+      "chronos-forecasting": "2.3.2",
+      "transformers": "5.17.0"
+    }
+  },
+  "data_sha256": "a11d826ac01de745765c5f30d88201b3176efe239216cb7ef12f6250a9542ed3",
+  "decision_receipt": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_accuracy_recovery_v5_20260927\\decision.json",
+    "sha256": "b7f86c4e8392eaa5b57462496efbbb180013681654a2cd90e18c086abbd30f11",
+    "decision": {
+      "first_method": "level",
+      "reserve_method": "full",
+      "active_method": "level",
+      "approved_datasets": [
+        "hog",
+        "bull",
+        "electricity"
+      ],
+      "authorized_supplements": [],
+      "created_utc": 1790569310.4778,
+      "diagnosis_path": "research\\tsfm_peft_accuracy_recovery_v5_20260927\\v5_hog_diagnosis_01\\diagnosis.json",
+      "diagnosis_sha256": "d1eb618b5b863f1c5a46df6035c8a1bc5011e923c93b3263dce743c2539f96ff",
+      "evidence": {
+        "first_modification": "LEVEL",
+        "level_gate": true,
+        "level_only_improves_compress_combined_mse": true,
+        "mean_seed_last_residual_direction_dot": 1.084029155747304,
+        "k_gate": false,
+        "completecase_full_directions_match_for_both_seeds": true,
+        "rule": "LEVEL if LEVEL_ONLY combined masked MSE improves COMPRESS and mean-seed channel-equal observed dot(last residual, target-RES)>0; else K if both-seed complete/full directions agree and positive added-Q16-minus-Q8 excess exceeds positive outside-Q16 excess; else FULL.",
+        "interpretation": "A bounded development choice, not a causal mechanism finding. FULL fallback tests the remaining low-rank restriction; it is not itself evidence that rank is the cause."
+      },
+      "observation": "LEVEL_ONLY MSE3.132837 vs COMPRESS4.591135 and oldRES3.220290; last residual aligns with desired correction. K priority false.",
+      "question": "Does learning centered residual dynamics reduce loss beyond persistence and matched RAW?",
+      "change": "LEVEL only, same restoration residual for both arms, original K8 fixed ED.",
+      "first_runs": [
+        "v5_hog_level_res_92601",
+        "v5_hog_level_res_92602",
+        "v5_hog_level_raw_92601",
+        "v5_hog_level_raw_92602"
+      ],
+      "reserve_trigger": "If LEVEL inadequately addresses remaining nonlevel temporal error, test FULL at original K only; not combined.",
+      "retained_method": "level",
+      "branch_observation": "Hog mean-seed MSE2.666809<oldRES3.220290, matchedRAW2.949584, LEVEL_ONLY3.132837. Both arms improve; paired residue input adds further benefit. LoRA combined gap small with uncertainty, B/MAE losses remain.",
+      "next_action": "Extend exactly LEVEL RES/RAW x2 seeds to both Bull and Electricity; then paired Hog cost. No reserve needed at this point."
+    }
+  },
+  "best_val_mse": 0.6494233072533417,
+  "selected_epoch": 1,
+  "checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_bull_level_raw_92602\\best.pt",
+  "checkpoint_sha256": "1a7ae9f5e624ac0367eedbd356247eff0708818b2457ae63aac052625628b6a8",
+  "best_val_prediction": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_bull_level_raw_92602\\best_val.npz",
+    "sha256": "d0d5512ed2164a707b25e34d0facb7cd724e6fff491300aee4907dd85ae77582"
+  },
+  "initial_source": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\initial\\bull_level_92602.pt",
+    "sha256": "4a2676529ec7682cac8197d49984ba2d60b8ef55d3bb239dc0afe26344796638",
+    "tensor_hashes": {
+      "encoder.weight": "298d2b1ca9dd22fb36078c58b298e151491e78d64b7302f6f60855e7648eb2ef",
+      "decoder.weight": "ba9ea569e6f2fb4c8780c81b72b56f6eb50dd3156a4fd9be8c3f6583acccb616",
+      "residual.down.weight": "73a009f8bdd9dfc292cc2ed2f162058fffb74a435b865a7562213ec2cbe27b21",
+      "residual.up.weight": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0"
+    },
+    "basis_sha256": "ba9ea569e6f2fb4c8780c81b72b56f6eb50dd3156a4fd9be8c3f6583acccb616",
+    "old_basis_sha256": "ba9ea569e6f2fb4c8780c81b72b56f6eb50dd3156a4fd9be8c3f6583acccb616",
+    "data_sha256": "a11d826ac01de745765c5f30d88201b3176efe239216cb7ef12f6250a9542ed3",
+    "source": {
+      "kind": "verified_existing_untrained_initial",
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_followup_v2_20260926\\runs\\v2_bull_residual_fixed_ed_92602\\initial.pt",
+      "sha256": "eaefa17f436eb53c1b0ed6d4c019c7adc11a8680f513bdd9c5afd484c5fc279e",
+      "tensor_hashes": {
+        "encoder.weight": "298d2b1ca9dd22fb36078c58b298e151491e78d64b7302f6f60855e7648eb2ef",
+        "decoder.weight": "ba9ea569e6f2fb4c8780c81b72b56f6eb50dd3156a4fd9be8c3f6583acccb616",
+        "residual.down.weight": "73a009f8bdd9dfc292cc2ed2f162058fffb74a435b865a7562213ec2cbe27b21",
+        "residual.up.weight": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0"
+      }
+    },
+    "preparation_elapsed_s": 0.019682600046508014,
+    "pca_statistic_count": 0,
+    "predictive_fit_attempts": 0
+  },
+  "initial_parameter_sha256": {
+    "encoder.weight": "298d2b1ca9dd22fb36078c58b298e151491e78d64b7302f6f60855e7648eb2ef",
+    "decoder.weight": "ba9ea569e6f2fb4c8780c81b72b56f6eb50dd3156a4fd9be8c3f6583acccb616",
+    "residual.down.weight": "73a009f8bdd9dfc292cc2ed2f162058fffb74a435b865a7562213ec2cbe27b21",
+    "residual.up.weight": "fd9243e1ba57263ed469c3bdbd7ade6ec5254e7ed924a9f5737fa44749933cc0"
+  },
+  "initial_checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_bull_level_raw_92602\\initial.pt",
+  "initial_checkpoint_sha256": "777bcaf4f73e2034243e89496b6f2f38a5148f40a092c7a7fd39723e2baa3342",
+  "first_update_gradients": {
+    "1": {
+      "encoder.weight": {
+        "requires_grad": false,
+        "max_abs": null,
+        "finite": null
+      },
+      "decoder.weight": {
+        "requires_grad": false,
+        "max_abs": null,
+        "finite": null
+      },
+      "residual.down.weight": {
+        "requires_grad": true,
+        "max_abs": 0.0,
+        "finite": true
+      },
+      "residual.up.weight": {
+        "requires_grad": true,
+        "max_abs": 0.0315583236515522,
+        "finite": true
+      }
+    },
+    "2": {
+      "encoder.weight": {
+        "requires_grad": false,
+        "max_abs": null,
+        "finite": null
+      },
+      "decoder.weight": {
+        "requires_grad": false,
+        "max_abs": null,
+        "finite": null
+      },
+      "residual.down.weight": {
+        "requires_grad": true,
+        "max_abs": 0.0003943980555050075,
+        "finite": true
+      },
+      "residual.up.weight": {
+        "requires_grad": true,
+        "max_abs": 0.007203342393040657,
+        "finite": true
+      }
+    }
+  },
+  "parameter_max_updates": {
+    "encoder.weight": 0.0,
+    "decoder.weight": 0.0,
+    "residual.down.weight": 0.10479527711868286,
+    "residual.up.weight": 0.0365041047334671
+  },
+  "changed_parameter_scalars": {
+    "encoder.weight": 0,
+    "decoder.weight": 0,
+    "residual.down.weight": 16352,
+    "residual.up.weight": 1536
+  },
+  "selected_parameter_max_updates": {
+    "encoder.weight": 0.0,
+    "decoder.weight": 0.0,
+    "residual.down.weight": 0.04616416245698929,
+    "residual.up.weight": 0.02679494582116604
+  },
+  "frozen_parameters_verified": {
+    "no_gradient": true,
+    "version_unchanged": true,
+    "backbone_sha256_unchanged": "3608dcf804e430c273a805597e1f879899efaae1221eadc741d84c769be7a736",
+    "optimizer_exclusion": true
+  },
+  "initial_train_probe": {
+    "mse": 0.8295600294570694,
+    "mae": 0.4298911541832543,
+    "channel_mse": [
+      0.886482424724795,
+      0.9820614292549523,
+      0.674740667648095,
+      0.8163217605532095,
+      0.7660816299289048,
+      1.0072349779556942,
+      0.894619167698178,
+      1.0385272130768202,
+      0.9148861688745086,
+      0.592369658495651,
+      1.199238907729239,
+      0.749473619615346,
+      0.5381225355153126,
+      1.1171275571172146,
+      0.7042550911742931,
+      0.3914176619508972
+    ],
+    "channel_mae": [
+      0.483650525980393,
+      0.6130991822703299,
+      0.46306805891820024,
+      0.5213352038379969,
+      0.536528436932814,
+      0.46689788823812783,
+      0.2893549164081372,
+      0.5036840887179677,
+      0.26099855296320434,
+      0.35634806471448677,
+      0.26381360685907357,
+      0.5759646894343979,
+      0.4066017147031909,
+      0.4932918447249727,
+      0.24938137427110438,
+      0.3942403179576717
+    ],
+    "squared_error_sums": [
+      4075.1597064598827,
+      4501.769591704701,
+      3098.4091458400526,
+      3746.9168809392313,
+      3521.6772527831754,
+      4616.157903970947,
+      4114.353552243921,
+      4768.916962448759,
+      4213.965693835987,
+      2718.9767324950385,
+      5523.694409000875,
+      3445.3302293717456,
+      2462.4487225180706,
+      5135.4353800678355,
+      3240.2776744929224,
+      1793.475727059011
+    ],
+    "absolute_error_sums": [
+      2223.3414679318666,
+      2810.4466515271924,
+      2126.4085265523754,
+      2392.928585616406,
+      2466.4212245801464,
+      2139.79302179534,
+      1330.743260561023,
+      2312.9173353929073,
+      1202.1593349485192,
+      1635.6376170394942,
+      1215.125473192893,
+      2647.709677329927,
+      1860.6094464818016,
+      2267.6626102006994,
+      1147.4037030213512,
+      1806.4091368820518
+    ],
+    "target_counts": [
+      4597,
+      4584,
+      4592,
+      4590,
+      4597,
+      4583,
+      4599,
+      4592,
+      4606,
+      4590,
+      4606,
+      4597,
+      4576,
+      4597,
+      4601,
+      4582
+    ],
+    "origins": 96
+  },
+  "selected_train_probe": {
+    "mse": 0.74805181170486,
+    "mae": 0.4062197178987035,
+    "channel_mse": [
+      0.7160311914716715,
+      0.8743179177151454,
+      0.5590176209825618,
+      0.7509954004333409,
+      0.6851064897940264,
+      0.8934080776423646,
+      0.8534285748691575,
+      0.948906811529102,
+      0.894534129883801,
+      0.5438236057861887,
+      1.1568463803460185,
+      0.596428176939622,
+      0.526437718262675,
+      0.9372891878497425,
+      0.6932973845791391,
+      0.33896031919320346
+    ],
+    "channel_mae": [
+      0.4441148279017384,
+      0.6016532967137709,
+      0.42877834433371703,
+      0.4730010515933122,
+      0.5179300879377264,
+      0.45755452585363726,
+      0.2801131423307406,
+      0.4782005827894227,
+      0.24221855043531673,
+      0.3441318292875849,
+      0.25287492198508055,
+      0.5146236097227173,
+      0.4053136688676236,
+      0.457696765108767,
+      0.24887021843237098,
+      0.352440063085729
+    ],
+    "squared_error_sums": [
+      3291.595387195274,
+      4007.873334806227,
+      2567.008915551924,
+      3447.068887989035,
+      3149.4345335831395,
+      4094.489219834957,
+      3924.9180158232552,
+      4357.380078541636,
+      4120.224202244787,
+      2496.150350558606,
+      5328.434427873762,
+      2741.7803293914426,
+      2408.978998770001,
+      4308.718396545266,
+      3189.861266448619,
+      1553.1161825432582
+    ],
+    "absolute_error_sums": [
+      2041.5958638642915,
+      2757.978712135926,
+      1968.9501571804285,
+      2171.074826813303,
+      2380.9246142497286,
+      2096.9723919872195,
+      1288.240341579076,
+      2195.897076169029,
+      1115.6586433050688,
+      1579.5650964300148,
+      1164.741890663281,
+      2365.724733895331,
+      1854.7153487382457,
+      2104.032029205002,
+      1145.0518750073388,
+      1614.8803690588102
+    ],
+    "target_counts": [
+      4597,
+      4584,
+      4592,
+      4590,
+      4597,
+      4583,
+      4599,
+      4592,
+      4606,
+      4590,
+      4606,
+      4597,
+      4576,
+      4597,
+      4601,
+      4582
+    ],
+    "origins": 96
+  },
+  "initial_val_mse": 0.7333480166027936,
+  "epochs_completed": 7,
+  "total_steps": 896,
+  "attempt_updates": 896,
+  "final_stale": 6,
+  "extension_eligible": false,
+  "restart_checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_bull_level_raw_92602\\restart.pt",
+  "restart_sha256": "e6812800842a42f30949b8f2d02aa7bac5d507d61cf0993e1c0dc4584d72ddde",
+  "restart_roundtrip": {
+    "model": true,
+    "optimizer": true,
+    "scheduler": true,
+    "rng": true,
+    "extra_updates": 0
+  },
+  "replay_error": 0.0,
+  "total_parameters": 47736064,
+  "trainable_parameters": 17920,
+  "training_peak": {
+    "allocated_bytes": 228213760,
+    "reserved_bytes": 257949696,
+    "scope": "one model, optimizer and initial TRAIN probe/full VAL; before selected restore"
+  },
+  "schedules": [
+    {
+      "epoch": 1,
+      "sha256": "3c2ed95b963605aed22cce8be86d4384f7507e78eb60796f8c5a2c0619d5e6c4"
+    },
+    {
+      "epoch": 2,
+      "sha256": "cab36a5172775cdeb3a0b69f65db946af3d0b7750026380b4a345d8b2985ff5b"
+    },
+    {
+      "epoch": 3,
+      "sha256": "f9a28a9f75b64cab8694a0a9ce467b4172fc0cd9dc0177effb2a7610a7eab123"
+    },
+    {
+      "epoch": 4,
+      "sha256": "a6a8061eded681a470c09b897ddacc3c344cffd30736a1a78c6e256a5044ab1c"
+    },
+    {
+      "epoch": 5,
+      "sha256": "26b858468fbe8ede45bd005ef51eadf7a1c9b0cd124f4a381c73ba86880a6501"
+    },
+    {
+      "epoch": 6,
+      "sha256": "e1285d86d205e206112a6d4f66252423347078ce7b29d997b415e9f8e7c68db1"
+    },
+    {
+      "epoch": 7,
+      "sha256": "d13344cc46026a9d9f4d9c9ee74df998da058005cf68921953ab41c3d1f71fd3"
+    }
+  ],
+  "elapsed_s": 23.677453000098467
+}

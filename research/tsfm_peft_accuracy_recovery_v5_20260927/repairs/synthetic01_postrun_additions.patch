@@ -1,0 +1,15 @@
+--- synthetic01_executed.py
++++ check_models_v5.py
+@@ -62,6 +62,12 @@
+             model = build_with_backbone(spec, basis, initial, FakeBackbone())
+             assert torch.equal(before_rng, torch.get_rng_state())
+             assert tensor_hashes(model.adapter_state()) == tensor_hashes(initial)
++            gradient_parts = model.parts(x)
++            assert not gradient_parts['persistence'].requires_grad
++            if mode == 'current':
++                assert gradient_parts['main'].requires_grad
++                assert gradient_parts['correction_input'].requires_grad == (variant == 'res')
++            del gradient_parts
+             raw = build_with_backbone(dict(spec, variant='raw' if variant == 'res' else 'res'), basis, initial, FakeBackbone())
+             with torch.no_grad():
+                 assert torch.equal(model(x), raw(x))

@@ -1,0 +1,657 @@
+{
+  "title": "Hog Accuracy–Cost Trade-offs After LEVEL Recovery",
+  "caption": "Hog combined development MSE and same-session batch-4 deployment cost for the exact same stored model identities. Hollow circles and triangles identify trained seeds; the square is deterministic F0. Small points and horizontal spans retain all three block medians and their observed range; they are not confidence intervals. Diamonds use mean individual-seed MSE and the mean of per-seed median block costs. F0 post sentinels are excluded from the center and retained in the cost JSON and drift summary. Timing covers standardized CPU input, H2D, full forward, and complete CPU forecast return on the same local GPU. Peak allocated GPU memory is distinct from reserved memory, process GPU memory, model size and parameter bytes. Large block drift is retained; no stable speed advantage is inferred from a center. These are exposed development results, not an independent confirmation.",
+  "sources": [
+    {
+      "path": "research/tsfm_peft_accuracy_recovery_v5_20260927/hog_level_01.json",
+      "sha256": "40934349ec1f310cac13a74c6380c1913c99cdb3d8e81f399102123ef542bf56"
+    },
+    {
+      "path": "research/tsfm_peft_accuracy_recovery_v5_20260927/cost01.json",
+      "sha256": "2ce69d366a1249b0c1a603f763c3594e66c2313d25c8378b7f34044d372d8bb2"
+    }
+  ],
+  "numeric_values": [
+    {
+      "id": "v4_hog_f0",
+      "role": "f0",
+      "seed": null,
+      "combined_mse": 2.7380442153643942,
+      "accuracy_pointer": "models.v4_hog_f0.scores.combined.mse",
+      "batch4_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "batch4_throughput_origins_s": [
+        167.7705269379859,
+        165.7532515495509,
+        168.27785246763477
+      ],
+      "batch4_peak_allocated_mib": [
+        328.67578125,
+        328.67578125,
+        328.67578125
+      ],
+      "median_block_throughput_origins_s": 167.7705269379859,
+      "median_block_peak_allocated_mib": 328.67578125
+    },
+    {
+      "id": "v4_hog_lora_92601",
+      "role": "lora",
+      "seed": 92601,
+      "combined_mse": 2.678683265479899,
+      "accuracy_pointer": "models.v4_hog_lora_92601.scores.combined.mse",
+      "batch4_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "batch4_throughput_origins_s": [
+        166.81673671023157,
+        165.05351041836843,
+        169.52847078431398
+      ],
+      "batch4_peak_allocated_mib": [
+        328.67578125,
+        328.67578125,
+        328.67578125
+      ],
+      "median_block_throughput_origins_s": 166.81673671023157,
+      "median_block_peak_allocated_mib": 328.67578125
+    },
+    {
+      "id": "v4_hog_lora_92602",
+      "role": "lora",
+      "seed": 92602,
+      "combined_mse": 2.6884360958054114,
+      "accuracy_pointer": "models.v4_hog_lora_92602.scores.combined.mse",
+      "batch4_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "batch4_throughput_origins_s": [
+        168.44031333306623,
+        167.84308065123136,
+        166.9661784708034
+      ],
+      "batch4_peak_allocated_mib": [
+        328.67578125,
+        328.67578125,
+        328.67578125
+      ],
+      "median_block_throughput_origins_s": 167.84308065123136,
+      "median_block_peak_allocated_mib": 328.67578125
+    },
+    {
+      "id": "v4_hog_tsfm_res_fixed_ed_92601",
+      "role": "old_res",
+      "seed": 92601,
+      "combined_mse": 3.1534037414071117,
+      "accuracy_pointer": "models.v4_hog_tsfm_res_fixed_ed_92601.scores.combined.mse",
+      "batch4_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "batch4_throughput_origins_s": [
+        350.55585080074763,
+        358.23783533770495,
+        346.90971015644004
+      ],
+      "batch4_peak_allocated_mib": [
+        225.85888671875,
+        225.85888671875,
+        225.85888671875
+      ],
+      "median_block_throughput_origins_s": 350.55585080074763,
+      "median_block_peak_allocated_mib": 225.85888671875
+    },
+    {
+      "id": "v4_hog_tsfm_res_fixed_ed_92602",
+      "role": "old_res",
+      "seed": 92602,
+      "combined_mse": 3.2871754931034367,
+      "accuracy_pointer": "models.v4_hog_tsfm_res_fixed_ed_92602.scores.combined.mse",
+      "batch4_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "batch4_throughput_origins_s": [
+        366.77820360380827,
+        356.74161071247244,
+        353.0663493632792
+      ],
+      "batch4_peak_allocated_mib": [
+        225.85888671875,
+        225.85888671875,
+        225.85888671875
+      ],
+      "median_block_throughput_origins_s": 356.74161071247244,
+      "median_block_peak_allocated_mib": 225.85888671875
+    },
+    {
+      "id": "v5_hog_level_res_92601",
+      "role": "modified_res",
+      "seed": 92601,
+      "combined_mse": 2.6609325242076025,
+      "accuracy_pointer": "models.v5_hog_level_res_92601.scores.combined.mse",
+      "batch4_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "batch4_throughput_origins_s": [
+        356.11954389598685,
+        347.4114907056444,
+        349.9151502421615
+      ],
+      "batch4_peak_allocated_mib": [
+        225.85888671875,
+        225.85888671875,
+        225.85888671875
+      ],
+      "median_block_throughput_origins_s": 349.9151502421615,
+      "median_block_peak_allocated_mib": 225.85888671875
+    },
+    {
+      "id": "v5_hog_level_res_92602",
+      "role": "modified_res",
+      "seed": 92602,
+      "combined_mse": 2.672686195055496,
+      "accuracy_pointer": "models.v5_hog_level_res_92602.scores.combined.mse",
+      "batch4_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "batch4_throughput_origins_s": [
+        357.53560679726064,
+        354.8252780471184,
+        357.91025565149033
+      ],
+      "batch4_peak_allocated_mib": [
+        225.85888671875,
+        225.85888671875,
+        225.85888671875
+      ],
+      "median_block_throughput_origins_s": 357.53560679726064,
+      "median_block_peak_allocated_mib": 225.85888671875
+    },
+    {
+      "id": "v5_hog_level_raw_92601",
+      "role": "modified_raw",
+      "seed": 92601,
+      "combined_mse": 2.9170756322703837,
+      "accuracy_pointer": "models.v5_hog_level_raw_92601.scores.combined.mse",
+      "batch4_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "batch4_throughput_origins_s": [
+        354.89346606792935,
+        356.0360014568789,
+        359.0241523328014
+      ],
+      "batch4_peak_allocated_mib": [
+        225.85888671875,
+        225.85888671875,
+        225.85888671875
+      ],
+      "median_block_throughput_origins_s": 356.0360014568789,
+      "median_block_peak_allocated_mib": 225.85888671875
+    },
+    {
+      "id": "v5_hog_level_raw_92602",
+      "role": "modified_raw",
+      "seed": 92602,
+      "combined_mse": 2.982091928885316,
+      "accuracy_pointer": "models.v5_hog_level_raw_92602.scores.combined.mse",
+      "batch4_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "batch4_throughput_origins_s": [
+        350.88225043161117,
+        337.90608341791915,
+        342.3180299848993
+      ],
+      "batch4_peak_allocated_mib": [
+        225.85888671875,
+        225.85888671875,
+        225.85888671875
+      ],
+      "median_block_throughput_origins_s": 342.3180299848993,
+      "median_block_peak_allocated_mib": 225.85888671875
+    }
+  ],
+  "family_centers": [
+    {
+      "role": "f0",
+      "mean_seed_mse": 2.7380442153643942,
+      "mean_seed_median_throughput_origins_s": 167.7705269379859,
+      "mean_seed_median_peak_allocated_mib": 328.67578125
+    },
+    {
+      "role": "lora",
+      "mean_seed_mse": 2.683559680642655,
+      "mean_seed_median_throughput_origins_s": 167.32990868073148,
+      "mean_seed_median_peak_allocated_mib": 328.67578125
+    },
+    {
+      "role": "old_res",
+      "mean_seed_mse": 3.220289617255274,
+      "mean_seed_median_throughput_origins_s": 353.64873075661,
+      "mean_seed_median_peak_allocated_mib": 225.85888671875
+    },
+    {
+      "role": "modified_res",
+      "mean_seed_mse": 2.666809359631549,
+      "mean_seed_median_throughput_origins_s": 353.72537851971106,
+      "mean_seed_median_peak_allocated_mib": 225.85888671875
+    },
+    {
+      "role": "modified_raw",
+      "mean_seed_mse": 2.94958378057785,
+      "mean_seed_median_throughput_origins_s": 349.17701572088913,
+      "mean_seed_median_peak_allocated_mib": 225.85888671875
+    }
+  ],
+  "calculations": {
+    "accuracy": "Stored combined MSE for each exact run; family center is mean seed loss, not prediction ensemble.",
+    "cost": "Median of three stored block medians per fit, followed by mean over trained seeds; deterministic F0 counted once.",
+    "memory_units": "MiB = bytes / 1024**2",
+    "error_bar": "Observed minimum and maximum of the three block medians, not a confidence interval."
+  },
+  "drift_checks": {
+    "f0_pre_post": [
+      {
+        "block": 0,
+        "batch_origins": 1,
+        "pre_median_ms": 10.727535416663159,
+        "post_median_ms": 11.065620834415313,
+        "post_over_pre": 1.031515665492654,
+        "iqr_disjoint": false
+      },
+      {
+        "block": 0,
+        "batch_origins": 4,
+        "pre_median_ms": 5.9605229156053,
+        "post_median_ms": 5.927837499863623,
+        "post_over_pre": 0.9945163509637547,
+        "iqr_disjoint": false
+      },
+      {
+        "block": 1,
+        "batch_origins": 1,
+        "pre_median_ms": 10.631275001893906,
+        "post_median_ms": 11.001643751418063,
+        "post_over_pre": 1.0348376605306682,
+        "iqr_disjoint": true
+      },
+      {
+        "block": 1,
+        "batch_origins": 4,
+        "pre_median_ms": 6.033064584092548,
+        "post_median_ms": 5.960227082444665,
+        "post_over_pre": 0.987926948131811,
+        "iqr_disjoint": true
+      },
+      {
+        "block": 2,
+        "batch_origins": 1,
+        "pre_median_ms": 11.033847915920585,
+        "post_median_ms": 10.92683749933106,
+        "post_over_pre": 0.9903016230235401,
+        "iqr_disjoint": false
+      },
+      {
+        "block": 2,
+        "batch_origins": 4,
+        "pre_median_ms": 5.942683334675772,
+        "post_median_ms": 5.979324999013139,
+        "post_over_pre": 1.0061658450019642,
+        "iqr_disjoint": false
+      }
+    ],
+    "pair_order_reversals": [
+      {
+        "batch_origins": 1,
+        "left": "v4_hog_f0",
+        "right": "v4_hog_lora_92602",
+        "block_latency_differences_ms": [
+          -0.2878708328353241,
+          -0.22998958108170697,
+          0.3300437504852525
+        ]
+      },
+      {
+        "batch_origins": 1,
+        "left": "v4_hog_lora_92601",
+        "right": "v4_hog_lora_92602",
+        "block_latency_differences_ms": [
+          -0.23035000291808316,
+          -0.07108750287443577,
+          1.1228604198549874
+        ]
+      },
+      {
+        "batch_origins": 1,
+        "left": "v4_hog_tsfm_res_fixed_ed_92601",
+        "right": "v4_hog_tsfm_res_fixed_ed_92602",
+        "block_latency_differences_ms": [
+          -0.1588166681661587,
+          0.02206666734612739,
+          0.13155625007736305
+        ]
+      },
+      {
+        "batch_origins": 1,
+        "left": "v4_hog_tsfm_res_fixed_ed_92601",
+        "right": "v5_hog_level_raw_92602",
+        "block_latency_differences_ms": [
+          -0.1470979138199855,
+          -0.07184583228081465,
+          0.051820830170377974
+        ]
+      },
+      {
+        "batch_origins": 1,
+        "left": "v4_hog_tsfm_res_fixed_ed_92601",
+        "right": "v5_hog_level_res_92601",
+        "block_latency_differences_ms": [
+          -0.5431291647255421,
+          0.002170835311213537,
+          -0.03802291757892817
+        ]
+      },
+      {
+        "batch_origins": 1,
+        "left": "v4_hog_tsfm_res_fixed_ed_92602",
+        "right": "v5_hog_level_raw_92602",
+        "block_latency_differences_ms": [
+          0.011718754346173199,
+          -0.09391249962694204,
+          -0.07973541990698507
+        ]
+      },
+      {
+        "batch_origins": 1,
+        "left": "v5_hog_level_raw_92601",
+        "right": "v5_hog_level_res_92601",
+        "block_latency_differences_ms": [
+          -0.35406874909919495,
+          0.18013333465205328,
+          0.08436666636650081
+        ]
+      },
+      {
+        "batch_origins": 1,
+        "left": "v5_hog_level_raw_92601",
+        "right": "v5_hog_level_res_92602",
+        "block_latency_differences_ms": [
+          -0.3054312473977916,
+          0.08997499874870485,
+          -0.004139583325011742
+        ]
+      },
+      {
+        "batch_origins": 1,
+        "left": "v5_hog_level_raw_92602",
+        "right": "v5_hog_level_res_92601",
+        "block_latency_differences_ms": [
+          -0.3960312509055566,
+          0.07401666759202818,
+          -0.08984374774930615
+        ]
+      },
+      {
+        "batch_origins": 1,
+        "left": "v5_hog_level_res_92601",
+        "right": "v5_hog_level_res_92602",
+        "block_latency_differences_ms": [
+          0.04863750170140335,
+          -0.09015833590334843,
+          -0.08850624969151255
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_f0",
+        "right": "v4_hog_lora_92601",
+        "block_latency_differences_ms": [
+          -0.03409791679587304,
+          -0.025577081639008625,
+          0.043968752531023725
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_f0",
+        "right": "v4_hog_lora_92602",
+        "block_latency_differences_ms": [
+          0.023691665167764775,
+          0.07511666869201505,
+          -0.046572914773909346
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_lora_92601",
+        "right": "v4_hog_lora_92602",
+        "block_latency_differences_ms": [
+          0.057789581963637815,
+          0.10069375033102368,
+          -0.09054166730493307
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_tsfm_res_fixed_ed_92601",
+        "right": "v4_hog_tsfm_res_fixed_ed_92602",
+        "block_latency_differences_ms": [
+          0.1261875004274775,
+          -0.011743749685895644,
+          0.0503062498561726
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_tsfm_res_fixed_ed_92601",
+        "right": "v5_hog_level_raw_92601",
+        "block_latency_differences_ms": [
+          0.03487083449726969,
+          -0.017331251001451164,
+          0.09730207966640592
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_tsfm_res_fixed_ed_92601",
+        "right": "v5_hog_level_raw_92602",
+        "block_latency_differences_ms": [
+          0.002652084125050802,
+          -0.16796250080612118,
+          -0.03878125426126644
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_tsfm_res_fixed_ed_92601",
+        "right": "v5_hog_level_res_92601",
+        "block_latency_differences_ms": [
+          0.04458541661733806,
+          -0.08699583122506693,
+          0.024735415839434616
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_tsfm_res_fixed_ed_92601",
+        "right": "v5_hog_level_res_92602",
+        "block_latency_differences_ms": [
+          0.055631249172923614,
+          -0.02694583478538881,
+          0.08861666477362906
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_tsfm_res_fixed_ed_92602",
+        "right": "v5_hog_level_raw_92601",
+        "block_latency_differences_ms": [
+          -0.09131666593020782,
+          -0.005587501315555521,
+          0.046995829810233314
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v4_hog_tsfm_res_fixed_ed_92602",
+        "right": "v5_hog_level_res_92602",
+        "block_latency_differences_ms": [
+          -0.07055625125455389,
+          -0.015202085099493168,
+          0.03831041491745646
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v5_hog_level_raw_92601",
+        "right": "v5_hog_level_res_92601",
+        "block_latency_differences_ms": [
+          0.009714582120068371,
+          -0.06966458022361577,
+          -0.0725666638269713
+        ]
+      },
+      {
+        "batch_origins": 4,
+        "left": "v5_hog_level_raw_92601",
+        "right": "v5_hog_level_res_92602",
+        "block_latency_differences_ms": [
+          0.020760414675653927,
+          -0.009614583783937647,
+          -0.008685414892776855
+        ]
+      }
+    ],
+    "diagnostic_allowed": true,
+    "interpretation": "Descriptive drift/rank checks only; no automatic correction, deletion, repetition or causal attribution."
+  },
+  "measurement_contract": {
+    "device": "NVIDIA GeForce RTX 4070",
+    "scope": "Standardized FP32 CPU input -> H2D -> complete original-channel CPU [B,48,32] output; synchronized wall time. Load/disk/scoring/ledger excluded.",
+    "precision": "float32",
+    "torch_threads": 4,
+    "warmup_calls": 10,
+    "passes_per_order_block": 20,
+    "order_blocks": 3,
+    "single_uninterrupted_session": true
+  },
+  "prohibited_claim": "A stable speedup, equivalent accuracy, overall GPU memory reduction, pretraining-disjoint confirmation, or a timing ratio against prior v4 measurements.",
+  "stem": "hog_accuracy_cost",
+  "figure_text": [
+    "Batch-4 throughput (origins/s) ↑",
+    "0",
+    "0",
+    "100",
+    "100",
+    "200",
+    "200",
+    "300",
+    "300",
+    "400",
+    "400",
+    "500",
+    "500",
+    "Normalized macro MSE ↓",
+    "2.5",
+    "2.5",
+    "2.6",
+    "2.6",
+    "2.7",
+    "2.7",
+    "2.8",
+    "2.8",
+    "2.9",
+    "2.9",
+    "3.0",
+    "3.0",
+    "3.1",
+    "3.1",
+    "3.2",
+    "3.2",
+    "3.3",
+    "3.3",
+    "3.4",
+    "3.4",
+    "Lower-right is better",
+    "Peak allocated GPU memory (MiB) ↓",
+    "0",
+    "0",
+    "50",
+    "50",
+    "100",
+    "100",
+    "150",
+    "150",
+    "200",
+    "200",
+    "250",
+    "250",
+    "300",
+    "300",
+    "350",
+    "350",
+    "400",
+    "400",
+    "2.5",
+    "2.5",
+    "2.6",
+    "2.6",
+    "2.7",
+    "2.7",
+    "2.8",
+    "2.8",
+    "2.9",
+    "2.9",
+    "3.0",
+    "3.0",
+    "3.1",
+    "3.1",
+    "3.2",
+    "3.2",
+    "3.3",
+    "3.3",
+    "3.4",
+    "3.4",
+    "Lower-left is better",
+    "Hog Accuracy–Cost Trade-offs After LEVEL Recovery",
+    "Hollow: seed 92601 (circle), seed 92602 (triangle), deterministic F0 (square).\nDiamond: family center; small points / horizontal span: all three block medians / range.\nDrift checks: 2 disjoint sentinel IQRs; 22 pairwise rank reversals. No stable speed claim.",
+    "F0",
+    "Merged LoRA",
+    "Original RES",
+    "LEVEL_RES",
+    "Matched LEVEL_RAW"
+  ],
+  "png_dpi": 300,
+  "figure_size_inches": [
+    7.2,
+    4.5
+  ],
+  "outputs": [
+    {
+      "path": "research/tsfm_peft_accuracy_recovery_v5_20260927/figures/hog_accuracy_cost.png",
+      "sha256": "75a5e51fce285100143cb287a409fe5cf99e45318fb44adf00e801bfc1e08720"
+    },
+    {
+      "path": "research/tsfm_peft_accuracy_recovery_v5_20260927/figures/hog_accuracy_cost.svg",
+      "sha256": "f0078b33f9fdb84904f7f6b5202e3bd2d3ddb8e68c8fcc873f4efbfd0c52c50f"
+    }
+  ]
+}

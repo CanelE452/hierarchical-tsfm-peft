@@ -1,0 +1,52 @@
+--- diagnose01_executed.py
++++ diagnose_v5.py
+@@ -200,6 +200,7 @@
+     level_metrics = {period: summaries(level_only[ix], target[ix], mask[ix]) for period, ix in periods.items()}
+     check_time()
+     channel_rows, origin_rows, timestamp_rows, projection_rows, relation_rows, concentration_rows = [], [], [], [], [], []
++    period_rows = []
+     for seed in SEEDS:
+         res_id, lora_id = f"v4_hog_tsfm_res_fixed_ed_{seed}", f"v4_hog_lora_{seed}"
+         res, lora = predictions[res_id].astype(np.float64), predictions[lora_id].astype(np.float64)
+@@ -207,6 +208,13 @@
+         correction = target.astype(np.float64) - res
+         for period, ix in periods.items():
+             sr, sl = model_metrics[res_id][period], model_metrics[lora_id][period]
++            period_rows.append({"seed": seed, "period": period, "res_mse": sr["mse"],
++                "lora_mse": sl["mse"], "delta_mse_res_minus_lora": sr["mse"] - sl["mse"],
++                "relative_mse_change_percent": relative_change(sr["mse"], sl["mse"]),
++                "res_mae": sr["mae"], "lora_mae": sl["mae"],
++                "delta_mae_res_minus_lora": sr["mae"] - sl["mae"],
++                "res_signed_bias": sr["signed_bias"], "lora_signed_bias": sl["signed_bias"],
++                "observed_forecast_target_terms": sr["observed_forecast_target_terms"]})
+             for c, name in enumerate(channels):
+                 channel_rows.append({"seed": seed, "period": period, "channel": name,
+                     "observed_forecast_target_terms": sr["channel_target_count"][c],
+@@ -280,8 +288,9 @@
+             origin_rows.append({"seed": seed, "period": period_for_origin[n], "origin": int(origin),
+                 "origin_time": str(timestamps[origin]), "channels_with_observations": sr["channels_with_observations"],
+                 "observed_forecast_target_terms": sr["observed_forecast_target_terms"],
+-                "res_mse": sr["mse"], "lora_mse": sl["mse"], "delta_mse_res_minus_lora": sr["mse"] - sl["mse"],
+-                "relative_mse_change_percent": relative_change(sr["mse"], sl["mse"]),
++                "res_mse": sr["mse"], "lora_mse": sl["mse"],
++                "delta_mse_res_minus_lora": sr["mse"] - sl["mse"] if sr["mse"] is not None else None,
++                "relative_mse_change_percent": relative_change(sr["mse"], sl["mse"]) if sr["mse"] is not None else None,
+                 "res_mae": sr["mae"], "lora_mae": sl["mae"],
+                 "res_signed_bias": sr["signed_bias"], "lora_signed_bias": sl["signed_bias"]})
+         for period in ("test_a", "test_b"):
+@@ -321,6 +330,7 @@
+                         residual_recent24_std=recent_std, q8_diagnostic=q8,
+                         q8_to_q16_diagnostic=q_extra, q16_diagnostic=q16, pca16_train=pca16)
+     csv_receipts = {"channel": write_csv(out / "channel_differences.csv", channel_rows),
++                    "period_seed": write_csv(out / "period_seed_differences.csv", period_rows),
+                     "origin": write_csv(out / "origin_differences.csv", origin_rows),
+                     "target_time": write_csv(out / "target_time_differences.csv", timestamp_rows),
+                     "residual_relation": write_csv(out / "residual_relations.csv", relation_rows)}
+@@ -329,6 +339,7 @@
+         "new_model_inferences": 0, "level_only_algebraic_forecasts": True,
+         "sources": sources, "script": receipt(Path(__file__)), "csv": csv_receipts,
+         "arrays": receipt(array_path), "saved_score_reproduction": reproduction,
++        "res_minus_lora_by_seed_period": period_rows,
+         "saved_model_metrics": model_metrics, "level_only": {
+             "definition": "stored fixed COMPRESS prediction + broadcast final past reconstruction residual",
+             "formula": "D(F0(E(X))) + repeat_H((X-D(E(X)))[-1])", "learned_parameters": 0,
