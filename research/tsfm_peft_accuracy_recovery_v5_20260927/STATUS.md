@@ -1,6 +1,6 @@
 # V5 status
 
-[확인] 계산·비교·비용·검산 완료. LEVEL을 Hog 개발 구성으로 조건부 유지하며, 예비 FULL과 K 변경은 실자료 미실행이다. 일반 commit/origin/main 게시 확인이 남았다.
+[확인] 계산·비교·비용·검산·게시 완료. LEVEL을 Hog 개발 구성으로 조건부 유지하며, 예비 FULL과 K 변경은 실자료 미실행이다. 결과 commit `fb03b892dbf9cc41eae1e44081c789abcea24fa7`을 기존 `origin/main`에 push했고 `git ls-remote`로 실제 일치를 확인했다. 이 게시 완료 기록은 뒤따르는 문서 commit에 포함한다.
 
 - Hog MSE 3.220290→2.666809(−17.187%); matched RAW 2.949584보다−9.587%. LoRA2.683560 대비 점추정은 작고 조건부 구간은0을 포함한다. Hog B기간·MAE 손해는 남는다.
 - Bull0.727659→0.708616이지만 matched RAW0.697731보다 전체 MSE가 높다. Electricity0.165850→0.167458로 악화했다. 모든 자료에 같은 수정을 교체 적용하지 않는다.
