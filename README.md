@@ -175,3 +175,15 @@ Robin에서는 두 seed 모두 step0/alpha0이 선택돼 부모 MSE0.275196을 �
 - [v9 최종 판단](research/tsfm_peft_staged_p_v9_20260929/TOPIC_DECISION.md), [짧은 영문 방법·결과 업데이트](research/tsfm_peft_staged_p_v9_20260929/METHOD_UPDATE.md), [선행 경계](research/tsfm_peft_staged_p_v9_20260929/PRIOR_ART.md)
 - [확인된 수치](research/tsfm_peft_staged_p_v9_20260929/report_values.json), [정확도 CSV](research/tsfm_peft_staged_p_v9_20260929/analysis01/role_scores.csv), [대응 비교·구간](research/tsfm_peft_staged_p_v9_20260929/analysis01/comparisons.csv), [전체/기간 그림](research/tsfm_peft_staged_p_v9_20260929/figures01.json)
 - [Jena 조건부 비용](research/tsfm_peft_staged_p_v9_20260929/cost_jena_summary.json), [측정 정합성 수리](research/tsfm_peft_staged_p_v9_20260929/cost_checker_correction01.json), [실행계획](research/tsfm_peft_staged_p_v9_20260929/PLAN.md), [상태·예산](research/tsfm_peft_staged_p_v9_20260929/STATUS.md), [검산](research/tsfm_peft_staged_p_v9_20260929/final_checks.json), [재현](research/tsfm_peft_staged_p_v9_20260929/REPRODUCE.md), [게시 확인](research/tsfm_peft_staged_p_v9_20260929/publication_receipt.json)
+
+## 잔차 PEFT v10: 전체 TRAIN ridge 보정 대조 (2026-09-29)
+
+Robin의 학습된 v9 보정이 같은 TRAIN probe를 낮추지만 VAL을 악화한다는 진단 뒤, frozen LEVEL+공유 시간 ridge P/RAW를 두 자료에서 총16 CPU fit 비교했습니다. **정확도 손해와 범용성은 해결되지 않았습니다.** Robin RIDGE_P MSE0.280218은 부모0.275196보다1.83% 높아 VAL 정책상 부모를 유지합니다. Jena RIDGE_P0.279250은 부모보다13.91%, matched RAW보다2.03% 낮지만 v9 대비0.23% 차이는 조건부 구간이0을 포함합니다. Jena LoRA 대비16.07% 손해와 직접 NLinear 반례도 남습니다.
+
+전체 시간 rank·규제·직접 적합을 함께 바꾼 실용 대조이며 순수 최적화 원인 검정이나 새 독립 확증이 아닙니다. 추가 penalty·새 자료·모듈을 탐색하지 않고, ridge 보완을 일반적인 해결책으로 채택하지 않습니다.
+
+Jena 조건부 비용은600초 상한 안에서68/78개 측정 후 종료됐습니다. 전체 출력 정합성은 통과했지만 최종 속도·메모리 우열은 미확정이며, [부분 기록과 종료 사유](research/tsfm_peft_ridge_correction_v10_20260929/cost_guard.json)를 보존했습니다.
+
+- [v10 최종 판단](research/tsfm_peft_ridge_correction_v10_20260929/TOPIC_DECISION.md), [전체 비교](research/tsfm_peft_ridge_correction_v10_20260929/comparison.json), [기간별 수치](research/tsfm_peft_ridge_correction_v10_20260929/metrics.csv), [대응 차이·구간](research/tsfm_peft_ridge_correction_v10_20260929/comparisons.csv)
+- [선행 Robin 실제 진단](research/tsfm_peft_followup_diagnosis_20260929/STATUS.md), [TRAIN/VAL 적합 결과](research/tsfm_peft_ridge_correction_v10_20260929/training_summary.csv), [조건부 비용 판단](research/tsfm_peft_ridge_correction_v10_20260929/cost_decision.json), [수리 기록](research/tsfm_peft_ridge_correction_v10_20260929/REPAIRS.md)
+- [승인 계획](research/tsfm_peft_ridge_correction_v10_20260929/PLAN.md), [상태](research/tsfm_peft_ridge_correction_v10_20260929/STATUS.md), [검산](research/tsfm_peft_ridge_correction_v10_20260929/final_checks.json), [재현](research/tsfm_peft_ridge_correction_v10_20260929/REPRODUCE.md)
