@@ -165,3 +165,13 @@ Jena에서 기존 LEVEL 대비 이득은 주로 P 공간의 오차 감소이고,
 - [v8 판단·수식·기간/seed·공간 진단](research/tsfm_peft_subspace_correction_v8_20260929/TOPIC_DECISION.md), [전체 비교 JSON](research/tsfm_peft_subspace_correction_v8_20260929/analysis01/analysis_summary.json), [MSE/MAE CSV](research/tsfm_peft_subspace_correction_v8_20260929/analysis01/role_scores.csv), [대응 차이·구간 CSV](research/tsfm_peft_subspace_correction_v8_20260929/analysis01/comparisons.csv)
 - [Robin 평가](research/tsfm_peft_subspace_correction_v8_20260929/robin_eval01.json), [Jena 평가](research/tsfm_peft_subspace_correction_v8_20260929/jena_eval01.json), [그림](research/tsfm_peft_subspace_correction_v8_20260929/figures/accuracy_v8.png), [비용 생략 판단](research/tsfm_peft_subspace_correction_v8_20260929/cost_decision.json)
 - [승인 계획](research/tsfm_peft_subspace_correction_v8_20260929/PLAN.md), [상태·예산](research/tsfm_peft_subspace_correction_v8_20260929/STATUS.md), [검산](research/tsfm_peft_subspace_correction_v8_20260929/final_checks.json), [재현 연결](research/tsfm_peft_subspace_correction_v8_20260929/REPRODUCE.md), [게시 확인](research/tsfm_peft_subspace_correction_v8_20260929/publication_receipt.json)
+
+## 잔차 PEFT v9: 학습된 LEVEL 위의 단계적 P 보정 (2026-09-29)
+
+같은 자료·seed의 학습된 LEVEL 전체를 동결하고 P 공간 또는 원입력에 작은 시간 보정 head를 추가해 Robin/Jena 총8fit을 비교했습니다. **Jena의 조건부 개선은 확인했지만, 두 자료의 정확도 손해와 범용성 해결은 아닙니다.** Jena STAGED_P MSE0.279884는 부모0.324359보다13.71%, 같은 추가 학습 기회의 STAGED_RAW0.286285보다2.24% 낮았습니다. v8 공동학습0.279714보다 개선한 것은 아니며 직접 NLinear0.273984와 LoRA0.240590도 더 낮은 MSE를 보였습니다.
+
+Robin에서는 두 seed 모두 step0/alpha0이 선택돼 부모 MSE0.275196을 유지했습니다. 이는 추가 head의 예측 개선이 아니며 LoRA 대비23.07% 손해가 남습니다. 새 head의 실제 갱신과 Q 보존은 확인했지만, 그 성질을 전체 오차 보장이나 v8 gradient 충돌의 증명으로 해석하지 않습니다. 두 자료 모두 노출 개발 평가이고, 기본 checkpoint와 보조 alpha 선택은 모든 TEST 개봉 전에 끝냈습니다.
+
+- [v9 최종 판단](research/tsfm_peft_staged_p_v9_20260929/TOPIC_DECISION.md), [짧은 영문 방법·결과 업데이트](research/tsfm_peft_staged_p_v9_20260929/METHOD_UPDATE.md), [선행 경계](research/tsfm_peft_staged_p_v9_20260929/PRIOR_ART.md)
+- [확인된 수치](research/tsfm_peft_staged_p_v9_20260929/report_values.json), [정확도 CSV](research/tsfm_peft_staged_p_v9_20260929/analysis01/role_scores.csv), [대응 비교·구간](research/tsfm_peft_staged_p_v9_20260929/analysis01/comparisons.csv), [전체/기간 그림](research/tsfm_peft_staged_p_v9_20260929/figures01.json)
+- [Jena 조건부 비용](research/tsfm_peft_staged_p_v9_20260929/cost_jena_summary.json), [측정 정합성 수리](research/tsfm_peft_staged_p_v9_20260929/cost_checker_correction01.json), [실행계획](research/tsfm_peft_staged_p_v9_20260929/PLAN.md), [상태·예산](research/tsfm_peft_staged_p_v9_20260929/STATUS.md), [검산](research/tsfm_peft_staged_p_v9_20260929/final_checks.json), [재현](research/tsfm_peft_staged_p_v9_20260929/REPRODUCE.md), [게시 확인](research/tsfm_peft_staged_p_v9_20260929/publication_receipt.json)

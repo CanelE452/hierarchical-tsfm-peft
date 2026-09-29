@@ -1,0 +1,592 @@
+"""Conditional same-dataset online deployment comparison; no CPU/profile benchmark."""
+import argparse
+from collections import defaultdict
+import gc
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import subprocess
+import sys
+import time
+import traceback
+
+from runtime_v9 import (HERE, ROOT, Job, digest, load_data, save_json, score_arrays,
+                        source_receipt, environment_receipt)
+
+V6 = ROOT / 'research/tsfm_peft_level_confirmation_v6_20260928'
+V7 = ROOT / 'research/tsfm_peft_practical_controls_v7_20260928'
+V8 = ROOT / 'research/tsfm_peft_subspace_correction_v8_20260929'
+ROLES = ('base_level', 'staged_p', 'staged_p_alpha', 'staged_raw', 'staged_raw_alpha',
+         'joint_pq_v8', 'f0', 'lora', 'direct_nlinear')
+
+
+def resolve(path):
+    path = Path(path)
+    return path if path.is_absolute() else ROOT / path
+
+
+def checked_path(receipt):
+    path = resolve(receipt['path'])
+    if digest(path) != receipt['sha256']:
+        raise ValueError('Bound artifact changed: ' + str(path))
+    return path
+
+
+def read(path):
+    return json.loads(resolve(path).read_text(encoding='utf-8'))
+
+
+def module(path):
+    path = resolve(path)
+    name = '_cost_v9_' + hashlib.sha256(str(path.resolve()).encode()).hexdigest()[:20]
+    if name not in sys.modules:
+        spec = importlib.util.spec_from_file_location(name, path)
+        loaded = importlib.util.module_from_spec(spec)
+        sys.modules[name] = loaded
+        spec.loader.exec_module(loaded)
+    return sys.modules[name]
+
+
+def decision_guard(dataset):
+    decision = read(HERE / 'cost_decision.json')
+    choice = decision['datasets'][dataset]
+    if decision['run_cost'] is not True or choice['run_cost'] is not True:
+        raise RuntimeError('This dataset has no affirmative conditional cost decision')
+    if not isinstance(choice['reason'], str) or not choice['reason'].strip():
+        raise ValueError('A same-dataset retained-value reason is required')
+    for name in ('robin', 'jena'):
+        path = checked_path(decision['evaluations'][name])
+        value = read(path)
+        if path.resolve().parent != HERE.resolve() or value['status'] != 'complete' or value['dataset'] != name:
+            raise ValueError('Both new accuracy comparisons must be complete before conditional cost')
+    contract = read(HERE / 'protocol.json')['cost']
+    required = {'val_origins': 24, 'warmup': 10, 'passes': 20, 'blocks': 3,
+                'maximum_primary_configurations_per_dataset': 37,
+                'maximum_gpu_rows_per_dataset': 123, 'cpu_rows': 0, 'profile_rows': 0}
+    if any(contract.get(k) != v for k, v in required.items()) or contract['batch'] != [1, 4]:
+        raise ValueError('Cost execution differs from the fixed protocol')
+    return decision
+
+
+def legacy_records(selection_path, family):
+    selected = read(selection_path)
+    if family == 'f0':
+        return [selected['deterministic_models']['f0']]
+    ids = selected['selected'][family]['run_ids']
+    records = [r for r in selected['all_neural_runs'] if r['id'] in ids]
+    if len(records) != 2 or {r['spec']['seed'] for r in records} != {92601, 92602}:
+        raise ValueError('Missing selected baseline seed for ' + family)
+    return sorted(records, key=lambda r: r['spec']['seed'])
+
+
+def item_from_record(record, role, source, dataset):
+    if record['spec']['dataset'] != dataset:
+        raise ValueError('Candidate belongs to another dataset')
+    checked_path({'path': record['result_path'], 'sha256': record['result_sha256']})
+    checked_path({'path': record['checkpoint'], 'sha256': record['checkpoint_sha256']})
+    checked_path(record['best_val_prediction'])
+    return {'id': record['id'], 'role': role, 'family': record['spec']['family'],
+            'dataset': dataset, 'seed': record['spec']['seed'],
+            'checkpoint': record['checkpoint'], 'checkpoint_sha256': record['checkpoint_sha256'],
+            'val_prediction': record['best_val_prediction'], 'val_mse': record['best_val_mse'],
+            'source': str(source), 'result_path': record['result_path'], 'alpha': 1.}
+
+
+def staged_records(dataset):
+    selection = read(HERE / f'selected_{dataset}.json')
+    if selection['dataset'] != dataset or selection['test_used_for_selection'] is not False:
+        raise ValueError('Cost requires the frozen TRAIN/VAL selection for this dataset')
+    if selection['real_fits'] != 4 or selection['auxiliary_new_fits'] != 0:
+        raise ValueError('The staged comparison must contain four fits and no alpha refit')
+    records = {r['id']: r for r in selection['all_neural_runs']}
+    if len(records) != 4:
+        raise ValueError('Incomplete staged model receipts')
+    items = []
+    for family in ('staged_p', 'staged_raw'):
+        for suffix in ('', '_alpha'):
+            role = family + suffix
+            selected = selection['selected'][role]
+            chosen = [records[run_id] for run_id in selected['run_ids']]
+            if len(chosen) != 2 or {r['spec']['seed'] for r in chosen} != {92601, 92602}:
+                raise ValueError('Both seeds are required for ' + role)
+            for index, record in enumerate(chosen):
+                if record['spec']['family'] != family:
+                    raise ValueError('Selected head input policy differs from its run')
+                item = item_from_record(record, role, HERE / 'model_v9.py', dataset)
+                item['run_id'] = record['id']
+                item['id'] = record['id'] + ('__alpha' if suffix else '__basic')
+                if suffix:
+                    auxiliary = record['alpha_selected']
+                    receipt = {'path': auxiliary['selection_path'], 'sha256': auxiliary['selection_sha256']}
+                    auxiliary_selection = read(checked_path(receipt))
+                    if auxiliary_selection['test_used_for_selection'] is not False:
+                        raise ValueError('Auxiliary alpha selection used TEST')
+                    for key in ('alpha', 'checkpoint', 'checkpoint_sha256', 'val_prediction', 'val_mse', 'best_trained_checkpoint'):
+                        if auxiliary_selection[key] != auxiliary[key]:
+                            raise ValueError('Auxiliary selection receipt differs: ' + key)
+                    checked_path({'path': auxiliary['checkpoint'], 'sha256': auxiliary['checkpoint_sha256']})
+                    checked_path(auxiliary['val_prediction'])
+                    item.update(checkpoint=auxiliary['checkpoint'], checkpoint_sha256=auxiliary['checkpoint_sha256'],
+                                val_prediction=auxiliary['val_prediction'], val_mse=auxiliary['val_mse'],
+                                alpha=auxiliary['alpha'], alpha_selection=receipt)
+                if item['alpha'] not in (0., .25, .5, .75, 1.):
+                    raise ValueError('Alpha is outside the predeclared finite grid')
+                if (selected['checkpoints'][index] != item['checkpoint']
+                        or selected['alphas'][index] != item['alpha']):
+                    raise ValueError('Selected deployment checkpoint/alpha differs from its per-run receipt')
+                items.append(item)
+    return items
+
+
+def candidates(dataset):
+    baseline_selection = V6 / 'selected.json' if dataset == 'robin' else V7 / 'selected_jena.json'
+    baseline_source = V6 / 'model_v6.py' if dataset == 'robin' else V7 / 'model_v7.py'
+    items = []
+    for family, role in [('f0', 'f0'), ('level_res', 'base_level'), ('lora', 'lora')]:
+        items.extend(item_from_record(r, role, baseline_source, dataset)
+                     for r in legacy_records(baseline_selection, family))
+    items.extend(item_from_record(r, 'joint_pq_v8', V8 / 'model_v8.py', dataset)
+                 for r in legacy_records(V8 / f'selected_{dataset}.json', 'pq_split'))
+    items.extend(item_from_record(r, 'direct_nlinear', V7 / 'model_v7.py', dataset)
+                 for r in legacy_records(V7 / f'selected_{dataset}.json', 'direct_nlinear'))
+    items.extend(staged_records(dataset))
+    if len(items) != 17:
+        raise ValueError('All seventeen role/seed instances are required before deduplication')
+    for role in ROLES:
+        rows = [r for r in items if r['role'] == role]
+        if len(rows) != (1 if role == 'f0' else 2):
+            raise ValueError('Missing comparison role: ' + role)
+    return items
+
+
+def tensor_signature(state):
+    result = {}
+    for name, tensor in state.items():
+        tensor = tensor.detach().cpu().contiguous()
+        result[name] = {'shape': list(tensor.shape), 'dtype': str(tensor.dtype),
+                        'sha256': hashlib.sha256(tensor.numpy().tobytes()).hexdigest()}
+    return result
+
+
+def deduplicate(items):
+    parents = {r['seed']: r for r in items if r['role'] == 'base_level'}
+    unique, alias_map, keys = [], {}, {}
+    for item in items:
+        effective = item
+        if item['family'] in ('staged_p', 'staged_raw'):
+            saved = torch.load(resolve(item['checkpoint']), map_location='cpu', weights_only=False)
+            if saved['alpha'] != item['alpha'] or saved['spec']['family'] != item['family']:
+                raise ValueError('Stored staged deployment policy differs before deduplication')
+            parent = saved['parent_receipt']
+            expected_parent = parents[item['seed']]
+            if parent['checkpoint']['sha256'] != expected_parent['checkpoint_sha256']:
+                raise ValueError('New head and BASE_LEVEL cost parents differ')
+            if item['alpha'] == 0:
+                effective = expected_parent
+                key = ('parent', effective['checkpoint_sha256'], digest(resolve(effective['source'])))
+                reason = 'alpha=0 exact parent fallback; the head is removed from deployment'
+            else:
+                key = ('staged', item['family'], parent['checkpoint']['sha256'],
+                       parent['model_source']['sha256'], digest(resolve(item['source'])), item['alpha'],
+                       json.dumps(tensor_signature(saved['state']), sort_keys=True))
+                reason = 'identical parent, input policy, head tensors and constant alpha'
+        elif item['role'] == 'base_level':
+            key = ('parent', item['checkpoint_sha256'], digest(resolve(item['source'])))
+            reason = 'selected parent instance'
+        else:
+            key = ('baseline', item['family'], item['checkpoint_sha256'], digest(resolve(item['source'])))
+            reason = 'same selected baseline checkpoint and implementation'
+        if key not in keys:
+            canonical = dict(effective)
+            canonical['id'] = effective['id']
+            canonical['aliases'] = []
+            keys[key] = len(unique)
+            unique.append(canonical)
+        canonical = unique[keys[key]]
+        alias = {'id': item['id'], 'role': item['role'], 'seed': item['seed'],
+                 'alpha': item['alpha'], 'source_checkpoint_sha256': item['checkpoint_sha256'],
+                 'reason': reason, 'measurement_id': canonical['id']}
+        if item['family'] in ('staged_p', 'staged_raw'):
+            alias.update(newly_fitted_head_parameters=17920, cumulative_fitted_adapter_parameters=35840,
+                         deployed_new_head_parameters=0 if item['alpha'] == 0 else 17920,
+                         alpha0_deployment_excludes_head=item['alpha'] == 0)
+        canonical['aliases'].append(alias)
+        alias_map[item['id']] = alias
+    if len(alias_map) != 17 or len({r['id'] for r in unique}) != len(unique):
+        raise ValueError('Measurement identity collision during deduplication')
+    return unique, alias_map
+
+
+def cleanup():
+    torch.cuda.synchronize()
+    gc.collect()
+    torch._C._cuda_clearCublasWorkspaces()
+    torch.cuda.empty_cache()
+    torch.cuda.synchronize()
+
+
+def telemetry():
+    fields = 'index,uuid,temperature.gpu,clocks.current.sm,utilization.gpu,power.draw,pstate'
+    gpu = subprocess.run(['nvidia-smi', '--query-gpu=' + fields, '--format=csv,noheader,nounits'], capture_output=True, text=True)
+    apps = subprocess.run(['nvidia-smi', '--query-compute-apps=pid,used_gpu_memory', '--format=csv,noheader'], capture_output=True, text=True)
+    return {'utc': time.time(), 'fields': fields, 'gpu': gpu.stdout.strip().splitlines(),
+            'process_gpu_memory': apps.stdout.strip().splitlines(), 'gpu_returncode': gpu.returncode,
+            'process_returncode': apps.returncode, 'meaning': 'N/A is unavailable, not zero; no settings changed'}
+
+
+def cost_environment():
+    result = environment_receipt()
+    result.update(device=torch.cuda.get_device_name(), device_index=torch.cuda.current_device(), dtype='float32',
+                  cpu_threads=torch.get_num_threads(), cpu_interop_threads=torch.get_num_interop_threads(),
+                  cuda_matmul_allow_tf32=torch.backends.cuda.matmul.allow_tf32,
+                  cudnn_allow_tf32=torch.backends.cudnn.allow_tf32, inference_mode=torch.is_inference_mode_enabled())
+    return result
+
+
+def configs(item):
+    rows = [(1, 'original', None), (4, 'original', None)]
+    if item['family'] in ('f0', 'lora'):
+        rows.append((4, 'generic', 20 if item['dataset'] == 'robin' else 24))
+    return rows
+
+
+def point(model, x, micro):
+    batch, length, channels = x.shape
+    flat = x.transpose(1, 2).reshape(batch * channels, length)
+    output = torch.empty((batch * channels, 48), dtype=x.dtype, device=x.device)
+    for start in range(0, len(flat), micro):
+        raw = model.backbone(context=flat[start:start + micro])
+        output[start:start + micro].copy_(raw.quantile_preds[:, model.median, :48])
+        del raw
+    return output.reshape(batch, channels, 48).transpose(1, 2)
+
+
+def forward(model, x, variant='original', micro=None):
+    x = x.to(device='cuda', dtype=torch.float32)
+    if variant == 'original' and micro is None:
+        output = model(x)
+    elif variant == 'generic' and model.family in ('f0', 'lora') and len(x) == 4 and micro in (20, 24):
+        output = point(model, x, micro)
+    else:
+        raise ValueError('Only full online forward and approved uncompressed B4 row batching are allowed')
+    return output.float().cpu()
+
+
+def predict(model, inputs, batch, variant='original', micro=None, job=None):
+    output = []
+    for x in inputs.split(batch):
+        if job is not None:
+            job.check_limits()
+        output.append(forward(model, x, variant, micro))
+    return torch.cat(output)
+
+
+def difference(actual, reference, atol=1e-5, rtol=1e-4):
+    if actual.shape != reference.shape or not torch.isfinite(actual).all() or not torch.isfinite(reference).all():
+        raise ValueError('Nonfinite or incompatible parity output')
+    delta = (actual - reference).abs()
+    violating = delta > atol + rtol * reference.abs()
+    return {'pass_': not bool(violating.any()), 'atol': atol, 'rtol': rtol,
+            'max_absolute_difference': float(delta.max()),
+            'max_relative_difference': float((delta / reference.abs().clamp_min(1e-12)).max()),
+            'relative_denominator_floor': 1e-12, 'violating_elements': int(violating.sum()),
+            'elements': actual.numel(), 'bitwise_equal': bool(torch.equal(actual, reference))}
+
+
+def load_candidate(item):
+    checked_path({'path': item['checkpoint'], 'sha256': item['checkpoint_sha256']})
+    model = module(item['source']).restore_model(resolve(item['checkpoint']), device='cuda').eval()
+    if model.family != item['family']:
+        raise ValueError('Restored candidate family differs from the selected instance')
+    if item['family'] in ('staged_p', 'staged_raw'):
+        if model.alpha != item['alpha']:
+            raise ValueError('Saved deployment alpha differs from the selected cost instance')
+        if model.parent.training or any(p.requires_grad for p in model.parent.parameters()):
+            raise ValueError('New staged candidate parent is not fully frozen/eval')
+    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    expected = {'f0': 0, 'lora': 294912, 'level_res': 17920, 'pq_split': 35840,
+                'direct_nlinear': 24624, 'staged_p': 17920, 'staged_raw': 17920}
+    if trainable != expected[item['family']]:
+        raise ValueError('Candidate trainable parameter count changed')
+    return model, {'checkpoint_path': item['checkpoint'], 'checkpoint_sha256': item['checkpoint_sha256'],
+                   'model_source': item['source'], 'model_source_sha256': digest(resolve(item['source'])),
+                   'trainable_parameters_at_restore': trainable,
+                   'total_parameters_before_merge': sum(p.numel() for p in model.parameters()),
+                   'cumulative_fitted_adapter_parameters': 35840 if item['family'] in ('staged_p', 'staged_raw', 'pq_split') else trainable,
+                   'alpha': item['alpha'], 'online_parent_forward_included': item['family'] in ('staged_p', 'staged_raw')}
+
+
+def merge(model, inputs, job):
+    before = predict(model, inputs, 4, job=job)
+    model.backbone = model.backbone.merge_and_unload(safe_merge=True)
+    after = predict(model, inputs, 4, job=job)
+    result = difference(after, before)
+    if not result['pass_']:
+        raise ValueError('Returned merged LoRA output differs beyond the fixed tolerance')
+    return result
+
+
+def model_bytes(model):
+    parameter_bytes = sum(p.numel() * p.element_size() for p in model.parameters())
+    buffer_bytes = sum(p.numel() * p.element_size() for p in model.buffers())
+    return {'deployed_parameters': sum(p.numel() for p in model.parameters()),
+            'parameter_bytes': parameter_bytes, 'buffer_bytes': buffer_bytes,
+            'deployment_tensor_bytes': parameter_bytes + buffer_bytes,
+            'non_tensor_alpha_scalar_count': 1 if model.family in ('staged_p', 'staged_raw') else 0}
+
+
+def prepare(dataset):
+    data = load_data(dataset, include_test=False)
+    origins = np.asarray(data['val_origins'])
+    if len(origins) != (30 if dataset == 'robin' else 371):
+        raise ValueError('Fixed VAL origin count changed')
+    indices = np.linspace(0, len(origins) - 1, 24, dtype=int)
+    inputs = torch.from_numpy(np.stack([data['x'][o - 512:o] for o in origins]))
+    return {'origins': origins, 'inputs': inputs, 'selected_origins': origins[indices],
+            'selected_inputs': inputs[indices], 'data_path': data['_path'],
+            'target': np.stack([data['x'][o:o + 48] for o in origins]),
+            'mask': np.stack([data['finite'][o:o + 48] for o in origins])}
+
+
+def binding(items, prepared, decision, dataset):
+    paths = [HERE / 'cost_v9.py', HERE / 'runtime_v9.py', HERE / 'protocol.json', HERE / 'reuse_manifest.json',
+             HERE / 'cost_decision.json', HERE / 'selected_robin.json', HERE / 'selected_jena.json',
+             HERE / f'data_contract_{dataset}.json', prepared['data_path'], ROOT / 'src/hier_peft/lora.py',
+             V6 / 'selected.json', V7 / f'selected_{dataset}.json', V8 / f'selected_{dataset}.json']
+    paths.extend(resolve(decision['evaluations'][d]['path']) for d in ('robin', 'jena'))
+    for item in items:
+        paths.extend(map(resolve, (item['checkpoint'], item['source'], item['result_path'], item['val_prediction']['path'])))
+        if 'alpha_selection' in item:
+            paths.append(checked_path(item['alpha_selection']))
+        saved = torch.load(resolve(item['checkpoint']), map_location='cpu', weights_only=False)
+        if 'initial_path' in saved:
+            paths.append(resolve(saved['initial_path']))
+        if 'parent_receipt' in saved:
+            for name in ('checkpoint', 'model_source', 'result', 'head_initial', 'parent_initial'):
+                if name in saved['parent_receipt']:
+                    paths.append(checked_path(saved['parent_receipt'][name]))
+    return {str(p): digest(p) for p in paths}
+
+
+def parity_all(items, unique, aliases, prepared, decision, dataset, job):
+    initial_binding = binding(items, prepared, decision, dataset)
+    rows, restorations = [], []
+    by_id = {r['id']: r for r in items}
+    inputs = prepared['selected_inputs']
+    for item in unique:
+        cleanup()
+        model, info = load_candidate(item)
+        replay = predict(model, prepared['inputs'], 4, job=job)
+        replay_score = score_arrays(replay.numpy(), prepared['target'], prepared['mask'])
+        for alias in item['aliases']:
+            original = by_id[alias['id']]
+            with np.load(checked_path(original['val_prediction']), allow_pickle=False) as saved:
+                if not np.array_equal(saved['origins'], prepared['origins']):
+                    raise ValueError('Stored full VAL origins changed')
+                reference = torch.from_numpy(saved['prediction'].copy())
+            check = difference(replay, reference, atol=1e-6, rtol=0)
+            if not check['pass_'] or abs(replay_score['mse'] - original['val_mse']) > 1e-8:
+                raise ValueError('Selected model/alpha did not reproduce its stored full VAL output: ' + alias['id'])
+            restorations.append({'id': alias['id'], 'measurement_id': item['id'], 'full_val': check,
+                                 'mse': replay_score['mse'], 'mse_difference': replay_score['mse'] - original['val_mse']})
+            del reference
+        del replay
+        if item['family'] == 'lora':
+            info['merge'] = merge(model, inputs, job)
+        reference = predict(model, inputs, 4, job=job)
+        for batch, variant, micro in configs(item):
+            job.heartbeat(f'{dataset} parity {item["id"]} B{batch} {variant} M{micro}')
+            actual = predict(model, inputs, batch, variant, micro, job)
+            check = difference(actual, reference)
+            rows.append({'id': item['id'], 'family': item['family'], 'seed': item['seed'],
+                         'batch': batch, 'variant': variant, 'micro': micro, 'val': check, 'model': info})
+            save_json(HERE / f'cost_{dataset}_parity_partial.json', {'rows': rows, 'restorations': restorations, 'source': source_receipt()})
+            if not check['pass_']:
+                raise ValueError('B1/B4/row batching parity failed; tolerance must not be relaxed')
+            del actual
+        del model, reference
+        cleanup()
+    count = sum(len(configs(r)) for r in unique)
+    if len(rows) != count or count > 37 or len(restorations) != 17:
+        raise ValueError('Cost parity coverage is incomplete')
+    if binding(items, prepared, decision, dataset) != initial_binding:
+        raise RuntimeError('Bound cost source/state/data changed during parity')
+    save_json(HERE / f'cost_{dataset}_parity.json', {'status': 'PASS', 'dataset': dataset, 'rows': rows,
+              'restorations': restorations, 'aliases': aliases, 'configuration_count': count,
+              'val_origins': prepared['selected_origins'].tolist(), 'full_val_origins': prepared['origins'].tolist(),
+              'binding': initial_binding, 'environment': cost_environment(), 'source': source_receipt(),
+              'scope': 'Full VAL stored-output restore and dedup equivalence followed by common VAL24 batching parity; no new TEST prediction'})
+
+
+def describe(values):
+    return {'median': float(np.median(values)), 'q25': float(np.quantile(values, .25)),
+            'q75': float(np.quantile(values, .75)), 'min': float(min(values)), 'max': float(max(values))}
+
+
+def measure(model, inputs, batch, variant, micro, job):
+    chunks = list(inputs.split(batch))
+    cleanup()
+    resident = {'allocated': torch.cuda.memory_allocated(), 'reserved': torch.cuda.memory_reserved()}
+    for repeat in range(10):
+        job.check_limits()
+        forward(model, chunks[repeat % len(chunks)], variant, micro)
+    torch.cuda.synchronize()
+    torch.cuda.reset_peak_memory_stats()
+    times = []
+    for repeat in range(20):
+        job.check_limits()
+        torch.cuda.synchronize()
+        started = time.perf_counter()
+        for chunk in chunks:
+            forward(model, chunk, variant, micro)
+        torch.cuda.synchronize()
+        times.append(time.perf_counter() - started)
+    memory = psutil.Process().memory_info()
+    return {'seconds_per_24_origins': times,
+            'milliseconds_per_origin': describe([1000 * t / 24 for t in times]),
+            'origins_per_second': describe([24 / t for t in times]), 'loaded_resident': resident,
+            'peak_allocated_bytes': torch.cuda.max_memory_allocated(), 'peak_reserved_bytes': torch.cuda.max_memory_reserved(),
+            'final_allocated_bytes': torch.cuda.memory_allocated(),
+            'process_cpu_memory': {k: int(getattr(memory, k)) for k in ('rss', 'vms', 'peak_wset') if hasattr(memory, k)}}
+
+
+def summarize(rows, aliases, dataset):
+    grouped = defaultdict(list)
+    for row in rows:
+        if row['sentinel'] is None:
+            grouped[(row['id'], row['batch'], row['variant'], row['micro'])].append(row)
+    fits, lookup = [], {}
+    for key, values in grouped.items():
+        if len(values) != 3 or {r['block'] for r in values} != {0, 1, 2}:
+            raise ValueError('Every measured function requires all three blocks')
+        entry = {'id': key[0], 'batch': key[1], 'variant': key[2], 'micro': key[3], 'device': 'cuda',
+                 'milliseconds_per_origin': describe([r['milliseconds_per_origin']['median'] for r in values]),
+                 'origins_per_second': describe([r['origins_per_second']['median'] for r in values]),
+                 'peak_allocated_bytes': [r['peak_allocated_bytes'] for r in values],
+                 'peak_reserved_bytes': [r['peak_reserved_bytes'] for r in values], 'model': values[0]['model']}
+        fits.append(entry)
+        lookup[key] = entry
+    groups = []
+    for role in ROLES:
+        members = [a for a in aliases.values() if a['role'] == role]
+        grids = [(1, 'original', None), (4, 'original', None)]
+        if role in ('f0', 'lora'):
+            grids.append((4, 'generic', 20 if dataset == 'robin' else 24))
+        for batch, variant, micro in grids:
+            values = [lookup[(a['measurement_id'], batch, variant, micro)] for a in members]
+            allocated = [v for r in values for v in r['peak_allocated_bytes']]
+            reserved = [v for r in values for v in r['peak_reserved_bytes']]
+            groups.append({'role': role, 'batch': batch, 'variant': variant, 'micro': micro,
+                           'members': members, 'device': 'cuda',
+                           'mean_seed_median_ms': float(np.mean([r['milliseconds_per_origin']['median'] for r in values])),
+                           'mean_seed_median_throughput': float(np.mean([r['origins_per_second']['median'] for r in values])),
+                           'mean_seed_median_peak_allocated_bytes': float(np.mean([np.median(r['peak_allocated_bytes']) for r in values])),
+                           'observed_peak_allocated_range_bytes': [min(allocated), max(allocated)],
+                           'observed_peak_reserved_range_bytes': [min(reserved), max(reserved)]})
+    sentinels = []
+    for block in range(3):
+        for batch in (1, 4):
+            pair = {r['sentinel']: r for r in rows if r['sentinel'] and r['block'] == block and r['batch'] == batch}
+            if set(pair) != {'pre', 'post'}:
+                raise ValueError('F0 drift sentinel missing')
+            pre, post = (pair[k]['milliseconds_per_origin']['median'] for k in ('pre', 'post'))
+            sentinels.append({'block': block, 'batch': batch, 'pre_ms': pre, 'post_ms': post, 'post_relative_change': post / pre - 1})
+    return {'status': 'complete', 'dataset': dataset, 'fits': fits, 'groups': groups, 'aliases': aliases,
+            'sentinels': sentinels, 'aggregation': 'Median of three block medians per function; mean seed centers per declared role. Alias reuse is not an independent measurement.',
+            'scope': 'Same-session, same-dataset online CPU-input to full CPU-output CUDA deployment; no prior-session timing ratios'}
+
+
+def cost_grid(items, unique, aliases, prepared, decision, dataset, job):
+    initial_binding = binding(items, prepared, decision, dataset)
+    parity_path = HERE / f'cost_{dataset}_parity.json'
+    parity = read(parity_path)
+    if parity['status'] != 'PASS' or parity['binding'] != initial_binding or parity['aliases'] != aliases:
+        raise RuntimeError('Timing requires the unchanged parity-tested functions and bindings')
+    rows = []
+    inputs = prepared['selected_inputs']
+    sentinel_item = next(r for r in unique if r['family'] == 'f0')
+
+    def run_item(item, block, sentinel=None):
+        cleanup()
+        model, info = load_candidate(item)
+        if item['family'] == 'lora':
+            info['merge'] = merge(model, inputs, job)
+        info.update(model_bytes(model))
+        grid = configs(item) if sentinel is None else [(1, 'original', None), (4, 'original', None)]
+        if sentinel is None and block == 1:
+            grid = grid[::-1]
+        elif sentinel is None and block == 2:
+            grid = grid[1:] + grid[:1]
+        for batch, variant, micro in grid:
+            job.heartbeat(f'{dataset} cost block{block} {item["id"]} B{batch} {variant} {sentinel}')
+            row = {'id': item['id'], 'family': item['family'], 'seed': item['seed'], 'dataset': dataset,
+                   'block': block, 'batch': batch, 'variant': variant, 'micro': micro, 'device': 'cuda',
+                   'sentinel': sentinel, 'sequence': len(rows), 'model': info, 'telemetry_before': telemetry()}
+            row.update(measure(model, inputs, batch, variant, micro, job))
+            row['telemetry_after'] = telemetry()
+            rows.append(row)
+            save_json(HERE / f'cost_{dataset}_rows_partial.json', {'rows': rows, 'aliases': aliases, 'source': source_receipt()})
+        del model
+        cleanup()
+
+    for block in range(3):
+        run_item(sentinel_item, block, 'pre')
+        order = unique if block == 0 else unique[::-1] if block == 1 else unique[2:] + unique[:2]
+        for item in order:
+            run_item(item, block)
+        run_item(sentinel_item, block, 'post')
+    configs_count = sum(len(configs(item)) for item in unique)
+    if len(rows) != 3 * configs_count + 12 or len(rows) > 123:
+        raise ValueError('Conditional timing grid coverage differs from the predeclared grid')
+    if binding(items, prepared, decision, dataset) != initial_binding:
+        raise RuntimeError('Bound source/state/data changed while timing models')
+    save_json(HERE / f'cost_{dataset}_gpu_rows.json', {'status': 'complete', 'dataset': dataset,
+              'rows': rows, 'aliases': aliases, 'configuration_count': configs_count,
+              'environment': cost_environment(), 'source': source_receipt(), 'binding': initial_binding,
+              'decision_sha256': digest(HERE / 'cost_decision.json'), 'parity_sha256': digest(parity_path)})
+    save_json(HERE / f'cost_{dataset}_summary.json', summarize(rows, aliases, dataset))
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--dataset', choices=('robin', 'jena'), required=True)
+    parser.add_argument('--phase', choices=('parity', 'gpu'), required=True)
+    parser.add_argument('--name', required=True)
+    parser.add_argument('--reserve-seconds', type=float, required=True)
+    args = parser.parse_args()
+    if not args.name or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-' for c in args.name):
+        parser.error('Use a unique simple ledger label')
+    if not 0 < args.reserve_seconds <= 7200:
+        parser.error('Positive reservation must remain within the shared 7200-second cap')
+    decision = decision_guard(args.dataset)
+    suffixes = ('parity.json', 'parity_partial.json') if args.phase == 'parity' else ('gpu_rows.json', 'rows_partial.json', 'summary.json')
+    if any((HERE / f'cost_{args.dataset}_{suffix}').exists() for suffix in suffixes):
+        raise RuntimeError('Preserve the existing cost attempt before an explicit documented repair retry')
+    with Job(args.name, category='gpu', reserve_seconds=args.reserve_seconds,
+             metadata={'dataset': args.dataset, 'fit_count': 0, 'phase': 'cost_' + args.phase}) as job:
+        global np, torch, psutil
+        import numpy as np
+        import torch
+        import psutil
+        torch.set_num_threads(4)
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
+        try:
+            items = candidates(args.dataset)
+            unique, aliases = deduplicate(items)
+            prepared = prepare(args.dataset)
+            with torch.inference_mode():
+                if args.phase == 'parity':
+                    parity_all(items, unique, aliases, prepared, decision, args.dataset, job)
+                else:
+                    cost_grid(items, unique, aliases, prepared, decision, args.dataset, job)
+        except BaseException:
+            save_json(HERE / (args.name + '_failure.json'), {'status': 'failed', 'dataset': args.dataset,
+                      'phase': args.phase, 'error': traceback.format_exc(), 'source': source_receipt(),
+                      'environment': environment_receipt()})
+            raise
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "status": "code_repaired_not_reexecuted",
+  "correction": "Use torch.no_grad uniformly for model construction and forward in cost parity and timing; persist failed restoration measurements before raising.",
+  "original": {
+    "sha256": "14ecbb347b86d347c10de4c1c382b1f2e3c7282a2bc4b9c68119139f442cf688",
+    "path": "research/tsfm_peft_staged_p_v9_20260929/cost_v9_before_fix01.txt"
+  },
+  "updated": {
+    "sha256": "2da176c2118f8f1e3f5264bef8ee6921789fe025bac803dcc9232fdb835459b8",
+    "path": "research/tsfm_peft_staged_p_v9_20260929/cost_v9.py"
+  },
+  "diagnostic": {
+    "sha256": "1e202314cefa43d337ddb1c67729f6b3ff859cc97764ee6154e6b79ce4f48b63",
+    "path": "research/tsfm_peft_staged_p_v9_20260929/cost_replay_diagnostic01.json"
+  },
+  "failure": {
+    "sha256": "327770dca1a1e5ff6708c096bc0358da3982c0b9b6cf1bfdf1579baa50accc43",
+    "path": "research/tsfm_peft_staged_p_v9_20260929/cost_jena_parity01_failure.json"
+  },
+  "preserved_partial": {
+    "sha256": "1c7c4ee2997b221bef2ff1a81a389445b756c390ef16a9179ef9012b15ad51b9",
+    "path": "research/tsfm_peft_staged_p_v9_20260929/cost_jena_parity01_partial.json"
+  },
+  "diagnostic_findings": {
+    "scope": "One failed Jena staged_p seed92602 basic checkpoint; whole VAL, 373968 prediction values.",
+    "no_grad": {
+      "bitwise_equal": true,
+      "max_absolute_difference": 0.0,
+      "mse_difference": 0.0
+    },
+    "interpretation": "The combined construction-plus-forward context produced the observed difference. Construction and forward effects were not isolated; no deeper kernel cause is claimed.",
+    "inference_mode": {
+      "bitwise_equal": false,
+      "max_absolute_difference": 1.1920928955078125E-06,
+      "mse_difference": 3.6750213983083313E-10,
+      "violating_elements": 10
+    }
+  },
+  "unchanged": {
+    "data": true,
+    "checkpoint_selection": true,
+    "batching_rtol": 0.0001,
+    "model": true,
+    "batching_atol": 1E-05,
+    "checkpoint_replay_rtol": 0,
+    "training": true,
+    "alpha_selection": true,
+    "mse_atol": 1E-08,
+    "checkpoint_replay_atol": 1E-06,
+    "protocol": true
+  },
+  "changes": [
+    "The outer cost execution context changes from torch.inference_mode() to torch.no_grad(), equally for parity and timing and all comparison models.",
+    "Every full-VAL restoration writes max absolute difference, violating count, MSE/reference MSE/difference and pass state before failure is raised.",
+    "The exception includes actual max difference, violating count and MSE difference."
+  ],
+  "execution": "No checks, model inference, scoring, AST execution or benchmark were run while making this source repair. Root must reserve and run the next parity attempt.",
+  "unchanged_core_hashes": {
+    "model_v9.py": {
+      "path": "research/tsfm_peft_staged_p_v9_20260929/model_v9.py",
+      "unchanged": true,
+      "current_sha256": "6e2b9a69201f10c1cf9a318da4e28b62725d82ec0619c07c2cb3ccc9b9e9e48b",
+      "diagnostic_source_sha256": "6e2b9a69201f10c1cf9a318da4e28b62725d82ec0619c07c2cb3ccc9b9e9e48b"
+    },
+    "train_v9.py": {
+      "path": "research/tsfm_peft_staged_p_v9_20260929/train_v9.py",
+      "unchanged": true,
+      "current_sha256": "932ff17e15cb6f185ecd5dd491bc164b9c93e55ca2b03145f0d828847825a80d",
+      "diagnostic_source_sha256": "932ff17e15cb6f185ecd5dd491bc164b9c93e55ca2b03145f0d828847825a80d"
+    },
+    "runtime_v9.py": {
+      "path": "research/tsfm_peft_staged_p_v9_20260929/runtime_v9.py",
+      "unchanged": true,
+      "current_sha256": "9674e51d2753383463641bea625f2f488fca424438532743ac18d3342b6ed7be",
+      "diagnostic_source_sha256": "9674e51d2753383463641bea625f2f488fca424438532743ac18d3342b6ed7be"
+    },
+    "protocol.json": {
+      "path": "research/tsfm_peft_staged_p_v9_20260929/protocol.json",
+      "unchanged": true,
+      "current_sha256": "8dd67b06056a5b7fbc00a6e6f19c6839ac75e1900086636b362d69e73dcc0dbb",
+      "diagnostic_source_sha256": "8dd67b06056a5b7fbc00a6e6f19c6839ac75e1900086636b362d69e73dcc0dbb"
+    }
+  }
+}

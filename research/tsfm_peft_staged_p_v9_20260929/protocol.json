@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "stage": "v9_staged_p",
+  "base_commit": "61fbbff0959294eb996bf6ae37a39dab7df2bfb3",
+  "context": 512,
+  "horizon": 48,
+  "seeds": [
+    92601,
+    92602
+  ],
+  "epochs": 120,
+  "patience": 6,
+  "epoch_origins": 512,
+  "effective_batch_origins": 4,
+  "microbatch_origins": 4,
+  "eval_batch_origins": 4,
+  "optimizer": "AdamW",
+  "weight_decay": 0,
+  "clip_grad_norm": 1,
+  "scheduler": {
+    "factor": 0.5,
+    "patience": 2,
+    "threshold": 0.0001,
+    "threshold_mode": "rel",
+    "min_lr": 0,
+    "eps": 1e-08
+  },
+  "checkpoint_selection": "alpha1 full VAL minimum including step0; exact ties earliest",
+  "backbone_revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+  "precision": "float32",
+  "tf32": false,
+  "cpu_threads": 4,
+  "limits": {
+    "real_fit": 12,
+    "synthetic_sessions": 6,
+    "synthetic_steps": 10,
+    "gpu_seconds": 7200,
+    "cpu_check_seconds": 900,
+    "storage_bytes": 5368709120,
+    "download_bytes": 0,
+    "conflict_wait_per_incident_seconds": 1800,
+    "conflict_wait_total_seconds": 3600
+  },
+  "datasets": {
+    "robin": {
+      "channels": 17,
+      "latent": 5,
+      "phase_period": 24,
+      "interval_minutes": 60,
+      "bootstrap_block_origins": 7,
+      "expected_origins": {
+        "train": 1945,
+        "val": 30,
+        "test_a": 40,
+        "test_b": 40
+      },
+      "splits": {
+        "precontext": [
+          "2016-01-01",
+          "2016-01-23"
+        ],
+        "train": [
+          "2016-01-23",
+          "2016-04-15"
+        ],
+        "val": [
+          "2016-04-17",
+          "2016-05-18"
+        ],
+        "test_a": [
+          "2016-05-20",
+          "2016-06-30"
+        ],
+        "test_b": [
+          "2016-06-30",
+          "2016-08-10"
+        ]
+      },
+      "evaluation_stride": 24,
+      "status": "v6 exposed; v7 follow-up direct comparison"
+    },
+    "jena": {
+      "channels": 21,
+      "latent": 6,
+      "phase_period": 144,
+      "interval_minutes": 10,
+      "bootstrap_block_origins": 42,
+      "expected_origins": {
+        "train": 25648,
+        "val": 371,
+        "test_a": 365,
+        "test_b": 365
+      },
+      "splits": {
+        "train": [
+          "2024-01-01T00:10",
+          "2024-07-01T00:00"
+        ],
+        "val": [
+          "2024-07-01T00:00",
+          "2024-09-01T00:00"
+        ],
+        "test_a": [
+          "2024-09-01T00:00",
+          "2024-11-01T00:00"
+        ],
+        "test_b": [
+          "2024-11-01T00:00",
+          "2025-01-01T00:10"
+        ]
+      },
+      "evaluation_stride": 24,
+      "status": "previously exposed source; fixed other-domain extension, not independent confirmation"
+    }
+  },
+  "fits": [
+    {
+      "id": "v9_robin_staged_p_92601",
+      "dataset": "robin",
+      "family": "staged_p",
+      "arm": "staged_p",
+      "channels": 17,
+      "latent": 5,
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v9_robin_staged_p_92602",
+      "dataset": "robin",
+      "family": "staged_p",
+      "arm": "staged_p",
+      "channels": 17,
+      "latent": 5,
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v9_robin_staged_raw_92601",
+      "dataset": "robin",
+      "family": "staged_raw",
+      "arm": "staged_raw",
+      "channels": 17,
+      "latent": 5,
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v9_robin_staged_raw_92602",
+      "dataset": "robin",
+      "family": "staged_raw",
+      "arm": "staged_raw",
+      "channels": 17,
+      "latent": 5,
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v9_jena_staged_p_92601",
+      "dataset": "jena",
+      "family": "staged_p",
+      "arm": "staged_p",
+      "channels": 21,
+      "latent": 6,
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v9_jena_staged_p_92602",
+      "dataset": "jena",
+      "family": "staged_p",
+      "arm": "staged_p",
+      "channels": 21,
+      "latent": 6,
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v9_jena_staged_raw_92601",
+      "dataset": "jena",
+      "family": "staged_raw",
+      "arm": "staged_raw",
+      "channels": 21,
+      "latent": 6,
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v9_jena_staged_raw_92602",
+      "dataset": "jena",
+      "family": "staged_raw",
+      "arm": "staged_raw",
+      "channels": 21,
+      "latent": 6,
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    }
+  ],
+  "base_real_fits": 8,
+  "reserve_real_fits": 4,
+  "extension_allowed": false,
+  "test_scope": "Both datasets exposed development; complete all eight fits and both checkpoint/alpha selections before either v9 TEST; no fit or reselection after exposure",
+  "test_selection_prohibited": true,
+  "initialization": "Same trained LEVEL parent per dataset/seed; same new head cloned from v8 untrained retained tensors; new zero-up yields learned parent at step0",
+  "cost_condition": "Conditional same-dataset measurement when useful nonzero staged candidate remains; no cross-dataset timing transplant",
+  "cost": {
+    "conditional": true,
+    "datasets": [
+      "robin",
+      "jena"
+    ],
+    "decision": "Only when a nonzero useful staged candidate remains; measure the same dataset, never transplant timing",
+    "families": [
+      "base_level",
+      "staged_p",
+      "staged_p_alpha",
+      "staged_raw",
+      "staged_raw_alpha",
+      "joint_pq_v8",
+      "f0",
+      "lora",
+      "direct_nlinear"
+    ],
+    "batch": [
+      1,
+      4
+    ],
+    "val_origins": 24,
+    "warmup": 10,
+    "passes": 20,
+    "blocks": 3,
+    "sentinels": "F0 B1/B4 before and after each block",
+    "uncompressed_chunk_B4_M": "B*K; Robin20/Jena24",
+    "deduplicate": "same parent checkpoint/head checkpoint/alpha or alpha0 parent; preserve role mapping",
+    "maximum_primary_configurations_per_dataset": 37,
+    "maximum_gpu_rows_per_dataset": 123,
+    "maximum_gpu_rows_both_datasets": 246,
+    "cpu_rows": 0,
+    "profile_rows": 0,
+    "range": "standardized CPU input through whole online parent+head output on CPU; no prediction cache"
+  },
+  "best_trained_selection": "epoch>=1 alpha1 full VAL minimum; exact ties earliest",
+  "alpha_grid": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "alpha_selection": "same full VAL on only the best-trained checkpoint; exact ties smaller alpha; all runs receive equal grid",
+  "automatic_extension": false,
+  "reserve_use": "parent recovery or technical retry only; no LR search or automatic 240epoch extension",
+  "model": {
+    "parent": "selected trained LEVEL_RES per dataset and seed; whole parent frozen",
+    "head": "shared 512-32-48 no bias/activation; zero-up",
+    "trainable_parameters": 17920,
+    "cumulative_fitted_adapter_parameters": 35840,
+    "p_input": "delta X P",
+    "raw_input": "delta X",
+    "extra_P_level": false,
+    "head_initialization": "reuse untrained v8 retained head initial tensors; identical across new families"
+  },
+  "parity": {
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "checkpoint_replay_atol": 1e-06,
+    "checkpoint_replay_rtol": 0,
+    "correction_q_atol": 1e-05,
+    "correction_q_rtol": 0,
+    "initial_parent_max_abs": 0
+  },
+  "resource_allocation_seconds": {
+    "parent_and_checks": 600,
+    "base_fits_and_VAL_alpha": 3000,
+    "evaluation_and_analysis_GPU": 900,
+    "conditional_cost": 1800,
+    "recovery": 900,
+    "scope": "planning allocations, total7200 hard; no completion-time prediction"
+  }
+}

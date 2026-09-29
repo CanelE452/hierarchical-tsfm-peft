@@ -1,0 +1,13 @@
+{
+  "status": "corrected_and_rechecked_before_any_real_fit",
+  "failed_result": "synthetic_models01.json",
+  "failed_source": "check_models_before_fix01.txt",
+  "corrected_source": "check_models_v9.py",
+  "successful_recheck": "synthetic_models02.json",
+  "failure": "Exact initial-function comparison had maximum absolute difference 2.384185791015625e-7 before any optimizer update.",
+  "change": "Compute the synthetic learned-parent reference with requires_grad_(False), eval and no_grad, matching the wrapper's frozen inference contract.",
+  "evidence": "With this reference-path correction alone, the exact-zero initial comparison and all ten synthetic updates/checkpoint checks passed. No tolerance was relaxed.",
+  "unchanged": ["model_v9.py", "train_v9.py", "runtime_v9.py", "protocol.json", "all real artifacts"],
+  "accounting": "Failed CPU synthetic session remains counted with zero updates; successful second session has ten total updates. No real fit was run for this repair.",
+  "limitation": "The correction demonstrates matched frozen inference behavior; it does not identify an exact CPU kernel implementation as the cause or establish real-data convergence."
+}

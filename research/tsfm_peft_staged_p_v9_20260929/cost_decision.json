@@ -1,0 +1,26 @@
+{
+  "status": "fixed_after_both_accuracy_evaluations_before_any_v9_cost",
+  "run_cost": true,
+  "datasets": {
+    "robin": {
+      "run_cost": false,
+      "reason": "Both STAGED_P seeds select step0 for the basic policy and alpha0 for the auxiliary policy, exactly returning the trained LEVEL parent. RAW basic/alpha mean TEST MSE is slightly worse than the parent, with intervals including zero. No useful nonzero staged candidate remains here; repeating Robin cost would not establish new P efficacy."
+    },
+    "jena": {
+      "run_cost": true,
+      "reason": "Both STAGED_P seeds select trained heads and alpha1. Combined MSE 0.2798835818109315 improves over parent 0.3243591575923674 and matched RAW 0.28628498787868406. This supports a conditional incremental-adaptation candidate worth measuring on Jena, while v8 JOINT_PQ 0.27971447774246144, DIRECT 0.27398416828202665 and LoRA 0.24058989518638096 prevent an accuracy-superiority/default-replacement claim. Cost will determine the remaining practical tradeoff, not justify a post-TEST model change."
+    }
+  },
+  "evaluations": {
+    "robin": {
+      "path": "E:/CODING/proj/hierarchical-tsfm-peft/research/tsfm_peft_staged_p_v9_20260929/robin_eval01.json",
+      "sha256": "60e44a2c6eb04024ce8e315abe1c0eef7b336f340751ffbd0ce201a751b086d8"
+    },
+    "jena": {
+      "path": "E:/CODING/proj/hierarchical-tsfm-peft/research/tsfm_peft_staged_p_v9_20260929/jena_eval01.json",
+      "sha256": "9d54e453f1e2bc4616be917e7ccac6b5e2ea08955a7d8619b63bb3eb43ca7dc6"
+    }
+  },
+  "interpretation": "This is the preapproved conditional measurement decision. It does not select a new model, alpha, channel or dataset routing rule. Both exposed development evaluations remain reported.",
+  "grid": "Protocol maximum17 role/seed instances; exact-function aliases only; B1/B4 plus uncompressed B4 M24; three order blocks and F0 sentinels. No cross-dataset or old/new timing ratio."
+}

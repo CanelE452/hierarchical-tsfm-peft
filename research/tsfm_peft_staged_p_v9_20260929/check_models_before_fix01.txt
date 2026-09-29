@@ -1,0 +1,262 @@
+"""One reserved CPU synthetic session; ten total updates, no real parent inference."""
+import argparse
+import copy
+import io
+from pathlib import Path
+import tempfile
+import traceback
+from unittest.mock import patch
+
+from runtime_v9 import CACHE, HERE, Job, digest, save_json, source_receipt
+
+
+def run_checks(job):
+    import torch
+    from torch import nn
+    import model_v9
+    from model_v9 import (DATASETS, NEURAL_FAMILIES, TemporalHead, build_with_parent,
+                          macro_loss, state_digest, tensor_hashes)
+    from train_v9 import optimizer_for, assert_nested_equal, rng_state, restore_rng
+
+    torch.set_num_threads(4)
+    torch.manual_seed(9262026)
+
+    class LearnedParent(nn.Module):
+        def __init__(self, basis):
+            super().__init__()
+            channels, latent = basis.shape
+            self.encoder = nn.Linear(channels, latent, bias=False)
+            self.decoder = nn.Linear(latent, channels, bias=False)
+            self.residual = TemporalHead()
+            self.dropout = nn.Dropout(.4)
+            self.register_buffer('scale', torch.tensor(1.1))
+            with torch.no_grad():
+                self.encoder.weight.copy_(basis.T)
+                self.decoder.weight.copy_(basis)
+                self.residual.up.weight.normal_(std=.02)
+
+        def forward(self, x):
+            z = self.encoder(x)
+            reconstruction = self.decoder(z)
+            r = x - reconstruction
+            last = r[:, -1:, :]
+            return self.dropout(self.decoder(self.scale * z[:, -48:, :])) + last + self.residual(r - last)
+
+    parents, receipts, artifacts, report = {}, {}, {}, {}
+    updates = 0
+    CACHE.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='synthetic_v9_', dir=CACHE) as temporary:
+        directory = Path(temporary)
+        for dataset, (channels, latent) in DATASETS.items():
+            seed = 92601 if dataset == 'robin' else 92602
+            basis = torch.linalg.qr(torch.randn(channels, latent)).Q
+            parent = LearnedParent(basis).eval()
+            parents[dataset] = copy.deepcopy(parent)
+            with torch.random.fork_rng(devices=[]):
+                torch.default_generator.manual_seed(seed + 1000003)
+                head = TemporalHead()
+            common = {'retained.down.weight': head.down.weight.detach().clone(),
+                      'retained.up.weight': head.up.weight.detach().clone()}
+            common_path = directory / (dataset + '_v8_style_initial.pt')
+            torch.save({'epoch': 0, 'steps': 0, 'state': common, 'tensor_hashes': tensor_hashes(common)}, common_path)
+            rec = {'id': 'synthetic_learned_' + dataset,
+                   'checkpoint': {'path': 'synthetic-only', 'sha256': '1' * 64},
+                   'model_source': {'path': 'synthetic-only', 'sha256': '2' * 64},
+                   'result': {'path': 'synthetic-only', 'sha256': '3' * 64},
+                   'head_initial': {'path': str(common_path), 'sha256': digest(common_path)}}
+            receipts[dataset] = rec
+            with patch.object(model_v9, 'parent_receipt_for', lambda dataset, seed: copy.deepcopy(receipts[dataset])):
+                initial = model_v9.initial_head(dataset, seed)
+            assert torch.equal(initial['head.down.weight'], common['retained.down.weight'])
+            assert torch.count_nonzero(initial['head.up.weight']) == 0
+            x = torch.randn(2, 512, channels)
+            target = torch.randn(2, 48, channels)
+            mask = torch.rand_like(target) > .12
+            mask[:, :, 0] = False
+            target[~mask] = float('nan')
+            parent_output = parent(x).detach()
+            with torch.no_grad():
+                r = x - parent.decoder(parent.encoder(x))
+                assert torch.count_nonzero(parent.residual(r - r[:, -1:, :])) > 0, 'Fake parent must represent learned G, not LEVEL_ONLY'
+            family_initials = {}
+            for family in NEURAL_FAMILIES:
+                spec = {'id': f'synthetic_{dataset}_{family}', 'dataset': dataset, 'family': family,
+                        'arm': family, 'channels': channels, 'latent': latent, 'ed_mode': 'fixed_ed',
+                        'seed': seed, 'lr': .001, 'epochs': 120, 'normalization': 'context'}
+                model = build_with_parent(spec, basis, initial, copy.deepcopy(parent), rec).train()
+                assert model.training and not model.parent.training
+                assert not any(module.training for module in model.parent.modules())
+                assert all(not p.requires_grad for p in model.parent.parameters())
+                assert sum(p.numel() for p in model.parameters() if p.requires_grad) == 17920
+                assert {n for n, p in model.named_parameters() if p.requires_grad} == model.adapter_names()
+                torch.testing.assert_close(model(x), parent_output, atol=0, rtol=0)
+                family_initials[family] = model.adapter_state()
+                frozen_hash = state_digest(model.parent.state_dict())
+                opt, scheduler = optimizer_for(model, spec)
+                assert {id(p) for group in opt.param_groups for p in group['params']} == {id(p) for p in model.head.parameters()}
+                gradients = []
+                for step in range(2):
+                    opt.zero_grad(set_to_none=True)
+                    output = model(x)
+                    loss = macro_loss(output, target, mask)
+                    assert torch.isfinite(loss)
+                    loss.backward()
+                    gradient = {name: float(p.grad.abs().max()) for name, p in model.named_parameters() if p.requires_grad}
+                    assert all(torch.isfinite(p.grad).all() for p in model.head.parameters())
+                    assert all(p.grad is None for p in model.parent.parameters())
+                    if step == 0:
+                        assert gradient['head.down.weight'] == 0 and gradient['head.up.weight'] > 0
+                    else:
+                        assert gradient['head.down.weight'] > 0
+                    gradients.append(gradient)
+                    torch.nn.utils.clip_grad_norm_(model.head.parameters(), 1., error_if_nonfinite=True)
+                    opt.step()
+                    scheduler.step(float(loss.detach()))
+                    updates += 1
+                    job.heartbeat(f'CPU {dataset}/{family} update {step + 1}', updates)
+                assert state_digest(model.parent.state_dict()) == frozen_hash
+                assert all(torch.count_nonzero(value != initial[name]) > 0 for name, value in model.adapter_state().items())
+                output = model(x)
+                expected = []
+                for channel in range(channels):
+                    observed = mask[:, :, channel]
+                    if observed.any():
+                        expected.append((output[:, :, channel][observed] - target[:, :, channel][observed]).square().mean())
+                torch.testing.assert_close(macro_loss(output, target, mask), torch.stack(expected).mean(), atol=1e-6, rtol=1e-6)
+                try:
+                    macro_loss(output, target, torch.zeros_like(mask))
+                except ValueError:
+                    pass
+                else:
+                    raise AssertionError('All-missing target mask must fail')
+                parts = model.parts(x)
+                assert parts['head_input'].shape == x.shape and parts['correction'].shape == target.shape
+                assert parts['head_input'].requires_grad is False and parts['parent_output'].requires_grad is False
+                assert parts['correction'].requires_grad is True
+                projection = basis @ basis.T
+                q = torch.eye(channels) - projection
+                q_report = None
+                if family == 'staged_p':
+                    correction_q = parts['correction'].detach() @ q
+                    full_q, parent_q = output.detach() @ q, parent_output @ q
+                    correction_violations = int((correction_q.abs() > 1e-5).sum())
+                    full_violations = int(((full_q - parent_q).abs() > 1e-5 + 1e-4 * parent_q.abs()).sum())
+                    assert correction_violations == full_violations == 0
+                    q_report = {'correction_Q_max_abs': float(correction_q.abs().max()),
+                                'prediction_Q_max_abs_difference': float((full_q - parent_q).abs().max()),
+                                'correction_violating_elements': correction_violations,
+                                'prediction_violating_elements': full_violations,
+                                'correction_atol': 1e-5, 'correction_rtol': 0.,
+                                'prediction_atol': 1e-5, 'prediction_rtol': 1e-4}
+                model.set_alpha(0.)
+                torch.testing.assert_close(model(x), parent_output, atol=0, rtol=0)
+                model.set_alpha(.5)
+                torch.testing.assert_close(model(x), parent_output + .5 * parts['correction'], atol=0, rtol=0)
+                model.set_alpha(1.)
+                initial_path = directory / (dataset + '_' + family + '_initial.pt')
+                torch.save({'state': initial, 'basis': basis, 'tensor_hashes': tensor_hashes(initial)}, initial_path)
+                payload = {'spec': spec, 'basis': basis, 'state': model.adapter_state(),
+                           'initial_path': str(initial_path), 'initial_sha256': digest(initial_path),
+                           'parent_receipt': rec, 'alpha': model.alpha, 'model_config': model.model_config()}
+                checkpoint = directory / (dataset + '_' + family + '_selected.pt')
+                torch.save(payload, checkpoint)
+                fake_load = lambda spec, receipt, device: copy.deepcopy(parents[spec['dataset']]).to(device)
+                with patch.object(model_v9, 'parent_receipt_for', lambda dataset, seed: copy.deepcopy(receipts[dataset])), \
+                        patch.object(model_v9, '_load_parent', fake_load):
+                    restored = model_v9.restore_model(checkpoint, device='cpu')
+                    torch.testing.assert_close(restored(x), model(x), atol=0, rtol=0)
+                    model.set_alpha(.5)
+                    auxiliary = dict(payload, alpha=.5, model_config=model.model_config())
+                    auxiliary_path = directory / 'auxiliary_alpha.pt'
+                    torch.save(auxiliary, auxiliary_path)
+                    restored_auxiliary = model_v9.restore_model(auxiliary_path, device='cpu')
+                    assert restored_auxiliary.alpha == .5
+                    torch.testing.assert_close(restored_auxiliary(x), model(x), atol=0, rtol=0)
+                    model.set_alpha(1.)
+                    invalid = copy.deepcopy(payload)
+                    invalid['parent_receipt']['checkpoint']['sha256'] = '0' * 64
+                    bad_path = directory / 'invalid_parent.pt'
+                    torch.save(invalid, bad_path)
+                    try:
+                        model_v9.restore_model(bad_path, device='cpu')
+                    except ValueError:
+                        pass
+                    else:
+                        raise AssertionError('Changed parent reference must fail')
+                    invalid = copy.deepcopy(payload)
+                    invalid['model_config']['horizon'] = 49
+                    torch.save(invalid, bad_path)
+                    try:
+                        model_v9.restore_model(bad_path, device='cpu')
+                    except ValueError:
+                        pass
+                    else:
+                        raise AssertionError('Changed saved configuration must fail')
+                artifacts[(dataset, family)] = (spec, basis, initial, model, opt, scheduler, x, target, mask, rec)
+                report[dataset + '_' + family] = {'trainable_parameters': 17920, 'optimizer_updates': 2,
+                    'learned_parent_exact_at_initialization': True, 'all_parent_parameters_and_buffers_unchanged': True,
+                    'first_two_gradients': gradients, 'new_head_actually_updated': True,
+                    'Q_preservation': q_report, 'checkpoint_roundtrip': True,
+                    'nonunit_alpha_checkpoint_roundtrip': True, 'alpha_zero_returns_parent': True}
+            assert_nested_equal(family_initials['staged_p'], family_initials['staged_raw'])
+
+        spec, basis, initial, model, opt, scheduler, x, target, mask, rec = artifacts[('jena', 'staged_p')]
+        saved_stream = io.BytesIO()
+        torch.save({'state': model.adapter_state(), 'optimizer': opt.state_dict(),
+                    'scheduler': scheduler.state_dict(), 'rng': rng_state()}, saved_stream)
+        saved_stream.seek(0)
+        saved = torch.load(saved_stream, map_location='cpu', weights_only=False)
+        restored = build_with_parent(spec, basis, initial, copy.deepcopy(parents['jena']), rec)
+        restored.restore_adapter(saved['state'])
+        restored_opt, restored_scheduler = optimizer_for(restored, spec)
+        restored_opt.load_state_dict(saved['optimizer'])
+        restored_scheduler.load_state_dict(saved['scheduler'])
+        assert_nested_equal(opt.state_dict(), restored_opt.state_dict())
+        assert_nested_equal(scheduler.state_dict(), restored_scheduler.state_dict())
+        for instance, optimizer, schedule in ((model, opt, scheduler), (restored, restored_opt, restored_scheduler)):
+            restore_rng(saved['rng'])
+            assert_nested_equal(rng_state(), saved['rng'])
+            optimizer.zero_grad(set_to_none=True)
+            loss = macro_loss(instance(x), target, mask)
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(instance.head.parameters(), 1., error_if_nonfinite=True)
+            optimizer.step()
+            schedule.step(float(loss.detach()))
+            updates += 1
+            job.heartbeat('CPU serialized restart update comparison', updates)
+        assert state_digest(model.adapter_state()) == state_digest(restored.adapter_state())
+        assert_nested_equal(opt.state_dict(), restored_opt.state_dict())
+        assert_nested_equal(scheduler.state_dict(), restored_scheduler.state_dict())
+        assert state_digest(model.parent.state_dict()) == state_digest(restored.parent.state_dict())
+    assert updates == 10
+    return {'status': 'PASS', 'synthetic_only': True, 'real_data': False, 'optimizer_updates': updates,
+            'checks': report, 'masked_macro_loss_checked': True, 'paired_head_initial_tensors_exact': True,
+            'restore_scope': 'Actual v9 serialization/configuration/dependency comparison, with synthetic parent receipt and loader; no real Chronos construction',
+            'restart_equal_after_one_update_each': True,
+            'real_parent_scope': 'Deferred to separately reserved real-parent replay and real fits',
+            'not_evidence_of_real_data_convergence_or_accuracy': True}
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--job', required=True)
+    parser.add_argument('--output', default='synthetic_models01.json')
+    args = parser.parse_args()
+    if Path(args.output).name != args.output or not args.output.endswith('.json'):
+        parser.error('Use a new local JSON filename')
+    target = HERE / args.output
+    if target.exists():
+        raise RuntimeError('Preserve prior synthetic result; use a new output name')
+    with Job(args.job, category='cpu_check', reserve_seconds=120, synthetic=True) as job:
+        try:
+            result = run_checks(job)
+            result['source'] = source_receipt()
+            save_json(target, result)
+        except BaseException:
+            save_json(target, {'status': 'FAIL', 'synthetic_only': True, 'source': source_receipt(),
+                               'error': traceback.format_exc()})
+            raise
+
+
+if __name__ == '__main__':
+    main()
