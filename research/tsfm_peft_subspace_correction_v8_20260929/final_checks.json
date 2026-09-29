@@ -1,0 +1,354 @@
+{
+  "status": "PASS_WITH_DOCUMENTED_CONTRACT_CORRECTION",
+  "ledger_id": 33,
+  "source": {
+    "research/tsfm_peft_subspace_correction_v8_20260929/analyze_v8.py": "42c788c28dee0aca806e1ed7f32419eef264c774bee7160aca1c65d7500facb8",
+    "research/tsfm_peft_subspace_correction_v8_20260929/check_models_v8.py": "47cb627c26668fe605dc438eb49d8d829f819d117afc3aa04153b53e3d11b1a7",
+    "research/tsfm_peft_subspace_correction_v8_20260929/check_static_v8.py": "1639164295b7b9e0ec4417a20a5093951c19392a171fa398fc82675a26f86607",
+    "research/tsfm_peft_subspace_correction_v8_20260929/cost_v8.py": "670f0328f631c1c65c8b1c470dcde2e73ab4775e0274415ef9b3793c58693a16",
+    "research/tsfm_peft_subspace_correction_v8_20260929/evaluate_v8.py": "7d54defc49d3e9250a2b5e5e75528764e5ac52551ce1867d54b63542efb3a94e",
+    "research/tsfm_peft_subspace_correction_v8_20260929/model_v8.py": "d1cbbd46f409cda15d7e8aa36f1070692e87d6e195fd06dbbf103ef4cb153126",
+    "research/tsfm_peft_subspace_correction_v8_20260929/plot_v8.py": "838c38a63736c67dae17e3a0134ea346a84d7e2aa3ab768813f27b9d36b42697",
+    "research/tsfm_peft_subspace_correction_v8_20260929/prepare_reuse_v8.py": "40adb7fe60866e8d90c2d9762606d0b94b592dfc6416b6b2d383aeb62f7f5c1b",
+    "research/tsfm_peft_subspace_correction_v8_20260929/runtime_v8.py": "89f2e7262836963b347c30f430ef6a96e61fdee9831f4c1ae5639300d8984413",
+    "research/tsfm_peft_subspace_correction_v8_20260929/run_fits_v8.py": "d039c6e0322cc831f269c454c1487d4c5ba47d2d58406ef0cb62ca956e9176b4",
+    "research/tsfm_peft_subspace_correction_v8_20260929/train_v8.py": "6569bee99fd0367f9622c5864322977cb6ff60938fbb5577c845b2083697c246",
+    "research/tsfm_peft_subspace_correction_v8_20260929/verify_v8.py": "0ffd675cd11eb00711a62fb036170214a3b67980d5fab5033919cffbaa239742",
+    "research/tsfm_peft_subspace_correction_v8_20260929/data_contract_jena.json": "8a39daca411ea7553a506ea0c1eddbe10919da39ce55c40ce732740d10c3b1c3",
+    "research/tsfm_peft_subspace_correction_v8_20260929/data_contract_robin.json": "285d62fbbaed2299415033ddd86470486a8cedf1865e2981162e94e9c8a1353f",
+    "research/tsfm_peft_subspace_correction_v8_20260929/PLAN.md": "3696cbce4ab132c79649658427c71cb386724e458e1fa729701967dd1c2e4e01",
+    "research/tsfm_peft_subspace_correction_v8_20260929/protocol.json": "6897b875c78f9aeec623a16748f088fde0c521d6ba6970450441c1d384612b29"
+  },
+  "scope": "Execution-team verification of stored artifacts; no independent replication, new model, forward, fit or prediction",
+  "checks": {
+    "preservation": {
+      "tracked_files": 949,
+      "base_commit": "0c9a08f22a9f01820859aa0e8648fc1601a21444",
+      "data_arrays_exact_reuse": true,
+      "no_public_weight_or_prediction_arrays": true,
+      "contract_correction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\contract_correction01.json",
+        "sha256": "b80d32ae3176139bf0aad47d5e40373a35431b82a31dfa17447a23d4556191ad"
+      },
+      "source_history_correction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\contract_correction02.json",
+        "sha256": "9fdce9f0efc9da4a01a12e3200799229e7958e39a7901fe6a0616c98bdc51b8a"
+      },
+      "correction_scope": "guard and cost metadata only; preserved old source for the three explicitly recorded Robin fits"
+    },
+    "training_robin": {
+      "dataset": "robin",
+      "completed_required_fits": 4,
+      "checks": {
+        "v8_robin_pq_split_92601": {
+          "core_source": {
+            "model_v8.py": "exact current bytes",
+            "train_v8.py": "exact current bytes",
+            "runtime_v8.py": "preserved original source for an explicitly mapped pre-correction Robin run",
+            "protocol.json": "preserved original source for an explicitly mapped pre-correction Robin run"
+          },
+          "stored_tensor_updates": true,
+          "fixed_ED_unchanged": true,
+          "initial_Q_matches_v7": true,
+          "prior_initialization_manifest": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_level_confirmation_v6_20260928\\initial_manifest.json",
+            "sha256": "8ccaf600aa29addc098b6f16b79dccea01929f45f609267576486fc6a92b474a"
+          },
+          "prior_initialization_scope": "v6 Robin initialization reused by v7; v7 Jena initialization",
+          "RAW64_concat_checked": false,
+          "trainable_parameters": 35840,
+          "backbone_check_scope": "training gradient/version/hash receipts; no new backbone construction",
+          "restart_check_scope": "saved state/optimizer/scheduler/RNG and existing replay receipts; no new update"
+        },
+        "v8_robin_pq_split_92602": {
+          "core_source": {
+            "model_v8.py": "exact current bytes",
+            "train_v8.py": "exact current bytes",
+            "runtime_v8.py": "preserved original source for an explicitly mapped pre-correction Robin run",
+            "protocol.json": "preserved original source for an explicitly mapped pre-correction Robin run"
+          },
+          "stored_tensor_updates": true,
+          "fixed_ED_unchanged": true,
+          "initial_Q_matches_v7": true,
+          "prior_initialization_manifest": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_level_confirmation_v6_20260928\\initial_manifest.json",
+            "sha256": "8ccaf600aa29addc098b6f16b79dccea01929f45f609267576486fc6a92b474a"
+          },
+          "prior_initialization_scope": "v6 Robin initialization reused by v7; v7 Jena initialization",
+          "RAW64_concat_checked": false,
+          "trainable_parameters": 35840,
+          "backbone_check_scope": "training gradient/version/hash receipts; no new backbone construction",
+          "restart_check_scope": "saved state/optimizer/scheduler/RNG and existing replay receipts; no new update"
+        },
+        "v8_robin_raw64_92601": {
+          "core_source": {
+            "model_v8.py": "exact current bytes",
+            "train_v8.py": "exact current bytes",
+            "runtime_v8.py": "preserved original source for an explicitly mapped pre-correction Robin run",
+            "protocol.json": "preserved original source for an explicitly mapped pre-correction Robin run"
+          },
+          "stored_tensor_updates": true,
+          "fixed_ED_unchanged": true,
+          "initial_Q_matches_v7": true,
+          "prior_initialization_manifest": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_level_confirmation_v6_20260928\\initial_manifest.json",
+            "sha256": "8ccaf600aa29addc098b6f16b79dccea01929f45f609267576486fc6a92b474a"
+          },
+          "prior_initialization_scope": "v6 Robin initialization reused by v7; v7 Jena initialization",
+          "RAW64_concat_checked": true,
+          "trainable_parameters": 35840,
+          "backbone_check_scope": "training gradient/version/hash receipts; no new backbone construction",
+          "restart_check_scope": "saved state/optimizer/scheduler/RNG and existing replay receipts; no new update"
+        },
+        "v8_robin_raw64_92602": {
+          "core_source": {
+            "model_v8.py": "exact current bytes",
+            "train_v8.py": "exact current bytes",
+            "runtime_v8.py": "exact current bytes",
+            "protocol.json": "exact current bytes"
+          },
+          "stored_tensor_updates": true,
+          "fixed_ED_unchanged": true,
+          "initial_Q_matches_v7": true,
+          "prior_initialization_manifest": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_level_confirmation_v6_20260928\\initial_manifest.json",
+            "sha256": "8ccaf600aa29addc098b6f16b79dccea01929f45f609267576486fc6a92b474a"
+          },
+          "prior_initialization_scope": "v6 Robin initialization reused by v7; v7 Jena initialization",
+          "RAW64_concat_checked": true,
+          "trainable_parameters": 35840,
+          "backbone_check_scope": "training gradient/version/hash receipts; no new backbone construction",
+          "restart_check_scope": "saved state/optimizer/scheduler/RNG and existing replay receipts; no new update"
+        }
+      },
+      "same_seed_initial_function_and_origin_orders": true,
+      "selection": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\selected_robin.json",
+        "sha256": "a42aeb6ba2b9145aef965a4d14dc4f90cfbc101355d326b1e00f69dcc93b0666"
+      }
+    },
+    "training_jena": {
+      "dataset": "jena",
+      "completed_required_fits": 4,
+      "checks": {
+        "v8_jena_pq_split_92601": {
+          "core_source": {
+            "model_v8.py": "exact current bytes",
+            "train_v8.py": "exact current bytes",
+            "runtime_v8.py": "exact current bytes",
+            "protocol.json": "exact current bytes"
+          },
+          "stored_tensor_updates": true,
+          "fixed_ED_unchanged": true,
+          "initial_Q_matches_v7": true,
+          "prior_initialization_manifest": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_practical_controls_v7_20260928\\initial_manifest_jena.json",
+            "sha256": "83c7a8f80885e11274b89e114033fea24f09a198d0ee654b2e1874a65b5f55c6"
+          },
+          "prior_initialization_scope": "v6 Robin initialization reused by v7; v7 Jena initialization",
+          "RAW64_concat_checked": false,
+          "trainable_parameters": 35840,
+          "backbone_check_scope": "training gradient/version/hash receipts; no new backbone construction",
+          "restart_check_scope": "saved state/optimizer/scheduler/RNG and existing replay receipts; no new update"
+        },
+        "v8_jena_pq_split_92602": {
+          "core_source": {
+            "model_v8.py": "exact current bytes",
+            "train_v8.py": "exact current bytes",
+            "runtime_v8.py": "exact current bytes",
+            "protocol.json": "exact current bytes"
+          },
+          "stored_tensor_updates": true,
+          "fixed_ED_unchanged": true,
+          "initial_Q_matches_v7": true,
+          "prior_initialization_manifest": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_practical_controls_v7_20260928\\initial_manifest_jena.json",
+            "sha256": "83c7a8f80885e11274b89e114033fea24f09a198d0ee654b2e1874a65b5f55c6"
+          },
+          "prior_initialization_scope": "v6 Robin initialization reused by v7; v7 Jena initialization",
+          "RAW64_concat_checked": false,
+          "trainable_parameters": 35840,
+          "backbone_check_scope": "training gradient/version/hash receipts; no new backbone construction",
+          "restart_check_scope": "saved state/optimizer/scheduler/RNG and existing replay receipts; no new update"
+        },
+        "v8_jena_raw64_92601": {
+          "core_source": {
+            "model_v8.py": "exact current bytes",
+            "train_v8.py": "exact current bytes",
+            "runtime_v8.py": "exact current bytes",
+            "protocol.json": "exact current bytes"
+          },
+          "stored_tensor_updates": true,
+          "fixed_ED_unchanged": true,
+          "initial_Q_matches_v7": true,
+          "prior_initialization_manifest": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_practical_controls_v7_20260928\\initial_manifest_jena.json",
+            "sha256": "83c7a8f80885e11274b89e114033fea24f09a198d0ee654b2e1874a65b5f55c6"
+          },
+          "prior_initialization_scope": "v6 Robin initialization reused by v7; v7 Jena initialization",
+          "RAW64_concat_checked": true,
+          "trainable_parameters": 35840,
+          "backbone_check_scope": "training gradient/version/hash receipts; no new backbone construction",
+          "restart_check_scope": "saved state/optimizer/scheduler/RNG and existing replay receipts; no new update"
+        },
+        "v8_jena_raw64_92602": {
+          "core_source": {
+            "model_v8.py": "exact current bytes",
+            "train_v8.py": "exact current bytes",
+            "runtime_v8.py": "exact current bytes",
+            "protocol.json": "exact current bytes"
+          },
+          "stored_tensor_updates": true,
+          "fixed_ED_unchanged": true,
+          "initial_Q_matches_v7": true,
+          "prior_initialization_manifest": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_practical_controls_v7_20260928\\initial_manifest_jena.json",
+            "sha256": "83c7a8f80885e11274b89e114033fea24f09a198d0ee654b2e1874a65b5f55c6"
+          },
+          "prior_initialization_scope": "v6 Robin initialization reused by v7; v7 Jena initialization",
+          "RAW64_concat_checked": true,
+          "trainable_parameters": 35840,
+          "backbone_check_scope": "training gradient/version/hash receipts; no new backbone construction",
+          "restart_check_scope": "saved state/optimizer/scheduler/RNG and existing replay receipts; no new update"
+        }
+      },
+      "same_seed_initial_function_and_origin_orders": true,
+      "selection": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\selected_jena.json",
+        "sha256": "875bb6d4fe440fd9e1e830a3bc397e69dd3f9d50f7d0900a0d830f97951cc925"
+      }
+    },
+    "evaluation": {
+      "robin": {
+        "evaluation": {
+          "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\robin_eval01.json",
+          "sha256": "fca49d6b7ce8262a8df13c6e48853a4a56e5675e6cc83d0d0e0a9d53bbfd9120"
+        },
+        "new_predictions": 4,
+        "reused_predictions": 16,
+        "raw_mask_origin_identity": true,
+        "all_saved_MSE_MAE_seed_period_channel_values": true,
+        "P_Q_scope": "complete observed target rows only; recomputed per-seed before seed averaging",
+        "bootstrap_scope": "point effects/block contract checked; 2000 resamples not rerun",
+        "evaluation_scope": "previously exposed development data, not independent confirmation"
+      },
+      "jena": {
+        "evaluation": {
+          "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\jena_eval01.json",
+          "sha256": "3128ccce31650b60e2c6529b39ef9beb62259619d95cc2418bf1717a52616f7a"
+        },
+        "new_predictions": 4,
+        "reused_predictions": 13,
+        "raw_mask_origin_identity": true,
+        "all_saved_MSE_MAE_seed_period_channel_values": true,
+        "P_Q_scope": "complete observed target rows only; recomputed per-seed before seed averaging",
+        "bootstrap_scope": "point effects/block contract checked; 2000 resamples not rerun",
+        "evaluation_scope": "previously exposed development data, not independent confirmation"
+      }
+    },
+    "analysis": {
+      "summary": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\analysis01\\analysis_summary.json",
+        "sha256": "128601189a7170bd2a8a1a5b2bc46ca2b284b78bf5f5403ac0c318c6ded583b8"
+      },
+      "CSV_rows": {
+        "role_scores_csv": 66,
+        "model_scores_csv": 111,
+        "space_scores_csv": 42,
+        "comparisons_csv": 72
+      },
+      "source_linked_raw_space_scores_P_Q_scores_and_relative_changes": true,
+      "scope": "CSV/summary numeric consistency with verified evaluations; manuscript prose not a scientific proof"
+    },
+    "cost": {
+      "decision": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\cost_decision.json",
+        "sha256": "d2502a6bac615d0842ce6fa1eb7cca273e77250a850dc43f782556f6fd423d94"
+      },
+      "run_cost": false,
+      "reason": "Jena shows lower MSE than prior LEVEL and matched RAW64, so the P/Q correction remains a conditional methodological observation. Robin does not establish an improvement over prior LEVEL; the point estimate is worse and its block interval crosses zero. The approved new cost grid is Robin-only. Repeating that grid would not change the Robin configuration decision and would not establish a Jena accuracy-cost tradeoff. Consequently no new deployment configuration is adopted and the conditional Robin benchmark is omitted. This is not a claim that the correction has no value anywhere.",
+      "scope": "No new timing superiority inferred from old measurements"
+    },
+    "documents": {
+      "documents": {
+        "PLAN.md": {
+          "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\PLAN.md",
+          "sha256": "3696cbce4ab132c79649658427c71cb386724e458e1fa729701967dd1c2e4e01"
+        },
+        "STATUS.md": {
+          "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\STATUS.md",
+          "sha256": "ec147580803abd12b213a99a267b4a8bb43e3343d000ff79e48567a2a5d1411c"
+        },
+        "TOPIC_DECISION.md": {
+          "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\TOPIC_DECISION.md",
+          "sha256": "5a801f1b601a416ae40f419cacc367041f8d019f26809030fa5fe3b2d3deee78"
+        }
+      },
+      "figure_manifest": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\figure_manifest.json",
+        "sha256": "a0baccfe61c5a4713e08dea5e554bacf8c5b072b396a83edd734ce44e7a57416"
+      },
+      "figure_files": 3,
+      "scope": "existence, source binding and file integrity only; not independent replication or scientific proof"
+    },
+    "accounting": {
+      "snapshot_during_verification": {
+        "real_fit_attempts": 8,
+        "synthetic_sessions": 1,
+        "gpu_seconds": 537.4827965998556,
+        "cpu_check_seconds": 16.065328772179782,
+        "data_prepare_seconds": 1.0911753000691533,
+        "cpu_analysis_seconds": 1.947108200052753,
+        "active_jobs": [
+          {
+            "id": 33,
+            "label": "final_checks03",
+            "pid": 25660,
+            "category": "cpu_check",
+            "progress": "verified saved evaluation: v8_jena_raw64_92602"
+          }
+        ],
+        "storage_bytes": 28031811,
+        "limits": {
+          "real_fit": 12,
+          "synthetic_sessions": 6,
+          "synthetic_steps": 10,
+          "gpu_seconds": 7200,
+          "cpu_check_seconds": 900,
+          "storage_bytes": 5368709120,
+          "download_bytes": 0,
+          "conflict_wait_per_incident_seconds": 1800,
+          "conflict_wait_total_seconds": 3600
+        }
+      },
+      "all_started_jobs_reserved": true,
+      "failed_fit_attempts": 0,
+      "GPU_accounting": "parent GPU jobs only; nested real_fit elapsed not added again",
+      "all_fits_finished_before_first_v8_TEST": true,
+      "synthetic_scope": "10 optimizer updates, not real-data convergence"
+    }
+  },
+  "scientific_claims_validated_by_PASS": false,
+  "completed_utc": 1790645149.4119747,
+  "budget_after_verification": {
+    "real_fit_attempts": 8,
+    "synthetic_sessions": 1,
+    "gpu_seconds": 537.4827965998556,
+    "cpu_check_seconds": 16.093645600019954,
+    "data_prepare_seconds": 1.0911753000691533,
+    "cpu_analysis_seconds": 1.947108200052753,
+    "active_jobs": [],
+    "storage_bytes": 28051292,
+    "limits": {
+      "real_fit": 12,
+      "synthetic_sessions": 6,
+      "synthetic_steps": 10,
+      "gpu_seconds": 7200,
+      "cpu_check_seconds": 900,
+      "storage_bytes": 5368709120,
+      "download_bytes": 0,
+      "conflict_wait_per_incident_seconds": 1800,
+      "conflict_wait_total_seconds": 3600
+    }
+  }
+}

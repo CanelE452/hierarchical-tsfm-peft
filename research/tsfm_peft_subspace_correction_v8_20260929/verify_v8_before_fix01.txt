@@ -1,0 +1,662 @@
+"""Bounded CPU verification of saved v8 artifacts, with no model or new inference."""
+import argparse
+import csv
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import time
+import traceback
+
+from runtime_v8 import (CACHE, HERE, ROOT, LIMITS, Job, budget_snapshot, digest,
+                        load_data, phase_sample, save_json, source_receipt)
+
+V7 = ROOT / 'research/tsfm_peft_practical_controls_v7_20260928'
+
+
+def read(path):
+    path = Path(path)
+    if not path.is_file():
+        raise FileNotFoundError('Required completed artifact missing: ' + str(path))
+    return json.loads(path.read_text(encoding='utf-8'))
+
+
+def resolve(path):
+    path = Path(path)
+    return path if path.is_absolute() else ROOT / path
+
+
+def receipt(path):
+    path = resolve(path)
+    return {'path': str(path), 'sha256': digest(path)}
+
+
+def check_receipt(item):
+    path = resolve(item['path'])
+    assert path.is_file(), 'Missing artifact: ' + str(path)
+    assert digest(path) == item['sha256'], 'Hash mismatch: ' + str(path)
+    return path
+
+
+def file_entry(path, sha256):
+    return check_receipt({'path': path, 'sha256': sha256})
+
+
+def close(actual, expected, label):
+    if expected is None:
+        assert actual is None, label
+    else:
+        assert actual is not None, label
+        np.testing.assert_allclose(actual, expected, rtol=1e-10, atol=1e-12, err_msg=label)
+
+
+def tensor_digest(value):
+    return hashlib.sha256(value.detach().cpu().contiguous().numpy().tobytes()).hexdigest()
+
+
+def score(predicted, target, mask):
+    assert predicted.shape == target.shape == mask.shape
+    assert np.isfinite(predicted).all() and np.isfinite(target[mask]).all()
+    error = np.where(mask, predicted.astype(np.float64) - target.astype(np.float64), 0.)
+    count = mask.sum((0, 1))
+    assert (count > 0).all(), 'Every declared evaluation channel needs an observed target'
+    squared, absolute, signed = (error * error).sum((0, 1)), np.abs(error).sum((0, 1)), error.sum((0, 1))
+    return {'mse': float(np.mean(squared / count)), 'mae': float(np.mean(absolute / count)),
+            'channel_mse': (squared / count).tolist(), 'channel_mae': (absolute / count).tolist(),
+            'channel_mean_signed_error': (signed / count).tolist(), 'channel_target_count': count.tolist(),
+            'channel_squared_error_sum': squared.tolist(), 'channel_absolute_error_sum': absolute.tolist(),
+            'channel_signed_error_sum': signed.tolist()}
+
+
+def prediction(entry, origins):
+    with np.load(check_receipt(entry), allow_pickle=False) as saved:
+        assert np.array_equal(saved['origins'], origins), 'Saved prediction origin identity/order mismatch'
+        value = saved['prediction'].copy()
+    assert value.dtype == np.float32 and np.isfinite(value).all()
+    return value
+
+
+def preservation(protocol):
+    provenance = read(HERE / 'provenance.json')
+    for name, filename in [('plan', 'PLAN.md'), ('approval', 'APPROVAL.txt'), ('protocol', 'protocol.json')]:
+        assert digest(HERE / filename) == provenance[name + '_sha256']
+    preserved = read(HERE / 'preservation.json')
+    assert preserved['base_commit'] == provenance['base_commit'] == protocol['base_commit']
+    for path, sha256 in preserved['tracked_files'].items():
+        file_entry(path, sha256)
+    folders = sorted({str(Path(p).parts[0] + '/' + Path(p).parts[1]) for p in preserved['tracked_files']})
+    changed = subprocess.run(['git', 'diff', '--name-only', protocol['base_commit'], '--', *folders],
+                             cwd=ROOT, text=True, capture_output=True, check=True).stdout.splitlines()
+    assert not changed, 'Preserved v1-v7 content changed: ' + repr(changed)
+    correction = read(HERE / 'contract_correction01.json')
+    assert correction['status'] == 'corrected_before_any_v8_TEST_or_cost_execution'
+    old_protocol = read(HERE / 'protocol_initial_v7_cost_copy.json')
+    assert {k: v for k, v in protocol.items() if k != 'cost'} == {
+        k: v for k, v in old_protocol.items() if k != 'cost'}, 'Correction changed a numeric training contract'
+    old_provenance = read(HERE / 'provenance_initial.json')
+    assert old_provenance['protocol_sha256'] == digest(HERE / 'protocol_initial_v7_cost_copy.json')
+    assert (HERE / 'runtime_before_test_guard.txt').is_file()
+    reuse = read(HERE / 'reuse_manifest.json')
+    assert reuse['no_new_data_download'] and reuse['no_backbone_raw_or_array_copy']
+    for dataset in ('robin', 'jena'):
+        old = reuse['datasets'][dataset]
+        file_entry(old['contract'], old['contract_sha256'])
+        file_entry(old['evaluation'], old['evaluation_sha256'])
+        assert digest(HERE / f'data_contract_{dataset}.json') == old['contract_sha256']
+        contract = read(HERE / f'data_contract_{dataset}.json')
+        for key in ('trainval', 'test'):
+            check_receipt(contract[key])
+    forbidden = [str(p.relative_to(HERE)) for p in HERE.rglob('*') if p.is_file() and
+                 p.suffix.lower() in ('.npz', '.npy', '.pt', '.pth', '.safetensors', '.bin', '.zip')]
+    assert not forbidden, 'Private arrays/weights under public folder: ' + repr(forbidden)
+    return {'tracked_files': len(preserved['tracked_files']), 'base_commit': protocol['base_commit'],
+            'data_arrays_exact_reuse': True, 'no_public_weight_or_prediction_arrays': True,
+            'contract_correction': receipt(HERE / 'contract_correction01.json'),
+            'correction_scope': 'guard and cost metadata only; original first-fit source retained'}
+
+
+def core_source(result):
+    checked = {}
+    for filename in ('model_v8.py', 'train_v8.py', 'runtime_v8.py', 'protocol.json'):
+        key = (HERE / filename).relative_to(ROOT).as_posix()
+        expected = result['source'][key]
+        path = HERE / filename
+        scope = 'exact current bytes'
+        if digest(path) != expected:
+            originals = {'runtime_v8.py': 'runtime_before_test_guard.txt',
+                         'protocol.json': 'protocol_initial_v7_cost_copy.json'}
+            assert result['id'] == 'v8_robin_pq_split_92601' and filename in originals, key
+            path = HERE / originals[filename]
+            scope = 'preserved first-fit source before documented contract correction'
+        assert digest(path) == expected, 'Executed core source mismatch: ' + key
+        checked[filename] = scope
+    return checked
+
+
+def checkpoint_check(result, data, manifest):
+    import torch
+    torch.set_num_threads(4)
+    spec = result['spec']
+    states = {}
+    for name, key, hash_key in [('initial', 'initial_checkpoint', 'initial_checkpoint_sha256'),
+                               ('selected', 'checkpoint', 'checkpoint_sha256'),
+                               ('restart', 'restart_checkpoint', 'restart_sha256')]:
+        states[name] = torch.load(file_entry(result[key], result[hash_key]), map_location='cpu', weights_only=False)
+    initial, selected, restart = (states[k] for k in ('initial', 'selected', 'restart'))
+    shared_receipt = manifest['records']['edg'][str(spec['seed'])]
+    assert shared_receipt == result['initial_source']
+    shared = torch.load(check_receipt(shared_receipt), map_location='cpu', weights_only=False)
+    assert shared['epoch'] == shared['steps'] == initial['epoch'] == initial['steps'] == 0
+    common = shared['state']
+    v7_initial = read(V7 / f'initial_manifest_{spec["dataset"]}.json')['records']['edg'][str(spec['seed'])]
+    prior = torch.load(check_receipt(v7_initial), map_location='cpu', weights_only=False)['state']
+    for key in ('encoder.weight', 'decoder.weight'):
+        assert torch.equal(common[key], prior[key])
+    for suffix in ('down.weight', 'up.weight'):
+        assert torch.equal(common['residual_q.' + suffix], prior['residual.' + suffix])
+    expected = dict(common)
+    if spec['family'] == 'raw64':
+        expected = {k: common[k] for k in ('encoder.weight', 'decoder.weight')}
+        expected['residual.down.weight'] = torch.cat([common['residual_q.down.weight'], common['retained.down.weight']], 0)
+        expected['residual.up.weight'] = torch.cat([common['residual_q.up.weight'], common['retained.up.weight']], 1)
+    assert set(initial['state']) == set(selected['state']) == set(restart['state']) == set(expected)
+    assert selected['epoch'] == result['selected_epoch'] and selected['steps'] == selected['epoch'] * 128
+    assert restart['epoch'] == result['epochs_completed'] and restart['steps'] == result['total_steps']
+    assert restart['next_batch'] == 0 and restart['boundary'] == 'post-VAL, post-scheduler, complete epoch'
+    assert restart['schedules'] == result['schedules'] and restart['history'] == read(HERE / 'runs' / result['id'] / 'curve.json')
+    assert restart['optimizer']['state'] and 'rng' in restart and 'scheduler' in restart
+    trainable = 0
+    for saved in states.values():
+        assert saved['spec'] == spec and saved['model_config'] == initial['model_config']
+        assert saved['initial_sha256'] == shared_receipt['sha256']
+        assert torch.equal(torch.as_tensor(saved['basis']), torch.as_tensor(data['basis']))
+        assert saved['model_config']['trainable_parameters'] == 35840
+    for key, tensor in initial['state'].items():
+        assert torch.equal(tensor, expected[key]), 'Initial concat/shared initialization mismatch: ' + key
+        assert tensor_digest(tensor) == result['initial_parameter_sha256'][key]
+        if key in common:
+            assert tensor_digest(common[key]) == shared_receipt['tensor_hashes'][key]
+        actual = float((restart['state'][key] - tensor).abs().max())
+        close(actual, result['parameter_max_updates'][key], result['id'] + '/update/' + key)
+        close(float((selected['state'][key] - tensor).abs().max()), result['selected_parameter_max_updates'][key], key)
+        assert int(torch.count_nonzero(restart['state'][key] != tensor)) == result['changed_parameter_scalars'][key]
+        if key in ('encoder.weight', 'decoder.weight'):
+            assert actual == 0
+        else:
+            trainable += tensor.numel()
+            assert actual > 0, 'Trainable tensor never changed: ' + key
+            if key.endswith('up.weight'):
+                assert torch.count_nonzero(tensor) == 0
+    assert trainable == result['trainable_parameters'] == 35840
+    assert result['total_parameters'] == 47718016 + 2 * spec['channels'] * spec['latent'] + 35840
+    assert result['total_steps'] == result['attempt_updates'] == result['epochs_completed'] * 128
+    first = result['first_update_gradients']
+    for update in first.values():
+        for grad in update.values():
+            assert (grad['max_abs'] is not None and np.isfinite(grad['max_abs'])) if grad['requires_grad'] else grad['max_abs'] is None
+    for prefix in (('residual_q', 'retained') if spec['family'] == 'pq_split' else ('residual',)):
+        assert first['1'][prefix + '.down.weight']['max_abs'] == 0
+        assert first['2'][prefix + '.down.weight']['max_abs'] > 0
+        assert first['1'][prefix + '.up.weight']['max_abs'] > 0
+    assert all(result['frozen_parameters_verified'][key] for key in ('no_gradient', 'version_unchanged', 'optimizer_exclusion'))
+    assert len(result['frozen_parameters_verified']['frozen_tensor_sha256']) == 64
+    assert all(value is True for key, value in result['restart_roundtrip'].items() if key != 'additional_updates')
+    assert result['restart_roundtrip']['additional_updates'] == 0 and result['replay_error'] <= 1e-6
+    with np.load(resolve(result['initial_checkpoint']).parent / 'origins.npz', allow_pickle=False) as saved:
+        assert np.array_equal(saved['val'], data['val_origins'])
+        assert np.array_equal(saved['train_probe'], phase_sample(data['train_origins'], spec['seed'], 0,
+                              max(96, data['_phase_period']), period=data['_phase_period']))
+    return {'stored_tensor_updates': True, 'fixed_ED_unchanged': True, 'initial_Q_matches_v7': True,
+            'RAW64_concat_checked': spec['family'] == 'raw64', 'trainable_parameters': trainable,
+            'backbone_check_scope': 'training gradient/version/hash receipts; no new backbone construction',
+            'restart_check_scope': 'saved state/optimizer/scheduler/RNG and existing replay receipts; no new update'}
+
+
+def training(dataset, protocol, ledger, job):
+    data = load_data(dataset, include_test=False)
+    manifest = read(HERE / f'initial_manifest_{dataset}.json')
+    selected = read(HERE / f'selected_{dataset}.json')
+    assert selected['test_used_for_selection'] is False and selected['dataset'] == dataset
+    specs = [s for s in protocol['fits'] if s['dataset'] == dataset]
+    assert len(specs) == 4 and set(selected['selected']) == {'pq_split', 'raw64'}
+    receipts = {r['id']: r for r in selected['all_neural_runs']}
+    assert set(receipts) == {s['id'] for s in specs}
+    results, checks = {}, {}
+    for row in ledger['jobs']:
+        if row['category'] != 'real_fit' or row['metadata']['dataset'] != dataset:
+            continue
+        identifier = row['label']
+        attempt = read(HERE / 'runs' / identifier / 'attempt.json')
+        assert attempt['ledger_id'] == row['id'] and attempt['status'] == row['status']
+        assert attempt['actual_updates'] == row['updates']
+        if row['status'] == 'failed':
+            assert attempt.get('error')
+            continue
+        assert row['status'] == 'complete'
+        result = read(HERE / 'runs' / identifier / 'result.json')
+        assert result['status'] == 'complete' and result['attempt_updates'] == row['updates']
+        assert result['data_sha256'] == digest(data['_path'])
+        core = core_source(result)
+        curve = read(HERE / 'runs' / identifier / 'curve.json')
+        assert [r['epoch'] for r in curve] == list(range(result['epochs_completed'] + 1))
+        assert all(np.isfinite(r['val_mse']) and np.isfinite(r['val_mae']) for r in curve)
+        best = min(curve, key=lambda point: point['val_mse'])
+        assert best['epoch'] == result['selected_epoch']
+        close(best['val_mse'], result['best_val_mse'], identifier + '/earliest_min_VAL')
+        stale, best_value, best_epoch = 0, curve[0]['val_mse'], 0
+        for point in curve:
+            assert point['steps'] == point['epoch'] * 128
+            if point['epoch']:
+                if point['val_mse'] < best_value:
+                    best_value, best_epoch, stale = point['val_mse'], point['epoch'], 0
+                else:
+                    stale += 1
+                if point['epoch'] < result['epochs_completed']:
+                    assert stale < 6, 'Training continued after fixed patience stop'
+        assert result['final_stale'] == stale and (stale == 6 or result['epochs_completed'] == 120)
+        assert result['cap_reached_while_improving'] == (result['epochs_completed'] == 120 and stale < 6 and 120 - best_epoch < 6)
+        assert result['extension_eligible'] is False and result['epochs_completed'] <= 120
+        assert len(result['schedules']) == result['epochs_completed']
+        for schedule in result['schedules']:
+            order = phase_sample(data['train_origins'], result['spec']['seed'], schedule['epoch'], 512, period=data['_phase_period'])
+            assert hashlib.sha256(order.astype('<i8').tobytes()).hexdigest() == schedule['sha256']
+        val = prediction(result['best_val_prediction'], data['val_origins'])
+        targets = np.stack([data['x'][o:o + 48] for o in data['val_origins']])
+        masks = np.stack([data['finite'][o:o + 48] for o in data['val_origins']]).astype(bool)
+        close(score(val, targets, masks)['mse'], result['best_val_mse'], identifier + '/saved_VAL')
+        checks[identifier] = {'core_source': core, **checkpoint_check(result, data, manifest)}
+        results[identifier] = result
+        job.heartbeat('verified saved training artifacts: ' + identifier)
+    for spec in specs:
+        assert spec['id'] in results, 'Required fit incomplete: ' + spec['id']
+        result, rec = results[spec['id']], receipts[spec['id']]
+        assert result['spec'] == spec
+        file_entry(rec['result_path'], rec['result_sha256'])
+        assert rec['checkpoint_sha256'] == result['checkpoint_sha256']
+    for seed in protocol['seeds']:
+        pair = [r for r in results.values() if r['spec']['seed'] == seed]
+        assert len(pair) == 2 and pair[0]['initial_source'] == pair[1]['initial_source']
+        assert abs(pair[0]['initial_val_mse'] - pair[1]['initial_val_mse']) <= 1e-8
+        orders = {}
+        for result in pair:
+            for row in result['schedules']:
+                assert orders.setdefault(row['epoch'], row['sha256']) == row['sha256']
+    for family, choice in selected['selected'].items():
+        ids = [s['id'] for s in sorted(specs, key=lambda s: s['seed']) if s['family'] == family]
+        assert choice['run_ids'] == ids and choice['lr'] == .001 and choice['ed_mode'] == 'fixed_ed'
+        assert choice['lr_selection'] is None
+        close(choice['mean_best_val_mse'], np.mean([results[i]['best_val_mse'] for i in ids]), family + '/mean_VAL')
+    return {'dataset': dataset, 'completed_required_fits': 4, 'checks': checks,
+            'same_seed_initial_function_and_origin_orders': True, 'selection': receipt(HERE / f'selected_{dataset}.json')}
+
+
+def space_score(predicted, target, mask, basis):
+    complete = mask.all(axis=2)
+    errors = predicted[complete].astype(np.float64) - target[complete].astype(np.float64)
+    assert len(errors), 'P/Q diagnostic requires complete observed target rows'
+    projector = basis.astype(np.float64) @ basis.astype(np.float64).T
+    out = {'complete_target_rows': len(errors), 'channel_complete_row_count': [len(errors)] * target.shape[2]}
+    for name, matrix, label in [('p', projector, 'p_retained_space'),
+                                ('q', np.eye(target.shape[2]) - projector, 'q_residual_space')]:
+        values = errors @ matrix
+        out[label + '_mse'] = float(np.mean(values * values))
+        out[label + '_mae'] = float(np.mean(np.abs(values)))
+        out['channel_' + name + '_mse'] = np.mean(values * values, axis=0).tolist()
+        out['channel_' + name + '_mae'] = np.mean(np.abs(values), axis=0).tolist()
+        out['channel_' + name + '_mean_signed_error'] = np.mean(values, axis=0).tolist()
+    return out
+
+
+def evaluation_checks(protocol, ledger, job):
+    output = {}
+    for dataset in ('robin', 'jena'):
+        seal_path = HERE / f'evaluation_seal_{dataset}.json'
+        seal, exposure = read(seal_path), read(HERE / f'test_exposure_{dataset}.json')
+        assert exposure['seal_sha256'] == digest(seal_path) and seal['test_used_for_selection'] is False
+        assert seal['sealed_utc'] <= exposure['first_exposed_utc'] and seal['test_selection_prohibited'] is True
+        assert set(seal['all_selection_files_required_before_test']) == {'robin', 'jena'}
+        for rec in seal['all_selection_files_required_before_test'].values():
+            check_receipt(rec)
+        for key in ('selection', 'data_contract', 'protocol', 'plan', 'approval', 'v7_reuse'):
+            check_receipt(seal[key])
+        source_v7 = read(check_receipt(seal['v7_reuse']))
+        path = HERE / (exposure['evaluation_name'] + '.json')
+        result = read(path)
+        assert result['status'] == 'complete' and result['dataset'] == dataset and result['test_reselection'] is False
+        assert result['roles'] == seal['roles'] and result['new_test_model_predictions'] == 4
+        assert {r['id'] for r in seal['models']} == set(result['models'])
+        assert len(result['models']) == len(source_v7['models']) + 4
+        check_receipt(result['seal'])
+        check_receipt(result['first_exposure'])
+        data = load_data(dataset, include_test=True)
+        assert result['channels'] == np.asarray(data['columns']).astype(str).tolist()
+        periods = {p: np.asarray(data[p + '_origins']) for p in ('test_a', 'test_b')}
+        origins = np.concatenate(list(periods.values()))
+        indices = {'test_a': np.arange(len(periods['test_a'])),
+                   'test_b': np.arange(len(periods['test_a']), len(origins)), 'combined': np.arange(len(origins))}
+        targets = np.stack([data['x'][o:o + 48] for o in origins])
+        masks = np.stack([data['finite'][o:o + 48] for o in origins]).astype(bool)
+        for period, period_origins in periods.items():
+            assert result['origins'][period] == period_origins.tolist()
+            assert len(period_origins) == seal['expected_origins'][period]
+            assert np.all(np.diff(period_origins) == seal['evaluation_stride'])
+            start, end = map(np.datetime64, seal['splits'][period])
+            times = np.asarray(data['times']).astype('datetime64[ns]')
+            assert np.all(times[period_origins] >= start) and np.all(times[period_origins + 47] < end)
+        checked, spaces = {}, {}
+        for identifier, row in result['models'].items():
+            values = prediction(row['prediction'], origins)
+            checked[identifier], spaces[identifier] = {}, {}
+            if identifier in source_v7['models']:
+                assert row['reused_v7_prediction'] is True
+                assert row['prediction'] == source_v7['models'][identifier]['prediction']
+            else:
+                assert row['reused_v7_prediction'] is False and row['role'] in ('pq_split', 'raw64')
+            for period, index in indices.items():
+                metrics = score(values[index], targets[index], masks[index])
+                for key, value in metrics.items():
+                    close(value, row['scores'][period][key], identifier + '/' + period + '/' + key)
+                assert row['scores'][period]['missing_channel_indices'] == []
+                checked[identifier][period] = metrics
+                if 'space_scores' in row:
+                    scores = space_score(values[index], targets[index], masks[index], data['basis'])
+                    for key, value in scores.items():
+                        close(value, row['space_scores'][period][key], identifier + '/' + period + '/' + key)
+                    spaces[identifier][period] = scores
+            del values
+            job.heartbeat('verified saved evaluation: ' + identifier)
+        for role, ids in result['roles'].items():
+            for period in indices:
+                row = result['role_scores'][role][period]
+                assert row['run_ids'] == ids and row['count'] == len(ids)
+                for metric in ('mse', 'mae'):
+                    close(row[metric], np.mean([checked[i][period][metric] for i in ids]), role + '/mean seed/' + metric)
+                if role in result['role_space_scores']:
+                    for metric in ('p_retained_space_mse', 'q_residual_space_mse', 'p_retained_space_mae', 'q_residual_space_mae'):
+                        close(result['role_space_scores'][role][period][metric], np.mean([spaces[i][period][metric] for i in ids]), role + '/' + metric)
+        for comparison in result['comparisons']:
+            for period in indices:
+                left = np.mean([checked[i][period]['mse'] for i in comparison['left']])
+                right = np.mean([checked[i][period]['mse'] for i in comparison['right']])
+                for key, value in {'left_mse': left, 'reference_mse': right, 'delta_mse': left - right,
+                                   'relative_to_reference_pct': 100 * (left - right) / right}.items():
+                    close(comparison['periods'][period]['full'][key], value, comparison['name'] + '/' + key)
+                assert comparison['periods'][period]['block_length_origins'] == protocol['datasets'][dataset]['bootstrap_block_origins']
+        primary = [r for r in result['comparisons'] if r['primary']]
+        assert len(primary) == 1 and primary[0]['name'] == dataset + '_pq_split_vs_raw64'
+        output[dataset] = {'evaluation': receipt(path), 'new_predictions': 4,
+                           'reused_predictions': len(source_v7['models']), 'raw_mask_origin_identity': True,
+                           'all_saved_MSE_MAE_seed_period_channel_values': True,
+                           'P_Q_scope': 'complete observed target rows only; recomputed per-seed before seed averaging',
+                           'bootstrap_scope': 'point effects/block contract checked; 2000 resamples not rerun',
+                           'evaluation_scope': 'previously exposed development data, not independent confirmation'}
+    return output
+
+
+def distribution(values):
+    return {'median': float(np.median(values)), 'q25': float(np.quantile(values, .25)),
+            'q75': float(np.quantile(values, .75)), 'min': float(min(values)), 'max': float(max(values))}
+
+
+def cost_checks():
+    decision = read(HERE / 'cost_decision.json')
+    assert isinstance(decision['reason'], str) and decision['reason'].strip()
+    for dataset in ('robin', 'jena'):
+        data = read(check_receipt(decision['evaluations'][dataset]))
+        assert data['dataset'] == dataset and data['status'] == 'complete'
+    if decision['run_cost'] is False:
+        assert not (HERE / 'cost_gpu_rows.json').exists(), 'Cost omission declaration conflicts with completed cost output'
+        return {'decision': receipt(HERE / 'cost_decision.json'), 'run_cost': False, 'reason': decision['reason'],
+                'scope': 'No new timing superiority inferred from old measurements'}
+    assert decision['run_cost'] is True and decision['retained_families']
+    assert set(decision['retained_families']) <= {'pq_split', 'raw64'}
+    parity, costs, summary = (read(HERE / name) for name in ('cost_parity.json', 'cost_gpu_rows.json', 'cost_summary.json'))
+    assert parity['status'] == 'PASS' and costs['status'] == summary['status'] == 'complete'
+    assert costs['decision_sha256'] == digest(HERE / 'cost_decision.json')
+    assert costs['parity_sha256'] == digest(HERE / 'cost_parity.json')
+    for path, sha in parity['binding'].items():
+        file_entry(path, sha)
+    config = lambda r: (r['id'], r['batch'], r['variant'], r['micro'])
+    robin_evaluation = read(check_receipt(decision['evaluations']['robin']))
+    expected = set()
+    for family in ('pq_split', 'raw64', 'level_res', 'f0', 'lora'):
+        for identifier in robin_evaluation['roles'][family]:
+            expected |= {(identifier, b, 'original', None) for b in (1, 4)}
+            if family in ('f0', 'lora'):
+                expected.add((identifier, 4, 'generic', 20))
+    actual_configs = set()
+    for row in parity['rows']:
+        check = row['val']
+        assert check['pass_'] is True and check['violating_elements'] == 0
+        assert check['atol'] == 1e-5 and check['rtol'] == 1e-4
+        if row['family'] == 'lora':
+            assert row['model']['merge']['pass_'] is True
+        actual_configs.add(config(row))
+    assert actual_configs == expected
+    assert len(parity['rows']) == len(expected) == 21 and len(parity['restorations']) == 9
+    for row in parity['restorations']:
+        assert row['full_val']['pass_'] is True and abs(row['mse_difference']) <= 1e-8
+    rows = costs['rows']
+    assert len(rows) == 75 and [r['sequence'] for r in rows] == list(range(75))
+    for block in range(3):
+        primary = [r for r in rows if r['block'] == block and r['sentinel'] is None]
+        sentinel = [r for r in rows if r['block'] == block and r['sentinel'] is not None]
+        assert len(primary) == 21 and {config(r) for r in primary} == expected
+        assert {(r['batch'], r['sentinel']) for r in sentinel} == {(b, k) for b in (1, 4) for k in ('pre', 'post')}
+    for row in rows:
+        assert row['device'] == 'cuda'
+        model = row['model']
+        file_entry(model['checkpoint_path'], model['checkpoint_sha256'])
+        file_entry(model['model_source'], model['model_source_sha256'])
+        assert model['trainable_parameters_before_merge'] == {
+            'f0': 0, 'lora': 294912, 'level_res': 17920, 'pq_split': 35840, 'raw64': 35840}[row['family']]
+        assert model['parameter_bytes'] == model['deployed_parameters'] * 4
+        assert model['deployment_tensor_bytes'] == model['parameter_bytes'] + model['buffer_bytes']
+        times = np.asarray(row['seconds_per_24_origins'])
+        assert len(times) == 20 and np.isfinite(times).all() and (times > 0).all()
+        for name, values in [('milliseconds_per_origin', times * 1000 / 24), ('origins_per_second', 24 / times)]:
+            for key, value in distribution(values).items():
+                close(value, row[name][key], 'cost raw repeats/' + key)
+        assert 0 < row['peak_allocated_bytes'] <= row['peak_reserved_bytes']
+    assert len(summary['fits']) == 21
+    for row in summary['fits']:
+        source = [r for r in rows if r['sentinel'] is None and config(r) == config(row)]
+        assert len(source) == 3
+        for metric in ('milliseconds_per_origin', 'origins_per_second'):
+            for key, value in distribution([r[metric]['median'] for r in source]).items():
+                close(value, row[metric][key], 'cost fit aggregation')
+        assert row['peak_allocated_bytes'] == [r['peak_allocated_bytes'] for r in source]
+        assert row['peak_reserved_bytes'] == [r['peak_reserved_bytes'] for r in source]
+    for row in summary['groups']:
+        source = [r for r in summary['fits'] if all(r[k] == row[k] for k in ('family', 'batch', 'variant', 'micro'))]
+        assert len(source) == (1 if row['family'] == 'f0' else 2)
+        close(row['mean_seed_median_ms'], np.mean([r['milliseconds_per_origin']['median'] for r in source]), 'cost family latency')
+        close(row['mean_seed_median_throughput'], np.mean([r['origins_per_second']['median'] for r in source]), 'cost family throughput')
+        close(row['mean_seed_median_peak_allocated_bytes'], np.mean([np.median(r['peak_allocated_bytes']) for r in source]), 'cost family peak center')
+        for metric in ('allocated', 'reserved'):
+            values = [v for r in source for v in r['peak_' + metric + '_bytes']]
+            assert row['observed_peak_' + metric + '_range_bytes'] == [min(values), max(values)]
+    for row in summary['sentinels']:
+        pair = {r['sentinel']: r for r in rows if r['sentinel'] and r['block'] == row['block'] and r['batch'] == row['batch']}
+        close(row['pre_ms'], pair['pre']['milliseconds_per_origin']['median'], 'pre sentinel')
+        close(row['post_ms'], pair['post']['milliseconds_per_origin']['median'], 'post sentinel')
+        close(row['post_relative_change'], row['post_ms'] / row['pre_ms'] - 1, 'sentinel drift')
+    return {'run_cost': True, 'rows': 75, 'primary_rows': 63, 'sentinels': 12, 'parity_configurations': 21,
+            'summary': receipt(HERE / 'cost_summary.json'), 'raw_repeats_and_seed_aggregates': True,
+            'scope': 'same-session Robin only; no Jena costs and no prior-session timing ratios'}
+
+
+def document_checks():
+    required = ('PLAN.md', 'STATUS.md', 'TOPIC_DECISION.md')
+    docs = {name: receipt(HERE / name) for name in required}
+    optional = ('PAPER_DRAFT.md', 'APPENDIX.md', 'CLAIMS.md')
+    docs.update({name: receipt(HERE / name) for name in optional if (HERE / name).is_file()})
+    manifest = read(HERE / 'figure_manifest.json')
+    for path, sha in manifest['inputs'].items():
+        file_entry(HERE / path, sha)
+    count = 0
+    for entries in manifest['figures'].values():
+        for entry in entries:
+            check_receipt(entry)
+            count += 1
+    return {'documents': docs, 'figure_manifest': receipt(HERE / 'figure_manifest.json'), 'figure_files': count,
+            'scope': 'existence, source binding and file integrity only; not independent replication or scientific proof'}
+
+
+def analysis_checks(evaluations, analysis_path):
+    summary = read(analysis_path)
+    assert summary['status'] == 'complete' and set(summary['inputs']) == {'robin', 'jena'}
+    source = {}
+    for dataset, item in summary['inputs'].items():
+        assert item == evaluations[dataset]['evaluation']
+        source[dataset] = read(check_receipt(item))
+    counts = {}
+    for name, entry in summary['outputs'].items():
+        with check_receipt(entry).open(encoding='utf-8', newline='') as handle:
+            reader = csv.DictReader(handle)
+            assert reader.fieldnames == entry['columns']
+            rows = list(reader)
+        assert len(rows) == entry['rows']
+        counts[name] = len(rows)
+        keys = set()
+        for row in rows:
+            dataset, period = row['dataset'], row['period']
+            evaluation = source[dataset]
+            if name == 'role_scores_csv':
+                expected = evaluation['role_scores'][row['role']][period]
+                numeric = ('mse', 'mae')
+                assert row['run_ids'] == ';'.join(expected['run_ids'])
+                assert int(row['member_count']) == expected['count']
+            elif name == 'model_scores_csv':
+                model = evaluation['models'][row['model_id']]
+                expected, numeric = model['scores'][period], ('mse', 'mae')
+                assert row['role'] == model['role']
+                assert row['reused_v7_prediction'] == str(model['reused_v7_prediction'])
+                assert row['seed'] == ('' if model['spec'].get('seed') is None else str(model['spec']['seed']))
+            elif name == 'space_scores_csv':
+                expected = evaluation['role_space_scores'][row['role']][period]
+                numeric = ('p_retained_space_mse', 'q_residual_space_mse', 'p_retained_space_mae', 'q_residual_space_mae')
+                assert int(row['complete_target_rows']) == expected['complete_target_rows']
+            elif name == 'comparisons_csv':
+                comparison = next(c for c in evaluation['comparisons'] if c['name'] == row['comparison'])
+                detail = comparison['periods'][period]
+                expected = detail['full']
+                numeric = ('left_mse', 'reference_mse', 'delta_mse', 'relative_to_reference_pct')
+                assert row['primary'] == str(comparison['primary'])
+                interval = detail['conditional_block95']
+                for prefix, key in [('delta_mse', 'delta_mse'), ('relative_pct', 'relative_to_reference_pct')]:
+                    for index, suffix in enumerate(('low', 'high')):
+                        text = row[prefix + '_ci_' + suffix]
+                        if interval is None:
+                            assert text == ''
+                        else:
+                            close(float(text), interval[key][index], 'comparison CSV interval copy')
+            else:
+                raise AssertionError('Unexpected analysis export: ' + name)
+            key = (dataset, period, row.get('model_id') or row.get('comparison') or row.get('role'))
+            assert key not in keys, 'Duplicate analysis CSV identity: ' + repr(key)
+            keys.add(key)
+            for metric in numeric:
+                value = None if row[metric] == '' else float(row[metric])
+                close(value, expected[metric], name + '/' + metric)
+    expected_counts = {'role_scores_csv': sum(len(e['role_scores']) * 3 for e in source.values()),
+                       'model_scores_csv': sum(len(e['models']) * 3 for e in source.values()),
+                       'space_scores_csv': sum(len(e['role_space_scores']) * 3 for e in source.values()),
+                       'comparisons_csv': sum(len(e['comparisons']) * 3 for e in source.values())}
+    assert counts == expected_counts
+    for dataset, values in summary['dataset_summaries'].items():
+        evaluation = source[dataset]
+        for role, metrics in values['combined_role_values'].items():
+            for metric in ('mse', 'mae'):
+                close(metrics['combined_' + metric], evaluation['role_scores'][role]['combined'][metric], dataset + '/summary/' + role)
+        for key, value in values['combined_relative_mse_changes'].items():
+            left, right = key.removesuffix('_relative_pct').split('_minus_')
+            left_value = evaluation['role_scores'][left]['combined']['mse']
+            right_value = evaluation['role_scores'][right]['combined']['mse']
+            close(value, 100 * (left_value - right_value) / right_value, dataset + '/' + key)
+        assert values['new_test_model_predictions'] == 4
+    return {'summary': receipt(analysis_path), 'CSV_rows': counts,
+            'source_linked_raw_space_scores_P_Q_scores_and_relative_changes': True,
+            'scope': 'CSV/summary numeric consistency with verified evaluations; manuscript prose not a scientific proof'}
+
+
+def accounting(ledger, protocol, own_id):
+    assert protocol['limits'] == LIMITS
+    assert protocol['base_real_fits'] == 8 and protocol['reserve_real_fits'] == 4 and not protocol['extension_allowed']
+    rows = ledger['jobs']
+    assert [r['id'] for r in rows] == list(range(len(rows)))
+    assert len({r['label'] for r in rows}) == len(rows)
+    for row in rows:
+        assert row['reserved_utc'] <= row['started_utc'] and row['reserved_seconds'] >= 0
+        assert row['status'] in ('complete', 'failed') or row['id'] == own_id
+        assert row['updates'] >= 0
+        if row['category'] == 'real_fit':
+            assert row['metadata']['dataset'] in ('robin', 'jena')
+        if row.get('synthetic'):
+            assert row['category'] == 'cpu_check' and row['updates'] <= 10
+    fits = [r for r in rows if r['category'] == 'real_fit']
+    assert 8 <= len(fits) <= 12
+    synthetic = read(HERE / 'synthetic_models01.json')
+    assert synthetic['status'] == 'PASS' and synthetic['optimizer_updates'] == 10 and synthetic['real_data'] is False
+    assert any(r['synthetic'] and r['updates'] == 10 and r['status'] == 'complete' for r in rows)
+    assert sum(bool(r.get('synthetic')) for r in rows) <= 6
+    exposures = [read(HERE / f'test_exposure_{d}.json')['first_exposed_utc'] for d in ('robin', 'jena')]
+    earliest = min(exposures)
+    assert all(r['ended_utc'] <= earliest for r in fits), 'A fit continued or started after v8 TEST exposure'
+    assert not any(r['category'] == 'data_prepare' and r['started_utc'] >= earliest for r in rows)
+    state = budget_snapshot()
+    for key in ('gpu_seconds', 'cpu_check_seconds', 'storage_bytes'):
+        assert state[key] <= LIMITS[key], key + ' exceeded'
+    return {'snapshot_during_verification': state, 'all_started_jobs_reserved': True,
+            'failed_fit_attempts': sum(r['status'] == 'failed' for r in fits),
+            'GPU_accounting': 'parent GPU jobs only; nested real_fit elapsed not added again',
+            'all_fits_finished_before_first_v8_TEST': True, 'synthetic_scope': '10 optimizer updates, not real-data convergence'}
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--job', required=True)
+    parser.add_argument('--output', default='final_checks.json')
+    parser.add_argument('--analysis', default='analysis01/analysis_summary.json')
+    parser.add_argument('--reserve-seconds', type=float, default=300)
+    args = parser.parse_args()
+    if Path(args.output).name != args.output or not args.output.endswith('.json'):
+        parser.error('Output must be a new local JSON filename')
+    target = HERE / args.output
+    if target.exists():
+        raise FileExistsError('Preserve previous verification: ' + str(target))
+    if not 0 < args.reserve_seconds <= 300:
+        parser.error('CPU verification reservation must be in (0,300] seconds')
+    with Job(args.job, category='cpu_check', reserve_seconds=args.reserve_seconds) as job:
+        global np
+        import numpy as np
+        result = {'status': 'RUNNING', 'ledger_id': job.id, 'source': source_receipt(),
+                  'scope': 'Execution-team verification of stored artifacts; no independent replication, new model, forward, fit or prediction',
+                  'checks': {}, 'scientific_claims_validated_by_PASS': False}
+        try:
+            protocol, ledger = read(HERE / 'protocol.json'), read(HERE / 'ledger.json')
+            result['checks']['preservation'] = preservation(protocol)
+            for dataset in ('robin', 'jena'):
+                result['checks']['training_' + dataset] = training(dataset, protocol, ledger, job)
+            result['checks']['evaluation'] = evaluation_checks(protocol, ledger, job)
+            result['checks']['analysis'] = analysis_checks(result['checks']['evaluation'], HERE / args.analysis)
+            result['checks']['cost'] = cost_checks()
+            result['checks']['documents'] = document_checks()
+            result['checks']['accounting'] = accounting(read(HERE / 'ledger.json'), protocol, job.id)
+            result['status'] = 'PASS_WITH_DOCUMENTED_CONTRACT_CORRECTION'
+            result['completed_utc'] = time.time()
+            save_json(target, result)
+            job.heartbeat('saved-artifact verification complete; scientific scope remains limited')
+        except BaseException:
+            result['status'] = 'FAIL'
+            result['error'] = traceback.format_exc()
+            result['failed_utc'] = time.time()
+            save_json(target, result)
+            raise
+    result['budget_after_verification'] = budget_snapshot()
+    save_json(target, result)
+    print(json.dumps({'status': result['status'], 'path': str(target), 'sha256': digest(target)}), flush=True)
+
+
+if __name__ == '__main__':
+    main()

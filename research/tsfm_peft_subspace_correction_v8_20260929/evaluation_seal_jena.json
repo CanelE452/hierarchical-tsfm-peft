@@ -1,0 +1,771 @@
+{
+  "schema": "tsfm_peft_subspace_correction_v8_evaluation_seal_v1",
+  "status": "sealed",
+  "dataset": "jena",
+  "sealed_utc": 1790644280.097329,
+  "selection": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\selected_jena.json",
+    "sha256": "875bb6d4fe440fd9e1e830a3bc397e69dd3f9d50f7d0900a0d830f97951cc925"
+  },
+  "all_selection_files_required_before_test": {
+    "robin": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\selected_robin.json",
+      "sha256": "a42aeb6ba2b9145aef965a4d14dc4f90cfbc101355d326b1e00f69dcc93b0666"
+    },
+    "jena": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\selected_jena.json",
+      "sha256": "875bb6d4fe440fd9e1e830a3bc397e69dd3f9d50f7d0900a0d830f97951cc925"
+    }
+  },
+  "selection_test_policy": {
+    "status": "explicit_false",
+    "test_used_for_selection": false
+  },
+  "data_contract": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\data_contract_jena.json",
+    "sha256": "8a39daca411ea7553a506ea0c1eddbe10919da39ce55c40ce732740d10c3b1c3"
+  },
+  "protocol": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\protocol.json",
+    "sha256": "6897b875c78f9aeec623a16748f088fde0c521d6ba6970450441c1d384612b29"
+  },
+  "plan": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\PLAN.md",
+    "sha256": "3696cbce4ab132c79649658427c71cb386724e458e1fa729701967dd1c2e4e01"
+  },
+  "approval": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\APPROVAL.txt",
+    "sha256": "769088c70925668a54a42beccad625cfc4b33d881bf8f154c89cdf61e1a0e51f"
+  },
+  "v7_reuse": {
+    "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+    "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+  },
+  "channels": 21,
+  "splits": {
+    "train": [
+      "2024-01-01T00:10",
+      "2024-07-01T00:00"
+    ],
+    "val": [
+      "2024-07-01T00:00",
+      "2024-09-01T00:00"
+    ],
+    "test_a": [
+      "2024-09-01T00:00",
+      "2024-11-01T00:00"
+    ],
+    "test_b": [
+      "2024-11-01T00:00",
+      "2025-01-01T00:10"
+    ]
+  },
+  "expected_origins": {
+    "train": 25648,
+    "val": 371,
+    "test_a": 365,
+    "test_b": 365
+  },
+  "evaluation_stride": 24,
+  "interval_minutes": 10,
+  "bootstrap": {
+    "draws": 2000,
+    "seed": 9262026,
+    "block_length_origins": 42
+  },
+  "metric": "TRAIN-standardized raw-space observed-channel macro MSE/MAE; seed losses averaged, not ensembled.",
+  "space_metric": "P/Q complete-target-row decomposition using TRAIN PCA basis; no target zero filling before projection.",
+  "models": [
+    {
+      "id": "v7_jena_direct_nlinear_lr0.001_92601",
+      "role": "direct_nlinear",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_direct_nlinear_lr0.001_92601",
+        "dataset": "jena",
+        "family": "direct_nlinear",
+        "arm": "direct",
+        "ed_mode": "none",
+        "seed": 92601,
+        "channels": 21,
+        "latent": 0,
+        "residual_rank": 32,
+        "normalization": "train_standardization_only",
+        "lr": 0.001,
+        "t_lr": 0.001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_direct_nlinear_lr0.001_92601.npz",
+        "sha256": "a9b4203d2c6f23c0f93eb981e4235d26b936437107efed94323338a93fcfc7eb"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_direct_nlinear_lr0.001_92602",
+      "role": "direct_nlinear",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_direct_nlinear_lr0.001_92602",
+        "dataset": "jena",
+        "family": "direct_nlinear",
+        "arm": "direct",
+        "ed_mode": "none",
+        "seed": 92602,
+        "channels": 21,
+        "latent": 0,
+        "residual_rank": 32,
+        "normalization": "train_standardization_only",
+        "lr": 0.001,
+        "t_lr": 0.001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_direct_nlinear_lr0.001_92602.npz",
+        "sha256": "7f5db918a5437d9dcbd629fe5b4300f0289392c01aec223baca485e1fcec45a9"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_level_raw_92601",
+      "role": "level_raw",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_level_raw_92601",
+        "dataset": "jena",
+        "family": "level_raw",
+        "arm": "raw",
+        "ed_mode": "fixed_ed",
+        "seed": 92601,
+        "channels": 21,
+        "latent": 6,
+        "residual_rank": 32,
+        "normalization": "context",
+        "lr": 0.001,
+        "t_lr": 0.001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_level_raw_92601.npz",
+        "sha256": "8818eee6b551a273a36e072cabc8cabfba0f8ae843b9c2910180deb51c6a0686"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_level_raw_92602",
+      "role": "level_raw",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_level_raw_92602",
+        "dataset": "jena",
+        "family": "level_raw",
+        "arm": "raw",
+        "ed_mode": "fixed_ed",
+        "seed": 92602,
+        "channels": 21,
+        "latent": 6,
+        "residual_rank": 32,
+        "normalization": "context",
+        "lr": 0.001,
+        "t_lr": 0.001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_level_raw_92602.npz",
+        "sha256": "d5c9a28874d37d3ff59c925729ea376c5e8533ad16dcf5ce12e5d17f88c43e66"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_level_res_92601",
+      "role": "level_res",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_level_res_92601",
+        "dataset": "jena",
+        "family": "level_res",
+        "arm": "residual",
+        "ed_mode": "fixed_ed",
+        "seed": 92601,
+        "channels": 21,
+        "latent": 6,
+        "residual_rank": 32,
+        "normalization": "context",
+        "lr": 0.001,
+        "t_lr": 0.001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_level_res_92601.npz",
+        "sha256": "262ef5690e4699f2756f85b82a46eba2cd6d2ea62c46414dfa85bb5bc4e115f4"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_level_res_92602",
+      "role": "level_res",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_level_res_92602",
+        "dataset": "jena",
+        "family": "level_res",
+        "arm": "residual",
+        "ed_mode": "fixed_ed",
+        "seed": 92602,
+        "channels": 21,
+        "latent": 6,
+        "residual_rank": 32,
+        "normalization": "context",
+        "lr": 0.001,
+        "t_lr": 0.001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_level_res_92602.npz",
+        "sha256": "2848e0f3eb4d37cbeee0a3ebf9e00b1e0029cddd99ef46cc3dd8cb11d8af93e0"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_lora_92601",
+      "role": "lora",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_lora_92601",
+        "dataset": "jena",
+        "family": "lora",
+        "arm": "lora",
+        "ed_mode": "fixed_ed",
+        "seed": 92601,
+        "channels": 21,
+        "latent": 6,
+        "residual_rank": 32,
+        "normalization": "context",
+        "lr": 0.0001,
+        "t_lr": 0.0001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_lora_92601.npz",
+        "sha256": "7c1f72fec22ecb615f952e03eabffbb52a29cfa33f038801c97183d8c7abf936"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_lora_92602",
+      "role": "lora",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_lora_92602",
+        "dataset": "jena",
+        "family": "lora",
+        "arm": "lora",
+        "ed_mode": "fixed_ed",
+        "seed": 92602,
+        "channels": 21,
+        "latent": 6,
+        "residual_rank": 32,
+        "normalization": "context",
+        "lr": 0.0001,
+        "t_lr": 0.0001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_lora_92602.npz",
+        "sha256": "0044d21fc0976cb4e0cf6df8871448ead2c4607075ac15b8ca57907d3db5fd00"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_old_res_92601",
+      "role": "old_res",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_old_res_92601",
+        "dataset": "jena",
+        "family": "old_res",
+        "arm": "residual",
+        "ed_mode": "fixed_ed",
+        "seed": 92601,
+        "channels": 21,
+        "latent": 6,
+        "residual_rank": 32,
+        "normalization": "context",
+        "lr": 0.001,
+        "t_lr": 0.001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_old_res_92601.npz",
+        "sha256": "f89fafcdcda3711601d7aa238bbc794d34af809a2fb2bc4247e15c02a2cd9703"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_old_res_92602",
+      "role": "old_res",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_old_res_92602",
+        "dataset": "jena",
+        "family": "old_res",
+        "arm": "residual",
+        "ed_mode": "fixed_ed",
+        "seed": 92602,
+        "channels": 21,
+        "latent": 6,
+        "residual_rank": 32,
+        "normalization": "context",
+        "lr": 0.001,
+        "t_lr": 0.001,
+        "epochs": 120
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_old_res_92602.npz",
+        "sha256": "3fa01187f27984017868ade8dcbb4a429ab7c5ad4abd1c47aac761e4d8498459"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_f0",
+      "role": "f0",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_f0",
+        "dataset": "jena",
+        "family": "f0",
+        "arm": "f0",
+        "ed_mode": "fixed_ed",
+        "seed": null,
+        "latent": 6,
+        "channels": 21,
+        "normalization": "context"
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_f0.npz",
+        "sha256": "d433daed68b5fd954b15fbfd634a14bf33b51e1a8f04a2e993b06a0043b667bb"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_compress",
+      "role": "compress",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_compress",
+        "dataset": "jena",
+        "family": "compress",
+        "arm": "compress",
+        "ed_mode": "fixed_ed",
+        "seed": null,
+        "latent": 6,
+        "channels": 21,
+        "normalization": "context"
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_compress.npz",
+        "sha256": "90f25554a2134d725b27b19e2123319f29fc23c9db9657eb3a4a284a27d86894"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v7_jena_level_only",
+      "role": "level_only",
+      "kind": "stored_prediction",
+      "spec": {
+        "id": "v7_jena_level_only",
+        "dataset": "jena",
+        "family": "level_only",
+        "arm": "level_only",
+        "ed_mode": "fixed_ed",
+        "seed": null,
+        "latent": 6,
+        "channels": 21,
+        "normalization": "context"
+      },
+      "prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_level_only.npz",
+        "sha256": "42081465a8de892df651889b9949d9c1edd2b4b3da1a2e6df825137753493d36"
+      },
+      "source_evaluation": {
+        "path": "research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json",
+        "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c"
+      },
+      "original_v7_kind": "checkpoint",
+      "scores_from_v7_not_reused_for_v8_scoring": true
+    },
+    {
+      "id": "v8_jena_pq_split_92601",
+      "spec": {
+        "id": "v8_jena_pq_split_92601",
+        "dataset": "jena",
+        "family": "pq_split",
+        "arm": "pq_split",
+        "channels": 21,
+        "latent": 6,
+        "ed_mode": "fixed_ed",
+        "seed": 92601,
+        "lr": 0.001,
+        "epochs": 120,
+        "normalization": "context"
+      },
+      "checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_pq_split_92601\\best.pt",
+      "checkpoint_sha256": "1736eba2129a1351a34d028f23b68d8b3b4ff78142471f3aa6739d3bad5c3532",
+      "best_val_prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_pq_split_92601\\best_val.npz",
+        "sha256": "447679651716c8b237c1dd09d8f5dd118ef1ed846f5719b7b00ceb56af586b81"
+      },
+      "best_val_mse": 0.5180652058733264,
+      "selected_epoch": 25,
+      "result_path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_pq_split_92601\\result.json",
+      "result_sha256": "02e8f33d80e483d82240c16ba0065197a7ca985c796315ca4f552ab31dba476e",
+      "deterministic": false,
+      "role": "pq_split",
+      "kind": "checkpoint"
+    },
+    {
+      "id": "v8_jena_pq_split_92602",
+      "spec": {
+        "id": "v8_jena_pq_split_92602",
+        "dataset": "jena",
+        "family": "pq_split",
+        "arm": "pq_split",
+        "channels": 21,
+        "latent": 6,
+        "ed_mode": "fixed_ed",
+        "seed": 92602,
+        "lr": 0.001,
+        "epochs": 120,
+        "normalization": "context"
+      },
+      "checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_pq_split_92602\\best.pt",
+      "checkpoint_sha256": "36041192d3ed70c7cee5f7b9148c6904285e09c977cbc4db177eea66d52dda11",
+      "best_val_prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_pq_split_92602\\best_val.npz",
+        "sha256": "7dd43d87e704a325db458962e3dcbecfcb0222ed031b437885db3341c05803db"
+      },
+      "best_val_mse": 0.5211269086971378,
+      "selected_epoch": 9,
+      "result_path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_pq_split_92602\\result.json",
+      "result_sha256": "655076e0716fcb60bb16aacd4924f7d379e6055461b53cd3fcd7fba5207c2375",
+      "deterministic": false,
+      "role": "pq_split",
+      "kind": "checkpoint"
+    },
+    {
+      "id": "v8_jena_raw64_92601",
+      "spec": {
+        "id": "v8_jena_raw64_92601",
+        "dataset": "jena",
+        "family": "raw64",
+        "arm": "raw64",
+        "channels": 21,
+        "latent": 6,
+        "ed_mode": "fixed_ed",
+        "seed": 92601,
+        "lr": 0.001,
+        "epochs": 120,
+        "normalization": "context"
+      },
+      "checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_raw64_92601\\best.pt",
+      "checkpoint_sha256": "fcb1693910cbc1a0718637e5d4b37984e1496de7c9e35244092a97ea28870209",
+      "best_val_prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_raw64_92601\\best_val.npz",
+        "sha256": "a9c535047db50ddfc4e89c98eb7497d5f4cd2914bf1633b1135938d206bdaa00"
+      },
+      "best_val_mse": 0.548095361661347,
+      "selected_epoch": 6,
+      "result_path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_raw64_92601\\result.json",
+      "result_sha256": "3874a1cc4b693d915103207be7c7438042a810255ebdebd81e37f7afc74a9454",
+      "deterministic": false,
+      "role": "raw64",
+      "kind": "checkpoint"
+    },
+    {
+      "id": "v8_jena_raw64_92602",
+      "spec": {
+        "id": "v8_jena_raw64_92602",
+        "dataset": "jena",
+        "family": "raw64",
+        "arm": "raw64",
+        "channels": 21,
+        "latent": 6,
+        "ed_mode": "fixed_ed",
+        "seed": 92602,
+        "lr": 0.001,
+        "epochs": 120,
+        "normalization": "context"
+      },
+      "checkpoint": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_raw64_92602\\best.pt",
+      "checkpoint_sha256": "29f93f235860d92495475ea803efbaf46ee21402f0422729f2492a447e4b7293",
+      "best_val_prediction": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_raw64_92602\\best_val.npz",
+        "sha256": "00d3bcc06fbd80f3fdaa585ab06e9f46cdcb06aea3b2dd2396ae4a0b5535be27"
+      },
+      "best_val_mse": 0.5425224821900079,
+      "selected_epoch": 16,
+      "result_path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_subspace_correction_v8_20260929\\runs\\v8_jena_raw64_92602\\result.json",
+      "result_sha256": "6a1dbc2721e31f3ea3075f315cb76a95d58581def23f1b6933b1ef6581d296a2",
+      "deterministic": false,
+      "role": "raw64",
+      "kind": "checkpoint"
+    }
+  ],
+  "roles": {
+    "pq_split": [
+      "v8_jena_pq_split_92601",
+      "v8_jena_pq_split_92602"
+    ],
+    "raw64": [
+      "v8_jena_raw64_92601",
+      "v8_jena_raw64_92602"
+    ],
+    "direct_nlinear": [
+      "v7_jena_direct_nlinear_lr0.001_92601",
+      "v7_jena_direct_nlinear_lr0.001_92602"
+    ],
+    "level_raw": [
+      "v7_jena_level_raw_92601",
+      "v7_jena_level_raw_92602"
+    ],
+    "level_res": [
+      "v7_jena_level_res_92601",
+      "v7_jena_level_res_92602"
+    ],
+    "lora": [
+      "v7_jena_lora_92601",
+      "v7_jena_lora_92602"
+    ],
+    "old_res": [
+      "v7_jena_old_res_92601",
+      "v7_jena_old_res_92602"
+    ],
+    "f0": [
+      "v7_jena_f0"
+    ],
+    "compress": [
+      "v7_jena_compress"
+    ],
+    "level_only": [
+      "v7_jena_level_only"
+    ]
+  },
+  "comparisons": [
+    {
+      "name": "jena_pq_split_vs_raw64",
+      "left": [
+        "v8_jena_pq_split_92601",
+        "v8_jena_pq_split_92602"
+      ],
+      "right": [
+        "v8_jena_raw64_92601",
+        "v8_jena_raw64_92602"
+      ],
+      "primary": true,
+      "question": "independent P/Q correction versus parameter-matched shared RAW64"
+    },
+    {
+      "name": "jena_pq_split_vs_level_res",
+      "left": [
+        "v8_jena_pq_split_92601",
+        "v8_jena_pq_split_92602"
+      ],
+      "right": [
+        "v7_jena_level_res_92601",
+        "v7_jena_level_res_92602"
+      ],
+      "primary": false,
+      "question": "P/Q correction beyond v7 LEVEL residual PEFT"
+    },
+    {
+      "name": "jena_pq_split_vs_level_raw",
+      "left": [
+        "v8_jena_pq_split_92601",
+        "v8_jena_pq_split_92602"
+      ],
+      "right": [
+        "v7_jena_level_raw_92601",
+        "v7_jena_level_raw_92602"
+      ],
+      "primary": false,
+      "question": "P/Q correction versus v7 matched RAW32"
+    },
+    {
+      "name": "jena_pq_split_vs_direct_nlinear",
+      "left": [
+        "v8_jena_pq_split_92601",
+        "v8_jena_pq_split_92602"
+      ],
+      "right": [
+        "v7_jena_direct_nlinear_lr0.001_92601",
+        "v7_jena_direct_nlinear_lr0.001_92602"
+      ],
+      "primary": false,
+      "question": "P/Q correction versus direct NLinear baseline"
+    },
+    {
+      "name": "jena_pq_split_vs_f0",
+      "left": [
+        "v8_jena_pq_split_92601",
+        "v8_jena_pq_split_92602"
+      ],
+      "right": [
+        "v7_jena_f0"
+      ],
+      "primary": false,
+      "question": "remaining accuracy gap to uncompressed frozen TSFM"
+    },
+    {
+      "name": "jena_pq_split_vs_lora",
+      "left": [
+        "v8_jena_pq_split_92601",
+        "v8_jena_pq_split_92602"
+      ],
+      "right": [
+        "v7_jena_lora_92601",
+        "v7_jena_lora_92602"
+      ],
+      "primary": false,
+      "question": "remaining accuracy gap to uncompressed LoRA"
+    },
+    {
+      "name": "jena_pq_split_vs_old_res",
+      "left": [
+        "v8_jena_pq_split_92601",
+        "v8_jena_pq_split_92602"
+      ],
+      "right": [
+        "v7_jena_old_res_92601",
+        "v7_jena_old_res_92602"
+      ],
+      "primary": false,
+      "question": "P/Q correction beyond pre-LEVEL residual PEFT"
+    },
+    {
+      "name": "jena_raw64_vs_level_raw",
+      "left": [
+        "v8_jena_raw64_92601",
+        "v8_jena_raw64_92602"
+      ],
+      "right": [
+        "v7_jena_level_raw_92601",
+        "v7_jena_level_raw_92602"
+      ],
+      "primary": false,
+      "question": "parameter increase in RAW correction over v7 RAW32"
+    },
+    {
+      "name": "jena_raw64_vs_level_res",
+      "left": [
+        "v8_jena_raw64_92601",
+        "v8_jena_raw64_92602"
+      ],
+      "right": [
+        "v7_jena_level_res_92601",
+        "v7_jena_level_res_92602"
+      ],
+      "primary": false,
+      "question": "shared RAW64 versus v7 LEVEL residual PEFT"
+    },
+    {
+      "name": "jena_raw64_vs_direct_nlinear",
+      "left": [
+        "v8_jena_raw64_92601",
+        "v8_jena_raw64_92602"
+      ],
+      "right": [
+        "v7_jena_direct_nlinear_lr0.001_92601",
+        "v7_jena_direct_nlinear_lr0.001_92602"
+      ],
+      "primary": false,
+      "question": "shared RAW64 versus direct NLinear baseline"
+    },
+    {
+      "name": "jena_raw64_vs_f0",
+      "left": [
+        "v8_jena_raw64_92601",
+        "v8_jena_raw64_92602"
+      ],
+      "right": [
+        "v7_jena_f0"
+      ],
+      "primary": false,
+      "question": "RAW64 remaining accuracy gap to uncompressed frozen TSFM"
+    },
+    {
+      "name": "jena_raw64_vs_lora",
+      "left": [
+        "v8_jena_raw64_92601",
+        "v8_jena_raw64_92602"
+      ],
+      "right": [
+        "v7_jena_lora_92601",
+        "v7_jena_lora_92602"
+      ],
+      "primary": false,
+      "question": "RAW64 remaining accuracy gap to uncompressed LoRA"
+    }
+  ],
+  "test_used_for_selection": false,
+  "test_selection_prohibited": true
+}

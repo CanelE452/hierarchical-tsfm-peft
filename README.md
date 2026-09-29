@@ -155,3 +155,13 @@ Jena에서는 LEVEL0.324359가 OLD0.323305와 가까우며 RAW0.291159, 직접 N
 - [전체 비교 수치](research/tsfm_peft_practical_controls_v7_20260928/report_values.json), [정확도 CSV](research/tsfm_peft_practical_controls_v7_20260928/accuracy_comparison.csv), [비용 CSV](research/tsfm_peft_practical_controls_v7_20260928/cost_comparison.csv), [그림](research/tsfm_peft_practical_controls_v7_20260928/figure_manifest.json)
 - [Robin 평가](research/tsfm_peft_practical_controls_v7_20260928/robin_eval01.json), [Jena 평가](research/tsfm_peft_practical_controls_v7_20260928/jena_eval01.json), [소배치 정합성](research/tsfm_peft_practical_controls_v7_20260928/microbatch_parity.json), [진단 정정](research/tsfm_peft_practical_controls_v7_20260928/diagnostic_correction.json)
 - [승인 계획](research/tsfm_peft_practical_controls_v7_20260928/PLAN.md), [승인문](research/tsfm_peft_practical_controls_v7_20260928/APPROVAL.txt), [진행·예산·게시](research/tsfm_peft_practical_controls_v7_20260928/STATUS.md), [최종 검산](research/tsfm_peft_practical_controls_v7_20260928/final_checks.json)
+
+## 잔차 PEFT v8: 보존 공간 보정의 손익 (2026-09-29)
+
+고정 PCA의 보존 공간 P에도 독립적인 시간 보정 경로를 추가하고, 같은35,840개 학습 파라미터를 가진 RAW64와 Robin/Jena에서 총8fit 비교했습니다. **Jena에 한정된 개선 근거는 남았지만, 정확도 손해와 범용성은 해결되지 않았습니다.** Jena MSE0.279714는 기존 LEVEL보다13.76%, RAW64보다4.01% 낮았습니다. 반면 Robin0.279019는 기존 LEVEL0.275196보다 점추정상1.39% 높으며, 대응 블록 구간은0을 포함합니다. LoRA 대비 손해는 Robin24.78%, Jena16.26%로 남았습니다. Jena 직접 NLinear 대비2.09% 차이도 불확실합니다.
+
+Jena에서 기존 LEVEL 대비 이득은 주로 P 공간의 오차 감소이고, RAW64 대비 차이는 주로 Q 공간에서 남았습니다. P 분기 하나가 모든 개선의 원인이라고 단정하지 않습니다. 기본 구성 교체는 하지 않으며, 둘 모두 이미 노출된 개발 자료입니다. 승인된 Robin 전용 비용 재측정은 이번 선택을 바꾸지 않아 생략했고 Jena 비용 우위도 주장하지 않습니다. 실자료8/12attempt, GPU8.958분/120분, 합성1세션10update로 비교를 마쳤습니다.
+
+- [v8 판단·수식·기간/seed·공간 진단](research/tsfm_peft_subspace_correction_v8_20260929/TOPIC_DECISION.md), [전체 비교 JSON](research/tsfm_peft_subspace_correction_v8_20260929/analysis01/analysis_summary.json), [MSE/MAE CSV](research/tsfm_peft_subspace_correction_v8_20260929/analysis01/role_scores.csv), [대응 차이·구간 CSV](research/tsfm_peft_subspace_correction_v8_20260929/analysis01/comparisons.csv)
+- [Robin 평가](research/tsfm_peft_subspace_correction_v8_20260929/robin_eval01.json), [Jena 평가](research/tsfm_peft_subspace_correction_v8_20260929/jena_eval01.json), [그림](research/tsfm_peft_subspace_correction_v8_20260929/figures/accuracy_v8.png), [비용 생략 판단](research/tsfm_peft_subspace_correction_v8_20260929/cost_decision.json)
+- [승인 계획](research/tsfm_peft_subspace_correction_v8_20260929/PLAN.md), [상태·예산](research/tsfm_peft_subspace_correction_v8_20260929/STATUS.md), [검산](research/tsfm_peft_subspace_correction_v8_20260929/final_checks.json), [재현 연결](research/tsfm_peft_subspace_correction_v8_20260929/REPRODUCE.md), [게시 확인](research/tsfm_peft_subspace_correction_v8_20260929/publication_receipt.json)

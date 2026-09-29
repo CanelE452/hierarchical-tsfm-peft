@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "stage": "v8_subspace_correction",
+  "base_commit": "0c9a08f22a9f01820859aa0e8648fc1601a21444",
+  "context": 512,
+  "horizon": 48,
+  "seeds": [
+    92601,
+    92602
+  ],
+  "epochs": 120,
+  "patience": 6,
+  "epoch_origins": 512,
+  "effective_batch_origins": 4,
+  "microbatch_origins": 4,
+  "eval_batch_origins": 4,
+  "optimizer": "AdamW",
+  "weight_decay": 0,
+  "clip_grad_norm": 1,
+  "scheduler": {
+    "factor": 0.5,
+    "patience": 2,
+    "threshold": 0.0001,
+    "threshold_mode": "rel",
+    "min_lr": 0,
+    "eps": 1E-08
+  },
+  "checkpoint_selection": "minimum full VAL macro MSE including step0; exact ties retain earliest",
+  "backbone_revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+  "precision": "float32",
+  "tf32": false,
+  "cpu_threads": 4,
+  "limits": {
+    "real_fit": 12,
+    "synthetic_sessions": 6,
+    "synthetic_steps": 10,
+    "gpu_seconds": 7200,
+    "cpu_check_seconds": 900,
+    "storage_bytes": 5368709120,
+    "download_bytes": 0,
+    "conflict_wait_per_incident_seconds": 1800,
+    "conflict_wait_total_seconds": 3600
+  },
+  "datasets": {
+    "robin": {
+      "channels": 17,
+      "latent": 5,
+      "phase_period": 24,
+      "interval_minutes": 60,
+      "bootstrap_block_origins": 7,
+      "expected_origins": {
+        "train": 1945,
+        "val": 30,
+        "test_a": 40,
+        "test_b": 40
+      },
+      "splits": {
+        "precontext": [
+          "2016-01-01",
+          "2016-01-23"
+        ],
+        "train": [
+          "2016-01-23",
+          "2016-04-15"
+        ],
+        "val": [
+          "2016-04-17",
+          "2016-05-18"
+        ],
+        "test_a": [
+          "2016-05-20",
+          "2016-06-30"
+        ],
+        "test_b": [
+          "2016-06-30",
+          "2016-08-10"
+        ]
+      },
+      "evaluation_stride": 24,
+      "status": "v6 exposed; v7 follow-up direct comparison"
+    },
+    "jena": {
+      "channels": 21,
+      "latent": 6,
+      "phase_period": 144,
+      "interval_minutes": 10,
+      "bootstrap_block_origins": 42,
+      "expected_origins": {
+        "train": 25648,
+        "val": 371,
+        "test_a": 365,
+        "test_b": 365
+      },
+      "splits": {
+        "train": [
+          "2024-01-01T00:10",
+          "2024-07-01T00:00"
+        ],
+        "val": [
+          "2024-07-01T00:00",
+          "2024-09-01T00:00"
+        ],
+        "test_a": [
+          "2024-09-01T00:00",
+          "2024-11-01T00:00"
+        ],
+        "test_b": [
+          "2024-11-01T00:00",
+          "2025-01-01T00:10"
+        ]
+      },
+      "evaluation_stride": 24,
+      "status": "previously exposed source; fixed other-domain extension, not independent confirmation"
+    }
+  },
+  "fits": [
+    {
+      "id": "v8_robin_pq_split_92601",
+      "dataset": "robin",
+      "family": "pq_split",
+      "arm": "pq_split",
+      "channels": 17,
+      "latent": 5,
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v8_robin_pq_split_92602",
+      "dataset": "robin",
+      "family": "pq_split",
+      "arm": "pq_split",
+      "channels": 17,
+      "latent": 5,
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v8_robin_raw64_92601",
+      "dataset": "robin",
+      "family": "raw64",
+      "arm": "raw64",
+      "channels": 17,
+      "latent": 5,
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v8_robin_raw64_92602",
+      "dataset": "robin",
+      "family": "raw64",
+      "arm": "raw64",
+      "channels": 17,
+      "latent": 5,
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v8_jena_pq_split_92601",
+      "dataset": "jena",
+      "family": "pq_split",
+      "arm": "pq_split",
+      "channels": 21,
+      "latent": 6,
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v8_jena_pq_split_92602",
+      "dataset": "jena",
+      "family": "pq_split",
+      "arm": "pq_split",
+      "channels": 21,
+      "latent": 6,
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v8_jena_raw64_92601",
+      "dataset": "jena",
+      "family": "raw64",
+      "arm": "raw64",
+      "channels": 21,
+      "latent": 6,
+      "ed_mode": "fixed_ed",
+      "seed": 92601,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    },
+    {
+      "id": "v8_jena_raw64_92602",
+      "dataset": "jena",
+      "family": "raw64",
+      "arm": "raw64",
+      "channels": 21,
+      "latent": 6,
+      "ed_mode": "fixed_ed",
+      "seed": 92602,
+      "lr": 0.001,
+      "epochs": 120,
+      "normalization": "context"
+    }
+  ],
+  "base_real_fits": 8,
+  "reserve_real_fits": 4,
+  "extension_allowed": false,
+  "test_scope": "Both datasets are exposed development data; no v8 fit after v8 TEST evaluation",
+  "test_selection_prohibited": true,
+  "initialization": "Q matches v7 original initialization; P fork_rng(seed+1000003); RAW64 concatenated down matrices, zero up",
+  "cost_condition": "Only if a modified configuration has retained value after the full accuracy comparison",
+  "cost": {
+    "condition": "retained value after both accuracy comparisons",
+    "dataset": "robin",
+    "methods": [
+      "pq_split",
+      "raw64",
+      "level_res",
+      "f0",
+      "lora"
+    ],
+    "val_origins": 24,
+    "batches": [
+      1,
+      4
+    ],
+    "warmup_calls": 10,
+    "passes": 20,
+    "blocks": 3,
+    "primary_gpu_rows": 63,
+    "sentinel_gpu_rows": 12,
+    "total_gpu_rows": 75,
+    "cpu_rows": 0,
+    "atol": 1E-05,
+    "rtol": 0.0001,
+    "scope": "standardized CPU FP32 input to complete CPU [B,48,C] output; load/disk/scoring/ledger excluded",
+    "uncompressed_extra": "B4 M20 for F0 and merged LoRA only; original full paths for all methods",
+    "profile_sessions": 0
+  }
+}

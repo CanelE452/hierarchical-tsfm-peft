@@ -1,0 +1,29 @@
+{
+  "kind": "saved_artifact_verifier_schema_navigation_repair",
+  "status": "code_corrected_pending_reserved_retry",
+  "failure": {
+    "job": "final_checks01",
+    "file": "research/tsfm_peft_subspace_correction_v8_20260929/final_checks01_failed.json",
+    "sha256": "f718c8c05f1a967f1fcfc24114c501ddea55b37d95cc01a221a814ccc5b5cdb1",
+    "exception": "KeyError: edg",
+    "location": "checkpoint_check: v7 initial_manifest_<dataset>.json records.edg lookup",
+    "cause": "The verifier incorrectly assumed Robin and Jena v7 initialization manifests both contain records.edg. V7 trained only DIRECT_NLINEAR on Robin, so its Robin manifest has records.direct only. The Robin LEVEL baseline was reused from v6; v6 initial_manifest.json has records.<seed>. Jena v7 does have records.edg.<seed>."
+  },
+  "preserved_before": {
+    "path": "research/tsfm_peft_subspace_correction_v8_20260929/verify_v8_before_fix01.txt",
+    "sha256": "21fb35cf0d2544e6003ecd31a67d570d349d9cdc2e124c0f3a3c2523f11e8256"
+  },
+  "corrected_code": {
+    "path": "research/tsfm_peft_subspace_correction_v8_20260929/verify_v8.py",
+    "sha256": "ffd33d00d91d3755e826b5a33e3eaa1bd070cae3266fb9f37a8c1d4a8574b33e"
+  },
+  "exact_diff_scope": [
+    "Replace one unconditional v7 records.edg lookup with a dataset branch: Robin -> research/tsfm_peft_level_confirmation_v6_20260928/initial_manifest.json records.<seed>; Jena -> v7 initial_manifest_jena.json records.edg.<seed>.",
+    "Add the selected prior initialization manifest receipt and a scope description to the checkpoint verification result."
+  ],
+  "diff": "-    v7_initial = read(V7 / f'initial_manifest_{spec[\"dataset\"]}.json')['records']['edg'][str(spec['seed'])]\n+    if spec['dataset'] == 'robin':\n+        prior_manifest_path = ROOT / 'research/tsfm_peft_level_confirmation_v6_20260928/initial_manifest.json'\n+        v7_initial = read(prior_manifest_path)['records'][str(spec['seed'])]\n+    else:\n+        prior_manifest_path = V7 / 'initial_manifest_jena.json'\n+        v7_initial = read(prior_manifest_path)['records']['edg'][str(spec['seed'])]\n+            'prior_initialization_manifest': receipt(prior_manifest_path),\n+            'prior_initialization_scope': 'v6 Robin initialization reused by v7; v7 Jena initialization',\n",
+  "retained_checks": "The prior checkpoint file hash, exact E/D tensor equality, and exact original Q down/up tensor equality are still required. No tolerance or assertion was relaxed.",
+  "static_schema_review": "Read actual v6/v7/v8 initialization manifests, completed result/curve producer, both evaluation/analysis producers and existing seal, evaluation, analysis CSV/summary, figure manifest and cost omission decision. No additional simple key mismatch was identified by this read-only review.",
+  "unchanged": "All model/train/runtime/protocol/data/checkpoints/predictions/evaluation/analysis files and scientific results remain unchanged.",
+  "execution": "No check, AST, model, forward, fit, prediction or scoring was launched by the repair author. Root must reserve and run a fresh verification job. The failed CPU verification remains charged; no model rerun or refit is required."
+}
