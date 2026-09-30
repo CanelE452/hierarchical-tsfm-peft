@@ -1,0 +1,324 @@
+{
+  "schema": "v13_group_basis_protocol_1",
+  "base_commit": "2aefcee0ebb47fd83f82334bbcca2d5e8adcdb3d",
+  "scope": "new delegated development; all evaluations exposed, no fresh confirmation",
+  "units": {
+    "robin": {
+      "C": 17,
+      "K": 5,
+      "phase_period": 24,
+      "block_origins": 7,
+      "frequency_minutes": 60
+    },
+    "jena": {
+      "C": 21,
+      "K": 6,
+      "phase_period": 144,
+      "block_origins": 42,
+      "frequency_minutes": 10
+    },
+    "hog": {
+      "C": 32,
+      "K": 8,
+      "phase_period": 24,
+      "block_origins": 7,
+      "frequency_minutes": 60
+    },
+    "peacock_education": {
+      "C": 13,
+      "K": 4,
+      "phase_period": 24,
+      "block_origins": 7,
+      "frequency_minutes": 60
+    }
+  },
+  "seeds": [
+    92601,
+    92602
+  ],
+  "families": [
+    "group_res",
+    "group_raw"
+  ],
+  "fits": [
+    {
+      "id": "robin_group_res_s92601",
+      "dataset": "robin",
+      "family": "group_res",
+      "seed": 92601,
+      "lr": 0.001,
+      "channels": 17,
+      "latent": 5
+    },
+    {
+      "id": "robin_group_raw_s92601",
+      "dataset": "robin",
+      "family": "group_raw",
+      "seed": 92601,
+      "lr": 0.001,
+      "channels": 17,
+      "latent": 5
+    },
+    {
+      "id": "jena_group_res_s92601",
+      "dataset": "jena",
+      "family": "group_res",
+      "seed": 92601,
+      "lr": 0.001,
+      "channels": 21,
+      "latent": 6
+    },
+    {
+      "id": "jena_group_raw_s92601",
+      "dataset": "jena",
+      "family": "group_raw",
+      "seed": 92601,
+      "lr": 0.001,
+      "channels": 21,
+      "latent": 6
+    },
+    {
+      "id": "hog_group_res_s92601",
+      "dataset": "hog",
+      "family": "group_res",
+      "seed": 92601,
+      "lr": 0.001,
+      "channels": 32,
+      "latent": 8
+    },
+    {
+      "id": "hog_group_raw_s92601",
+      "dataset": "hog",
+      "family": "group_raw",
+      "seed": 92601,
+      "lr": 0.001,
+      "channels": 32,
+      "latent": 8
+    },
+    {
+      "id": "peacock_education_group_res_s92601",
+      "dataset": "peacock_education",
+      "family": "group_res",
+      "seed": 92601,
+      "lr": 0.001,
+      "channels": 13,
+      "latent": 4
+    },
+    {
+      "id": "peacock_education_group_raw_s92601",
+      "dataset": "peacock_education",
+      "family": "group_raw",
+      "seed": 92601,
+      "lr": 0.001,
+      "channels": 13,
+      "latent": 4
+    },
+    {
+      "id": "robin_group_res_s92602",
+      "dataset": "robin",
+      "family": "group_res",
+      "seed": 92602,
+      "lr": 0.001,
+      "channels": 17,
+      "latent": 5
+    },
+    {
+      "id": "robin_group_raw_s92602",
+      "dataset": "robin",
+      "family": "group_raw",
+      "seed": 92602,
+      "lr": 0.001,
+      "channels": 17,
+      "latent": 5
+    },
+    {
+      "id": "jena_group_res_s92602",
+      "dataset": "jena",
+      "family": "group_res",
+      "seed": 92602,
+      "lr": 0.001,
+      "channels": 21,
+      "latent": 6
+    },
+    {
+      "id": "jena_group_raw_s92602",
+      "dataset": "jena",
+      "family": "group_raw",
+      "seed": 92602,
+      "lr": 0.001,
+      "channels": 21,
+      "latent": 6
+    },
+    {
+      "id": "hog_group_res_s92602",
+      "dataset": "hog",
+      "family": "group_res",
+      "seed": 92602,
+      "lr": 0.001,
+      "channels": 32,
+      "latent": 8
+    },
+    {
+      "id": "hog_group_raw_s92602",
+      "dataset": "hog",
+      "family": "group_raw",
+      "seed": 92602,
+      "lr": 0.001,
+      "channels": 32,
+      "latent": 8
+    },
+    {
+      "id": "peacock_education_group_res_s92602",
+      "dataset": "peacock_education",
+      "family": "group_res",
+      "seed": 92602,
+      "lr": 0.001,
+      "channels": 13,
+      "latent": 4
+    },
+    {
+      "id": "peacock_education_group_raw_s92602",
+      "dataset": "peacock_education",
+      "family": "group_raw",
+      "seed": 92602,
+      "lr": 0.001,
+      "channels": 13,
+      "latent": 4
+    }
+  ],
+  "context": 512,
+  "horizon": 48,
+  "revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+  "grouping": {
+    "source": "actual TRAIN segment only; pairwise finite original target observations in TRAIN standardized coordinates",
+    "distance": "sqrt(max(0,2-2*clip(Pearson,-1,1)))",
+    "undefined_correlation": 0,
+    "linkage": "mean original between-member distance",
+    "tie": "lexicographic sorted leaf tuples",
+    "columns": "groups ordered by minimum original column index",
+    "U": "disjoint 1/sqrt(group_size)",
+    "absolute_correlation": false
+  },
+  "training": {
+    "device": "cuda",
+    "precision": "float32",
+    "lr": 0.001,
+    "optimizer": "AdamW",
+    "weight_decay": 0,
+    "clip_norm": 1,
+    "batch_size": 4,
+    "train_origins_per_epoch": 512,
+    "max_epochs": 120,
+    "strict_patience": 6,
+    "scheduler": {
+      "type": "ReduceLROnPlateau",
+      "factor": 0.5,
+      "patience": 2,
+      "threshold": 0.0001,
+      "threshold_mode": "rel",
+      "step0_fed": false
+    },
+    "selection": "minimum complete VAL masked channel-macro MSE including epoch0; exact tie earliest",
+    "G": "bias-free activation-free shared 512->32->48, up zero,17920params",
+    "same_seed_initial": "original verified untrained LEVEL G",
+    "cache": "frozen F0 main only for TRAIN/VAL; online deployment always",
+    "fit_order": [
+      "robin_group_res_s92601",
+      "robin_group_raw_s92601",
+      "jena_group_res_s92601",
+      "jena_group_raw_s92601",
+      "hog_group_res_s92601",
+      "hog_group_raw_s92601",
+      "peacock_education_group_res_s92601",
+      "peacock_education_group_raw_s92601",
+      "robin_group_res_s92602",
+      "robin_group_raw_s92602",
+      "jena_group_res_s92602",
+      "jena_group_raw_s92602",
+      "hog_group_res_s92602",
+      "hog_group_raw_s92602",
+      "peacock_education_group_res_s92602",
+      "peacock_education_group_raw_s92602"
+    ]
+  },
+  "evaluation": {
+    "primary": "masked channel-macro MSE",
+    "secondary": [
+      "MAE",
+      "signed_mean_error",
+      "period",
+      "seed",
+      "channel"
+    ],
+    "period_pool": "sum SSE/count perchannel thenmacro thenmeanseedloss",
+    "resamples": 2000,
+    "bootstrap_seed": 9262026,
+    "references": [
+      "pca_level",
+      "a",
+      "f0",
+      "full_mse",
+      "native",
+      "direct"
+    ],
+    "joint_selection_before_evaluation": true,
+    "all_exposed_development": true
+  },
+  "parity": {
+    "atol": 0.00001,
+    "rtol": 0.0001,
+    "replay_atol": 0.000001,
+    "replay_rtol": 0,
+    "gram_atol": 0.00001
+  },
+  "cost": {
+    "trigger": "any task GROUP_RES mean MSE below PCA LEVEL and at least one selected epoch>0, valid fits; retain all four tasks if triggered",
+    "datasets": [
+      "robin",
+      "jena",
+      "hog",
+      "peacock_education"
+    ],
+    "VAL_origins": 24,
+    "origin_selection": "same existing first24 chronological VAL origins",
+    "batches": [
+      1,
+      4
+    ],
+    "warmups": 10,
+    "passes": 3,
+    "blocks": 3,
+    "gpu_rows_per_dataset": 108,
+    "gpu_rows_total": 432,
+    "gpu_sentinel_rows_total": 48,
+    "gpu_rows_with_sentinels": 480,
+    "pre_fit_adjustment_reason": "v12 135 GPU rows consumed2135.39s; bounded v13 grid uses3passes and model reuse perblock, retains every task and3blocks; runtime stillunverified",
+    "cpu_direct_optional_rows_total": 48,
+    "additional_full_mse_chunk_rows": {
+      "batch1": "K",
+      "batch4": [
+        "4K",
+        "K"
+      ]
+    },
+    "reserve_seconds": 1800,
+    "scope": "standardized CPUinput to complete CPUforecast; onlineF0 includingtransfersandassembly; excludesload/disk/hash/scoring/ledger",
+    "TF32": false,
+    "CPU_threads": 4
+  },
+  "limits": {
+    "real_fit": 20,
+    "neural_basic": 16,
+    "coefficient_basic": 0,
+    "technical_reserve": 4,
+    "gpu_seconds": 7200,
+    "cpu_analysis_seconds": 7200,
+    "cpu_check_seconds": 900,
+    "synthetic_sessions": 6,
+    "synthetic_steps": 10,
+    "storage_bytes": 5368709120,
+    "download_bytes": 0,
+    "conflict_wait_per_incident_seconds": 1800,
+    "conflict_wait_total_seconds": 3600
+  }
+}
