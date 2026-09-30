@@ -1,0 +1,6 @@
+# Targeted reading and evidence scope
+
+- Local v11 runtime/model/training/evaluation and existing result/manifests were read at base a63d951. Actual selected A/parent/prediction bytes were verified by the reuse check; this is provenance verification, not independent replication.
+- PyTorch 2.10 ReduceLROnPlateau official API, parameters and relative-threshold rule were read: https://docs.pytorch.org/docs/2.10/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html . Local installed source is additionally recorded by the policy audit. The web stable link redirected to a newer version, so the installed 2.10 API is the relevant contract. A fixed additive loss offset need not preserve relative-threshold decisions.
+- Cawley and Talbot, JMLR 11 (2010), official publication entry/abstract read: https://jmlr.org/papers/v11/cawley10a.html . Used only to support the selection-bias limitation; the full article was not reread this turn. Existing development reuse does not create independent confirmation.
+- No new originality claim or broad literature survey. LoRA, fixed PCA, shared linear residual prediction and conditional orthogonal loss decomposition remain existing principles; this work assesses the fixed A configuration and its controls.

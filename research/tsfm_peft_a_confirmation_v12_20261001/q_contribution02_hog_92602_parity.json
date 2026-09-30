@@ -1,0 +1,106 @@
+{
+  "parent": {
+    "checkpoint": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_hog_level_res_92602\\best.pt",
+      "sha256": "30267e143fc3bf4842e136fcc801e4de0b8d5350f64c2965eac2b2a5ac28dccc",
+      "bytes": 77944
+    },
+    "parent_id": "v5_hog_level_res_92602",
+    "spec": {
+      "id": "v5_hog_level_res_92602",
+      "dataset": "hog",
+      "method": "level",
+      "variant": "res",
+      "seed": 92602,
+      "channels": 32,
+      "latent": 8,
+      "ed_mode": "fixed_ed",
+      "lr": 0.001,
+      "epochs": 120
+    },
+    "basis": {
+      "shape": [
+        32,
+        8
+      ],
+      "dtype": "float32",
+      "sha256_c_order": "4fafd94f089fb425270a8f3da05542c788cc11552133c68d036a9f8d174e0747"
+    },
+    "state": {
+      "encoder.weight": {
+        "shape": [
+          8,
+          32
+        ],
+        "dtype": "float32",
+        "sha256_c_order": "8f60bce299c6348a267e19e1ba479ecf466ed7abf0ea22c0e59e38ea90c8d00c"
+      },
+      "decoder.weight": {
+        "shape": [
+          32,
+          8
+        ],
+        "dtype": "float32",
+        "sha256_c_order": "4fafd94f089fb425270a8f3da05542c788cc11552133c68d036a9f8d174e0747"
+      },
+      "residual.down.weight": {
+        "shape": [
+          32,
+          512
+        ],
+        "dtype": "float32",
+        "sha256_c_order": "46a8c8a82ccc6e57722040b575a70a2e07aa55a3eb09148925c56601d0887ce7"
+      },
+      "residual.up.weight": {
+        "shape": [
+          48,
+          32
+        ],
+        "dtype": "float32",
+        "sha256_c_order": "b3215dfbddcc20e9aaf51e07b135fb71f26a495fb61b63241695b5871541f5a6"
+      }
+    },
+    "calculation": "r=x-D(E(x)); q=last(r)+G(r-last(r)); last=last(r) broadcast to horizon 48",
+    "device": "cpu",
+    "dtype": "float32",
+    "batch_size": 4,
+    "backbone_loads": 0,
+    "backbone_forward_calls": 0,
+    "optimizer_updates": 0
+  },
+  "selected_A_checkpoint": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\runs\\v11_hog_a_p_lora_qfixed_lr0.0001_92602\\best.pt",
+    "sha256": "930e27b5031a1c7cfe24bf2b1afc620bd57cfc080d5a9b7f3421ced80d76acd7"
+  },
+  "saved_A_prediction": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_hog_a_p_lora_qfixed_lr0.0001_92602.npz",
+    "sha256": "394e7ebf53c3a9f1fb90842ff240af66b092cc435488d4ce79c2c1de4916c127",
+    "bytes": 909862
+  },
+  "origins": {
+    "shape": [
+      80
+    ],
+    "dtype": "int64",
+    "sha256_c_order": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d"
+  },
+  "full_cpu_reconstruction_vs_saved_gpu": {
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "max_abs": 2.86102294921875e-06,
+    "max_rel": 0.002328288707799767,
+    "violations": 0,
+    "elements": 122880,
+    "pass": true
+  },
+  "q_cpu_vs_full_minus_main": {
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "max_abs": 2.86102294921875e-06,
+    "max_rel": 0.011904761904761904,
+    "violations": 0,
+    "elements": 122880,
+    "pass": true
+  },
+  "numerical_note": "CPU float32 linear algebra versus original CUDA float32; full-main also includes subtraction rounding"
+}

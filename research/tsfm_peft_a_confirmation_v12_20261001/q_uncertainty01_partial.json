@@ -1,0 +1,3492 @@
+{
+  "schema": "v12_Q_contribution_conditional_uncertainty_v1",
+  "name": "q_uncertainty01",
+  "status": "running",
+  "scope": "Previously exposed Robin/Jena/Hog development data; same selected v11 A checkpoints. Q removal/replacement is a fit-zero post-hoc ablation, not independent main-only training. The actual approved v12 PLAN and its new confirmation units have not been recovered; this artifact does not execute or substitute for those units.",
+  "direction": "candidate minus reference; negative favors candidate (opposite sign to positive Q gains)",
+  "interval_scope": "Percentile block95 conditional on fixed selected model/parent seeds and observed development periods. No fitting/selection uncertainty, no seed-population uncertainty, no multiplicity adjustment, no independent confirmation.",
+  "bootstrap": {
+    "draws": 2000,
+    "seed": 9262026,
+    "period_boundaries_crossed": false,
+    "circular": false,
+    "paired_channels_methods_and_seeds": true,
+    "seed_aggregation": "mean loss of both fixed seeds using identical origin resamples; never prediction ensemble"
+  },
+  "source": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02.json",
+    "sha256": "8e8f7e23929637bc855d961428eaff53bd4779cc90d0087f28e8f2788068d335",
+    "bytes": 1712501
+  },
+  "script": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_a_confirmation_v12_20261001\\q_uncertainty_v12.py",
+    "sha256": "1c1128a6ac08b80dbceebdb3ee43fa7397d8a0c0361834084c9d17116b3b0663",
+    "bytes": 14950
+  },
+  "reference_bootstrap_source": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluate_v11.py",
+    "sha256": "f829088b1a0074be52153ec5ccd5c4d02defe8d1da216d37a82ab6441906504f",
+    "bytes": 30074
+  },
+  "reference_function_lines": [
+    309,
+    328,
+    358,
+    395
+  ],
+  "new_fits": 0,
+  "backbone_loads": 0,
+  "backbone_forward_calls": 0,
+  "datasets": {
+    "robin": {
+      "block_origins": 7,
+      "predictions": [
+        {
+          "seed": 92601,
+          "saved": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_robin_a_p_lora_qfixed_lr0.001_92601.npz",
+            "sha256": "722f5659c9f1af8962ed42420e75734b02b69bb5a5fcc6d4133d1156030e4007",
+            "bytes": 480510
+          },
+          "derived": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\robin_92601.npz",
+            "sha256": "8baa13a348af6b447b1d5e771b1db8f73654e78eca084f9bdb9cda42a2bc5547",
+            "bytes": 730803
+          }
+        },
+        {
+          "seed": 92602,
+          "saved": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_robin_a_p_lora_qfixed_lr0.001_92602.npz",
+            "sha256": "66714b0df4ddfb8c2d4fc769d4c1bc8cf3c1057e11ea7f5a3958551e7a2fa4fe",
+            "bytes": 480562
+          },
+          "derived": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\robin_92602.npz",
+            "sha256": "8da9631f46f6c3696024d4f22fec082b9b10ef636436e595856ad6187114f220",
+            "bytes": 730835
+          }
+        }
+      ],
+      "weights": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_uncertainty01\\robin_weights.npz",
+        "sha256": "3e9370fa3044d3eb1705ff7312f0eb062a9a23fa43c75b3639ff8e135212b4d6",
+        "bytes": 84766
+      },
+      "draws": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_uncertainty01\\robin_draws.npz",
+        "sha256": "a302925c62ee3c04d57cc8ff441978e19fb078ca3e52347a42656f4d03699ec6",
+        "bytes": 813850
+      },
+      "weight_array_hashes": {
+        "test_a": {
+          "shape": [
+            2000,
+            80
+          ],
+          "dtype": "int32",
+          "sha256_c_order": "b496d7464e347ab3149222e5c0d682d0285609c48c29f165fddad65303c10487"
+        },
+        "test_b": {
+          "shape": [
+            2000,
+            80
+          ],
+          "dtype": "int32",
+          "sha256_c_order": "ec5a8a146d0a5cd8719cb61e9ccddd7b2e7a72cc6cd4f56efa4cbacc76b5040b"
+        },
+        "combined": {
+          "shape": [
+            2000,
+            80
+          ],
+          "dtype": "int32",
+          "sha256_c_order": "3ce5b9ee9fd975e869c09c7fd0681fbe9c6188c025353ba4bc3dcc592803a2f8"
+        }
+      },
+      "point_estimate_replay": "All six MSE/MAE period scores per seed/family matched within absolute 1e-10",
+      "comparisons": [
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.3026018669258108,
+          "reference_value": 1.1523921720876966,
+          "absolute_difference": -0.8497903051618858,
+          "relative_change_percent": -73.74141596453131,
+          "conditional_block95_absolute": [
+            -1.2739956221634292,
+            -0.46694351644815774
+          ],
+          "conditional_block95_relative_percent": [
+            -84.82001437558785,
+            -55.707652306757744
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.3503598636829461,
+          "reference_value": 0.6981659124747993,
+          "absolute_difference": -0.34780604879185323,
+          "relative_change_percent": -49.817105444031185,
+          "conditional_block95_absolute": [
+            -0.45391971469553666,
+            -0.2462180431245698
+          ],
+          "conditional_block95_relative_percent": [
+            -58.4288161253248,
+            -39.185388553925996
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.2604455266629193,
+          "reference_value": 0.8146657312493516,
+          "absolute_difference": -0.5542202045864323,
+          "relative_change_percent": -68.0303814592144,
+          "conditional_block95_absolute": [
+            -0.8428109061304904,
+            -0.20990103714249683
+          ],
+          "conditional_block95_relative_percent": [
+            -80.55857625494153,
+            -38.54777453968579
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.3093051213560828,
+          "reference_value": 0.6127359433612045,
+          "absolute_difference": -0.3034308220051217,
+          "relative_change_percent": -49.52065001126446,
+          "conditional_block95_absolute": [
+            -0.38662464113066314,
+            -0.20583573264185273
+          ],
+          "conditional_block95_relative_percent": [
+            -56.69422393691898,
+            -37.03278476635095
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.28152504029244374,
+          "reference_value": 0.9835312156577439,
+          "absolute_difference": -0.7020061753653002,
+          "relative_change_percent": -71.37609505315277,
+          "conditional_block95_absolute": [
+            -0.958234543964356,
+            -0.45837024545779587
+          ],
+          "conditional_block95_relative_percent": [
+            -79.99124980022484,
+            -56.88077820233764
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.32983401286525227,
+          "reference_value": 0.6554531122654492,
+          "absolute_difference": -0.32561909940019695,
+          "relative_change_percent": -49.678473304483425,
+          "conditional_block95_absolute": [
+            -0.39291206163312853,
+            -0.2582811434414618
+          ],
+          "conditional_block95_relative_percent": [
+            -55.35094352564269,
+            -41.54658585855486
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.3026018669258108,
+          "reference_value": 0.38469553151559904,
+          "absolute_difference": -0.08209366458978823,
+          "relative_change_percent": -21.33990594233336,
+          "conditional_block95_absolute": [
+            -0.1226719693054917,
+            -0.03859251513229377
+          ],
+          "conditional_block95_relative_percent": [
+            -35.859164892547824,
+            -8.870999880549848
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.3503598636829461,
+          "reference_value": 0.4151618637660603,
+          "absolute_difference": -0.06480200008311421,
+          "relative_change_percent": -15.608851809093311,
+          "conditional_block95_absolute": [
+            -0.07808584385979948,
+            -0.0518819756562882
+          ],
+          "conditional_block95_relative_percent": [
+            -19.63260069282135,
+            -11.946114628894106
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.2604455266629193,
+          "reference_value": 0.3264011204653746,
+          "absolute_difference": -0.0659555938024553,
+          "relative_change_percent": -20.206914029099366,
+          "conditional_block95_absolute": [
+            -0.1177845593921024,
+            -0.004935584664633639
+          ],
+          "conditional_block95_relative_percent": [
+            -37.04709567791883,
+            -1.0682264412525189
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.3093051213560828,
+          "reference_value": 0.3637095451695729,
+          "absolute_difference": -0.05440442381349009,
+          "relative_change_percent": -14.958206221430077,
+          "conditional_block95_absolute": [
+            -0.08889358774019966,
+            -0.019508290086713478
+          ],
+          "conditional_block95_relative_percent": [
+            -22.328872651936862,
+            -5.719523299416761
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.28152504029244374,
+          "reference_value": 0.35555104403663823,
+          "absolute_difference": -0.07402600374419449,
+          "relative_change_percent": -20.82007773167061,
+          "conditional_block95_absolute": [
+            -0.10630652539639153,
+            -0.035988835282382434
+          ],
+          "conditional_block95_relative_percent": [
+            -31.02654446703123,
+            -8.991550660664553
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.32983401286525227,
+          "reference_value": 0.38943814428465223,
+          "absolute_difference": -0.059604131419399964,
+          "relative_change_percent": -15.305160086176224,
+          "conditional_block95_absolute": [
+            -0.07795767459427135,
+            -0.04101007644047929
+          ],
+          "conditional_block95_relative_percent": [
+            -19.418031114809153,
+            -10.628329019674997
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.38469553151559904,
+          "reference_value": 1.1523921720876966,
+          "absolute_difference": -0.7676966405720975,
+          "relative_change_percent": -66.61765492395901,
+          "conditional_block95_absolute": [
+            -1.1820140411689992,
+            -0.3996348485105158
+          ],
+          "conditional_block95_relative_percent": [
+            -77.31573907972609,
+            -47.94425284650828
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.4151618637660603,
+          "reference_value": 0.6981659124747993,
+          "absolute_difference": -0.283004048708739,
+          "relative_change_percent": -40.53535752061716,
+          "conditional_block95_absolute": [
+            -0.38346814574637106,
+            -0.18649044831105704
+          ],
+          "conditional_block95_relative_percent": [
+            -49.10810126479283,
+            -29.810013045018227
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.3264011204653746,
+          "reference_value": 0.8146657312493516,
+          "absolute_difference": -0.488264610783977,
+          "relative_change_percent": -59.934350010670784,
+          "conditional_block95_absolute": [
+            -0.7300053744426648,
+            -0.2072527638792987
+          ],
+          "conditional_block95_relative_percent": [
+            -69.04980428705392,
+            -37.18298198352341
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.3637095451695729,
+          "reference_value": 0.6127359433612045,
+          "absolute_difference": -0.24902639819163164,
+          "relative_change_percent": -40.64171538976161,
+          "conditional_block95_absolute": [
+            -0.2993041784509159,
+            -0.18274446773221373
+          ],
+          "conditional_block95_relative_percent": [
+            -45.42224871921674,
+            -31.65761980478393
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.35555104403663823,
+          "reference_value": 0.9835312156577439,
+          "absolute_difference": -0.6279801716211058,
+          "relative_change_percent": -63.84954149128244,
+          "conditional_block95_absolute": [
+            -0.8664554999466737,
+            -0.40449486010260227
+          ],
+          "conditional_block95_relative_percent": [
+            -71.88608433505496,
+            -50.154451270583586
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.38943814428465223,
+          "reference_value": 0.6554531122654492,
+          "absolute_difference": -0.266014967980797,
+          "relative_change_percent": -40.584896616230374,
+          "conditional_block95_absolute": [
+            -0.3196914723865664,
+            -0.2090577163026702
+          ],
+          "conditional_block95_relative_percent": [
+            -45.50214534402386,
+            -33.56875426247801
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.27887717523167305,
+          "reference_value": 1.1288065567235124,
+          "absolute_difference": -0.8499293814918394,
+          "relative_change_percent": -75.29451139607612,
+          "conditional_block95_absolute": [
+            -1.2742660029660848,
+            -0.4660694326805603
+          ],
+          "conditional_block95_relative_percent": [
+            -85.47110540885427,
+            -58.92857150923881
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.3352374041532449,
+          "reference_value": 0.6913197065420144,
+          "absolute_difference": -0.3560823023887695,
+          "relative_change_percent": -51.50761637765188,
+          "conditional_block95_absolute": [
+            -0.4647624437892358,
+            -0.25186978053185205
+          ],
+          "conditional_block95_relative_percent": [
+            -59.682677672573135,
+            -41.43256336705445
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.250353079480676,
+          "reference_value": 0.8036909945963528,
+          "absolute_difference": -0.5533379151156769,
+          "relative_change_percent": -68.84958508133916,
+          "conditional_block95_absolute": [
+            -0.8437505357346019,
+            -0.20685763464893828
+          ],
+          "conditional_block95_relative_percent": [
+            -81.078268797753,
+            -39.30986844456095
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.29732898757976606,
+          "reference_value": 0.6091504294875693,
+          "absolute_difference": -0.3118214419078032,
+          "relative_change_percent": -51.18956284248445,
+          "conditional_block95_absolute": [
+            -0.39610824378437576,
+            -0.210068364998365
+          ],
+          "conditional_block95_relative_percent": [
+            -58.23357970338194,
+            -38.161271845898824
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.26461635912328624,
+          "reference_value": 0.966251019467312,
+          "absolute_difference": -0.7016346603440258,
+          "relative_change_percent": -72.61411850626895,
+          "conditional_block95_absolute": [
+            -0.9572744332658027,
+            -0.45709324890418707
+          ],
+          "conditional_block95_relative_percent": [
+            -80.77818715614258,
+            -58.79163154336817
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.3162846993643029,
+          "reference_value": 0.6502374149680514,
+          "absolute_difference": -0.3339527156037485,
+          "relative_change_percent": -51.35858194505108,
+          "conditional_block95_absolute": [
+            -0.4040055203094847,
+            -0.2640573240463603
+          ],
+          "conditional_block95_relative_percent": [
+            -56.83407174445907,
+            -43.24293682441238
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.27887717523167305,
+          "reference_value": 0.36110991629386335,
+          "absolute_difference": -0.0822327410621903,
+          "relative_change_percent": -22.77221902576364,
+          "conditional_block95_absolute": [
+            -0.12363647913893584,
+            -0.03642583306101356
+          ],
+          "conditional_block95_relative_percent": [
+            -37.69826915322664,
+            -8.989208975165088
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.3352374041532449,
+          "reference_value": 0.4024599151640607,
+          "absolute_difference": -0.06722251101081583,
+          "relative_change_percent": -16.702908408508936,
+          "conditional_block95_absolute": [
+            -0.08167831144132136,
+            -0.052497734981259384
+          ],
+          "conditional_block95_relative_percent": [
+            -20.84481231102143,
+            -12.704414456051152
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.250353079480676,
+          "reference_value": 0.31542960500650497,
+          "absolute_difference": -0.06507652552582899,
+          "relative_change_percent": -20.631077265080094,
+          "conditional_block95_absolute": [
+            -0.11789866962486693,
+            -0.0007117903572472711
+          ],
+          "conditional_block95_relative_percent": [
+            -38.116033974490904,
+            -0.1482200685258001
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.29732898757976606,
+          "reference_value": 0.3496233861258855,
+          "absolute_difference": -0.05229439854611945,
+          "relative_change_percent": -14.957351430516239,
+          "conditional_block95_absolute": [
+            -0.0888153776072156,
+            -0.01747437637768098
+          ],
+          "conditional_block95_relative_percent": [
+            -22.806146713204818,
+            -5.190689485852061
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.26461635912328624,
+          "reference_value": 0.33827231670103364,
+          "absolute_difference": -0.0736559575777474,
+          "relative_change_percent": -21.774160621853316,
+          "conditional_block95_absolute": [
+            -0.1070757494409608,
+            -0.034097700638558714
+          ],
+          "conditional_block95_relative_percent": [
+            -32.77440058593846,
+            -8.930502375448576
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.3162846993643029,
+          "reference_value": 0.3760442417119353,
+          "absolute_difference": -0.059759542347632366,
+          "relative_change_percent": -15.891625430980678,
+          "conditional_block95_absolute": [
+            -0.07942735836161607,
+            -0.040748974586394766
+          ],
+          "conditional_block95_relative_percent": [
+            -20.222159218339915,
+            -11.027326186005924
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.36110991629386335,
+          "reference_value": 1.1288065567235124,
+          "absolute_difference": -0.767696640429649,
+          "relative_change_percent": -68.00958373753379,
+          "conditional_block95_absolute": [
+            -1.1820140418772276,
+            -0.3996348505674956
+          ],
+          "conditional_block95_relative_percent": [
+            -77.82299624990661,
+            -50.57334789248507
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.4024599151640607,
+          "reference_value": 0.6913197065420144,
+          "absolute_difference": -0.28885979137795365,
+          "relative_change_percent": -41.78382138458517,
+          "conditional_block95_absolute": [
+            -0.3923814542970406,
+            -0.18817232791466026
+          ],
+          "conditional_block95_relative_percent": [
+            -50.114168865355666,
+            -31.03808863927995
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.31542960500650497,
+          "reference_value": 0.8036909945963528,
+          "absolute_difference": -0.4882613895898479,
+          "relative_change_percent": -60.75237782589229,
+          "conditional_block95_absolute": [
+            -0.7299997478034981,
+            -0.20724507270630751
+          ],
+          "conditional_block95_relative_percent": [
+            -69.66619476684707,
+            -38.30433582333851
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.3496233861258855,
+          "reference_value": 0.6091504294875693,
+          "absolute_difference": -0.25952704336168375,
+          "relative_change_percent": -42.604754227950494,
+          "conditional_block95_absolute": [
+            -0.3106702860866089,
+            -0.19052729205657534
+          ],
+          "conditional_block95_relative_percent": [
+            -47.312386941564554,
+            -33.05081482472372
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.33827231670103364,
+          "reference_value": 0.966251019467312,
+          "absolute_difference": -0.6279787027662783,
+          "relative_change_percent": -64.99125901181237,
+          "conditional_block95_absolute": [
+            -0.8664528761967439,
+            -0.4044935234371779
+          ],
+          "conditional_block95_relative_percent": [
+            -72.47450982829632,
+            -52.20688766494763
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.3760442417119353,
+          "reference_value": 0.6502374149680514,
+          "absolute_difference": -0.27419317325611614,
+          "relative_change_percent": -42.168163034664545,
+          "conditional_block95_absolute": [
+            -0.32874665742665726,
+            -0.21486494692816258
+          ],
+          "conditional_block95_relative_percent": [
+            -46.95076540566615,
+            -34.88266283556669
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.29073952107874196,
+          "reference_value": 1.1405993644056045,
+          "absolute_difference": -0.8498598433268625,
+          "relative_change_percent": -74.5099348507656,
+          "conditional_block95_absolute": [
+            -1.2741308125647572,
+            -0.46650647456435906
+          ],
+          "conditional_block95_relative_percent": [
+            -85.1490218302603,
+            -57.18934383770199
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.34279863391809545,
+          "reference_value": 0.6947428095084068,
+          "absolute_difference": -0.3519441755903114,
+          "relative_change_percent": -50.65819620923369,
+          "conditional_block95_absolute": [
+            -0.4595892073628391,
+            -0.24890781449820112
+          ],
+          "conditional_block95_relative_percent": [
+            -59.1165391799781,
+            -40.24744523912997
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.25539930307179765,
+          "reference_value": 0.8091783629228525,
+          "absolute_difference": -0.5537790598510548,
+          "relative_change_percent": -68.4372055934289,
+          "conditional_block95_absolute": [
+            -0.8432807209325466,
+            -0.208272411896529
+          ],
+          "conditional_block95_relative_percent": [
+            -80.73973629521433,
+            -38.931075773699376
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.30331705446792445,
+          "reference_value": 0.6109431864243868,
+          "absolute_difference": -0.3076261319564624,
+          "relative_change_percent": -50.35265779079699,
+          "conditional_block95_absolute": [
+            -0.39098338935614296,
+            -0.2075757460573107
+          ],
+          "conditional_block95_relative_percent": [
+            -57.44032883458875,
+            -37.54929794413393
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.27307069970786507,
+          "reference_value": 0.9748911175625281,
+          "absolute_difference": -0.701820417854663,
+          "relative_change_percent": -71.9896207085556,
+          "conditional_block95_absolute": [
+            -0.9577544886150792,
+            -0.45774216514701427
+          ],
+          "conditional_block95_relative_percent": [
+            -80.37211882224427,
+            -57.73506495820393
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.3230593561147776,
+          "reference_value": 0.6528452636167503,
+          "absolute_difference": -0.32978590750197273,
+          "relative_change_percent": -50.51517195283995,
+          "conditional_block95_absolute": [
+            -0.3986049234107521,
+            -0.2611118445511084
+          ],
+          "conditional_block95_relative_percent": [
+            -56.13214778909584,
+            -42.36962010692247
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.29073952107874196,
+          "reference_value": 0.37290272390473117,
+          "absolute_difference": -0.08216320282598921,
+          "relative_change_percent": -22.033414496317864,
+          "conditional_block95_absolute": [
+            -0.12322432576685435,
+            -0.037635616494592315
+          ],
+          "conditional_block95_relative_percent": [
+            -36.751746346065985,
+            -8.910142287397964
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.34279863391809545,
+          "reference_value": 0.4088108894650605,
+          "absolute_difference": -0.06601225554696505,
+          "relative_change_percent": -16.147381894191657,
+          "conditional_block95_absolute": [
+            -0.07972799444604034,
+            -0.052334252910426406
+          ],
+          "conditional_block95_relative_percent": [
+            -20.20467427173242,
+            -12.343740307341287
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.25539930307179765,
+          "reference_value": 0.3209153627359398,
+          "absolute_difference": -0.06551605966414215,
+          "relative_change_percent": -20.41537030374299,
+          "conditional_block95_absolute": [
+            -0.11776705363902885,
+            -0.002794516830091594
+          ],
+          "conditional_block95_relative_percent": [
+            -37.56996344091324,
+            -0.6495643760774416
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.30331705446792445,
+          "reference_value": 0.35666646564772925,
+          "absolute_difference": -0.053349411179804795,
+          "relative_change_percent": -14.957787265735462,
+          "conditional_block95_absolute": [
+            -0.08886923230470678,
+            -0.01848087389434218
+          ],
+          "conditional_block95_relative_percent": [
+            -22.609486418050356,
+            -5.367026129704297
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.27307069970786507,
+          "reference_value": 0.3469116803688359,
+          "absolute_difference": -0.07384098066097083,
+          "relative_change_percent": -21.28523910825465,
+          "conditional_block95_absolute": [
+            -0.10669044681092883,
+            -0.03503208346506566
+          ],
+          "conditional_block95_relative_percent": [
+            -31.94543291256887,
+            -8.990638019916513
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.3230593561147776,
+          "reference_value": 0.3827411929982938,
+          "absolute_difference": -0.05968183688351619,
+          "relative_change_percent": -15.59326196795918,
+          "conditional_block95_absolute": [
+            -0.07852819226087114,
+            -0.04101751280426904
+          ],
+          "conditional_block95_relative_percent": [
+            -19.835998751425848,
+            -10.833962084986304
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.37290272390473117,
+          "reference_value": 1.1405993644056045,
+          "absolute_difference": -0.7676966405008734,
+          "relative_change_percent": -67.30642366269771,
+          "conditional_block95_absolute": [
+            -1.1820140415231135,
+            -0.39963484953900563
+          ],
+          "conditional_block95_relative_percent": [
+            -77.56181836982293,
+            -49.344741788928566
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.4088108894650605,
+          "reference_value": 0.6947428095084068,
+          "absolute_difference": -0.28593192004334633,
+          "relative_change_percent": -41.156513767399616,
+          "conditional_block95_absolute": [
+            -0.3880173783929151,
+            -0.18733385885039897
+          ],
+          "conditional_block95_relative_percent": [
+            -49.62625233717308,
+            -30.377482487306334
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.3209153627359398,
+          "reference_value": 0.8091783629228525,
+          "absolute_difference": -0.4882630001869127,
+          "relative_change_percent": -60.34059022824662,
+          "conditional_block95_absolute": [
+            -0.7300025611230815,
+            -0.20724891829280317
+          ],
+          "conditional_block95_relative_percent": [
+            -69.35458487437808,
+            -37.719028832779905
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.35666646564772925,
+          "reference_value": 0.6109431864243868,
+          "absolute_difference": -0.2542767207766576,
+          "relative_change_percent": -41.62035462983726,
+          "conditional_block95_absolute": [
+            -0.3048826378549337,
+            -0.1864182403595114
+          ],
+          "conditional_block95_relative_percent": [
+            -46.36519461555831,
+            -32.32859516696542
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.3469116803688359,
+          "reference_value": 0.9748911175625281,
+          "absolute_difference": -0.6279794371936922,
+          "relative_change_percent": -64.41534094225806,
+          "conditional_block95_absolute": [
+            -0.8664541880717086,
+            -0.4044941917698901
+          ],
+          "conditional_block95_relative_percent": [
+            -72.18227481293557,
+            -51.18190389478562
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.3827411929982938,
+          "reference_value": 0.6528452636167503,
+          "absolute_difference": -0.27010407061845654,
+          "relative_change_percent": -41.373367575968174,
+          "conditional_block95_absolute": [
+            -0.3241719618305167,
+            -0.21210620569972413
+          ],
+          "conditional_block95_relative_percent": [
+            -46.29212123618499,
+            -34.20143610518165
+          ],
+          "conditional_interval_excludes_zero": true
+        }
+      ]
+    },
+    "jena": {
+      "block_origins": 42,
+      "predictions": [
+        {
+          "seed": 92601,
+          "saved": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_jena_a_p_lora_qfixed_lr0.0001_92601.npz",
+            "sha256": "024482b87414077408f2e9328ce148f2458f9baebd2b2bf3a73d29479b0b46b6",
+            "bytes": 5402434
+          },
+          "derived": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\jena_92601.npz",
+            "sha256": "f46a357cae0532ff167bfbfbb9810825a05cbfb4a3d514d144d856fe7d1d9471",
+            "bytes": 8203469
+          }
+        },
+        {
+          "seed": 92602,
+          "saved": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_jena_a_p_lora_qfixed_lr0.0001_92602.npz",
+            "sha256": "6c9895ceeec8e5318d6de5195519c49e6a6194eeaab0ebe9294ca311f0f26b0d",
+            "bytes": 5402336
+          },
+          "derived": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\jena_92602.npz",
+            "sha256": "b2f079c417e9cf459816dd991ff480d7f6a57cf0ab9af15238c10c4513b43682",
+            "bytes": 8203886
+          }
+        }
+      ],
+      "weights": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_uncertainty01\\jena_weights.npz",
+        "sha256": "fbaf5693b5a093cddc3baacf8c90823d72d82ab0e05e728d5b25518441eb15e0",
+        "bytes": 267113
+      },
+      "draws": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_uncertainty01\\jena_draws.npz",
+        "sha256": "d2a5313f88f77781a7caf85b1d9edb9060cf23213d60b63713511b10feae9c95",
+        "bytes": 808578
+      },
+      "weight_array_hashes": {
+        "test_a": {
+          "shape": [
+            2000,
+            730
+          ],
+          "dtype": "int32",
+          "sha256_c_order": "8bb407feabfbadd405d24a837196ade36188e08dbb40ac5de295280217eeef56"
+        },
+        "test_b": {
+          "shape": [
+            2000,
+            730
+          ],
+          "dtype": "int32",
+          "sha256_c_order": "e5094d759bdef389bcf77638fb534d5841c8195aaba5d7f1d1e733d31de1e50c"
+        },
+        "combined": {
+          "shape": [
+            2000,
+            730
+          ],
+          "dtype": "int32",
+          "sha256_c_order": "852d00b34d2b09945bd6f4868c4ca972e893ae220f6be2bfadb476b3912b7cc5"
+        }
+      },
+      "point_estimate_replay": "All six MSE/MAE period scores per seed/family matched within absolute 1e-10",
+      "comparisons": [
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.30569439143059174,
+          "reference_value": 0.37035725443577383,
+          "absolute_difference": -0.06466286300518209,
+          "relative_change_percent": -17.45959130831491,
+          "conditional_block95_absolute": [
+            -0.09169610772526039,
+            -0.03296266547892383
+          ],
+          "conditional_block95_relative_percent": [
+            -25.432546274823768,
+            -9.689533267261405
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.3106072981926241,
+          "reference_value": 0.37142580930672053,
+          "absolute_difference": -0.06081851111409642,
+          "relative_change_percent": -16.374336298173876,
+          "conditional_block95_absolute": [
+            -0.07534893649267876,
+            -0.040957025963757256
+          ],
+          "conditional_block95_relative_percent": [
+            -20.081574071477537,
+            -11.196032995167352
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.20085898577555683,
+          "reference_value": 0.25013138511099525,
+          "absolute_difference": -0.04927239933543842,
+          "relative_change_percent": -19.698607319338958,
+          "conditional_block95_absolute": [
+            -0.07287029033288193,
+            -0.02884644038262462
+          ],
+          "conditional_block95_relative_percent": [
+            -26.595744580102508,
+            -12.612919629965079
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.23947708111837304,
+          "reference_value": 0.3010939966500946,
+          "absolute_difference": -0.06161691553172158,
+          "relative_change_percent": -20.464345426098756,
+          "conditional_block95_absolute": [
+            -0.08084565215304851,
+            -0.04453606059533832
+          ],
+          "conditional_block95_relative_percent": [
+            -25.402216756188604,
+            -15.547315464613442
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.25327668860307434,
+          "reference_value": 0.31024431977338457,
+          "absolute_difference": -0.05696763117031023,
+          "relative_change_percent": -18.362183459771888,
+          "conditional_block95_absolute": [
+            -0.07445956957688343,
+            -0.03767943349084855
+          ],
+          "conditional_block95_relative_percent": [
+            -23.332484809093547,
+            -12.829359902794689
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.2750421896554986,
+          "reference_value": 0.3362599029784076,
+          "absolute_difference": -0.061217713322908984,
+          "relative_change_percent": -18.205475223383974,
+          "conditional_block95_absolute": [
+            -0.07221107095409875,
+            -0.04796332770214011
+          ],
+          "conditional_block95_relative_percent": [
+            -21.192187431497818,
+            -14.586616930115783
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.30569439143059174,
+          "reference_value": 0.34567532350180513,
+          "absolute_difference": -0.03998093207121339,
+          "relative_change_percent": -11.566035916649577,
+          "conditional_block95_absolute": [
+            -0.05148447609947241,
+            -0.028583387523795026
+          ],
+          "conditional_block95_relative_percent": [
+            -14.608476943642057,
+            -8.784155510760204
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.3106072981926241,
+          "reference_value": 0.33185369506131773,
+          "absolute_difference": -0.021246396868693618,
+          "relative_change_percent": -6.402338495814503,
+          "conditional_block95_absolute": [
+            -0.02527236467588176,
+            -0.015452204097477789
+          ],
+          "conditional_block95_relative_percent": [
+            -7.399248290307356,
+            -4.530927060950728
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.20085898577555683,
+          "reference_value": 0.22387952992319424,
+          "absolute_difference": -0.023020544147637406,
+          "relative_change_percent": -10.28255872948054,
+          "conditional_block95_absolute": [
+            -0.028070554188266542,
+            -0.01576708476719428
+          ],
+          "conditional_block95_relative_percent": [
+            -11.67621500652565,
+            -7.523058046614177
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.23947708111837304,
+          "reference_value": 0.2523786187894113,
+          "absolute_difference": -0.012901537671038271,
+          "relative_change_percent": -5.111977287506878,
+          "conditional_block95_absolute": [
+            -0.014159900144229385,
+            -0.009068601940313092
+          ],
+          "conditional_block95_relative_percent": [
+            -5.5830864344664555,
+            -3.652157219162946
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.25327668860307434,
+          "reference_value": 0.28477742671249956,
+          "absolute_difference": -0.03150073810942522,
+          "relative_change_percent": -11.061529164397978,
+          "conditional_block95_absolute": [
+            -0.03748072615216485,
+            -0.024507122045010377
+          ],
+          "conditional_block95_relative_percent": [
+            -12.565048163815508,
+            -8.957020621513221
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.2750421896554986,
+          "reference_value": 0.2921161569253646,
+          "absolute_difference": -0.017073967269865986,
+          "relative_change_percent": -5.844923967772303,
+          "conditional_block95_absolute": [
+            -0.018650075283824046,
+            -0.013132424005379928
+          ],
+          "conditional_block95_relative_percent": [
+            -6.259344537256643,
+            -4.501432599115432
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.34567532350180513,
+          "reference_value": 0.37035725443577383,
+          "absolute_difference": -0.0246819309339687,
+          "relative_change_percent": -6.664357357214658,
+          "conditional_block95_absolute": [
+            -0.05293843189360588,
+            0.004095892804629455
+          ],
+          "conditional_block95_relative_percent": [
+            -14.660063205602944,
+            1.2519627702889715
+          ],
+          "conditional_interval_excludes_zero": false
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.33185369506131773,
+          "reference_value": 0.37142580930672053,
+          "absolute_difference": -0.0395721142454028,
+          "relative_change_percent": -10.654109987473827,
+          "conditional_block95_absolute": [
+            -0.054937294612361305,
+            -0.022706107386245965
+          ],
+          "conditional_block95_relative_percent": [
+            -14.62080587641925,
+            -6.174357028352244
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.22387952992319424,
+          "reference_value": 0.25013138511099525,
+          "absolute_difference": -0.026251855187801015,
+          "relative_change_percent": -10.495226409173648,
+          "conditional_block95_absolute": [
+            -0.05084002380951614,
+            -0.007907519970457017
+          ],
+          "conditional_block95_relative_percent": [
+            -18.7751112121106,
+            -3.344609999965936
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.2523786187894113,
+          "reference_value": 0.3010939966500946,
+          "absolute_difference": -0.04871537786068331,
+          "relative_change_percent": -16.179458376015415,
+          "conditional_block95_absolute": [
+            -0.0688401663680872,
+            -0.03327477887889297
+          ],
+          "conditional_block95_relative_percent": [
+            -21.811987825434347,
+            -11.569181882182399
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.28477742671249956,
+          "reference_value": 0.31024431977338457,
+          "absolute_difference": -0.02546689306088501,
+          "relative_change_percent": -8.208657318685832,
+          "conditional_block95_absolute": [
+            -0.04303502850503737,
+            -0.008640414981771429
+          ],
+          "conditional_block95_relative_percent": [
+            -13.617776250469957,
+            -2.914971913732119
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.2921161569253646,
+          "reference_value": 0.3362599029784076,
+          "absolute_difference": -0.044143746053043,
+          "relative_change_percent": -13.127864982426294,
+          "conditional_block95_absolute": [
+            -0.05621110117724991,
+            -0.03297799525820364
+          ],
+          "conditional_block95_relative_percent": [
+            -16.38928174132283,
+            -10.042109033601793
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.3038156362023672,
+          "reference_value": 0.36792926171990864,
+          "absolute_difference": -0.06411362551754146,
+          "relative_change_percent": -17.425530445129112,
+          "conditional_block95_absolute": [
+            -0.09085297973981846,
+            -0.03259680008144323
+          ],
+          "conditional_block95_relative_percent": [
+            -25.329066400293097,
+            -9.612544160732776
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.30904906565612356,
+          "reference_value": 0.3693764186754202,
+          "absolute_difference": -0.06032735301929665,
+          "relative_change_percent": -16.33221558529098,
+          "conditional_block95_absolute": [
+            -0.07445956904610505,
+            -0.04102084112830575
+          ],
+          "conditional_block95_relative_percent": [
+            -19.878038039021273,
+            -11.162195735007192
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.20200349591224806,
+          "reference_value": 0.25126405078886693,
+          "absolute_difference": -0.04926055487661887,
+          "relative_change_percent": -19.605094609420156,
+          "conditional_block95_absolute": [
+            -0.07306659191656148,
+            -0.028779896818465035
+          ],
+          "conditional_block95_relative_percent": [
+            -26.67597449415824,
+            -12.507810296283887
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.24105257566161178,
+          "reference_value": 0.301648494964031,
+          "absolute_difference": -0.06059591930241923,
+          "relative_change_percent": -20.088255142676832,
+          "conditional_block95_absolute": [
+            -0.07887839820731003,
+            -0.044113340463981784
+          ],
+          "conditional_block95_relative_percent": [
+            -24.96066207127845,
+            -15.239873210699088
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.25290956605730763,
+          "reference_value": 0.3095966562543878,
+          "absolute_difference": -0.05668709019708018,
+          "relative_change_percent": -18.309981407067205,
+          "conditional_block95_absolute": [
+            -0.07409908507053102,
+            -0.037452653042371456
+          ],
+          "conditional_block95_relative_percent": [
+            -23.243444820218087,
+            -12.821350655109045
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.2750508206588676,
+          "reference_value": 0.3355124568197256,
+          "absolute_difference": -0.06046163616085798,
+          "relative_change_percent": -18.020682967769705,
+          "conditional_block95_absolute": [
+            -0.0711340355420955,
+            -0.04748418590455331
+          ],
+          "conditional_block95_relative_percent": [
+            -20.843591501323566,
+            -14.435791119152917
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.3038156362023672,
+          "reference_value": 0.3432473305884636,
+          "absolute_difference": -0.039431694386096394,
+          "relative_change_percent": -11.487837157682963,
+          "conditional_block95_absolute": [
+            -0.05042868104032992,
+            -0.028298580634085045
+          ],
+          "conditional_block95_relative_percent": [
+            -14.377836323543564,
+            -8.768345743142282
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.30904906565612356,
+          "reference_value": 0.3300580462371839,
+          "absolute_difference": -0.02100898058106032,
+          "relative_change_percent": -6.3652381211646025,
+          "conditional_block95_absolute": [
+            -0.025198619367066945,
+            -0.015153942385470808
+          ],
+          "conditional_block95_relative_percent": [
+            -7.373823193104155,
+            -4.496899942009203
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.20200349591224806,
+          "reference_value": 0.22501219480087606,
+          "absolute_difference": -0.023008698888628,
+          "relative_change_percent": -10.225534180042768,
+          "conditional_block95_absolute": [
+            -0.02799753397560999,
+            -0.015984160879810128
+          ],
+          "conditional_block95_relative_percent": [
+            -11.548005702811228,
+            -7.550833349928598
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.24105257566161178,
+          "reference_value": 0.25453493691673046,
+          "absolute_difference": -0.013482361255118674,
+          "relative_change_percent": -5.296860783998916,
+          "conditional_block95_absolute": [
+            -0.014847440079210447,
+            -0.009731994500152216
+          ],
+          "conditional_block95_relative_percent": [
+            -5.741174767079933,
+            -3.9285649920235057
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.25290956605730763,
+          "reference_value": 0.28412976269466994,
+          "absolute_difference": -0.031220196637362307,
+          "relative_change_percent": -10.988006445108672,
+          "conditional_block95_absolute": [
+            -0.03709099331048984,
+            -0.02434683160370809
+          ],
+          "conditional_block95_relative_percent": [
+            -12.41414764807301,
+            -8.903706183057603
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.2750508206588676,
+          "reference_value": 0.29229649157695714,
+          "absolute_difference": -0.01724567091808954,
+          "relative_change_percent": -5.900060868007039,
+          "conditional_block95_absolute": [
+            -0.018972555520349398,
+            -0.013339767253287506
+          ],
+          "conditional_block95_relative_percent": [
+            -6.32923721218831,
+            -4.562613577093703
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.3432473305884636,
+          "reference_value": 0.36792926171990864,
+          "absolute_difference": -0.024681931131445067,
+          "relative_change_percent": -6.708336003520844,
+          "conditional_block95_absolute": [
+            -0.05293843202784798,
+            0.004095892359488777
+          ],
+          "conditional_block95_relative_percent": [
+            -14.700379844863031,
+            1.2569245886415292
+          ],
+          "conditional_interval_excludes_zero": false
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.3300580462371839,
+          "reference_value": 0.3693764186754202,
+          "absolute_difference": -0.039318372438236326,
+          "relative_change_percent": -10.64452695145824,
+          "conditional_block95_absolute": [
+            -0.054711454775717414,
+            -0.02236481054031855
+          ],
+          "conditional_block95_relative_percent": [
+            -14.61459993533223,
+            -6.143771241437872
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.22501219480087606,
+          "reference_value": 0.25126405078886693,
+          "absolute_difference": -0.026251855987990874,
+          "relative_change_percent": -10.447915611314361,
+          "conditional_block95_absolute": [
+            -0.0508400246905923,
+            -0.007907520731082997
+          ],
+          "conditional_block95_relative_percent": [
+            -18.7525574662808,
+            -3.3174007236388845
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.25453493691673046,
+          "reference_value": 0.301648494964031,
+          "absolute_difference": -0.04711355804730055,
+          "relative_change_percent": -15.618694882902844,
+          "conditional_block95_absolute": [
+            -0.06625961230412654,
+            -0.0318983762213687
+          ],
+          "conditional_block95_relative_percent": [
+            -21.067613712380428,
+            -11.058889408660338
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.28412976269466994,
+          "reference_value": 0.3095966562543878,
+          "absolute_difference": -0.025466893559717874,
+          "relative_change_percent": -8.225829654565896,
+          "conditional_block95_absolute": [
+            -0.04303502874167061,
+            -0.00864041555783772
+          ],
+          "conditional_block95_relative_percent": [
+            -13.638846916241091,
+            -2.913627047438385
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.29229649157695714,
+          "reference_value": 0.3355124568197256,
+          "absolute_difference": -0.04321596524276844,
+          "relative_change_percent": -12.880584420741444,
+          "conditional_block95_absolute": [
+            -0.054752303790693825,
+            -0.03214551751738071
+          ],
+          "conditional_block95_relative_percent": [
+            -16.04268292839341,
+            -9.771315893750131
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.3047550138164795,
+          "reference_value": 0.3691432580778415,
+          "absolute_difference": -0.06438824426136197,
+          "relative_change_percent": -17.4426168844683,
+          "conditional_block95_absolute": [
+            -0.0912991511939417,
+            -0.03277898203520453
+          ],
+          "conditional_block95_relative_percent": [
+            -25.32615681333241,
+            -9.631491696609595
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.3098281819243739,
+          "reference_value": 0.3704011139910704,
+          "absolute_difference": -0.060572932066696505,
+          "relative_change_percent": -16.353334204107387,
+          "conditional_block95_absolute": [
+            -0.07501676609044862,
+            -0.04106072778138255
+          ],
+          "conditional_block95_relative_percent": [
+            -19.978566413846778,
+            -11.181858329258496
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.20143124084390243,
+          "reference_value": 0.2506977179499311,
+          "absolute_difference": -0.04926647710602869,
+          "relative_change_percent": -19.65174534052524,
+          "conditional_block95_absolute": [
+            -0.07297513534158352,
+            -0.02872178294662753
+          ],
+          "conditional_block95_relative_percent": [
+            -26.650888356763993,
+            -12.521390482799196
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.24026482838999239,
+          "reference_value": 0.30137124580706276,
+          "absolute_difference": -0.061106417417070374,
+          "relative_change_percent": -20.276127290587826,
+          "conditional_block95_absolute": [
+            -0.07973417768853538,
+            -0.044367421094198146
+          ],
+          "conditional_block95_relative_percent": [
+            -25.219572007179902,
+            -15.424409027424186
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.25309312733019096,
+          "reference_value": 0.30992048801388616,
+          "absolute_difference": -0.056827360683695205,
+          "relative_change_percent": -18.336109706031767,
+          "conditional_block95_absolute": [
+            -0.07426584605406532,
+            -0.03754946356070618
+          ],
+          "conditional_block95_relative_percent": [
+            -23.289412102312514,
+            -12.811000738059123
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.27504650515718304,
+          "reference_value": 0.3358861798990666,
+          "absolute_difference": -0.060839674741883565,
+          "relative_change_percent": -18.113181899941765,
+          "conditional_block95_absolute": [
+            -0.07174070616010757,
+            -0.04769899619563302
+          ],
+          "conditional_block95_relative_percent": [
+            -20.981265741537985,
+            -14.520698799219135
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.3047550138164795,
+          "reference_value": 0.3444613270451344,
+          "absolute_difference": -0.039706313228654866,
+          "relative_change_percent": -11.527074336403572,
+          "conditional_block95_absolute": [
+            -0.0509339427272959,
+            -0.028432437449067764
+          ],
+          "conditional_block95_relative_percent": [
+            -14.491632686732583,
+            -8.775201222962085
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.3098281819243739,
+          "reference_value": 0.33095587064925075,
+          "absolute_difference": -0.02112768872487686,
+          "relative_change_percent": -6.383838631848329,
+          "conditional_block95_absolute": [
+            -0.02523616920739671,
+            -0.015335738826010798
+          ],
+          "conditional_block95_relative_percent": [
+            -7.375938945499437,
+            -4.506714369591798
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.20143124084390243,
+          "reference_value": 0.2244458623620352,
+          "absolute_difference": -0.023014621518132772,
+          "relative_change_percent": -10.253974511238606,
+          "conditional_block95_absolute": [
+            -0.028065341938596895,
+            -0.015861695348923188
+          ],
+          "conditional_block95_relative_percent": [
+            -11.601333728653017,
+            -7.530589783104474
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.24026482838999239,
+          "reference_value": 0.25345677785307086,
+          "absolute_difference": -0.013191949463078473,
+          "relative_change_percent": -5.20481226614735,
+          "conditional_block95_absolute": [
+            -0.014452613734556792,
+            -0.009407650927327697
+          ],
+          "conditional_block95_relative_percent": [
+            -5.6427937121202545,
+            -3.8119956922255875
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.25309312733019096,
+          "reference_value": 0.2844535947035846,
+          "absolute_difference": -0.03136046737339365,
+          "relative_change_percent": -11.024809655182203,
+          "conditional_block95_absolute": [
+            -0.03730653932054612,
+            -0.024378311032165135
+          ],
+          "conditional_block95_relative_percent": [
+            -12.481984381186935,
+            -8.90932191646228
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.27504650515718304,
+          "reference_value": 0.2922063242511608,
+          "absolute_difference": -0.017159819093977735,
+          "relative_change_percent": -5.872500924801448,
+          "conditional_block95_absolute": [
+            -0.018811792224710036,
+            -0.013307068713874048
+          ],
+          "conditional_block95_relative_percent": [
+            -6.291888431329456,
+            -4.543290986224078
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 0.3444613270451344,
+          "reference_value": 0.3691432580778415,
+          "absolute_difference": -0.024681931032707105,
+          "relative_change_percent": -6.686274364383057,
+          "conditional_block95_absolute": [
+            -0.05293843196072691,
+            0.004095892582059088
+          ],
+          "conditional_block95_relative_percent": [
+            -14.674722284428242,
+            1.2553542946479095
+          ],
+          "conditional_interval_excludes_zero": false
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.33095587064925075,
+          "reference_value": 0.3704011139910704,
+          "absolute_difference": -0.03944524334181965,
+          "relative_change_percent": -10.649331724950102,
+          "conditional_block95_absolute": [
+            -0.05486136140443921,
+            -0.022587377464215748
+          ],
+          "conditional_block95_relative_percent": [
+            -14.609198826136353,
+            -6.144739556641522
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 0.2244458623620352,
+          "reference_value": 0.2506977179499311,
+          "absolute_difference": -0.026251855587895917,
+          "relative_change_percent": -10.471517572066167,
+          "conditional_block95_absolute": [
+            -0.05084002425005417,
+            -0.007907520350770037
+          ],
+          "conditional_block95_relative_percent": [
+            -18.763073398195207,
+            -3.330949796110548
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.25345677785307086,
+          "reference_value": 0.30137124580706276,
+          "absolute_difference": -0.0479144679539919,
+          "relative_change_percent": -15.898818689778603,
+          "conditional_block95_absolute": [
+            -0.06761336820136171,
+            -0.03259688098189566
+          ],
+          "conditional_block95_relative_percent": [
+            -21.445970128750737,
+            -11.321550851571939
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 0.2844535947035846,
+          "reference_value": 0.30992048801388616,
+          "absolute_difference": -0.025466893310301553,
+          "relative_change_percent": -8.217234515054226,
+          "conditional_block95_absolute": [
+            -0.04303502862335396,
+            -0.008640415269804547
+          ],
+          "conditional_block95_relative_percent": [
+            -13.628466113431452,
+            -2.914291036154745
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.2922063242511608,
+          "reference_value": 0.3358861798990666,
+          "absolute_difference": -0.04367985564790583,
+          "relative_change_percent": -13.004362269692542,
+          "conditional_block95_absolute": [
+            -0.05545362167568074,
+            -0.032587235075830764
+          ],
+          "conditional_block95_relative_percent": [
+            -16.171105012497858,
+            -9.899332808842018
+          ],
+          "conditional_interval_excludes_zero": true
+        }
+      ]
+    },
+    "hog": {
+      "block_origins": 7,
+      "predictions": [
+        {
+          "seed": 92601,
+          "saved": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_hog_a_p_lora_qfixed_lr0.0001_92601.npz",
+            "sha256": "c56f7022816e452aadbfa3a3d6e1a5f221c5b3430c23f1afdca79b2b900082ba",
+            "bytes": 909700
+          },
+          "derived": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\hog_92601.npz",
+            "sha256": "7738c9c87382a2a3f067725e97765dd3ab6eff922fc3aaa03e1a8dc870be129e",
+            "bytes": 1377370
+          }
+        },
+        {
+          "seed": 92602,
+          "saved": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_hog_a_p_lora_qfixed_lr0.0001_92602.npz",
+            "sha256": "394e7ebf53c3a9f1fb90842ff240af66b092cc435488d4ce79c2c1de4916c127",
+            "bytes": 909862
+          },
+          "derived": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\hog_92602.npz",
+            "sha256": "928bbcd71527fb081dac2da26324c7365d0556d399dc95b2cf511ec146f1f5fb",
+            "bytes": 1377405
+          }
+        }
+      ],
+      "weights": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_uncertainty01\\hog_weights.npz",
+        "sha256": "bd1a90d6c3a62ca02e50b133b07ad84a0f97fea00719f7a58fe01248d865d502",
+        "bytes": 84571
+      },
+      "draws": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_uncertainty01\\hog_draws.npz",
+        "sha256": "c204b44299fc333b7ebffe2f65648ff027a34fa63fb38b870631e83c7dd317a3",
+        "bytes": 810453
+      },
+      "weight_array_hashes": {
+        "test_a": {
+          "shape": [
+            2000,
+            80
+          ],
+          "dtype": "int32",
+          "sha256_c_order": "f32a1e0d4199d2c05754ddcc7191ee0f6a19255078b43d408afb45b38455fbed"
+        },
+        "test_b": {
+          "shape": [
+            2000,
+            80
+          ],
+          "dtype": "int32",
+          "sha256_c_order": "58977827b16fada9b2db711f56f638f46ef6c7c6468485cd95fe4c1ddfe2ed77"
+        },
+        "combined": {
+          "shape": [
+            2000,
+            80
+          ],
+          "dtype": "int32",
+          "sha256_c_order": "9a97ef3ef5c2e919ec1b635232a4e7f58b707852e3a9e723ab8868da253de97d"
+        }
+      },
+      "point_estimate_replay": "All six MSE/MAE period scores per seed/family matched within absolute 1e-10",
+      "comparisons": [
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 2.227018532502572,
+          "reference_value": 3.473101377867854,
+          "absolute_difference": -1.2460828453652821,
+          "relative_change_percent": -35.87810172504252,
+          "conditional_block95_absolute": [
+            -1.8253531350780792,
+            -0.8667350444229371
+          ],
+          "conditional_block95_relative_percent": [
+            -43.99465997955623,
+            -31.062423333712523
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.7269234422462421,
+          "reference_value": 1.1271823520859714,
+          "absolute_difference": -0.40025890983972934,
+          "relative_change_percent": -35.5096856421685,
+          "conditional_block95_absolute": [
+            -0.5203972719736843,
+            -0.319150034738543
+          ],
+          "conditional_block95_relative_percent": [
+            -40.13194405590507,
+            -32.03024776364637
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 3.12618721812498,
+          "reference_value": 5.763565369806292,
+          "absolute_difference": -2.637378151681312,
+          "relative_change_percent": -45.75949056633935,
+          "conditional_block95_absolute": [
+            -3.3150576181555067,
+            -2.2869782333679622
+          ],
+          "conditional_block95_relative_percent": [
+            -55.045003967942755,
+            -38.509887607205336
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.870262090281968,
+          "reference_value": 1.5441981162731218,
+          "absolute_difference": -0.6739360259911538,
+          "relative_change_percent": -43.643106340375496,
+          "conditional_block95_absolute": [
+            -0.7990073693103136,
+            -0.6056878826987965
+          ],
+          "conditional_block95_relative_percent": [
+            -49.365304140878855,
+            -39.28241361440354
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 2.67283871156666,
+          "reference_value": 4.603128616940496,
+          "absolute_difference": -1.930289905373836,
+          "relative_change_percent": -41.93430307964798,
+          "conditional_block95_absolute": [
+            -2.4192776025272704,
+            -1.6896038642136688
+          ],
+          "conditional_block95_relative_percent": [
+            -49.32463262169656,
+            -37.857066930041235
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.79775414892386,
+          "reference_value": 1.3332646895538618,
+          "absolute_difference": -0.5355105406300018,
+          "relative_change_percent": -40.165358373752085,
+          "conditional_block95_absolute": [
+            -0.6356872361950773,
+            -0.48886262433573896
+          ],
+          "conditional_block95_relative_percent": [
+            -44.45468150837626,
+            -37.57789304353274
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 2.227018532502572,
+          "reference_value": 2.6642527799901674,
+          "absolute_difference": -0.43723424748759543,
+          "relative_change_percent": -16.41113976764656,
+          "conditional_block95_absolute": [
+            -0.763208244989908,
+            -0.16315829082919356
+          ],
+          "conditional_block95_relative_percent": [
+            -24.104265064942748,
+            -7.823073821273586
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.7269234422462421,
+          "reference_value": 0.8366262204208728,
+          "absolute_difference": -0.1097027781746307,
+          "relative_change_percent": -13.112519724691833,
+          "conditional_block95_absolute": [
+            -0.15427136675727077,
+            -0.0657781076311559
+          ],
+          "conditional_block95_relative_percent": [
+            -16.599702305417498,
+            -9.019116553410681
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 3.12618721812498,
+          "reference_value": 3.634106646184835,
+          "absolute_difference": -0.5079194280598549,
+          "relative_change_percent": -13.976459072632881,
+          "conditional_block95_absolute": [
+            -0.900522209184422,
+            -0.34501576098515163
+          ],
+          "conditional_block95_relative_percent": [
+            -24.867949222744883,
+            -9.95652433747462
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.870262090281968,
+          "reference_value": 0.9527917834894692,
+          "absolute_difference": -0.08252969320750125,
+          "relative_change_percent": -8.661881287981679,
+          "conditional_block95_absolute": [
+            -0.1346534075007433,
+            -0.047081990643353604
+          ],
+          "conditional_block95_relative_percent": [
+            -14.37154618264043,
+            -4.792201408526713
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 2.67283871156666,
+          "reference_value": 3.14398540069873,
+          "absolute_difference": -0.47114668913207014,
+          "relative_change_percent": -14.98565130192274,
+          "conditional_block95_absolute": [
+            -0.7467002355238608,
+            -0.32785021532280645
+          ],
+          "conditional_block95_relative_percent": [
+            -22.48117909359127,
+            -11.248938010996826
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.79775414892386,
+          "reference_value": 0.8938415325651355,
+          "absolute_difference": -0.09608738364127556,
+          "relative_change_percent": -10.749934987416076,
+          "conditional_block95_absolute": [
+            -0.1315063067221047,
+            -0.07030826828265482
+          ],
+          "conditional_block95_relative_percent": [
+            -14.360764302150875,
+            -7.9998422071171715
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 2.6642527799901674,
+          "reference_value": 3.473101377867854,
+          "absolute_difference": -0.8088485978776867,
+          "relative_change_percent": -23.288942932447338,
+          "conditional_block95_absolute": [
+            -1.2028936856333847,
+            -0.5401655026864701
+          ],
+          "conditional_block95_relative_percent": [
+            -32.87952270058664,
+            -17.65467867048714
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.8366262204208728,
+          "reference_value": 1.1271823520859714,
+          "absolute_difference": -0.29055613166509864,
+          "relative_change_percent": -25.777207310546824,
+          "conditional_block95_absolute": [
+            -0.38173219903012506,
+            -0.23055348676891346
+          ],
+          "conditional_block95_relative_percent": [
+            -30.142511262018694,
+            -22.6679928117143
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 3.634106646184835,
+          "reference_value": 5.763565369806292,
+          "absolute_difference": -2.129458723621457,
+          "relative_change_percent": -36.946899826574295,
+          "conditional_block95_absolute": [
+            -2.8709952970517527,
+            -1.5667871382708063
+          ],
+          "conditional_block95_relative_percent": [
+            -47.606465684132296,
+            -27.49365818627853
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.9527917834894692,
+          "reference_value": 1.5441981162731218,
+          "absolute_difference": -0.5914063327836525,
+          "relative_change_percent": -38.29860472897059,
+          "conditional_block95_absolute": [
+            -0.7071009130549019,
+            -0.534010095212794
+          ],
+          "conditional_block95_relative_percent": [
+            -43.430159812753836,
+            -35.170002780432185
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 3.14398540069873,
+          "reference_value": 4.603128616940496,
+          "absolute_difference": -1.459143216241766,
+          "relative_change_percent": -31.69894516681127,
+          "conditional_block95_absolute": [
+            -1.9110642454559488,
+            -1.1711301270323564
+          ],
+          "conditional_block95_relative_percent": [
+            -39.831735635154686,
+            -25.943965811853
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92601,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.8938415325651355,
+          "reference_value": 1.3332646895538618,
+          "absolute_difference": -0.43942315698872625,
+          "relative_change_percent": -32.95843356773863,
+          "conditional_block95_absolute": [
+            -0.5194506076143025,
+            -0.40288394830935287
+          ],
+          "conditional_block95_relative_percent": [
+            -36.79065209536277,
+            -31.093400988806547
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 2.2198987920873074,
+          "reference_value": 3.452065106442183,
+          "absolute_difference": -1.2321663143548753,
+          "relative_change_percent": -35.693600102020916,
+          "conditional_block95_absolute": [
+            -1.8242232513386007,
+            -0.8562291960782561
+          ],
+          "conditional_block95_relative_percent": [
+            -44.27964225319703,
+            -30.646294173029993
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.7219777837191157,
+          "reference_value": 1.1214644211574925,
+          "absolute_difference": -0.39948663743837676,
+          "relative_change_percent": -35.62187349876479,
+          "conditional_block95_absolute": [
+            -0.5201175062162635,
+            -0.32353998850453
+          ],
+          "conditional_block95_relative_percent": [
+            -40.641478915172584,
+            -32.387355294195864
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 3.0762471913723988,
+          "reference_value": 5.7039484711279504,
+          "absolute_difference": -2.6277012797555517,
+          "relative_change_percent": -46.06811041608036,
+          "conditional_block95_absolute": [
+            -3.306231140042309,
+            -2.281389481108722
+          ],
+          "conditional_block95_relative_percent": [
+            -55.22560692571909,
+            -38.63599656680071
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.8688404120966605,
+          "reference_value": 1.5421979718593832,
+          "absolute_difference": -0.6733575597627227,
+          "relative_change_percent": -43.66219979856899,
+          "conditional_block95_absolute": [
+            -0.8009158551337283,
+            -0.6041323569216341
+          ],
+          "conditional_block95_relative_percent": [
+            -49.6880440901513,
+            -39.0877339935866
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 2.6442660081232936,
+          "reference_value": 4.562960067310759,
+          "absolute_difference": -1.9186940591874655,
+          "relative_change_percent": -42.049328306269246,
+          "conditional_block95_absolute": [
+            -2.4107778263266657,
+            -1.6798200672383254
+          ],
+          "conditional_block95_relative_percent": [
+            -49.48086809658376,
+            -37.8341948051942
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.7945431972641694,
+          "reference_value": 1.3294258531757106,
+          "absolute_difference": -0.5348826559115412,
+          "relative_change_percent": -40.234109682297984,
+          "conditional_block95_absolute": [
+            -0.6359419724772231,
+            -0.49065350709081224
+          ],
+          "conditional_block95_relative_percent": [
+            -44.846630790191995,
+            -37.57598067493837
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 2.2198987920873074,
+          "reference_value": 2.6439463879087057,
+          "absolute_difference": -0.4240475958213983,
+          "relative_change_percent": -16.038433977354934,
+          "conditional_block95_absolute": [
+            -0.7602275732613003,
+            -0.15414278203747492
+          ],
+          "conditional_block95_relative_percent": [
+            -24.1235923516269,
+            -7.633882466457542
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.7219777837191157,
+          "reference_value": 0.8314202394830754,
+          "absolute_difference": -0.10944245576395972,
+          "relative_change_percent": -13.163313877468767,
+          "conditional_block95_absolute": [
+            -0.15632515559442856,
+            -0.06604095770318957
+          ],
+          "conditional_block95_relative_percent": [
+            -16.884620283455785,
+            -9.141995801896028
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 3.0762471913723988,
+          "reference_value": 3.574161551381302,
+          "absolute_difference": -0.4979143600089033,
+          "relative_change_percent": -13.930941644662786,
+          "conditional_block95_absolute": [
+            -0.9004981613136566,
+            -0.3292782197902489
+          ],
+          "conditional_block95_relative_percent": [
+            -25.1039363279762,
+            -9.553388673492531
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.8688404120966605,
+          "reference_value": 0.9470285112771332,
+          "absolute_difference": -0.07818809918047265,
+          "relative_change_percent": -8.25615050121676,
+          "conditional_block95_absolute": [
+            -0.139153268903762,
+            -0.0395324232791282
+          ],
+          "conditional_block95_relative_percent": [
+            -14.904127841578916,
+            -4.024148243666739
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 2.6442660081232936,
+          "reference_value": 3.1038329555201427,
+          "absolute_difference": -0.4595669473968491,
+          "relative_change_percent": -14.806433013075427,
+          "conditional_block95_absolute": [
+            -0.7433507428422449,
+            -0.31673126952930925
+          ],
+          "conditional_block95_relative_percent": [
+            -22.624523146108984,
+            -11.048256828624483
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.7945431972641694,
+          "reference_value": 0.88833848575143,
+          "absolute_difference": -0.0937952884872606,
+          "relative_change_percent": -10.558507820126785,
+          "conditional_block95_absolute": [
+            -0.13379940391341896,
+            -0.06764180391412497
+          ],
+          "conditional_block95_relative_percent": [
+            -14.703463444406225,
+            -7.699209536337193
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 2.6439463879087057,
+          "reference_value": 3.452065106442183,
+          "absolute_difference": -0.808118718533477,
+          "relative_change_percent": -23.409718345849857,
+          "conditional_block95_absolute": [
+            -1.2024201077896282,
+            -0.5397043369233072
+          ],
+          "conditional_block95_relative_percent": [
+            -32.99786583066354,
+            -17.789035227958554
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.8314202394830754,
+          "reference_value": 1.1214644211574925,
+          "absolute_difference": -0.29004418167441703,
+          "relative_change_percent": -25.86298559298519,
+          "conditional_block95_absolute": [
+            -0.3798346251223987,
+            -0.2315632332556531
+          ],
+          "conditional_block95_relative_percent": [
+            -30.370264708136595,
+            -22.67596066502405
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 3.574161551381302,
+          "reference_value": 5.7039484711279504,
+          "absolute_difference": -2.1297869197466484,
+          "relative_change_percent": -37.33881767212888,
+          "conditional_block95_absolute": [
+            -2.8721625944378273,
+            -1.567166792566616
+          ],
+          "conditional_block95_relative_percent": [
+            -47.906354228179225,
+            -27.614307193964276
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.9470285112771332,
+          "reference_value": 1.5421979718593832,
+          "absolute_difference": -0.5951694605822501,
+          "relative_change_percent": -38.592286557391304,
+          "conditional_block95_absolute": [
+            -0.7066534163936307,
+            -0.5414103659288555
+          ],
+          "conditional_block95_relative_percent": [
+            -43.51835668722885,
+            -35.570777357366524
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 3.1038329555201427,
+          "reference_value": 4.562960067310759,
+          "absolute_difference": -1.4591271117906164,
+          "relative_change_percent": -31.97764368449913,
+          "conditional_block95_absolute": [
+            -1.911855365777131,
+            -1.1708683085003384
+          ],
+          "conditional_block95_relative_percent": [
+            -40.13620654633725,
+            -26.135777681801336
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": 92602,
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.88833848575143,
+          "reference_value": 1.3294258531757106,
+          "absolute_difference": -0.44108736742428056,
+          "relative_change_percent": -33.17878664467209,
+          "conditional_block95_absolute": [
+            -0.5192585768524304,
+            -0.40781023861303395
+          ],
+          "conditional_block95_relative_percent": [
+            -36.97375988657013,
+            -31.318491620304663
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 2.223458662294939,
+          "reference_value": 3.462583242155018,
+          "absolute_difference": -1.239124579860079,
+          "relative_change_percent": -35.78613113973489,
+          "conditional_block95_absolute": [
+            -1.823369711351237,
+            -0.8619930218431081
+          ],
+          "conditional_block95_relative_percent": [
+            -44.12607557505921,
+            -30.90237051810187
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.7244506129826789,
+          "reference_value": 1.124323386621732,
+          "absolute_difference": -0.39987277363905305,
+          "relative_change_percent": -35.56563693303184,
+          "conditional_block95_absolute": [
+            -0.5198692466205964,
+            -0.3211212655816498
+          ],
+          "conditional_block95_relative_percent": [
+            -40.40838273500943,
+            -32.18185094258568
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 3.10121720474869,
+          "reference_value": 5.733756920467122,
+          "absolute_difference": -2.6325397157184316,
+          "relative_change_percent": -45.91299827032015,
+          "conditional_block95_absolute": [
+            -3.311649604675081,
+            -2.284949040902902
+          ],
+          "conditional_block95_relative_percent": [
+            -55.158455894059514,
+            -38.52383912303664
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.8695512511893143,
+          "reference_value": 1.5431980440662527,
+          "absolute_difference": -0.6736467928769384,
+          "relative_change_percent": -43.65264688269767,
+          "conditional_block95_absolute": [
+            -0.7994443103951481,
+            -0.6054499338255006
+          ],
+          "conditional_block95_relative_percent": [
+            -49.53661301980981,
+            -39.20961600076687
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 2.6585523598449763,
+          "reference_value": 4.583044342125627,
+          "absolute_difference": -1.9244919822806503,
+          "relative_change_percent": -41.9915636554384,
+          "conditional_block95_absolute": [
+            -2.4155601939568263,
+            -1.6847001876752232
+          ],
+          "conditional_block95_relative_percent": [
+            -49.39628903111635,
+            -37.828590199282935
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.7961486730940146,
+          "reference_value": 1.3313452713647862,
+          "absolute_difference": -0.5351965982707716,
+          "relative_change_percent": -40.19968446818697,
+          "conditional_block95_absolute": [
+            -0.6353021659579924,
+            -0.48978304187987703
+          ],
+          "conditional_block95_relative_percent": [
+            -44.66948098951961,
+            -37.58076194924171
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 2.223458662294939,
+          "reference_value": 2.654099583949437,
+          "absolute_difference": -0.43064092165449797,
+          "relative_change_percent": -16.225499761153728,
+          "conditional_block95_absolute": [
+            -0.7605348743586194,
+            -0.15808663232108913
+          ],
+          "conditional_block95_relative_percent": [
+            -24.079511637019994,
+            -7.673549108157566
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.7244506129826789,
+          "reference_value": 0.8340232299519741,
+          "absolute_difference": -0.10957261696929521,
+          "relative_change_percent": -13.137837536684053,
+          "conditional_block95_absolute": [
+            -0.15540113723191448,
+            -0.06630154906491063
+          ],
+          "conditional_block95_relative_percent": [
+            -16.676825579375173,
+            -9.075178347487027
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 3.10121720474869,
+          "reference_value": 3.604134098783068,
+          "absolute_difference": -0.502916894034378,
+          "relative_change_percent": -13.953889623701498,
+          "conditional_block95_absolute": [
+            -0.9000049093978316,
+            -0.3345655923355687
+          ],
+          "conditional_block95_relative_percent": [
+            -25.076626349716967,
+            -9.745144732897518
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.8695512511893143,
+          "reference_value": 0.9499101473833013,
+          "absolute_difference": -0.08035889619398695,
+          "relative_change_percent": -8.459631304639709,
+          "conditional_block95_absolute": [
+            -0.13680708455868237,
+            -0.043484836811628284
+          ],
+          "conditional_block95_relative_percent": [
+            -14.61214387742314,
+            -4.322586546552694
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 2.6585523598449763,
+          "reference_value": 3.123909178109436,
+          "absolute_difference": -0.4653568182644596,
+          "relative_change_percent": -14.896618042720748,
+          "conditional_block95_absolute": [
+            -0.7453197706018223,
+            -0.32298522066993124
+          ],
+          "conditional_block95_relative_percent": [
+            -22.520393560638237,
+            -11.127545648753356
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_FULL",
+          "reference": "A_MAIN_LAST",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.7961486730940146,
+          "reference_value": 0.8910900091582826,
+          "absolute_difference": -0.09494133606426802,
+          "relative_change_percent": -10.654516949858852,
+          "conditional_block95_absolute": [
+            -0.13260801385552778,
+            -0.06905848556301787
+          ],
+          "conditional_block95_relative_percent": [
+            -14.49811129378292,
+            -7.855880463149363
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mse",
+          "candidate_value": 2.654099583949437,
+          "reference_value": 3.462583242155018,
+          "absolute_difference": -0.808483658205581,
+          "relative_change_percent": -23.34914720208727,
+          "conditional_block95_absolute": [
+            -1.202656896711506,
+            -0.5401739042596743
+          ],
+          "conditional_block95_relative_percent": [
+            -32.934775768916765,
+            -17.721604148476324
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_a",
+          "metric": "mae",
+          "candidate_value": 0.8340232299519741,
+          "reference_value": 1.124323386621732,
+          "absolute_difference": -0.29030015666975784,
+          "relative_change_percent": -25.819987391886087,
+          "conditional_block95_absolute": [
+            -0.38135866999410184,
+            -0.23093379295950453
+          ],
+          "conditional_block95_relative_percent": [
+            -30.27643653302472,
+            -22.680654444865226
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mse",
+          "candidate_value": 3.604134098783068,
+          "reference_value": 5.733756920467122,
+          "absolute_difference": -2.1296228216840536,
+          "relative_change_percent": -37.14184000514894,
+          "conditional_block95_absolute": [
+            -2.8715630949086006,
+            -1.5669769654187102
+          ],
+          "conditional_block95_relative_percent": [
+            -47.739930580849794,
+            -27.535186211804543
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "test_b",
+          "metric": "mae",
+          "candidate_value": 0.9499101473833013,
+          "reference_value": 1.5431980440662527,
+          "absolute_difference": -0.5932878966829515,
+          "relative_change_percent": -38.44535048266821,
+          "conditional_block95_absolute": [
+            -0.7063363784623539,
+            -0.5371853334313089
+          ],
+          "conditional_block95_relative_percent": [
+            -43.49767752258091,
+            -35.33592169887315
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mse",
+          "candidate_value": 3.123909178109436,
+          "reference_value": 4.583044342125627,
+          "absolute_difference": -1.4591351640161907,
+          "relative_change_percent": -31.8376837554105,
+          "conditional_block95_absolute": [
+            -1.9114598056165388,
+            -1.1709992177663466
+          ],
+          "conditional_block95_relative_percent": [
+            -39.988698152608826,
+            -26.032970256494895
+          ],
+          "conditional_interval_excludes_zero": true
+        },
+        {
+          "seed": "mean_fixed_seeds",
+          "candidate": "A_MAIN_LAST",
+          "reference": "A_MAIN",
+          "period": "combined",
+          "metric": "mae",
+          "candidate_value": 0.8910900091582826,
+          "reference_value": 1.3313452713647862,
+          "absolute_difference": -0.4402552622065036,
+          "relative_change_percent": -33.06845126322415,
+          "conditional_block95_absolute": [
+            -0.5195252604158036,
+            -0.4055547896623908
+          ],
+          "conditional_block95_relative_percent": [
+            -36.856161286247236,
+            -31.231079559313645
+          ],
+          "conditional_interval_excludes_zero": true
+        }
+      ]
+    }
+  }
+}

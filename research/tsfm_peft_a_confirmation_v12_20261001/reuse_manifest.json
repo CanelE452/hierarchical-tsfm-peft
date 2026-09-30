@@ -1,0 +1,846 @@
+{
+  "scope": "Verified existing artifacts only; no invented fresh evaluation units",
+  "datasets": {
+    "robin": {
+      "old_test_arrays": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\test.npz",
+        "sha256": "ecb32c192c56140a2b896b16d7936f8e9a983d78bef0bdec1ef6d35e2ddb6aa1",
+        "bytes": 167974
+      },
+      "old_trainval_arrays": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\trainval.npz",
+        "sha256": "04523b70fa2df7b37514ab0f12e0cb25048c35fd120a11d4c6ab56e0ae464e14",
+        "bytes": 111474
+      },
+      "origin_receipt": {
+        "shape": [
+          80
+        ],
+        "dtype": "int64",
+        "sha256_c_order": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d"
+      },
+      "basis_receipt": {
+        "shape": [
+          17,
+          5
+        ],
+        "dtype": "float32",
+        "sha256_c_order": "352532dd5a659db657de52c3333a7101c11345f82c499c1ec04d75256390e0f9"
+      },
+      "columns": [
+        "Robin_office_Addie",
+        "Robin_office_Adolph",
+        "Robin_office_Antonina",
+        "Robin_office_Dina",
+        "Robin_office_Donald",
+        "Robin_office_Erma",
+        "Robin_office_Gayle",
+        "Robin_office_Lindsay",
+        "Robin_office_Maryann",
+        "Robin_office_Sammie",
+        "Robin_office_Saul",
+        "Robin_office_Serena",
+        "Robin_office_Shirlene",
+        "Robin_office_Soledad",
+        "Robin_office_Victor",
+        "Robin_office_Wai",
+        "Robin_office_Zelma"
+      ],
+      "A_and_parents": {
+        "92601": {
+          "parent": {
+            "checkpoint": {
+              "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_level_confirmation_v6_20260928\\runs\\v6_robin_level_res_92601\\best.pt",
+              "sha256": "fffabef217686fdd7193206ee6011f833b696b6bbcaa3655d6c4e8d4f88ca647",
+              "bytes": 76152
+            },
+            "parent_id": "v6_robin_level_res_92601",
+            "spec": {
+              "id": "v6_robin_level_res_92601",
+              "dataset": "robin",
+              "family": "level_res",
+              "arm": "residual",
+              "ed_mode": "fixed_ed",
+              "seed": 92601,
+              "latent": 5,
+              "channels": 17,
+              "residual_rank": 32,
+              "normalization": "context",
+              "lr": 0.001,
+              "t_lr": 0.001,
+              "epochs": 120
+            },
+            "basis": {
+              "shape": [
+                17,
+                5
+              ],
+              "dtype": "float32",
+              "sha256_c_order": "352532dd5a659db657de52c3333a7101c11345f82c499c1ec04d75256390e0f9"
+            },
+            "state": {
+              "encoder.weight": {
+                "shape": [
+                  5,
+                  17
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "47470114ff34d35cfa02d7a9997ab758cf04928550477dfe2a64e8047d2b99c3"
+              },
+              "decoder.weight": {
+                "shape": [
+                  17,
+                  5
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "352532dd5a659db657de52c3333a7101c11345f82c499c1ec04d75256390e0f9"
+              },
+              "residual.down.weight": {
+                "shape": [
+                  32,
+                  512
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "6ee06e6bd45f01cb8a41a4362640cb1752fc8153413741646628ad948df1d14b"
+              },
+              "residual.up.weight": {
+                "shape": [
+                  48,
+                  32
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "c858ae9cf3c115152ba77cca904ccfd7194db2705720062311bb592fe090cbe9"
+              }
+            },
+            "calculation": "r=x-D(E(x)); q=last(r)+G(r-last(r)); last=last(r) broadcast to horizon 48",
+            "device": "cpu",
+            "dtype": "float32",
+            "batch_size": 4,
+            "backbone_loads": 0,
+            "backbone_forward_calls": 0,
+            "optimizer_updates": 0
+          },
+          "selected_A_checkpoint": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\runs\\v11_robin_a_p_lora_qfixed_lr0.001_92601\\best.pt",
+            "sha256": "32925a78018d75548874e071d3d5d9cfb910a1e3fdb6fe2cd6fe84c526bdc408"
+          },
+          "saved_A_prediction": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_robin_a_p_lora_qfixed_lr0.001_92601.npz",
+            "sha256": "722f5659c9f1af8962ed42420e75734b02b69bb5a5fcc6d4133d1156030e4007",
+            "bytes": 480510
+          },
+          "origins": {
+            "shape": [
+              80
+            ],
+            "dtype": "int64",
+            "sha256_c_order": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d"
+          },
+          "full_cpu_reconstruction_vs_saved_gpu": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 9.5367431640625e-07,
+            "max_rel": 0.05555555555555555,
+            "violations": 0,
+            "elements": 65280,
+            "pass": true
+          },
+          "q_cpu_vs_full_minus_main": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 9.5367431640625e-07,
+            "max_rel": 0.0017254601226993865,
+            "violations": 0,
+            "elements": 65280,
+            "pass": true
+          },
+          "numerical_note": "CPU float32 linear algebra versus original CUDA float32; full-main also includes subtraction rounding",
+          "derived_arrays": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\robin_92601.npz",
+            "sha256": "8baa13a348af6b447b1d5e771b1db8f73654e78eca084f9bdb9cda42a2bc5547",
+            "bytes": 730803
+          }
+        },
+        "92602": {
+          "parent": {
+            "checkpoint": {
+              "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_level_confirmation_v6_20260928\\runs\\v6_robin_level_res_92602\\best.pt",
+              "sha256": "b65baa1d1dc13d0146e238345b8aba4af38718cc62fbdcb72d78a8f0c568d02c",
+              "bytes": 76152
+            },
+            "parent_id": "v6_robin_level_res_92602",
+            "spec": {
+              "id": "v6_robin_level_res_92602",
+              "dataset": "robin",
+              "family": "level_res",
+              "arm": "residual",
+              "ed_mode": "fixed_ed",
+              "seed": 92602,
+              "latent": 5,
+              "channels": 17,
+              "residual_rank": 32,
+              "normalization": "context",
+              "lr": 0.001,
+              "t_lr": 0.001,
+              "epochs": 120
+            },
+            "basis": {
+              "shape": [
+                17,
+                5
+              ],
+              "dtype": "float32",
+              "sha256_c_order": "352532dd5a659db657de52c3333a7101c11345f82c499c1ec04d75256390e0f9"
+            },
+            "state": {
+              "encoder.weight": {
+                "shape": [
+                  5,
+                  17
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "47470114ff34d35cfa02d7a9997ab758cf04928550477dfe2a64e8047d2b99c3"
+              },
+              "decoder.weight": {
+                "shape": [
+                  17,
+                  5
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "352532dd5a659db657de52c3333a7101c11345f82c499c1ec04d75256390e0f9"
+              },
+              "residual.down.weight": {
+                "shape": [
+                  32,
+                  512
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "aeb19d2e842f257fb40d6376f958040f57790ba61597cca4f7a74e25eb182173"
+              },
+              "residual.up.weight": {
+                "shape": [
+                  48,
+                  32
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "99d67da18ab931ca5f25938a6f7e546fe487f7f81e47712659a52b8d6f5f4df6"
+              }
+            },
+            "calculation": "r=x-D(E(x)); q=last(r)+G(r-last(r)); last=last(r) broadcast to horizon 48",
+            "device": "cpu",
+            "dtype": "float32",
+            "batch_size": 4,
+            "backbone_loads": 0,
+            "backbone_forward_calls": 0,
+            "optimizer_updates": 0
+          },
+          "selected_A_checkpoint": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\runs\\v11_robin_a_p_lora_qfixed_lr0.001_92602\\best.pt",
+            "sha256": "da2c8ceffc3a2965eebf686c2c89c8ce828871a8c3c53abdcf503e1983ecddd4"
+          },
+          "saved_A_prediction": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_robin_a_p_lora_qfixed_lr0.001_92602.npz",
+            "sha256": "66714b0df4ddfb8c2d4fc769d4c1bc8cf3c1057e11ea7f5a3958551e7a2fa4fe",
+            "bytes": 480562
+          },
+          "origins": {
+            "shape": [
+              80
+            ],
+            "dtype": "int64",
+            "sha256_c_order": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d"
+          },
+          "full_cpu_reconstruction_vs_saved_gpu": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 9.5367431640625e-07,
+            "max_rel": 0.001610305958132045,
+            "violations": 0,
+            "elements": 65280,
+            "pass": true
+          },
+          "q_cpu_vs_full_minus_main": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 1.1622905731201172e-06,
+            "max_rel": 0.0030737704918032786,
+            "violations": 0,
+            "elements": 65280,
+            "pass": true
+          },
+          "numerical_note": "CPU float32 linear algebra versus original CUDA float32; full-main also includes subtraction rounding",
+          "derived_arrays": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\robin_92602.npz",
+            "sha256": "8da9631f46f6c3696024d4f22fec082b9b10ef636436e595856ad6187114f220",
+            "bytes": 730835
+          }
+        }
+      }
+    },
+    "jena": {
+      "old_test_arrays": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_test.npz",
+        "sha256": "f188ee288c1a3c4722d673a4882a0c271f79ea3f161a725f976869da780161e5",
+        "bytes": 2212337
+      },
+      "old_trainval_arrays": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_trainval.npz",
+        "sha256": "29cfae52d7cd7128e551ef85da11138ed4d3f7b3ccf27af359c4fc1dedf4a933",
+        "bytes": 1561064
+      },
+      "origin_receipt": {
+        "shape": [
+          730
+        ],
+        "dtype": "int64",
+        "sha256_c_order": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980"
+      },
+      "basis_receipt": {
+        "shape": [
+          21,
+          6
+        ],
+        "dtype": "float32",
+        "sha256_c_order": "de502c98819a1757c5b92bf513a44f47c609275f66363feef8790009246ac283"
+      },
+      "columns": [
+        "p (mbar)",
+        "T (degC)",
+        "Tpot (K)",
+        "Tdew (degC)",
+        "rh (%)",
+        "VPmax (mbar)",
+        "VPact (mbar)",
+        "VPdef (mbar)",
+        "sh (g/kg)",
+        "H2OC (mmol/mol)",
+        "rho (g/m**3)",
+        "wv (m/s)",
+        "max. wv (m/s)",
+        "wd (deg)",
+        "rain (mm)",
+        "raining (s)",
+        "SWDR (W/m²)",
+        "PAR (µmol/m²/s)",
+        "max. PAR (µmol/m²/s)",
+        "Tlog (degC)",
+        "CO2 (ppm)"
+      ],
+      "A_and_parents": {
+        "92601": {
+          "parent": {
+            "checkpoint": {
+              "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\runs\\v7_jena_level_res_92601\\best.pt",
+              "sha256": "2dd129ab4483e1cc359647f9522c35afff74d01f8d45578d5c92943134ec0459",
+              "bytes": 76600
+            },
+            "parent_id": "v7_jena_level_res_92601",
+            "spec": {
+              "id": "v7_jena_level_res_92601",
+              "dataset": "jena",
+              "family": "level_res",
+              "arm": "residual",
+              "ed_mode": "fixed_ed",
+              "seed": 92601,
+              "channels": 21,
+              "latent": 6,
+              "residual_rank": 32,
+              "normalization": "context",
+              "lr": 0.001,
+              "t_lr": 0.001,
+              "epochs": 120
+            },
+            "basis": {
+              "shape": [
+                21,
+                6
+              ],
+              "dtype": "float32",
+              "sha256_c_order": "de502c98819a1757c5b92bf513a44f47c609275f66363feef8790009246ac283"
+            },
+            "state": {
+              "encoder.weight": {
+                "shape": [
+                  6,
+                  21
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "a38143d06ce2a7f6c6f673efea710537ebd99487ecc9bcb8f4f73ead5d4d1169"
+              },
+              "decoder.weight": {
+                "shape": [
+                  21,
+                  6
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "de502c98819a1757c5b92bf513a44f47c609275f66363feef8790009246ac283"
+              },
+              "residual.down.weight": {
+                "shape": [
+                  32,
+                  512
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "c07d7605f33e62193a2ac35455964a04ed750be6dc7f408f7d38c47f8e256a69"
+              },
+              "residual.up.weight": {
+                "shape": [
+                  48,
+                  32
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "e2cf4e286a9249b81790276612c7bef0b2693ee2d93664084e10441749bf6035"
+              }
+            },
+            "calculation": "r=x-D(E(x)); q=last(r)+G(r-last(r)); last=last(r) broadcast to horizon 48",
+            "device": "cpu",
+            "dtype": "float32",
+            "batch_size": 4,
+            "backbone_loads": 0,
+            "backbone_forward_calls": 0,
+            "optimizer_updates": 0
+          },
+          "selected_A_checkpoint": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\runs\\v11_jena_a_p_lora_qfixed_lr0.0001_92601\\best.pt",
+            "sha256": "e619d3f140d620eaabc2de48afd3d5aab4d83607939def90c36f5d122339c7c4"
+          },
+          "saved_A_prediction": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_jena_a_p_lora_qfixed_lr0.0001_92601.npz",
+            "sha256": "024482b87414077408f2e9328ce148f2458f9baebd2b2bf3a73d29479b0b46b6",
+            "bytes": 5402434
+          },
+          "origins": {
+            "shape": [
+              730
+            ],
+            "dtype": "int64",
+            "sha256_c_order": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980"
+          },
+          "full_cpu_reconstruction_vs_saved_gpu": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 7.152557373046875e-07,
+            "max_rel": 0.007874015748031496,
+            "violations": 0,
+            "elements": 735840,
+            "pass": true
+          },
+          "q_cpu_vs_full_minus_main": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 7.748603820800781e-07,
+            "max_rel": 0.08333333333333333,
+            "violations": 0,
+            "elements": 735840,
+            "pass": true
+          },
+          "numerical_note": "CPU float32 linear algebra versus original CUDA float32; full-main also includes subtraction rounding",
+          "derived_arrays": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\jena_92601.npz",
+            "sha256": "f46a357cae0532ff167bfbfbb9810825a05cbfb4a3d514d144d856fe7d1d9471",
+            "bytes": 8203469
+          }
+        },
+        "92602": {
+          "parent": {
+            "checkpoint": {
+              "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\runs\\v7_jena_level_res_92602\\best.pt",
+              "sha256": "4057b762a43c83d6d762cbd15fe12857cc481226e2ddcd08da905643c359e5e8",
+              "bytes": 76600
+            },
+            "parent_id": "v7_jena_level_res_92602",
+            "spec": {
+              "id": "v7_jena_level_res_92602",
+              "dataset": "jena",
+              "family": "level_res",
+              "arm": "residual",
+              "ed_mode": "fixed_ed",
+              "seed": 92602,
+              "channels": 21,
+              "latent": 6,
+              "residual_rank": 32,
+              "normalization": "context",
+              "lr": 0.001,
+              "t_lr": 0.001,
+              "epochs": 120
+            },
+            "basis": {
+              "shape": [
+                21,
+                6
+              ],
+              "dtype": "float32",
+              "sha256_c_order": "de502c98819a1757c5b92bf513a44f47c609275f66363feef8790009246ac283"
+            },
+            "state": {
+              "encoder.weight": {
+                "shape": [
+                  6,
+                  21
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "a38143d06ce2a7f6c6f673efea710537ebd99487ecc9bcb8f4f73ead5d4d1169"
+              },
+              "decoder.weight": {
+                "shape": [
+                  21,
+                  6
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "de502c98819a1757c5b92bf513a44f47c609275f66363feef8790009246ac283"
+              },
+              "residual.down.weight": {
+                "shape": [
+                  32,
+                  512
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "e6e234ba6b5307f74e38fa894212387244ba7036589563c392c77b825ce98255"
+              },
+              "residual.up.weight": {
+                "shape": [
+                  48,
+                  32
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "58463cb5b918552c137be32d22eeead1435b1ccbbae4a129dcd91fe7b858bfc9"
+              }
+            },
+            "calculation": "r=x-D(E(x)); q=last(r)+G(r-last(r)); last=last(r) broadcast to horizon 48",
+            "device": "cpu",
+            "dtype": "float32",
+            "batch_size": 4,
+            "backbone_loads": 0,
+            "backbone_forward_calls": 0,
+            "optimizer_updates": 0
+          },
+          "selected_A_checkpoint": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\runs\\v11_jena_a_p_lora_qfixed_lr0.0001_92602\\best.pt",
+            "sha256": "289a7f84b52b39d52f3770cf80772473eb4eab1072ea06a747d23b69c1399263"
+          },
+          "saved_A_prediction": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_jena_a_p_lora_qfixed_lr0.0001_92602.npz",
+            "sha256": "6c9895ceeec8e5318d6de5195519c49e6a6194eeaab0ebe9294ca311f0f26b0d",
+            "bytes": 5402336
+          },
+          "origins": {
+            "shape": [
+              730
+            ],
+            "dtype": "int64",
+            "sha256_c_order": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980"
+          },
+          "full_cpu_reconstruction_vs_saved_gpu": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 7.152557373046875e-07,
+            "max_rel": 0.003316749585406302,
+            "violations": 0,
+            "elements": 735840,
+            "pass": true
+          },
+          "q_cpu_vs_full_minus_main": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 7.152557373046875e-07,
+            "max_rel": 0.12152777777777778,
+            "violations": 0,
+            "elements": 735840,
+            "pass": true
+          },
+          "numerical_note": "CPU float32 linear algebra versus original CUDA float32; full-main also includes subtraction rounding",
+          "derived_arrays": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\jena_92602.npz",
+            "sha256": "b2f079c417e9cf459816dd991ff480d7f6a57cf0ab9af15238c10c4513b43682",
+            "bytes": 8203886
+          }
+        }
+      }
+    },
+    "hog": {
+      "old_test_arrays": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_fresh_group_v4_20260927\\data\\test.npz",
+        "sha256": "5a1ffdb00fdbefeb70318b2e514d46d731ff4957a5d63ae7a33e69b974a9524b",
+        "bytes": 587450
+      },
+      "old_trainval_arrays": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_fresh_group_v4_20260927\\data\\trainval.npz",
+        "sha256": "d721612f985cbd435a4a53573338e8bc0a77cd5c8fb984bbc8d1ac5883e2172f",
+        "bytes": 373677
+      },
+      "origin_receipt": {
+        "shape": [
+          80
+        ],
+        "dtype": "int64",
+        "sha256_c_order": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d"
+      },
+      "basis_receipt": {
+        "shape": [
+          32,
+          8
+        ],
+        "dtype": "float32",
+        "sha256_c_order": "4fafd94f089fb425270a8f3da05542c788cc11552133c68d036a9f8d174e0747"
+      },
+      "columns": [
+        "Hog_office_Alexis",
+        "Hog_office_Almeda",
+        "Hog_office_Bessie",
+        "Hog_office_Betsy",
+        "Hog_office_Bill",
+        "Hog_office_Buford",
+        "Hog_office_Byron",
+        "Hog_office_Candi",
+        "Hog_office_Carri",
+        "Hog_office_Catalina",
+        "Hog_office_Catharine",
+        "Hog_office_Charla",
+        "Hog_office_Clemencia",
+        "Hog_office_Cordelia",
+        "Hog_office_Corey",
+        "Hog_office_Corie",
+        "Hog_office_Cornell",
+        "Hog_office_Cortney",
+        "Hog_office_Darline",
+        "Hog_office_Denita",
+        "Hog_office_Elizbeth",
+        "Hog_office_Elke",
+        "Hog_office_Elnora",
+        "Hog_office_Eloise",
+        "Hog_office_Elsy",
+        "Hog_office_Emmanuel",
+        "Hog_office_Garrett",
+        "Hog_office_Guadalupe",
+        "Hog_office_Gustavo",
+        "Hog_office_Joey",
+        "Hog_office_Josefina",
+        "Hog_office_Lanell"
+      ],
+      "A_and_parents": {
+        "92601": {
+          "parent": {
+            "checkpoint": {
+              "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_hog_level_res_92601\\best.pt",
+              "sha256": "d021957c4ec44f0fcb1753cbd8b9df39d25adcda41bdffe6d217520ce3698433",
+              "bytes": 77944
+            },
+            "parent_id": "v5_hog_level_res_92601",
+            "spec": {
+              "id": "v5_hog_level_res_92601",
+              "dataset": "hog",
+              "method": "level",
+              "variant": "res",
+              "seed": 92601,
+              "channels": 32,
+              "latent": 8,
+              "ed_mode": "fixed_ed",
+              "lr": 0.001,
+              "epochs": 120
+            },
+            "basis": {
+              "shape": [
+                32,
+                8
+              ],
+              "dtype": "float32",
+              "sha256_c_order": "4fafd94f089fb425270a8f3da05542c788cc11552133c68d036a9f8d174e0747"
+            },
+            "state": {
+              "encoder.weight": {
+                "shape": [
+                  8,
+                  32
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "8f60bce299c6348a267e19e1ba479ecf466ed7abf0ea22c0e59e38ea90c8d00c"
+              },
+              "decoder.weight": {
+                "shape": [
+                  32,
+                  8
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "4fafd94f089fb425270a8f3da05542c788cc11552133c68d036a9f8d174e0747"
+              },
+              "residual.down.weight": {
+                "shape": [
+                  32,
+                  512
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "909fdd774fee9392063066a5ed35cb82c26ac7c955bbe8087351b4f95a136c0d"
+              },
+              "residual.up.weight": {
+                "shape": [
+                  48,
+                  32
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "887d04f613970655379155b1e8d886a39d5d1891aef5e60fbecc18fae16958f2"
+              }
+            },
+            "calculation": "r=x-D(E(x)); q=last(r)+G(r-last(r)); last=last(r) broadcast to horizon 48",
+            "device": "cpu",
+            "dtype": "float32",
+            "batch_size": 4,
+            "backbone_loads": 0,
+            "backbone_forward_calls": 0,
+            "optimizer_updates": 0
+          },
+          "selected_A_checkpoint": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\runs\\v11_hog_a_p_lora_qfixed_lr0.0001_92601\\best.pt",
+            "sha256": "13e065475ebee6146b9534a439279a423b1f7dc3ac3e71633dc9267f627c5565"
+          },
+          "saved_A_prediction": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_hog_a_p_lora_qfixed_lr0.0001_92601.npz",
+            "sha256": "c56f7022816e452aadbfa3a3d6e1a5f221c5b3430c23f1afdca79b2b900082ba",
+            "bytes": 909700
+          },
+          "origins": {
+            "shape": [
+              80
+            ],
+            "dtype": "int64",
+            "sha256_c_order": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d"
+          },
+          "full_cpu_reconstruction_vs_saved_gpu": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 1.9073486328125e-06,
+            "max_rel": 0.005535055350553505,
+            "violations": 0,
+            "elements": 122880,
+            "pass": true
+          },
+          "q_cpu_vs_full_minus_main": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 2.5033950805664062e-06,
+            "max_rel": 0.027777777777777776,
+            "violations": 0,
+            "elements": 122880,
+            "pass": true
+          },
+          "numerical_note": "CPU float32 linear algebra versus original CUDA float32; full-main also includes subtraction rounding",
+          "derived_arrays": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\hog_92601.npz",
+            "sha256": "7738c9c87382a2a3f067725e97765dd3ab6eff922fc3aaa03e1a8dc870be129e",
+            "bytes": 1377370
+          }
+        },
+        "92602": {
+          "parent": {
+            "checkpoint": {
+              "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_accuracy_recovery_v5_20260927\\runs\\v5_hog_level_res_92602\\best.pt",
+              "sha256": "30267e143fc3bf4842e136fcc801e4de0b8d5350f64c2965eac2b2a5ac28dccc",
+              "bytes": 77944
+            },
+            "parent_id": "v5_hog_level_res_92602",
+            "spec": {
+              "id": "v5_hog_level_res_92602",
+              "dataset": "hog",
+              "method": "level",
+              "variant": "res",
+              "seed": 92602,
+              "channels": 32,
+              "latent": 8,
+              "ed_mode": "fixed_ed",
+              "lr": 0.001,
+              "epochs": 120
+            },
+            "basis": {
+              "shape": [
+                32,
+                8
+              ],
+              "dtype": "float32",
+              "sha256_c_order": "4fafd94f089fb425270a8f3da05542c788cc11552133c68d036a9f8d174e0747"
+            },
+            "state": {
+              "encoder.weight": {
+                "shape": [
+                  8,
+                  32
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "8f60bce299c6348a267e19e1ba479ecf466ed7abf0ea22c0e59e38ea90c8d00c"
+              },
+              "decoder.weight": {
+                "shape": [
+                  32,
+                  8
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "4fafd94f089fb425270a8f3da05542c788cc11552133c68d036a9f8d174e0747"
+              },
+              "residual.down.weight": {
+                "shape": [
+                  32,
+                  512
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "46a8c8a82ccc6e57722040b575a70a2e07aa55a3eb09148925c56601d0887ce7"
+              },
+              "residual.up.weight": {
+                "shape": [
+                  48,
+                  32
+                ],
+                "dtype": "float32",
+                "sha256_c_order": "b3215dfbddcc20e9aaf51e07b135fb71f26a495fb61b63241695b5871541f5a6"
+              }
+            },
+            "calculation": "r=x-D(E(x)); q=last(r)+G(r-last(r)); last=last(r) broadcast to horizon 48",
+            "device": "cpu",
+            "dtype": "float32",
+            "batch_size": 4,
+            "backbone_loads": 0,
+            "backbone_forward_calls": 0,
+            "optimizer_updates": 0
+          },
+          "selected_A_checkpoint": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\runs\\v11_hog_a_p_lora_qfixed_lr0.0001_92602\\best.pt",
+            "sha256": "930e27b5031a1c7cfe24bf2b1afc620bd57cfc080d5a9b7f3421ced80d76acd7"
+          },
+          "saved_A_prediction": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_internal_vs_subspace_v11_20260930\\evaluation01_predictions\\v11_hog_a_p_lora_qfixed_lr0.0001_92602.npz",
+            "sha256": "394e7ebf53c3a9f1fb90842ff240af66b092cc435488d4ce79c2c1de4916c127",
+            "bytes": 909862
+          },
+          "origins": {
+            "shape": [
+              80
+            ],
+            "dtype": "int64",
+            "sha256_c_order": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d"
+          },
+          "full_cpu_reconstruction_vs_saved_gpu": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 2.86102294921875e-06,
+            "max_rel": 0.002328288707799767,
+            "violations": 0,
+            "elements": 122880,
+            "pass": true
+          },
+          "q_cpu_vs_full_minus_main": {
+            "atol": 1e-05,
+            "rtol": 0.0001,
+            "max_abs": 2.86102294921875e-06,
+            "max_rel": 0.011904761904761904,
+            "violations": 0,
+            "elements": 122880,
+            "pass": true
+          },
+          "numerical_note": "CPU float32 linear algebra versus original CUDA float32; full-main also includes subtraction rounding",
+          "derived_arrays": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_a_confirmation_v12_20261001\\q_contribution02\\hog_92602.npz",
+            "sha256": "928bbcd71527fb081dac2da26324c7365d0556d399dc95b2cf511ec146f1f5fb",
+            "bytes": 1377405
+          }
+        }
+      }
+    }
+  }
+}

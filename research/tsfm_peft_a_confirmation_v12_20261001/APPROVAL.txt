@@ -1,0 +1,26 @@
+방금 네가 작성한 v12 「고정 A의 Q 보완 가치 정리·중복 적합 판별·선택 후 확인」 실행계획 전체를 승인한다. 이 메시지는 파일 확인·요약 요청이 아니라 실제 실행 지시다. CanelE452/hierarchical-tsfm-peft에서 상세 요청문·실제 PLAN·이 승인문을 구분해 보존하고, 승인 범위의 분석·필요 적합·새 확인·비용·문서·검산·일반 commit·origin/main push까지 지금부터 이어가라.
+
+기준 a63d951과 실제 최신 관련 변경을 확인한다. 기존 A=F_phi(XU0)U0^T+q*(X)를 고정하고, Q 보완의 기여와 F0/미압축 LoRA/직접 NLinear 대비 선택 가치를 판단한다. v8을 넘었다는 것만으로 성공이라 하지 않는다. v1~v11·B 결과·실패·봉인·노출·무관 파일은 보존한다. A+B·QLoRA/DoRA·새 rank/K/loss/gate·Q 재설계로 전환하지 않는다.
+
+먼저 기존 Robin/Jena/Hog의 선택 A와 저장 main_only_prediction을 실제 파일·해시·원점으로 확인한다. 같은 P 예측의 MAIN_ONLY, 과거 잔차 마지막값만 더한 MAIN_LAST, 학습된 Q를 더한 A_FULL을 비교한다. 부족하면 같은 checkpoint의 필요한 출력만 재생한다. 이 단계 기본 새 적합은0이다. FULL 대 MAIN_ONLY의 이득을 학습 G만의 효과로 바꾸지 말고 FULL 대 LAST로 구분한다. 과거 개발 분석을 새 독립 확증으로 소급 변경하지 않는다.
+
+고정 직교 P/Q·완전관측·동일가중 MSE에서는 Q 유무 손실이 LoRA에 대한 상수항만 다를 수 있다. 하지만 실제 TRAIN/VAL mask·채널가중치·미니배치 정규화·정규화 경로를 확인한다. 같은 gradient와 전체 학습정책의 동일성을 구분한다. 상대 threshold를 쓰는 ReduceLROnPlateau는 상수항에 의해 판정이 달라질 수 있다. PLAN의 제한된 paired backward와 scheduler replay로 필요한 근거를 확인하되 optimizer0 진단을 새 적합으로 섞지 않는다.
+
+NO_Q 재적합은 TRAIN/VAL 계약과 학습정책이 실질적으로 다르고 다음 판단에 필요한 자료에서만, 두 LR×두 seed의 승인 분기로 한다. 몇 batch의 가까운 gradient로 전체 trajectory 등가를 선언하지 않는다. 반대로 역할이 같은 대조를 체크리스트를 채우려고 재학습하지 않는다. 생략이면 정확한 조건·범위, 실행이면 동일 초기화·Q 없는 원채널 masked MSE·각자 정상 VAL 선택과 비용을 기록한다. TEST 손해를 보고 적합 여부를 정하지 않는다. 동등성 미확정이면 그 주장만 제한하고 유효한 다른 비교는 계속한다.
+
+새 확인은 PLAN에서 이미 정한 1~2개 평가 단위·source·컬럼·기간·관측간격·이력·선정규칙만 사용한다. 새 묶음은 기존 Q 분석의 유불리와 무관하게 같은 A로 확인한다. 자료를 바꿔 좋은 결과를 찾지 않는다. 기존 source의 새 기간은 temporal holdout, 같은 분야의 새 집단은 집단 확인으로 구분한다. 사전학습 중복 미확정을 완전 무오염이라 하지 않는다. 미확보면 기존 분석과 기여 문서를 마치되 새 확인 완료라 하지 않는다. 승인 밖 다운로드·서버·비용은 금지한다.
+
+새 자료의 가중치·통계·PCA·G·LoRA는 새 TRAIN만 사용한다. 과거 site의 학습값을 복사하지 않는다. K=ceil(C/4), L512/H48관측, 고정PCA, 공유512→32→48 G, 일반 q/v LoRA r8/alpha16/dropout0 등 PLAN의 완결된 적응 레시피를 따른다. A 초기출력은 새 TRAIN/VAL로 선택한 LEVEL과 같게, 이후 Q 예측은 고정한다. LoRA forward를 no_grad에 넣지 말고 불필요한 두 번째 TSFM을 실행하지 않는다.
+
+새 단위별 기본 적합은 LEVEL부모2, A4, 미압축 MSE-LoRA4, native-LoRA4, 직접 NLinear4의18fit다. 필요 no-Q는 별도4fit이며 기존 MAIN_ONLY와 구분한다. 같은 seed·TRAIN 원점 순서·허용 LR/선택 기회를 지키고 모든 자료의 학습·checkpoint/LR를 마친 뒤 TEST를 함께 평가한다. native와 MSE-LoRA 중 TEST에서 좋은 것만 골라 단일 기준선으로 표시하지 않는다. 불리한 자료/기준선도 보존한다.
+
+주 MSE와 MAE·기간·seed·채널·편향을 남긴다. 기간 채널별 SSE/관측수 합산과 seed 손실 평균을 지키고 자료 간 원 MSE를 합치지 않는다. P/Q 분해는 공통 완전관측 subset과 coverage를 사용하며 결측 정답을0으로 채우지 않는다. 정합성/gradient 통과를 예측 성능 보장으로 바꾸지 않는다. 선택 편향·조건부 불확실성·노출 범위를 명시한다. TEST 후 모델/지표/채널/기간을 바꾸지 않는다.
+
+비용은 같은 회차·장치·정밀도·전체 원채널 CPU출력 과제에서 A/LEVEL/F0/두 LoRA/DIRECT를 측정한다. LoRA병합·계열축 소배치 full/B*K/K의 출력 정합성을 확인하고 학습 cache로 온라인 forward를 숨기지 않는다. load/채점/원장은 밖, 전송·조합·순차호출은 안이다. 예열·동기화·반복3블록·앞뒤 기준·모든 불리한 변동을 보존한다. B1지연/B4처리량/allocated/reserved/배포bytes/전체적응비용을 구분한다. 작은 메모리 차이나 고정K 한 점을 보편 frontier라고 하지 않는다.
+
+기본18*N + 조건부4*(D_old+D_new) + 복구4, 최대60fit와 GPU8시간 등 승인된 실제 예산을 자동 늘리지 않는다. 생략한 적합 예산을 새 아이디어로 전용하지 않는다. fit·실패/재시도·GPU진단은 시작 전 원장에 예약하고 CPU검사는 세션으로 묶는다. 다른 작업 종료·전역환경·권한우회 금지다. 같은 범위 구현 오류는 원본·영향·수리 기록을 남겨 고치고 계속하되 tolerance를 맞을 때까지 늘리지 않는다.
+
+STATUS/재사용 계약/Q기여 분석/학습동등성 판단/no-Q 실행 여부/새 확인 계약/정확도·비용 원수치/주장근거표/METHOD_UPDATE/TOPIC_DECISION/최종검산을 연결한다. 본문은 방법과 핵심 외부 비교를 중심에 두고 세부 감사는 부록으로 옮긴다. 좋음·무차이·손해를 모두 유효한 판단으로 남기고 신규성·동등성·범용성·채택을 보장하지 않는다. 승인된 행동과 예산이 남으면 계속하며 계획만 읽고 종료하지 않는다. 실제 차단·상한·예정 비교 완료 때 수행/미수행과 다음 결정 하나를 보고한다. 관련 파일만 일반 commit·origin/main push 후 live SHA를 확인하고 재개 때 실제 PID·PLAN·STATUS·원장을 읽어 중복 실행하지 마라.
+
+Referenced pasted text files:
+- pasted text file: C:\Users\User\.codex\attachments\802f1e53-4b2a-4547-ba43-005a2c81e53b\pasted-text-1.txt. Read this file before continuing.

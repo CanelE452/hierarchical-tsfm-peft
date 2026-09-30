@@ -199,3 +199,13 @@ B의 Jena learned U도 fixed U보다 MSE21.48% 개선했고, Gamma를 양쪽에 
 - [정확도 그림](research/tsfm_peft_internal_vs_subspace_v11_20260930/figures/v11_accuracy_by_dataset.png), [정확도–비용 그림](research/tsfm_peft_internal_vs_subspace_v11_20260930/figures/v11_accuracy_cost_batch4_v2.png), [검산](research/tsfm_peft_internal_vs_subspace_v11_20260930/final_checks.json), [상태·예산](research/tsfm_peft_internal_vs_subspace_v11_20260930/STATUS.md), [재현·수리 기록](research/tsfm_peft_internal_vs_subspace_v11_20260930/REPRODUCE.md)
 
 - [v11 publication receipt](research/tsfm_peft_internal_vs_subspace_v11_20260930/publication_receipt.json)
+
+## 잔차 PEFT v12: 고정 A의 Q 기여와 학습 동등성 점검 (2026-10-01, 기존 분석 완료)
+
+같은 v11 A의 주경로를 고정한 채 Q 없음·마지막 잔차 수준·학습된 Q를 비교했습니다. **학습된 Q는 세 기존 개발 자료에서 마지막 수준만 유지하는 대조보다 MSE/MAE가 낮았습니다.** FULL−LAST 전체 MSE 차이는 Robin−0.073841, Jena−0.031360, Hog−0.465357이며, 선택된 seed와 기간에 조건부인 시간 블록 구간도 개선 방향입니다. 미압축 MSE-LoRA 대비 정확도 손해가 해결되거나 새 집단으로 일반화됐다는 뜻은 아닙니다.
+
+24쌍의 무갱신 역전파 점검에서 완전관측 배치와 결측 배치의 차이를 확인했습니다. 별도 no-Q 적합은 same-checkpoint 기여로 주장 범위를 제한해 생략했으며, 전체 학습정책 동등성이나 독립 no-Q 학습 우위를 주장하지 않습니다. 신규 fit은0입니다. 승인문이 참조한 새 평가 집단·분할의 실제 PLAN을 복구하지 못해 **새 확인과 그 비용은 미완료**이며, 임의의 자료로 대체하지 않았습니다.
+
+- [v12 현재 판단](research/tsfm_peft_a_confirmation_v12_20261001/TOPIC_DECISION.md), [Q 비교](research/tsfm_peft_a_confirmation_v12_20261001/Q_CONTRIBUTION.md), [조건부 구간](research/tsfm_peft_a_confirmation_v12_20261001/q_uncertainty01.md), [그림](research/tsfm_peft_a_confirmation_v12_20261001/figures/fixed_a_q_contribution.png)
+- [학습 동등성 범위](research/tsfm_peft_a_confirmation_v12_20261001/TRAINING_EQUIVALENCE.md), [방법·기여](research/tsfm_peft_a_confirmation_v12_20261001/METHOD_UPDATE.md), [새 확인의 누락 계약](research/tsfm_peft_a_confirmation_v12_20261001/CONFIRMATION_PROTOCOL.md)
+- [수치와 출처](research/tsfm_peft_a_confirmation_v12_20261001/report_values.json), [검산](research/tsfm_peft_a_confirmation_v12_20261001/final_checks.json), [재현·실패 보존](research/tsfm_peft_a_confirmation_v12_20261001/REPRODUCE.md), [진행·예산·게시](research/tsfm_peft_a_confirmation_v12_20261001/STATUS.md)

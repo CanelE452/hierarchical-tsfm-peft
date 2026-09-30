@@ -1,0 +1,391 @@
+/plan CanelE452/hierarchical-tsfm-peft에서 v12 「고정 A의 Q 보완 가치 정리·중복 적합 판별·선택 후 확인」 실행계획을 작성해라. 파일 소개나 요약이 아니라, 실제 자료·재사용 경로·비교·분기·예산을 갖춘 계획을 한 번 제시하고 전체 승인을 기다려라. 또 다른 계획 요청문을 출력하지 마라.
+
+이 파일은 실행 승인문이 아니다. 승인 전에는 저장소·기존 산출물·로컬 파일 존재·원문·환경·자료 사용 이력을 읽고 계획을 만든다. 새 모델 적합·추론·채점·gradient 계산·benchmark·프로젝트 파일 수정·commit/push는 승인 후다. 필요한 진단 결과가 아직 없으면 승인 후 수행할 절차와 분기를 정한다. 새 진단을 금지하면서 그 결과를 미리 요구하는 모순을 만들지 않는다.
+
+# 0. 목적과 범위
+
+최상위 목표: v11 A의 방법을 바꾸지 않고, 고정 Q 보완과 P 내부 LoRA의 실제 기여를 정리한 뒤, 사전에 정한 새 평가 묶음에서 F0·미압축 LoRA·직접 NLinear 대비 정확도–메모리–시간의 선택 가치가 남는지 판단한다.
+
+현재 A의 정의:
+A(X) = b_phi(X) + q*(X)
+b_phi(X) = F_{theta0,phi}(X U0) U0^T
+P0 = U0 U0^T, Q0 = I - P0
+r(X) = X Q0
+q*(X) = repeat_H(last(r)) + G*(r - repeat_L(last(r)))
+
+PCA U0·Q 예측기 G*·원래 TSFM 가중치는 고정하고, P 경로의 일반 q/v LoRA만 새로 적응한 v11 계열이다. 여기서 q/v는 attention의 query/value이고 Q0 부분공간과 다른 용어다.
+
+이번 독자가 판단할 질문:
+1) 같은 P 예측에서 Q를 더한 이득이 있는가? 단순 마지막 잔차 유지보다 학습된 G*가 더 좋은가?
+2) Q 없이 별도로 적응한 압축 LoRA를 학습하는 일이 실제로 다른 대조인가, 수학·학습 절차상 중복인가?
+3) 고정된 A가 방법 선택에 사용하지 않은 평가에서도 기존 LEVEL과 실제 외부 대안 대비 유효한 절충을 만드는가?
+4) 무엇이 개발 분석이고 무엇이 선택 후 확인인가? 어떤 핵심 주장이 남고 어떤 주장을 줄여야 하는가?
+
+작업 구성:
+I. 기존 Robin/Jena/Hog의 저장 예측으로 Q 기여를 분석한다. 기본 새 적합 0.
+II. Q 유무의 gradient와 실제 학습·선택 절차의 동등성을 제한적으로 점검한다. 필요성이 확인된 경우에만 NO_Q 적합을 실행한다.
+III. 계획에서 먼저 정한 새 평가 단위 1~2개에서, A의 수식·적응·선택 규칙을 고정한 확인을 수행한다. 기본 제안은 2개이며 논문 필수 개수나 합격선이 아니다.
+IV. 주장–근거표와 방법 중심 결과 문서를 갱신하고, 관련 코드·수치·재현 계약을 검산·게시한다.
+
+이번에 하지 않을 것:
+- A의 Q 재학습 방식 변경, A+B 결합, B의 U/Gamma 재탐색, P/Q 새 보정기.
+- QLoRA·DoRA·새 rank·새 K 탐색·양자화·compile·증류·입력별 gate·새 loss.
+- 잘 나오는 자료를 발견할 때까지 새 평가 집단 교체.
+- 독립 확증이 필요한데 기존 Robin/Jena/Hog를 새 자료라고 다시 부르기.
+- 모든 데이터에서 LoRA를 이기거나 임의 개선율을 넘겨야 완료한다는 조건.
+- 모든 원인·모든 문헌을 완전히 규명해야 다음 행동을 할 수 있다는 진입 조건.
+
+Q 제거 비교가 약해도 같은 A의 확인을 승인했다면 자료를 취소하거나 방법을 교체하지 않는다. 수식·정답·권한의 실제 오류처럼 실행 타당성이 무너지는 경우만 범위 변경을 보고한다. 불리한 과학적 결과는 유효한 완료 결과다.
+
+# 1. 확인한 출발점과 확인하지 않은 것
+
+[확인, 원격 조회] 기준 main은 a63d951d70b32e8bcd94808301c478f05ddf8b37(v11 게시)다. 실제 작업 시작 시 최신 관련 변경·branch·작업트리·PID·기존 v12 존재 여부부터 확인한다. 최신 관련 작업이 있다면 중복 실행하지 말고 먼저 대조한다.
+
+[확인, v11 코드] research/tsfm_peft_internal_vs_subspace_v11_20260930/evaluate_v11.py는 A 평가 예측을 저장할 때 prediction, origins와 함께 main_only_prediction도 저장하도록 구현되어 있다. 이 키는 원격 코드에서 확인된 이름이다. 실제 로컬 NPZ의 존재·키·해시·shape는 CLI가 다시 확인해야 한다.
+
+[확인, v11 코드] A의 Q 계산만 no_grad이고 LoRA 주경로는 autograd 안에 있다. 고정 PCA, 학습된 LEVEL G, q/v rank8·alpha16·dropout0·bias none을 사용한다. point는 기존 native 역정규화 이후 0.5 분위수의 첫 48관측이다.
+
+[확인, v11 코드] AdamW·wd0·clip1과 ReduceLROnPlateau factor0.5/patience2/relative threshold1e-4를 사용한다. 따라서 상수항만 다른 손실이라도 상대 임계값 scheduler까지 자동으로 같다고 주장하면 안 된다.
+
+[확인, v11 보고] A의 Jena 이득과 고정 K에서의 비용 절충은 남지만, 세 자료 모두 미압축 MSE-LoRA보다 정확하다는 결과는 아니다. B도 유효한 내부 대조 결과가 있으므로 그 결과를 삭제하거나 실패로 바꾸지 않는다.
+
+[추정·미검증] 아래 새 역할명·조건부 분석·새 평가 목록·예산은 이번 제안이다. 실제 새 자료의 이름/컬럼/시점/파일은 아직 확인되지 않았다. CLI가 승인 계획에 정확한 계약을 채운다.
+
+새 경로 제안(기존 파일이라고 가정하지 말 것):
+research/tsfm_peft_a_confirmation_v12_<actual_date>/
+.cache/tsfm_peft_a_confirmation_v12_<actual_date>/
+실행 당시 날짜와 기존 폴더 충돌 여부를 확인한다. 원본 v1~v11, 실패/봉인/노출 기록, B 결과, 무관한 dirty 파일은 보존한다.
+
+# 2. 먼저 읽을 근거와 로컬 재사용
+
+주요 기존 위치:
+- research/tsfm_peft_internal_vs_subspace_v11_20260930/{PLAN.md,APPROVAL.txt,TOPIC_DECISION.md,METHOD_UPDATE.md}
+- 같은 폴더의 model_v11.py, train_v11.py, evaluate_v11.py, cost_v11.py, runtime_v11.py
+- 같은 폴더의 reuse_manifest.json, prediction_manifest.json, selected.json, protocol.json
+- 같은 폴더의 evaluation01.json, evaluation01_models.csv, data_contract_*.json
+- 같은 폴더의 cost_summary.json, adaptation_cost.csv, final_checks.json, REPAIRS.md
+- src/hier_peft/lora.py
+- 필요 범위의 v5/v6/v7 LEVEL·F0·native LoRA·DIRECT 복원/학습 기록.
+
+기존 개발 묶음은 Robin C17/K5, Jena C21/K6, Hog C32/K8이다. 각 자료의 두 seed는 92601/92602다. Jena의 48관측은 8시간, 기존 건물 전력의 48관측은 48시간이다.
+
+reuse manifest에서 실제로 확인할 항목:
+- A 선택 checkpoint, 해당 LoRA 초기화, 부모 LEVEL의 고정 basis/G, 선택 epoch/LR.
+- A의 전체 예측과 main-only 예측, 기존 LEVEL/F0/native LoRA/full MSE-LoRA/NLinear 예측.
+- TRAIN/VAL/평가 원점·채널 순서·관측 mask·표준화·입력 결측 처리·PCA basis.
+- 기존 학습 curve, 학습률 궤적, 고정 TRAIN probe, 코드/snapshot revision.
+- 현재 Python/PyTorch/Chronos/PEFT·장치·정밀도·지원 API.
+
+원격에 경로가 적혀 있다는 이유로 로컬 체크포인트가 있다고 주장하지 않는다. NPZ가 없으면 먼저 기존 체크포인트의 필요한 출력만 재생한다. 이를 위해 처음부터 부모를 재학습하지 않는다. 재생은 적합0이며 추론 시간은 계상한다. 필수 원자료/부모가 복구되지 않으면 해당 범위의 차단을 보고한다.
+
+# 3. I단계: 기존 예측으로 Q 보완의 추가 가치 확인
+
+같은 자료·seed의 v11 A P 경로 b_phi를 고정하고 다음을 비교한다. 아래 역할명은 새 보고용 제안이다.
+
+A_MAIN_ONLY = b_phi(X)
+A_MAIN_LAST = b_phi(X) + repeat_H(last(X Q0))
+A_FULL      = b_phi(X) + q*(X)
+BASE_LEVEL  = F0(X U0) U0^T + q*(X)
+
+직접 질문:
+- A_FULL 대 A_MAIN_ONLY: 같은 P 예측에 기존 Q 전체를 추가하는 효과.
+- A_MAIN_LAST 대 A_MAIN_ONLY: 학습 없는 잔차 수준 유지의 효과.
+- A_FULL 대 A_MAIN_LAST: 수준 유지 위에 기존 G의 변화분 학습이 남긴 효과.
+- A_FULL 대 BASE_LEVEL: v11에서 내부 적응이 추가한 효과를 같은 계약에서 재확인.
+
+기존 외부 F0/native LoRA/full MSE-LoRA/DIRECT도 같은 표에 남긴다. B는 기존 v11 결과로 보존하고 이번 확인의 주력 후보로 다시 학습하지 않는다.
+
+A_MAIN_LAST는 과거 X와 고정 U0로 계산한다. 미래값·정답에서 last나 Q를 만들지 않는다. main-only가 없다면 선택된 A를 forward하여 저장하되 optimizer는 실행하지 않는다. 전체 예측에서 main을 뺀 Q와 부모의 실제 Q 경로 정합성을 확인한다.
+
+MSE/MAE, seed별·기간별·채널별 오차와 signed mean error를 보고한다. 전체 점수는 기존 채널별 SSE/관측수 합산 후 macro 평균, 마지막 seed 손실 평균을 유지한다. 예측 ensemble이나 자료 간 원 MSE 평균으로 바꾸지 않는다.
+
+P/Q 오차 분석은 동일한 완전관측 target vector subset에서만 한다. coverage·누락 채널/시점을 명시한다. 정답의 결측을0으로 채워 투영하지 않는다. projected MAE는 일반 MAE와 가산 분해되지 않는다는 점도 지킨다. 주 masked 지표를 완전관측 부분집합 지표로 대체하지 않는다.
+
+예상 결과별 해석:
+- FULL이 MAIN_ONLY보다 좋지만 LAST와 비슷함: Q의 필요성과 학습된 G의 추가 가치는 다르다. 단순 수준 보완으로 설명되는 범위를 인정한다.
+- FULL이 LAST보다도 좋음: 같은 P 경로에서 학습된 Q 예측의 추가 가치가 남는다.
+- FULL이 악화함: Q 예측의 오류도 보존하는 약점이다. 해당 자료를 빼거나 그 결과로 A를 다른 방법으로 바꾸지 않는다.
+- MAIN_ONLY가 나쁜 이유 일부는 모델 출력이 P 공간으로 제한돼 Q를 표현할 수 없기 때문이다. 이를 별도 재학습한 모든 압축 선행을 이겼다는 증거로 쓰지 않는다.
+
+이 단계는 v11 결과 이후의 후속 개발 분석이다. 최초 v11 봉인/평가를 소급 변경하지 않는다. 이득을 확인할 때까지 새 Q 참조를 계속 추가하지 않는다.
+
+# 4. II단계: Q 없는 별도 적합이 필요한지 판별
+
+중요: '같은 checkpoint에서 Q를 제거한 출력', '같은 순간의 gradient', '독립적인 전체 학습/선택 레시피'는 서로 다른 비교다.
+
+고정 P0/Q0, b_phi=b_phi P0, q*=q* Q0이고 완전관측·동일가중 squared error라면 다음 대수적 성질이 있다.
+
+L_plus(phi) = ||b_phi - YP0||_F^2 + ||q* - YQ0||_F^2
+L_main(phi) = ||b_phi - YP0||_F^2 + ||YQ0||_F^2
+
+따라서 L_plus - L_main은 phi에 대한 상수이고, 같은 상태에서의 phi gradient는 같다. 이것은 조건부 대수이며 새 실험으로 입증된 범용 성능 명제가 아니다. q가 phi에 의존하거나 decoder가 학습되면 그대로 쓰지 못한다.
+
+masked/channel-weighted loss의 경우 벡터화한 예측 Jacobian을 J_b, 고정 관측 가중행렬을 W라 하면 gradient 차이는 2 J_b^T W q*다. W가 P/Q 사이에 교차항을 만들 수 있다. target mask·채널 가중치·미니배치별 정규화까지 실제 loss를 확인해야 한다.
+
+확인 순서:
+1) TRAIN/VAL의 mask와 관측수 계약을 전체적으로 확인한다. TEST 마스크가 완전하다는 사실을 TRAIN/VAL의 완전관측 증거로 쓰지 않는다.
+2) bias, 정규화, percentile, dtype, LoRA train/eval 상태와 P/Q 직교성을 확인한다.
+3) 같은 LoRA 초기/선택 상태에서 완전관측 TRAIN batch와 가능한 결측 TRAIN batch를 대상으로 두 손실의 gradient 차이를 검사한다. Q와 U는 두 경로에서 동일하게 고정한다.
+4) actual scheduler, early stopping, LR 선택 규칙을 대조한다. 같은 gradient만으로 전체 학습 등가를 선언하지 않는다.
+
+제한된 계산 범위 제안:
+- 자료3 × seed2 × 상태2(초기/선택) × batch유형최대2 = 최대24 paired backward 검사.
+- 각 pair에서 with-Q/without-Q의 같은 입력·가중치 두 gradient를 비교한다. optimizer update는0이고 진단 시간은 계상한다.
+- 추가로 작은 FP64 합성 선형 예제로 완전관측에서의 일치와, 비등방 mask에서 비일치할 수 있는 반례를 확인한다. 검사 목적이며 새 성능 실험이 아니다.
+- 실측 gradient 최대차·L2 norm·안정화된 상대차·0/비0 성분수·기저 직교 오차를 모두 기록한다. 수치 허용오차는 계획에서 dtype/원본 parity에 근거해 사전 확정한다. 값이 나올 때까지 임계값을 조절하지 않는다.
+- 몇 개 batch에서 가깝다는 것만으로 전체 TRAIN trajectory 동일성을 증명했다고 하지 않는다.
+
+특히 scheduler 주의:
+기존 ReduceLROnPlateau threshold_mode='rel'은 best*(1-threshold)를 기준으로 삼는다. loss에 상수를 더하면 gradient와 checkpoint ordering이 같아도 scheduler의 improvement 판정은 달라질 수 있다. 같은 VAL sequence에서 상수항을 바꿔 scheduler를 CPU로 재생하는 점검은 새 fit0이다.
+- 전체 학습정책 등가를 주장하려면 initialization, batches, optimizer/clipping, LR schedule, stop/selection까지 모두 맞아야 한다.
+- 확인을 쉽게 하려고 A의 scheduler/목적식을 소급 변경하지 않는다.
+- 표준 no-Q의 scheduler만 달라질 수 있다면 'P gradient는 동일할 수 있으나 training-policy equivalence는 미확정'으로 적는다.
+
+분기 판단:
+E1: 조건·학습정책 등가가 충분히 확인되거나, 논문 주장이 same-checkpoint 출력 기여로 제한돼 별도 학습이 답을 바꾸지 않음.
+    -> NO_Q 재적합 생략. 정확한 생략 근거와 미확인 범위를 기록한다.
+E2: mask/가중치/학습·선택 정책이 실질적으로 다르고, 독립 no-Q 대조가 기여 판단에 필요함.
+    -> 그 자료에서만 사전 승인한 NO_Q_DIRECT_TRAIN을 수행한다.
+E3: 수치/계약 문제가 있어 두 경로의 의미를 비교할 수 없음.
+    -> 한정된 구현 수리 뒤 재점검. 해결 안 되면 동등성 미확정으로 보고한다. 전 자료 재학습으로 자동 우회하지 않는다.
+
+NO_Q_DIRECT_TRAIN의 정확한 정의:
+- 같은 U0, 같은 F0 revision, 같은 LoRA 초기값·r8/alpha16/q-v·LR 후보·표본순서.
+- 출력 b_phi만으로 원래 관측 마스크 기반 macro MSE를 학습한다. 새 projected loss나 native quantile objective로 바꾸지 않는다.
+- 두 LR × 두 seed = 자료당4fit. 실제 감소/선택된 LR·epoch·train probe를 A와 나란히 보고한다.
+- 과거 A에 유리한 schedule을 no-Q에 강제해 성능을 약화하지 않는다. 동일 gradient의 대수 확인과 정상 각자 스케줄의 실용 레시피 비교를 구분한다.
+- 최대 기존3자료×4=12fit. E1 자료까지 수를 채워 실행하지 않는다.
+- no-Q 적합 결정은 TRAIN/VAL 계약·기울기·정책에 근거하고, MAIN_ONLY의 TEST 손해 크기로 결정하지 않는다.
+
+# 5. III단계: 새 평가 묶음 선정과 노출 경계
+
+기본 제안은 새 평가 단위2개를 처음부터 함께 고정하는 것이다. 1개만 적격이면 그 이유와 좁아지는 범위를 적고 승인받는다. 2는 필수 논문 개수가 아니라 이번 비용 범위다. 자료 이름은 현재 미확인이다.
+
+선정은 계획 단계에서 로컬 자료 목록·메타데이터·정확한 파일 hash·기존 사용 이력으로 한다. 가능한 경우 건물 전력의 다른 집단과 비전력 다변량 자료처럼 서로 다른 조건을 포함한다. 하지만 이름만 다른 같은 source를 두 독립 도메인이라고 세지 않는다.
+
+계획에는 실제로 다음을 확정한다.
+- 정확한 source/site/entity·컬럼·관측 간격·단위·기간·TRAIN/VAL/TEST 원점 정의.
+- 사용 이력 조회 범위: 데이터 다운로드/메타데이터 열람/성능 평가/방법 선택에 사용/백본 사전학습 중복을 구분.
+- 알려진 기존 개발 자료의 다른 기간이라면 temporal holdout임을 표시. 신규 데이터셋·다른 도메인이라고 바꾸지 않는다.
+- 과거에 성능을 본 범위와 겹치지 않는 최종 평가를 실제로 확보했는가?
+- 실제 C와 K, 채널 수가 많아 고정 subset을 쓴다면 정렬 등 성능 비의존 규칙과 전체 자료 중 사용 범위.
+- 시간 분할, lookback 사용, 예측 horizon이 각 split 밖으로 넘어가지 않는 정책, 결측 처리와 TRAIN 통계 규칙.
+- 같은 고객/건물/센서/기간 중복 또는 파생 데이터로 의존하는 평가인지.
+
+기본은 기존 로컬 공개 자료 재사용·다운로드0이다. 새 다운로드가 필요하면 공식 URL·라이선스·최대 용량을 계획에 명시해 승인받는다. 승인 뒤 무단으로 범위를 넓히지 않는다. 백본 사전학습 중복 미확정만으로 실행을 막지는 않지만 완전한 무오염 외부 확증이라고 부르지 않는다.
+
+입력 shape·시간순서·split 안전성 점검은 가능하지만, 새 TEST 목표의 분포·PCA 설명분산·오차·그래프를 보고 채널·site를 고르지 않는다. 준비상 전체 source를 파싱해야 하면 성능 사용과 구분해 기록하고 TEST를 학습 경로에서 격리한다.
+
+특정 자료가 있어야만 계획할 수 있는데 아직 못 찾았으면, 성능과 무관한 결정 규칙과 후보 조회 순서를 먼저 고정할 수 있다. 단, source·권한·기간·예산을 알 수 없는 상태로 '적당한 새 데이터 어디든'을 실행 승인에 넣지 않는다.
+
+새 평가를 전혀 확보하지 못하면 I/II·기여 문서를 완료하고 '확인 자료 미확보'로 보고한다. 기존 자료를 반복 채점하고 새 확인을 완료했다고 하지 않는다.
+
+승인된 새 묶음은 기존 Q 분석의 유불리와 무관하게 같은 A로 확인한다. 완료 기준은 좋은 결과를 만드는 것이 아니라 고정 비교에 답하는 것이다.
+
+# 6. 새 자료에서 고정할 전체 적응 레시피
+
+새 자료에서는 과거 Hog/Jena/Robin의 학습된 G 또는 LoRA를 복사하지 않는다. 같은 사전학습 F0에서 새 TRAIN만 사용해 적응한다. 이는 '기존 가중치의 다른 source zero-shot 이식'이 아니라 '고정 방법/선택 규칙의 새 자료 적용 확인'이다.
+
+제안하는 공통 계약:
+- 동일 Chronos-Bolt-small revision과 FP32, 기존 median/H48 경로.
+- L=512, H=48 관측. 실제 시간 길이는 자료별 관측 간격으로 환산한다.
+- K=ceil(C/4), 단 K<C인 다변량 문제. 이는 v11의17/5·21/6·32/8과 연결한 사전 규칙이며 K 최적화가 아니다. 대상 자료의 실제 C/subset과 정확한 K를 승인 계획에 적는다.
+- TRAIN-only 표준화·PCA·입력 결측 대체. U0를 고정하고 결과를 본 뒤 다른 K/PCA로 바꾸지 않는다.
+- 고정 LEVEL의 G: 공유 bias/activation 없는512→32→48, down 표준 초기화·up0. 부모 단계 LR1e-3, seed92601/92602의2fit.
+- 부모 적합은 F0/U0를 고정하고, last residual+G 변화분을 포함한 전체 원채널 masked macro MSE를 최소화한다.
+- 새 A는 각 seed의 선택된 LEVEL을 고정하고 q/v LoRA만 학습한다. rank8,alpha16,dropout0,bias none, 초기 업데이트0.
+- A/FULL_LORA_MSE/DIRECT_NLINEAR은 LR{1e-4,1e-3}×두 seed.
+- native FULL_LORA는 기존 native quantile loss로, 같은 두 LR·seed를 제공하고 checkpoint는 전체 VAL 점 MSE로 선택한다. 비교를 위하여 MSE/native를 몰래 합치거나 TEST에서 이긴 것만 LoRA라고 표시하지 않는다.
+- 공통 AdamW·weight_decay0·trainable clip norm1·과제batch4·epoch당512원점·max120epoch·VAL strict 정체6·ReduceLROnPlateau factor.5/patience2/relative threshold1e-4.
+- 자료의 phase sampling은 기존 일 주기 등 확인된 관측 간격에 맞춰 계획에서 고정한다. 데이터 근거 없이 주기를 발명하지 않는다.
+- epoch 선택은 step0 포함 최소 전체 VAL MSE, 정확 동률은 이른 상태. LR 선택은 두 seed best VAL 평균, 정확 동률은 작은 LR.
+- 부모 단계·LoRA 단계·모델별 전체 탐색 비용을 분리 계상한다. 과거 parent 재사용으로 방법의 비용이 없어진다고 하지 않는다.
+
+위 부모2fit 레시피는 새 집단에 대한 고정 실행안이다. v11이 과거 부모들을 재사용했다는 사실과 구분한다. CLI는 실제 이전 부모의 lr/표집/선택 계약을 먼저 확인하고, 재현하려는 정의와 다르다면 승인 전 그 차이를 명시한다. 승인 뒤 성능에 맞춰 부모를 바꾸지 않는다.
+
+새 평가의 기준선:
+- BASE_LEVEL: 부모2fit의 선택 모델.
+- A_P_LORA_QFIXED: 두 LR×두 seed4fit.
+- FULL_LORA_MSE: 4fit.
+- FULL_LORA_NATIVE: 4fit.
+- DIRECT_NLINEAR: 4fit.
+- F0: 학습0.
+- A_MAIN_ONLY/A_MAIN_LAST: 선택된 A와 같은 P 주경로를 사용한 fit0 출력 참조.
+- COMPRESS/LEVEL_ONLY가 필요하면 학습0 참조로 제한하고 비교 역할을 명시.
+- NO_Q_DIRECT_TRAIN: II의 동일 분기 규칙상 필요한 새 평가 단위에만 추가4fit. 이 결정은 TRAIN/VAL에서 하고 TEST를 본 뒤 추가하지 않는다.
+
+새 평가 단위당 기본2+4+4+4+4=18fit, 두 단위36fit이다. B·v8~v10을 새 자료에서 자동 재학습하지 않는다. 이번 주력 확인 대상은 A다.
+
+# 7. 선택 고정·평가·통계
+
+새 묶음 전체의 source/분할/원점/모델 family/LR/checkpoint/필요 no-Q 분기를 먼저 고정하고, 모든 자료의 학습·선택을 끝낸 뒤 예정된 TEST를 함께 평가한다. 실제 GPU 실행이 순차인 것은 문제가 아니다.
+
+기본 질문과 결과 위치:
+- 내부 변경: A 대 BASE_LEVEL.
+- Q 출력 기여: A 대 같은 P의 MAIN_ONLY, MAIN_LAST.
+- 조건부 적합정책 대조: A 대 별도 NO_Q_DIRECT_TRAIN, 시행한 경우만.
+- 실용 선택: A 대 F0/FULL_LORA_MSE/FULL_LORA_NATIVE/DIRECT_NLINEAR.
+
+MSE를 주 지표, MAE와 signed mean error를 보조로 유지한다. 각 seed·기간·채널의 원수치, 전체 채널별 SSE/count 및 seed 손실 평균을 저장한다. 다른 자료의 원 MSE를 합쳐 단일 점수로 만들지 않는다. 승리한 자료 수만으로 방법 채택을 결정하지 않는다.
+
+시간 의존을 고려한 paired block bootstrap을 사용하되 새 source의 관측 간격·원점 간격·period 길이에 맞는 block 규칙과 반복 수를 TEST 전에 계획에 적는다. 기존 일/주 단위 규칙을 무조건 다른 빈도에 복사하지 않는다. 시간표본이 너무 적으면 불안정한 구간을 확정적 근거로 제시하지 않는다. seed 최소최대는 신뢰구간이 아니다. 반복 model selection 전체의 불확실성까지 포함됐다고 하지 않는다.
+
+TEST 결과로 LR·rank·K·부모·입력 처리·Q 사용 여부·기간/채널을 수정하지 않는다. 명백한 버그만 실패 원본과 전체 영향 범위를 남겨 같은 계약의 관련 비교를 정정한다. 모델 선택까지 바뀌면 이미 노출됐다는 상태를 유지하고 새 독립 확증처럼 쓰지 않는다.
+
+자료 일부에서 불리해도 삭제하지 않는다. 기존 v11 개발 결과와 새 확인 결과는 표/그림에서 패널 또는 태그로 분리한다.
+
+# 8. 비용: 외부 기준선의 정상적인 실행까지 포함
+
+새 평가에서 성능이 좋아 보이는 방법만 측정하지 말고, 사전에 정한 최소 기준선 전체를 같은 회차에 측정한다. 학습이 불가능한 방법은 그 이유를 남기고 누락을 숨기지 않는다.
+
+기본 대상은 A, BASE_LEVEL, F0, 두 FULL_LORA, DIRECT_NLINEAR의 선택 모델이다. main-only/last-only 참조의 비용은 필요하면 A와 동일 경로의 G 유무로 측정하되 알고리즘상 비용을 계산한 값과 실측을 구분한다.
+
+- 과제batch1 지연, batch4 처리량, peak allocated/reserved, 상주 메모리, 배포 tensor bytes, 현재·누적 적합 변수, 적응 시간을 분리.
+- 같은 장치·정밀도·전체 원채널 H48 출력·CPU 입력→CPU 출력 범위.
+- LoRA는 병합 전후 정합성을 확인하고 배포본만 병합한다. 훈련 checkpoint를 덮어쓰지 않는다.
+- 미압축 F0/FULL_LORA의 B4 실행은 full(B*C), chunk(B*K), chunk(K)를 포함한다. 같은 값이면 중복 제거.
+- 시간 L/H가 아니라 계열 배치축만 나누며 원채널 순서를 복원한다.
+- 선택 모델의 실제 온라인 F0/LoRA/Q를 실행한다. 저장된 부모 예측이나 TEST cache로 배포 시간을 대체하지 않는다.
+- model load/disk/채점/hash/원장/원격통신은 시간 밖, H2D/D2H·reshape·조합·순차호출은 시간 안.
+- 기본 VAL24원점, 예열10회,24원점10passes,순서변경3블록, 앞뒤 F0 기준. 실제 VAL24 확보 여부와 전체 grid 시간을 승인 전에 계산한다.
+- DIRECT_NLINEAR은 CPU/GPU 모두 가능하나 CPU의 CUDA 메모리는0이 아니라 해당없음이다.
+- 모든 블록·실패·불리한 설정을 남긴다. 과거 v11의 가장 좋은 시간과 이번 시간을 섞지 않는다.
+
+정확도–비용 판단:
+- 같은 메모리 또는 처리량 제약에서 남는 비지배 선택지가 있는지 본다.
+- 미압축 소배치가 같은 메모리로 더 정확하지만 느리면 세 축 절충으로 보고한다.
+- 1MiB 차이를 엄밀한 배포 경계로, 작은 지연 차이를 보편적 가속으로 만들지 않는다.
+- 이번은 고정 K 확인이고 전체 K frontier를 탐색한 결과가 아니다.
+- MSE의 유리한 점추정만으로 큰 MAE 손해를 감추지 않는다.
+- 정확도와 자원 측정 변동이 큰 경우 point frontier와 견고한 우위 판정을 구분한다. 임의 종합점수·허용 오차 손실·비열등성 한계를 만들지 않는다.
+
+# 9. 구현 검증과 연구 질문의 우선순위
+
+최소 구현 검사는 기존 실제 코드와 연결한다.
+- A 초기 전체 예측=학습된 부모 LEVEL, 부모 parameter/buffer 불변, Q 출력 보존.
+- 새 LoRA 실제 갱신·유한 loss·선택 및 optimizer/scheduler/RNG 복원.
+- 학습 시 TSFM LoRA forward가 no_grad/inference_mode에 들어가지 않음.
+- A에서 부모 TSFM 전체와 적응 TSFM을 두 번 실행하지 않음. Q만 분리 재사용.
+- 기존 exact-zero variance backward 수리의 forward parity·범위 보존. 라이브러리를 전역 수정하지 않음.
+- 등록 LoRA 수와 실제 gradient/갱신 수 구분. 첫 low-rank 행렬 일부 gradient0은 표준 zero 초기화의 정상 동작일 수 있음.
+- 원점·축·mask·가중치·정규화·merge/chunk parity.
+
+숫자 검사 통과를 정확도 개선으로 보고하지 않는다. 분해의 조건을 못 맞춘다고 전체 유효한 예측 비교를 멈추지 않는다. 원인을 완전히 증명하지 못하면 그 해석만 제한한다.
+
+검사를 위해 실자료 optimizer를 실행하면 fit attempt로 계상한다. 고정 checkpoint의 forward/backward만 하고 optimizer update0이면 별도 진단으로 계상한다. 실제 업데이트를 synthetic으로 이름 바꿔 숨기지 않는다.
+
+# 10. 실행량과 자원 상한 제안
+
+아래는 [추정·미검증] 운영 예산이며 성공 기준/완료시간 보장이 아니다. 실제 데이터·환경에 맞춰 승인 전에만 조정한다.
+
+새 확인 단위 수를 N(0~2), 기존 자료에서 NO_Q 적합이 필요한 수를 D_old(0~3), 새 단위에서 필요한 수를 D_new(0~N)로 놓으면:
+기본 새 확인 fit = 18*N
+조건부 no-Q fit = 4*(D_old + D_new)
+기술복구 예비 = 4fit
+전체 승인 상한 = 18*N + 4*(D_old + D_new) + 4 <= 60fit
+
+예시:
+- 두 새 단위, no-Q 적합 모두 생략: 기본36 + 복구4 = 최대40.
+- 두 새 단위, 기존/새 모든 단위에서 no-Q 필요: 36+12+8+4 = 최대60.
+- 한 새 단위, 최대 no-Q: 18+12+4+4 = 최대38.
+- 새 단위 없음: 재사용/진단0fit 기본, 필요한 기존 no-Q최대12+복구4. 새 확인은 미완료.
+
+계획 응답은 그냥 '상한60'이라고 하지 말고 실제 N, 예상 branch, 재사용/복구와 case별 수를 적는다. 동등성에 따라 빠진 fit 예산은 새 후보로 전용하지 않는다.
+
+공통 상한 출발안:
+- GPU 한 장, 동시 학습1, 누적 작업점유8시간.
+- CPU 적합/분석2시간, 일반 구문/문서/검산30분.
+- 합성 optimizer 검사 최대6세션, 세션 전체 합계10updates 이하.
+- paired backward 진단은 위 최대24쌍, 실제 optimizer0.
+- 신규 저장10GiB. 다운로드 기본0; 실제 공식 source 추가가 필요한 경우 계획에URL/상한을 명시해 승인받는다.
+- 다른 작업을 종료하거나 새 유료서버·전역 패키지·전력/clock 설정을 변경하지 않는다.
+
+GPU 시간은 예상 배분과 full cost grid의 소요를 계획에서 함께 계산한다. 작은 비용 하위상한을 임의로 두어 예정grid가 도중에 끊기도록 설계하지 않는다. 글로벌 상한은 자동 늘리지 않는다. 여유가 없으면 이후 필수 비교를 시작하지 말고 미완료를 보고한다.
+
+중간 재개는 기존 attempt/optimizer 상태·완료epoch·실제 PID를 읽어 중복 적합을 피한다. 코드상 학습 재개/실패 retry의 attempt 계상 정의를 먼저 정한다. 단순한 상태 조회가 새 fit이 되는 것은 아니지만 실패/재시도는 예산에서 숨기지 않는다.
+
+# 11. 선행과 연구 기여의 범위
+
+이번은 새 방법 발명보다 v11 A의 주장을 확인하는 회차다. LoRA·잠재 어댑터·NLinear 수준 처리·모델 선택 편향의 가까운 원문/저자 구현을 필요한 범위에서 확인한다. 이름만 비슷한 논문을 길게 나열하지 않는다.
+
+비교해 남길 주장:
+- 내부 적응의 가치: A 대 BASE_LEVEL.
+- Q 예측의 추가 가치: 같은 P에서 전체 Q, 수준만 유지, Q 없음.
+- 학습된 Q와 별도 no-Q 훈련의 역할: 조건부 등가/다른 학습정책을 구분.
+- 실용 가치: 같은 목적식 FULL LoRA와 native LoRA, F0, 직접 NLinear 및 소배치.
+
+COMPRESS나 main-only를 이겼다고 AdaPTS 전체를 재현해 이겼다고 하지 않는다. 같은 손실의 상수항 분해를 새 이론·새 PEFT 수학이라고 주장하지 않는다.
+
+원고 중심은 '어느 버전에서 어떤 실패를 했는가'가 아니라 '고정된 A가 무엇을 바꾸며 어떤 비교를 지지하는가'다. 상세 hash/원장/복원/실패수리는 부록/재현자료, 핵심 선택·노출·불리한 정확도/비용은 본문에 둔다. 제출·외부 공유 권한 변경은 이번 작업이 아니다.
+
+# 12. 결과별 의사결정과 종료
+
+결과                         다음 판단
+A가 LEVEL 대비 개선, Q가 LAST보다도 유리하고 실용 절충이 남음:
+    해당 범위의 A 기여를 유지하고 원고/재현자료를 정리한다. 새 버전을 자동 개발하지 않는다.
+A가 LEVEL 대비 개선하지만 Q의 대부분이 LAST로 설명됨:
+    내부 적응과 수준 보존의 효과를 인정하고, 학습 G의 필요성 주장을 줄인다. 이번 A를 사후로 LAST 모델로 바꾸지 않는다.
+Q 포함/미포함 학습이 사실상 같은 조건:
+    중복 fit 생략 근거를 제시한다. Q 출력 기여는 별도로 보고하고 독립 no-Q 최적화 우위처럼 설명하지 않는다.
+NO_Q 직접 적합이 다른 정책에서 강함:
+    정상적인 기준선 결과로 남긴다. A 실패를 숨기기 위해 조건을 바꾸지 않는다.
+A가 새 평가에서 외부 기준선에 지배됨:
+    해당 조건의 실용 주장을 축소한다. 자료/방법을 바꿔 확인을 재시작하지 않는다.
+자료 미확보/실제 기술 차단/상한:
+    수행/미수행을 분리하고 가능한 기여 문서까지 완료한다. 확인 완료라고 하지 않는다.
+
+B·기존 LEVEL·v8~v10의 양성 결과는 새 A 결과가 불리해도 삭제하지 않는다. 후보 유지/조건부 유지/보류/기각은 어떤 주장에 대한 판정인지 명시한다. 모든 음성을 연구 전체 무가치로 확대하지 않는다.
+
+# 13. 산출물과 실제 실행 확인
+
+승인 후 새 연구 폴더에 보존할 산출물 제안:
+- REQUEST_PLAN.txt, PLAN.md, APPROVAL.txt (상위 요청/실제 계획/승인문을 구분)
+- STATUS.md, ledger.json, source/environment/reuse receipts
+- Q_CONTRIBUTION.md 및 same-P full/last/main 수치·기간/seed·원점 증거
+- TRAINING_EQUIVALENCE.md 및 gradient/scheduler/조건표, NO_Q_RUN_DECISION.json
+- CONFIRMATION_PROTOCOL.md와 실제 source/사용이력/원점/컬럼/단위/선택 계약
+- 필요 no-Q와 새 자료의 run별 result/curve/선택/복원 증거
+- development와 confirmation을 분리한 MSE/MAE·P/Q·비용 JSON/CSV/그림
+- CLAIM_EVIDENCE.md, METHOD_UPDATE.md, TOPIC_DECISION.md
+- final_checks.json, publication_receipt.json
+
+새 파일/클래스/role key 이름은 구현 시 정의하고 manifest로 연결한다. 아직 없는 키를 기존 데이터 키라고 단정하지 않는다.
+
+각 단계 상태는 실제 산출물·현재 PID·사용예산·다음 행동으로 보고한다. '파일을 읽었다'나 '계획을 이해했다'는 것으로 실행 완료를 대신하지 않는다. 검산 완료·학습 효과·독립 확인·논문 제출 준비·원격 게시를 서로 다른 상태로 적는다.
+
+관련 파일만 일반 commit과 origin/main push 후 실제 원격 SHA를 확인한다. force push·기존 기록 삭제·raw/가중치/예측 배열 공개 금지. 로컬 commit 완료를 push 완료라고 하지 않는다.
+
+# 14. 계획 작성 응답의 마지막 요약
+
+최종 계획 말미에는 아래 여섯 항목을 명확히 적고 전체 승인만 한 번 요청한다.
+1) 기존 main/last/full 분석에서 실제 재사용할 파일과 재생이 필요한 파일.
+2) Q 없는 적합을 생략/수행하는 조건: gradient와 전체 학습정책을 구분.
+3) 새 확인 단위의 정확한 목록 또는 성능 비의존 확정 규칙, 노출 상태.
+4) 고정 A 전체 레시피와 외부 기준선/필요 no-Q 비교 목록.
+5) 조건별 fit 수·자원 예산·차단 시 행동.
+6) 결과가 좋음/무차이/나쁨일 때의 판정과 산출물.
+
+# 15. 공식 참고 출처
+
+기존 코드/보고(현재 확인 기준):
+https://github.com/CanelE452/hierarchical-tsfm-peft/tree/a63d951d70b32e8bcd94808301c478f05ddf8b37/research/tsfm_peft_internal_vs_subspace_v11_20260930
+
+ReduceLROnPlateau 공식 문서(상대 개선 임계값; 실제 설치 source도 확인):
+https://docs.pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
+
+On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation (2010/JMLR):
+https://www.jmlr.org/papers/v11/cawley10a.html
+
+LoRA: Low-Rank Adaptation of Large Language Models (2022/ICLR):
+https://www.microsoft.com/en-us/research/publication/lora-low-rank-adaptation-of-large-language-models/
+
+AdaPTS: Adapting Univariate Foundation Models to Probabilistic Multivariate Time Series Forecasting (2025/ICML):
+https://proceedings.mlr.press/v267/benechehab25a.html
+
+NLinear 저자 구현:
+https://github.com/cure-lab/LTSF-Linear/blob/main/models/NLinear.py
+
+Codex 명령(설치 버전에서 지원 여부 확인):
+https://developers.openai.com/codex/cli/slash-commands
+
+위 자료는 동일 조건의 gradient/선택/표준 구성에 대한 근거이지, A의 성능이나 이번 확인의 성공을 보장하지 않는다. 열람한 범위와 미열람 원문을 구분하고 출처·결과를 만들지 않는다.
