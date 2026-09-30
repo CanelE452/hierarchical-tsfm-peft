@@ -1,6 +1,6 @@
 # v11 STATUS
 
-Phase: all scheduled fitting, selection, evaluation, GPU/CPU cost, reports and numeric verification complete locally; final artifact review passed; publication pending.
+Phase: approved v11 execution complete. All scheduled fitting, evaluation, GPU/CPU cost, reports and verification passed; artifact commit published and verified on origin/main.
 Base/live main last verified: efc029f8aae619b499071967d6b4764cb55fb802.
 
 - Neural fits: 40/40 complete. Coefficient fits: 12/12 complete. Technical fitting retries: 0/8. Total real attempts: 52/60.
@@ -15,4 +15,4 @@ Decision: retain A conditionally around Jena's internal-adaptation gain and obse
 
 Independent confirmation, universal accuracy recovery and broad generality are not established by this exposed-development design. No new dataset, K, rank, LoRA variant or combined A+B method was added. The next proposed decision is whether to add separately trained compressed LoRA without Q in a later authorized study; it has not been executed here.
 
-Publication: pending. Only v11, its related result index and the 2026-09-30 history entry will be published. Existing v1-v10, original failures/seals and unrelated dirty paths are preserved. No raw, checkpoint or prediction arrays are included.
+Publication: artifact commit deac143a79993c7a2d0b9202953ace0d8c8b2cd1 was pushed and verified live on origin/main. publication_receipt.json records that verification; an ordinary metadata-only follow-up publishes this receipt and completed status. Only v11, its related result index and the 2026-09-30 history entry were published. Existing v1-v10, original failures/seals and unrelated dirty paths are preserved. No raw, checkpoint or prediction arrays are included.
