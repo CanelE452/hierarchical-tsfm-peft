@@ -1,4 +1,6 @@
-# New confirmation: contract not recovered
+# Historical confirmation-contract gap
+
+**Superseded prospectively on2026-10-01:** the user's delegation is preserved in AUTHORIZATION_SUPPLEMENT.txt. PLAN_SUPPLEMENT.md and confirmation_protocol.json fix the new Peacock Education unit before fitting; confirmation_binding.json records their hashes. The record below describes the earlier published state and remains unchanged as historical evidence. Read STATUS.md for current execution/completion, not the historical status below.
 
 Status: **NOT STARTED / missing preapproved evaluation identities and splits**.
 

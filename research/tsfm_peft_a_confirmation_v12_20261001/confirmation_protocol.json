@@ -1,0 +1,258 @@
+{
+  "schema": "v12_prospective_confirmation_1",
+  "authorization": "AUTHORIZATION_SUPPLEMENT.txt",
+  "units": {
+    "peacock_education": {
+      "C": 13,
+      "K": 4,
+      "columns": [
+        "Peacock_education_Anita",
+        "Peacock_education_Dustin",
+        "Peacock_education_Forest",
+        "Peacock_education_Gilberto",
+        "Peacock_education_Joshua",
+        "Peacock_education_Karyn",
+        "Peacock_education_Lyle",
+        "Peacock_education_Ophelia",
+        "Peacock_education_Pasquale",
+        "Peacock_education_Patience",
+        "Peacock_education_Robbie",
+        "Peacock_education_Shelly",
+        "Peacock_education_Yolanda"
+      ],
+      "phase_period": 24,
+      "eval_stride": 24,
+      "block_origins": 7,
+      "interval_seconds": 3600,
+      "source": {
+        "raw_electricity_csv": "E:\\CODING\\proj\\mltimeseries\\data_external\\bdg2_coarse_supervision_v1\\raw\\electricity.csv",
+        "raw_electricity_sha256": "039d909d8981e2d69eaeb366144e6ab7e84fa5e7e216aee42bddd95384a66418",
+        "raw_metadata_csv": "E:\\CODING\\proj\\mltimeseries\\data_external\\bdg2_coarse_supervision_v1\\raw\\metadata.csv",
+        "raw_metadata_sha256": "992d0b29f24f96ad4332bc4dbb534b7bdd7dd2689aad093f94e93068ecddca02",
+        "source_revision_from_existing_contracts": "9b97ccbe90096aff42ed4fd6493bf7ae692d7118",
+        "raw_time_interval": {
+          "first_timestamp": "2016-01-01 00:00:00",
+          "last_timestamp": "2017-12-31 23:00:00"
+        },
+        "time_basis": "source-naive hourly timestamps; metadata timezone retained separately",
+        "metadata_timezones": [
+          "US/Eastern"
+        ],
+        "measurement": "electricity kWh, as used by existing BDG2 contracts",
+        "license_status": "not re-verified in local metadata by this TRAIN-only receipt"
+      },
+      "unit_type": "same-domain new building/use-type group",
+      "site_id": "Peacock",
+      "primaryspaceusage": "Education",
+      "context_start": "2016-01-01T00:00:00",
+      "splits": {
+        "train": [
+          "2016-01-23T00:00:00",
+          "2016-04-15T00:00:00"
+        ],
+        "val": [
+          "2016-04-17T00:00:00",
+          "2016-05-18T00:00:00"
+        ],
+        "test_a": [
+          "2016-05-20T00:00:00",
+          "2016-06-30T00:00:00"
+        ],
+        "test_b": [
+          "2016-06-30T00:00:00",
+          "2016-08-10T00:00:00"
+        ]
+      },
+      "expected_origins": {
+        "train": 1945,
+        "val": 30,
+        "test_a": 40,
+        "test_b": 40
+      },
+      "exposure_scope": "No forecast-performance use found in bounded local records for selected Peacock education IDs; metadata and TRAIN quality reviewed. Backbone overlap and complete historic non-use not established."
+    }
+  },
+  "context": 512,
+  "horizon": 48,
+  "seeds": [
+    92601,
+    92602
+  ],
+  "neural_fits": [
+    {
+      "id": "peacock_education_level_lr1e-3_s92601",
+      "dataset": "peacock_education",
+      "family": "level",
+      "seed": 92601,
+      "lr": 0.001
+    },
+    {
+      "id": "peacock_education_level_lr1e-3_s92602",
+      "dataset": "peacock_education",
+      "family": "level",
+      "seed": 92602,
+      "lr": 0.001
+    },
+    {
+      "id": "peacock_education_a_lr1e-4_s92601",
+      "dataset": "peacock_education",
+      "family": "a",
+      "seed": 92601,
+      "lr": 0.0001
+    },
+    {
+      "id": "peacock_education_full_mse_lr1e-4_s92601",
+      "dataset": "peacock_education",
+      "family": "full_mse",
+      "seed": 92601,
+      "lr": 0.0001
+    },
+    {
+      "id": "peacock_education_native_lr1e-4_s92601",
+      "dataset": "peacock_education",
+      "family": "native",
+      "seed": 92601,
+      "lr": 0.0001
+    },
+    {
+      "id": "peacock_education_direct_lr1e-4_s92601",
+      "dataset": "peacock_education",
+      "family": "direct",
+      "seed": 92601,
+      "lr": 0.0001
+    },
+    {
+      "id": "peacock_education_a_lr1e-3_s92601",
+      "dataset": "peacock_education",
+      "family": "a",
+      "seed": 92601,
+      "lr": 0.001
+    },
+    {
+      "id": "peacock_education_full_mse_lr1e-3_s92601",
+      "dataset": "peacock_education",
+      "family": "full_mse",
+      "seed": 92601,
+      "lr": 0.001
+    },
+    {
+      "id": "peacock_education_native_lr1e-3_s92601",
+      "dataset": "peacock_education",
+      "family": "native",
+      "seed": 92601,
+      "lr": 0.001
+    },
+    {
+      "id": "peacock_education_direct_lr1e-3_s92601",
+      "dataset": "peacock_education",
+      "family": "direct",
+      "seed": 92601,
+      "lr": 0.001
+    },
+    {
+      "id": "peacock_education_a_lr1e-4_s92602",
+      "dataset": "peacock_education",
+      "family": "a",
+      "seed": 92602,
+      "lr": 0.0001
+    },
+    {
+      "id": "peacock_education_full_mse_lr1e-4_s92602",
+      "dataset": "peacock_education",
+      "family": "full_mse",
+      "seed": 92602,
+      "lr": 0.0001
+    },
+    {
+      "id": "peacock_education_native_lr1e-4_s92602",
+      "dataset": "peacock_education",
+      "family": "native",
+      "seed": 92602,
+      "lr": 0.0001
+    },
+    {
+      "id": "peacock_education_direct_lr1e-4_s92602",
+      "dataset": "peacock_education",
+      "family": "direct",
+      "seed": 92602,
+      "lr": 0.0001
+    },
+    {
+      "id": "peacock_education_a_lr1e-3_s92602",
+      "dataset": "peacock_education",
+      "family": "a",
+      "seed": 92602,
+      "lr": 0.001
+    },
+    {
+      "id": "peacock_education_full_mse_lr1e-3_s92602",
+      "dataset": "peacock_education",
+      "family": "full_mse",
+      "seed": 92602,
+      "lr": 0.001
+    },
+    {
+      "id": "peacock_education_native_lr1e-3_s92602",
+      "dataset": "peacock_education",
+      "family": "native",
+      "seed": 92602,
+      "lr": 0.001
+    },
+    {
+      "id": "peacock_education_direct_lr1e-3_s92602",
+      "dataset": "peacock_education",
+      "family": "direct",
+      "seed": 92602,
+      "lr": 0.001
+    }
+  ],
+  "coefficient_fits": [],
+  "no_q_branch": "E1 common-checkpoint Q contribution only; independent no-Q superiority/equivalence unclaimed",
+  "selection": {
+    "epoch": "minimum whole VAL MSE including step0, earliest exact tie",
+    "lr": "two-seed mean best VAL MSE, tie1e-4"
+  },
+  "cost": {
+    "gpu_rows": 135,
+    "cpu_rows": 12,
+    "warmups": 10,
+    "passes": 10,
+    "blocks": 3,
+    "val_origins": 24,
+    "dtype": "float32",
+    "tf32": false,
+    "cpu_threads": 4,
+    "B1_uncompressed_M": [
+      13,
+      4
+    ],
+    "B4_uncompressed_M": [
+      52,
+      16,
+      4
+    ],
+    "B1_compressed_M": [
+      4
+    ],
+    "B4_compressed_M": [
+      16,
+      4
+    ]
+  },
+  "budget": {
+    "basic_fits": 18,
+    "technical_recoveries": 4,
+    "currently_allocated_fits": 22,
+    "original_real_attempt_cap": 60,
+    "gpu_seconds_cap": 28800,
+    "cpu_analysis_seconds_cap": 7200,
+    "cpu_check_seconds_cap": 1800,
+    "storage_bytes_cap": 10737418240,
+    "download_bytes": 0
+  },
+  "test_rule": "All prescribed fits and selections sealed jointly before any TEST loading; no changes after exposure",
+  "reference_urls": [
+    "https://github.com/buds-lab/building-data-genome-project-2",
+    "https://www.nature.com/articles/s41597-020-00712-x"
+  ]
+}

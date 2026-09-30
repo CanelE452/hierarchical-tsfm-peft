@@ -1,0 +1,56 @@
+{
+  "label": "fresh_unit_train_eligibility_01_retry2",
+  "created_utc": "2026-09-30T16:36:49+00:00",
+  "domain": "building electricity demand forecasting / same-source new site-group confirmation",
+  "downstream_decision": "whether to add a performance-independent BDG2 confirmation unit after Robin/Hog/Bull exposure",
+  "source": {
+    "electricity_csv": "E:\\CODING\\proj\\mltimeseries\\data_external\\bdg2_coarse_supervision_v1\\raw\\electricity.csv",
+    "electricity_sha256": "039d909d8981e2d69eaeb366144e6ab7e84fa5e7e216aee42bddd95384a66418",
+    "metadata_csv": "E:\\CODING\\proj\\mltimeseries\\data_external\\bdg2_coarse_supervision_v1\\raw\\metadata.csv",
+    "metadata_sha256": "992d0b29f24f96ad4332bc4dbb534b7bdd7dd2689aad093f94e93068ecddca02",
+    "local_source_interval": {
+      "first_timestamp": "2016-01-01 00:00:00",
+      "last_timestamp": "2017-12-31 23:00:00"
+    },
+    "source_revision_from_existing_contracts": "9b97ccbe90096aff42ed4fd6493bf7ae692d7118",
+    "license_status": "not re-verified in local metadata/contract by this receipt"
+  },
+  "candidate_group": {
+    "site_id": "Peacock",
+    "primary_space_usage": "Office",
+    "meter_flag": "electricity"
+  },
+  "splits_used_for_eligibility_only": {
+    "context_start": "2016-01-01 00:00:00",
+    "train_start": "2016-01-23 00:00:00",
+    "train_end_exclusive": "2016-04-15 00:00:00",
+    "data_window_end_exclusive_for_timestamp_check": "2016-08-10 00:00:00"
+  },
+  "checks": {
+    "no_validation_values_read": true,
+    "no_test_values_read": true,
+    "no_validation_or_test_statistics": true,
+    "no_scores_or_model_outputs": true,
+    "duplicate_timestamp_count_full_raw_source": 0,
+    "time_index_hourly_ok_for_context_to_test_b_window": true,
+    "train_rows": 1992,
+    "candidate_channel_count_from_metadata": 0
+  },
+  "train_only_channel_checks": [],
+  "deterministic_selection_rule": "sort Peacock Office electricity channel ids lexicographically; retain ids with TRAIN observed_fraction>=0.95 and TRAIN nonconstant; set C=len(retained), K=ceil(C/4); reject if C<8 or hourly time index check fails",
+  "eligible_ids": [],
+  "eligible_count": 0,
+  "proposed_C": 0,
+  "proposed_K": 0,
+  "viable_under_min_C8_rule": false,
+  "leakage_controls": [
+    "Candidate chosen from metadata and bounded prior-use search before TRAIN-only target checks.",
+    "TRAIN-only checks used only missingness/nonconstant eligibility.",
+    "Validation/test target values, target distributions, scores, and model outputs were not inspected."
+  ],
+  "notes": [
+    "This is a TRAIN-only eligibility receipt, not an eval contract.",
+    "Base label failed before target inspection due metadata row-vs-flag schema interpretation.",
+    "Retry1 failed after computation because of a nonexistent Job.save_json API; retry2 uses runtime_v12.save_json."
+  ]
+}

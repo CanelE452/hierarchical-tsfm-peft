@@ -200,12 +200,17 @@ B의 Jena learned U도 fixed U보다 MSE21.48% 개선했고, Gamma를 양쪽에 
 
 - [v11 publication receipt](research/tsfm_peft_internal_vs_subspace_v11_20260930/publication_receipt.json)
 
-## 잔차 PEFT v12: 고정 A의 Q 기여와 학습 동등성 점검 (2026-10-01, 기존 분석 완료)
+## 잔차 PEFT v12: Q 기여와 새 Peacock 집단 확인 (2026-10-01, 완료)
 
 같은 v11 A의 주경로를 고정한 채 Q 없음·마지막 잔차 수준·학습된 Q를 비교했습니다. **학습된 Q는 세 기존 개발 자료에서 마지막 수준만 유지하는 대조보다 MSE/MAE가 낮았습니다.** FULL−LAST 전체 MSE 차이는 Robin−0.073841, Jena−0.031360, Hog−0.465357이며, 선택된 seed와 기간에 조건부인 시간 블록 구간도 개선 방향입니다. 미압축 MSE-LoRA 대비 정확도 손해가 해결되거나 새 집단으로 일반화됐다는 뜻은 아닙니다.
 
-24쌍의 무갱신 역전파 점검에서 완전관측 배치와 결측 배치의 차이를 확인했습니다. 별도 no-Q 적합은 same-checkpoint 기여로 주장 범위를 제한해 생략했으며, 전체 학습정책 동등성이나 독립 no-Q 학습 우위를 주장하지 않습니다. 신규 fit은0입니다. 승인문이 참조한 새 평가 집단·분할의 실제 PLAN을 복구하지 못해 **새 확인과 그 비용은 미완료**이며, 임의의 자료로 대체하지 않았습니다.
+24쌍의 무갱신 역전파 점검에서 완전관측 배치와 결측 배치의 차이를 확인했습니다. 별도 no-Q 적합은 same-checkpoint 기여로 주장 범위를 제한해 생략했으며, 전체 학습정책 동등성이나 독립 no-Q 학습 우위를 주장하지 않습니다. 최초 게시 당시 새 집단 계약이 누락되어 중단했던 기록은 보존했고, 이후 사용자의 선정·실행 위임에 따라 성능과 무관하게 BDG2 Peacock Education C13/K4를 고정해 새 확인을 완료했습니다. 같은 전력 도메인의 새 집단이며, 다른 도메인 일반화 확인은 아닙니다.
+
+새 집단에서 학습된 Q는 마지막 잔차 수준만 유지하는 대조보다 MSE가30.03% 낮았습니다. 그러나 A의 내부 LoRA는 두 seed 모두 초기 checkpoint가 선택되어 **A=LEVEL**이며, 추가 내부 적응 이득은 확보하지 못했습니다. A MSE/MAE0.203266/0.315004는 미압축 MSE-LoRA0.198176/0.298839보다 각각2.57%/5.41% 높습니다. 같은 회차 batch4 peak allocated는208.812 대249.581MiB, 처리량은153.39 대150.14원점/초였으나 변동을 고려한 안정적 처리량 우위는 확인되지 않았습니다. 소배치 MSE-LoRA는 더 적은 메모리와 더 좋은 정확도를 제공하는 대신 느렸습니다. **Q 보완과 조건부 절충은 유지하고, 내부 LoRA의 기본 채택 주장은 축소합니다. 정확도 손해와 범용성은 해결됐다고 보고하지 않습니다.**
+
+기본18fit과 기술 복구1회, GPU135·CPU12개 비용 행, 저장 예측·선택·비용 검산을 완료했습니다. 실패·최초 TEST 노출·불리한 결과를 보존하며, 자체 검산은 독립 재현이 아닙니다.
 
 - [v12 현재 판단](research/tsfm_peft_a_confirmation_v12_20261001/TOPIC_DECISION.md), [Q 비교](research/tsfm_peft_a_confirmation_v12_20261001/Q_CONTRIBUTION.md), [조건부 구간](research/tsfm_peft_a_confirmation_v12_20261001/q_uncertainty01.md), [그림](research/tsfm_peft_a_confirmation_v12_20261001/figures/fixed_a_q_contribution.png)
-- [학습 동등성 범위](research/tsfm_peft_a_confirmation_v12_20261001/TRAINING_EQUIVALENCE.md), [방법·기여](research/tsfm_peft_a_confirmation_v12_20261001/METHOD_UPDATE.md), [새 확인의 누락 계약](research/tsfm_peft_a_confirmation_v12_20261001/CONFIRMATION_PROTOCOL.md)
-- [수치와 출처](research/tsfm_peft_a_confirmation_v12_20261001/report_values.json), [검산](research/tsfm_peft_a_confirmation_v12_20261001/final_checks.json), [재현·실패 보존](research/tsfm_peft_a_confirmation_v12_20261001/REPRODUCE.md), [진행·예산·게시](research/tsfm_peft_a_confirmation_v12_20261001/STATUS.md)
+- [학습 동등성 범위](research/tsfm_peft_a_confirmation_v12_20261001/TRAINING_EQUIVALENCE.md), [방법·기여](research/tsfm_peft_a_confirmation_v12_20261001/METHOD_UPDATE.md), [새 확인 실행 계약](research/tsfm_peft_a_confirmation_v12_20261001/PLAN_SUPPLEMENT.md), [자료·노출 확인](research/tsfm_peft_a_confirmation_v12_20261001/confirmation_exposure_search.md)
+- [새 집단 정확도](research/tsfm_peft_a_confirmation_v12_20261001/confirmation_evaluation01.json), [같은 회차 비용](research/tsfm_peft_a_confirmation_v12_20261001/confirmation_cost_summary.json), [보고 수치](research/tsfm_peft_a_confirmation_v12_20261001/report_confirmation_values.json), [정확도 그림](research/tsfm_peft_a_confirmation_v12_20261001/figures/confirmation_peacock_education_accuracy_periods.png), [정확도–비용 그림](research/tsfm_peft_a_confirmation_v12_20261001/figures/confirmation_peacock_education_accuracy_cost_batch4.png)
+- [새 확인 검산](research/tsfm_peft_a_confirmation_v12_20261001/finalconfirmationchecks.json), [기존 자료 수치](research/tsfm_peft_a_confirmation_v12_20261001/report_values.json), [재현·실패 보존](research/tsfm_peft_a_confirmation_v12_20261001/REPRODUCE.md), [진행·예산·게시](research/tsfm_peft_a_confirmation_v12_20261001/STATUS.md)

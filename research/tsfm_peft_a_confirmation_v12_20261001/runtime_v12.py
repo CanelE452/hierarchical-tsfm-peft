@@ -91,6 +91,10 @@ def import_file(path, name):
 def source_receipt():
     paths = list(HERE.glob('*.py')) + list(HERE.glob('data_contract*.json'))
     paths += [HERE / name for name in ('PLAN.md', 'APPROVAL.txt', 'REQUEST_PLAN.txt', 'protocol.json', 'reuse_manifest.json')]
+    paths += [HERE / name for name in ('AUTHORIZATION_SUPPLEMENT.txt', 'PLAN_SUPPLEMENT.md',
+                                      'confirmation_protocol.json', 'confirmation_binding.json')]
+    paths += [OLD / name for name in ('runtime_v11.py', 'model_v11.py')]
+    paths += [ROOT / 'src/hier_peft/lora.py']
     return {p.relative_to(ROOT).as_posix(): digest(p) for p in paths if p.is_file()}
 
 
@@ -118,8 +122,18 @@ def environment_receipt():
 
 
 def storage_bytes():
-    return sum(p.stat().st_size for base in (HERE, CACHE) if base.exists()
-               for p in base.rglob('*') if p.is_file())
+    total = 0
+    for base in (HERE, CACHE):
+        if not base.exists():
+            continue
+        for path in base.rglob('*'):
+            try:
+                if path.is_file():
+                    total += path.stat().st_size
+            except FileNotFoundError:
+                # Atomic JSON replacement can remove an enumerated temporary file.
+                continue
+    return total
 
 
 def require_storage(reserve=0):
@@ -213,6 +227,14 @@ def verify_provenance():
         raise RuntimeError('Pinned reuse manifest changed')
 
 
+def confirmation_protocol():
+    binding = read_json(HERE / 'confirmation_binding.json')
+    for name, expected in binding['files'].items():
+        if digest(HERE / name) != expected:
+            raise RuntimeError('Confirmation contract changed: ' + name)
+    return read_json(HERE / 'confirmation_protocol.json')
+
+
 class Job:
     def __init__(self, category, label, reserve_s=60, metadata=None, synthetic=False):
         if category not in TIME_CATEGORIES + FIT_CATEGORIES:
@@ -231,9 +253,10 @@ class Job:
         verify_provenance()
         require_storage()
         if self.category in FIT_CATEGORIES:
-            if (HERE / 'test_exposure.json').exists():
+            if (HERE / 'test_exposure.json').exists() or (HERE / 'confirmation_test_exposure.json').exists():
                 raise RuntimeError('No fitting after new confirmation exposure')
-            if self.metadata.get('dataset') not in DATASETS or not self.metadata.get('fit_id'):
+            fit_protocol = confirmation_protocol()
+            if self.metadata.get('dataset') not in fit_protocol['units'] or not self.metadata.get('fit_id'):
                 raise ValueError('Fit reservation requires approved dataset and fit_id')
         if self.category == 'gpu':
             output = subprocess.check_output(['nvidia-smi', '--query-compute-apps=pid,process_name',
@@ -256,12 +279,12 @@ class Job:
                     raise RuntimeError('REAL_FIT_LIMIT')
                 if any(j['status'] == 'running' for j in fits):
                     raise RuntimeError('Only one real-data fit can run at a time')
-                protocol = read_json(HERE / 'protocol.json')
+                protocol = fit_protocol
                 fit_ids = {row['id'] for row in protocol['neural_fits' if self.category == 'neural_fit' else 'coefficient_fits']}
                 previous = [j for j in fits if j['metadata'].get('fit_id') == self.metadata['fit_id']]
                 retry = bool(self.metadata.get('technical_retry'))
-                if self.metadata['fit_id'] not in fit_ids and not retry:
-                    raise RuntimeError('Unplanned fit requires an identified technical recovery')
+                if self.metadata['fit_id'] not in fit_ids:
+                    raise RuntimeError('Fit is outside the frozen confirmation matrix')
                 if previous and not retry:
                     raise RuntimeError('Restart/retry consumes technical reserve')
                 if retry and (not self.metadata.get('reason') or
@@ -294,7 +317,7 @@ class Job:
             try:
                 self.heartbeat(None)
             except Exception as error:
-                self._heartbeat_error = repr(error)
+                self._heartbeat_error = traceback.format_exc()
                 return
 
     def check_limits(self):
