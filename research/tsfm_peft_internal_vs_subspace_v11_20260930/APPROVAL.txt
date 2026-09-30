@@ -1,0 +1,23 @@
+방금 네가 작성한 v11 「잠재 TSFM 내부 LoRA와 저비용 예측 기반 공간 학습의 직접 비교」 실행계획 전체를 승인한다. 파일 읽기·요약이나 계획을 또 만들라는 요청이 아니다. CanelE452/hierarchical-tsfm-peft에서 승인된 PLAN·이 승인문·설계 요청문을 구분해 원문으로 보존하고, 합의 범위에서 지금부터 구현·학습·평가·비용·검산·일반 commit·origin/main push까지 이어가라.
+
+기준 efc029f와 최신 관련 변경을 확인한다. 목표는 A(P 경로 내부 LoRA+고정 Q)와 B(고정 NLinear 기반 직교 잠재 방향 학습)를 분리해 F0/미압축 LoRA/직접 NLinear 대비 정확도–메모리–처리량의 선택 가치를 판단하는 것이다. v8/v10을 넘었다는 것만으로 성공, 모든 자료에서 LoRA를 이겨야만 성공이라고 하지 않는다. A+B 결합·QLoRA/DoRA·새 rank/K/data/loss/gate·최종 범용 확증으로 바꾸지 않는다. v1~v10·실패·봉인·무관 파일을 보존한다.
+
+Robin17/5, Jena21/6, Hog32/8을 처음부터 함께 고정한다. 기존 TRAIN/VAL/평가 원점·표준화·입력 대체·target mask·L512/H48을 유지한다. Jena H48은 8시간, 전력 자료는 48시간이다. 모두 노출 개발 자료다. 실제 부모 LEVEL·DIRECT_NLINEAR·F0/LoRA·코드/배열의 존재와 hash를 확인하고 계약이 맞을 때만 재사용한다. 없는 cache를 가정하지 말고 승인된 복구만 한다.
+
+A=F_phi(XU0)U0^T+q*(X). 학습된 LEVEL의 U0/E/D/Q 전체와 원래 TSFM 가중치를 고정하고 새 일반 LoRA q/v, r8, alpha16, dropout0, bias none만 학습한다. Q는 부모의 실제 학습값이다. 초기 전체 출력=LEVEL과 Q 출력 보존을 확인한다. 부모 전체와 적응 TSFM을 중복 실행하지 말고 Q만 분리해 백본 하나로 구현한다. LoRA forward를 기존 no_grad에 넣지 않는다. 새 FULL_LORA_MSE는 원채널 전체에 같은 LoRA 초기값·대상층·학습목적을 준다. 기존 native 분위수 LoRA는 별도 기준으로 남긴다.
+
+B=S*(X)+[F0(XU)-S*(X)U] Gamma U^T. S*와 F0는 고정하며 LoRA나 기존 Q를 붙이지 않는다. B_FIXED는 U0/GammaI, B_LEARNED는 U0 시작·GammaI에서 U만 학습한다. 직교 파라미터화와 공유 encode/decode를 유지하고 초기 B_FIXED 일치·U 실제 갱신·F0/S 불변·저장/재시작을 확인한다. F0가 동결돼도 U까지 역전파해야 한다. S의 forward만 no_grad로 하고 S(X)U·최종 U^T를 detach하지 않는다. U의 부분공간 변경과 내부 회전 효과를 같은 것으로 단정하지 않는다.
+
+세 자료별 fixed/learned의 선택된 U·S 하나/seed에만 Gamma를 VAL 가중 bound least squares로 적합한다. 총 12건 실자료 계수 적합이다. PLAN의 관측행 가중치·bounds0..1·solver를 따르고 모든 epoch/LR×Gamma 탐색은 금지한다. 보정 전 GammaI와 보정 후 결과를 둘 다 보존한다. Gamma0은 NLinear 복귀이고 TSFM 효능이 아니다. 실제 경계0인 열만 실행에서 제외하고 full/pruned 정합성을 확인한다. 작은 양수를 편의상0으로 바꾸거나 Gamma 크기를 비용 절감률로 쓰지 않는다.
+
+기본 40신경망 fit(A12+B12+FULL_LORA_MSE12+HogDIRECT4), Gamma12, 기술 예비8의 총60attempt를 PLAN대로 계상한다. Robin/Jena DIRECT와 기존 LEVEL은 계약 일치 시 재사용한다. 재사용/복구로 실제 수가 달라지면 기록하고 예비를 새 탐색에 쓰지 않는다. seed92601/92602, LR1e-4/1e-3, AdamW wd0, clip1, batch4, epoch512origin, max120, VAL 정체6과 기존 scheduler를 공통으로 쓴다. LR는 family/dataset별 두 seed 평균 VAL, epoch는 step0 포함 VAL로 선택한다. 정상 음성을 버그로 몰지 말고 실제 gradient·고정 TRAIN probe·곡선으로 학습 타당성을 확인한다.
+
+세 자료의 모든 학습·LR/checkpoint·Gamma를 먼저 확정한 뒤 예정 평가를 함께 한다. 결과가 나쁜 자료나 기준선을 빼지 않는다. 주 MSE·보조 MAE·seed·기간·채널·편향·조건부 구간을 보존한다. 기간 SSE/count 합산과 seed 손실 평균을 ensemble/기간 단순평균으로 바꾸지 않는다. A는 U0 P/Q로 진단하고 B는 공통 U0와 자체 U를 구분한다. 결측 target을0으로 투영하지 않는다. 반복 VAL 사용과 개발 노출을 명시하고 새 봉인을 독립 확증으로 부르지 않는다.
+
+초기/실제 갱신/동결/저장·재시작/병합/행순서와 마스크를 점검한 뒤 본학습으로 간다. 등록 LoRA 수와 실제 활성·갱신 수를 구분한다. zero 초기화의 일부 첫 gradient0을 영구 단절로 오인하지 않는다. 같은 범위 API·경로·gradient·직렬화·채점 오류는 원본과 수리 영향을 남겨 계속하며, tolerance를 통과할 때까지 늘리지 않는다. 모형·데이터·총예산의 실질적 변경만 새 판단을 요청한다.
+
+비용은 같은 회차·장치·FP32/TF32off·CPU4threads·전체 원채널 출력에서 선택 A/B 보정 전후/LEVEL/DIRECT/F0/두 LoRA 기준을 측정한다. LoRA는 병합 정합성을 확인한다. F0/LoRA에는 같은 checkpoint의 full 및 계열축 소배치 대안도 준다. B1 지연/B4 처리량/allocated/reserved/배포 bytes/학습비용을 분리한다. 부모·S cache로 배포 forward를 생략하지 않는다. A는 Q+LoRA, B는 S+U+Gamma의 총적응과 이번 증분 비용을 구분한다. 같은 함수 중복 외에는 불리한 구성/블록도 남긴다. 비용 미완료면 원자료와 미확정 범위를 보고하며 과거 timing으로 메우지 않는다.
+
+GPU8시간·CPU적합분석2시간·검사30분·합성 최대6세션 각10update·저장10GiB 등 승인 PLAN 상한을 자동 증액하지 않는다. 시작 전 공통 원장 예약, 자기 프로세스만 관리, 다른 작업 종료·전역 환경 변경·새 서버·유료 서비스·권한 우회 금지다. 실제 자료 smoke/재시도/재개를 예산에서 숨기지 않는다.
+
+STATUS/재사용 계약/fit·선택·Gamma 기록/정확도와 비용 원수치/비교 그림/METHOD_UPDATE/TOPIC_DECISION/검산을 연결한다. 외부 baseline 대비 위치→A/B 내부 추가 가치→fallback/반례→총비용→다음 결정 순서로 보고한다. 문헌 부품의 기존성을 인정하고 최초성·비열등성·범용성·논문 채택을 보장하지 않는다. 첫 상태부터 실제 폴더·단계·예산·PID를 보이고 문서만 읽고 종료하지 않는다. 승인 범위의 다음 행동이 있으면 계속하되 예비를 채우려고 실험하지 않는다. 완료/차단/상한에서 수행·미수행을 나눠 정리하고 관련 파일만 검증·일반 commit·origin/main push 후 live SHA를 확인한다. 재개 시 PLAN/STATUS/원장/실제 PID부터 읽고 중복 실행하지 않는다.

@@ -1,0 +1,394 @@
+/plan CanelE452/hierarchical-tsfm-peft에서 v11 「잠재 TSFM 내부 LoRA와 저비용 예측 기반 공간 학습의 직접 비교」 실행계획을 작성해라. 이 파일은 직전 실험 설계의 구체적 전달문이다. 파일을 소개하거나 요약하는 것으로 끝내지 말고, 실제 재사용 자료·구현·비교·선택·비용·예산을 확정한 실행계획을 한 번 제시한 뒤 전체 승인을 기다려라. 또 다른 /plan 요청문을 만들어 돌려주지 마라.\
+\
+이번 /plan은 실행 승인이 아니다. 승인 전에는 계획 판단에 필요한 저장소·기존 결과·manifest·로컬 파일 존재·라이브러리·선행을 읽는다. 새 학습·예측·채점·benchmark·프로젝트 파일 수정·commit/push는 하지 않는다. 계획에 필요한 사실을 기존 기록에서 확인하지 못하면 확인 절차와 조건부 분기를 정해라. 새 실험의 결과를 미리 알아야 계획을 확정할 수 있다는 조건은 붙이지 않는다.\
+\
+\# 0. 최상위 목표와 이번 범위\
+\
+목표: 아래 두 후보를 서로 섞지 않은 상태에서 같은 세 자료·같은 평가 계약으로 비교해, 미압축 F0·LoRA·직접 NLinear 대비 새로운 정확도–메모리–처리량 선택지가 생기는지 판단한다.\
+\
+A — 사용자 아이디어: 기존 고정 PCA와 학습된 LEVEL의 Q 예측을 유지하고, P를 예측하는 TSFM 내부 LoRA만 학습한다.\
+B — 대안 아이디어: 학습된 원채널 NLinear를 기본 예측으로 고정하고, 동결 TSFM에 맡길 직교 잠재 방향 U를 학습한다. 고정 PCA 대조와, 학습 뒤 제한된 방향별 결합 강도 Gamma 적합을 분리한다.\
+\
+최종 독자는 다음을 판단할 수 있어야 한다.\
+1\) 각 후보가 기존 출발점을 실제로 개선했는가?\
+2\) F0/미압축 LoRA/직접 NLinear의 정상적인 실행 대안까지 고려해 선택할 이유가 생겼는가?\
+3\) 내부 적응, 공간 학습, 단순 예측 혼합 중 어떤 변경에 근거가 남는가?\
+4\) 그 근거가 개발 자료에 한정되는지, 어떤 추가 확인이 필요한가?\
+\
+v8/v9/v10 대비 개선만으로 성공을 선언하지 않는다. 반대로 모든 자료·모든 지표에서 LoRA를 이겨야만 유효하다는 조건도 두지 않는다. 임의의 개선율·비열등성 한계·종합 점수·논문 합격선을 만들지 않는다.\
+\
+A와 B는 부모·학습 단계·사용 파라미터가 다른 전체 시스템 후보다. 같은 K와 평가를 맞추어도 순수한 인과실험은 아니다. 각 후보의 직접 대조를 별도로 해석한다.\
+\
+이번은 Robin·Jena·Hog의 노출된 개발 묶음이다. 새로운 독립 확증이나 최종 범용 벤치마크가 아니다. 후보별 성능을 보고 다음 자료를 고르지 않는다. 실제 GPU 실행은 순차여도 세 자료의 전체 비교 목록은 먼저 고정한다.\
+\
+기본 범위 밖:\
+\- A+B 결합, B에 LoRA 추가, A의 Q/E/D 재학습.\
+\- QLoRA/DoRA/LoRA 변형, 새 rank/K 탐색, 양자화/compile/증류/새 백본.\
+\- 새 데이터·채널·평가 기간·loss·입력별 게이트·채널별 예측기 도입.\
+\- 본문 전체 재작성, 논문 제출, 새 도메인의 확인 실험.\
+잔여 예산은 위 항목의 자동 실행 허가가 아니다.\
+\
+\# 1. 사실·설계·새 이름 구분\
+\
+[확인, 2026-09-30 GitHub 읽기] 출발 main은 efc029f8aae619b499071967d6b4764cb55fb802(v10까지)다. 시작 시 실제 최신 main과 작업트리를 다시 확인하고 관련 후속 작업이 이미 있으면 먼저 대조해 중복 실행하지 않는다.\
+\
+[확인, 원격 코드] src/hier_peft/lora.py는 일반 LoRA r8, alpha16, dropout0, attention q/v, bias none을 사용하고 등록 학습 변수294,912개를 검사한다. q는 attention query이며 Q 부분공간과 다르다.\
+[확인, 원격 코드] v7 고정 압축 분기의 TSFM forward는 no_grad 안에 있다. 기존 LoRA는 native quantile loss, 다른 점예측 모델은 관측 마스크 기반 채널평균 MSE를 쓴다. point는 quantile_preds의0.5 분위수에서 미래48을 선택한다.\
+[확인, 원격 코드] v5 Hog와 v6 Robin/v7 Jena의 LEVEL은 고정 PCA+학습된 공유 시간 G를 사용하는 부모 후보다. 실제 checkpoint/코드/배열 bytes의 현재 로컬 존재는 CLI가 확인해야 한다.\
+[추정·미검증] 아래 A/B·LR·직교 파라미터화·Gamma 적합·예산은 후속 실험 계약안이다. 최적값·효과·새 방법의 최초성은 확인되지 않았다.\
+\
+새 출력 폴더 제안:\
+research/tsfm_peft_internal_vs_subspace_v11_20260930/\
+.cache/tsfm_peft_internal_vs_subspace_v11_20260930/\
+이 이름은 새 제안이며 기존 경로나 key라고 가정하지 않는다. 이미 존재하면 실제 실행 상태를 확인하고 덮어쓰지 않는다.\
+\
+새 논리적 역할 이름(기존 코드 키가 아님):\
+A_P_LORA_QFIXED, LORA_FULL_MSE,\
+B_FIXED_U, B_LEARNED_U, B_FIXED_GAMMA, B_LEARNED_GAMMA,\
+DIRECT_NLINEAR, BASE_LEVEL, F0, LORA_NATIVE.\
+실제 파일·클래스·key는 새 구현에서 정의하고 manifest와 연결한다.\
+\
+\# 2. 읽을 기존 근거와 재사용 계약\
+\
+알려진 원격 위치:\
+\- src/hier_peft/lora.py\
+\- research/tsfm_peft_accuracy_recovery_v5_20260927/ : Hog LEVEL 부모·자료·선택·model_v5.py.\
+\- research/tsfm_peft_level_confirmation_v6_20260928/ : Robin LEVEL 부모·자료·선택.\
+\- research/tsfm_peft_practical_controls_v7_20260928/ : Robin/Jena DIRECT_NLINEAR, Jena LEVEL, 모델·자료·소배치 대조.\
+\- research/tsfm_peft_staged_p_v9_20260929/ : 부모 reuse manifest·자료 계약·선택 및 비용 구현.\
+\- research/tsfm_peft_ridge_correction_v10_20260929/ : 최근 판정·자료/부모 참조·원장 수리·비용 미완료의 범위.\
+\
+공식 원격 코드에서 확인한 Chronos-Bolt-small revision은772f3d25d38aec6d914c8949dab4462e2d46f5d8이다. 로컬 snapshot 경로와 일치 여부를 확인한다. raw·백본 다운로드는 기본0이다.\
+\
+계획의 reuse 표에 실제로 확인한 다음을 적는다.\
+\- 각 dataset/seed의 LEVEL checkpoint, 해당 초기 state·basis, 선택기록·원격/실행 코드 해시.\
+\- 각 dataset/seed의 직접 원채널 NLinear checkpoint, 두 LR 후보·VAL 선택 규칙·예측 기록.\
+\- F0, native-quantile LoRA의 checkpoint/예측과 merge 출처.\
+\- TRAIN/VAL/평가 배열, 시점·채널 순서·mask·정규화·입력 결측 처리·원점 해시.\
+\- 실제 Python/PyTorch/Chronos/PEFT/SciPy 버전·device·지원 함수.\
+\- dirty/untracked 파일·현재 PID·다른 작업과 자원 충돌.\
+\
+기존 결과 파일의 path를 보고 로컬 파일이 있다고 선언하지 않는다. 모르는 내부 변수명·컬럼·key를 임의로 만들어 접근하지 않는다. v5/v6/v7의 schema 차이를 실제 restore 함수에서 확인한다.\
+\
+A 부모는 해당 자료·seed의 학습된 BASE_LEVEL이다. v8 Q head나 학습 전 LEVEL_ONLY로 대체하지 않는다. E/D가 실제 fixed PCA임을 확인한다. Hog에서 CURRENT Electricity 모델을 잘못 쓰지 않는다.\
+\
+B의 S\*는 해당 자료·seed의 DIRECT_NLINEAR다. 잠재 선형모델·ridge·다른 자료의 학습 W를 S\*로 대신하지 않는다. Robin/Jena의 직접 NLinear 재사용은 학습·선택 계약과 실제 bytes가 맞을 때만 허용한다. Hog에 동일한 직접 NLinear가 없으면 이번에 두 LR×두 seed=4fit를 수행한다.\
+\
+부모와 비교군을 바꾸지 않고 정상 재사용할 수 있으면 재학습0이다. 파일이 없거나 계약이 다르면, 정확한 복구/재적합 횟수를 승인 전에 기본 예산에 반영한다. 기술 예비 안에 들어가지 않으면 세 자료 중 하나를 조용히 빼지 말고 계획 변경안을 제시한다.\
+\
+\
+\# 3. 목적에서 도출한 가설·반론·가지치기\
+\
+H_A: 고정된 잠재 입력을 해석하는 TSFM 내부를 적응시키면, Q를 보존하면서 외부 선형 P 보정으로 회복하지 못한 정확도를 얻을 수 있다.\
+반론: P 입력에 필요한 정보가 없으면 내부 LoRA도 해결하지 못한다. Q 오차는 그대로다. LoRA 자유도가 커져 과적응할 수 있다. 압축 LoRA만으로 충분하거나 미압축 LoRA/NLinear가 더 유리할 수 있다.\
+\
+H_B: 작은 예측기를 기준으로 U를 예측 목적에 맞춰 학습하면, 같은 K의 고정 PCA 혼합보다 TSFM의 유용한 표현을 찾을 수 있다.\
+반론: 일반 학습형 어댑터·forecast combination의 재조합일 수 있다. 고정 PCA+Gamma로 충분할 수 있다. U 변화가 부분공간 선택이 아니라 같은 공간 내부 회전·부호 변화의 효과일 수 있다. S\*만 쓰는 것이 더 좋을 수 있다.\
+\
+H_COST: 제한된 K를 쓰는 후보가 같은 세션의 정상 기준선들과 비교해 새로운 비지배 선택점을 만들 수 있다.\
+반론: 미압축 소배치도 메모리를 줄인다. 작은 Gamma는 비용을 줄이지 않는다. U 역전파와 LoRA 학습의 전체 비용은 작지 않을 수 있다. 작은 데이터 크기에서는 호출 비용 때문에 압축이 가속되지 않을 수 있다.\
+\
+결과별 판단은 섹션15를 따른다. 어느 결과도 판단을 바꾸지 못하는 분석·검사는 줄이고, 계산 실행 수나 감사문서 수를 성과로 세지 않는다. 완전한 원인 증명은 학습 진입조건이 아니다.\
+\
+\# 4. 선행과 표준 구현 확인\
+\
+계획·구현 전에 실제로 읽은 깊이와 버전을 남긴다. 원문의 성공을 현재 시계열 성공으로 일반화하지 않는다.\
+\
+1\) LoRA: Low-Rank Adaptation of Large Language Models (2022/ICLR).\
+&#x20;  https\://www\.microsoft.com/en-us/research/publication/lora-low-rank-adaptation-of-large-language-models/\
+&#x20;  https\://huggingface.co/docs/peft/en/package_reference/lora\
+&#x20;  기본 zero-update 초기화, q/v 대상층, frozen base, 병합의 원리. 새 LoRA 수학을 주장하지 않는다.\
+2\) AdaPTS: Adapting Univariate Foundation Models to Probabilistic Multivariate Time Series Forecasting (2025/ICML).\
+&#x20;  https\://proceedings.mlr.press/v267/benechehab25a.html\
+&#x20;  잠재 입출력 어댑터가 기존 방법임을 인정한다. COMPRESS/B_FIXED를 AdaPTS 전체 재현이라고 부르지 않는다.\
+3\) Are Transformers Effective for Time Series Forecasting? (2023/AAAI), NLinear 저자 코드.\
+&#x20;  [https://github.com/cure-lab/LTSF-Linear/blob/main/models/NLinear.py](https://github.com/cure-lab/LTSF-Linear/blob/main/models/NLinear.py)\
+&#x20;  S\*는 원채널 공유 affine512→48에 last 제거·복원. 저자 코드와 현재 저장 모델 정의를 대조한다.\
+4\) Forecastable Component Analysis (2013/ICML).\
+&#x20;  https\://proceedings.mlr.press/v28/goerg13.html\
+&#x20;  분산과 시간적 예측 가능성의 차이를 참고한다. 특정 TSFM 대비 추가 이득을 증명한 선행이라고 부르지 않는다.\
+5\) On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation (2010/JMLR).\
+&#x20;  https\://jmlr.org/papers/v11/cawley10a.html\
+&#x20;  반복 VAL/개발 자료 선택의 편향을 보고한다.\
+6\) U 직교성·Gamma·측정의 표준 구현.\
+&#x20;  https\://docs.pytorch.org/docs/main/generated/torch.nn.utils.parametrizations.orthogonal.html\
+&#x20;  https\://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.lsq_linear.html\
+&#x20;  https\://docs.pytorch.org/tutorials/recipes/recipes/benchmark.html\
+&#x20;  웹 main 문서와 로컬 설치 버전이 다르면 로컬 API/source를 확인한다. 읽기 실패를 최초성이나 적용불가 증명으로 바꾸지 않는다.\
+\
+\
+A와 B를 위한 조사·대조만 한다. 신종 LoRA나 주변 최신 논문을 끝없이 추가하며 실제 비교를 미루지 않는다. 최초성/제출 준비는 이번 완료 조건이 아니다.\
+\
+\# 5. 자료·입력·출력 계약\
+\
+세 자료를 처음부터 모두 포함한다.\
+Robin C17/K5: 1시간 간격, L512/H48=512시간/48시간.\
+Jena C21/K6: 10분 간격, L512/H48=약85시간20분/8시간.\
+Hog C32/K8: 1시간 간격, L512/H48=512시간/48시간.\
+\
+각 원점 o의 X=[o-L,o), Y=[o,o+H). X shape[B,512,C], prediction/target/mask shape[B,48,C]. 모든 출력은 원채널 전체다. 잠재 K개 출력만 채점하지 않는다.\
+\
+기존 TRAIN/VAL/TEST-A/B, 채널·시간 순서, 위상표집(Robin/Hog24, Jena144), 입력대체·TRAIN 평균/표준편차·PCA를 그대로 유지한다. 통계 재적합은 기존 파일 복구가 필요한 경우에만 TRAIN으로 하고 복구 부모를 새 대응 기준으로 쓴다.\
+\
+정규화된 원채널 좌표의 실제 관측 미래를 채점한다. 입력에 결측 대체를 했다고 target도 대체값을 정답으로 쓰지 않는다. 관측된0은 삭제하지 않는다. 평가 오차를 보고 채널·기간·원점을 제거하지 않는다.\
+\
+세 자료는 이미 알려진 개발 평가다. 이번 새 선택 봉인은 선택 순서 기록이지 새로운 미노출 확증이 아니다. 예전 최초 노출·개발/확인 기록을 덮어쓰지 않는다. 모든 새 후보의 TRAIN/VAL 선택 및 Gamma 적합을 끝낸 뒤 예정된 세 자료 평가를 함께 수행한다.\
+\
+\# 6. 공통 기호와 frozen 예측 정의\
+\
+X:[B,L,C], L512,H48. U0:[C,K], U0^T U0≈I, P0=U0U0^T,Q0=I-P0.\
+F0는 pin된 동일 백본의 현재 점예측 함수: 단변량 입력행별 native scaling·동일0.5 quantile·48시점 crop을 포함한다. 0.5 분위수를 사전학습 평균이라고 재명명하지 않는다.\
+F_phi는 같은 F0에 이번 일반 LoRA만 추가한 함수다.\
+\
+부모 LEVEL:\
+&#x20;r0=X-XP0\
+&#x20;q\*(X)=repeat_H(last(r0))+G\*(r0-repeat_L(last(r0)))\
+&#x20;f_LEVEL\*(X)=F0(XU0)U0^T+q\*(X)\
+\
+G\*는 기존 학습된 공유·무편향 시간512→32→48. q\*를 과거 checkpoint에서 분리하되 encoder/decoder/basis와 모두 연결한다.\
+\
+S\*(X)는 기존/신규 직접 원채널 NLinear:\
+&#x20;S\*(X)=repeat_H(last(X))+T\*(X-repeat_L(last(X)))\
+T\*는 채널별로 공유하는 bias포함 Linear512→48이다. S\*의 전체 원채널 예측을 먼저 만든다.\
+\
+\# 7. 후보 A와 외부 LoRA 기준선\
+\
+A_P_LORA_QFIXED(X)=F_phi(XU0)U0^T+q\*(X).\
+고정: 원래 theta0, U0/E/D, G\*, 모든 부모 통계·buffer·정규화.\
+학습: 새 일반 LoRA만.\
+\
+초기 phi0=0 update이면 같은 실행 조건에서 A=f_LEVEL\*. Q 예측은 기존 q\*로 유지한다. 하지만 P 적응 후 총 TEST 오차 비열화는 보장하지 않는다. 기존 Q의 오류도 그대로 유지되는 방식이다.\
+\
+일반 LoRA 설정: r8,lora_alpha16,dropout0,target_modules q/v,bias none,기본 zero-update 초기화. 실제 동일 대상층 목록과 초기 adapter tensor를 dataset/seed마다 저장해 A와 LORA_FULL_MSE의 같은 seed·두 LR에 재사용한다. LR 간 초기값을 바꾸지 않는다. 다른 dataset의 학습 weight는 복사하지 않는다.\
+\
+LORA_FULL_MSE(X)=F_phi(X).\
+원채널 전체에 같은 LoRA 대상층/rank/초기화/두 LR/선택기회/점예측 손실을 사용한다. LEVEL/G는 붙이지 않는다. 초기 출력은 F0다.\
+\
+기존 LORA_NATIVE는 native quantile objective로 학습한 실용 레시피 참조다. 새 LORA_FULL_MSE와 구분해 둘 다 보고한다. 둘 중 TEST가 좋은 쪽만 골라 단일 LoRA로 표기하지 않는다. native loss 차이를 압축만의 인과효과로 해석하지 않는다.\
+\
+등록 LoRA294,912개는 현 pin된 코드의 기대 수다. 실제 등록/optimizer 포함/gradient 연결/실제 변경 수를 따로 기록한다. 특정 unused module의 모든 scalar가 반드시 변해야 한다는 잘못된 assertion을 만들지 않는다. 변화0이 예상된 미사용 경로인지 실제 학습 단절인지 조사하고, 대상층을 제안 모델에만 유리하게 조용히 바꾸지 않는다. 불일치는 로컬 버전·모델 구조를 먼저 대조한다.\
+\
+A의 Q 제거 ablation은 동일하게 학습한 A의 main 출력만 채점하는 fit0 참조로 허용한다. Q 없이 별도로 학습한 압축 LoRA의 최적 성능이라고 부르지 않는다. 그 별도 적합은 후속 승인 범위다.\
+\
+\# 8. 후보 B: 고정 PCA 대조와 직교 잠재 방향 학습\
+\
+B(U,Gamma;X)=S\*(X)+[F0(XU)-S\*(X)U] Gamma U^T.\
+Gamma=diag(gamma),gamma_j∈[0,1], dataset/seed별 전역상수. 입력·기간·채널·horizon마다 다른 gate가 아니다.\
+\
+중요한 정의:\
+\- S\*(X)U다. S\*(XU)로 바꾸지 않는다.\
+\- U를 encoder와 decoder가 공유한다. 별도 trainable decoder는 없다.\
+\- S\*와 F0의 가중치는 모두 고정. B에는 LoRA/G\*/새 G/새 채널 mixer를 넣지 않는다.\
+\- Gamma=I이면 F0(XU)U^T+S\*(X)(I-UU^T).\
+\- Gamma=0이면 정확히 S\*(X)로 복귀. 이것은 TSFM 효능이 아니다.\
+\- A의 Q는 고정되지만 B의 Q는 U를 따라 달라진다. B가 기존 LEVEL의 Q를 보존한다고 말하지 않는다.\
+\
+B_FIXED_U: U=U0, Gamma=I, 새로운 신경망fit0.\
+B_LEARNED_U: U0에서 시작하여 Gamma=I를 유지한 채 U만 TRAIN 최종 원채널 MSE로 학습한다.\
+두 LR×두 seed×세 자료=12fit. B_FIXED_U는 각 seed의 S\*와 대응되며 B_LEARNED_U의 초기 출력을 기준으로 사용한다.\
+\
+\
+직교성 구현 기본안 [추정·미검증]: PyTorch 공식 parametrizations.orthogonal을 얇은[C,K] 학습 행렬에 적용한다. 기본 householder/use_trivialization=True를 출발점으로 로컬 API를 확인하고, 정확한 map·base buffer·초기 right_inverse/등록 순서를 실행 전 계획에 고정한다. 지원되지 않으면 임의 직교해법을 계속 시도하지 말고 승인 전 대체 구현·위험을 제시한다.\
+초기 실제 U가 기록된 PCA 방향·부호와 맞는지 검사한다. forward 때 임의 sign/열 정렬을 반복하지 않는다. 비선형 F0에는 같은 부분공간의 회전·부호도 다른 입력이므로 성능이 달라질 수 있다.\
+저장에는 constrained U만 아니라 재시작용 unconstrained parameter·parametrization buffer·optimizer·scheduler·RNG까지 포함한다. 배포는 학습된 U를 고정 행렬로 내보내고 학습 wrapper와 출력 정합성을 확인한다.\
+U의 실제 등록 변수·buffer 크기를 보고한다. C\*K만 계산하고 내부 square buffer 메모리를 숨기지 않는다.\
+\
+B의 핵심 주 비교: B_LEARNED_U 대 B_FIXED_U (둘 다 Gamma=I).\
+U가 변했다고 'TSFM의 이득이 있는 부분공간을 찾았다'고 확정하지 않는다. 현재는 학습된 표현의 전체 효과이며, 부분공간 변화와 내부회전·좌표/부호 적응 효과가 함께 있다.\
+고정 K에서 새 점을 찾는 회차이지 완성된 전선 전체를 탐색하는 회차가 아니다. 더 작은 K·회전만 대조는 기본 범위 밖이다.\
+\
+\# 9. B의 보조 Gamma 적합 — 12개의 별도 적합\
+\
+각 dataset에서 S\*를 두 LR의 seed평균 VAL로 먼저 선택한다. 각 seed의 S\*를 고정한다.\
+그 후 B_LEARNED_U의 LR·checkpoint를 Gamma=I의 전체 VAL MSE로 확정한다. 선택된 U 하나와 B_FIXED_U의 U0 각각에만 Gamma를 적합한다. 모든 LR/epoch×Gamma 재탐색은 하지 않는다.\
+\
+자료3 × {fixed,learned}2 × 부모seed2 =12개의 실자료 계수 적합이다. 신경망 optimizer는0이어도 실자료 fitting이므로 따로 계상한다.\
+\
+관측행 i=(origin,horizon,channel c)에 대해:\
+&#x20;s_i=S\*(X)\_ohc\
+&#x20;z_ohj=[F0(XU)-S\*(X)U]\_ohj\
+&#x20;D_ij=z_ohj \* U_cj\
+&#x20;b_i=Y_ohc-s_i\
+&#x20;N_c=VAL의 해당 채널 전체 관측 target수\
+&#x20;w_i=1/(C\*N_c)\
+\
+min\_{0≤gamma≤1} sum_i w_i( D_i gamma - b_i )².\
+관측되지 않은 행은 제외하고 sqrt(w_i)를 D,b에 곱한다. bias·새 penalty·horizon별 gamma를 추가하지 않는다.\
+\
+[추정·미검증] Gamma는 CPU FP64에서 적합하고 배포 시 FP32로 고정한다. FP64 적합 목적식과 FP32 전체예측·직접손실의 수치 정합성을 확인한다. 작은 dense K 문제이므로 SciPy lsq_linear의 bounds(0,1), method='bvls',tol=1e-10을 기본안으로 한다. 로컬 지원을 계획에서 확인한다. 모든 후보의 solver·tol·행 가중치는 동일하다. 성공상태·유한값·경계조건·직접 목적식·Gamma0/GammaI 참조손실을 점검한다. rank결손/식별 불가능한 방향은 기록하되 성능을 보고 새로운 규제값을 찾지 않는다. solver 실패의 기술 수리는 예비에서 명확히 계상한다.\
+\
+B_FIXED_GAMMA와 B_LEARNED_GAMMA의 보정 전/후 결과를 따로 보고한다. 같은 VAL을 S/U/LR/Gamma에 반복 사용했으므로 이 계수 적합의 VAL 이득은 독립 일반화가 아니다. 이번 개발에서는 이전 합의처럼 동일 VAL을 쓰되, TEST 값을 계수에 넣지 않는다. 미래 확인에서는 시간순 별도 보정 구간까지 사전 고정할 필요를 한계로 남긴다.\
+\
+Gamma는 sparsity/cost penalty가 없는 예측 혼합이다. 비용최적 gate라고 주장하지 않는다. gamma0 선택이 대부분이면 S\* 복귀를 그대로 보고한다.\
+실행 생략은 solver가 실제 경계0으로 확정한 계수에만 허용한다. 작은 양수를 TEST를 보고0으로 반올림하지 않는다. 근사 pruning은 기본 범위 밖이다. 활성 열만 F0에 넣는 경우 Gammafull과 pruned 출력 정합성, 원채널 순서·실제 활성K를 보고한다. 하나도0이 아니면 여전히 K개 전부 계산하며 작은 gamma로 계산이 줄었다고 말하지 않는다.\
+\
+\# 10. 공통 학습·선택·비교 공정성\
+\
+새 A,B_LEARNED_U,LORA_FULL_MSE,Hog DIRECT_NLINEAR의 주 학습 손실은 기존 원채널 observed channel-macro MSE다.\
+L=(1/C) sum_c [ sum\_(o,h) m_ohc (yhat_ohc-y_ohc)^2 / sum\_(o,h) m_ohc ].\
+미니배치에 관측이 없는 채널은 기존 macro loss의 유효채널 규칙을 쓰고, 전체 VAL/평가는 고정 모든 채널의 오차합/관측수로 집계한다. 학습 batch별 macro와 전체 자료 macro가 다를 수 있음을 기록한다. 새 latent target·보존 loss·quantile target 혼합은 하지 않는다.\
+\
+공통 제안값 [추정·미검증]:\
+&#x20;seed92601/92602, LR{1e-4,1e-3}, AdamW wd0, clip norm1,\
+&#x20;과제 batch4, epoch당512 TRAIN origins, 최대120epoch,\
+&#x20;strict VAL nonimprovement6, ReduceLROnPlateau factor.5/patience2/relative threshold1e-4.\
+모든 학습 family·dataset별로 두 seed의 best VAL MSE 평균이 작은 LR 하나를 선택하고 두 seed 모두 그 LR의 checkpoint를 쓴다. LR 정확 동률이면1e-4, epoch 동률이면 이른 상태.\
+\
+같은 dataset/seed의 LR·family 사이에 TRAIN origin schedule을 가능한 범위에서 맞춘다. 모델 생성 순서가 표집 RNG를 바꾸지 않도록 독립 RNG/저장 schedule hash를 쓴다. A/FULL_LORA는 대응 LoRA 초기 tensor를 공유한다. U 두 LR는 동일 U0와 같은 S\*에서 시작한다.\
+초기 state도 checkpoint 후보에 포함한다. A초기는 LEVEL, FULL_LORA초기는 F0, B초기는 B_FIXED_U, NLinear초기는 정의된 직접모델이다. 초기 상태 선택을 학습 성공으로 재포장하지 않는다.\
+\
+TRAIN probe는 seed별 고정 원점에서 initial/best/final을 비교한다. 움직이는 epoch 표본 평균만 보고 train 손실을 직접 비교하지 않는다. 실제 gradient·갱신·VAL 곡선으로 기술오류와 정상 음성을 나눈다.\
+표준 레시피의 정상 early stopping은 무한 LR/rank 탐색 사유가 아니다. max120epoch에서 실제 개선 중이면 학습충분성 제한을 기록한다. 이번 기본계획에는 자동240epoch 연장을 넣지 않는다. 연장이 필요하면 대상 전체의 공정성과 예비 소모를 사전 변경안으로 보고한다.\
+\
+A/B LR숫자가 같다는 것이 최적 튜닝 동등성 증명이 아니다. U와 LoRA의 파라미터화·부모 학습 이력도 다르다. 평가 공정성과 제한을 함께 보고한다.\
+\
+\# 11. 핵심 구현 게이트 — 전체 비교를 막는 불필요한 검사로 만들지 말 것\
+\
+A:\
+\- 고정 E/D·G\*로 q\*를 계산하고 이 값만 재사용한다. 기존 LEVEL 전체 forward와 새로운 TSFM forward를 모두 실행해 backbone을2번 돌리지 않는다. 배포에는 하나의 적응된 백본만 둔다.\
+\- no_grad는 q\*/고정 전처리에만 사용한다. LoRA TSFM forward는 autograd 안이다.\
+\- 원래 theta0·E/D·G\*·통계·buffer는 고정. 새 LoRA만 optimizer에 포함.\
+\- backbone.eval()과 autograd는 별개다. 기존 deterministic eval-forward 레시피를 유지하되 gradient를 끊지 않는다.\
+\- 첫 LoRA A행렬 gradient0은 zero-B 초기화에서 가능하다. 실제 활성 update의 2step 이후 gradient/갱신을 검사하고 영구 단절과 구분한다.\
+\- 초기 예측=부모, Q 예측 불변, adapter 저장/재구성, 미압축 대응 LoRA 초기=F0를 확인한다.\
+\- 병합은 학습·평가 원본을 파괴하지 않는 별도 deploy copy에서 수행하고 양쪽 출력을 대조한다.\
+\
+\
+B:\
+\- F0.requires_grad=False지만 F0(XU)는 autograd 안이다. predict pipeline의 no_grad 장식자나 numpy변환으로 U gradient를 끊지 않는다.\
+\- S\*의 forward는 no_grad여도 된다. 다만 그 결과의 S\*(X)@U 및 최종 decoder U^T는 반드시 graph 안에서 계산한다. F0 입력 경로뿐 아니라 두 출력 투영의 gradient도 보존한다.\
+\- S/F0 weight 및 상태는 불변, 실제 U는 갱신되는지 확인한다. U의 rawparameter만 변하고 실제 U가 안 변하는 경우도 검사한다.\
+\- 초기 B_LEARNED_U=B_FIXED_U. 초기 B가 LEVEL과 같다고 강제하지 않는다. B는 다른 Q 예측을 갖는다.\
+\- U0복원·직교성·tied encode/decode·Gamma0=S\*·GammaI 분해식·저장/restart·constrained export를 확인한다.\
+\
+공통:\
+\- 입력[B,512,C] → permute[B,C,512] → reshape[B\*C,512] 또는[B\*K,512]. 시간512를 batch로 나누지 않는다. quantile축·row order·48 crop·원채널 복원을 검사한다.\
+\- 상수/근상수 잠재입력에서 native scaling과 gradient가 유한한지 체크한다. 실제 문제는 최소 재현·영향범위를 남기고 수정한다. forward 의미를 바꿔 특정 후보만 도와주지 않는다.\
+\- 합성 검사와 실제 학습을 분리한다. 합성 F0의 역전파 통과는 실제 Chronos의 U 학습을 입증하지 않는다. 실제자료 optimizer step을 smoke라고 공짜 처리하지 말고 예정 fit의 첫 step으로 계상한다.\
+\- checkpoint에 학습변수·frozen 부모 출처·실제U·Gamma·초기값·optimizer/scheduler/RNG·선택기준을 연결한다. 학습 중 고정 객체의 hash/version을 점검한다.\
+\- 초기/병합/restore/output별 허용오차는 기존 유효 계약과 설치버전을 확인해 계획에 고정한다. 출발안은 일반 parity atol1e-5/rtol1e-4, 같은경로 replay atol1e-6/rtol0, 직교 Gram maxabs1e-5이다. 통과할 때까지 늘리지 말고 실행조건 차이를 먼저 진단한다. 구조 성질과 FP32 수치동등성을 구분한다.\
+\- 모든 scalar 업데이트를 요구하거나 무작위 손실 감소를 합성 테스트 합격조건으로 두지 않는다. 검사 성공은 과학적 개선과 별개다.\
+\
+\# 12. 실행 순서와 새 적합 행렬\
+\
+0\) 승인받은 PLAN·승인문 원문 보존, 연구폴더/원장 생성, 부모·S\*·데이터·라이브러리 재사용 확정.\
+1\) 실제 형상에 맞는 유한 합성 검사·무학습 출력/gradient 경로 확인.\
+2\) Hog DIRECT_NLINEAR가 없으면4fit 후 TRAIN/VAL만으로 S\* 선택. Robin/Jena S\*는 동일 선택계약이면 재사용.\
+3\) 각 자료에서 두 LR와 두 seed의 A, FULL_LORA_MSE, B_LEARNED_U 수행. execution order는 seed/자료/방법을 사전 목록화한다. 한 자료 TEST를 중간에 열어 다음 자료를 취소하지 않는다.\
+4\) 세 자료의 S\*/A/FULL/B LR·checkpoint 선택 완료.\
+5\) B_FIXED/B_LEARNED 각 seed의 Gamma 총12건 적합·검산. 전체 선택 manifest와 후보목록 봉인.\
+6\) 모든 예정 평가 역할을 동일한 TEST origin/target/mask로 수행. 기존 출력은 provenance·hash·점수계약을 확인해 재사용.\
+7\) 같은 회차 배포 비용과 필요한 예측 진단·그림·판정.\
+8\) 저장 예측/집계/선택/복원/비용 범위 검산, 방법 중심 보고, 관련파일만 commit/push.\
+\
+기본 행렬:\
+&#x20;A:              3자료×2LR×2seed =12 neural fits\
+&#x20;B_LEARNED_U:    3자료×2LR×2seed =12 neural fits\
+&#x20;FULL_LORA_MSE:  3자료×2LR×2seed =12 neural fits\
+&#x20;Hog DIRECT:          2LR×2seed = 4 neural fits\
+&#x20;신경망 기본합계                     40\
+&#x20;Gamma:          3자료×2U종류×2seed =12 bounded coefficient fits\
+&#x20;기본 실자료 적합 합계                52\
+&#x20;기술복구 예비                         8\
+&#x20;전체 실자료 attempt 상한             60\
+\
+S\*/부모 추가재적합이 필요하면 승인 전에 전체 수를 다시 계산한다. 기존 Hog DIRECT까지 정확히 재사용 가능하면4회를 빼고 '재사용'으로 남기며 그 몫을 새 sweep로 바꾸지 않는다.\
+다시 시작해 추가 update/solve를 수행한 fitting은 새attempt다. 예정 run의 첫 optimizer smoke를 별도 이름으로 중복 적합하지 않는다. read/forward/replay/eval은 fit0이지만 작업시간은 계상한다. Gamma solver를 다시 풀면 coefficient attempt도 다시 계상한다.\
+\
+\# 13. 평가와 공간 해석\
+\
+주 목적: F0/FULL_LORA_MSE/LORA_NATIVE/DIRECT_NLINEAR 대비 정확도–비용상의 위치.\
+내부 근거: A-LEVEL, B_LEARNED-B_FIXED, 보정 전후 Gamma, A-B 전체 시스템.\
+역사적 참고: v8/v9/v10 동일자료·동일계약 결과. 이것만 이겼다고 성공 판정하지 않는다.\
+\
+MSE, MAE, signed mean error, seed별·A/B기간별·전체·채널별 원수치를 저장한다. 전체는 각 채널의 기간 SSE/count를 합친 뒤 채널평균, 마지막 seed 손실 평균이다. 예측을 평균해 앙상블로 만들지 않는다. 서로 다른 자료의 원 MSE·MAE를 평균해 총점으로 만들지 않는다.\
+동일 mask/원점/사용정보/모델선택/정밀도/자원·튜닝차이를 방법별 표로 제공한다. 상대 변화는 (후보-참조)/참조, 분모와 부호를 명시한다. 확률·동등성·비열등성을 새로 선언하지 않는다.\
+\
+조건부 시간 블록 구간은 기존 평가별 검증된 계약을 재사용한다(Robin7, Jena42원점, 2000resamples; Hog는 실제 v5 계약에서 확인). 시간블록·기간 경계·모든채널/방법·seed대응을 함께 유지하고, 선택한 두seed에 조건부이며 method/parent/Gamma 선택 불확실성 전체를 포함하지 않는다고 표시한다.\
+\
+A 공간 진단은 고정U0 기준 P/Q. B는 (a)공통U0 기준 오류, (b)선택U 기준의 자체 P/Q를 구분한다. 다른 U에서 각자의 'P 오차'를 빼고 같은 오차 성분을 비교했다고 말하지 않는다. 결측 target을0으로 채워 투영하지 않는다. 공통 완전관측 target벡터 subset·coverage에서만 직교합을 확인하고 원래 masked macro를 대체하지 않는다.\
+\
+B의 보조 U0/U 거리·부분공간 principal angle·고정전후 표현 차이는 사후 해석 단서다. 임의의 새 난이도 점수·라우팅 레이블로 만들지 않는다. Gamma 활성수·원소·경계·훈련/VAL 선택이력은 그대로 보고한다.\
+모든 자료는 개발 노출. 이번에 좋은 자료만 골라 새 확인으로 재명명하지 않는다. TEST 뒤 데이터/계수/모드/손실/seed/LR 재선택 금지.\
+\
+\# 14. 비용·정확도 전선: 공정한 실측 선택지\
+\
+\
+반드시 한 회차·같은 장치·정밀도·전체 출력에서 비교한다. 원격 과거 timing과 새 timing을 나누지 않는다. 목표 지표는 B1 원점당 지연, B4 원점/초, peak allocated/reserved, 배포 parameter/bytes, 실제 학습 peak/time이다.\
+trainable 등록 수, gradient-active 수, 실제 갱신 수, 누적 적합 파라미터, 전체 배포 상태를 분리한다. A는 Q학습+LoRA, B는 S학습+U학습+Gamma가 총적응 절차다. 재사용 증분 시간과 전체절차 역사적 시간 합산을 구분하고 다른 세션의 합을 엄밀한 속도비로 쓰지 않는다.\
+\
+A 배포는 Q\*+하나의 병합TSFM. B는 S\*+고정export U+Gamma+필요한 TSFM. 학습U의 manifold 연산을 배포에도 불필요하게 계속 실행하지 않는다. 전체P/Q행렬을 만들어야만 하는 것처럼 느리게 구현하지 말되 모든 최적화는 출력정합성을 확인한다.\
+Gamma 전부0인 B는 F0를 실제로 로드/실행하지 않는 S 경로를 별도 표기한다. 이것은 순수 S fallback이다. 일부 정확0이면 그 열만 생략하고 사전 full 출력과 정합성을 확인한다. 양수 Gamma크기는 실행 절감률이 아니다.\
+\
+기본 비용 집합은 각 자료의 선택된 A, B_FIXED/B_LEARNED 각각 보정 전/후, BASE_LEVEL, DIRECT, F0, 새 FULL_LORA_MSE와 기존 native LoRA다. 불리한 기준선을 TEST 결과로 제외하지 않는다. 정확히 같은 함수·상태·실행인 중복만 provenance로 묶는다.\
+공통 VAL24원점은 기존 목록을 재사용하거나 VAL 시간순24의 성능비의존 규칙을 계획에 확정한다. FP32,TF32off,CPU4threads,예열10회,전체24원점20passes,3개 균형순서 블록 및 F0 전후 sentinel이 기본안이다. 모델load·disk·원장·채점은 밖, CPU표준화입력→전송→전체online forward→원채널 CPU출력·조합은 안이다.\
+원장·보존해시 반복이 timing안으로 들어가지 않게 한다. 동기화·peak reset·CUDA allocator측정 범위·모델 교체 순서를 동일하게 하고 raw블록 및 불리한 변동을 남긴다. 다른 작업을 종료하거나 전역 clock/driver/전력/환경을 바꾸지 않는다.\
+\
+미압축 실행 대안은 동일checkpoint를 [B\*C,L] 행축으로 chunk한다.\
+&#x20;B1: full C, K행씩\
+&#x20;B4: full4C, 4K행씩, K행씩\
+Robin B4=68/20/5, Jena84/24/6, Hog128/32/8. 시간512나 미래48을 나누지 않는다. 모든행을 원순서로 합치고 merge/full/chunk parity를 검사한다. F0/FULL_LORA_MSE/native LoRA에 동일 규칙을 주고 후보에도 해당 무학습 실행 옵션을 동일 원리로 허용한다. 단순히 학습자료별 전송/범위를 달리해서 어느 한쪽을 도와주지 않는다.\
+DIRECT CPU/GPU를 별도로 보고한다. CPU측정 비용을0이라고 하거나 GPU와 같은 장치값으로 섞지 않는다.\
+\
+계획에서 실제 instances×batch×chunk×blocks×passes 수를 산출해 비용시간 예산과 맞춰라. 너무 크면 승인 전에 공통 repeats/grid와 정당한 중복제거를 조정한 안을 제시한다. 한 후보 결과를 본 뒤 유리한 grid만 남기지 않는다. 이미 시작한 비용실험이 예산에 막히면 부분표·미완료범위를 보존하고 완성된 frontier라고 주장하지 않는다.\
+\
+정확도와 각 비용축의 점추정·변동을 같이 보여라. 임의 가중합 score를 만들지 않는다. 단일K의 실측 비지배 후보를 확인하는 수준과 여러 K의 전체 frontier를 구분한다. 불확실성이 겹치는 작은 차이는 확정 우열로 만들지 않는다. 모든 자료의 LoRA승리나 임의 허용오차는 합격조건이 아니다.\
+\
+\# 15. 결과별 의사결정과 최소 후속\
+\
+\- A가 LEVEL을 개선하고 F0/LoRA/NLinear 앞에 실제 선택영역을 만듦: A 유지 후보. P/Q 역할을 설명하되 양자화·DoRA를 자동 실행하지 않는다.\
+\- A가 내부 기준만 개선하나 외부대안에 계속 밀림: 내부 적응효과 인정, 실용기여 미확보. LoRA변형 무한탐색 금지.\
+\- B_LEARNED가 B_FIXED보다 개선하고 보정전/후에도 nonzero TSFM이 유효: B 유지 후보. 부분공간배분과 내부회전의 구분은 후속 주장 검증 과제로 남긴다.\
+\- B_FIXED가 충분함: 학습U 삭제/강등. 단순 forecast mixture 이상의 기여를 억지로 주장하지 않는다.\
+\- 대부분 Gamma0: 저비용S 복귀, TSFM의 추가 가치 미확보. 평균성능이 좋다는 이유로 TSFM성공으로 표시하지 않는다.\
+\- A/B가 서로 다른 영역에서 유리: 그 영역을 보고한다. TEST기반 dataset별 승자를 모아 하나의 검증된 선택기처럼 보여주지 않는다.\
+\- 둘 다 정상 기준선에 지배: 현재 두 설계 채택 보류/기각. 분석은 원인 가설까지만, 새 모듈로 자동 전환하지 않는다.\
+\- 기술무효: 실험음성과 구분하고 해당 범위만 수리한다. 한 family 차단 때문에 이미 유효한 타family 결과를 없애지 말되 A/B비교 완료를 선언하지 않는다.\
+\
+후속이 필요해지는 경우만 다음 결정으로 남긴다. 이 회차 예비로 자동실행하지 않는다.\
+&#x20;A 유지 시: Q 없이 별도로 학습한 같은 압축LoRA(학습정책 대조), K별 제한된 예산 비교.\
+&#x20;B 유지 시: 같은 PCA 부분공간 내부 회전만 학습한 대조, 일반적인 예측형 어댑터와 차이.\
+&#x20;후보변경 후 새 확인: 방법·선택정책 고정 뒤 미사용 평가/더 넓은 자료. 이번 세 자료를 독립 확증으로 재사용하지 않는다.\
+&#x20;QLoRA/DoRA·새K·새자료·A+B 결합은 별도 승인이다.\
+\
+\# 16. 자원 상한·중단·수리의 계약\
+\
+[제안·미검증 운영 상한] 실자료60attempt(신경망기본40+Gamma기본12+기술예비8), 로컬GPU1장/동시학습1, GPU전체job점유28,800초(8시간), CPU계수적합·분석7,200초(2시간), CPU검사누적1,800초, 합성 optimizer검사최대6세션·각세션 전체10update이하, 신규저장10GiB, raw/백본 다운로드0.\
+예비는 부모/S복구·기술실패·재시도에만 사용한다. 만료한 이전 원장의 잔여예산을 더하지 않는다. 새GPU8시간은 완료시간 약속이 아니다. 계획단계에서 기존 실행률·실제장치·실행량으로 가능성을 검토하고, 승인후 최초기본fit의 실제 처리율을 점검한다. 부족하면 사후 site삭제나 무한연장이 아니라 범위/예산 변경안을 보고한다.\
+GPU점유는 부모job 안의 fit을 또 합산해 이중계상하지 않는다. 실제 학습·재시도·추론·수리·평가·Gamma용 GPU예측·비용을 포함한다. 대기시간과 GPU점유는 구분한다.\
+소단계 권고배분: 복원/검사0.5h, 학습/VAL4.5h, 평가/분석GPU0.5h, 비용2h, 기술여유0.5h. 총8h 안의 운영 배분이며 각부분을 과학적 임의중단선으로 오해하지 말고 실제 잔여량을 관리한다.\
+\
+단순 읽기·구문 검사까지 독립 실자료fit로 세지 않는다. CPU 구문/문서/수치검사는 사전 예약한 검사세션에 묶는다. 학습/계수solver/재시작은 시작전에 공통원장으로 예약한다. 실제자료 fitting을 synthetic/smoke로 숨기지 않는다.\
+라이브러리는 현재 환경을 우선하며, 새 패키지/버전변경이 필요하면 계획단계에서 필요성을 보고한다. 전역환경 수정·권한 우회·유료서비스·새서버·다른 프로젝트 종료는 금지한다.\
+에러가 나면 source/trace/partial/영향범위를 보존하고 같은범위의 구현·경로·restore·집계오류는 수리해 계속한다. 이전 실패기록 삭제나 tolerance 무한확대는 하지 않는다. 수리 때문에 모델정의·데이터·선택·비용이 실질적으로 바뀌면 별도변경안이다.\
+\
+\
+\# 17. 산출물·최종 전달\
+\
+승인후 PLAN.md는 실제 승인된 구체계획 원문, APPROVAL.txt는 사용자 승인 원문, REQUEST_PLAN.txt는 이 설계요청문으로 서로 구분해 보존한다. 파일첨부만 승인으로 추정하지 않는다. 사용자가 명시적으로 실행을 승인하면 작은 단계마다 재승인을 반복하지 않는다.\
+\
+새로 정의할 산출물의 역할:\
+\- STATUS.md: 현재단계·실제산출물·PID/heartbeat·예산·다음행동 근거·TEST노출 상태.\
+\- reuse/data/initial manifests: 부모/기준선/배열/설정/초기값·실제경로/hash.\
+\- protocol 및 fit목록: dataset/family/LR/seed/선택/비용·예산 계약.\
+\- run result/curve/checkpoint receipt: trainprobe/VAL/gradient/동결/초기/재시작 확인.\
+\- 선택·Gamma 기록: 두LR·모든gamma·solver·목적식·보정전후/active K.\
+\- 평가 JSON/CSV: 전체·기간·seed·채널, 주요 외부기준/내부대조, 재사용과신규 구분.\
+\- 비용 원반복/요약: same-session 모든방법·실행방식, 불확실성·누적/증분비용.\
+\- claim/evidence표, 가벼운 figure, METHOD_UPDATE.md, TOPIC_DECISION.md.\
+\- 최종 검산 및 원격 게시확인. 자체검산을 독립재현이라고 쓰지 않는다.\
+\
+TOPIC_DECISION은 방법 중심으로 쓴다:\
+①외부 F0/LoRA/NLinear 대비 어떤위치인가\
+②A와B 내부대조에서 무엇이남았나\
+③어디가 fallback/음성/구현차단인가\
+④총적응·배포비용과불확실성\
+⑤유지/단순화/보류/기각할것과 다음결정 하나.\
+자료별 개발일지만 나열하거나 '또 주제미확보' 문구만 반복하지 않는다. 최초성·일반화·논문채택을 보장하지도 않는다.\
+\
+세 자료 전부의 불리한 결과와 MAE·비용을 남긴다. 원고 전체를 새로쓰거나 이 결과를 바로 제출하지 않는다. 필요한 구조/입출력/비교그림만 근거에맞춰 생성하고 장식으로 공백을 가리지 않는다.\
+\
+예정비교·해석이끝나거나 필수차단/상한에닿으면 남는시간을채우기위해실험하지않고 종료한다. 관련파일만 개별 검증·일반commit·origin/main push하고 live SHA를확인한다. 원자료·체크포인트·예측대용량·자격증명은게시하지않는다. force push/이력삭제/hook우회/무관dirty파일포함금지. main이남의작업으로움직였으면 안전한통합을확인하고덮어쓰지않는다.\
+실행중단후재개는 PLAN/STATUS/원장/실제PID/원격상태를읽고 중복실행을피한다. 프로세스가없는데 '진행중'이라고하거나 로컬완료를push완료라고하지않는다.\
+\
+/plan 답변 마지막에는 실제 부모·S재사용표, A/B수식과학습변수, 40+12+8예산, 선택/Gamma절차, 비용구성수, 완료/중단분기를 한장분량으로 정리하고 전체 실행계획의 승인만 한 번 요청해라. 사용자가 /goal로 그계획을 승인하면 위 범위에서 실제 구현·학습·평가·게시로 넘어가라.\
