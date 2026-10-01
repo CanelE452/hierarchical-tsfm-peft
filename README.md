@@ -247,3 +247,15 @@ GPU 비용은 고정 상한에 따라606/612에서 종료했고 CPU48/48은 완�
 - [v15 최종 판단](research/tsfm_peft_coordinate_decoder_v15_20261001/TOPIC_DECISION.md), [방법·선행 경계](research/tsfm_peft_coordinate_decoder_v15_20261001/METHOD_UPDATE.md), [계획](research/tsfm_peft_coordinate_decoder_v15_20261001/PLAN.md), [상태·예산·게시](research/tsfm_peft_coordinate_decoder_v15_20261001/STATUS.md)
 - [정확도·기간 비교](research/tsfm_peft_coordinate_decoder_v15_20261001/comparison.csv), [조건부 차이 구간](research/tsfm_peft_coordinate_decoder_v15_20261001/paired_differences.csv), [같은 회차 비용](research/tsfm_peft_coordinate_decoder_v15_20261001/cost_comparison.csv), [비용 누락·완전 자료 집계](research/tsfm_peft_coordinate_decoder_v15_20261001/cost_available_summary.json)
 - [정확도 그림](research/tsfm_peft_coordinate_decoder_v15_20261001/figure_accuracy_by_period.png), [정확도–비용 그림](research/tsfm_peft_coordinate_decoder_v15_20261001/figure_accuracy_cost.png), [검산](research/tsfm_peft_coordinate_decoder_v15_20261001/final_checks.json), [재현](research/tsfm_peft_coordinate_decoder_v15_20261001/REPRODUCE.md)
+
+## 잔차 PEFT v16: 원채널 유지와 시간축 배분 (2026-10-01)
+
+모든 원채널을 유지하며 과거4개 관측을 평균해 TSFM 문맥을512→128로 줄이고, 내부 LoRA의 저해상도 예측에 동결 직접 NLinear의 미래 미세 변동을 더했습니다. 네 노출 개발 자료의16fit과60개 대응 예측 비교를 완료했습니다. **미압축 MSE-LoRA 대비 MSE 손해는 Robin29.26%, Jena6.66%, Hog17.28%, Peacock Education24.01%이며 MAE도 모두 높아 공통 정확도 해법으로 채택하지 않습니다.** 완전관측 시간 블록에서는 초과 오차의 큰 부분이 저해상도 성분에 남지만, 시간 정보 손실·사전학습 시간척도·최적화 중 하나를 유일 원인으로 확정하지 않습니다.
+
+Jena에서는 제한적인 정확도–batch4 처리량 절충이 확인됐습니다. v16은218.68MiB·280.14원점/초·MSE0.248391, 미압축 MSE-LoRA는281.94MiB·206.70원점/초·MSE0.232892입니다. 같은 LoRA를 소배치로 실행하면218.34MiB·81.43원점/초로 더 좋은 정확도를 유지합니다. v16의 Jena 미세 성분은 같은 체크포인트의 저해상도 출력만 쓰는 것보다 오히려 불리하므로 잔차 경로의 성공으로 포장하지 않습니다. batch1 지연 우위는 없고, 전체 가중치 크기도 줄지 않았습니다.
+
+GPU588/588·CPU48/48 비용 측정과 검산3그룹을 완료했습니다. 큰 sentinel 변동과 모든 불리한 블록을 보존합니다. GPU 작업 점유는62.16분이며 재시도는 없었습니다. **이 유한 비교는 완료했지만 정확도 손해·범용성 해결이나 새 독립 확증을 주장하지 않습니다.**
+
+- [v16 최종 판단](research/tsfm_peft_temporal_allocation_v16_20261001/TOPIC_DECISION.md), [방법과 해석 범위](research/tsfm_peft_temporal_allocation_v16_20261001/METHOD_UPDATE.md), [고정 계획](research/tsfm_peft_temporal_allocation_v16_20261001/PLAN.md), [상태·예산·게시](research/tsfm_peft_temporal_allocation_v16_20261001/STATUS.md)
+- [전체·기간·seed 정확도](research/tsfm_peft_temporal_allocation_v16_20261001/accuracy_comparison.csv), [대응 차이·구간](research/tsfm_peft_temporal_allocation_v16_20261001/paired_comparisons.csv), [같은 회차 비용](research/tsfm_peft_temporal_allocation_v16_20261001/cost_comparison.csv), [시간 성분 진단](research/tsfm_peft_temporal_allocation_v16_20261001/temporal_diagnosis01.json)
+- [정확도 그림](research/tsfm_peft_temporal_allocation_v16_20261001/figure_accuracy_by_period.png), [정확도–비용 그림](research/tsfm_peft_temporal_allocation_v16_20261001/figure_accuracy_cost.png), [검산](research/tsfm_peft_temporal_allocation_v16_20261001/final_checks.json), [재현](research/tsfm_peft_temporal_allocation_v16_20261001/REPRODUCE.md)

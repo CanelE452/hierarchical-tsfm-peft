@@ -1,0 +1,79 @@
+# v16: All-channel temporal allocation with internal LoRA
+
+This is a prospective assistant decision under the human's explicit delegated instruction, "너가 직접 판단해서 쭉 진행하게 해줘", and active objective "해결할수 있게 분석하고 해결해줘". It is not an invented human approval of these exact parameters. Base/live main: e706fb8e1f269dfeb301912b40e480b44a578aa0. V15 is closed, including its six missing GPU cost rows; no old reserve is reused. The new research/cache paths were absent before creation.
+
+## Question, evidence and counterargument
+
+V11-v15 do not establish a common accuracy solution. Internal adaptation and learned representations helped Jena, while group bases, nonlinear correction and an untied coordinate decoder did not resolve the four-dataset external gaps. V15's verified ridge fit weakens a simple downstream-optimization explanation. The shared restriction was obtaining TSFM forecasts from only K channel directions/coordinates, not a rank-K restriction on the complete output: cheap bypasses already supply C channels. Full-MSE LoRA remains a strong accuracy alternative. The evidence does not prove that channel reduction alone caused every gap.
+
+One different, finite hypothesis is to preserve every physical channel at the TSFM input while reducing its temporal resolution, assigning within-block prediction to an existing cheap predictor. Test this hypothesis directly; do not add another residual head, gate, rank/K sweep, new dataset, backbone or normalization. Temporal averaging also discards information: histories with identical block means can need different future means. The cheap fine prediction cannot repair that missing coarse information. Success, generality and originality are not assumed.
+
+The pinned Bolt config and installed forward source show patch size/stride16 and a REG token: context512 and128 produce33 and9 encoder tokens respectively. Decoder sequence length remains1 and the native head still emits9 quantiles by64 time points; cropping12 does not generate a cheaper head. C series rows, all backbone weights and the added direct predictor remain. No fourfold speed/memory claim follows from token counts.
+
+## Nearby principles actually checked
+
+LoRA and NLinear are existing components, retained from the verified v11-v15 implementations. AdaPTS already establishes latent input/output adapter learning; v16 does not invent adapters or low-rank adaptation. TimeMixer, ICLR2024 official abstract, uses multiscale temporal decomposition/mixing and forecast ensembles: https://proceedings.iclr.cc/paper_files/paper/2024/hash/a7ac8a21e5a27e7ab31a5f42a0117bdb-Abstract-Conference.html . Its abstract was read here, not a claimed complete reproduction.
+
+SMR2 in "Lightweight Wrappers for Adapting Time Series Foundation Models to Regional Drought Forecasting" was read in the author manuscript's Method, equations1-9: https://arxiv.org/html/2607.17511v1 . It uses mean/std stride views re-expanded to the original input length, ridge correction using past realized forecast residuals and view summaries, and VAL-based multiresolution ensembling. The manuscript prints KDD2026/DOI10.1145/3770855.3818835; the DOI fetch failed, so independent publisher verification is incomplete. V16 instead shortens one fixed temporal view, learns internal LoRA, and combines complementary projections of future predictions without realized test residual feedback. These differences define the experiment, not a proven novel paper contribution. No broad literature search or firstness-by-absence claim.
+
+## Fixed data and reuse
+
+Reuse the exact v15 data manifest and v13/v14 archives, original channel order, normalized arrays, TRAIN statistics/PCA, imputation, observed masks and all TRAIN/VAL/testA/testB origins. Robin C17, Jena C21, Hog C32, Peacock Education C13; historical K5/6/8/4 is retained only for existing A and chunk-cost controls, not the new temporal model. L512/H48 remain observations. Hourly data use4-hour coarse bins and12 coarse forecasts; Jena ten-minute data use40-minute bins and12 coarse forecasts covering8hours. Windows are grouped relative to each origin, never resampled on mismatched global bins.
+
+All four datasets are already exposed development. No independent-confirmation claim, source download, new split/channel/period selection or new parent fitting. S* is each dataset/seed's actual selected original-channel DIRECT_NLINEAR, not DIRECT_GELU, ridge or a latent model. Reuse its actual bytes through v15/v13 provenance. Reuse A, full-MSE LoRA, native LoRA and F0 checkpoints/predictions only with hash/origin/mask verification. Historical v11/v12 full-MSE initial LoRA tensors are reused for matching seeds and both new LRs when the exact state is available; otherwise reproducibly initialize the identical pinned attachment, record tensor hashes and do not claim equal historical initialization. Missing parents are a technical block, not permission to fit replacements or drop a dataset.
+
+## The only new model
+
+For a length-n multiple of4, A_n averages each consecutive four time positions independently by channel; R_n repeats each of n/4 coarse values four times. P_n=R_n A_n is the block-constant orthogonal projection in complete Euclidean coordinates; Q_n=I-P_n. No target data is used by these forecast transformations.
+
+S*(X) is the frozen original NLinear forecast, shape[B,48,C]. X is[B,512,C].
+
+    coarse_phi(X) = F_phi(A_512 X)[:, median0.5, first12]
+    TEMPORAL_LORA(X) = R_48 coarse_phi(X) + Q_48 S*(X)
+                     = S*(X) + R_48[coarse_phi(X) - A_48 S*(X)].
+
+F_phi includes Bolt's native input-context scaling/inverse transformation. Average already imputed, TRAIN-standardized input values; preserve the original target observation mask. F_phi runs C original channels with128 historical observations, then returns its first12 native median predictions; repeat them in the exact original channel/order to48 outputs. No future means are inputs. Q is applied to S*'s predictions, not observed future values.
+
+Train only standard LoRA r8/alpha16/dropout0/attention q,v/bias none on the pinned revision772f3d25d38aec6d914c8949dab4462e2d46f5d8. Keep S*, original TSFM weights, statistics and buffers frozen. Expected registered new LoRA294912 parameters; historical S*24624 parameters are separately counted. Do not add G, Gamma, channel E/D, a learnable decoder or temporal stride selection. Backbone eval() maintains deterministic dropout while autograd remains active in its actual module forward; do not use the no_grad prediction pipeline for training.
+
+At zero-update initialization TEMPORAL_F0=R_48 F0(A_512 X)+Q_48 S*. It is generally neither S* nor full-resolution F0. Fit0 controls are this initial function and COARSE_ONLY=R_48 coarse_phi from the same selected checkpoint. COARSE_ONLY is not separately optimized; its difference tests the fixed cheap fine prediction's contribution for that trained main path, not an optimized no-detail policy. DIRECT is the complete cheap alternative. FULL_MSE and native LoRA preserve full temporal input. A is the earlier channel-compressed PEFT alternative. PCA_LEVEL/V15 remain historical context and are not newly profiled.
+
+For complete targets, coarse/fine squared errors decompose orthogonally, and new LoRA cannot improve Q_48 S* error. Missing observations break the unweighted decomposition of the actual masked objective; always train/evaluate the original observed channel-macro MSE. Any temporal component diagnosis is labeled complete-block subset with coverage and never replaces the primary metric.
+
+## Fixed fitting and selection
+
+Four datasets x2 LR{1e-4,1e-3} x2 seeds{92601,92602}=16 basic neural attempts. Execution order seed then dataset in Robin/Jena/Hog/Peacock order then LR ascending. Both LRs share the exact same initial LoRA tensors and fixed parent per seed. Use the existing independent phase sampler and hash its scheduled origins; original phase24 for hourly,144 for Jena. No new mod4 origin eligibility restriction; grouping is origin-relative. Historical tuning opportunities are reported, not equated by assertion.
+
+AdamW, weight decay0, clip norm1, task batch4,512 phase-balanced TRAIN origins per epoch, maximum120epochs, strict full-VAL nonimprovement6, plateau factor0.5/patience2/relative threshold1e-4. The unchanged original-channel masked macro MSE is the only training loss. All48 forecast positions enter it; no latent/coarse target loss. Step0 is eligible. Each fit selects minimal whole-VAL MSE, exact ties earliest. One common LR per dataset is selected using the two seeds' best VAL MSE mean, exact ties1e-4. No ensemble selection or TEST-based seed/LR/epoch choice. Max-epoch improvement is a sufficiency limitation; no automatic240 extension or more LR search.
+
+Fixed TRAIN probe initial/best/final, finite losses, optimizer inclusion, actual LoRA gradient/update and frozen state are recorded. Zero-B initialization may give first-step zero A-matrix gradient; do not demand every scalar changes. First real optimizer checks belong to the planned fit, not a free smoke. Selected-state and restart optimizer/scheduler/RNG restoration are checked without an extra real update; a restarted fit with additional updates is another attempt. A normal negative or step0 selection is not a repair authorization.
+
+All16 prescribed fits and four mean-seed selections are completed and jointly recorded before any new test prediction/scoring. Old TEST exposure is retained. No new family/stride/parent change after evaluating any dataset. Technical repairs preserve originals, affected-result invalidation and counterpart recalculation. Model/data/selection changes are outside this finite contract.
+
+## Minimum implementation checks
+
+CPU synthetic algebra covers A R=I, P/Q complement, correct bin/row order, constant/ramp examples, equivalent two formulas and no target input. Initial model agrees with adapter-disabled identical new formula; do not compare it to DIRECT as an equality test. Actual full/module autograd LoRA gradients, unchanged S/base states, correct native output crop, save/restore, deploy merge and full/chunk parity are checked on the same prescribed VAL/fit paths. Synthetic optimizer at most4sessions, at most10updates per session, using synthetic data only.
+
+Use existing parity atol1e-5/rtol1e-4; same-path replay atol1e-6/rtol0. Report max differences and violating counts; never widen tolerance until it passes. Check native normalization constant inputs without silently changing forward semantics. Output checks and synthetic PASS are implementation evidence, not accuracy evidence.
+
+## Evaluation and decision
+
+Per dataset: new TEMPORAL_LORA2, TEMPORAL_F02, same-selected COARSE_ONLY2; references DIRECT2,A2,F01,FULL_MSE2,NATIVE2. Total15 instances per dataset,60 across four. Fit0 initial main is deterministic F0 but its Q uses each selected S seed; do not inflate deterministic source independence. Reused reference predictions must match source hashes, channel/origin order, masks and saved scores.
+
+Save MSE primary, MAE, signed mean error, all seed/period/channel numbers. Pool each channel's SSE/count across periods then channel-average; finally mean two seed losses, not mean predictions. No cross-dataset raw mean. Prespecified main contrasts are new-initial, new-DIRECT, new-FULL_MSE/native/F0/A, and new-COARSE_ONLY. Relative changes use (candidate-reference)/reference with explicit denominator. Conditional paired time blocks7 hourly/42 Jena,2000 resamples,seed9262026, preserve periods/all methods/channels/paired seeds. Intervals do not cover parent/method selection and are not equivalence tests.
+
+Keep temporal allocation if it supplies a useful accuracy-cost position against normal full-resolution/chunked LoRA and DIRECT, stating the conditions and losses. If only internal adaptation improves while external alternatives remain preferable, acknowledge the internal effect and decline a practical-method claim. If frozen coarse already suffices, do not credit LoRA. If COARSE_ONLY suffices, do not credit the fine path. If averaging loses needed coarse information or fixed fine predictions remain poor, reject this fixed design rather than add a gate/head/stride sweep. Mixed results stay mixed; no test-built dataset router. No universal win, invented percentage threshold or forced inference-cost improvement requirement.
+
+## Same-session cost scope
+
+Accuracy is followed by the fixed cost grid regardless of favorability. Roles per dataset: TEMPORAL_LORA2,A2,DIRECT2,F01,FULL_MSE2,NATIVE2. Seven all-channel TSFM instances (new2,F01,FULL2,NATIVE2) get five configs: B1 fullC/K and B4 full4C/4K/K. A2 gets B1fullK and B4full4K/K; DIRECT2 gets B1/B4. Thus45 configurations x3blocks + F0 pre/post sentinel at B1/B4 x3blocks =147 GPU rows per dataset,588 total. CPU DIRECT2 xB1/B4 x3blocks=12 rows per dataset,48 total. No cost claim for unprofiled TEMPORAL_F0 or COARSE_ONLY; no extra full historical sweep.
+
+First24 prescribed VAL origins,FP32,TF32off,CPUthreads4,shape-specific10warmups,3 complete24-origin passes,3 balanced blocks. CPU standardized input through H2D, online S/main/projections and complete48xC CPU output is timed; model loading,disk,hashes,scoring/ledger are outside. No cached future forecasts in deployment timing. Merge returned deploy model and full/chunk parity first. Chunk independent series rows, never past/future time. Reset/cleanup allocator consistently outside timing and report allocated/reserved/resident/process where available plus total parameters/buffer bytes. N/A is not0. Raw repetitions, adverse blocks and sentinel drift are retained. Historical timing is not divided by this session's values. No profiler extension.
+
+## Separate finite resources and execution
+
+20 real neural attempts maximum:16basic+4technical repairs/restarts only; coefficient fits0, no parent fitting. Local single RTX4070, one GPU job/training at a time, total GPU job occupancy14400s(4h), including training/VAL, restoration, inference, parity, failed jobs and timing. Operating allocation9000s training,900s prediction/checks,3600s cost,900s recovery; total remains hard and parts are estimates. V15 cost606rows2372s gives scale only; new training/time-shapes are unmeasured. Check early throughput and do not silently delete a dataset or increase the cap.
+
+CPU analysis1800s, CPU checks900s, synthetic optimizer<=4sessions x<=10updates, new storage5GiB, downloads0. Reserve each numerical/model/check job and each real attempt before start in the new shared ledger. GPU parent occupancy and internal fit durations are not double counted. CPU document/syntax checks use reserved check sessions, ordinary reading/writing is not model fitting. Technical retries consume allowance. No fit after joint selection/test exposure except explicitly invalidated pre-test repair before opening any new evaluation. No stale-PID duplicate jobs. Conflict waits30min/incident,60min total, without stopping other projects. No global install/environment/clock/power/driver change, paid resources or external messaging.
+
+Artifacts: PLAN/AUTHORIZATION/protocol/provenance/ledger/STATUS; exact reuse/data/initial manifests; run curves/results/checkpoint receipts; selection/seal; prediction/evaluation/paired comparisons; full raw costs/parity/summaries; METHOD_UPDATE/TOPIC_DECISION and concise figures; final numeric/source/restore/publication checks. Large arrays/weights stay local. Relevant new files and README/history only are normally committed and pushed to origin/main with liveSHA receipt, preserving all older originals and unrelated dirty files. No new branch/PR, force, history rewrite or hook bypass. A completed comparison is not an accuracy/generalization solution or independent reproduction. Stop when planned evidence is interpreted or an actual cap/essential technical block prevents completion; unused reserve is not another candidate budget.
