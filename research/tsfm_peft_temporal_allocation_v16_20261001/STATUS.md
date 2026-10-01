@@ -1,6 +1,6 @@
 # v16 status
 
-Computation closed:16 planned fits,60 matched forecast instances, saved-forecast temporal diagnosis,588 GPU cost rows and48 CPU cost rows are complete. All three saved-artifact verifier groups passed, with complete_campaign_verified=true. No active compute job or pending fit remains. Publication checks and normal main publication are the only remaining actions.
+Computation closed:16 planned fits,60 matched forecast instances, saved-forecast temporal diagnosis,588 GPU cost rows and48 CPU cost rows are complete. All three saved-artifact verifier groups passed, with complete_campaign_verified=true. No active compute job or pending fit remains. Publication checks passed and scientific commit 4d7051f8ec22bdaa0361739d0167022b228080c9 was pushed to origin/main and verified live. publication_receipt.json records the check; the final follow-up is metadata only.
 
 The prospective PLAN/AUTHORIZATION/protocol/provenance preceded computation. Existing arrays, selected DIRECT parents, reference forecasts and historical initial-LoRA records are bound in manifests. Every selected checkpoint is after step0. Whole-VAL selection chose LR1e-3 for Robin/Hog/Peacock Education and1e-4 for Jena, jointly sealed before new TEST prediction. Initial/best/last states, complete-epoch restart payload, frozen-state checks, TRAIN probes and source receipts remain per run. There was no failed or repeated fit and no all-epoch weight archive.
 
@@ -8,4 +8,6 @@ Decision: the fixed temporal allocation does not solve common accuracy or genera
 
 Before final publication checks:16/20 neural attempts,0/4 technical retries,0 coefficient fits; GPU3729.503s/14400s; CPU analysis124.670s/1800s; CPU checks12.763s/900s; synthetic1/4 sessions with0 optimizer updates; approximately180MiB/5GiB new storage. See ledger.json and terminal_budget.json for terminal measured accounting. GPU parent occupancy is not double-counted with nested fits.
 
-Next action is limited to document/source checks, individual staging, ordinary commit and origin/main push with live-SHA verification. No additional fitting, benchmark, head/stride/gate or prior-campaign budget transfer follows from unused reserve. All four datasets remain exposed development; v1-v15 originals and unrelated dirty paths remain unchanged. The overarching accuracy/generality objective is unresolved, while this finite comparison is completed.
+Computation and the scientific publication are complete. This final metadata follow-up records the publication receipt and terminal accounting. No additional fitting, benchmark, head/stride/gate or prior-campaign budget transfer follows from unused reserve. All four datasets remain exposed development; v1-v15 originals and unrelated dirty paths remain unchanged. The overarching accuracy/generality objective is unresolved, while this finite comparison is completed.
+
+Final post-check accounting is in terminal_budget.json. No model, prediction, score or benchmark was rerun during publication.
