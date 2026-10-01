@@ -200,7 +200,20 @@ Use these files as authority when they exist:
 
 If a file is absent, do not infer its result from partial manifests, running jobs, or planned commands.
 
-## Publication formatting record
+## Post-publication component attribution
+
+POSTHOC_COMPONENT_PLAN.md fixes a saved-output-only diagnostic after the scientific v14 campaign. COMPONENT_DIAGNOSIS.md reports its interpretation; component_swap01.json and three CSVs retain all source/composition results. The rolling component_swap01_partial.json is preserved locally and excluded as a duplicate serialization, not as an unfavorable result.
+
+The original commands were run once under the same ledger with no fits or model forward:
+
+```powershell
+.venv/Scripts/python.exe -B research/tsfm_peft_nonlinear_correction_v14_20261001/diagnose_component_swap_v14.py --job component_attribution01 --reserve-s 300
+.venv/Scripts/python.exe -B research/tsfm_peft_nonlinear_correction_v14_20261001/verify_component_swap_v14.py --job component_verify01 --reserve-s 60
+```
+
+These commands intentionally reject completed output or reused job labels. Reproduction must preserve the original results/ledger and use a separately recorded output/run namespace; do not delete prior evidence to rerun in place. No new reproduction is included in the completed computation. The checker recomputes point metrics/algebra and checks CI settings and formatting, but does not rerun bootstrap sampling. Sources and fixed canonical PCA bytes are bound in the result. This is post-hoc exposed-development analysis, not a new cheap model or independent confirmation.
+
+## Original publication formatting record
 
 The first reserved publication check failed only because default `git diff --cached --check` flags a final blank line in AUTHORIZATION.txt, PLAN.md, protocol.json and STATUS.md. The first three are immutable provenance inputs. Their original bytes and hashes are preserved, as is the failed publication_check01 traceback in the ledger; this is not a fitting, scoring or scientific verification failure.
 

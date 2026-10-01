@@ -1,5 +1,7 @@
 # v14 decision: local nonlinear gain, no common adoption
 
+게시 후 추가한 [고정 PCA 성분 교체 진단](COMPONENT_DIAGNOSIS.md)은 아래 원래 판정을 바꾸지 않는다. 저장 예측의 P/Q를 미압축 F0·FULL_MSE와 바꿔 본 결과, 도움이 되는 성분은 자료·기간에 따라 달랐고 모든 조합의 합산 MSE 점추정은 FULL_MSE보다 높았다. 이는 원인의 제한된 사후 진단이며 새로운 저비용 모델이나 보호 확증이 아니다. 원본 근거와 승인/선택/평가 기록은 그대로 보존했다.
+
 **판단:** 고정 PCA LEVEL에 raw-history GELU 보정을 붙이는 방법을 네 자료의 공통 해법으로 채택하지 않는다. Jena에서는 부모와 matched linear보다 개선했지만, 직접 예측 대안과 강한 외부 기준선의 정확도에 미치지 못했다. Hog는 악화했고 Robin·Peacock Education은 새 보정이 선택되지 않았다. 이는 이 고정 계약의 개발 결과이며 비선형 보정 일반의 불가능성이나 TSFM 일반의 불필요성을 증명하지 않는다.
 
 근거는 [evaluation01.json](evaluation01.json)의 76개 모델 평가, [selected.json](selected.json), [training_diagnosis.json](training_diagnosis.json)이다. 아래 변화율은 저장된 비교값을 반올림해 옮긴 것으로, candidate/reference에 대한 MSE·MAE 변화율이며 음수가 개선이다. 합산값은 기간별 채널 오차와 관측 수를 합친 뒤 macro 평균하고 seed 손실을 평균한 값이다. 예측 ensemble이나 자료 간 raw 점수 평균이 아니다.
