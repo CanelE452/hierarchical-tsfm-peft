@@ -235,3 +235,15 @@ B의 Jena learned U도 fixed U보다 MSE21.48% 개선했고, Gamma를 양쪽에 
 - [전체·기간·seed 정확도](research/tsfm_peft_nonlinear_correction_v14_20261001/comparison.csv), [대응 차이·조건부 구간](research/tsfm_peft_nonlinear_correction_v14_20261001/paired_differences.csv), [학습 진단](research/tsfm_peft_nonlinear_correction_v14_20261001/training_diagnosis.json), [같은 회차 비용](research/tsfm_peft_nonlinear_correction_v14_20261001/cost_comparison.csv)
 - [게시 후 고정 PCA 성분 교체 진단](research/tsfm_peft_nonlinear_correction_v14_20261001/COMPONENT_DIAGNOSIS.md), [진단 원수치](research/tsfm_peft_nonlinear_correction_v14_20261001/component_swap01.json), [진단 검산](research/tsfm_peft_nonlinear_correction_v14_20261001/component_swap_checks01.json): 새 학습/GPU 없이 저장 예측을 분석했으며, 도움이 되는 성분은 자료마다 달랐고 미압축 MSE-LoRA 대비 공통 정확도 해법은 확보되지 않았습니다.
 - [정확도 그림](research/tsfm_peft_nonlinear_correction_v14_20261001/figures/v14_accuracy_all_periods.png), [정확도–비용 그림](research/tsfm_peft_nonlinear_correction_v14_20261001/figures/v14_accuracy_cost_batch4.png), [수치 출처](research/tsfm_peft_nonlinear_correction_v14_20261001/report_values.json), [최종 검산](research/tsfm_peft_nonlinear_correction_v14_20261001/final_checks.json), [재현](research/tsfm_peft_nonlinear_correction_v14_20261001/REPRODUCE.md)
+
+## 잔차 PEFT v15: 원채널 선택과 독립 출력 보정 (2026-10-01)
+
+동결 직접 NLinear를 기준으로 원채널 일부의 TSFM 예측과 PCA 잠재 예측을 각각 독립 출력행렬로 결합했습니다. 네 노출 개발 자료에서 세 ridge penalty·두 seed·두 입력 방식의48개 계수 적합을 완료했습니다. **직접 NLinear 대비 개선은 남지만, 공통 정확도 해법으로 채택하지 않습니다.** 원채널 방식은 NLinear 대비 MSE가8.11%/7.36%/7.16%/3.21% 낮았지만 PCA 방식보다 세 자료에서 높고, 두 방식 모두 미압축 MSE-LoRA보다 높습니다. Hog 원채널 방식의 MAE는 오히려4.06% 상승했습니다.
+
+Jena는 기존 A 대비 MSE+0.284%·MAE−3.567%의 제한적 절충을 남깁니다. 같은 회차 batch4 원채널 방식은217.78MiB·201.78원점/초, 미압축 MSE-LoRA는281.94MiB·201.17원점/초였습니다. 큰 sentinel 변동 때문에 안정적 속도 우위는 주장하지 않습니다. 작은 LoRA chunk는 더 좋은 정확도와 더 작은 메모리를 제공하는 대신 느립니다. 소수의 새 계수는 작은 전체 배포 모델을 뜻하지 않습니다.
+
+GPU 비용은 고정 상한에 따라606/612에서 종료했고 CPU48/48은 완료했습니다. 누락6개는 Robin 마지막 블록이며 원본147개 측정은 보존하되 Robin GPU 종합값은 미확정으로 남깁니다. 나머지 세 자료는 완전한3블록 비용입니다. 저장 산출물 검산4항목은 통과했으나 전체 비용 캠페인 완수는 표시하지 않았습니다. **이 후보의 유한 비교를 종료하며 정확도 손해·범용성 해결을 주장하지 않습니다.**
+
+- [v15 최종 판단](research/tsfm_peft_coordinate_decoder_v15_20261001/TOPIC_DECISION.md), [방법·선행 경계](research/tsfm_peft_coordinate_decoder_v15_20261001/METHOD_UPDATE.md), [계획](research/tsfm_peft_coordinate_decoder_v15_20261001/PLAN.md), [상태·예산·게시](research/tsfm_peft_coordinate_decoder_v15_20261001/STATUS.md)
+- [정확도·기간 비교](research/tsfm_peft_coordinate_decoder_v15_20261001/comparison.csv), [조건부 차이 구간](research/tsfm_peft_coordinate_decoder_v15_20261001/paired_differences.csv), [같은 회차 비용](research/tsfm_peft_coordinate_decoder_v15_20261001/cost_comparison.csv), [비용 누락·완전 자료 집계](research/tsfm_peft_coordinate_decoder_v15_20261001/cost_available_summary.json)
+- [정확도 그림](research/tsfm_peft_coordinate_decoder_v15_20261001/figure_accuracy_by_period.png), [정확도–비용 그림](research/tsfm_peft_coordinate_decoder_v15_20261001/figure_accuracy_cost.png), [검산](research/tsfm_peft_coordinate_decoder_v15_20261001/final_checks.json), [재현](research/tsfm_peft_coordinate_decoder_v15_20261001/REPRODUCE.md)

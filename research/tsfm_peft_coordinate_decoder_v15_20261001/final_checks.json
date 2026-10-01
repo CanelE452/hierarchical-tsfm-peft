@@ -1,0 +1,266 @@
+{
+  "status": "passed",
+  "scope": "all",
+  "checks": [
+    {
+      "name": "fits_and_seal",
+      "status": "passed",
+      "details": {
+        "canonical_completed_fits": 48,
+        "actual_attempts": 48,
+        "technical_retries": 0,
+        "optimizer_updates": 0,
+        "all_attempts_before_joint_seal": true,
+        "selection_rule": "Common mean two-seed VAL; exact ties parent, lambda0, lambda0.001, lambda0.1",
+        "objective_verification": {
+          "checked_fits": 48,
+          "uses_all_train_origins_and_original_masks": true,
+          "innovation": "FP32 F0(XE)-S(X)E, then FP64 training objective",
+          "coefficient_resolves": 0,
+          "minimum_norm_solver_not_rerun": true,
+          "val_arithmetic": "FP32 matmul; channel losses accumulated in FP64"
+        },
+        "independent_reproduction": false
+      }
+    },
+    {
+      "name": "selector_and_cache",
+      "status": "passed",
+      "details": {
+        "latent_cache_arrays": 24,
+        "train_only_selector": true,
+        "original_pca_basis": true,
+        "new_model_runs": 0,
+        "qr_or_coefficient_fits_repeated": false
+      }
+    },
+    {
+      "name": "saved_evaluation",
+      "status": "passed",
+      "details": {
+        "prescribed_instances": 84,
+        "scored_instances": 84,
+        "unavailable_fixed_controls": [],
+        "model_period_rows": 252,
+        "seed_mean_not_ensemble": true,
+        "new_model_runs": 0,
+        "bootstrap_intervals_recomputed": false,
+        "scope": "Arithmetic self-check, not independent reproduction"
+      }
+    },
+    {
+      "name": "costs_and_report",
+      "status": "passed",
+      "details": {
+        "cost_status": "budget_stopped",
+        "complete_scope": false,
+        "saved_cost_rows": {
+          "cuda": 606,
+          "cpu": 48
+        },
+        "missing_planned_rows": {
+          "cuda": [
+            {
+              "dataset": "robin",
+              "id": "v7_robin_direct_nlinear_lr0.001_92602",
+              "family": "direct",
+              "seed": 92602,
+              "device": "cuda",
+              "block": 2,
+              "sentinel": null,
+              "batch": 1,
+              "chunk_rows": null,
+              "execution": "direct",
+              "key": "c98a1775b928e905e9c98eb8",
+              "planned_sequence": 606
+            },
+            {
+              "dataset": "robin",
+              "id": "v15_robin_raw_free_s92601",
+              "family": "raw_free",
+              "seed": 92601,
+              "device": "cuda",
+              "block": 2,
+              "sentinel": null,
+              "batch": 4,
+              "chunk_rows": 20,
+              "execution": "full",
+              "key": "87cda6a1e09494c757240239",
+              "planned_sequence": 607
+            },
+            {
+              "dataset": "robin",
+              "id": "v15_robin_raw_free_s92601",
+              "family": "raw_free",
+              "seed": 92601,
+              "device": "cuda",
+              "block": 2,
+              "sentinel": null,
+              "batch": 4,
+              "chunk_rows": 5,
+              "execution": "chunk_k",
+              "key": "0ecd654f5f9dee1cea9d70c8",
+              "planned_sequence": 608
+            },
+            {
+              "dataset": "robin",
+              "id": "v15_robin_raw_free_s92601",
+              "family": "raw_free",
+              "seed": 92601,
+              "device": "cuda",
+              "block": 2,
+              "sentinel": null,
+              "batch": 1,
+              "chunk_rows": 5,
+              "execution": "full",
+              "key": "dd4f583968ae08a9bfbdc0f1",
+              "planned_sequence": 609
+            },
+            {
+              "dataset": "robin",
+              "id": "v6_robin_f0",
+              "family": "f0",
+              "seed": null,
+              "device": "cuda",
+              "block": 2,
+              "sentinel": "post",
+              "batch": 1,
+              "chunk_rows": 17,
+              "execution": "full",
+              "key": "f2fcf0975934220397950474",
+              "planned_sequence": 610
+            },
+            {
+              "dataset": "robin",
+              "id": "v6_robin_f0",
+              "family": "f0",
+              "seed": null,
+              "device": "cuda",
+              "block": 2,
+              "sentinel": "post",
+              "batch": 4,
+              "chunk_rows": 68,
+              "execution": "full",
+              "key": "8ba2dec57137ca68b6cba5bf",
+              "planned_sequence": 611
+            }
+          ],
+          "cpu": []
+        },
+        "budget_stop": {
+          "guard": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_coordinate_decoder_v15_20261001\\cost_guard.json",
+            "sha256": "c73094bbab4708e3e678b8f531d3121999bb05d6174316fa5b302b6b30a800af",
+            "bytes": 184
+          },
+          "reason": "V15 cost time cap: preserve partial rows",
+          "guard_elapsed_seconds": 2372.094139899942,
+          "ledger_cost_gpu_seconds": 2372.4140141999815,
+          "fixed_cost_cap_seconds": 2400,
+          "job_ids": [
+            59
+          ],
+          "unmeasured_rows": 6,
+          "scope": "Saved exact grid prefix checked; no missing blocks or measurements imputed",
+          "aggregate_datasets": [
+            "jena",
+            "hog",
+            "peacock_education"
+          ],
+          "omitted_dataset_rows": {
+            "robin": 147
+          },
+          "available_summary": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_coordinate_decoder_v15_20261001\\cost_available_summary.json",
+            "sha256": "4207cf882290afcc24dc662deb4145f47b05166c247d0f7f64bda29cb8d2897a",
+            "bytes": 722994
+          }
+        },
+        "all_four_datasets_preserved": true,
+        "cached_online_parity": true,
+        "new_model_runs": 0,
+        "benchmark_repeats": 0,
+        "report": {
+          "status": "complete_sources_receipts_and_accuracy_checked",
+          "receipt": {
+            "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_coordinate_decoder_v15_20261001\\report_values.json",
+            "sha256": "5054a1b577a45e9471f3a1303c03a65833e0fd0166b58d9daef721b4b6ced647",
+            "bytes": 4937
+          },
+          "scope": "Saved report sources, figure bytes and accuracy table; scientific interpretation remains a separate review"
+        }
+      }
+    }
+  ],
+  "complete_campaign_verified": false,
+  "verification_scope": "Saved artifacts only; missing planned costs remain incomplete",
+  "job_id": 66,
+  "model_runs": 0,
+  "coefficient_fits": 0,
+  "optimizer_updates": 0,
+  "independent_reproduction": false,
+  "budget_during_check": {
+    "real_fit_attempts": 48,
+    "neural_fit_attempts": 0,
+    "coefficient_fit_attempts": 48,
+    "technical_reserve_attempts": 0,
+    "synthetic_sessions": 0,
+    "gpu_seconds": 2917.609334800043,
+    "cpu_analysis_seconds": 289.68201049999334,
+    "cpu_check_seconds": 48.50537249795161,
+    "active_jobs": [
+      {
+        "id": 66,
+        "label": "final_check01",
+        "pid": 70864,
+        "category": "cpu_check",
+        "progress": "cpu: saved rows, parity and declared complete-dataset block aggregation verified",
+        "heartbeat_utc": 1790823007.108214,
+        "pid_alive": true
+      }
+    ],
+    "storage_bytes": 143027929,
+    "limits": {
+      "real_fit": 52,
+      "neural_basic": 0,
+      "coefficient_basic": 48,
+      "technical_reserve": 4,
+      "gpu_seconds": 3600,
+      "cpu_analysis_seconds": 1800,
+      "cpu_check_seconds": 600,
+      "storage_bytes": 2147483648,
+      "synthetic_sessions": 0,
+      "synthetic_steps": 0,
+      "download_bytes": 0,
+      "conflict_wait_per_incident_seconds": 1800,
+      "conflict_wait_total_seconds": 3600
+    }
+  },
+  "budget_after_check": {
+    "real_fit_attempts": 48,
+    "neural_fit_attempts": 0,
+    "coefficient_fit_attempts": 48,
+    "technical_reserve_attempts": 0,
+    "synthetic_sessions": 0,
+    "gpu_seconds": 2917.609334800043,
+    "cpu_analysis_seconds": 289.68201049999334,
+    "cpu_check_seconds": 48.58246190007776,
+    "active_jobs": [],
+    "storage_bytes": 143036056,
+    "limits": {
+      "real_fit": 52,
+      "neural_basic": 0,
+      "coefficient_basic": 48,
+      "technical_reserve": 4,
+      "gpu_seconds": 3600,
+      "cpu_analysis_seconds": 1800,
+      "cpu_check_seconds": 600,
+      "storage_bytes": 2147483648,
+      "synthetic_sessions": 0,
+      "synthetic_steps": 0,
+      "download_bytes": 0,
+      "conflict_wait_per_incident_seconds": 1800,
+      "conflict_wait_total_seconds": 3600
+    }
+  }
+}
