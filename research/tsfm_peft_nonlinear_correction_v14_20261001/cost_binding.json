@@ -1,0 +1,108 @@
+{
+  "files": {
+    "protocol.json": "e33ccc9016e56056beaeb55c83d91fd9c0d6dde160c67dc129f8fa55cb6f1e53",
+    "selected.json": "b474606520196dd53d69bafe16d545a513419ba351f17b238e2e9ce39b84fcac",
+    "reuse_manifest.json": "78c71ed2d14d7cd547d90a4327dfeb8c128fe3c1f9bb436e877afca79d5ca4c3",
+    "data_manifest.json": "a4e5c07c355a5946619a1847b10999cde2046965fda11cbc218cd9cc62aaef30",
+    "cost_decision.json": "ec255c2fc8617a876a9ded9cacb15d449edd870833cef40b1469c8932a9f7fb3",
+    "model_v14.py": "554c5d97635b6c27d87e632039ddaf25cbd1c57b849a11189eea2556d9850b2f",
+    "runtime_v14.py": "bbd52800476826fd34853ee255509efad336e16577c2210ae49dee868ab5df91",
+    "cost_v14.py": "f2129af22ffbbf1a021c6f5235d16447e0572d515acb718838851c2391457dd0",
+    "evaluate_v14.py": "2cd5a8db7c9a41bf1a8dbeb0336cb4fc494a093b9d8438e1a704f2cff87704fb"
+  },
+  "settings": {
+    "trigger": "Per dataset: valid selected level_gelu mean-seed MSE and MAE each no worse than both pca_level and level_linear, with at least one strict metric gain against each; operational measurement allocation only, not significance or scientific success",
+    "datasets": [
+      "robin",
+      "jena",
+      "hog",
+      "peacock_education"
+    ],
+    "VAL_origins": 24,
+    "origin_selection": "first24 chronological existing VAL origins",
+    "batches": [
+      1,
+      4
+    ],
+    "warmups": 10,
+    "passes": 3,
+    "blocks": 3,
+    "roles": [
+      "level_gelu",
+      "level_linear",
+      "direct_gelu",
+      "pca_level",
+      "a",
+      "f0",
+      "full_mse",
+      "native",
+      "direct"
+    ],
+    "instances_per_dataset": 17,
+    "gpu_rows_per_dataset": 132,
+    "gpu_rows_total_max": 528,
+    "cpu_rows_per_dataset": 24,
+    "cpu_rows_total_max": 96,
+    "cpu_roles": [
+      "direct",
+      "direct_gelu"
+    ],
+    "additional_full_mse_chunk_rows": {
+      "batch1": "K",
+      "batch4": [
+        "4K",
+        "K"
+      ]
+    },
+    "reserve_seconds": 1800,
+    "scope": "standardized CPU input to complete original-channel CPU forecast; online parent, transfer/assembly included; load/disk/scoring/hash/ledger excluded",
+    "TF32": false,
+    "CPU_threads": 4,
+    "limited_grid_reason": "full_mse is the prechosen strongest accuracy reference; other microbatch alternatives not exhaustively profiled; no full frontier claim"
+  },
+  "eligible_datasets": [
+    "jena"
+  ],
+  "excluded_datasets": [
+    "robin",
+    "hog",
+    "peacock_education"
+  ],
+  "limited_grid": "Full B1/B4 all listed roles; only full MSE-LoRA also has K/4K row chunks. GROUP costs not measured.",
+  "inputs": {
+    "jena": {
+      "origins": [
+        26207,
+        26231,
+        26255,
+        26279,
+        26303,
+        26327,
+        26351,
+        26375,
+        26399,
+        26423,
+        26447,
+        26471,
+        26495,
+        26519,
+        26543,
+        26567,
+        26591,
+        26615,
+        26639,
+        26663,
+        26687,
+        26711,
+        26735,
+        26759
+      ],
+      "sha256": "a88478545abe986a33e2c0d6495545fc6a98bc851661d0138899d37e181f1e96"
+    }
+  },
+  "source_primitives": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\tsfm_peft_a_confirmation_v12_20261001\\cost_confirmation_v12.py",
+    "sha256": "237628e3298d5c0b0143e6f2e9249316934bb8a0e889c2c4398cd52bea9d64e7",
+    "bytes": 25007
+  }
+}
