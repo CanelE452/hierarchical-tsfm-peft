@@ -1,0 +1,369 @@
+{
+  "scope": "Official pinned Chronos-Bolt family; original channels independently forecast",
+  "models": {
+    "SMALL": {
+      "id": "amazon/chronos-bolt-small",
+      "revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+      "official_url": "https://huggingface.co/amazon/chronos-bolt-small/tree/772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+      "checkpoint_dir": ".cache\\huggingface\\models--amazon--chronos-bolt-small\\snapshots\\772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+      "files": {
+        "config.json": {
+          "path": ".cache/huggingface/models--amazon--chronos-bolt-small/blobs/d8f9b65552d4d211e28d332ad5666484092bbf77",
+          "sha256": "9ca0ebbe049ccebacb0546361e8aa728f0cf104cd18d1838d78d296aa317bd21",
+          "bytes": 1121,
+          "official_git_blob": "d8f9b65552d4d211e28d332ad5666484092bbf77",
+          "official_lfs_sha256": null,
+          "reused_existing_file": true
+        },
+        "model.safetensors": {
+          "path": ".cache/huggingface/blobs/61/61439ff1becff564d030cdbe1ce9dfce0673fc0ebc4ca0a009d3fe02ce60bba0",
+          "sha256": "06a6a19bbe74bc10a9cd193bd4bf2bf638ae07f7e0d51653ae7ab8ea968a21dd",
+          "bytes": 190888824,
+          "official_git_blob": "5a649fa467d4c37bdb3768f91d2211594e742f42",
+          "official_lfs_sha256": "06a6a19bbe74bc10a9cd193bd4bf2bf638ae07f7e0d51653ae7ab8ea968a21dd",
+          "reused_existing_file": true
+        }
+      },
+      "config": {
+        "architectures": [
+          "ChronosBoltModelForForecasting"
+        ],
+        "d_model": 512,
+        "d_ff": 2048,
+        "num_layers": 6,
+        "num_decoder_layers": 6,
+        "num_heads": 8
+      },
+      "chronos_config": {
+        "context_length": 2048,
+        "input_patch_size": 16,
+        "input_patch_stride": 16,
+        "prediction_length": 64,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "use_reg_token": true
+      },
+      "pretraining_overlap": "unverified",
+      "loaded_model_receipt": {
+        "checkpoint_dir": ".cache\\huggingface\\models--amazon--chronos-bolt-small\\snapshots\\772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+        "family": "Chronos-Bolt",
+        "class": "ChronosBoltModelForForecasting",
+        "architectures": [
+          "ChronosBoltModelForForecasting"
+        ],
+        "architecture": {
+          "d_model": 512,
+          "d_ff": 2048,
+          "num_layers": 6,
+          "num_decoder_layers": 6,
+          "num_heads": 8
+        },
+        "context_length": 512,
+        "prediction_length": 48,
+        "model_context_length": 2048,
+        "model_prediction_length": 64,
+        "input_patch_size": 16,
+        "input_patch_stride": 16,
+        "use_reg_token": true,
+        "median_index": 4,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "point_forecast": "native inverse-scaled q=0.5, first 48 observations",
+        "task_rows_per_origin": "C original independent univariate channels",
+        "reshape": "[B,L,C] -> [B,C,L] -> [B*C,L] -> [B*C,H] -> [B,H,C]",
+        "forward_arguments": {
+          "context": "[B*C,512] FP32",
+          "mask": null,
+          "target": null,
+          "target_mask": null
+        },
+        "pipeline_predict_used": false,
+        "row_chunk": null,
+        "preprocessing": "existing TRAIN standardization and input imputation; native Bolt instance norm",
+        "extra_normalization_patch": null,
+        "parameter_count": 47718016,
+        "trainable_parameter_count": 0,
+        "parameter_bytes": 190872064,
+        "buffer_count": 9,
+        "buffer_bytes": 36,
+        "total_tensor_bytes": 190872100,
+        "parameter_dtypes": [
+          "torch.float32"
+        ],
+        "buffer_dtypes": [
+          "torch.float32"
+        ],
+        "eval_mode": true,
+        "output_dtype": "torch.float32",
+        "output_device": "cpu",
+        "output_unit": "same TRAIN-standardized coordinate system as input",
+        "load_arguments": {
+          "device_map": "cuda",
+          "torch_dtype": "torch.float32",
+          "local_files_only": true
+        }
+      }
+    },
+    "MINI": {
+      "id": "amazon/chronos-bolt-mini",
+      "revision": "251268337516a88e253628c43e1d26ec577b376b",
+      "official_url": "https://huggingface.co/amazon/chronos-bolt-mini/tree/251268337516a88e253628c43e1d26ec577b376b",
+      "checkpoint_dir": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\mini",
+      "files": {
+        "config.json": {
+          "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/mini/config.json",
+          "sha256": "4299e93f30bb8d99d8f7dbaa39a1dfc6bf827ae67d4ef4c0b6ba4ca3df514980",
+          "bytes": 1120,
+          "official_git_blob": "40ff13b0845337298878ba4e81dc13183e57046c",
+          "official_lfs_sha256": null,
+          "reused_existing_file": false
+        },
+        "model.safetensors": {
+          "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/mini/model.safetensors",
+          "sha256": "1a1a4297f132b808c5c7da24e3cce549d519c01ff5c2661fcad404baba018f24",
+          "bytes": 84956096,
+          "official_git_blob": "099c099f106050ba94f4796a29710344352b54e8",
+          "official_lfs_sha256": "1a1a4297f132b808c5c7da24e3cce549d519c01ff5c2661fcad404baba018f24",
+          "reused_existing_file": false
+        }
+      },
+      "config": {
+        "architectures": [
+          "ChronosBoltModelForForecasting"
+        ],
+        "d_model": 384,
+        "d_ff": 1536,
+        "num_layers": 4,
+        "num_decoder_layers": 4,
+        "num_heads": 8
+      },
+      "chronos_config": {
+        "context_length": 2048,
+        "input_patch_size": 16,
+        "input_patch_stride": 16,
+        "prediction_length": 64,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "use_reg_token": true
+      },
+      "pretraining_overlap": "unverified",
+      "loaded_model_receipt": {
+        "checkpoint_dir": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\mini",
+        "family": "Chronos-Bolt",
+        "class": "ChronosBoltModelForForecasting",
+        "architectures": [
+          "ChronosBoltModelForForecasting"
+        ],
+        "architecture": {
+          "d_model": 384,
+          "d_ff": 1536,
+          "num_layers": 4,
+          "num_decoder_layers": 4,
+          "num_heads": 8
+        },
+        "context_length": 512,
+        "prediction_length": 48,
+        "model_context_length": 2048,
+        "model_prediction_length": 64,
+        "input_patch_size": 16,
+        "input_patch_stride": 16,
+        "use_reg_token": true,
+        "median_index": 4,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "point_forecast": "native inverse-scaled q=0.5, first 48 observations",
+        "task_rows_per_origin": "C original independent univariate channels",
+        "reshape": "[B,L,C] -> [B,C,L] -> [B*C,L] -> [B*C,H] -> [B,H,C]",
+        "forward_arguments": {
+          "context": "[B*C,512] FP32",
+          "mask": null,
+          "target": null,
+          "target_mask": null
+        },
+        "pipeline_predict_used": false,
+        "row_chunk": null,
+        "preprocessing": "existing TRAIN standardization and input imputation; native Bolt instance norm",
+        "extra_normalization_patch": null,
+        "parameter_count": 21236096,
+        "trainable_parameter_count": 0,
+        "parameter_bytes": 84944384,
+        "buffer_count": 9,
+        "buffer_bytes": 36,
+        "total_tensor_bytes": 84944420,
+        "parameter_dtypes": [
+          "torch.float32"
+        ],
+        "buffer_dtypes": [
+          "torch.float32"
+        ],
+        "eval_mode": true,
+        "output_dtype": "torch.float32",
+        "output_device": "cpu",
+        "output_unit": "same TRAIN-standardized coordinate system as input",
+        "load_arguments": {
+          "device_map": "cuda",
+          "torch_dtype": "torch.float32",
+          "local_files_only": true
+        }
+      }
+    },
+    "TINY": {
+      "id": "amazon/chronos-bolt-tiny",
+      "revision": "a0e552de83495b5c28c14c71c374f3e33280b340",
+      "official_url": "https://huggingface.co/amazon/chronos-bolt-tiny/tree/a0e552de83495b5c28c14c71c374f3e33280b340",
+      "checkpoint_dir": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\tiny",
+      "files": {
+        "config.json": {
+          "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/tiny/config.json",
+          "sha256": "278f0086733031635fb1c861cb01c1bad6477420c7fcb19381a2993e335785e0",
+          "bytes": 1120,
+          "official_git_blob": "d57acc2ef40d0a0d71be5ecdeeec067256b59cc8",
+          "official_lfs_sha256": null,
+          "reused_existing_file": false
+        },
+        "model.safetensors": {
+          "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/tiny/model.safetensors",
+          "sha256": "75068728d376d2bec670379eeef4bfb4d24c0cfe24d957451f8d19b447030a32",
+          "bytes": 34622352,
+          "official_git_blob": "6a1433fbd9e9a67c208c7a96ca1164fd1360e600",
+          "official_lfs_sha256": "75068728d376d2bec670379eeef4bfb4d24c0cfe24d957451f8d19b447030a32",
+          "reused_existing_file": false
+        }
+      },
+      "config": {
+        "architectures": [
+          "ChronosBoltModelForForecasting"
+        ],
+        "d_model": 256,
+        "d_ff": 1024,
+        "num_layers": 4,
+        "num_decoder_layers": 4,
+        "num_heads": 4
+      },
+      "chronos_config": {
+        "context_length": 2048,
+        "input_patch_size": 16,
+        "input_patch_stride": 16,
+        "prediction_length": 64,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "use_reg_token": true
+      },
+      "pretraining_overlap": "unverified",
+      "loaded_model_receipt": {
+        "checkpoint_dir": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\tiny",
+        "family": "Chronos-Bolt",
+        "class": "ChronosBoltModelForForecasting",
+        "architectures": [
+          "ChronosBoltModelForForecasting"
+        ],
+        "architecture": {
+          "d_model": 256,
+          "d_ff": 1024,
+          "num_layers": 4,
+          "num_decoder_layers": 4,
+          "num_heads": 4
+        },
+        "context_length": 512,
+        "prediction_length": 48,
+        "model_context_length": 2048,
+        "model_prediction_length": 64,
+        "input_patch_size": 16,
+        "input_patch_stride": 16,
+        "use_reg_token": true,
+        "median_index": 4,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "point_forecast": "native inverse-scaled q=0.5, first 48 observations",
+        "task_rows_per_origin": "C original independent univariate channels",
+        "reshape": "[B,L,C] -> [B,C,L] -> [B*C,L] -> [B*C,H] -> [B,H,C]",
+        "forward_arguments": {
+          "context": "[B*C,512] FP32",
+          "mask": null,
+          "target": null,
+          "target_mask": null
+        },
+        "pipeline_predict_used": false,
+        "row_chunk": null,
+        "preprocessing": "existing TRAIN standardization and input imputation; native Bolt instance norm",
+        "extra_normalization_patch": null,
+        "parameter_count": 8652672,
+        "trainable_parameter_count": 0,
+        "parameter_bytes": 34610688,
+        "buffer_count": 9,
+        "buffer_bytes": 36,
+        "total_tensor_bytes": 34610724,
+        "parameter_dtypes": [
+          "torch.float32"
+        ],
+        "buffer_dtypes": [
+          "torch.float32"
+        ],
+        "eval_mode": true,
+        "output_dtype": "torch.float32",
+        "output_device": "cpu",
+        "output_unit": "same TRAIN-standardized coordinate system as input",
+        "load_arguments": {
+          "device_map": "cuda",
+          "torch_dtype": "torch.float32",
+          "local_files_only": true
+        }
+      }
+    }
+  },
+  "actual_loaded_parameter_counts": "Recorded by the preflight receipt before TEST seal"
+}

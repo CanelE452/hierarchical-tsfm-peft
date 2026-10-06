@@ -1,0 +1,138 @@
+{
+  "schema": "level_bolt_backbone_prediction_unit_v1",
+  "status": "complete",
+  "dataset": "peacock_education",
+  "method": "BOLT_TINY_F0",
+  "seed": null,
+  "model_key": "TINY",
+  "model_id": "amazon/chronos-bolt-tiny",
+  "revision": "a0e552de83495b5c28c14c71c374f3e33280b340",
+  "checkpoint_dir": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\tiny",
+  "model_manifest": {
+    "path": "research/level_bolt_backbone_scaling_v1_20261006/model_manifest.json",
+    "sha256": "5db9424129b19823b88025893d16de7aa23eea6771ef17fd373c0341e119633b",
+    "bytes": 12847
+  },
+  "preflight": {
+    "path": "research/level_bolt_backbone_scaling_v1_20261006/preflight_checks.json",
+    "sha256": "49d1191d38bb614715f6ee4e20c3d1ac35b7b11f5296bf32c3fa4f3dc4713766",
+    "bytes": 123497
+  },
+  "seal_sha256": "69e3a03ce082c19251f02f3cd2986cfb68ff43ed29781213af22dc6b2bc6ca63",
+  "prediction": {
+    "path": ".cache/level_bolt_backbone_scaling_v1_20261006/predictions01/peacock_education_BOLT_TINY_F0.npz",
+    "sha256": "6cd219ef2d874a32d1f049311817faa97040142a770d08f56cb704ed021eab82",
+    "bytes": 182143,
+    "key": "prediction",
+    "origins_key": "origins",
+    "shape": [
+      80,
+      48,
+      13
+    ],
+    "dtype": "float32"
+  },
+  "data": {
+    "path": ".cache/tsfm_peft_a_confirmation_v12_20261001/confirmation_data/peacock_education/test.npz",
+    "sha256": "14e8a8ab02872551af249264b40a81f1a17c174b2355b3e8dff1e9cfe0601c92",
+    "bytes": 246550
+  },
+  "origin_values_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+  "origin_shape_fp32_finite": {
+    "origin_count": 80,
+    "shape": [
+      80,
+      48,
+      13
+    ],
+    "dtype": "float32",
+    "finite": true
+  },
+  "point": "Native Chronos-Bolt q=0.5 median, first H48, TRAIN-standardized original coordinates",
+  "inputs": "Only X[o-512:o]; each original channel is an independent univariate task",
+  "reshape": "[B,512,C] -> [B,C,512] -> [B*C,512] -> [B,48,C]",
+  "additional_fit_count": 0,
+  "elapsed_s": 0.2281527000013739,
+  "model_receipt": {
+    "checkpoint_dir": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\tiny",
+    "family": "Chronos-Bolt",
+    "class": "ChronosBoltModelForForecasting",
+    "architectures": [
+      "ChronosBoltModelForForecasting"
+    ],
+    "architecture": {
+      "d_model": 256,
+      "d_ff": 1024,
+      "num_layers": 4,
+      "num_decoder_layers": 4,
+      "num_heads": 4
+    },
+    "context_length": 512,
+    "prediction_length": 48,
+    "model_context_length": 2048,
+    "model_prediction_length": 64,
+    "input_patch_size": 16,
+    "input_patch_stride": 16,
+    "use_reg_token": true,
+    "median_index": 4,
+    "quantiles": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "point_forecast": "native inverse-scaled q=0.5, first 48 observations",
+    "task_rows_per_origin": "C original independent univariate channels",
+    "reshape": "[B,L,C] -> [B,C,L] -> [B*C,L] -> [B*C,H] -> [B,H,C]",
+    "forward_arguments": {
+      "context": "[B*C,512] FP32",
+      "mask": null,
+      "target": null,
+      "target_mask": null
+    },
+    "pipeline_predict_used": false,
+    "row_chunk": null,
+    "preprocessing": "existing TRAIN standardization and input imputation; native Bolt instance norm",
+    "extra_normalization_patch": null,
+    "parameter_count": 8652672,
+    "trainable_parameter_count": 0,
+    "parameter_bytes": 34610688,
+    "buffer_count": 9,
+    "buffer_bytes": 36,
+    "total_tensor_bytes": 34610724,
+    "parameter_dtypes": [
+      "torch.float32"
+    ],
+    "buffer_dtypes": [
+      "torch.float32"
+    ],
+    "eval_mode": true,
+    "output_dtype": "torch.float32",
+    "output_device": "cpu",
+    "output_unit": "same TRAIN-standardized coordinate system as input",
+    "load_arguments": {
+      "device_map": "cuda",
+      "torch_dtype": "torch.float32",
+      "local_files_only": true
+    },
+    "checkpoint_files": [
+      {
+        "path": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\tiny\\config.json",
+        "sha256": "278f0086733031635fb1c861cb01c1bad6477420c7fcb19381a2993e335785e0",
+        "bytes": 1120
+      },
+      {
+        "path": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\tiny\\model.safetensors",
+        "sha256": "75068728d376d2bec670379eeef4bfb4d24c0cfe24d957451f8d19b447030a32",
+        "bytes": 34622352
+      }
+    ],
+    "state_sha256": "6b523e426000a5dc5bba8a7c4a073890903abaa9525fdb1c29401dc650a212ae"
+  },
+  "scope": "Post-exposure same-family practical allocation comparison; no new fitting or independent confirmation"
+}

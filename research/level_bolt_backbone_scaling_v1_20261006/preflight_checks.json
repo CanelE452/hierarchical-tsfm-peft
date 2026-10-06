@@ -1,0 +1,3852 @@
+{
+  "schema": "level_bolt_scaling_preflight_v1",
+  "status": "pass",
+  "attempt": 1,
+  "scope": "first four existing chronological VAL origins per dataset; TRAIN/VAL only; no new fit",
+  "tolerances": {
+    "same_path": {
+      "atol": 1e-06,
+      "rtol": 0.0
+    },
+    "batch_merge": {
+      "atol": 1e-05,
+      "rtol": 0.0001
+    }
+  },
+  "artifact_scope": {
+    "write_directories": [
+      "research\\level_bolt_backbone_scaling_v1_20261006",
+      ".cache\\level_bolt_backbone_scaling_v1_20261006"
+    ],
+    "old_campaigns": "read-only",
+    "test_arrays_opened": false
+  },
+  "code": {
+    "path": "research/level_bolt_backbone_scaling_v1_20261006/preflight.py",
+    "sha256": "e27540e93fb3e15d3907fa315b6e57baf3942bc23f9f9d1cd5cb5552f7d8723c",
+    "bytes": 26404
+  },
+  "bolt_models_code": {
+    "path": "research/level_bolt_backbone_scaling_v1_20261006/bolt_models.py",
+    "sha256": "1b9acfa549a3c01883766dc163641f813078332332b2c1b9d64c104cb374bc85",
+    "bytes": 7365
+  },
+  "bindings": {
+    "input_contract.json": {
+      "path": "research/level_bolt_backbone_scaling_v1_20261006/input_contract.json",
+      "sha256": "621691e98317dc51ba132b53fe3c0a771d526bba347740d1deb202a74d4399d2",
+      "bytes": 626925
+    },
+    "reuse_manifest.json": {
+      "path": "research/level_bolt_backbone_scaling_v1_20261006/reuse_manifest.json",
+      "sha256": "71e6b7d096a9cd44d9486a81e041903fed15fbb69f0a392325d29fa25a18e0c0",
+      "bytes": 36662
+    },
+    "model_manifest.json": {
+      "path": "research/level_bolt_backbone_scaling_v1_20261006/model_manifest.json",
+      "sha256": "f18f03bd7fc481934b3e21692be0a67d08c2e0cc992e25b28a0dcaa824df7556",
+      "bytes": 6058
+    }
+  },
+  "bolt_models": [
+    {
+      "model": "SMALL",
+      "id": "amazon/chronos-bolt-small",
+      "revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+      "load_seconds": 0.44265029998496175,
+      "receipt": {
+        "checkpoint_dir": ".cache\\huggingface\\models--amazon--chronos-bolt-small\\snapshots\\772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+        "family": "Chronos-Bolt",
+        "class": "ChronosBoltModelForForecasting",
+        "architectures": [
+          "ChronosBoltModelForForecasting"
+        ],
+        "architecture": {
+          "d_model": 512,
+          "d_ff": 2048,
+          "num_layers": 6,
+          "num_decoder_layers": 6,
+          "num_heads": 8
+        },
+        "context_length": 512,
+        "prediction_length": 48,
+        "model_context_length": 2048,
+        "model_prediction_length": 64,
+        "input_patch_size": 16,
+        "input_patch_stride": 16,
+        "use_reg_token": true,
+        "median_index": 4,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "point_forecast": "native inverse-scaled q=0.5, first 48 observations",
+        "task_rows_per_origin": "C original independent univariate channels",
+        "reshape": "[B,L,C] -> [B,C,L] -> [B*C,L] -> [B*C,H] -> [B,H,C]",
+        "forward_arguments": {
+          "context": "[B*C,512] FP32",
+          "mask": null,
+          "target": null,
+          "target_mask": null
+        },
+        "pipeline_predict_used": false,
+        "row_chunk": null,
+        "preprocessing": "existing TRAIN standardization and input imputation; native Bolt instance norm",
+        "extra_normalization_patch": null,
+        "parameter_count": 47718016,
+        "trainable_parameter_count": 0,
+        "parameter_bytes": 190872064,
+        "buffer_count": 9,
+        "buffer_bytes": 36,
+        "total_tensor_bytes": 190872100,
+        "parameter_dtypes": [
+          "torch.float32"
+        ],
+        "buffer_dtypes": [
+          "torch.float32"
+        ],
+        "eval_mode": true,
+        "output_dtype": "torch.float32",
+        "output_device": "cpu",
+        "output_unit": "same TRAIN-standardized coordinate system as input",
+        "load_arguments": {
+          "device_map": "cuda",
+          "torch_dtype": "torch.float32",
+          "local_files_only": true
+        }
+      },
+      "verified_checkpoint_files": [
+        {
+          "name": "config.json",
+          "source": {
+            "path": ".cache/huggingface/models--amazon--chronos-bolt-small/blobs/d8f9b65552d4d211e28d332ad5666484092bbf77",
+            "sha256": "9ca0ebbe049ccebacb0546361e8aa728f0cf104cd18d1838d78d296aa317bd21",
+            "bytes": 1121
+          },
+          "loaded_checkpoint_file": {
+            "path": ".cache/huggingface/models--amazon--chronos-bolt-small/blobs/d8f9b65552d4d211e28d332ad5666484092bbf77",
+            "sha256": "9ca0ebbe049ccebacb0546361e8aa728f0cf104cd18d1838d78d296aa317bd21",
+            "bytes": 1121
+          }
+        },
+        {
+          "name": "model.safetensors",
+          "source": {
+            "path": ".cache/huggingface/blobs/61/61439ff1becff564d030cdbe1ce9dfce0673fc0ebc4ca0a009d3fe02ce60bba0",
+            "sha256": "06a6a19bbe74bc10a9cd193bd4bf2bf638ae07f7e0d51653ae7ab8ea968a21dd",
+            "bytes": 190888824
+          },
+          "loaded_checkpoint_file": {
+            "path": ".cache/huggingface/blobs/61/61439ff1becff564d030cdbe1ce9dfce0673fc0ebc4ca0a009d3fe02ce60bba0",
+            "sha256": "06a6a19bbe74bc10a9cd193bd4bf2bf638ae07f7e0d51653ae7ab8ea968a21dd",
+            "bytes": 190888824
+          }
+        }
+      ],
+      "state_sha256_before": "2ad89856e7dbab382f4d3decb0de98aed399dccaf0305862845909f8a8640eb7",
+      "units": [
+        {
+          "dataset": "robin",
+          "origins": [
+            2568,
+            2592,
+            2616,
+            2640
+          ],
+          "baseline_id": "v6_robin_f0",
+          "original_instance_norm_forward": "forward",
+          "generalized_instance_norm_forward": "forward",
+          "normalization_treatment": "native inference; original Peacock patch changes the zero-variance backward route only",
+          "checks": [
+            {
+              "label": "generalized SMALL versus original F0 wrapper",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            },
+            {
+              "label": "generalized SMALL versus original F0 wrapper B1",
+              "shape": [
+                1,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 816,
+              "status": "pass"
+            },
+            {
+              "label": "generalized SMALL same-path replay",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            }
+          ],
+          "native_quantile": {
+            "status": "pass",
+            "records": [
+              {
+                "context_shape": [
+                  68,
+                  512
+                ],
+                "context_dtype": "torch.float32",
+                "row_order_bit_equal": true,
+                "actual_argument_names": [
+                  "context"
+                ],
+                "target_provided": false,
+                "future_covariates_provided": false,
+                "native_quantile_shape": [
+                  68,
+                  9,
+                  64
+                ],
+                "native_dtype": "torch.float32",
+                "quantile_index": 4,
+                "actual_quantile": 0.5
+              }
+            ],
+            "selection_parity": {
+              "label": "actual native q=0.5 selection and channel restoration",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            }
+          },
+          "status": "pass"
+        },
+        {
+          "dataset": "peacock_education",
+          "origins": [
+            2568,
+            2592,
+            2616,
+            2640
+          ],
+          "baseline_id": "v12_confirmation_peacock_education_f0",
+          "original_instance_norm_forward": "stable_instance_norm_forward",
+          "generalized_instance_norm_forward": "forward",
+          "normalization_treatment": "native inference; original Peacock patch changes the zero-variance backward route only",
+          "checks": [
+            {
+              "label": "generalized SMALL versus original F0 wrapper",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            },
+            {
+              "label": "generalized SMALL versus original F0 wrapper B1",
+              "shape": [
+                1,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 624,
+              "status": "pass"
+            },
+            {
+              "label": "generalized SMALL same-path replay",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            }
+          ],
+          "native_quantile": {
+            "status": "pass",
+            "records": [
+              {
+                "context_shape": [
+                  52,
+                  512
+                ],
+                "context_dtype": "torch.float32",
+                "row_order_bit_equal": true,
+                "actual_argument_names": [
+                  "context"
+                ],
+                "target_provided": false,
+                "future_covariates_provided": false,
+                "native_quantile_shape": [
+                  52,
+                  9,
+                  64
+                ],
+                "native_dtype": "torch.float32",
+                "quantile_index": 4,
+                "actual_quantile": 0.5
+              }
+            ],
+            "selection_parity": {
+              "label": "actual native q=0.5 selection and channel restoration",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            }
+          },
+          "status": "pass"
+        },
+        {
+          "dataset": "jena",
+          "origins": [
+            26207,
+            26231,
+            26255,
+            26279
+          ],
+          "baseline_id": "v7_jena_f0",
+          "original_instance_norm_forward": "forward",
+          "generalized_instance_norm_forward": "forward",
+          "normalization_treatment": "native inference; original Peacock patch changes the zero-variance backward route only",
+          "checks": [
+            {
+              "label": "generalized SMALL versus original F0 wrapper",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            },
+            {
+              "label": "generalized SMALL versus original F0 wrapper B1",
+              "shape": [
+                1,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 1008,
+              "status": "pass"
+            },
+            {
+              "label": "generalized SMALL same-path replay",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            }
+          ],
+          "native_quantile": {
+            "status": "pass",
+            "records": [
+              {
+                "context_shape": [
+                  84,
+                  512
+                ],
+                "context_dtype": "torch.float32",
+                "row_order_bit_equal": true,
+                "actual_argument_names": [
+                  "context"
+                ],
+                "target_provided": false,
+                "future_covariates_provided": false,
+                "native_quantile_shape": [
+                  84,
+                  9,
+                  64
+                ],
+                "native_dtype": "torch.float32",
+                "quantile_index": 4,
+                "actual_quantile": 0.5
+              }
+            ],
+            "selection_parity": {
+              "label": "actual native q=0.5 selection and channel restoration",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            }
+          },
+          "status": "pass"
+        }
+      ],
+      "state_sha256_after": "2ad89856e7dbab382f4d3decb0de98aed399dccaf0305862845909f8a8640eb7",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      },
+      "status": "pass"
+    },
+    {
+      "model": "MINI",
+      "id": "amazon/chronos-bolt-mini",
+      "revision": "251268337516a88e253628c43e1d26ec577b376b",
+      "load_seconds": 0.1419481998309493,
+      "receipt": {
+        "checkpoint_dir": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\mini",
+        "family": "Chronos-Bolt",
+        "class": "ChronosBoltModelForForecasting",
+        "architectures": [
+          "ChronosBoltModelForForecasting"
+        ],
+        "architecture": {
+          "d_model": 384,
+          "d_ff": 1536,
+          "num_layers": 4,
+          "num_decoder_layers": 4,
+          "num_heads": 8
+        },
+        "context_length": 512,
+        "prediction_length": 48,
+        "model_context_length": 2048,
+        "model_prediction_length": 64,
+        "input_patch_size": 16,
+        "input_patch_stride": 16,
+        "use_reg_token": true,
+        "median_index": 4,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "point_forecast": "native inverse-scaled q=0.5, first 48 observations",
+        "task_rows_per_origin": "C original independent univariate channels",
+        "reshape": "[B,L,C] -> [B,C,L] -> [B*C,L] -> [B*C,H] -> [B,H,C]",
+        "forward_arguments": {
+          "context": "[B*C,512] FP32",
+          "mask": null,
+          "target": null,
+          "target_mask": null
+        },
+        "pipeline_predict_used": false,
+        "row_chunk": null,
+        "preprocessing": "existing TRAIN standardization and input imputation; native Bolt instance norm",
+        "extra_normalization_patch": null,
+        "parameter_count": 21236096,
+        "trainable_parameter_count": 0,
+        "parameter_bytes": 84944384,
+        "buffer_count": 9,
+        "buffer_bytes": 36,
+        "total_tensor_bytes": 84944420,
+        "parameter_dtypes": [
+          "torch.float32"
+        ],
+        "buffer_dtypes": [
+          "torch.float32"
+        ],
+        "eval_mode": true,
+        "output_dtype": "torch.float32",
+        "output_device": "cpu",
+        "output_unit": "same TRAIN-standardized coordinate system as input",
+        "load_arguments": {
+          "device_map": "cuda",
+          "torch_dtype": "torch.float32",
+          "local_files_only": true
+        }
+      },
+      "verified_checkpoint_files": [
+        {
+          "name": "config.json",
+          "source": {
+            "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/mini/config.json",
+            "sha256": "4299e93f30bb8d99d8f7dbaa39a1dfc6bf827ae67d4ef4c0b6ba4ca3df514980",
+            "bytes": 1120
+          },
+          "loaded_checkpoint_file": {
+            "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/mini/config.json",
+            "sha256": "4299e93f30bb8d99d8f7dbaa39a1dfc6bf827ae67d4ef4c0b6ba4ca3df514980",
+            "bytes": 1120
+          }
+        },
+        {
+          "name": "model.safetensors",
+          "source": {
+            "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/mini/model.safetensors",
+            "sha256": "1a1a4297f132b808c5c7da24e3cce549d519c01ff5c2661fcad404baba018f24",
+            "bytes": 84956096
+          },
+          "loaded_checkpoint_file": {
+            "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/mini/model.safetensors",
+            "sha256": "1a1a4297f132b808c5c7da24e3cce549d519c01ff5c2661fcad404baba018f24",
+            "bytes": 84956096
+          }
+        }
+      ],
+      "state_sha256_before": "649c7255684b53acae8768f09081dbddf88ec5b79d7a45f3c58e9cd4d049d82a",
+      "units": [
+        {
+          "dataset": "robin",
+          "origins": [
+            2568,
+            2592,
+            2616,
+            2640
+          ],
+          "columns": [
+            "Robin_office_Addie",
+            "Robin_office_Adolph",
+            "Robin_office_Antonina",
+            "Robin_office_Dina",
+            "Robin_office_Donald",
+            "Robin_office_Erma",
+            "Robin_office_Gayle",
+            "Robin_office_Lindsay",
+            "Robin_office_Maryann",
+            "Robin_office_Sammie",
+            "Robin_office_Saul",
+            "Robin_office_Serena",
+            "Robin_office_Shirlene",
+            "Robin_office_Soledad",
+            "Robin_office_Victor",
+            "Robin_office_Wai",
+            "Robin_office_Zelma"
+          ],
+          "input_shape": [
+            4,
+            512,
+            17
+          ],
+          "input_finite": true,
+          "checks": [
+            {
+              "label": "all four solo origins versus B4",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 7.152557373046875e-07,
+              "max_relative_error_nonzero_reference": 7.023278977410581e-06,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            },
+            {
+              "label": "same pinned-checkpoint input replay",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            },
+            {
+              "label": "origin permutation restored",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            },
+            {
+              "label": "channel permutation restored",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            },
+            {
+              "label": "changed origin 3 cannot affect origins 0/1/2",
+              "shape": [
+                3,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2448,
+              "status": "pass"
+            },
+            {
+              "label": "changed channel 1 cannot affect other channels at origin 0",
+              "shape": [
+                48,
+                16
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 768,
+              "status": "pass"
+            },
+            {
+              "label": "actual future-array change leaves the prediction unchanged",
+              "shape": [
+                1,
+                48,
+                17
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 4.76837158203125e-07,
+              "max_relative_error_nonzero_reference": 1.915439721111977e-06,
+              "violating_elements": 0,
+              "elements": 816,
+              "status": "pass"
+            }
+          ],
+          "native_quantile": {
+            "status": "pass",
+            "records": [
+              {
+                "context_shape": [
+                  68,
+                  512
+                ],
+                "context_dtype": "torch.float32",
+                "row_order_bit_equal": true,
+                "actual_argument_names": [
+                  "context"
+                ],
+                "target_provided": false,
+                "future_covariates_provided": false,
+                "native_quantile_shape": [
+                  68,
+                  9,
+                  64
+                ],
+                "native_dtype": "torch.float32",
+                "quantile_index": 4,
+                "actual_quantile": 0.5
+              }
+            ],
+            "selection_parity": {
+              "label": "actual native q=0.5 selection and channel restoration",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            }
+          },
+          "output_contract": {
+            "status": "pass",
+            "shape": [
+              4,
+              48,
+              17
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu",
+            "finite": true,
+            "contiguous": true,
+            "requires_grad": false
+          },
+          "future_barrier": {
+            "status": "pass",
+            "actual_future_rows_modified": 48,
+            "past_input_bit_identical": true,
+            "future_inputs_provided": false,
+            "scope": "origin 0; future rows may be past for later origins"
+          },
+          "timings": {
+            "1": {
+              "call_seconds": [
+                0.008258800022304058,
+                0.008636899990960956,
+                0.00881849997676909
+              ],
+              "median_s": 0.008636899990960956,
+              "max_s": 0.00881849997676909,
+              "calls": 3,
+              "batch_origins": 1,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            },
+            "4": {
+              "call_seconds": [
+                0.010405100183561444,
+                0.010536900022998452,
+                0.010497299954295158
+              ],
+              "median_s": 0.010497299954295158,
+              "max_s": 0.010536900022998452,
+              "calls": 3,
+              "batch_origins": 4,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            }
+          },
+          "status": "pass"
+        },
+        {
+          "dataset": "peacock_education",
+          "origins": [
+            2568,
+            2592,
+            2616,
+            2640
+          ],
+          "columns": [
+            "Peacock_education_Anita",
+            "Peacock_education_Dustin",
+            "Peacock_education_Forest",
+            "Peacock_education_Gilberto",
+            "Peacock_education_Joshua",
+            "Peacock_education_Karyn",
+            "Peacock_education_Lyle",
+            "Peacock_education_Ophelia",
+            "Peacock_education_Pasquale",
+            "Peacock_education_Patience",
+            "Peacock_education_Robbie",
+            "Peacock_education_Shelly",
+            "Peacock_education_Yolanda"
+          ],
+          "input_shape": [
+            4,
+            512,
+            13
+          ],
+          "input_finite": true,
+          "checks": [
+            {
+              "label": "all four solo origins versus B4",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 4.76837158203125e-07,
+              "max_relative_error_nonzero_reference": 0.003059319003536096,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            },
+            {
+              "label": "same pinned-checkpoint input replay",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            },
+            {
+              "label": "origin permutation restored",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            },
+            {
+              "label": "channel permutation restored",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            },
+            {
+              "label": "changed origin 3 cannot affect origins 0/1/2",
+              "shape": [
+                3,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 1872,
+              "status": "pass"
+            },
+            {
+              "label": "changed channel 1 cannot affect other channels at origin 0",
+              "shape": [
+                48,
+                12
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 576,
+              "status": "pass"
+            },
+            {
+              "label": "actual future-array change leaves the prediction unchanged",
+              "shape": [
+                1,
+                48,
+                13
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 624,
+              "status": "pass"
+            }
+          ],
+          "native_quantile": {
+            "status": "pass",
+            "records": [
+              {
+                "context_shape": [
+                  52,
+                  512
+                ],
+                "context_dtype": "torch.float32",
+                "row_order_bit_equal": true,
+                "actual_argument_names": [
+                  "context"
+                ],
+                "target_provided": false,
+                "future_covariates_provided": false,
+                "native_quantile_shape": [
+                  52,
+                  9,
+                  64
+                ],
+                "native_dtype": "torch.float32",
+                "quantile_index": 4,
+                "actual_quantile": 0.5
+              }
+            ],
+            "selection_parity": {
+              "label": "actual native q=0.5 selection and channel restoration",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            }
+          },
+          "output_contract": {
+            "status": "pass",
+            "shape": [
+              4,
+              48,
+              13
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu",
+            "finite": true,
+            "contiguous": true,
+            "requires_grad": false
+          },
+          "future_barrier": {
+            "status": "pass",
+            "actual_future_rows_modified": 48,
+            "past_input_bit_identical": true,
+            "future_inputs_provided": false,
+            "scope": "origin 0; future rows may be past for later origins"
+          },
+          "timings": {
+            "1": {
+              "call_seconds": [
+                0.008335000136867166,
+                0.008510599844157696,
+                0.008354099933058023
+              ],
+              "median_s": 0.008354099933058023,
+              "max_s": 0.008510599844157696,
+              "calls": 3,
+              "batch_origins": 1,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            },
+            "4": {
+              "call_seconds": [
+                0.009004699997603893,
+                0.009820300154387951,
+                0.008926899870857596
+              ],
+              "median_s": 0.009004699997603893,
+              "max_s": 0.009820300154387951,
+              "calls": 3,
+              "batch_origins": 4,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            }
+          },
+          "status": "pass"
+        },
+        {
+          "dataset": "jena",
+          "origins": [
+            26207,
+            26231,
+            26255,
+            26279
+          ],
+          "columns": [
+            "p (mbar)",
+            "T (degC)",
+            "Tpot (K)",
+            "Tdew (degC)",
+            "rh (%)",
+            "VPmax (mbar)",
+            "VPact (mbar)",
+            "VPdef (mbar)",
+            "sh (g/kg)",
+            "H2OC (mmol/mol)",
+            "rho (g/m**3)",
+            "wv (m/s)",
+            "max. wv (m/s)",
+            "wd (deg)",
+            "rain (mm)",
+            "raining (s)",
+            "SWDR (W/m²)",
+            "PAR (µmol/m²/s)",
+            "max. PAR (µmol/m²/s)",
+            "Tlog (degC)",
+            "CO2 (ppm)"
+          ],
+          "input_shape": [
+            4,
+            512,
+            21
+          ],
+          "input_finite": true,
+          "checks": [
+            {
+              "label": "all four solo origins versus B4",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 1.1920928955078125e-06,
+              "max_relative_error_nonzero_reference": 0.0002416480396302785,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            },
+            {
+              "label": "same pinned-checkpoint input replay",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            },
+            {
+              "label": "origin permutation restored",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            },
+            {
+              "label": "channel permutation restored",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            },
+            {
+              "label": "changed origin 3 cannot affect origins 0/1/2",
+              "shape": [
+                3,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3024,
+              "status": "pass"
+            },
+            {
+              "label": "changed channel 1 cannot affect other channels at origin 0",
+              "shape": [
+                48,
+                20
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 960,
+              "status": "pass"
+            },
+            {
+              "label": "actual future-array change leaves the prediction unchanged",
+              "shape": [
+                1,
+                48,
+                21
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 3.5762786865234375e-07,
+              "max_relative_error_nonzero_reference": 9.786965719055362e-06,
+              "violating_elements": 0,
+              "elements": 1008,
+              "status": "pass"
+            }
+          ],
+          "native_quantile": {
+            "status": "pass",
+            "records": [
+              {
+                "context_shape": [
+                  84,
+                  512
+                ],
+                "context_dtype": "torch.float32",
+                "row_order_bit_equal": true,
+                "actual_argument_names": [
+                  "context"
+                ],
+                "target_provided": false,
+                "future_covariates_provided": false,
+                "native_quantile_shape": [
+                  84,
+                  9,
+                  64
+                ],
+                "native_dtype": "torch.float32",
+                "quantile_index": 4,
+                "actual_quantile": 0.5
+              }
+            ],
+            "selection_parity": {
+              "label": "actual native q=0.5 selection and channel restoration",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            }
+          },
+          "output_contract": {
+            "status": "pass",
+            "shape": [
+              4,
+              48,
+              21
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu",
+            "finite": true,
+            "contiguous": true,
+            "requires_grad": false
+          },
+          "future_barrier": {
+            "status": "pass",
+            "actual_future_rows_modified": 48,
+            "past_input_bit_identical": true,
+            "future_inputs_provided": false,
+            "scope": "origin 0; future rows may be past for later origins"
+          },
+          "timings": {
+            "1": {
+              "call_seconds": [
+                0.008427899796515703,
+                0.009957399917766452,
+                0.009495600126683712
+              ],
+              "median_s": 0.009495600126683712,
+              "max_s": 0.009957399917766452,
+              "calls": 3,
+              "batch_origins": 1,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            },
+            "4": {
+              "call_seconds": [
+                0.012461000122129917,
+                0.010764400009065866,
+                0.010870999889448285
+              ],
+              "median_s": 0.010870999889448285,
+              "max_s": 0.012461000122129917,
+              "calls": 3,
+              "batch_origins": 4,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            }
+          },
+          "status": "pass"
+        }
+      ],
+      "state_sha256_after": "649c7255684b53acae8768f09081dbddf88ec5b79d7a45f3c58e9cd4d049d82a",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      },
+      "reload_seconds": 0.08453179989010096,
+      "reload_checks": [
+        {
+          "label": "same pinned checkpoint reload robin",
+          "shape": [
+            4,
+            48,
+            17
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 3264,
+          "status": "pass"
+        },
+        {
+          "label": "same pinned checkpoint reload peacock_education",
+          "shape": [
+            4,
+            48,
+            13
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 2496,
+          "status": "pass"
+        },
+        {
+          "label": "same pinned checkpoint reload jena",
+          "shape": [
+            4,
+            48,
+            21
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 4032,
+          "status": "pass"
+        }
+      ],
+      "reload_state_sha256_before": "649c7255684b53acae8768f09081dbddf88ec5b79d7a45f3c58e9cd4d049d82a",
+      "reload_state_sha256_after": "649c7255684b53acae8768f09081dbddf88ec5b79d7a45f3c58e9cd4d049d82a",
+      "status": "pass"
+    },
+    {
+      "model": "TINY",
+      "id": "amazon/chronos-bolt-tiny",
+      "revision": "a0e552de83495b5c28c14c71c374f3e33280b340",
+      "load_seconds": 0.07969670020975173,
+      "receipt": {
+        "checkpoint_dir": ".cache\\level_bolt_backbone_scaling_v1_20261006\\models\\tiny",
+        "family": "Chronos-Bolt",
+        "class": "ChronosBoltModelForForecasting",
+        "architectures": [
+          "ChronosBoltModelForForecasting"
+        ],
+        "architecture": {
+          "d_model": 256,
+          "d_ff": 1024,
+          "num_layers": 4,
+          "num_decoder_layers": 4,
+          "num_heads": 4
+        },
+        "context_length": 512,
+        "prediction_length": 48,
+        "model_context_length": 2048,
+        "model_prediction_length": 64,
+        "input_patch_size": 16,
+        "input_patch_stride": 16,
+        "use_reg_token": true,
+        "median_index": 4,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "point_forecast": "native inverse-scaled q=0.5, first 48 observations",
+        "task_rows_per_origin": "C original independent univariate channels",
+        "reshape": "[B,L,C] -> [B,C,L] -> [B*C,L] -> [B*C,H] -> [B,H,C]",
+        "forward_arguments": {
+          "context": "[B*C,512] FP32",
+          "mask": null,
+          "target": null,
+          "target_mask": null
+        },
+        "pipeline_predict_used": false,
+        "row_chunk": null,
+        "preprocessing": "existing TRAIN standardization and input imputation; native Bolt instance norm",
+        "extra_normalization_patch": null,
+        "parameter_count": 8652672,
+        "trainable_parameter_count": 0,
+        "parameter_bytes": 34610688,
+        "buffer_count": 9,
+        "buffer_bytes": 36,
+        "total_tensor_bytes": 34610724,
+        "parameter_dtypes": [
+          "torch.float32"
+        ],
+        "buffer_dtypes": [
+          "torch.float32"
+        ],
+        "eval_mode": true,
+        "output_dtype": "torch.float32",
+        "output_device": "cpu",
+        "output_unit": "same TRAIN-standardized coordinate system as input",
+        "load_arguments": {
+          "device_map": "cuda",
+          "torch_dtype": "torch.float32",
+          "local_files_only": true
+        }
+      },
+      "verified_checkpoint_files": [
+        {
+          "name": "config.json",
+          "source": {
+            "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/tiny/config.json",
+            "sha256": "278f0086733031635fb1c861cb01c1bad6477420c7fcb19381a2993e335785e0",
+            "bytes": 1120
+          },
+          "loaded_checkpoint_file": {
+            "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/tiny/config.json",
+            "sha256": "278f0086733031635fb1c861cb01c1bad6477420c7fcb19381a2993e335785e0",
+            "bytes": 1120
+          }
+        },
+        {
+          "name": "model.safetensors",
+          "source": {
+            "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/tiny/model.safetensors",
+            "sha256": "75068728d376d2bec670379eeef4bfb4d24c0cfe24d957451f8d19b447030a32",
+            "bytes": 34622352
+          },
+          "loaded_checkpoint_file": {
+            "path": ".cache/level_bolt_backbone_scaling_v1_20261006/models/tiny/model.safetensors",
+            "sha256": "75068728d376d2bec670379eeef4bfb4d24c0cfe24d957451f8d19b447030a32",
+            "bytes": 34622352
+          }
+        }
+      ],
+      "state_sha256_before": "6b523e426000a5dc5bba8a7c4a073890903abaa9525fdb1c29401dc650a212ae",
+      "units": [
+        {
+          "dataset": "robin",
+          "origins": [
+            2568,
+            2592,
+            2616,
+            2640
+          ],
+          "columns": [
+            "Robin_office_Addie",
+            "Robin_office_Adolph",
+            "Robin_office_Antonina",
+            "Robin_office_Dina",
+            "Robin_office_Donald",
+            "Robin_office_Erma",
+            "Robin_office_Gayle",
+            "Robin_office_Lindsay",
+            "Robin_office_Maryann",
+            "Robin_office_Sammie",
+            "Robin_office_Saul",
+            "Robin_office_Serena",
+            "Robin_office_Shirlene",
+            "Robin_office_Soledad",
+            "Robin_office_Victor",
+            "Robin_office_Wai",
+            "Robin_office_Zelma"
+          ],
+          "input_shape": [
+            4,
+            512,
+            17
+          ],
+          "input_finite": true,
+          "checks": [
+            {
+              "label": "all four solo origins versus B4",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 9.5367431640625e-07,
+              "max_relative_error_nonzero_reference": 0.00011052166224580017,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            },
+            {
+              "label": "same pinned-checkpoint input replay",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            },
+            {
+              "label": "origin permutation restored",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            },
+            {
+              "label": "channel permutation restored",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            },
+            {
+              "label": "changed origin 3 cannot affect origins 0/1/2",
+              "shape": [
+                3,
+                48,
+                17
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2448,
+              "status": "pass"
+            },
+            {
+              "label": "changed channel 1 cannot affect other channels at origin 0",
+              "shape": [
+                48,
+                16
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 768,
+              "status": "pass"
+            },
+            {
+              "label": "actual future-array change leaves the prediction unchanged",
+              "shape": [
+                1,
+                48,
+                17
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 7.152557373046875e-07,
+              "max_relative_error_nonzero_reference": 6.465344726023321e-05,
+              "violating_elements": 0,
+              "elements": 816,
+              "status": "pass"
+            }
+          ],
+          "native_quantile": {
+            "status": "pass",
+            "records": [
+              {
+                "context_shape": [
+                  68,
+                  512
+                ],
+                "context_dtype": "torch.float32",
+                "row_order_bit_equal": true,
+                "actual_argument_names": [
+                  "context"
+                ],
+                "target_provided": false,
+                "future_covariates_provided": false,
+                "native_quantile_shape": [
+                  68,
+                  9,
+                  64
+                ],
+                "native_dtype": "torch.float32",
+                "quantile_index": 4,
+                "actual_quantile": 0.5
+              }
+            ],
+            "selection_parity": {
+              "label": "actual native q=0.5 selection and channel restoration",
+              "shape": [
+                4,
+                48,
+                17
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3264,
+              "status": "pass"
+            }
+          },
+          "output_contract": {
+            "status": "pass",
+            "shape": [
+              4,
+              48,
+              17
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu",
+            "finite": true,
+            "contiguous": true,
+            "requires_grad": false
+          },
+          "future_barrier": {
+            "status": "pass",
+            "actual_future_rows_modified": 48,
+            "past_input_bit_identical": true,
+            "future_inputs_provided": false,
+            "scope": "origin 0; future rows may be past for later origins"
+          },
+          "timings": {
+            "1": {
+              "call_seconds": [
+                0.008853400126099586,
+                0.009504599962383509,
+                0.008787399856373668
+              ],
+              "median_s": 0.008853400126099586,
+              "max_s": 0.009504599962383509,
+              "calls": 3,
+              "batch_origins": 1,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            },
+            "4": {
+              "call_seconds": [
+                0.00869880011305213,
+                0.008845399832352996,
+                0.008947600144892931
+              ],
+              "median_s": 0.008845399832352996,
+              "max_s": 0.008947600144892931,
+              "calls": 3,
+              "batch_origins": 4,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            }
+          },
+          "status": "pass"
+        },
+        {
+          "dataset": "peacock_education",
+          "origins": [
+            2568,
+            2592,
+            2616,
+            2640
+          ],
+          "columns": [
+            "Peacock_education_Anita",
+            "Peacock_education_Dustin",
+            "Peacock_education_Forest",
+            "Peacock_education_Gilberto",
+            "Peacock_education_Joshua",
+            "Peacock_education_Karyn",
+            "Peacock_education_Lyle",
+            "Peacock_education_Ophelia",
+            "Peacock_education_Pasquale",
+            "Peacock_education_Patience",
+            "Peacock_education_Robbie",
+            "Peacock_education_Shelly",
+            "Peacock_education_Yolanda"
+          ],
+          "input_shape": [
+            4,
+            512,
+            13
+          ],
+          "input_finite": true,
+          "checks": [
+            {
+              "label": "all four solo origins versus B4",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 4.76837158203125e-07,
+              "max_relative_error_nonzero_reference": 0.00010692264740474974,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            },
+            {
+              "label": "same pinned-checkpoint input replay",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            },
+            {
+              "label": "origin permutation restored",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            },
+            {
+              "label": "channel permutation restored",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            },
+            {
+              "label": "changed origin 3 cannot affect origins 0/1/2",
+              "shape": [
+                3,
+                48,
+                13
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 1872,
+              "status": "pass"
+            },
+            {
+              "label": "changed channel 1 cannot affect other channels at origin 0",
+              "shape": [
+                48,
+                12
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 576,
+              "status": "pass"
+            },
+            {
+              "label": "actual future-array change leaves the prediction unchanged",
+              "shape": [
+                1,
+                48,
+                13
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 624,
+              "status": "pass"
+            }
+          ],
+          "native_quantile": {
+            "status": "pass",
+            "records": [
+              {
+                "context_shape": [
+                  52,
+                  512
+                ],
+                "context_dtype": "torch.float32",
+                "row_order_bit_equal": true,
+                "actual_argument_names": [
+                  "context"
+                ],
+                "target_provided": false,
+                "future_covariates_provided": false,
+                "native_quantile_shape": [
+                  52,
+                  9,
+                  64
+                ],
+                "native_dtype": "torch.float32",
+                "quantile_index": 4,
+                "actual_quantile": 0.5
+              }
+            ],
+            "selection_parity": {
+              "label": "actual native q=0.5 selection and channel restoration",
+              "shape": [
+                4,
+                48,
+                13
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 2496,
+              "status": "pass"
+            }
+          },
+          "output_contract": {
+            "status": "pass",
+            "shape": [
+              4,
+              48,
+              13
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu",
+            "finite": true,
+            "contiguous": true,
+            "requires_grad": false
+          },
+          "future_barrier": {
+            "status": "pass",
+            "actual_future_rows_modified": 48,
+            "past_input_bit_identical": true,
+            "future_inputs_provided": false,
+            "scope": "origin 0; future rows may be past for later origins"
+          },
+          "timings": {
+            "1": {
+              "call_seconds": [
+                0.007924099918454885,
+                0.009702700190246105,
+                0.008639100007712841
+              ],
+              "median_s": 0.008639100007712841,
+              "max_s": 0.009702700190246105,
+              "calls": 3,
+              "batch_origins": 1,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            },
+            "4": {
+              "call_seconds": [
+                0.009747300064191222,
+                0.008971899980679154,
+                0.008964200038462877
+              ],
+              "median_s": 0.008971899980679154,
+              "max_s": 0.009747300064191222,
+              "calls": 3,
+              "batch_origins": 4,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            }
+          },
+          "status": "pass"
+        },
+        {
+          "dataset": "jena",
+          "origins": [
+            26207,
+            26231,
+            26255,
+            26279
+          ],
+          "columns": [
+            "p (mbar)",
+            "T (degC)",
+            "Tpot (K)",
+            "Tdew (degC)",
+            "rh (%)",
+            "VPmax (mbar)",
+            "VPact (mbar)",
+            "VPdef (mbar)",
+            "sh (g/kg)",
+            "H2OC (mmol/mol)",
+            "rho (g/m**3)",
+            "wv (m/s)",
+            "max. wv (m/s)",
+            "wd (deg)",
+            "rain (mm)",
+            "raining (s)",
+            "SWDR (W/m²)",
+            "PAR (µmol/m²/s)",
+            "max. PAR (µmol/m²/s)",
+            "Tlog (degC)",
+            "CO2 (ppm)"
+          ],
+          "input_shape": [
+            4,
+            512,
+            21
+          ],
+          "input_finite": true,
+          "checks": [
+            {
+              "label": "all four solo origins versus B4",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 1.430511474609375e-06,
+              "max_relative_error_nonzero_reference": 0.0006023189278723084,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            },
+            {
+              "label": "same pinned-checkpoint input replay",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            },
+            {
+              "label": "origin permutation restored",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            },
+            {
+              "label": "channel permutation restored",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            },
+            {
+              "label": "changed origin 3 cannot affect origins 0/1/2",
+              "shape": [
+                3,
+                48,
+                21
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 3024,
+              "status": "pass"
+            },
+            {
+              "label": "changed channel 1 cannot affect other channels at origin 0",
+              "shape": [
+                48,
+                20
+              ],
+              "atol": 1e-05,
+              "rtol": 0.0001,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 960,
+              "status": "pass"
+            },
+            {
+              "label": "actual future-array change leaves the prediction unchanged",
+              "shape": [
+                1,
+                48,
+                21
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 4.76837158203125e-07,
+              "max_relative_error_nonzero_reference": 9.149302434309152e-06,
+              "violating_elements": 0,
+              "elements": 1008,
+              "status": "pass"
+            }
+          ],
+          "native_quantile": {
+            "status": "pass",
+            "records": [
+              {
+                "context_shape": [
+                  84,
+                  512
+                ],
+                "context_dtype": "torch.float32",
+                "row_order_bit_equal": true,
+                "actual_argument_names": [
+                  "context"
+                ],
+                "target_provided": false,
+                "future_covariates_provided": false,
+                "native_quantile_shape": [
+                  84,
+                  9,
+                  64
+                ],
+                "native_dtype": "torch.float32",
+                "quantile_index": 4,
+                "actual_quantile": 0.5
+              }
+            ],
+            "selection_parity": {
+              "label": "actual native q=0.5 selection and channel restoration",
+              "shape": [
+                4,
+                48,
+                21
+              ],
+              "atol": 1e-06,
+              "rtol": 0.0,
+              "max_absolute_error": 0.0,
+              "max_relative_error_nonzero_reference": 0.0,
+              "violating_elements": 0,
+              "elements": 4032,
+              "status": "pass"
+            }
+          },
+          "output_contract": {
+            "status": "pass",
+            "shape": [
+              4,
+              48,
+              21
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu",
+            "finite": true,
+            "contiguous": true,
+            "requires_grad": false
+          },
+          "future_barrier": {
+            "status": "pass",
+            "actual_future_rows_modified": 48,
+            "past_input_bit_identical": true,
+            "future_inputs_provided": false,
+            "scope": "origin 0; future rows may be past for later origins"
+          },
+          "timings": {
+            "1": {
+              "call_seconds": [
+                0.009541300125420094,
+                0.009713799925521016,
+                0.009840099839493632
+              ],
+              "median_s": 0.009713799925521016,
+              "max_s": 0.009840099839493632,
+              "calls": 3,
+              "batch_origins": 1,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            },
+            "4": {
+              "call_seconds": [
+                0.009501900058239698,
+                0.011518999934196472,
+                0.009841300081461668
+              ],
+              "median_s": 0.009841300081461668,
+              "max_s": 0.011518999934196472,
+              "calls": 3,
+              "batch_origins": 4,
+              "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+              "scientific_cost_measurement": false
+            }
+          },
+          "status": "pass"
+        }
+      ],
+      "state_sha256_after": "6b523e426000a5dc5bba8a7c4a073890903abaa9525fdb1c29401dc650a212ae",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      },
+      "reload_seconds": 0.06178879993967712,
+      "reload_checks": [
+        {
+          "label": "same pinned checkpoint reload robin",
+          "shape": [
+            4,
+            48,
+            17
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 3264,
+          "status": "pass"
+        },
+        {
+          "label": "same pinned checkpoint reload peacock_education",
+          "shape": [
+            4,
+            48,
+            13
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 2496,
+          "status": "pass"
+        },
+        {
+          "label": "same pinned checkpoint reload jena",
+          "shape": [
+            4,
+            48,
+            21
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 4032,
+          "status": "pass"
+        }
+      ],
+      "reload_state_sha256_before": "6b523e426000a5dc5bba8a7c4a073890903abaa9525fdb1c29401dc650a212ae",
+      "reload_state_sha256_after": "6b523e426000a5dc5bba8a7c4a073890903abaa9525fdb1c29401dc650a212ae",
+      "status": "pass"
+    }
+  ],
+  "baselines": [
+    {
+      "dataset": "robin",
+      "id": "v6_robin_f0",
+      "method": "F0",
+      "arm": "BOLT_SMALL_F0",
+      "seed": null,
+      "origins": [
+        2568,
+        2592,
+        2616,
+        2640
+      ],
+      "checks": [
+        {
+          "label": "original selected-model forward versus CPU-output wrapper",
+          "shape": [
+            4,
+            48,
+            17
+          ],
+          "atol": 1e-05,
+          "rtol": 0.0001,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 3264,
+          "status": "pass"
+        },
+        {
+          "label": "selected baseline same-path replay",
+          "shape": [
+            4,
+            48,
+            17
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 3264,
+          "status": "pass"
+        }
+      ],
+      "load_seconds": 0.20580170000903308,
+      "receipt": {
+        "dataset": "robin",
+        "method": "F0",
+        "id": "v6_robin_f0",
+        "seed": null,
+        "checkpoint": {
+          "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\runs\\v6_robin_f0\\best.pt",
+          "sha256": "7d3dc284f2aa2940b25be15b5d70e3581723be56d9de49f39ae7871bc4da8153",
+          "bytes": 2644
+        },
+        "parameter_count": 47718016,
+        "inference_trainable_parameter_count": 0,
+        "parameter_bytes": 190872064,
+        "buffer_bytes": 36,
+        "backbone_parameter_count": 47718016,
+        "original_fitted_parameter_count": 0,
+        "fitted_count_source": "Actual loaded residual parameter tensors; existing LEVEL fitting only",
+        "dtype": [
+          "torch.float32"
+        ],
+        "eval": true,
+        "output_component": null,
+        "row_chunk": null
+      },
+      "state_sha256_before": "5e8f0bf835385364a786938123da3bd4390aead165cef5956a0a64ebe8e48e62",
+      "saved_val_parity": {
+        "label": "restored baseline versus stored VAL",
+        "shape": [
+          4,
+          48,
+          17
+        ],
+        "atol": 1e-05,
+        "rtol": 0.0001,
+        "max_absolute_error": 0.0,
+        "max_relative_error_nonzero_reference": 0.0,
+        "violating_elements": 0,
+        "elements": 3264,
+        "status": "pass"
+      },
+      "timings": {
+        "1": {
+          "call_seconds": [
+            0.011894800001755357,
+            0.011181400157511234,
+            0.012712700059637427
+          ],
+          "median_s": 0.011894800001755357,
+          "max_s": 0.012712700059637427,
+          "calls": 3,
+          "batch_origins": 1,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        },
+        "4": {
+          "call_seconds": [
+            0.02065950003452599,
+            0.018292299937456846,
+            0.018707799958065152
+          ],
+          "median_s": 0.018707799958065152,
+          "max_s": 0.02065950003452599,
+          "calls": 3,
+          "batch_origins": 4,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        }
+      },
+      "state_sha256_after": "5e8f0bf835385364a786938123da3bd4390aead165cef5956a0a64ebe8e48e62",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      }
+    },
+    {
+      "dataset": "peacock_education",
+      "id": "v12_confirmation_peacock_education_f0",
+      "method": "F0",
+      "arm": "BOLT_SMALL_F0",
+      "seed": null,
+      "origins": [
+        2568,
+        2592,
+        2616,
+        2640
+      ],
+      "checks": [
+        {
+          "label": "original selected-model forward versus CPU-output wrapper",
+          "shape": [
+            4,
+            48,
+            13
+          ],
+          "atol": 1e-05,
+          "rtol": 0.0001,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 2496,
+          "status": "pass"
+        },
+        {
+          "label": "selected baseline same-path replay",
+          "shape": [
+            4,
+            48,
+            13
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 2496,
+          "status": "pass"
+        }
+      ],
+      "load_seconds": 0.29360680002719164,
+      "receipt": {
+        "dataset": "peacock_education",
+        "method": "F0",
+        "id": "v12_confirmation_peacock_education_f0",
+        "seed": null,
+        "checkpoint": null,
+        "parameter_count": 47718016,
+        "inference_trainable_parameter_count": 0,
+        "parameter_bytes": 190872064,
+        "buffer_bytes": 244,
+        "backbone_parameter_count": 47718016,
+        "original_fitted_parameter_count": 0,
+        "fitted_count_source": "Actual loaded residual parameter tensors; existing LEVEL fitting only",
+        "dtype": [
+          "torch.float32"
+        ],
+        "eval": true,
+        "output_component": null,
+        "row_chunk": null
+      },
+      "state_sha256_before": "b2ed10636be31434b8af2fcf8937feb9cb29ee0f743616f3485e5f080f45d2d8",
+      "saved_val_parity": {
+        "status": "unavailable",
+        "reason": "No stored VAL array for this exact component/reference found; do not substitute another model or infer from TEST.",
+        "substitution_used": false,
+        "active_original_wrapper_parity": "pass"
+      },
+      "timings": {
+        "1": {
+          "call_seconds": [
+            0.014061399968340993,
+            0.011442200047895312,
+            0.011457700049504638
+          ],
+          "median_s": 0.011457700049504638,
+          "max_s": 0.014061399968340993,
+          "calls": 3,
+          "batch_origins": 1,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        },
+        "4": {
+          "call_seconds": [
+            0.013908700086176395,
+            0.014476000098511577,
+            0.015193599974736571
+          ],
+          "median_s": 0.014476000098511577,
+          "max_s": 0.015193599974736571,
+          "calls": 3,
+          "batch_origins": 4,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        }
+      },
+      "state_sha256_after": "b2ed10636be31434b8af2fcf8937feb9cb29ee0f743616f3485e5f080f45d2d8",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      }
+    },
+    {
+      "dataset": "jena",
+      "id": "v7_jena_f0",
+      "method": "F0",
+      "arm": "BOLT_SMALL_F0",
+      "seed": null,
+      "origins": [
+        26207,
+        26231,
+        26255,
+        26279
+      ],
+      "checks": [
+        {
+          "label": "original selected-model forward versus CPU-output wrapper",
+          "shape": [
+            4,
+            48,
+            21
+          ],
+          "atol": 1e-05,
+          "rtol": 0.0001,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 4032,
+          "status": "pass"
+        },
+        {
+          "label": "selected baseline same-path replay",
+          "shape": [
+            4,
+            48,
+            21
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 4032,
+          "status": "pass"
+        }
+      ],
+      "load_seconds": 0.23958709998987615,
+      "receipt": {
+        "dataset": "jena",
+        "method": "F0",
+        "id": "v7_jena_f0",
+        "seed": null,
+        "checkpoint": {
+          "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\runs\\v7_jena_f0\\best.pt",
+          "sha256": "eedd1c1df64e45c9dca6a5b30a4298ddacbc518f07db92bac55711203eecdef6",
+          "bytes": 2836
+        },
+        "parameter_count": 47718016,
+        "inference_trainable_parameter_count": 0,
+        "parameter_bytes": 190872064,
+        "buffer_bytes": 36,
+        "backbone_parameter_count": 47718016,
+        "original_fitted_parameter_count": 0,
+        "fitted_count_source": "Actual loaded residual parameter tensors; existing LEVEL fitting only",
+        "dtype": [
+          "torch.float32"
+        ],
+        "eval": true,
+        "output_component": null,
+        "row_chunk": null
+      },
+      "state_sha256_before": "5e8f0bf835385364a786938123da3bd4390aead165cef5956a0a64ebe8e48e62",
+      "saved_val_parity": {
+        "label": "restored baseline versus stored VAL",
+        "shape": [
+          4,
+          48,
+          21
+        ],
+        "atol": 1e-05,
+        "rtol": 0.0001,
+        "max_absolute_error": 0.0,
+        "max_relative_error_nonzero_reference": 0.0,
+        "violating_elements": 0,
+        "elements": 4032,
+        "status": "pass"
+      },
+      "timings": {
+        "1": {
+          "call_seconds": [
+            0.01316679990850389,
+            0.013123900163918734,
+            0.013449099846184254
+          ],
+          "median_s": 0.01316679990850389,
+          "max_s": 0.013449099846184254,
+          "calls": 3,
+          "batch_origins": 1,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        },
+        "4": {
+          "call_seconds": [
+            0.01853789994493127,
+            0.01959279994480312,
+            0.019036600133404136
+          ],
+          "median_s": 0.019036600133404136,
+          "max_s": 0.01959279994480312,
+          "calls": 3,
+          "batch_origins": 4,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        }
+      },
+      "state_sha256_after": "5e8f0bf835385364a786938123da3bd4390aead165cef5956a0a64ebe8e48e62",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      }
+    },
+    {
+      "dataset": "robin",
+      "id": "v6_robin_level_res_92601",
+      "method": "LEVEL",
+      "arm": "BOLT_SMALL_LEVEL",
+      "seed": 92601,
+      "origins": [
+        2568,
+        2592,
+        2616,
+        2640
+      ],
+      "checks": [
+        {
+          "label": "original selected-model forward versus CPU-output wrapper",
+          "shape": [
+            4,
+            48,
+            17
+          ],
+          "atol": 1e-05,
+          "rtol": 0.0001,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 3264,
+          "status": "pass"
+        },
+        {
+          "label": "selected baseline same-path replay",
+          "shape": [
+            4,
+            48,
+            17
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 3264,
+          "status": "pass"
+        }
+      ],
+      "load_seconds": 0.2087167000863701,
+      "receipt": {
+        "dataset": "robin",
+        "method": "LEVEL",
+        "id": "v6_robin_level_res_92601",
+        "seed": 92601,
+        "checkpoint": {
+          "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\runs\\v6_robin_level_res_92601\\best.pt",
+          "sha256": "fffabef217686fdd7193206ee6011f833b696b6bbcaa3655d6c4e8d4f88ca647",
+          "bytes": 76152
+        },
+        "parameter_count": 47736106,
+        "inference_trainable_parameter_count": 0,
+        "parameter_bytes": 190944424,
+        "buffer_bytes": 36,
+        "backbone_parameter_count": 47718016,
+        "original_fitted_parameter_count": 17920,
+        "fitted_count_source": "Actual loaded residual parameter tensors; existing LEVEL fitting only",
+        "dtype": [
+          "torch.float32"
+        ],
+        "eval": true,
+        "output_component": null,
+        "row_chunk": null
+      },
+      "state_sha256_before": "28344ced81bdc02f7d1afaccf49e40b84f1d233f41d90986ca904d50dce79083",
+      "saved_val_parity": {
+        "label": "restored baseline versus stored VAL",
+        "shape": [
+          4,
+          48,
+          17
+        ],
+        "atol": 1e-05,
+        "rtol": 0.0001,
+        "max_absolute_error": 0.0,
+        "max_relative_error_nonzero_reference": 0.0,
+        "violating_elements": 0,
+        "elements": 3264,
+        "status": "pass"
+      },
+      "timings": {
+        "1": {
+          "call_seconds": [
+            0.019986199913546443,
+            0.016244300175458193,
+            0.019073300063610077
+          ],
+          "median_s": 0.019073300063610077,
+          "max_s": 0.019986199913546443,
+          "calls": 3,
+          "batch_origins": 1,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        },
+        "4": {
+          "call_seconds": [
+            0.012908299919217825,
+            0.013047999935224652,
+            0.013578900136053562
+          ],
+          "median_s": 0.013047999935224652,
+          "max_s": 0.013578900136053562,
+          "calls": 3,
+          "batch_origins": 4,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        }
+      },
+      "state_sha256_after": "28344ced81bdc02f7d1afaccf49e40b84f1d233f41d90986ca904d50dce79083",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      }
+    },
+    {
+      "dataset": "robin",
+      "id": "v6_robin_level_res_92602",
+      "method": "LEVEL",
+      "arm": "BOLT_SMALL_LEVEL",
+      "seed": 92602,
+      "origins": [
+        2568,
+        2592,
+        2616,
+        2640
+      ],
+      "checks": [
+        {
+          "label": "original selected-model forward versus CPU-output wrapper",
+          "shape": [
+            4,
+            48,
+            17
+          ],
+          "atol": 1e-05,
+          "rtol": 0.0001,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 3264,
+          "status": "pass"
+        },
+        {
+          "label": "selected baseline same-path replay",
+          "shape": [
+            4,
+            48,
+            17
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 3264,
+          "status": "pass"
+        }
+      ],
+      "load_seconds": 0.21575720002874732,
+      "receipt": {
+        "dataset": "robin",
+        "method": "LEVEL",
+        "id": "v6_robin_level_res_92602",
+        "seed": 92602,
+        "checkpoint": {
+          "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\runs\\v6_robin_level_res_92602\\best.pt",
+          "sha256": "b65baa1d1dc13d0146e238345b8aba4af38718cc62fbdcb72d78a8f0c568d02c",
+          "bytes": 76152
+        },
+        "parameter_count": 47736106,
+        "inference_trainable_parameter_count": 0,
+        "parameter_bytes": 190944424,
+        "buffer_bytes": 36,
+        "backbone_parameter_count": 47718016,
+        "original_fitted_parameter_count": 17920,
+        "fitted_count_source": "Actual loaded residual parameter tensors; existing LEVEL fitting only",
+        "dtype": [
+          "torch.float32"
+        ],
+        "eval": true,
+        "output_component": null,
+        "row_chunk": null
+      },
+      "state_sha256_before": "49212b18eea64fe9fdfa8cc2d60405133d498e4a4113f6814a849c6aa2c95b54",
+      "saved_val_parity": {
+        "label": "restored baseline versus stored VAL",
+        "shape": [
+          4,
+          48,
+          17
+        ],
+        "atol": 1e-05,
+        "rtol": 0.0001,
+        "max_absolute_error": 0.0,
+        "max_relative_error_nonzero_reference": 0.0,
+        "violating_elements": 0,
+        "elements": 3264,
+        "status": "pass"
+      },
+      "timings": {
+        "1": {
+          "call_seconds": [
+            0.012416099896654487,
+            0.011780299944803119,
+            0.014623000053688884
+          ],
+          "median_s": 0.012416099896654487,
+          "max_s": 0.014623000053688884,
+          "calls": 3,
+          "batch_origins": 1,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        },
+        "4": {
+          "call_seconds": [
+            0.013274299912154675,
+            0.015003800159320235,
+            0.012490399880334735
+          ],
+          "median_s": 0.013274299912154675,
+          "max_s": 0.015003800159320235,
+          "calls": 3,
+          "batch_origins": 4,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        }
+      },
+      "state_sha256_after": "49212b18eea64fe9fdfa8cc2d60405133d498e4a4113f6814a849c6aa2c95b54",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      }
+    },
+    {
+      "dataset": "peacock_education",
+      "id": "peacock_education_level_lr1e-3_s92601__retry_heartbeat01",
+      "method": "LEVEL",
+      "arm": "BOLT_SMALL_LEVEL",
+      "seed": 92601,
+      "origins": [
+        2568,
+        2592,
+        2616,
+        2640
+      ],
+      "checks": [
+        {
+          "label": "original selected-model forward versus CPU-output wrapper",
+          "shape": [
+            4,
+            48,
+            13
+          ],
+          "atol": 1e-05,
+          "rtol": 0.0001,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 2496,
+          "status": "pass"
+        },
+        {
+          "label": "selected baseline same-path replay",
+          "shape": [
+            4,
+            48,
+            13
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 2496,
+          "status": "pass"
+        }
+      ],
+      "load_seconds": 0.24986510002054274,
+      "receipt": {
+        "dataset": "peacock_education",
+        "method": "LEVEL",
+        "id": "peacock_education_level_lr1e-3_s92601__retry_heartbeat01",
+        "seed": 92601,
+        "checkpoint": {
+          "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_runs\\peacock_education_level_lr1e-3_s92601__retry_heartbeat01\\best.pt",
+          "sha256": "394f76ffe4aad8b2b1b6520d9fb07cdde04787a8231bef4fe1308f131cbb4924",
+          "bytes": 76721
+        },
+        "parameter_count": 47736040,
+        "inference_trainable_parameter_count": 0,
+        "parameter_bytes": 190944160,
+        "buffer_bytes": 244,
+        "backbone_parameter_count": 47718016,
+        "original_fitted_parameter_count": 17920,
+        "fitted_count_source": "Actual loaded residual parameter tensors; existing LEVEL fitting only",
+        "dtype": [
+          "torch.float32"
+        ],
+        "eval": true,
+        "output_component": null,
+        "row_chunk": null
+      },
+      "state_sha256_before": "f0d3486af9530069c5a7308452eef1e741e0baae877c5a5861481c27d9157e39",
+      "saved_val_parity": {
+        "label": "restored baseline versus stored VAL",
+        "shape": [
+          4,
+          48,
+          13
+        ],
+        "atol": 1e-05,
+        "rtol": 0.0001,
+        "max_absolute_error": 2.980232238769531e-07,
+        "max_relative_error_nonzero_reference": 0.0013338668800853674,
+        "violating_elements": 0,
+        "elements": 2496,
+        "status": "pass"
+      },
+      "timings": {
+        "1": {
+          "call_seconds": [
+            0.017849399941042066,
+            0.014938900014385581,
+            0.020223299972712994
+          ],
+          "median_s": 0.017849399941042066,
+          "max_s": 0.020223299972712994,
+          "calls": 3,
+          "batch_origins": 1,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        },
+        "4": {
+          "call_seconds": [
+            0.022816000040620565,
+            0.021269700024276972,
+            0.01798540004529059
+          ],
+          "median_s": 0.021269700024276972,
+          "max_s": 0.022816000040620565,
+          "calls": 3,
+          "batch_origins": 4,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        }
+      },
+      "state_sha256_after": "f0d3486af9530069c5a7308452eef1e741e0baae877c5a5861481c27d9157e39",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      }
+    },
+    {
+      "dataset": "peacock_education",
+      "id": "peacock_education_level_lr1e-3_s92602",
+      "method": "LEVEL",
+      "arm": "BOLT_SMALL_LEVEL",
+      "seed": 92602,
+      "origins": [
+        2568,
+        2592,
+        2616,
+        2640
+      ],
+      "checks": [
+        {
+          "label": "original selected-model forward versus CPU-output wrapper",
+          "shape": [
+            4,
+            48,
+            13
+          ],
+          "atol": 1e-05,
+          "rtol": 0.0001,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 2496,
+          "status": "pass"
+        },
+        {
+          "label": "selected baseline same-path replay",
+          "shape": [
+            4,
+            48,
+            13
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 2496,
+          "status": "pass"
+        }
+      ],
+      "load_seconds": 0.2657463999930769,
+      "receipt": {
+        "dataset": "peacock_education",
+        "method": "LEVEL",
+        "id": "peacock_education_level_lr1e-3_s92602",
+        "seed": 92602,
+        "checkpoint": {
+          "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_runs\\peacock_education_level_lr1e-3_s92602\\best.pt",
+          "sha256": "b626f5ebca6d5a0415a935f8c649c73f2467c53b395e875ffc6a314410df221f",
+          "bytes": 76721
+        },
+        "parameter_count": 47736040,
+        "inference_trainable_parameter_count": 0,
+        "parameter_bytes": 190944160,
+        "buffer_bytes": 244,
+        "backbone_parameter_count": 47718016,
+        "original_fitted_parameter_count": 17920,
+        "fitted_count_source": "Actual loaded residual parameter tensors; existing LEVEL fitting only",
+        "dtype": [
+          "torch.float32"
+        ],
+        "eval": true,
+        "output_component": null,
+        "row_chunk": null
+      },
+      "state_sha256_before": "74f990e491318839998389bb57154219229ed9185f4b92f4e23d3e1247be6af1",
+      "saved_val_parity": {
+        "label": "restored baseline versus stored VAL",
+        "shape": [
+          4,
+          48,
+          13
+        ],
+        "atol": 1e-05,
+        "rtol": 0.0001,
+        "max_absolute_error": 2.980232238769531e-07,
+        "max_relative_error_nonzero_reference": 1.3799289336599165e-05,
+        "violating_elements": 0,
+        "elements": 2496,
+        "status": "pass"
+      },
+      "timings": {
+        "1": {
+          "call_seconds": [
+            0.013560899998992682,
+            0.012204200029373169,
+            0.01185989985242486
+          ],
+          "median_s": 0.012204200029373169,
+          "max_s": 0.013560899998992682,
+          "calls": 3,
+          "batch_origins": 1,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        },
+        "4": {
+          "call_seconds": [
+            0.011999200098216534,
+            0.011237000115215778,
+            0.013308200053870678
+          ],
+          "median_s": 0.011999200098216534,
+          "max_s": 0.013308200053870678,
+          "calls": 3,
+          "batch_origins": 4,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        }
+      },
+      "state_sha256_after": "74f990e491318839998389bb57154219229ed9185f4b92f4e23d3e1247be6af1",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      }
+    },
+    {
+      "dataset": "jena",
+      "id": "v7_jena_level_res_92601",
+      "method": "LEVEL",
+      "arm": "BOLT_SMALL_LEVEL",
+      "seed": 92601,
+      "origins": [
+        26207,
+        26231,
+        26255,
+        26279
+      ],
+      "checks": [
+        {
+          "label": "original selected-model forward versus CPU-output wrapper",
+          "shape": [
+            4,
+            48,
+            21
+          ],
+          "atol": 1e-05,
+          "rtol": 0.0001,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 4032,
+          "status": "pass"
+        },
+        {
+          "label": "selected baseline same-path replay",
+          "shape": [
+            4,
+            48,
+            21
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 4032,
+          "status": "pass"
+        }
+      ],
+      "load_seconds": 0.2094623998273164,
+      "receipt": {
+        "dataset": "jena",
+        "method": "LEVEL",
+        "id": "v7_jena_level_res_92601",
+        "seed": 92601,
+        "checkpoint": {
+          "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\runs\\v7_jena_level_res_92601\\best.pt",
+          "sha256": "2dd129ab4483e1cc359647f9522c35afff74d01f8d45578d5c92943134ec0459",
+          "bytes": 76600
+        },
+        "parameter_count": 47736188,
+        "inference_trainable_parameter_count": 0,
+        "parameter_bytes": 190944752,
+        "buffer_bytes": 36,
+        "backbone_parameter_count": 47718016,
+        "original_fitted_parameter_count": 17920,
+        "fitted_count_source": "Actual loaded residual parameter tensors; existing LEVEL fitting only",
+        "dtype": [
+          "torch.float32"
+        ],
+        "eval": true,
+        "output_component": null,
+        "row_chunk": null
+      },
+      "state_sha256_before": "797f4ef0eab747579f0aa54f1602c0032d06d394716c627fdb7918bdd8df2490",
+      "saved_val_parity": {
+        "label": "restored baseline versus stored VAL",
+        "shape": [
+          4,
+          48,
+          21
+        ],
+        "atol": 1e-05,
+        "rtol": 0.0001,
+        "max_absolute_error": 0.0,
+        "max_relative_error_nonzero_reference": 0.0,
+        "violating_elements": 0,
+        "elements": 4032,
+        "status": "pass"
+      },
+      "timings": {
+        "1": {
+          "call_seconds": [
+            0.014716499950736761,
+            0.014244499849155545,
+            0.011996399844065309
+          ],
+          "median_s": 0.014244499849155545,
+          "max_s": 0.014716499950736761,
+          "calls": 3,
+          "batch_origins": 1,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        },
+        "4": {
+          "call_seconds": [
+            0.01430639997124672,
+            0.013302499894052744,
+            0.013687199912965298
+          ],
+          "median_s": 0.013687199912965298,
+          "max_s": 0.01430639997124672,
+          "calls": 3,
+          "batch_origins": 4,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        }
+      },
+      "state_sha256_after": "797f4ef0eab747579f0aa54f1602c0032d06d394716c627fdb7918bdd8df2490",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      }
+    },
+    {
+      "dataset": "jena",
+      "id": "v7_jena_level_res_92602",
+      "method": "LEVEL",
+      "arm": "BOLT_SMALL_LEVEL",
+      "seed": 92602,
+      "origins": [
+        26207,
+        26231,
+        26255,
+        26279
+      ],
+      "checks": [
+        {
+          "label": "original selected-model forward versus CPU-output wrapper",
+          "shape": [
+            4,
+            48,
+            21
+          ],
+          "atol": 1e-05,
+          "rtol": 0.0001,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 4032,
+          "status": "pass"
+        },
+        {
+          "label": "selected baseline same-path replay",
+          "shape": [
+            4,
+            48,
+            21
+          ],
+          "atol": 1e-06,
+          "rtol": 0.0,
+          "max_absolute_error": 0.0,
+          "max_relative_error_nonzero_reference": 0.0,
+          "violating_elements": 0,
+          "elements": 4032,
+          "status": "pass"
+        }
+      ],
+      "load_seconds": 0.22364159999415278,
+      "receipt": {
+        "dataset": "jena",
+        "method": "LEVEL",
+        "id": "v7_jena_level_res_92602",
+        "seed": 92602,
+        "checkpoint": {
+          "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\runs\\v7_jena_level_res_92602\\best.pt",
+          "sha256": "4057b762a43c83d6d762cbd15fe12857cc481226e2ddcd08da905643c359e5e8",
+          "bytes": 76600
+        },
+        "parameter_count": 47736188,
+        "inference_trainable_parameter_count": 0,
+        "parameter_bytes": 190944752,
+        "buffer_bytes": 36,
+        "backbone_parameter_count": 47718016,
+        "original_fitted_parameter_count": 17920,
+        "fitted_count_source": "Actual loaded residual parameter tensors; existing LEVEL fitting only",
+        "dtype": [
+          "torch.float32"
+        ],
+        "eval": true,
+        "output_component": null,
+        "row_chunk": null
+      },
+      "state_sha256_before": "48d108650b4955c00a778eefbac5dcd8e19dd5edafb4bef4746d43ec7865904c",
+      "saved_val_parity": {
+        "label": "restored baseline versus stored VAL",
+        "shape": [
+          4,
+          48,
+          21
+        ],
+        "atol": 1e-05,
+        "rtol": 0.0001,
+        "max_absolute_error": 0.0,
+        "max_relative_error_nonzero_reference": 0.0,
+        "violating_elements": 0,
+        "elements": 4032,
+        "status": "pass"
+      },
+      "timings": {
+        "1": {
+          "call_seconds": [
+            0.012959300074726343,
+            0.011066799983382225,
+            0.012102599954232574
+          ],
+          "median_s": 0.012102599954232574,
+          "max_s": 0.012959300074726343,
+          "calls": 3,
+          "batch_origins": 1,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        },
+        "4": {
+          "call_seconds": [
+            0.013826000038534403,
+            0.014711099909618497,
+            0.015748499892652035
+          ],
+          "median_s": 0.014711099909618497,
+          "max_s": 0.015748499892652035,
+          "calls": 3,
+          "batch_origins": 4,
+          "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+          "scientific_cost_measurement": false
+        }
+      },
+      "state_sha256_after": "48d108650b4955c00a778eefbac5dcd8e19dd5edafb4bef4746d43ec7865904c",
+      "frozen_state": {
+        "status": "pass",
+        "eval_mode": true,
+        "requires_grad": false
+      }
+    }
+  ],
+  "timings": [
+    {
+      "dataset": "robin",
+      "arm": "BOLT_SMALL_F0",
+      "id": "v6_robin_f0",
+      "batch": 1,
+      "call_seconds": [
+        0.011894800001755357,
+        0.011181400157511234,
+        0.012712700059637427
+      ],
+      "median_s": 0.011894800001755357,
+      "max_s": 0.012712700059637427,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "robin",
+      "arm": "BOLT_SMALL_F0",
+      "id": "v6_robin_f0",
+      "batch": 4,
+      "call_seconds": [
+        0.02065950003452599,
+        0.018292299937456846,
+        0.018707799958065152
+      ],
+      "median_s": 0.018707799958065152,
+      "max_s": 0.02065950003452599,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_SMALL_F0",
+      "id": "v12_confirmation_peacock_education_f0",
+      "batch": 1,
+      "call_seconds": [
+        0.014061399968340993,
+        0.011442200047895312,
+        0.011457700049504638
+      ],
+      "median_s": 0.011457700049504638,
+      "max_s": 0.014061399968340993,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_SMALL_F0",
+      "id": "v12_confirmation_peacock_education_f0",
+      "batch": 4,
+      "call_seconds": [
+        0.013908700086176395,
+        0.014476000098511577,
+        0.015193599974736571
+      ],
+      "median_s": 0.014476000098511577,
+      "max_s": 0.015193599974736571,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_SMALL_F0",
+      "id": "v7_jena_f0",
+      "batch": 1,
+      "call_seconds": [
+        0.01316679990850389,
+        0.013123900163918734,
+        0.013449099846184254
+      ],
+      "median_s": 0.01316679990850389,
+      "max_s": 0.013449099846184254,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_SMALL_F0",
+      "id": "v7_jena_f0",
+      "batch": 4,
+      "call_seconds": [
+        0.01853789994493127,
+        0.01959279994480312,
+        0.019036600133404136
+      ],
+      "median_s": 0.019036600133404136,
+      "max_s": 0.01959279994480312,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "robin",
+      "arm": "BOLT_MINI_F0",
+      "id": "MINI",
+      "batch": 1,
+      "call_seconds": [
+        0.008258800022304058,
+        0.008636899990960956,
+        0.00881849997676909
+      ],
+      "median_s": 0.008636899990960956,
+      "max_s": 0.00881849997676909,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "robin",
+      "arm": "BOLT_MINI_F0",
+      "id": "MINI",
+      "batch": 4,
+      "call_seconds": [
+        0.010405100183561444,
+        0.010536900022998452,
+        0.010497299954295158
+      ],
+      "median_s": 0.010497299954295158,
+      "max_s": 0.010536900022998452,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_MINI_F0",
+      "id": "MINI",
+      "batch": 1,
+      "call_seconds": [
+        0.008335000136867166,
+        0.008510599844157696,
+        0.008354099933058023
+      ],
+      "median_s": 0.008354099933058023,
+      "max_s": 0.008510599844157696,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_MINI_F0",
+      "id": "MINI",
+      "batch": 4,
+      "call_seconds": [
+        0.009004699997603893,
+        0.009820300154387951,
+        0.008926899870857596
+      ],
+      "median_s": 0.009004699997603893,
+      "max_s": 0.009820300154387951,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_MINI_F0",
+      "id": "MINI",
+      "batch": 1,
+      "call_seconds": [
+        0.008427899796515703,
+        0.009957399917766452,
+        0.009495600126683712
+      ],
+      "median_s": 0.009495600126683712,
+      "max_s": 0.009957399917766452,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_MINI_F0",
+      "id": "MINI",
+      "batch": 4,
+      "call_seconds": [
+        0.012461000122129917,
+        0.010764400009065866,
+        0.010870999889448285
+      ],
+      "median_s": 0.010870999889448285,
+      "max_s": 0.012461000122129917,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "robin",
+      "arm": "BOLT_TINY_F0",
+      "id": "TINY",
+      "batch": 1,
+      "call_seconds": [
+        0.008853400126099586,
+        0.009504599962383509,
+        0.008787399856373668
+      ],
+      "median_s": 0.008853400126099586,
+      "max_s": 0.009504599962383509,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "robin",
+      "arm": "BOLT_TINY_F0",
+      "id": "TINY",
+      "batch": 4,
+      "call_seconds": [
+        0.00869880011305213,
+        0.008845399832352996,
+        0.008947600144892931
+      ],
+      "median_s": 0.008845399832352996,
+      "max_s": 0.008947600144892931,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_TINY_F0",
+      "id": "TINY",
+      "batch": 1,
+      "call_seconds": [
+        0.007924099918454885,
+        0.009702700190246105,
+        0.008639100007712841
+      ],
+      "median_s": 0.008639100007712841,
+      "max_s": 0.009702700190246105,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_TINY_F0",
+      "id": "TINY",
+      "batch": 4,
+      "call_seconds": [
+        0.009747300064191222,
+        0.008971899980679154,
+        0.008964200038462877
+      ],
+      "median_s": 0.008971899980679154,
+      "max_s": 0.009747300064191222,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_TINY_F0",
+      "id": "TINY",
+      "batch": 1,
+      "call_seconds": [
+        0.009541300125420094,
+        0.009713799925521016,
+        0.009840099839493632
+      ],
+      "median_s": 0.009713799925521016,
+      "max_s": 0.009840099839493632,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_TINY_F0",
+      "id": "TINY",
+      "batch": 4,
+      "call_seconds": [
+        0.009501900058239698,
+        0.011518999934196472,
+        0.009841300081461668
+      ],
+      "median_s": 0.009841300081461668,
+      "max_s": 0.011518999934196472,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "robin",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "v6_robin_level_res_92601",
+      "batch": 1,
+      "call_seconds": [
+        0.019986199913546443,
+        0.016244300175458193,
+        0.019073300063610077
+      ],
+      "median_s": 0.019073300063610077,
+      "max_s": 0.019986199913546443,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "robin",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "v6_robin_level_res_92601",
+      "batch": 4,
+      "call_seconds": [
+        0.012908299919217825,
+        0.013047999935224652,
+        0.013578900136053562
+      ],
+      "median_s": 0.013047999935224652,
+      "max_s": 0.013578900136053562,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "robin",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "v6_robin_level_res_92602",
+      "batch": 1,
+      "call_seconds": [
+        0.012416099896654487,
+        0.011780299944803119,
+        0.014623000053688884
+      ],
+      "median_s": 0.012416099896654487,
+      "max_s": 0.014623000053688884,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "robin",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "v6_robin_level_res_92602",
+      "batch": 4,
+      "call_seconds": [
+        0.013274299912154675,
+        0.015003800159320235,
+        0.012490399880334735
+      ],
+      "median_s": 0.013274299912154675,
+      "max_s": 0.015003800159320235,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "peacock_education_level_lr1e-3_s92601__retry_heartbeat01",
+      "batch": 1,
+      "call_seconds": [
+        0.017849399941042066,
+        0.014938900014385581,
+        0.020223299972712994
+      ],
+      "median_s": 0.017849399941042066,
+      "max_s": 0.020223299972712994,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "peacock_education_level_lr1e-3_s92601__retry_heartbeat01",
+      "batch": 4,
+      "call_seconds": [
+        0.022816000040620565,
+        0.021269700024276972,
+        0.01798540004529059
+      ],
+      "median_s": 0.021269700024276972,
+      "max_s": 0.022816000040620565,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "peacock_education_level_lr1e-3_s92602",
+      "batch": 1,
+      "call_seconds": [
+        0.013560899998992682,
+        0.012204200029373169,
+        0.01185989985242486
+      ],
+      "median_s": 0.012204200029373169,
+      "max_s": 0.013560899998992682,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "peacock_education",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "peacock_education_level_lr1e-3_s92602",
+      "batch": 4,
+      "call_seconds": [
+        0.011999200098216534,
+        0.011237000115215778,
+        0.013308200053870678
+      ],
+      "median_s": 0.011999200098216534,
+      "max_s": 0.013308200053870678,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "v7_jena_level_res_92601",
+      "batch": 1,
+      "call_seconds": [
+        0.014716499950736761,
+        0.014244499849155545,
+        0.011996399844065309
+      ],
+      "median_s": 0.014244499849155545,
+      "max_s": 0.014716499950736761,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "v7_jena_level_res_92601",
+      "batch": 4,
+      "call_seconds": [
+        0.01430639997124672,
+        0.013302499894052744,
+        0.013687199912965298
+      ],
+      "median_s": 0.013687199912965298,
+      "max_s": 0.01430639997124672,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "v7_jena_level_res_92602",
+      "batch": 1,
+      "call_seconds": [
+        0.012959300074726343,
+        0.011066799983382225,
+        0.012102599954232574
+      ],
+      "median_s": 0.012102599954232574,
+      "max_s": 0.012959300074726343,
+      "calls": 3,
+      "batch_origins": 1,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    },
+    {
+      "dataset": "jena",
+      "arm": "BOLT_SMALL_LEVEL",
+      "id": "v7_jena_level_res_92602",
+      "batch": 4,
+      "call_seconds": [
+        0.013826000038534403,
+        0.014711099909618497,
+        0.015748499892652035
+      ],
+      "median_s": 0.014711099909618497,
+      "max_s": 0.015748499892652035,
+      "calls": 3,
+      "batch_origins": 4,
+      "scope": "VAL execution-time estimate; standardized CPU input through full H48 CPU output",
+      "scientific_cost_measurement": false
+    }
+  ],
+  "small_anchor_all_datasets_passed": true,
+  "conditionals": {
+    "small_anchor_failure": "STOP_DEBUG before Mini/Tiny TEST",
+    "quantile_or_revision_or_order_or_future_or_frozen_failure": "STOP_DEBUG",
+    "stored_VAL_absent": "explicit unavailable; active original-wrapper parity still required",
+    "B4_OOM": "STOP_RESOURCE in preflight; retain failure and do not change primary batch",
+    "budget_estimate_exceeds_remaining": "STOP_RESOURCE; estimate is not an authorization"
+  },
+  "input_units": [
+    {
+      "dataset": "robin",
+      "origins": [
+        2568,
+        2592,
+        2616,
+        2640
+      ],
+      "shape": [
+        4,
+        512,
+        17
+      ],
+      "past_sha256": "2f25426690a8303439d5b700c0be878f01d154be4a2730ec887c7419d7727b48",
+      "trainval_artifact": {
+        "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\trainval.npz",
+        "sha256": "04523b70fa2df7b37514ab0f12e0cb25048c35fd120a11d4c6ab56e0ae464e14",
+        "bytes": 111474
+      }
+    },
+    {
+      "dataset": "peacock_education",
+      "origins": [
+        2568,
+        2592,
+        2616,
+        2640
+      ],
+      "shape": [
+        4,
+        512,
+        13
+      ],
+      "past_sha256": "fb69b91ba82efea4b796ecf0e6840268cc862e643d605e11a773b5dcbe71ec0a",
+      "trainval_artifact": {
+        "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_data\\peacock_education\\trainval.npz",
+        "sha256": "5dede47a0a2d4e2695cfb7b5352f56e69c38ec553124f1d1794fa88ba406f82d",
+        "bytes": 173746
+      }
+    },
+    {
+      "dataset": "jena",
+      "origins": [
+        26207,
+        26231,
+        26255,
+        26279
+      ],
+      "shape": [
+        4,
+        512,
+        21
+      ],
+      "past_sha256": "2c11ae15817c323c37412fdf744a249dc8bbacc60e0ca0fba753207ee219d16b",
+      "trainval_artifact": {
+        "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_trainval.npz",
+        "sha256": "29cfae52d7cd7128e551ef85da11138ed4d3f7b3ccf27af359c4fc1dedf4a933",
+        "bytes": 1561064
+      }
+    }
+  ],
+  "campaign_runtime_estimate": {
+    "status": "estimated_unverified_campaign_runtime",
+    "planned_primary_cost_wrapper_calls": 14400,
+    "cost_forward_seconds_max_val4_probe": 189.250082813669,
+    "sentinel_forward_seconds_upper_reserve": 60.33479981124401,
+    "new_accuracy_forward_seconds_max_val4_probe": 5.16938201803714,
+    "model_load_seconds_upper_reserve": 47.80623239837587,
+    "model_load_reserve_basis": "108 loads times slowest measured constructor; primary90 and sentinel18 rows",
+    "conservative_gpu_forward_and_load_estimate_seconds": 302.560497041326,
+    "gpu_remaining_seconds_at_estimate": 7188.503322124481,
+    "estimated_within_remaining_gpu_budget": true,
+    "does_not_guarantee_runtime": true,
+    "test_access": "origin counts from sealed metadata only; no TEST array, prediction or score access",
+    "excluded_unknown_overhead": [
+      "serialization",
+      "scoring",
+      "telemetry/cleanup",
+      "failure/retry"
+    ],
+    "oom_policy": "Primary B4 OOM remains recorded; no replacement B2 grid"
+  },
+  "fits": 0,
+  "optimizer_updates": 0,
+  "test_scoring_performed": false,
+  "baseline_instances_checked": 9,
+  "mini_tiny_dataset_units_checked": 6
+}

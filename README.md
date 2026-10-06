@@ -14,6 +14,19 @@
 
 ![LEVEL과 Chronos-2 Small의 저장된 정확도 및 비용 비교](research/level_contribution_gap_audit_20261006/figures/practical_tradeoffs.png)
 
+## 동일 Bolt 계열의 backbone 배분 비교 (2026-10-06)
+
+원래 고정 PCA LEVEL과 Small F0의 기존 TEST 예측을 재사용하고, 원채널 독립 zero-shot Mini/Tiny의 6개 추론 단위와 네 arm의 동일 회차 비용을 추가했습니다. **신규 학습은 0회입니다.** 아래 비교는 이미 노출된 세 자료의 practical allocation 비교이며 순수 방법 ablation이나 독립 확인이 아닙니다.
+
+Robin에서는 Mini/Tiny가, Jena에서는 Mini가 LEVEL보다 MSE·B4 처리량·peak allocated의 세 축에서 유리했습니다. Peacock의 두 비교와 Jena/Tiny는 대응 MSE 구간이 0을 포함해 단일 우위를 보류합니다. Small 내부의 압축 경로 보완·잔차 입력 효과는 기존 대조 범위에 유지하며, 큰 backbone과 채널 압축의 일반 배포 우위 주장은 축소합니다.
+
+- [결과·세 자료 이미지](research/level_bolt_backbone_scaling_v1_20261006/README.md)
+- [공정성 표](research/level_bolt_backbone_scaling_v1_20261006/FAIRNESS_TABLE.md), [MSE/MAE·구간·비용·반론 보고](research/level_bolt_backbone_scaling_v1_20261006/FINAL_REPORT_KO.md)
+- [발표 수정 제안](research/level_bolt_backbone_scaling_v1_20261006/PRESENTATION_PATCH.md), [실행·재사용 안내](research/level_bolt_backbone_scaling_v1_20261006/REPRODUCE.md)
+- [실제 상태](research/level_bolt_backbone_scaling_v1_20261006/STATUS.md), [최종 검산](research/level_bolt_backbone_scaling_v1_20261006/final_checks.json)
+
+![Robin의 동일 회차 Bolt 정확도와 B4 비용](research/level_bolt_backbone_scaling_v1_20261006/figures/allocation_robin.png)
+
 ## Data
 
 ```python

@@ -1,0 +1,937 @@
+{
+  "schema": "level_bolt_backbone_scaling_final_checks_v1",
+  "status": "complete",
+  "pass": true,
+  "artifact_contract_consistency_pass": true,
+  "complete_campaign_verified": true,
+  "all_cost_conditions_measured_without_oom": true,
+  "checks": [
+    {
+      "name": "protected_old_files_and_workspace",
+      "pass": true,
+      "detail": {
+        "selected_old_artifacts_checked": 76,
+        "selected_snapshot": {
+          "path": "research/level_bolt_backbone_scaling_v1_20261006/protected_before.json",
+          "sha256": "96defcb8f1e1ff3590d6e13e6c470122f04480d8f76117c180a2b3d755bd3624",
+          "bytes": 17550
+        },
+        "workspace_snapshot_sha256": "4b22945037d5761a62b65a228efadad2e05318f3a081ca7688fb55be142e0d02",
+        "workspace_snapshot_local_only": true,
+        "workspace_protected_files": 5507,
+        "workspace_actual_files_checked": 5507,
+        "original_presentation_files_checked": 26,
+        "allowed_related_changes": [
+          {
+            "path": "README.md",
+            "before_sha256": "a7b88db80bab5ca81c9f9ff4a90f8373eca0b7c0dd9f740010eba0b8e51fcc57",
+            "after_sha256": "8b4a519ae26109d4e0a86666485b2f20f2bf00a209519b46b7e9b91626d9222e",
+            "scope": "Authorized related README publication edit; excluded from immutable claim"
+          }
+        ],
+        "excluded_paths_count": 16,
+        "scope": "All currently tracked files and existing nonignored untracked files up to20MiB excluding local history. Selected ignored data/checkpoint/prediction artifacts bound separately.",
+        "stage": "After implementation and preflight; before new TEST and cost, not an initial-session snapshot",
+        "full_initial_session_or_unknown_external_file_protection_claimed": false,
+        "external_raw_sources_reread": false
+      }
+    },
+    {
+      "name": "sealed_official_models_and_provenance",
+      "pass": true,
+      "detail": {
+        "seal": {
+          "path": "research/level_bolt_backbone_scaling_v1_20261006/evaluation_seal.json",
+          "sha256": "69e3a03ce082c19251f02f3cd2986cfb68ff43ed29781213af22dc6b2bc6ca63",
+          "bytes": 2473
+        },
+        "sealed_files": 20,
+        "bound_artifact_hashes_checked": 82,
+        "external_declarations_not_reread": 2,
+        "official_models": {
+          "SMALL": {
+            "id": "amazon/chronos-bolt-small",
+            "revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+            "actual_parameter_count": 47718016
+          },
+          "MINI": {
+            "id": "amazon/chronos-bolt-mini",
+            "revision": "251268337516a88e253628c43e1d26ec577b376b",
+            "actual_parameter_count": 21236096
+          },
+          "TINY": {
+            "id": "amazon/chronos-bolt-tiny",
+            "revision": "a0e552de83495b5c28c14c71c374f3e33280b340",
+            "actual_parameter_count": 8652672
+          }
+        },
+        "preflight_manifest_receipt_update_verified": true,
+        "score_math_review": {
+          "path": "research/level_bolt_backbone_scaling_v1_20261006/scoring_math_reuse.json",
+          "sha256": "b05900c862b64c438567b2046d1fac2a165463a61bf17b082483b2db46205022",
+          "bytes": 1225
+        },
+        "no_model_loading_or_forward": true
+      }
+    },
+    {
+      "name": "VAL_preflight_and_native_isolation",
+      "pass": true,
+      "detail": {
+        "preflight": {
+          "path": "research/level_bolt_backbone_scaling_v1_20261006/preflight_checks.json",
+          "sha256": "49d1191d38bb614715f6ee4e20c3d1ac35b7b11f5296bf32c3fa4f3dc4713766",
+          "bytes": 123497
+        },
+        "small_anchor_dataset_units": 3,
+        "mini_tiny_dataset_units": 6,
+        "selected_baseline_instances": 9,
+        "allowed_stored_val_unavailability": [
+          {
+            "dataset": "peacock_education",
+            "method": "F0",
+            "reason": "No stored VAL array for this exact component/reference found; do not substitute another model or infer from TEST."
+          }
+        ],
+        "native_quantile_channel_origin_future_and_frozen_checks": true
+      }
+    },
+    {
+      "name": "canonical_data_and_prediction_receipts",
+      "pass": true,
+      "detail": {
+        "new_prediction_units": 6,
+        "new_full_channel_origin_forecasts": 1780,
+        "old_prediction_instances": 9,
+        "new_predictions": [
+          {
+            "dataset": "robin",
+            "method": "BOLT_MINI_F0",
+            "shape": [
+              80,
+              48,
+              17
+            ],
+            "prediction": {
+              "path": ".cache/level_bolt_backbone_scaling_v1_20261006/predictions01/robin_BOLT_MINI_F0.npz",
+              "sha256": "80f2bb810786147e3866e19cd643f6e6c62fad5a095b38d4b54a09a42dd3ebce",
+              "bytes": 230146
+            }
+          },
+          {
+            "dataset": "robin",
+            "method": "BOLT_TINY_F0",
+            "shape": [
+              80,
+              48,
+              17
+            ],
+            "prediction": {
+              "path": ".cache/level_bolt_backbone_scaling_v1_20261006/predictions01/robin_BOLT_TINY_F0.npz",
+              "sha256": "2fcc80b82d09c7578d2e64daab7abd389f276036855ee18ebd7ae4b279690746",
+              "bytes": 230386
+            }
+          },
+          {
+            "dataset": "peacock_education",
+            "method": "BOLT_MINI_F0",
+            "shape": [
+              80,
+              48,
+              13
+            ],
+            "prediction": {
+              "path": ".cache/level_bolt_backbone_scaling_v1_20261006/predictions01/peacock_education_BOLT_MINI_F0.npz",
+              "sha256": "d709dfda27704de4aff79dd7c89e391445e8ce7ae62863e03b55483ee22b126f",
+              "bytes": 182153
+            }
+          },
+          {
+            "dataset": "peacock_education",
+            "method": "BOLT_TINY_F0",
+            "shape": [
+              80,
+              48,
+              13
+            ],
+            "prediction": {
+              "path": ".cache/level_bolt_backbone_scaling_v1_20261006/predictions01/peacock_education_BOLT_TINY_F0.npz",
+              "sha256": "6cd219ef2d874a32d1f049311817faa97040142a770d08f56cb704ed021eab82",
+              "bytes": 182143
+            }
+          },
+          {
+            "dataset": "jena",
+            "method": "BOLT_MINI_F0",
+            "shape": [
+              730,
+              48,
+              21
+            ],
+            "prediction": {
+              "path": ".cache/level_bolt_backbone_scaling_v1_20261006/predictions01/jena_BOLT_MINI_F0.npz",
+              "sha256": "aa8b29c60c9c7bc60be67a0b94b524a1f26c2900d38cd34fc1cc09d0f7da6469",
+              "bytes": 2659424
+            }
+          },
+          {
+            "dataset": "jena",
+            "method": "BOLT_TINY_F0",
+            "shape": [
+              730,
+              48,
+              21
+            ],
+            "prediction": {
+              "path": ".cache/level_bolt_backbone_scaling_v1_20261006/predictions01/jena_BOLT_TINY_F0.npz",
+              "sha256": "0cf9bd50286ca2462da3ff95dc6b4cd2182058beea15d40085ab277c66be1ffb",
+              "bytes": 2659813
+            }
+          }
+        ],
+        "reused_predictions": [
+          {
+            "dataset": "robin",
+            "id": "v6_robin_level_res_92601",
+            "shape": [
+              80,
+              48,
+              17
+            ],
+            "sha256": "82ba61b3e2a8b617402a544d29fa67bbbc8c5c7fc1eccb8cf226294864ef4fbb"
+          },
+          {
+            "dataset": "robin",
+            "id": "v6_robin_level_res_92602",
+            "shape": [
+              80,
+              48,
+              17
+            ],
+            "sha256": "4ac3c80aab0017803fb4d36143a7285bdd51e3ecc71ad8a427e8a1aa96d824f9"
+          },
+          {
+            "dataset": "robin",
+            "id": "v6_robin_f0",
+            "shape": [
+              80,
+              48,
+              17
+            ],
+            "sha256": "aeb50b502c9dd5695c41361c324d04afaf91b329e1736fc9a881d1d2a19d36c3"
+          },
+          {
+            "dataset": "peacock_education",
+            "id": "peacock_education_level_lr1e-3_s92601__retry_heartbeat01",
+            "shape": [
+              80,
+              48,
+              13
+            ],
+            "sha256": "6a3a041280aa2afd493a45dea7ffb8332a13046114baf2c0f3faa856341bef1b"
+          },
+          {
+            "dataset": "peacock_education",
+            "id": "peacock_education_level_lr1e-3_s92602",
+            "shape": [
+              80,
+              48,
+              13
+            ],
+            "sha256": "9ec4a6d5883cda45d682e58ecd4f1d46fa575e39c6c2fe473a9af4d3e3eb377a"
+          },
+          {
+            "dataset": "peacock_education",
+            "id": "v12_confirmation_peacock_education_f0",
+            "shape": [
+              80,
+              48,
+              13
+            ],
+            "sha256": "2712802f3095a223fb030854b750e802c8857275201c19d84659bf6b5495e784"
+          },
+          {
+            "dataset": "jena",
+            "id": "v7_jena_level_res_92601",
+            "shape": [
+              730,
+              48,
+              21
+            ],
+            "sha256": "262ef5690e4699f2756f85b82a46eba2cd6d2ea62c46414dfa85bb5bc4e115f4"
+          },
+          {
+            "dataset": "jena",
+            "id": "v7_jena_level_res_92602",
+            "shape": [
+              730,
+              48,
+              21
+            ],
+            "sha256": "2848e0f3eb4d37cbeee0a3ebf9e00b1e0029cddd99ef46cc3dd8cb11d8af93e0"
+          },
+          {
+            "dataset": "jena",
+            "id": "v7_jena_f0",
+            "shape": [
+              730,
+              48,
+              21
+            ],
+            "sha256": "d433daed68b5fd954b15fbfd634a14bf33b51e1a8f04a2e993b06a0043b667bb"
+          }
+        ],
+        "period_origin_counts": {
+          "robin": {
+            "test_a": 40,
+            "test_b": 40,
+            "combined": 80
+          },
+          "peacock_education": {
+            "test_a": 40,
+            "test_b": 40,
+            "combined": 80
+          },
+          "jena": {
+            "test_a": 365,
+            "test_b": 365,
+            "combined": 730
+          }
+        },
+        "actual_target_mask_hashes": {
+          "robin": "6a8a18320548560dd5ff1aa105b55306319fd085ce26251e798b75f59d24460e",
+          "peacock_education": "d5bde6d57a0e4d929622fc5a7918f0c7f824c3028a7830b65c7e4bed5b639283",
+          "jena": "3e653f7c0f9c9ecd7456d05fa5a05f1e605e8a2d20e3bd8daef260e970caa1a9"
+        },
+        "new_score_computation": false,
+        "model_loads": 0,
+        "model_forwards": 0,
+        "new_fits": 0
+      }
+    },
+    {
+      "name": "saved_accuracy_arithmetic_and_CSV_consistency",
+      "pass": true,
+      "detail": {
+        "accuracy_csv_rows": 81,
+        "accuracy_channels_csv_rows": 1377,
+        "accuracy_origins_csv_rows": 4450,
+        "paired_csv_rows": 108,
+        "saved_array_verification_checks": 486,
+        "old_score_replay_checks": 54,
+        "saved_score_tolerance": 1e-11,
+        "new_errors_or_bootstrap_computed": false,
+        "saved_A_B_pooling": {
+          "target_counts_exact": true,
+          "sum_absolute_tolerance": 1e-11,
+          "sum_relative_roundoff": 1.4210854715202004e-14,
+          "scope": "Saved FP64 extensive sums only; metric/forward tolerances unchanged",
+          "sum_differences_above_absolute_tolerance": [
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92601",
+              "sum": "squared_error_sums",
+              "channel_index": 11,
+              "absolute_difference": 1.8189894035458565e-11,
+              "allowed_roundoff": 3.2035406590435894e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92601",
+              "sum": "squared_error_sums",
+              "channel_index": 12,
+              "absolute_difference": 1.0913936421275139e-11,
+              "allowed_roundoff": 2.9792785647169383e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92601",
+              "sum": "squared_error_sums",
+              "channel_index": 13,
+              "absolute_difference": 5.093170329928398e-11,
+              "allowed_roundoff": 5.603798462111822e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92601",
+              "sum": "squared_error_sums",
+              "channel_index": 15,
+              "absolute_difference": 2.1827872842550278e-11,
+              "allowed_roundoff": 4.030616120058559e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92602",
+              "sum": "squared_error_sums",
+              "channel_index": 7,
+              "absolute_difference": 1.6370904631912708e-11,
+              "allowed_roundoff": 1.447906550092643e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92602",
+              "sum": "squared_error_sums",
+              "channel_index": 11,
+              "absolute_difference": 1.4551915228366852e-11,
+              "allowed_roundoff": 3.2003335024326473e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92602",
+              "sum": "squared_error_sums",
+              "channel_index": 12,
+              "absolute_difference": 1.8189894035458565e-11,
+              "allowed_roundoff": 2.9729469154529386e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92602",
+              "sum": "squared_error_sums",
+              "channel_index": 13,
+              "absolute_difference": 1.4551915228366852e-11,
+              "allowed_roundoff": 5.630104322497625e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92602",
+              "sum": "squared_error_sums",
+              "channel_index": 15,
+              "absolute_difference": 2.9103830456733704e-11,
+              "allowed_roundoff": 4.0507282301217926e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92602",
+              "sum": "squared_error_sums",
+              "channel_index": 17,
+              "absolute_difference": 1.0913936421275139e-11,
+              "allowed_roundoff": 1.9181204720537249e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_level_res_92602",
+              "sum": "squared_error_sums",
+              "channel_index": 18,
+              "absolute_difference": 2.3646862246096134e-11,
+              "allowed_roundoff": 1.7922065918547419e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_f0",
+              "sum": "squared_error_sums",
+              "channel_index": 12,
+              "absolute_difference": 2.9103830456733704e-11,
+              "allowed_roundoff": 3.468033636997052e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_f0",
+              "sum": "squared_error_sums",
+              "channel_index": 13,
+              "absolute_difference": 6.548361852765083e-11,
+              "allowed_roundoff": 5.911503925341708e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_f0",
+              "sum": "squared_error_sums",
+              "channel_index": 14,
+              "absolute_difference": 6.184563972055912e-11,
+              "allowed_roundoff": 3.2639766268697524e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "v7_jena_f0",
+              "sum": "squared_error_sums",
+              "channel_index": 15,
+              "absolute_difference": 2.1827872842550278e-11,
+              "allowed_roundoff": 3.8330406895601886e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_MINI_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 11,
+              "absolute_difference": 2.1827872842550278e-11,
+              "allowed_roundoff": 3.567543027617924e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_MINI_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 12,
+              "absolute_difference": 1.0913936421275139e-11,
+              "allowed_roundoff": 3.3287054824941216e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_MINI_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 13,
+              "absolute_difference": 1.4551915228366852e-11,
+              "allowed_roundoff": 5.900071178374661e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_MINI_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 14,
+              "absolute_difference": 4.001776687800884e-11,
+              "allowed_roundoff": 3.249198978312248e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_TINY_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 11,
+              "absolute_difference": 1.0913936421275139e-11,
+              "allowed_roundoff": 3.5677320341908317e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_TINY_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 12,
+              "absolute_difference": 3.637978807091713e-11,
+              "allowed_roundoff": 3.3769312221414773e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_TINY_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 13,
+              "absolute_difference": 2.9103830456733704e-11,
+              "allowed_roundoff": 5.858721183679285e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_TINY_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 14,
+              "absolute_difference": 8.731149137020111e-11,
+              "allowed_roundoff": 3.258366406272215e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_TINY_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 15,
+              "absolute_difference": 5.093170329928398e-11,
+              "allowed_roundoff": 3.864205147918934e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_TINY_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 16,
+              "absolute_difference": 1.2732925824820995e-11,
+              "allowed_roundoff": 1.8588075171727807e-10
+            },
+            {
+              "dataset": "jena",
+              "id": "jena_BOLT_TINY_F0",
+              "sum": "squared_error_sums",
+              "channel_index": 20,
+              "absolute_difference": 1.8189894035458565e-11,
+              "allowed_roundoff": 1.9078049276797708e-10
+            }
+          ]
+        },
+        "verification_receipt": {
+          "path": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_verification.json",
+          "sha256": "ea4d50a407b013923aaf7499eeed03b6fe48c3588957b5751b162752d94e7541",
+          "bytes": 109499
+        }
+      }
+    },
+    {
+      "name": "matched_cost_coverage_raw_values_and_frozen_states",
+      "pass": true,
+      "detail": {
+        "raw_cost_rows": 108,
+        "primary_measurement_rows": 90,
+        "sentinel_measurement_rows": 18,
+        "cost_summary_instances": 30,
+        "cost_summary_groups": 24,
+        "sentinel_pairs": 9,
+        "cost_csv_rows": 132,
+        "contract_grid_coverage_complete": true,
+        "all_measurements_completed_without_oom": true,
+        "complete_measurement_rows": 108,
+        "oom_result_rows": [],
+        "planned_wrapper_calls": 18900,
+        "completed_row_wrapper_calls": 18900,
+        "oom_partial_calls_not_claimed_counted": true,
+        "cost_binding": {
+          "path": "research/level_bolt_backbone_scaling_v1_20261006/cost_binding.json",
+          "sha256": "249e2bf5b7315aa67620c26a1356e104cc9f217298d600ac0f90e98cb94f03c3",
+          "bytes": 3991
+        },
+        "raw_cost": {
+          "path": "research/level_bolt_backbone_scaling_v1_20261006/cost_cuda_rows.json",
+          "sha256": "f6bc913d0cd552accd1bed4714a0ed854f5c8e69e9b36860c3c1d0d7a04f0e68",
+          "bytes": 990418
+        },
+        "CSV_JSON_path_comparison": "Exact runtime.public_paths serialization reused; numeric/results values unchanged",
+        "same_VAL24_hash_all_arms": true,
+        "same_full_online_timing_scope": true,
+        "actual_params_and_state_preservation_checked": true,
+        "new_measurement_performed": false
+      }
+    },
+    {
+      "name": "required_reports_fairness_and_figures",
+      "pass": true,
+      "detail": {
+        "required_files": [
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/PURPOSE.md",
+            "sha256": "224cfd0c249462225c6c3a39765338b21bd5d114dbaf4e5dc211eecbb9145434",
+            "bytes": 878
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/PLAN.md",
+            "sha256": "14e2ac76cc74c782a4e83d3f54694e64eb0d5db31f5ff18b5093343d8d0b649f",
+            "bytes": 4518
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/STATUS.md",
+            "sha256": "8bd885719cb79535be28b6b6702bcdf450a00e9eb0bc076f47511a8c66d264a3",
+            "bytes": 4053
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/REQUEST.txt",
+            "sha256": "60a28daae3ee660336253b78dc534e2abf9194224e5dc5c09ff131bd45c5761a",
+            "bytes": 23570
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/FAIRNESS_TABLE.md",
+            "sha256": "39059d39cfe3861e8705221b371401b59b0a3f4fb6608ebe465fe27baa8a8967",
+            "bytes": 9112
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/FINAL_REPORT_KO.md",
+            "sha256": "3a89b446076b631ca7a9fda6907b893f717997073cd113beb0b0ae88219ea11d",
+            "bytes": 54075
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/PRESENTATION_PATCH.md",
+            "sha256": "6628eb75bc5edc1dc69dbe9541904d391e7295c005424c34bb97ef5b49e74c9a",
+            "bytes": 5745
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/README.md",
+            "sha256": "4a0398c4b6cd3a3ae65967b72844e8649171bca48fe96b4e6ebead30ed46d200",
+            "bytes": 3957
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/model_manifest.json",
+            "sha256": "5db9424129b19823b88025893d16de7aa23eea6771ef17fd373c0341e119633b",
+            "bytes": 12847
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/input_contract.json",
+            "sha256": "621691e98317dc51ba132b53fe3c0a771d526bba347740d1deb202a74d4399d2",
+            "bytes": 626925
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/preflight_checks.json",
+            "sha256": "49d1191d38bb614715f6ee4e20c3d1ac35b7b11f5296bf32c3fa4f3dc4713766",
+            "bytes": 123497
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/prediction_manifest.json",
+            "sha256": "732024f247e5e7d88ad971d7183cdcae04402c39feb80383223c3fea9aefb4e6",
+            "bytes": 34860
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+            "sha256": "8f58c8fb8129120dd3a10ba9231967063fcfd7e453e204a21b706128e799ab1b",
+            "bytes": 24575
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_channels.csv",
+            "sha256": "db5775cf360183c3a82e33d5b33cb430b9127c5211697bfd149d43eb67a47c80",
+            "bytes": 291828
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_origins.csv",
+            "sha256": "631a5df71106ba16a08dc5dd19cf19d26bcc3bc214bce802dd0b6f244b6f6c89",
+            "bytes": 901293
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/paired_comparisons.csv",
+            "sha256": "12b26133c11bda54041e73e48fa26891113e3537f970db76d42e79c4c26331f6",
+            "bytes": 34351
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/cost_binding.json",
+            "sha256": "249e2bf5b7315aa67620c26a1356e104cc9f217298d600ac0f90e98cb94f03c3",
+            "bytes": 3991
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/cost_cuda_rows.json",
+            "sha256": "f6bc913d0cd552accd1bed4714a0ed854f5c8e69e9b36860c3c1d0d7a04f0e68",
+            "bytes": 990418
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/cost_cuda_summary.json",
+            "sha256": "cab354f156128883b03971a658d66d2684a2f7a74c865e5a28da79b731f0b9e7",
+            "bytes": 240085
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/cost_comparison.csv",
+            "sha256": "bde0876dd4625399de8898f621b1f2185f7085792beec3c36eebabde9a57a46a",
+            "bytes": 379357
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/ledger.json",
+            "sha256": "c7782d51cf09038b70e5b24932af455dfc0fc7f51996fe17f8bd3e6be6d80073",
+            "bytes": 66139
+          }
+        ],
+        "fairness_datasets": 3,
+        "fairness_required_attributes": 16,
+        "final_report_contract_items": [
+          "one_sentence_question",
+          "same_family_comparison",
+          "fairness_before_accuracy",
+          "three_dataset_MSE_MAE",
+          "A_B_combined",
+          "relative_and_conditional_intervals",
+          "B1_B4_allocated_reserved",
+          "actual_deployment_parameters_bytes",
+          "Pareto_interpretation",
+          "four_strongest_objections",
+          "retain_reduce_defer_claims",
+          "need_for_next_experiment"
+        ],
+        "figure_exports": [
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/figures/allocation_robin.png",
+            "sha256": "f277f6fc01368aea3280d5752ff15300c2856924166dc78605c0dc79765b2ba6",
+            "bytes": 227403
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/figures/allocation_robin.svg",
+            "sha256": "0077aac82b050720639ee657b3779b30b5c4c08325d0e21b8a9fdf96522ab9c6",
+            "bytes": 30120
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/figures/allocation_peacock_education.png",
+            "sha256": "5b7e27398a74e3d6b57396fbc15ca987e7867f9efc5514e914ec708f5cfbc131",
+            "bytes": 224163
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/figures/allocation_peacock_education.svg",
+            "sha256": "6bbba5ce7fc0e17b593acf88f94fb2d6d5b1d063625b05f58cd501a9e1bc5619",
+            "bytes": 29568
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/figures/allocation_jena.png",
+            "sha256": "134ba0e5d8484552aa5a6a328cfdf871f8430b0aa2baba698fb14b3e8ecf7bf9",
+            "bytes": 230007
+          },
+          {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/figures/allocation_jena.svg",
+            "sha256": "aa832f3b0f0ff31dc21ccd49a95f32a92d287632e9d14f595afd2f9330d19a66",
+            "bytes": 30738
+          }
+        ],
+        "figure_manifest": {
+          "path": "research/level_bolt_backbone_scaling_v1_20261006/figures/manifest.json",
+          "sha256": "156fb0a7732ed770f913798d5555f3b9e825da5195405cc919478d6e241f7653",
+          "bytes": 15587
+        },
+        "source_CSV_hash_and_exact_rows_verified": true,
+        "figure_renderer": {
+          "actual_renderer": {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/report_layout_fix.py",
+            "sha256": "362cb343e3ee3282577c4f569cf3c8aa30a58fecbd34967ed364ae3dd12546ba",
+            "bytes": 7203
+          },
+          "original_sealed_report_sha256": "a5835ff3fabdef16574b47f348e21a317124e431aca7c07e514de6e48308b837",
+          "presentation_axes_correction": true,
+          "correction": {
+            "path": "research/level_bolt_backbone_scaling_v1_20261006/figures/layout_correction.json",
+            "sha256": "9353d90c3025e2644bf007baa4a2b118466894959834f0a590631d12c703be01",
+            "bytes": 2978
+          },
+          "single_top_keyword_only_AST_verified": true,
+          "expected_y_limits": {
+            "robin": [
+              0,
+              0.30821935602128037
+            ],
+            "peacock_education": [
+              0,
+              0.22765811178455758
+            ],
+            "jena": [
+              0,
+              0.36328225650345136
+            ]
+          },
+          "identical_CSV_and_plotted_values": true,
+          "preserved_original_exports": 6,
+          "original_figures_preservation_local_only": true
+        },
+        "original_deck_written_by_campaign": false,
+        "visual_review_claimed": false,
+        "independent_reproduction_or_novelty_certification": false
+      }
+    },
+    {
+      "name": "zero_fit_failure_preservation_and_resource_caps",
+      "pass": true,
+      "detail": {
+        "new_fit_count": 0,
+        "optimizer_updates": 0,
+        "new_source_no_fit_calls": {
+          "baselines.py": "8814d8b5fcab53a1b9548701c2d03f70d05eb3b2b3041e378ccb60f11d383418",
+          "bolt_models.py": "1b9acfa549a3c01883766dc163641f813078332332b2c1b9d64c104cb374bc85",
+          "cost_controls.py": "08103c6b57611366700ee1fded76a128c8d17ba54c2f57603e949c5d15476277",
+          "evaluate_controls.py": "eb8279b4456653372c7a535c551f0e1eea372bdac8d8efabba63c530facbf0a9",
+          "preflight.py": "e27540e93fb3e15d3907fa315b6e57baf3942bc23f9f9d1cd5cb5552f7d8723c",
+          "prepare.py": "30f6292006b6f296117bb0b98db4bc81fbdfd1781c71b3f572f6c1297c8fe284",
+          "report_controls.py": "a5835ff3fabdef16574b47f348e21a317124e431aca7c07e514de6e48308b837",
+          "report_layout_fix.py": "362cb343e3ee3282577c4f569cf3c8aa30a58fecbd34967ed364ae3dd12546ba",
+          "runtime.py": "4d9bc69a58840f9970c9d087e76c392e13126bcc2a3055cbcd4a533317a6ef0d",
+          "verify_controls.py": "8ff98221cefc77540cc6c0c82e85dbb59c7bc5d76285952502305d6cee5d0ecc"
+        },
+        "failed_ledger_jobs_preserved": [
+          {
+            "id": 0,
+            "label": "prepare-existing-bindings",
+            "category": "cpu"
+          },
+          {
+            "id": 10,
+            "label": "final_verify",
+            "category": "cpu"
+          }
+        ],
+        "failure_artifacts_preserved": [],
+        "partial_artifacts_preserved": [
+          {
+            "path": "cost_cuda_rows_partial.json",
+            "status": "partial",
+            "sha256": "a37b69018a0b343eaa09b236a0e6eaaa7c9d1db44f89be4ffb292fc20f4c0ea3"
+          },
+          {
+            "path": "evaluation_summary_partial.json",
+            "status": "scoring",
+            "sha256": "d2cad66ad67cd6af350c98eca3ce52b5288dccca38efdc4a14d25b42f0315344"
+          },
+          {
+            "path": "prediction_manifest_partial.json",
+            "status": "predicting",
+            "sha256": "7d70d22d0441c13134fd41daffe0ca1581c62594f53938e18e8a7c06d60085e2"
+          }
+        ],
+        "attempt_records": [
+          {
+            "path": "cost_cuda_rows_partial.json",
+            "status": "partial",
+            "sha256": "a37b69018a0b343eaa09b236a0e6eaaa7c9d1db44f89be4ffb292fc20f4c0ea3"
+          },
+          {
+            "path": "evaluation_summary_partial.json",
+            "status": "scoring",
+            "sha256": "d2cad66ad67cd6af350c98eca3ce52b5288dccca38efdc4a14d25b42f0315344"
+          },
+          {
+            "path": "model_manifest_partial.json",
+            "status": null,
+            "sha256": "f18f03bd7fc481934b3e21692be0a67d08c2e0cc992e25b28a0dcaa824df7556"
+          },
+          {
+            "path": "prediction_manifest_partial.json",
+            "status": "predicting",
+            "sha256": "7d70d22d0441c13134fd41daffe0ca1581c62594f53938e18e8a7c06d60085e2"
+          },
+          {
+            "path": "preflight_attempt01.json",
+            "status": "pass",
+            "sha256": "49d1191d38bb614715f6ee4e20c3d1ac35b7b11f5296bf32c3fa4f3dc4713766"
+          },
+          {
+            "path": "evaluation_attempts/predict_01.json",
+            "status": "complete",
+            "sha256": "4bd75cc18f82aa6cd50bf0261b9b8f8a205eb75b0aacd70b9a14e38ac1031721"
+          },
+          {
+            "path": "evaluation_attempts/score_01.json",
+            "status": "complete",
+            "sha256": "a8fcc2b568625869e253718f383bda5479dd43df909a170daece023223dfc911"
+          },
+          {
+            "path": "evaluation_attempts/verify_01.json",
+            "status": "complete",
+            "sha256": "6044bfebb614c7bded8b6564b35ad2f6d0f3352114e8243f51c55e294da3bd3f"
+          }
+        ],
+        "partial_is_not_pass_or_completed_measurement": true,
+        "new_canonical_prediction_units": 6,
+        "new_full_channel_origin_forecasts": 1780,
+        "budget_at_check": {
+          "gpu_seconds": 416.86775020021014,
+          "cpu_seconds": 51.98772734077647,
+          "download_bytes": 119580688,
+          "fits": 0,
+          "limits": {
+            "gpu_seconds": 7200,
+            "cpu_seconds": 3600,
+            "download_bytes": 536870912,
+            "storage_bytes": 2147483648,
+            "fits": 0
+          }
+        },
+        "own_running_audit_job_is_the_only_active_job": true,
+        "new_storage_bytes": 137106650,
+        "limitations": "Ledger/source/artifact audit; unknown external work, pretraining and independent replication are not certified"
+      }
+    }
+  ],
+  "terminal_ledger_verified": true,
+  "final_resource_caps_verified": true,
+  "final_budget": {
+    "gpu_seconds": 416.86775020021014,
+    "cpu_seconds": 52.001553600654006,
+    "download_bytes": 119580688,
+    "fits": 0,
+    "limits": {
+      "gpu_seconds": 7200,
+      "cpu_seconds": 3600,
+      "download_bytes": 536870912,
+      "storage_bytes": 2147483648,
+      "fits": 0
+    }
+  },
+  "ledger_at_audit_completion": {
+    "path": "research/level_bolt_backbone_scaling_v1_20261006/ledger.json",
+    "sha256": "ee3ee5d9cf4c68cbb8a62e838aac5e7498a9fba3ec14a9eb2eba97cec2a0638d",
+    "bytes": 66177
+  },
+  "generated_utc": 1791266330.7823005,
+  "code": {
+    "path": "research/level_bolt_backbone_scaling_v1_20261006/verify_controls.py",
+    "sha256": "8ff98221cefc77540cc6c0c82e85dbb59c7bc5d76285952502305d6cee5d0ecc",
+    "bytes": 78829
+  },
+  "fit_count": 0,
+  "model_loads": 0,
+  "model_inference": false,
+  "new_performance_scores": false,
+  "bootstrap_draws": 0,
+  "independent_reproduction": false,
+  "novelty_certification": false,
+  "publication": {
+    "scope": "Optional external phase; no Git query/commit/push is performed here",
+    "root_README_and_publication_required_for_local_scientific_PASS": false,
+    "verified": false,
+    "metadata_supplied": false
+  },
+  "scope": "Execution-team CPU consistency audit of saved sealed artifacts",
+  "error": null
+}
