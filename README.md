@@ -4,6 +4,16 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## 원래 고정 PCA LEVEL 증거 감사 (2026-10-06)
+
+기존 v1~v16과 로컬 완료 보충 결과를 연결했습니다. **압축 경로 보완·Robin/Peacock 잔차 입력 효과는 조건부 유지, 일반 실용 우위는 축소, 독립 방법론 기여·최적 배분·학습 E/D 대비 우위는 보류**합니다. 현재 LEVEL 계약의 Chronos-2/Small 비교도 이미 완료돼 재사용했으며, 이번 감사·게시의 신규 학습과 추론은 0회입니다.
+
+- [감사 결과와 핵심 이미지](research/level_contribution_gap_audit_20261006/README.md)
+- [최종 비판 보고와 미해결 질문](research/level_contribution_gap_audit_20261006/public/CRITICAL_REVIEW_KO.md)
+- [증거 색인·실제 실행 기록 안내](research/level_contribution_gap_audit_20261006/public/README.md)
+
+![LEVEL과 Chronos-2 Small의 저장된 정확도 및 비용 비교](research/level_contribution_gap_audit_20261006/figures/practical_tradeoffs.png)
+
 ## Data
 
 ```python

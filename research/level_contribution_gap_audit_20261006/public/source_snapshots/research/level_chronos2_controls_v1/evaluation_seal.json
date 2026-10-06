@@ -1,0 +1,85 @@
+{
+  "created_utc": 1791226807.4385457,
+  "files": {
+    "REQUEST.txt": "c7e703592edc0c8d1d12bead073ff1975ab526e40dd02e98b74d1fba12ab687f",
+    "PLAN.md": "364bef6d1f6a45d8f15624f66c4670d5a77dd060e22aa2c4a96b4d10ac54f252",
+    "input_contract.json": "232b19577dffeb46b1d2869985384900e2119e9df20404ab45ce7ddebff5849e",
+    "reuse_manifest.json": "d708025b6e9d764e631539ec5a54b639e77bd6a1b290ae13bb75660f8d22f8ef",
+    "model_manifest.json": "3928795fc1b0207530f668d6e28ec1b6ef0d09f2e68e9105dd3d5cefac714102",
+    "cpu_contract_checks.json": "d3066073cdb75a76a55659bc45cd59eb0811ae0fdbc55446b590a60131d0f950",
+    "preflight_checks.json": "0c4709764a07f67cdee4ce7f22a390905c928337db5f5612fbc473965363d42a",
+    "runtime.py": "a128c8d8366bfa99ac7c5baf45f6d1fdc03af26c65fa9f0a0039c9477beead7c",
+    "baselines.py": "ba60decb6c3b5ca14c1b8b79add311b50a065cf31d2d2f652afc60256a0f2c66",
+    "c2_models.py": "328c88cd271cabf7b85779b3e6d0d6f879dc604f6533a5c56ef2a7fa56d3146e",
+    "preflight.py": "85a67cadf168adb9af690554263dfe9b2aca261fc8b8ba779d0fa897d36377d3",
+    "evaluate_controls.py": "29f943ce3fb261c8d09c8d2c0fe95d8304ef2e25afd6fe14be6a94d31f46d6eb",
+    "cost_controls.py": "7f16f40a62f3592ae972749ac68f20707e1563996ec46dd1df00b3f9e3682671"
+  },
+  "datasets": [
+    "robin",
+    "peacock_education",
+    "jena"
+  ],
+  "new_methods": [
+    "C2_MV",
+    "C2_SMALL_MV",
+    "C2_UNI",
+    "C2_SMALL_UNI"
+  ],
+  "additional_fits": 0,
+  "point": "actual quantile 0.5 after native inverse scaling; original TRAIN-standardized coordinates",
+  "group": "one origin one native group; cross_learning=False; no shared cross-origin context",
+  "evaluation": "observed channel macro MSE/MAE, seed-loss average; A/B pooled perchannel SSE/count",
+  "cost": {
+    "gpu_rows": 279,
+    "cpu_rows": 36,
+    "passes": 10,
+    "warmup_calls": 10,
+    "blocks": 3,
+    "val_origins": "first chronological24",
+    "precision": "FP32 TF32off threads4",
+    "scope": "standardized CPU input to original-channel H48 CPU output"
+  },
+  "limits": {
+    "gpu_seconds": 10800,
+    "cpu_seconds": 3600,
+    "download_bytes": 4294967296,
+    "storage_bytes": 8589934592,
+    "fits": 0
+  },
+  "budget_at_seal": {
+    "gpu_seconds": 77.77919630007818,
+    "cpu_seconds": 9.95270310016349,
+    "download_bytes": 111750017,
+    "fits": 0,
+    "limits": {
+      "gpu_seconds": 10800,
+      "cpu_seconds": 3600,
+      "download_bytes": 4294967296,
+      "storage_bytes": 8589934592,
+      "fits": 0
+    },
+    "active": []
+  },
+  "runtime_estimate": {
+    "status": "estimated_unverified_campaign_runtime",
+    "cost_measurement_rows": 279,
+    "planned_wrapper_calls": 42210,
+    "cost_forward_seconds_median_probe": 2573.12630425673,
+    "cost_forward_seconds_max_probe": 2757.3847682448104,
+    "accuracy_forward_seconds_max_probe": 48.92297777230851,
+    "model_reload_reserve_seconds": 150.40451249177568,
+    "reload_reserve_basis": "99 potential loads times slowest measured baseline/C2 constructor; reserve, not measured campaign work",
+    "gpu_remaining_seconds_at_estimate": 10722.232813596725,
+    "does_not_guarantee_runtime": true,
+    "excluded_unknown_overhead": [
+      "scoring/serialization",
+      "diagnostic failure/retry",
+      "cost telemetry/cleanup"
+    ],
+    "conservative_gpu_forward_and_load_estimate_seconds": 2956.7122585088946,
+    "estimated_within_remaining_gpu_budget": true
+  },
+  "exposure": "All three datasets were previously exposed; this is not independent confirmation",
+  "after_test": "no reselection or scientific contract changes; concrete repair only with failure preserved"
+}
