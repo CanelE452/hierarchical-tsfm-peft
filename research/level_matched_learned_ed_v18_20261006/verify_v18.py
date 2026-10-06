@@ -238,6 +238,30 @@ def report_checks(checks, preflight):
                    - preflight["estimate"]["projected_full_campaign_upper_s"]) < 1e-8)
 
 
+def source_review_checks(checks):
+    if not (HERE / "source_review_checks.json").exists():
+        return
+    review = checks.load("source_review_checks.json")
+    checks.add("post_stop_source_review_not_scientific_execution", review["status"] == "PASS_SOURCE_REVIEW"
+               and review["execution_status"] == "BLOCKED_STOP_RESOURCE"
+               and review["full_campaign_complete"] is False and review["scientific_verdict"] is None
+               and all(value == 0 for value in review["additional_scientific_execution"].values()),
+               "Static review and isolated synthetic CPU checks; no matched experiment executed")
+    checks.add("post_stop_original_budget_and_scientific_contract_preserved", review["limits"]
+               == {"gpu_seconds": 10800, "new_fits": 12, "new_test_predictions": 6}
+               and review["budget_amendment_approved"] is False)
+    for receipt in review["sources_after"].values():
+        checks.receipt(receipt, "reviewed_source_bound:" + receipt["path"])
+    for name, expected in review["scientific_and_figure_sha256_unchanged"].items():
+        checks.add("post_stop_existing_evidence_unchanged:" + name, digest(HERE / name) == expected)
+    for row in review["isolated_CPU_checks"]:
+        checks.receipt(row["receipt"], "isolated_CPU_test_receipt_bound:" + row["scope"])
+        for receipt in row["test_sources"]:
+            checks.receipt(receipt, "isolated_CPU_test_source_bound:" + receipt["path"])
+        checks.add("isolated_CPU_checks_passed:" + row["scope"], row["passed"] is True,
+                   "Fake fixtures only; does not validate real learned-model predictions or timing")
+
+
 def request_coverage():
     lines = (HERE / "REQUEST.txt").read_text(encoding="utf-8").splitlines()
     starts = [(0, "preamble")] + [(i, line) for i, line in enumerate(lines) if re.match(r"^\d+\. ", line)]
@@ -267,6 +291,7 @@ def main():
             resource_checks(checks, preflight, stop, ledger)
             if not args.data_only:
                 report_checks(checks, preflight)
+                source_review_checks(checks)
     counts = {s: sum(r["status"] == s for r in checks.rows) for s in ("pass", "fail", "incomplete", "gate_prevented")}
     status = "FAIL" if counts["fail"] else "INCOMPLETE" if counts["incomplete"] else "PASS"
     save_json(HERE / "final_checks.json", {"schema": "matched_learned_ed_resource_stop_checks_v18", "status": status,

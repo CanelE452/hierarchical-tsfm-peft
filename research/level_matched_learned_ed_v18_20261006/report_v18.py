@@ -298,6 +298,8 @@ Execution: **BLOCKED_STOP_RESOURCE**. Full campaign complete: **false**. New fit
 
 Read [FINAL_REPORT_KO.md](FINAL_REPORT_KO.md) and [FAIRNESS_TABLE.md](FAIRNESS_TABLE.md) first. [PRIOR_ART.md](PRIOR_ART.md) and `source_binding.json` bind official AdaPTS sources and the bias difference. `REQUEST.txt` is the literal adopted contract. Original results, decks, failed attempts and unrelated files are preserved.
 
+The later [source contract review](SOURCE_REVIEW_KO.md) corrects unexecuted cost/evaluation paths and records isolated synthetic CPU checks in `source_review_checks.json`. It adds no trained accuracy or measured cost result; the original stop, preflight sources, ledger, projection and four figure files remain byte-identical.
+
 ![Stored full-scope planning projection and adopted resource cap](figures/resource_projection.png)
 
 ![Stored step0 parity and actual parameter enumeration; no trained comparison](figures/preflight_readiness.png)

@@ -11,3 +11,5 @@ No LR/checkpoint selection, new TEST comparison, paired confidence interval, mat
 The original failed preflight and code hashes are preserved in preflight_attempt01.json, preflight.json, preflight_initial_models.json and resource_stop.json. No scope reduction, estimate retuning or duplicate preflight was performed. Original protected files remain unchanged.
 
 Continuation requires an explicit budget amendment and a reviewed gate bound to the original stop receipt; fitting remains unauthorized beyond the current cap. See REPRODUCE.md for the same-scope minimum continuation plan. Documentation and publication checks are separate from completion of the scientific comparison.
+
+After the stop, source contract review corrected the still-unexecuted cost/evaluation paths and exercised isolated synthetic CPU fixtures. See [SOURCE_REVIEW_KO.md](SOURCE_REVIEW_KO.md) and source_review_checks.json. No new scientific execution or budget amendment resulted; the original preflight evidence, projection, ledger and figures remain unchanged. The full campaign result verifier still requires real selected artifacts before it can certify the requested execution.

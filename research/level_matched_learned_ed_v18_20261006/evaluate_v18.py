@@ -170,30 +170,69 @@ def origin_contract(data):
 
 
 def read_prediction(receipt, origins, shape):
-    artifact(receipt["path"], receipt.get("sha256"))
+    verify_artifact(receipt)
     with np.load(resolve(receipt["path"]), allow_pickle=False) as archive:
         key = receipt.get("key") or receipt.get("prediction_key") or "prediction"
         value = archive[key]
         saved_origins = archive[receipt.get("origins_key", "origins")]
-    if not np.array_equal(saved_origins.astype(np.int64), origins.astype(np.int64)):
+    if saved_origins.dtype != np.int64 or not np.array_equal(saved_origins, origins):
         raise ValueError("Prediction origin order differs: " + str(receipt["path"]))
     if value.shape != shape or value.dtype != np.float32 or not np.isfinite(value).all():
         raise ValueError("Prediction shape, dtype or finiteness differs: " + str(receipt["path"]))
     return value
 
 
+def verify_artifact(receipt, expected=None):
+    actual = artifact(receipt["path"], receipt["sha256"])
+    if receipt.get("bytes") != actual["bytes"]:
+        raise ValueError("Artifact byte count differs: " + receipt["path"])
+    if expected is not None:
+        wanted = artifact(expected["path"], expected["sha256"])
+        if wanted != actual or expected.get("bytes") != wanted["bytes"]:
+            raise ValueError("Artifact differs from its immutable reference: " + receipt["path"])
+    return actual
+
+
+def seal_reference(path, seal):
+    references = [row for row in seal["artifacts"] if resolve(row["path"]).resolve() == resolve(path).resolve()]
+    if len(references) != 1:
+        raise ValueError("Exactly one joint-seal reference is required: " + str(path))
+    return verify_artifact(references[0])
+
+
+def verified_seals():
+    seal = check_selection_seal()
+    for document in (read_json(HERE / "source_seal.json"), seal):
+        for reference in document["artifacts"]:
+            verify_artifact(reference)
+    if (seal.get("fit_count") != 12 or seal.get("test_predictions_at_seal") != 0
+            or seal.get("prediction_ensemble") is not False):
+        raise ValueError("Joint seal must follow twelve fits and precede every new TEST")
+    seal_reference(HERE / "selection.json", seal)
+    seal_reference(HERE / "source_seal.json", seal)
+    return seal
+
+
 def selected_units():
     selection = read_json(HERE / "selection.json")
-    if selection.get("prediction_ensemble"):
+    if selection.get("prediction_ensemble") is not False or selection.get("test_used_for_selection") is not False:
         raise RuntimeError("The selected ED campaign must not ensemble predictions")
+    if set(selection.get("units", {})) != set(DATASETS):
+        raise RuntimeError("Joint selection must contain exactly the three fixed datasets")
     units = {}
     for dataset in DATASETS:
         unit = selection["units"][dataset]
         if unit.get("seeds") != [92601, 92602] or len(unit.get("run_ids", [])) != 2:
             raise RuntimeError("Selection unit does not expose exactly two selected ED seeds: " + dataset)
+        if unit.get("lr") not in (1e-3, 1e-4) or any(len(unit.get(key, [])) != 2 for key in ("checkpoints", "selected_epochs", "best_val_prediction")):
+            raise RuntimeError("Selected LR or two-seed artifact grid differs: " + dataset)
         rows = []
         for index, checkpoint in enumerate(unit["checkpoints"]):
-            artifact(checkpoint["path"], checkpoint["sha256"])
+            verify_artifact(checkpoint)
+            verify_artifact(unit["best_val_prediction"][index])
+            epoch = unit["selected_epochs"][index]
+            if type(epoch) is not int or not 0 <= epoch <= 120:
+                raise RuntimeError("Selected epoch is outside the prescribed grid")
             rows.append(
                 {
                     "dataset": dataset,
@@ -209,6 +248,12 @@ def selected_units():
                 }
             )
         units[dataset] = rows
+    ids = [row["id"] for rows in units.values() for row in rows]
+    if len(ids) != 6 or len(set(ids)) != 6:
+        raise RuntimeError("Joint selection contains duplicate prediction run IDs")
+    seal = verified_seals()
+    if sorted(seal.get("selected_run_ids", [])) != sorted(ids):
+        raise RuntimeError("Selected run IDs differ from the joint seal")
     return units
 
 
@@ -216,18 +261,122 @@ def prediction_receipt_path(dataset, run_id):
     return HERE / "prediction_receipts" / f"{dataset}_{run_id}.json"
 
 
-def verify_new_receipt(record, dataset, row, origins, shape, selection_sha256):
+def verify_new_receipt(record, dataset, row, origins, shape, selection_sha256, *, allow_running_test=False):
     if record.get("status") != "complete" or record.get("dataset") != dataset:
         raise ValueError("Completed prediction receipt belongs to another dataset")
     if record.get("method") != METHOD or record.get("id") != row["id"] or record.get("seed") != row["seed"]:
         raise ValueError("Completed prediction receipt belongs to another selected ED unit")
-    if record.get("selection_seal_sha256") != selection_sha256:
+    if selection_sha256 != digest(HERE / "selection_seal.json") or record.get("selection_seal_sha256") != selection_sha256:
         raise ValueError("Completed prediction receipt is bound to another selection seal")
-    read_prediction(record["prediction"], origins, shape)
+    if record.get("lr") != row["lr"] or record.get("selected_epoch") != row["selected_epoch"]:
+        raise ValueError("Prediction receipt differs from the selected LR or epoch")
+    verify_artifact(record["checkpoint"], row["checkpoint"])
+    verify_artifact(record["evaluation_source"], artifact(HERE / "evaluate_v18.py"))
+    verify_artifact(record["source_seal"], artifact(HERE / "source_seal.json"))
+    contract = dataset_contract(dataset)
+    verify_artifact(record["data"], contract["test"])
+    canonical = np.concatenate([np.asarray(contract["origins"][period]["values"], dtype=np.int64) for period in PERIODS[:2]])
+    for period in PERIODS[:2]:
+        if array_hash(np.asarray(contract["origins"][period]["values"], dtype=np.int64)) != contract["origins"][period]["values_sha256"]:
+            raise ValueError("Canonical TEST origin values differ from their sealed hashes")
+    if not np.array_equal(origins, canonical) or tuple(shape) != (len(canonical), contract["h"], contract["c"]):
+        raise ValueError("Prediction TEST origins or axes differ from the parent data contract")
+    if record.get("origin_values_sha256") != array_hash(canonical) or record.get("origin_shape_fp32_finite") is not True:
+        raise ValueError("Prediction origin receipt differs from the canonical contract")
+    prediction = read_prediction(record["prediction"], canonical, tuple(shape))
+    if record["prediction"].get("shape") != list(prediction.shape) or record["prediction"].get("dtype") != "float32":
+        raise ValueError("Prediction metadata differs from actual NPZ bytes")
+    seal = verified_seals()
+    result_path = HERE / "runs" / row["id"] / "result.json"
+    seal_reference(result_path, seal)
+    result = read_json(result_path)
+    if any(result.get(key) != value for key, value in {"status": "complete", "id": row["id"], "dataset": dataset,
+            "seed": row["seed"], "lr": row["lr"], "selected_epoch": row["selected_epoch"], "test_accessed": False}.items()):
+        raise ValueError("Prediction selected fit result differs from joint selection")
+    verify_artifact(result["checkpoint"], row["checkpoint"])
+    initial_reference = read_json(HERE / "preflight.json")["initial_models"]
+    verify_artifact(initial_reference)
+    initial = read_json(initial_reference["path"])["units"][dataset]
+    model = record.get("model_receipt", {})
+    for key, value in result["model_receipt"].items():
+        if model.get(key) != value:
+            raise ValueError("Prediction model differs from selected fit receipt: " + key)
+    for key, value in initial["model_receipt"].items():
+        if key not in {"state_sha256", "adapter_tensor_sha256"} and model.get(key) != value:
+            raise ValueError("Prediction model differs from immutable model contract: " + key)
+    if (model.get("trainable_parameter_names") != ["encoder.weight", "decoder.weight"]
+            or model.get("trainable_parameter_count") != 2 * contract["c"] * contract["k"]
+            or model.get("precision") != "float32" or model.get("all_parameters_fp32") is not True
+            or model.get("eval_mode") is not True or model.get("backbone_eval_mode") is not True):
+        raise ValueError("Prediction model must be FP32 eval with E/D-only trainable weights")
+    frozen = result["frozen_backbone"]
+    if (frozen.get("unchanged") is not True or frozen.get("before_sha256") != frozen.get("after_sha256")
+            or model.get("backbone_state_sha256") != frozen["before_sha256"]
+            or model.get("backbone_state_sha256") != initial["backbone_state_sha256"]
+            or model.get("adapter_tensor_sha256") != result["adapter_selected_sha256"]
+            or model.get("basis_values_sha256") != result["basis_values_sha256"]):
+        raise ValueError("Prediction state differs from selected E/D, frozen backbone or PCA")
     state = record.get("state_preservation", {})
-    if not state.get("unchanged") or state.get("before_sha256") != state.get("after_sha256"):
+    if (state.get("unchanged") is not True or state.get("before_sha256") != state.get("after_sha256")
+            or state.get("before_sha256") != model.get("state_sha256")
+            or not isinstance(model.get("state_sha256"), str) or len(model["state_sha256"]) != 64
+            or state.get("eval_mode") is not True or state.get("backbone_eval_mode") is not True
+            or record.get("additional_fit_count") != 0):
         raise ValueError("Completed prediction lacks state-preservation evidence")
+    test_id = dataset + "::" + row["id"]
+    entries = [entry for entry in read_json(HERE / "ledger.json")["test_predictions"] if entry.get("id") == test_id]
+    if len(entries) != 1:
+        raise ValueError("Exactly one matching TEST ledger entry is required")
+    entry = entries[0]
+    metadata = {"dataset": dataset, "prediction_run_id": row["id"], "seed": row["seed"], "method": METHOD,
+                "lr": row["lr"], "selected_epoch": row["selected_epoch"], "selection_seal_sha256": selection_sha256}
+    if any(entry.get(key) != value for key, value in metadata.items()):
+        raise ValueError("TEST ledger metadata differs from selected prediction")
+    verify_artifact(entry["checkpoint"], row["checkpoint"])
+    if allow_running_test:
+        if entry.get("status") != "running":
+            raise ValueError("Only the current newly generated TEST may be running before receipt save")
+    else:
+        if entry.get("status") != "complete":
+            raise ValueError("A failed, running or missing TEST cannot be reused as complete")
+        verify_artifact(entry["prediction"], record["prediction"])
+        receipt_path = prediction_receipt_path(dataset, row["id"])
+        verify_artifact(entry["receipt"], artifact(receipt_path))
+        if read_json(receipt_path) != record:
+            raise ValueError("Prediction sidecar differs from completed ledger/manifest receipt")
     return record
+
+
+def verify_prediction_manifest(manifest, selection):
+    if (manifest.get("status") != "complete" or manifest.get("method") != METHOD
+            or manifest.get("evaluation_units") != 6 or manifest.get("prediction_ensemble") is not False
+            or manifest.get("prediction_batch_origins") != 4 or set(manifest.get("units", {})) != set(DATASETS)):
+        raise RuntimeError("Prediction manifest must contain exactly six sealed E/D units")
+    selection_sha256 = digest(HERE / "selection_seal.json")
+    if manifest.get("selection_seal_sha256") != selection_sha256:
+        raise RuntimeError("Prediction manifest belongs to another joint selection seal")
+    for key, path in (("selection_seal", HERE / "selection_seal.json"), ("source_seal", HERE / "source_seal.json"),
+                      ("evaluation_source", HERE / "evaluate_v18.py")):
+        verify_artifact(manifest[key], artifact(path))
+    expected_test_ids = set()
+    origin_count = 0
+    for dataset in DATASETS:
+        expected_ids = {row["id"] for row in selection[dataset]}
+        if set(manifest["units"][dataset]) != expected_ids:
+            raise RuntimeError("Prediction manifest has extra, missing or swapped units: " + dataset)
+        data = load_data(dataset, include_test=True)
+        origins, _ = origin_contract(data)
+        shape = (len(origins), 48, int(data["_C"]))
+        for row in selection[dataset]:
+            verify_new_receipt(manifest["units"][dataset][row["id"]], dataset, row, origins, shape, selection_sha256)
+            expected_test_ids.add(dataset + "::" + row["id"])
+            origin_count += len(origins)
+    ledger_entries = read_json(HERE / "ledger.json")["test_predictions"]
+    if len(ledger_entries) != 6 or {entry.get("id") for entry in ledger_entries} != expected_test_ids:
+        raise RuntimeError("TEST ledger differs from the exact six-member selected prediction grid")
+    if manifest.get("full_channel_prediction_origins") != origin_count:
+        raise RuntimeError("Prediction manifest origin count differs from actual data units")
+    return manifest
 
 
 def predict_all(job, device):
@@ -240,15 +389,7 @@ def predict_all(job, device):
     manifest_path = HERE / "prediction_manifest.json"
     if manifest_path.exists():
         manifest = read_json(manifest_path)
-        if manifest.get("status") != "complete" or manifest.get("selection_seal_sha256") != selection_sha256:
-            raise RuntimeError("Existing prediction manifest is not the sealed completed v18 phase")
-        for dataset in DATASETS:
-            data = load_data(dataset, include_test=True)
-            origins, _ = origin_contract(data)
-            shape = (len(origins), 48, int(data["_C"]))
-            for row in selection[dataset]:
-                verify_new_receipt(manifest["units"][dataset][row["id"]], dataset, row, origins, shape, selection_sha256)
-        return manifest
+        return verify_prediction_manifest(manifest, selection)
 
     folder = CACHE / "predictions01"
     folder.mkdir(parents=True, exist_ok=True)
@@ -258,6 +399,8 @@ def predict_all(job, device):
         "method": METHOD,
         "selection_seal": artifact(HERE / "selection_seal.json"),
         "selection_seal_sha256": selection_sha256,
+        "source_seal": artifact(HERE / "source_seal.json"),
+        "evaluation_source": artifact(HERE / "evaluate_v18.py"),
         "prediction_ensemble": False,
         "prediction_batch_origins": 4,
         "units": {dataset: {} for dataset in DATASETS},
@@ -277,7 +420,9 @@ def predict_all(job, device):
             if npz_path.exists():
                 raise FileExistsError("Preserve orphan prediction bytes: " + str(npz_path))
             test_id = dataset + "::" + row["id"]
-            register_test(test_id, {"dataset": dataset, "id": row["id"], "seed": row["seed"], "method": METHOD})
+            register_test(test_id, {"dataset": dataset, "prediction_run_id": row["id"], "seed": row["seed"],
+                                   "method": METHOD, "lr": row["lr"], "selected_epoch": row["selected_epoch"],
+                                   "checkpoint": row["checkpoint"], "selection_seal_sha256": selection_sha256})
             started = time.perf_counter()
             try:
                 model = restore_model(row["checkpoint"]["path"], device=device, expected_sha256=row["checkpoint"]["sha256"])
@@ -309,6 +454,8 @@ def predict_all(job, device):
                     "selected_epoch": row["selected_epoch"],
                     "checkpoint": row["checkpoint"],
                     "selection_seal_sha256": selection_sha256,
+                    "source_seal": artifact(HERE / "source_seal.json"),
+                    "evaluation_source": artifact(HERE / "evaluate_v18.py"),
                     "prediction": {**artifact(npz_path), "key": "prediction", "origins_key": "origins", "shape": list(prediction.shape), "dtype": "float32"},
                     "data": artifact(data["_path"]),
                     "origin_values_sha256": array_hash(origins),
@@ -325,11 +472,12 @@ def predict_all(job, device):
                     "additional_fit_count": 0,
                     "inputs": "Only X[o-512:o]; no TEST used for selection; no prediction ensemble",
                 }
-                verify_new_receipt(record, dataset, row, origins, shape, selection_sha256)
+                verify_new_receipt(record, dataset, row, origins, shape, selection_sha256, allow_running_test=True)
                 save_json(receipt_path, record)
                 manifest["units"][dataset][row["id"]] = record
                 save_json(HERE / "prediction_manifest_partial.json", manifest)
-                finish_test(test_id, {"prediction": artifact(npz_path), "elapsed_s": record["elapsed_s"]})
+                finish_test(test_id, {"prediction": artifact(npz_path), "receipt": artifact(receipt_path), "elapsed_s": record["elapsed_s"]})
+                verify_new_receipt(record, dataset, row, origins, shape, selection_sha256)
                 del model, arrays, prediction
                 gc.collect()
                 torch.cuda.empty_cache()
@@ -344,6 +492,7 @@ def predict_all(job, device):
         full_channel_prediction_origins=sum(row["prediction"]["shape"][0] for unit in manifest["units"].values() for row in unit.values()),
         completed_utc=time.time(),
     )
+    verify_prediction_manifest(manifest, selection)
     save_json(manifest_path, manifest)
     return manifest
 
@@ -392,13 +541,15 @@ def mean_seed_terms(members):
 
 
 def reused_rows(dataset):
+    phase0 = read_json(HERE / "phase0_audit.json")
+    verify_artifact(phase0["parent_reuse_manifest"]["artifact"], artifact(HERE / "parent_reuse_manifest.json"))
     parent = read_json(HERE / "parent_reuse_manifest.json")["units"][dataset]["levels"]
     rows = []
     for row in parent:
         item = dict(row)
         item.update(method="ORIGINAL_LEVEL", original_method="LEVEL", source_kind="parent_reuse_manifest")
         rows.append(item)
-    c2_reuse = read_json("research/level_chronos2_controls_v1/reuse_manifest.json")["units"][dataset]["rows"]
+    c2_reuse = read_pinned_reuse("research/level_chronos2_controls_v1/reuse_manifest.json")["units"][dataset]["rows"]
     for row in c2_reuse:
         if row["method"] not in {"B", "F0", "MSE_LORA", "DIRECT_NLINEAR"}:
             continue
@@ -412,7 +563,7 @@ def reused_rows(dataset):
         ("research/level_bolt_backbone_scaling_v1_20261006/prediction_manifest.json", "bolt_minitiny_prediction_manifest"),
         ("research/level_chronos2_controls_v1/prediction_manifest.json", "chronos2_prediction_manifest"),
     ):
-        manifest = read_json(path)
+        manifest = read_pinned_reuse(path)
         for method, record in manifest["units"][dataset].items():
             rows.append(
                 {
@@ -427,12 +578,26 @@ def reused_rows(dataset):
                     "source_kind": source_kind,
                 }
             )
+    for row in rows:
+        verify_artifact(row["source_evaluation"])
+    ids = [row["id"] for row in rows]
+    if len(ids) != len(set(ids)):
+        raise ValueError("Reused prediction row IDs must be unique within a dataset")
     return rows
+
+
+def read_pinned_reuse(path):
+    references = read_json(HERE / "phase0_audit.json")["manifest_artifacts"]
+    matches = [row for row in references if resolve(row["path"]).resolve() == resolve(path).resolve()]
+    if len(matches) != 1:
+        raise ValueError("Exactly one phase0 manifest pin is required: " + str(path))
+    verify_artifact(matches[0])
+    return read_json(path)
 
 
 def raw_reuse_rows(dataset):
     if dataset == "peacock_education":
-        doc = read_json("research/tsfm_peft_peacock_matched_raw_v17_20261002/prediction_manifest.json")
+        doc = read_pinned_reuse("research/tsfm_peft_peacock_matched_raw_v17_20261002/prediction_manifest.json")
         return [
             {
                 "dataset": dataset,
@@ -454,6 +619,11 @@ def raw_reuse_rows(dataset):
     }.get(dataset)
     if eval_path is None:
         return []
+    parent = read_json(HERE / "parent_reuse_manifest.json")["units"][dataset]["levels"]
+    references = [row["source_evaluation"] for row in parent if resolve(row["source_evaluation"]["path"]).resolve() == resolve(eval_path).resolve()]
+    if not references or any(row != references[0] for row in references):
+        raise ValueError("Parent LEVEL does not pin the reused RAW evaluation")
+    verify_artifact(references[0])
     doc = read_json(eval_path)
     rows = []
     for key, model in doc.get("models", {}).items():
@@ -559,12 +729,12 @@ def write_csv(path, rows):
 
 
 def score_all(job):
-    check_selection_seal()
+    verified_seals()
     if (HERE / "evaluation.json").exists():
         raise FileExistsError("Evaluation is already complete; use verify")
     manifest = read_json(HERE / "prediction_manifest.json")
-    if manifest.get("status") != "complete" or manifest.get("evaluation_units") != 6:
-        raise RuntimeError("All six selected ED TEST predictions must finish before scoring")
+    selected = selected_units()
+    verify_prediction_manifest(manifest, selected)
     model_rows, channel_rows, paired_rows, replay = [], [], [], []
     evaluation = {
         "schema": "matched_learned_ed_v18_evaluation_1",
@@ -573,12 +743,14 @@ def score_all(job):
         "prediction_manifest": artifact(HERE / "prediction_manifest.json"),
         "selection": artifact(HERE / "selection.json"),
         "selection_seal": artifact(HERE / "selection_seal.json"),
+        "source_seal": artifact(HERE / "source_seal.json"),
+        "evaluation_source": artifact(HERE / "evaluate_v18.py"),
+        "phase0_audit": artifact(HERE / "phase0_audit.json"),
         "prediction_ensemble": False,
         "units": {},
         "old_score_replay": replay,
         "paired_bootstrap_weight_hashes": {},
     }
-    selected = selected_units()
     selection_sha256 = digest(HERE / "selection_seal.json")
     for dataset in DATASETS:
         data = load_data(dataset, include_test=True)
@@ -603,6 +775,8 @@ def score_all(job):
                             raise RuntimeError("Original score reproduction failed: " + row["id"])
             rows.append(row)
         for row in selected[dataset]:
+            if row["id"] in terms:
+                raise ValueError("New and reused prediction IDs must be distinct")
             record = verify_new_receipt(manifest["units"][dataset][row["id"]], dataset, row, origins, target.shape, selection_sha256)
             prediction = read_prediction(record["prediction"], origins, target.shape)
             terms[row["id"]] = error_terms(prediction, target, mask)
@@ -683,18 +857,142 @@ def append_score_rows(model_rows, channel_rows, dataset, aggregation, method, ro
 
 
 def verify_all():
-    check_selection_seal()
+    verified_seals()
+    selected = selected_units()
     manifest = read_json(HERE / "prediction_manifest.json")
     evaluation = read_json(HERE / "evaluation.json")
-    if manifest.get("status") != "complete" or manifest.get("evaluation_units") != 6:
-        raise RuntimeError("Prediction manifest incomplete")
-    if evaluation.get("status") != "complete" or evaluation.get("method") != METHOD:
+    verify_prediction_manifest(manifest, selected)
+    if (evaluation.get("status") != "complete" or evaluation.get("method") != METHOD
+            or evaluation.get("prediction_ensemble") is not False or set(evaluation.get("units", {})) != set(DATASETS)):
         raise RuntimeError("Evaluation incomplete")
+    for key, path in (("prediction_manifest", HERE / "prediction_manifest.json"), ("selection", HERE / "selection.json"),
+                      ("selection_seal", HERE / "selection_seal.json"), ("source_seal", HERE / "source_seal.json"),
+                      ("evaluation_source", HERE / "evaluate_v18.py"), ("phase0_audit", HERE / "phase0_audit.json")):
+        verify_artifact(evaluation[key], artifact(path))
     for key in ("accuracy_models_csv", "accuracy_channels_csv", "paired_comparisons_csv", "old_score_replay_json"):
-        artifact(evaluation[key]["path"], evaluation[key]["sha256"])
+        verify_artifact(evaluation[key], artifact(HERE / {
+            "accuracy_models_csv": "accuracy_models.csv", "accuracy_channels_csv": "accuracy_channels.csv",
+            "paired_comparisons_csv": "paired_comparisons.csv", "old_score_replay_json": "old_score_replay.json"}[key]))
+    with (HERE / "accuracy_models.csv").open(encoding="utf-8", newline="") as handle:
+        model_rows = list(csv.DictReader(handle))
+    with (HERE / "accuracy_channels.csv").open(encoding="utf-8", newline="") as handle:
+        channel_rows = list(csv.DictReader(handle))
+    with (HERE / "paired_comparisons.csv").open(encoding="utf-8", newline="") as handle:
+        pairs = list(csv.DictReader(handle))
+    model_grid, channel_grid, expected_replay, expected_metadata = set(), set(), {}, {}
+    model_lookup = {}
+    for table_row in model_rows:
+        key = tuple(table_row[name] for name in ("dataset", "aggregation", "method", "id", "period"))
+        if key in model_lookup:
+            raise RuntimeError("Accuracy model CSV contains duplicate grid members")
+        model_lookup[key] = table_row
+    for dataset in DATASETS:
+        contract = dataset_contract(dataset)
+        data = load_data(dataset, include_test=True)
+        origins, indices = origin_contract(data)
+        unit = evaluation["units"][dataset]
+        if (unit.get("origins_sha256") != array_hash(origins)
+                or unit.get("period_origin_counts") != {period: len(index) for period, index in indices.items()}):
+            raise RuntimeError("Evaluation origin receipt differs from canonical TEST periods")
+        members = reused_rows(dataset) + [manifest["units"][dataset][row["id"]] for row in selected[dataset]]
+        if len({row["id"] for row in members}) != len(members):
+            raise RuntimeError("Evaluation individual IDs overlap")
+        expected_methods = {row["method"] for row in members}
+        if set(unit.get("groups", {})) != expected_methods:
+            raise RuntimeError("Evaluation method groups differ from actual selected/reused members")
+        grouped_members = {}
+        for row in members:
+            grouped_members.setdefault(row["method"], []).append(row)
+            for period in PERIODS:
+                key = (dataset, "individual", row["method"], row["id"], period)
+                model_grid.add(key)
+                expected_metadata[key] = {
+                    "seed": "" if row.get("seed") is None else str(row["seed"]),
+                    "source_kind": "matched_learned_ed_v18_new_prediction" if row["method"] == METHOD else row["source_kind"],
+                    "reused": str(row["method"] != METHOD),
+                }
+                channel_grid.update((*key, str(channel)) for channel in range(contract["c"]))
+                if row.get("expected_period_scores"):
+                    for metric in ("mse", "mae"):
+                        expected_replay[(dataset, row["id"], period, metric)] = row
+        for method, group_members in grouped_members.items():
+            group = unit["groups"][method]
+            ids = [row["id"] for row in group_members]
+            if group.get("ids") != ids or group.get("seeds") != [row.get("seed") for row in group_members]:
+                raise RuntimeError("Evaluation aggregation members differ from prediction grid")
+            for period in PERIODS:
+                key = (dataset, "method", method, "+".join(ids), period)
+                model_grid.add(key)
+                expected_metadata[key] = {"seed": json.dumps(group["seeds"]), "source_kind": "new_or_reused_group", "reused": str(method != METHOD)}
+                channel_grid.update((*key, str(channel)) for channel in range(contract["c"]))
+                actual = model_lookup.get(key, {})
+                scores = group["periods"][period]
+                if any(float(actual.get(metric, "nan")) != scores[metric] for metric in METRICS):
+                    raise RuntimeError("Accuracy CSV differs from evaluation method scores")
+        hashes = evaluation["paired_bootstrap_weight_hashes"][dataset]
+        if set(hashes) != set(PERIODS) or any(not isinstance(value, str) or len(value) != 64 for value in hashes.values()):
+            raise RuntimeError("Paired bootstrap weight hash receipt is incomplete")
+    if set(model_lookup) != model_grid or len(model_rows) != len(model_grid):
+        raise RuntimeError("Accuracy model CSV has extra or missing grid members")
+    actual_channels = [tuple(row[name] for name in ("dataset", "aggregation", "method", "id", "period", "channel")) for row in channel_rows]
+    if len(actual_channels) != len(channel_grid) or set(actual_channels) != channel_grid:
+        raise RuntimeError("Accuracy channel CSV has extra, missing or duplicate grid members")
+    channel_lookup = dict(zip(actual_channels, channel_rows))
+    for key, model_row in model_lookup.items():
+        if any(model_row.get(name) != value for name, value in expected_metadata[key].items()):
+            raise RuntimeError("Accuracy CSV seed or new/reused source metadata differs")
+        channel_count = dataset_contract(key[0])["c"]
+        rows = [channel_lookup[(*key, str(channel))] for channel in range(channel_count)]
+        if any(row.get("seed") != expected_metadata[key]["seed"] for row in rows):
+            raise RuntimeError("Channel CSV seed differs from selected/reused members")
+        for metric in METRICS:
+            values = np.asarray([float(row[metric]) for row in rows])
+            if not np.isfinite(values).all() or not np.isclose(float(values.mean()), float(model_row[metric]), rtol=1e-12, atol=1e-12):
+                raise RuntimeError("Channel-macro scores differ from model CSV")
+        counts = [int(row["target_count"]) for row in rows]
+        if min(counts) <= 0 or sum(counts) != int(model_row["target_count"]):
+            raise RuntimeError("Channel target counts differ from model CSV")
+        if int(model_row["origins"]) != evaluation["units"][key[0]]["period_origin_counts"][key[4]]:
+            raise RuntimeError("Model CSV period origin count differs")
+    pair_grid = {(dataset, METHOD, right, period, metric) for dataset in DATASETS
+                 for right in PRIMARY_AND_SECONDARY_RIGHT for period in PERIODS for metric in ("mse", "mae")}
+    actual_pairs = [tuple(row[name] for name in ("dataset", "left", "right", "period", "metric")) for row in pairs]
+    if len(actual_pairs) != len(pair_grid) or set(actual_pairs) != pair_grid:
+        raise RuntimeError("Paired CSV has extra, missing or duplicate comparison members")
+    for pair in pairs:
+        dataset, period, metric = pair["dataset"], pair["period"], pair["metric"]
+        left = evaluation["units"][dataset]["groups"][METHOD]["periods"][period][metric]
+        right = evaluation["units"][dataset]["groups"][pair["right"]]["periods"][period][metric]
+        config = dataset_contract(dataset)["bootstrap"]
+        if (float(pair["left_value"]) != left or float(pair["right_value"]) != right
+                or float(pair["absolute_difference"]) != left - right
+                or any(int(pair[name]) != config[key] for name, key in (("bootstrap_draws", "draws"),
+                       ("block_origins", "block_origins"), ("rng_seed", "seed"), ("rng_salt", "seed_sequence_salt")))):
+            raise RuntimeError("Paired CSV point values or bootstrap recipe differ")
+        interval = json.loads(pair["absolute_ci95"])
+        if len(interval) != 2 or not np.isfinite(interval).all() or interval[0] > interval[1]:
+            raise RuntimeError("Paired CSV confidence interval is invalid")
+    replay = read_json(HERE / "old_score_replay.json")
+    checks = replay.get("checks", [])
+    replay_keys = [(row["dataset"], row["id"], row["period"], row["metric"]) for row in checks]
+    if (replay.get("status") != "pass" or checks != evaluation.get("old_score_replay")
+            or len(replay_keys) != len(expected_replay) or set(replay_keys) != set(expected_replay)):
+        raise RuntimeError("Old-score replay receipt has extra, missing or duplicate checks")
+    for check, key in zip(checks, replay_keys):
+        row = expected_replay[key]
+        expected = row["expected_period_scores"][key[2]][key[3]]
+        actual = float(model_lookup[(key[0], "individual", row["method"], key[1], key[2])][key[3]])
+        tolerance = max(1e-10, abs(expected) * 1e-9)
+        if (check.get("pass") is not True or check.get("expected") != expected or check.get("actual") != actual
+                or check.get("tolerance") != tolerance or check.get("absolute_difference") != abs(actual - expected)
+                or abs(actual - expected) > tolerance or check.get("source") != row.get("source_evaluation")
+                or check.get("source_pointer") != row.get("source_pointer")):
+            raise RuntimeError("Old-score replay does not reproduce its pinned original score")
     expected_pairs = len(DATASETS) * len(PRIMARY_AND_SECONDARY_RIGHT) * len(PERIODS) * 2
-    if evaluation["row_counts"]["paired_comparisons"] != expected_pairs:
-        raise RuntimeError("Primary/secondary paired comparison count changed")
+    actual_counts = {"accuracy_models": len(model_rows), "accuracy_channels": len(channel_rows),
+                     "paired_comparisons": len(pairs), "old_score_replay": len(checks)}
+    if evaluation.get("row_counts") != actual_counts or len(pairs) != expected_pairs:
+        raise RuntimeError("Evaluation row counts differ from actual CSV/replay artifacts")
     return {"status": "pass", "prediction_units": 6, "row_counts": evaluation["row_counts"]}
 
 
