@@ -1,0 +1,116 @@
+{
+  "schema": "matched_learned_ed_protocol_v18",
+  "created_utc": 1791275456.8799407,
+  "request": {
+    "path": "research/level_matched_learned_ed_v18_20261006/REQUEST.txt",
+    "sha256": "d846e4ae474793c08535ed68abb12f7a0832c89114abc3d89a6768b9e33e6116",
+    "bytes": 16604
+  },
+  "method": "MATCHED_LEARNED_ED",
+  "full_AdaPTS_reproduction": false,
+  "datasets": [
+    "robin",
+    "peacock_education",
+    "jena"
+  ],
+  "seeds": [
+    92601,
+    92602
+  ],
+  "learning_rates": [
+    0.001,
+    0.0001
+  ],
+  "max_epochs": 120,
+  "patience": 6,
+  "epoch_origins": 512,
+  "effective_batch_origins": 4,
+  "initial_microbatch": 4,
+  "oom_microbatch_sequence": [
+    4,
+    2,
+    1
+  ],
+  "optimizer": "AdamW",
+  "weight_decay": 0,
+  "clip_grad_norm": 1.0,
+  "scheduler": {
+    "class": "ReduceLROnPlateau",
+    "factor": 0.5,
+    "patience": 2,
+    "threshold": 0.0001,
+    "threshold_mode": "rel",
+    "step_after_epoch_val": true
+  },
+  "loss": "Observed-mask channel-macro forecast MSE; no auxiliary reconstruction",
+  "checkpoint_selection": "Minimum full canonical VAL MSE including step0; strict improvement, earliest exact tie",
+  "lr_selection": "Minimum arithmetic mean of two selected seed VAL losses before any new TEST",
+  "lr_exact_tie": {
+    "robin": 0.001,
+    "peacock_education": 0.0001,
+    "jena": 0.001
+  },
+  "lr_tie_source": "Peacock v12 min(mean,lr); Jena v7 first-listed; Robin no historical LR search uses first-listed",
+  "sampling": "Literal parent phase_sample SeedSequence([seed,epoch]); dataset phase periods retained",
+  "model": {
+    "encoder_bias": false,
+    "decoder_bias": false,
+    "E_initial": "literal U.T",
+    "D_initial": "literal U",
+    "backbone": "Parent frozen Bolt-small revision; eval; autograd through operations retained",
+    "trainable": [
+      "encoder.weight",
+      "decoder.weight"
+    ],
+    "residual_G": false,
+    "level_persistence": false
+  },
+  "fp32": true,
+  "tf32": false,
+  "step0_parity": {
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "source": "Existing Bolt preflight BATCH tolerance, all canonical VAL; no tolerance retuning"
+  },
+  "new_test_predictions": 6,
+  "joint_selection_seal_before_test": true,
+  "prediction_ensemble": false,
+  "aggregation": "A/B channel error sums/counts pooled before macro; mean selected seed losses; no cross-dataset total",
+  "bootstrap": "Exact prior paired moving-block draws/seed/blocks from data_contract files; A/B stratified",
+  "training_cost_probe": {
+    "batch_origins": 4,
+    "fixed_origins": "First four chronological canonical TRAIN origins",
+    "warmup": 10,
+    "repetitions": 10,
+    "rotated_blocks": 3,
+    "optimizer_updates": 0,
+    "members": "Both selected ED and original LEVEL seeds; same bytes; forward+MSE+backward"
+  },
+  "inference_cost": {
+    "origins": "First 24 chronological canonical VAL",
+    "batches": [
+      1,
+      4
+    ],
+    "warmup": 10,
+    "passes": 10,
+    "rotated_blocks": 3,
+    "output": "Standardized CPU input to B48C CPU output"
+  },
+  "cost_interpretation": {
+    "similar_operational_max_ratio_both_time_and_allocated": 1.25,
+    "substantially_higher_operational_either_ratio": 2.0,
+    "intermediate_or_overlapping_direction": "Conservative mixed result; show continuous ratios/raw ranges",
+    "not_equivalence_margin": true,
+    "not_convergence_time": true
+  },
+  "diagnostics_selection_use": false,
+  "limits": {
+    "gpu_seconds": 10800,
+    "new_fits": 12,
+    "new_test_predictions": 6
+  },
+  "preflight_estimate": "Fixed forward/backward steps with zero optimizer updates; full 12x120epoch upper bound plus evaluation/cost",
+  "test_exposure": "Already exposed follow-up controls; not independent confirmation",
+  "unplanned_followups": false
+}

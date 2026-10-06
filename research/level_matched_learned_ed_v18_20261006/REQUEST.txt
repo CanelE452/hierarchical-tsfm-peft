@@ -1,0 +1,588 @@
+# LEVEL vs AdaPTS-style matched learned E/D — CLI 실행 계약
+Date: 2026-10-06
+Repo: CanelE452/hierarchical-tsfm-peft
+
+[목적]
+현재 fixed-PCA LEVEL의 핵심 선택을 직접 검증한다.
+
+LEVEL:
+  X -> fixed PCA E -> frozen Chronos-Bolt-small -> fixed D = b(X)
+  r = X - D(E(X))
+  Yhat = b(X) + last(r) + G(r-last(r))
+
+대조:
+  X -> learned E -> frozen Chronos-Bolt-small -> learned D -> Yhat
+
+질문:
+"압축 손실을 fixed E/D + residual G로 따로 보완할 이유가 있는가,
+ 아니면 같은 K에서 E/D 자체를 forecast loss로 학습하면 충분한가?"
+
+이번 회차는 full AdaPTS probabilistic framework 재현이 아니다.
+정확한 명칭은 `MATCHED_LEARNED_ED` 또는
+`AdaPTS-style matched Linear E/D control`을 사용한다.
+보고서에서 단순히 `AdaPTS`라고 쓰거나 `LEVEL beats AdaPTS`라고 주장하지 않는다.
+
+================================================================================
+0. Phase 0 — 중복 실행 감사
+================================================================================
+
+먼저 실제 local/remote 상태를 확인한다.
+
+- current branch / HEAD / origin / dirty status
+- live origin/main SHA
+- 관련 실행 프로세스
+- v1 ForecastAdapter COMPRESS learned E/D
+- v2 CURRENT/FIXED/SLOW E/D
+- v6 Robin fixed LEVEL
+- v7 Jena fixed LEVEL
+- v12 Peacock fixed LEVEL
+- v17 Peacock matched RAW
+- v11 learned U/Gamma
+- Chronos-2 controls
+- Bolt mini/tiny allocation controls
+
+현재 tracked 기록상 learned E/D 자체는 v1/v2에서 이미 했지만
+Robin/Peacock/Jena의 동일 계약 matched E/D-only 직접 비교는 미확인이다.
+로컬에 이미 완전한 결과가 있으면 새 fit/TEST를 하지 말고 재사용한다.
+
+기존 결과·실패 기록·PPT/PDF·무관한 dirty 파일은 수정하지 않는다.
+
+================================================================================
+1. 선행 source binding
+================================================================================
+
+공식 AdaPTS source를 pin하고 다음을 기록한다.
+
+- ICML 2025 publication metadata
+- official repository commit/revision
+- LinearAutoEncoder:
+    encoder = Linear(input_dim, n_components)
+    decoder = Linear(n_components, input_dim)
+- supervised adapter path:
+    transform_torch -> frozen FM -> inverse_transform_torch
+- deterministic prediction loss = MSE
+- `coeff_reconstruction` 기본값 = 0.0
+
+이번 primary arm은 reconstruction auxiliary loss 없이 final forecast MSE만 사용한다.
+
+================================================================================
+2. 고정 데이터 계약
+================================================================================
+
+현재 LEVEL 메인 3자료만 사용한다.
+
+- Robin: C=17, K=5, parent=v6
+- Peacock Education: C=13, K=4, parent=v12
+- Jena: C=21, K=6, parent=v7
+
+공통:
+- L=512
+- H=48
+- 기존 TRAIN/VAL/TEST-A/TEST-B split
+- 기존 origin arrays EXACT
+- 기존 TRAIN-only standardization
+- 기존 imputation
+- 기존 channel order
+- 기존 target observation mask
+- FP32
+- TF32 off
+- Chronos-Bolt-small은 각 parent의 pinned revision 그대로
+
+새 split/channel/K/PCA/normalization 금지.
+세 자료는 이미 TEST가 노출된 후속 개발 자료임을 명시한다.
+
+================================================================================
+3. Primary arm — MATCHED_LEARNED_ED
+================================================================================
+
+구조:
+
+  X [B,512,C]
+    -> Encoder: Linear(C,K,bias=False)
+    -> Z [B,512,K]
+    -> frozen Chronos-Bolt-small; K latent series independently
+    -> Zhat [B,48,K]
+    -> Decoder: Linear(K,C,bias=False)
+    -> Yhat [B,48,C]
+
+초기화:
+- E.weight = original LEVEL TRAIN PCA U^T
+- D.weight = original LEVEL TRAIN PCA U
+- basis bytes/hash literal identity 확인
+
+학습:
+- E,D만 trainable
+- G 없음
+- level persistence 없음
+- RAW bypass 없음
+- LoRA 없음
+- reconstruction auxiliary loss 없음
+- backbone weights `requires_grad=False`, `eval()`
+
+중요:
+Encoder까지 gradient가 가야 하므로 backbone forward를
+`torch.no_grad()` 또는 `inference_mode()`로 감싸면 안 된다.
+backbone weights는 frozen이지만 operations의 autograd graph는 유지한다.
+
+예상 trainable parameter sanity:
+- Robin: 170
+- Peacock: 104
+- Jena: 252
+실제 enumeration을 source of truth로 기록한다.
+
+================================================================================
+4. Step-0 parity — 실패 시 즉시 STOP_DEBUG
+================================================================================
+
+학습 전 ED 함수는 기존 fixed PCA COMPRESS b와 같아야 한다.
+
+각 dataset canonical VAL에서:
+
+  MATCHED_LEARNED_ED(step0)
+  vs
+  existing COMPRESS b
+
+검사:
+- [B,48,C]
+- dtype/finite
+- origin/channel order
+- q=0.5
+- max abs / relative error
+- 기존 project parity tolerance
+
+실패하면 학습/TEST 금지.
+
+원인 후보:
+- basis transpose/sign/order
+- decoder orientation
+- backbone wrapper
+- quantile index
+- channel ordering
+- preprocessing
+- revision/dtype
+
+scientific contract를 바꿔 억지로 맞추지 않는다.
+
+================================================================================
+5. 학습 목적과 recipe
+================================================================================
+
+Loss:
+기존 LEVEL과 동일한 observed-mask channel-macro MSE.
+
+  L = mean_c [ SSE_c / observed_count_c ]
+
+별도 future residual target 금지.
+native quantile loss 금지.
+TEST selection 금지.
+
+Hyperparameter search는 historical learned E/D v1 범위만 재사용:
+
+  lr ∈ {1e-3, 1e-4}
+  seeds = {92601, 92602}
+  max_epochs = 120
+
+가능한 한 parent LEVEL recipe literal reuse:
+- patience=6
+- epoch_origins=512
+- effective_batch_origins=4
+- AdamW
+- weight_decay=0
+- clip_grad_norm=1
+- ReduceLROnPlateau 기존 설정
+- phase-balanced sampling
+- same seed/epoch origin schedules
+
+최대 신규 fit:
+  3 datasets × 2 LRs × 2 seeds = 12
+
+Run checkpoint:
+- full VAL macro MSE 최소
+- step0 포함
+- exact tie = earliest
+
+Dataset-level LR 선택:
+- 각 LR의 두 seed best VAL loss 평균
+- TEST 보기 전에 하나 선택
+- exact tie는 기존 project tie rule 또는 first-listed LR
+- 선택 LR의 두 seed checkpoint만 TEST 사용
+
+prediction ensemble 금지.
+최종 learned model score는 두 seed `loss` 평균.
+
+================================================================================
+6. OOM 규칙
+================================================================================
+
+ED는 frozen backbone weights를 학습하지 않아도
+encoder까지 gradient가 지나가므로 LEVEL보다 activation memory가 클 수 있다.
+
+microbatch=4 OOM이면:
+  4 -> 2 -> 1
+순서로만 감소.
+
+단:
+- gradient accumulation으로 effective batch=4 유지
+- same sample order
+- same optimizer update count
+- scheduler semantics 동일
+
+금지:
+- K/L/H 감소
+- dataset 축소
+- AMP/quantization
+- 한 arm에만 gradient checkpointing/offload
+- TEST 보고 recipe 변경
+
+microbatch1도 불가하면 STOP_RESOURCE.
+
+================================================================================
+7. TEST 평가
+================================================================================
+
+모든 TRAIN/VAL 선택 후 selection seal을 만든 뒤 TEST.
+
+신규:
+- selected ED 3 datasets × 2 seeds = 6 TEST predictions
+
+재사용:
+- ORIGINAL_LEVEL
+- COMPRESS b
+- F0
+- MSE-LoRA
+- Direct NLinear
+- matched RAW
+- Bolt Mini/Tiny
+- Chronos-2/Small
+
+Primary:
+  MATCHED_LEARNED_ED vs ORIGINAL_LEVEL
+
+Secondary:
+  ED vs COMPRESS
+  ED vs F0
+  ED vs MSE-LoRA
+
+지표:
+- Primary MSE
+- Secondary MAE
+- signed bias가 기존 scorer에 있으면 보존
+
+반드시:
+- TEST-A
+- TEST-B
+- combined
+
+combined는 A/B MSE 단순평균 금지.
+채널별 SSE/count를 기간에 걸쳐 먼저 합친 뒤 channel macro.
+
+dataset 간 MSE 평균 총점 금지.
+
+================================================================================
+8. paired uncertainty
+================================================================================
+
+기존 paired time-block bootstrap을 그대로 재사용 가능한 경우만 사용.
+
+- same origins
+- methods/channels paired
+- A/B boundary crossing 금지
+- 기존 block length
+- 기존 draws/seed
+- TEST 후 설정 변경 금지
+
+주 비교:
+  relative = 100 * (ED / LEVEL - 1)
+
+negative = ED lower error.
+95% interval에 0 포함 -> difference uncertain.
+equivalence/non-inferiority 주장 금지.
+
+================================================================================
+9. same-session training-path cost probe
+================================================================================
+
+과거 LEVEL fit time과 새 ED fit time을 단순 비율로 비교하지 않는다.
+
+각 dataset 동일 고정 batch에서 같은 새 session으로:
+
+A. ORIGINAL_LEVEL training-path
+- G trainable
+- backbone/E/D frozen
+- current LEVEL 방식대로 main path gradient retention 없음
+- forward -> same MSE -> backward
+- optimizer.step 없음
+
+B. MATCHED_LEARNED_ED
+- E/D trainable
+- backbone weights frozen
+- gradient through backbone
+- forward -> same MSE -> backward
+- optimizer.step 없음
+
+공통:
+- same input/target/mask bytes
+- same batch/effective batch
+- FP32/TF32 off
+- warmup/repeats/blocks 고정
+- state hash 전후 동일
+
+기록:
+- forward+backward ms/origin
+- peak allocated MiB
+- peak reserved MiB
+- resident allocation after load
+- trainable params
+- deployed tensor bytes
+
+이 probe는 gradient-path 비용 진단이며 convergence time 대체가 아니다.
+실제 fit elapsed/updates/selected epoch/peak train memory도 별도 보존한다.
+
+================================================================================
+10. same-session inference cost
+================================================================================
+
+각 dataset selected ED 2 seeds와 ORIGINAL_LEVEL 2 seeds를 같은 회차에서 측정.
+
+scope:
+standardized CPU input
+ -> encode
+ -> GPU/Bolt
+ -> decode
+ -> LEVEL only: level + G
+ -> [B,48,C] CPU output
+
+- VAL first 24 chronological origins
+- B1 latency
+- B4 throughput
+- warmup 10
+- passes 10
+- 3 rotated blocks
+
+기록:
+- ms/origin
+- origins/s
+- peak allocated/reserved
+- resident allocated/reserved
+- parameter/buffer/tensor bytes
+- raw block ranges
+
+작은 timing 차이는 drift/range가 겹치면 안정적 우위라고 쓰지 않는다.
+
+================================================================================
+11. no-new-fit diagnostics
+================================================================================
+
+selected ED checkpoint에서:
+
+- ||E-U^T||_F / ||U^T||_F
+- ||D-U||_F / ||U||_F
+- ||D-E^T||_F / ||D||_F
+- encoder/decoder singular values, numerical rank
+- TRAIN/VAL reconstruction MSE: X vs D(E(X))
+- fixed PCA Z vs learned E(X) mean/std
+- step0 COMPRESS -> selected ED forecast improvement
+
+이것들은 설명용.
+selection에는 절대 사용하지 않는다.
+
+================================================================================
+12. 판정 규칙
+================================================================================
+
+Case A:
+ED가 LEVEL보다 MSE가 낮고 interval excludes 0,
+training cost도 유사/낮음
+  -> `RESIDUAL_PATH_NOT_JUSTIFIED_BY_MATCHED_ED_CONTROL`
+
+Case B:
+ED가 더 정확하지만 TSFM-through backprop 때문에
+training peak/time이 크게 높음
+  -> `ACCURACY_VS_BACKPROP_COST_TRADEOFF`
+
+Case C:
+LEVEL이 MSE 우위 interval excludes 0이고 training cost도 낮음
+  -> `FIXED_ED_EXTERNAL_RESIDUAL_SUPPORTED`
+
+Case D:
+dataset별 혼재 또는 주요 interval 0 포함
+  -> `DATA_DEPENDENT_NO_GENERAL_WINNER`
+
+3개 dataset 결과를 범용성 증명으로 부르지 않는다.
+
+================================================================================
+13. 반드시 보고할 반론
+================================================================================
+
+- full AdaPTS reproduction이 아니다.
+- bias=False라 official LinearAutoEncoder와 완전히 동일하지 않다.
+  이는 `train E/D vs fixed E/D+G`를 분리하는 matched structural control이다.
+- ED trainable params(약 100~250)와 LEVEL G 17,920 params는 다르다.
+  이번 질문은 parameter-matched contest가 아니라 압축 손실 처리 전략 비교다.
+- ED의 backbone-through gradient 비용 차이는 불공정 요소가 아니라
+  이 비교에서 측정하려는 핵심 tradeoff다.
+- TEST는 이미 노출된 후속 control이다.
+
+================================================================================
+14. 이번 회차에서 하지 않을 것
+================================================================================
+
+- full AdaPTS VAE/likelihood/probabilistic reproduction
+- coeff_reconstruction sweep
+- RevIN
+- bias sweep
+- nonlinear E/D
+- K search
+- new PCA/dataset
+- backbone 변경
+- Mini/Tiny + LEVEL
+- Chronos-2 재평가
+- ChaTSFM / Time-PEFT 구현
+- G 변경
+- new U/Gamma
+- TEST 기반 tuning
+
+결과를 보고 자동 후속 실험 금지.
+
+================================================================================
+15. 자원 상한
+================================================================================
+
+- max new neural fits = 12
+- max selected TEST model predictions = 6
+- preflight에서 1 epoch 또는 고정 steps로 전체 시간 추정
+- GPU cumulative hard cap = 3 hours
+
+3시간 초과 예상이면 scope를 몰래 줄이지 말고 STOP_RESOURCE 후 보고.
+
+================================================================================
+16. 산출물
+================================================================================
+
+새 폴더 예:
+  research/level_matched_learned_ed_v18_20261006/
+  .cache/level_matched_learned_ed_v18_20261006/
+
+tracked 최소:
+- REQUEST.txt
+- PURPOSE.md
+- PLAN.md
+- PRIOR_ART.md
+- STATUS.md
+- protocol.json
+- source_binding.json
+- data_contract_*.json
+- parent_reuse_manifest.json
+- model_v18.py
+- train_v18.py
+- evaluate_v18.py
+- cost_v18.py
+- preflight.json
+- initial_manifest.json
+- selection.json
+- selection_seal.json
+- test_exposure.json
+- prediction_manifest.json
+- evaluation.json
+- accuracy_models.csv
+- accuracy_channels.csv
+- paired_comparisons.csv
+- training_cost_probe.json
+- training_summary.csv
+- inference_cost_rows.json
+- inference_cost_summary.json
+- mechanism_diagnostics.json
+- FAIRNESS_TABLE.md
+- FINAL_REPORT_KO.md
+- PRESENTATION_PATCH.md
+- final_checks.json
+- ledger.json
+
+큰 checkpoint/prediction은 .cache에 두고 Git에 올리지 않는다.
+
+================================================================================
+17. final_checks 필수
+================================================================================
+
+- live remote SHA
+- unrelated files unchanged
+- official AdaPTS source revision recorded
+- parent PCA hash exact reuse
+- step0 ED == COMPRESS parity PASS
+- backbone revision/state unchanged
+- only E/D updated
+- selected non-step0 model에서 E/D 실제 update 확인
+- VAL-only selection
+- TEST after joint selection seal
+- origins/masks exact
+- A/B combined aggregation exact
+- no prediction ensemble
+- paired bootstrap pairing exact
+- matched cost input hash exact
+- training probe optimizer updates = 0 and state unchanged
+- all cost raw blocks complete
+- table values replay
+- failed/partial attempts preserved
+- self-check != independent reproduction
+- full AdaPTS reproduction claim absent
+
+================================================================================
+18. 실행/commit/push
+================================================================================
+
+Phase 0 audit
+-> preflight
+-> max 12 TRAIN/VAL fits
+-> LR/checkpoint selection
+-> joint selection seal
+-> selected TEST
+-> paired evaluation
+-> training/inference cost
+-> diagnostics
+-> final checks
+-> report
+
+순서로 진행한다.
+
+기존 동일 결과가 발견되면 재실행하지 말고 reuse receipt를 남긴다.
+
+완료 후:
+- 관련 새 코드/작은 결과/보고서만 commit
+- unrelated dirty 제외
+- push 전 final_checks + git diff
+- main push 후 live origin/main SHA 확인
+
+최종 CLI 응답 형식:
+
+DONE / BLOCKED
+remote_sha:
+new_fits:
+new_test_predictions:
+
+selected_lr:
+  robin:
+  peacock:
+  jena:
+
+combined_mse:
+  robin: LEVEL=..., LEARNED_ED=...
+  peacock: LEVEL=..., LEARNED_ED=...
+  jena: LEVEL=..., LEARNED_ED=...
+
+paired_relative_mse_ci:
+matched_training_cost:
+inference_cost:
+
+verdict:
+  RESIDUAL_PATH_NOT_JUSTIFIED_BY_MATCHED_ED_CONTROL
+  or ACCURACY_VS_BACKPROP_COST_TRADEOFF
+  or FIXED_ED_EXTERNAL_RESIDUAL_SUPPORTED
+  or DATA_DEPENDENT_NO_GENERAL_WINNER
+
+claim_changes:
+  keep:
+  shrink:
+  hold:
+
+remaining_gaps:
+  1-3 only

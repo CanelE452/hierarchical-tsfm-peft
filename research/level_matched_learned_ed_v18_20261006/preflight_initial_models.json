@@ -1,0 +1,428 @@
+{
+  "schema": "matched_learned_ed_v18_literal_initial_models_1",
+  "units": {
+    "robin": {
+      "literal_PCA": {
+        "shape": [
+          17,
+          5
+        ],
+        "dtype": "float32",
+        "sha256": "352532dd5a659db657de52c3333a7101c11345f82c499c1ec04d75256390e0f9"
+      },
+      "adapter_initial_sha256": {
+        "encoder.weight": "47470114ff34d35cfa02d7a9997ab758cf04928550477dfe2a64e8047d2b99c3",
+        "decoder.weight": "352532dd5a659db657de52c3333a7101c11345f82c499c1ec04d75256390e0f9"
+      },
+      "backbone_state_sha256": "3608dcf804e430c273a805597e1f879899efaae1221eadc741d84c769be7a736",
+      "model_receipt": {
+        "schema": "matched_learned_ed_v18_model_1",
+        "dataset": "robin",
+        "channels": 17,
+        "latent": 5,
+        "context": 512,
+        "horizon": 48,
+        "precision": "float32",
+        "bias": false,
+        "point": "native inverse-scaled q0.5, first48; B*K independent latent rows",
+        "backbone_source": {
+          "dataset": "robin",
+          "method": "LEVEL",
+          "display_label": "LEVEL",
+          "id": "v6_robin_level_res_92601",
+          "seed": 92601,
+          "checkpoint": {
+            "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\runs\\v6_robin_level_res_92601\\best.pt",
+            "sha256": "fffabef217686fdd7193206ee6011f833b696b6bbcaa3655d6c4e8d4f88ca647",
+            "bytes": 76152
+          },
+          "restore_module": "research\\tsfm_peft_level_confirmation_v6_20260928\\model_v6.py",
+          "restore_module_artifact": {
+            "path": "research\\tsfm_peft_level_confirmation_v6_20260928\\model_v6.py",
+            "sha256": "8b928bc5d80b92c1ffb539413b6497ee0977bfc1664c1061a86b0bed436b39d4",
+            "bytes": 11418
+          },
+          "restore_function": "restore_model",
+          "deploy_function": null,
+          "test_prediction": {
+            "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\evaluation01_predictions\\v6_robin_level_res_92601.npz",
+            "sha256": "82ba61b3e2a8b617402a544d29fa67bbbc8c5c7fc1eccb8cf226294864ef4fbb",
+            "bytes": 241105,
+            "key": "prediction",
+            "origins_key": "origins",
+            "axes": [
+              "origin",
+              "horizon",
+              "original_channel"
+            ]
+          },
+          "val_prediction": {
+            "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\runs\\v6_robin_level_res_92601\\best_val.npz",
+            "sha256": "30b7a06878b4358433f96b91cdf990e0c6a5ce70226d28f161ffd0f30f3b7e66",
+            "bytes": 90810,
+            "key": "prediction",
+            "origins_key": "origins",
+            "axes": [
+              "origin",
+              "horizon",
+              "original_channel"
+            ]
+          },
+          "val_prediction_missing_reason": null,
+          "output_component": null,
+          "source_evaluation": {
+            "path": "research\\tsfm_peft_level_confirmation_v6_20260928\\evaluation01.json",
+            "sha256": "0e34d29d8447df64b14fd2e2cd86eae0006a3a3d2d834460e683cf8741de07ff",
+            "bytes": 195737
+          },
+          "source_pointer": "/models/v6_robin_level_res_92601/scores",
+          "expected_period_scores": {
+            "test_a": {
+              "mse": 0.2737467694171549,
+              "mae": 0.3320506342363804
+            },
+            "test_b": {
+              "mse": 0.2762684912874164,
+              "mae": 0.3168226376097151
+            },
+            "combined": {
+              "mse": 0.2750087927589786,
+              "mae": 0.32443795858995605
+            }
+          },
+          "source_result": {
+            "path": "research\\tsfm_peft_level_confirmation_v6_20260928\\runs\\v6_robin_level_res_92601\\result.json",
+            "sha256": "0345a682c8b6fcd7f68ba5ef63ec77e847ed404b2659f2e42b9d21b1be5c4a75",
+            "bytes": 13974
+          },
+          "selected_epoch": 10,
+          "best_val_mse": 0.3744819962088259,
+          "arm": "BOLT_SMALL_LEVEL"
+        },
+        "backbone_eval": true,
+        "backbone_weights_trainable": false,
+        "backbone_autograd_operations": true,
+        "G": null,
+        "level_persistence": false,
+        "reconstruction_auxiliary_coefficient": 0.0,
+        "normalization_forward": "forward",
+        "parameter_count": 47718186,
+        "trainable_parameter_count": 170,
+        "trainable_parameter_names": [
+          "encoder.weight",
+          "decoder.weight"
+        ],
+        "parameter_bytes": 190872744,
+        "buffer_bytes": 376,
+        "total_tensor_bytes": 190873120,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "median_index": 4,
+        "model_context_length": 2048,
+        "model_prediction_length": 64,
+        "basis_values_sha256": "352532dd5a659db657de52c3333a7101c11345f82c499c1ec04d75256390e0f9",
+        "eval_mode": true,
+        "backbone_eval_mode": true,
+        "all_parameters_fp32": true,
+        "state_sha256": "0dae76463d8ddb255e5884d5d5d50409447be54a168b4acb28c81b9c8526c9ce",
+        "backbone_state_sha256": "3608dcf804e430c273a805597e1f879899efaae1221eadc741d84c769be7a736",
+        "adapter_tensor_sha256": {
+          "encoder.weight": "47470114ff34d35cfa02d7a9997ab758cf04928550477dfe2a64e8047d2b99c3",
+          "decoder.weight": "352532dd5a659db657de52c3333a7101c11345f82c499c1ec04d75256390e0f9"
+        }
+      }
+    },
+    "peacock_education": {
+      "literal_PCA": {
+        "shape": [
+          13,
+          4
+        ],
+        "dtype": "float32",
+        "sha256": "2263f0d6a05433c1f840c28a60bd7e589dd257caff7e9b445c8a87704133e26a"
+      },
+      "adapter_initial_sha256": {
+        "encoder.weight": "c3d6f51cee9dc4a41510f05bffd3828ca158f317065e80c40fd74c6e8410c40a",
+        "decoder.weight": "2263f0d6a05433c1f840c28a60bd7e589dd257caff7e9b445c8a87704133e26a"
+      },
+      "backbone_state_sha256": "3608dcf804e430c273a805597e1f879899efaae1221eadc741d84c769be7a736",
+      "model_receipt": {
+        "schema": "matched_learned_ed_v18_model_1",
+        "dataset": "peacock_education",
+        "channels": 13,
+        "latent": 4,
+        "context": 512,
+        "horizon": 48,
+        "precision": "float32",
+        "bias": false,
+        "point": "native inverse-scaled q0.5, first48; B*K independent latent rows",
+        "backbone_source": {
+          "dataset": "peacock_education",
+          "method": "LEVEL",
+          "display_label": "LEVEL",
+          "id": "peacock_education_level_lr1e-3_s92601__retry_heartbeat01",
+          "seed": 92601,
+          "checkpoint": {
+            "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_runs\\peacock_education_level_lr1e-3_s92601__retry_heartbeat01\\best.pt",
+            "sha256": "394f76ffe4aad8b2b1b6520d9fb07cdde04787a8231bef4fe1308f131cbb4924",
+            "bytes": 76721
+          },
+          "restore_module": "research\\tsfm_peft_a_confirmation_v12_20261001\\model_confirmation_v12.py",
+          "restore_module_artifact": {
+            "path": "research\\tsfm_peft_a_confirmation_v12_20261001\\model_confirmation_v12.py",
+            "sha256": "81406b51ccefd608aeb0b748b7a0b0bae7c65ce8febbbd3dc1b03c712e422e45",
+            "bytes": 10816
+          },
+          "restore_function": "restore_model",
+          "deploy_function": "deployment_copy",
+          "test_prediction": {
+            "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_predictions01\\peacock_education_level_lr1e-3_s92601__retry_heartbeat01.npz",
+            "sha256": "6a3a041280aa2afd493a45dea7ffb8332a13046114baf2c0f3faa856341bef1b",
+            "bytes": 367264,
+            "key": "prediction",
+            "origins_key": "origins",
+            "axes": [
+              "origin",
+              "horizon",
+              "original_channel"
+            ]
+          },
+          "val_prediction": {
+            "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_runs\\peacock_education_level_lr1e-3_s92601__retry_heartbeat01\\best_val.npz",
+            "sha256": "b6713e71dec6803edbb1c0a361f088e284d8da1df46d3e3df453b645e401bb33",
+            "bytes": 68786,
+            "key": "prediction",
+            "origins_key": "origins",
+            "axes": [
+              "origin",
+              "horizon",
+              "original_channel"
+            ]
+          },
+          "val_prediction_missing_reason": null,
+          "output_component": null,
+          "source_evaluation": {
+            "path": "research\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_evaluation01.json",
+            "sha256": "0a763ca854dc4543f3d5695007d1b36cd575fc973a2cf3b1034f7ffd57cf5abd",
+            "bytes": 353734
+          },
+          "source_pointer": "/datasets/peacock_education/models/peacock_education_level_lr1e-3_s92601__retry_heartbeat01/periods",
+          "expected_period_scores": {
+            "test_a": {
+              "mse": 0.23427061415585218,
+              "mae": 0.3391900087048547
+            },
+            "test_b": {
+              "mse": 0.17317419300705023,
+              "mae": 0.29183088141779584
+            },
+            "combined": {
+              "mse": 0.2037268471433063,
+              "mae": 0.315513112242859
+            }
+          },
+          "source_result": {
+            "path": "research\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_runs\\peacock_education_level_lr1e-3_s92601__retry_heartbeat01\\result.json",
+            "sha256": "06cfffe9aa5264696b6c6ad69033aa8a3c12006628a5c94dfaec2e7cbcaf9673",
+            "bytes": 20725
+          },
+          "selected_epoch": 25,
+          "best_val_mse": 0.16785499954160032,
+          "arm": "BOLT_SMALL_LEVEL"
+        },
+        "backbone_eval": true,
+        "backbone_weights_trainable": false,
+        "backbone_autograd_operations": true,
+        "G": null,
+        "level_persistence": false,
+        "reconstruction_auxiliary_coefficient": 0.0,
+        "normalization_forward": "stable_instance_norm_forward",
+        "parameter_count": 47718120,
+        "trainable_parameter_count": 104,
+        "trainable_parameter_names": [
+          "encoder.weight",
+          "decoder.weight"
+        ],
+        "parameter_bytes": 190872480,
+        "buffer_bytes": 244,
+        "total_tensor_bytes": 190872724,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "median_index": 4,
+        "model_context_length": 2048,
+        "model_prediction_length": 64,
+        "basis_values_sha256": "2263f0d6a05433c1f840c28a60bd7e589dd257caff7e9b445c8a87704133e26a",
+        "eval_mode": true,
+        "backbone_eval_mode": true,
+        "all_parameters_fp32": true,
+        "state_sha256": "44108efd564868e2b41260ace47f7135dab00d69909177e1adbc57c9a1eea289",
+        "backbone_state_sha256": "3608dcf804e430c273a805597e1f879899efaae1221eadc741d84c769be7a736",
+        "adapter_tensor_sha256": {
+          "encoder.weight": "c3d6f51cee9dc4a41510f05bffd3828ca158f317065e80c40fd74c6e8410c40a",
+          "decoder.weight": "2263f0d6a05433c1f840c28a60bd7e589dd257caff7e9b445c8a87704133e26a"
+        }
+      }
+    },
+    "jena": {
+      "literal_PCA": {
+        "shape": [
+          21,
+          6
+        ],
+        "dtype": "float32",
+        "sha256": "de502c98819a1757c5b92bf513a44f47c609275f66363feef8790009246ac283"
+      },
+      "adapter_initial_sha256": {
+        "encoder.weight": "a38143d06ce2a7f6c6f673efea710537ebd99487ecc9bcb8f4f73ead5d4d1169",
+        "decoder.weight": "de502c98819a1757c5b92bf513a44f47c609275f66363feef8790009246ac283"
+      },
+      "backbone_state_sha256": "3608dcf804e430c273a805597e1f879899efaae1221eadc741d84c769be7a736",
+      "model_receipt": {
+        "schema": "matched_learned_ed_v18_model_1",
+        "dataset": "jena",
+        "channels": 21,
+        "latent": 6,
+        "context": 512,
+        "horizon": 48,
+        "precision": "float32",
+        "bias": false,
+        "point": "native inverse-scaled q0.5, first48; B*K independent latent rows",
+        "backbone_source": {
+          "dataset": "jena",
+          "method": "LEVEL",
+          "display_label": "LEVEL",
+          "id": "v7_jena_level_res_92601",
+          "seed": 92601,
+          "checkpoint": {
+            "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\runs\\v7_jena_level_res_92601\\best.pt",
+            "sha256": "2dd129ab4483e1cc359647f9522c35afff74d01f8d45578d5c92943134ec0459",
+            "bytes": 76600
+          },
+          "restore_module": "research\\tsfm_peft_practical_controls_v7_20260928\\model_v7.py",
+          "restore_module_artifact": {
+            "path": "research\\tsfm_peft_practical_controls_v7_20260928\\model_v7.py",
+            "sha256": "1748a40170016d6b26dd0c8204ef4fd67db0f6a896569cb429a20ec93a3074ab",
+            "bytes": 11794
+          },
+          "restore_function": "restore_model",
+          "deploy_function": null,
+          "test_prediction": {
+            "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01_predictions\\v7_jena_level_res_92601.npz",
+            "sha256": "262ef5690e4699f2756f85b82a46eba2cd6d2ea62c46414dfa85bb5bc4e115f4",
+            "bytes": 2697509,
+            "key": "prediction",
+            "origins_key": "origins",
+            "axes": [
+              "origin",
+              "horizon",
+              "original_channel"
+            ]
+          },
+          "val_prediction": {
+            "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\runs\\v7_jena_level_res_92601\\best_val.npz",
+            "sha256": "60a1f356cdd52cb0e057d7c71a0ba5fd401e037e66e6e59c54e3358531bc61da",
+            "bytes": 1379702,
+            "key": "prediction",
+            "origins_key": "origins",
+            "axes": [
+              "origin",
+              "horizon",
+              "original_channel"
+            ]
+          },
+          "val_prediction_missing_reason": null,
+          "output_component": null,
+          "source_evaluation": {
+            "path": "research\\tsfm_peft_practical_controls_v7_20260928\\jena_eval01.json",
+            "sha256": "e013458715aa9e9f5f6a3685d0a4f1b57c5b444f7ada99304e432c5d18ccad0c",
+            "bytes": 285685
+          },
+          "source_pointer": "/models/v7_jena_level_res_92601/scores",
+          "expected_period_scores": {
+            "test_a": {
+              "mse": 0.4222002440174097,
+              "mae": 0.3810606831762398
+            },
+            "test_b": {
+              "mse": 0.22623753018946116,
+              "mae": 0.2599065718567734
+            },
+            "combined": {
+              "mse": 0.3242188871034354,
+              "mae": 0.3204836275165066
+            }
+          },
+          "source_result": {
+            "path": "research\\tsfm_peft_practical_controls_v7_20260928\\runs\\v7_jena_level_res_92601\\result.json",
+            "sha256": "411fab5acafe07421f6aba83c15ccc59b90a8e3a2e112f12968ca58a89ff06dc",
+            "bytes": 16452
+          },
+          "selected_epoch": 11,
+          "best_val_mse": 0.6221405740929923,
+          "arm": "BOLT_SMALL_LEVEL"
+        },
+        "backbone_eval": true,
+        "backbone_weights_trainable": false,
+        "backbone_autograd_operations": true,
+        "G": null,
+        "level_persistence": false,
+        "reconstruction_auxiliary_coefficient": 0.0,
+        "normalization_forward": "forward",
+        "parameter_count": 47718268,
+        "trainable_parameter_count": 252,
+        "trainable_parameter_names": [
+          "encoder.weight",
+          "decoder.weight"
+        ],
+        "parameter_bytes": 190873072,
+        "buffer_bytes": 540,
+        "total_tensor_bytes": 190873612,
+        "quantiles": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "median_index": 4,
+        "model_context_length": 2048,
+        "model_prediction_length": 64,
+        "basis_values_sha256": "de502c98819a1757c5b92bf513a44f47c609275f66363feef8790009246ac283",
+        "eval_mode": true,
+        "backbone_eval_mode": true,
+        "all_parameters_fp32": true,
+        "state_sha256": "bcc4fad0f88d1e7c534e7331a615f3b5940885dfd0cb3e1008f58b065dabfb2e",
+        "backbone_state_sha256": "3608dcf804e430c273a805597e1f879899efaae1221eadc741d84c769be7a736",
+        "adapter_tensor_sha256": {
+          "encoder.weight": "a38143d06ce2a7f6c6f673efea710537ebd99487ecc9bcb8f4f73ead5d4d1169",
+          "decoder.weight": "de502c98819a1757c5b92bf513a44f47c609275f66363feef8790009246ac283"
+        }
+      }
+    }
+  },
+  "same_literal_ED_for_both_seeds_and_LRs": true,
+  "new_fits": 0,
+  "optimizer_updates": 0
+}
