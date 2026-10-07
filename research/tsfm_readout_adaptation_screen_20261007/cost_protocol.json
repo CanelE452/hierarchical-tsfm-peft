@@ -1,0 +1,36 @@
+{
+  "schema": "tsfm_readout_cost_protocol_v1",
+  "adaptation": "Report feature generation/write, cache reads, all LR/seed fits including VAL and checkpoint I/O, LR selection, integrity/cost probes; count each component once",
+  "training": {
+    "device": "cuda",
+    "effective_batch": 4,
+    "input": "CPU standardized canonical TRAIN contexts, or exact immutable frozen-prefix cache on CPU",
+    "new_selected_models": 12,
+    "new_paths": ["online", "cached"],
+    "old_selected_models": "MSE_LORA and LEVEL, each two seeds per dataset; online only",
+    "blocks": 3,
+    "warmup_updates_per_block": 10,
+    "measured_updates_per_block": 10,
+    "maximum_technical_updates": 2160,
+    "scope": "Fresh disposable selected-model state per block; AdamW initialized, moments created during warmup; complete transfer/forward/loss/backward/clip/step and synchronized timing",
+    "learning_rate": 0.0001,
+    "weight_decay": 0,
+    "clip": 1,
+    "checkpoint_preservation": "Hash selected checkpoint before and after all probes, never overwrite a selected file",
+    "memory": "Peak CUDA allocated/reserved after Adam initialization plus process RAM; state whether frozen prefix remains GPU-resident"
+  },
+  "deployment": {
+    "methods": ["F0", "OUTPUT_AFFINE", "NATIVE_HEAD", "MSE_LORA", "LEVEL"],
+    "device": "cuda",
+    "batches": [1, 4],
+    "origins": "Canonical VAL chronological first24",
+    "warmup_wrapper_calls": 10,
+    "complete_24_origin_passes": 10,
+    "rotated_blocks": 3,
+    "sentinel": "F0 before/after each block",
+    "scope": "CPU FP32 input to full backbone plus readout to contiguous CPU [B,48,C] output; synchronize GPU; no feature-cache deployment shortcut",
+    "aggregation": "Per-instance block medians/range, then mean selected-seed median; sentinel drift and failures retained"
+  },
+  "historical_costs": "Context only; no speed ratio combines another campaign's costs",
+  "interpretation": "Cache-enabled adaptation speed and online training cost are distinct; cache prefix offloading is not deployment model compression"
+}

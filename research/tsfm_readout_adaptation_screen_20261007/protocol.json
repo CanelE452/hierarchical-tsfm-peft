@@ -1,0 +1,70 @@
+{
+  "schema": "tsfm_readout_s1_protocol_v1",
+  "datasets": [
+    "robin",
+    "peacock_education",
+    "jena"
+  ],
+  "arms": [
+    "OUTPUT_AFFINE",
+    "NATIVE_HEAD"
+  ],
+  "learning_rates": [
+    0.001,
+    0.0001
+  ],
+  "seeds": [
+    92601,
+    92602
+  ],
+  "maximum_epochs": 120,
+  "patience": 6,
+  "epoch_origins": 512,
+  "effective_batch": 4,
+  "maximum_scientific_fits": 24,
+  "maximum_scientific_updates": 368640,
+  "optimizer": "AdamW",
+  "weight_decay": 0.0,
+  "gradient_clip_norm": 1.0,
+  "scheduler": {
+    "name": "ReduceLROnPlateau",
+    "factor": 0.5,
+    "patience": 2,
+    "threshold": 0.0001,
+    "threshold_mode": "rel",
+    "observe_epoch0": false
+  },
+  "checkpoint_selection": "full VAL channel-macro MSE strict minimum including epoch0; earliest exact tie",
+  "learning_rate_selection": "mean of two selected seed VAL losses; exact tie uses first-listed 1e-3",
+  "sampler": "literal phase-balanced SeedSequence([seed,epoch]), without replacement per phase then shuffle",
+  "loss_coordinates": "original inverse normalization then canonical TRAIN-standardized original channels",
+  "missing_accumulation": "entire effective B4 channel counts/valid set; sum micro SSE contributions then one clip/step",
+  "dropout": "all modules eval with the explicit head/output parameters requiring gradients",
+  "cache": "sorted fixed two-seed epochs1..120 TRAIN union plus full VAL; FP32 h/loc/scale/point",
+  "test_access": false,
+  "seed_aggregation": "mean of seed losses; no forecast ensemble",
+  "bootstrap": {
+    "draws": 2000,
+    "seed": 9262026,
+    "blocks": {
+      "robin": 7,
+      "peacock_education": 7,
+      "jena": 42
+    },
+    "salts": {
+      "robin": 0,
+      "peacock_education": 0,
+      "jena": 1
+    },
+    "strata": [
+      "test_a",
+      "test_b"
+    ],
+    "scheme": "paired channels/seeds/methods, contiguous noncircular moving blocks; ceil draw then truncate"
+  },
+  "source_seal": {
+    "path": "research/tsfm_readout_adaptation_screen_20261007/execution_source_seal.json",
+    "sha256": "0ea5e096e3ccf50eca8ffce29631789c7c4af049c6b37e1aa49a685d011c9467",
+    "bytes": 9726
+  }
+}

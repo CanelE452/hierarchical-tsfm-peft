@@ -1,0 +1,24 @@
+{
+  "schema": "tsfm_readout_evaluation_protocol_v1",
+  "selection": "All six dataset/arm LR choices and twelve selected run checkpoints sealed together before first TEST access",
+  "datasets": ["robin", "peacock_education", "jena"],
+  "methods": ["OUTPUT_AFFINE", "NATIVE_HEAD"],
+  "periods": ["test_a", "test_b", "combined"],
+  "primary": "Masked channel-macro MSE in the original TRAIN-standardized coordinates after native inverse normalization",
+  "secondary": "Masked channel-macro MAE",
+  "combined": "Pool A/B channel error sums and observed counts before division; then mean channels",
+  "seed_aggregation": "Arithmetic mean of the two selected seeds' losses; never prediction ensemble",
+  "references": "Hash-bound existing F0/LEVEL/MSE-LoRA/native-LoRA/NLinear/Mini/Tiny/Chronos-2 results, respecting original method and evidence scope",
+  "bootstrap": {
+    "draws": 2000,
+    "seed": 9262026,
+    "blocks": {"robin": 7, "peacock_education": 7, "jena": 42},
+    "dataset_salts": {"robin": 0, "peacock_education": 0, "jena": 1},
+    "rng": "np.random.default_rng(np.random.SeedSequence([9262026,salt,period_index]))",
+    "sampling": "A/B stratified moving contiguous noncircular blocks; sample ceil(n/block) starts uniformly from 0..n-block inclusive; concatenate then truncate to n; preserve paired origin/channel/seed losses",
+    "combined": "Add period bootstrap occurrence weights, then pool channel sums/counts",
+    "interval": "2.5/97.5 percentile interval of paired mean-seed loss differences and relative changes; temporal resampling uncertainty, not independent domains"
+  },
+  "comparisons": ["OUTPUT_AFFINE minus F0", "NATIVE_HEAD minus F0", "NATIVE_HEAD minus OUTPUT_AFFINE", "OUTPUT_AFFINE minus MSE_LORA", "NATIVE_HEAD minus MSE_LORA", "OUTPUT_AFFINE minus LEVEL", "NATIVE_HEAD minus LEVEL"],
+  "interpretation": "OUTPUT mixes channels while HEAD is channel-independent. Their difference is not pure information effect. S1 historical LoRA gaps are not matched head-parent internal-adaptation effects."
+}

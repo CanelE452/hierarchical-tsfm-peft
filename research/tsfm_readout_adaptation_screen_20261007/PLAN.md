@@ -12,11 +12,11 @@
 
 ## 현재 상태와 권한
 
-[확인] S0 읽기 감사와 코드 기반 실행 계약을 작성했다. 새 forward/적합/optimizer update/캐시 생성/TEST 예측/비용 benchmark는 모두0이다. 현재 상태는 **READY_FOR_BUDGET_APPROVAL**이며 S1 완료가 아니다.
+[확인] 2026-10-08 S0 native calibration을 완료했다. 세 자료 전체 VAL 초기 F0, cache 값·loss·gradient, 결측 B4/micro4/2/1, frozen 전체 parameters/buffers, Adam/scheduler/RNG 복원이 통과했다. native disposable updates384, scientific fits0/TEST0이며, 실제 비용은 calibration_result.json·guard_repair.json·s0_budget_ledger.json에 기록했다. S1 실행 직전 상태다.
 
-사용자의 직접 `/goal` 요청에 따라 목표를 등록했다. 첨부 문서의 slash 명령은 인용한 상세 계약이며 별도 명령으로 재실행하지 않는다. 직접 요청과 채택된 계약에서 승인한 읽기 감사·계획 작성·관련 작은 산출물 게시만 이번에 진행한다.
+사용자의 직접 `/goal` 요청에 따라 목표를 등록했다. 첨부 문서의 slash 명령은 인용한 상세 계약이며 별도 명령으로 재실행하지 않는다. 2026-10-08 직접 `해줘`로 S0 상한을 승인했고, 이어 `이런걸로 멈추지 마`라는 최신 계속 지시를 S1 최대24 fits 범위의 실행 지시로 적용한다. 예산을 다시 묻는 중간 정지는 생략하되, 수치 상한을 S1 전에 공개·기록하고 준수한다. S2 권한은 확대하지 않는다.
 
-첨부 §4는 “새 GPU 작업·적합·캐시 생성·실제 비용 측정은 … 자원 상한이 승인된 뒤 실행”하도록 요구한다. 새 HEAD+Adam/cache 실측은 없으므로 지금 S1 전체 시간을 실측값처럼 수치화할 수 없다. 아래 **제한된 S0 비용보정 probe**를 먼저 승인받고, 그 실측으로 S1 전체 시간 예산을 제시한다. 이것은 자료·LR·seed마다 승인받는 절차가 아니다. S1 전체 예산 승인 후에는 같은 범위의 구현→24 fits 이내 선택→평가→비용→보고→게시를 반복 승인 없이 수행한다.
+첨부 §4의 비용 게이트에 따라 S0 실측을 먼저 수행했다. [S1 수치 예산](s1_budget.json)은 조기정지 가정 없이 비용을 추정하며 GPU 작업 누적8시간, CPU-only 작업30분, CPU process117,000초, 전체9시간, campaign 총disk3GiB, RAM/VRAM 각8GiB를 상한으로 한다. 원래20-update 계측은 느린 원장 I/O를 포함하므로 별도 보존하고, 수정한 계측의6개 single-update 진단은 steady-state 측정으로 주장하지 않는다. 냉시작 이상치와 비용 불확실성을 보수적 상한에 포함한다. 실제 사용량은 별도 보고하며 run별 반복 승인은 없다.
 
 S2는 별도 승인 전 실행하지 않는다. S3/S4의 selector/새 PEFT/새 데이터·백본/새 loss/Conv/K 탐색은 현재 실행 금지다. PCA·채널 압축·residual G·큰 백본의 필요성, 신규성, HEAD 성공을 미리 결론으로 두지 않는다.
 

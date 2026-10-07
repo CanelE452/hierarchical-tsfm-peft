@@ -1,6 +1,6 @@
 {
   "schema": "tsfm_readout_budget_request_v1",
-  "status": "READY_FOR_BUDGET_APPROVAL",
+  "status": "MEASURED_S1_BUDGET_DECLARED_FOR_CONTINUATION",
   "basis": "Read-only pinned config/safetensors headers and existing measured records. No new HEAD/output timing or cache-I/O measurement has run.",
   "scientific_scope": {
     "methods": [
@@ -196,8 +196,23 @@
     "calibration_learning_rate": 0.0001,
     "performance_selection": false
   },
-  "stage1_execution_authorized": false,
-  "stage1_runtime_caps": null,
+  "stage1_execution_authorized": true,
+  "stage1_runtime_caps": {
+    "maximum_gpu_job_wall_seconds": 28800,
+    "maximum_cpu_only_job_wall_seconds": 1800,
+    "maximum_cpu_process_time_seconds": 117000,
+    "maximum_elapsed_operation_wall_seconds": 32400,
+    "maximum_new_disk_bytes": 3107102908,
+    "maximum_process_ram_bytes": 8589934592,
+    "maximum_gpu_allocated_or_reserved_bytes": 8589934592,
+    "maximum_technical_optimizer_updates": 2160,
+    "maximum_full_prefix_batch_calls": 60000,
+    "maximum_head_or_output_only_batch_calls": 1800000,
+    "maximum_batch_origins": 4,
+    "maximum_scientific_fits": 24,
+    "maximum_scientific_optimizer_updates": 368640,
+    "maximum_new_test_predictions": 12
+  },
   "unmeasured_components": [
     "HEAD cached step including Adam and CPU/cache transfers",
     "OUTPUT cached step including Adam",
@@ -464,5 +479,11 @@
         }
       }
     ]
-  }
+  },
+  "actual_calibration_receipts": [
+    "calibration_result.json",
+    "guard_repair.json",
+    "s0_budget_ledger.json"
+  ],
+  "s1_numeric_budget": "s1_budget.json"
 }

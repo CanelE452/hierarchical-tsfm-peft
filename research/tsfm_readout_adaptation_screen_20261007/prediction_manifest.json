@@ -1,0 +1,1017 @@
+{
+  "schema": "tsfm_readout_s1_predictions_v1",
+  "status": "complete",
+  "binding": {
+    "selection_seal": {
+      "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+      "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+      "bytes": 73420
+    },
+    "evaluation_protocol": {
+      "path": "research/tsfm_readout_adaptation_screen_20261007/evaluation_protocol.json",
+      "sha256": "1701083b35c3175ebe3484adcf67f35155e4a8078a23dfa150c9038cfd717167",
+      "bytes": 2031
+    },
+    "evaluator": {
+      "path": "research/tsfm_readout_adaptation_screen_20261007/evaluate_readout.py",
+      "sha256": "b71f0136f85fe98c278e6f944053f5ad63c360280af15e3d72865a271e255d8b",
+      "bytes": 35137
+    },
+    "data_contract": {
+      "path": "research/tsfm_readout_adaptation_screen_20261007/data_contract.json",
+      "sha256": "38ee17a8e807b074bd97ed655be308fdfdb9f70960058c40f02fef097cb39c75",
+      "bytes": 8082
+    },
+    "reuse_manifest": {
+      "path": "research/tsfm_readout_adaptation_screen_20261007/reuse_manifest.json",
+      "sha256": "a1148f93e788ae8c90cb76cb81f55b1cb7abf8dc337b42794b0ab4a2a04c0071",
+      "bytes": 19646
+    }
+  },
+  "models": {
+    "s1_robin_output_affine_lr1em3_seed92601": {
+      "id": "s1_robin_output_affine_lr1em3_seed92601",
+      "dataset": "robin",
+      "method": "OUTPUT_AFFINE",
+      "seed": 92601,
+      "learning_rate": 0.001,
+      "selected_epoch": 4,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_robin_output_affine_lr1em3_seed92601/best_1.pt",
+        "sha256": "6fc165e0fdb40d0963b79e1abdff57495ceb99f480b95ec0b137aa3be1027c1e",
+        "bytes": 4069
+      },
+      "spec": {
+        "id": "s1_robin_output_affine_lr1em3_seed92601",
+        "dataset": "robin",
+        "arm": "OUTPUT_AFFINE",
+        "learning_rate": 0.001,
+        "seed": 92601,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/robin/OUTPUT_AFFINE/seed92601/prediction.npz",
+        "sha256": "0037be90243f7633a6ffef0d3e5b80cf5b04b5e24f73b5ff808623323539234e",
+        "bytes": 262280
+      },
+      "prediction_array_sha256": "367a4a63411c6d6112b571f541d3e7a2895375ef6eade933338e273ee0dea186",
+      "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\test.npz",
+          "sha256": "ecb32c192c56140a2b896b16d7936f8e9a983d78bef0bdec1ef6d35e2ddb6aa1",
+          "bytes": 167974
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_robin.json",
+          "sha256": "b7c02be4f69617e1c60dd874ef6337facde1a4165f8cbd30233aefb0601a85b2",
+          "bytes": 39531
+        },
+        "columns": [
+          "Robin_office_Addie",
+          "Robin_office_Adolph",
+          "Robin_office_Antonina",
+          "Robin_office_Dina",
+          "Robin_office_Donald",
+          "Robin_office_Erma",
+          "Robin_office_Gayle",
+          "Robin_office_Lindsay",
+          "Robin_office_Maryann",
+          "Robin_office_Sammie",
+          "Robin_office_Saul",
+          "Robin_office_Serena",
+          "Robin_office_Shirlene",
+          "Robin_office_Soledad",
+          "Robin_office_Victor",
+          "Robin_office_Wai",
+          "Robin_office_Zelma"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+        "target_sha256": "7cff35e06ec617c205743467362765647cc3dc5ad0df5a32dbffc9e1e9087890",
+        "target_mask_sha256": "6a8a18320548560dd5ff1aa105b55306319fd085ce26251e798b75f59d24460e",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "new_standardization": false
+      },
+      "prediction_seconds": 1.3884543001186103,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_robin_output_affine_lr1em3_seed92602": {
+      "id": "s1_robin_output_affine_lr1em3_seed92602",
+      "dataset": "robin",
+      "method": "OUTPUT_AFFINE",
+      "seed": 92602,
+      "learning_rate": 0.001,
+      "selected_epoch": 4,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_robin_output_affine_lr1em3_seed92602/best_1.pt",
+        "sha256": "eb38892172f3466db620ebd160bf25422699c3459a0b81270f41406b69df8652",
+        "bytes": 4069
+      },
+      "spec": {
+        "id": "s1_robin_output_affine_lr1em3_seed92602",
+        "dataset": "robin",
+        "arm": "OUTPUT_AFFINE",
+        "learning_rate": 0.001,
+        "seed": 92602,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/robin/OUTPUT_AFFINE/seed92602/prediction.npz",
+        "sha256": "22f210b042f319554fe3fb9adcf5d9caf768bd270dbc6e0bf2f770628d031afa",
+        "bytes": 262280
+      },
+      "prediction_array_sha256": "12314255f8eeef40d187d43852ece35d26bc807fe3beffd2d978df9743e1b4ac",
+      "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\test.npz",
+          "sha256": "ecb32c192c56140a2b896b16d7936f8e9a983d78bef0bdec1ef6d35e2ddb6aa1",
+          "bytes": 167974
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_robin.json",
+          "sha256": "b7c02be4f69617e1c60dd874ef6337facde1a4165f8cbd30233aefb0601a85b2",
+          "bytes": 39531
+        },
+        "columns": [
+          "Robin_office_Addie",
+          "Robin_office_Adolph",
+          "Robin_office_Antonina",
+          "Robin_office_Dina",
+          "Robin_office_Donald",
+          "Robin_office_Erma",
+          "Robin_office_Gayle",
+          "Robin_office_Lindsay",
+          "Robin_office_Maryann",
+          "Robin_office_Sammie",
+          "Robin_office_Saul",
+          "Robin_office_Serena",
+          "Robin_office_Shirlene",
+          "Robin_office_Soledad",
+          "Robin_office_Victor",
+          "Robin_office_Wai",
+          "Robin_office_Zelma"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+        "target_sha256": "7cff35e06ec617c205743467362765647cc3dc5ad0df5a32dbffc9e1e9087890",
+        "target_mask_sha256": "6a8a18320548560dd5ff1aa105b55306319fd085ce26251e798b75f59d24460e",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "new_standardization": false
+      },
+      "prediction_seconds": 1.0575000001117587,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_robin_native_head_lr1em4_seed92601": {
+      "id": "s1_robin_native_head_lr1em4_seed92601",
+      "dataset": "robin",
+      "method": "NATIVE_HEAD",
+      "seed": 92601,
+      "learning_rate": 0.0001,
+      "selected_epoch": 3,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_robin_native_head_lr1em4_seed92601/best_1.pt",
+        "sha256": "4180d361c73f1611c9e985f370ed520c3f44ad4c824ba53ebdd504870a6b7d50",
+        "bytes": 10109557
+      },
+      "spec": {
+        "id": "s1_robin_native_head_lr1em4_seed92601",
+        "dataset": "robin",
+        "arm": "NATIVE_HEAD",
+        "learning_rate": 0.0001,
+        "seed": 92601,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/robin/NATIVE_HEAD/seed92601/prediction.npz",
+        "sha256": "cb6047bef83a46cbe0defd6fd0f3915075e40b2c58cd93db88a75f31e71c523a",
+        "bytes": 262280
+      },
+      "prediction_array_sha256": "1f215dcc6ce594b6d4fb5ef649a682bab2625bb002edbc12ca719c16338b65a1",
+      "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\test.npz",
+          "sha256": "ecb32c192c56140a2b896b16d7936f8e9a983d78bef0bdec1ef6d35e2ddb6aa1",
+          "bytes": 167974
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_robin.json",
+          "sha256": "b7c02be4f69617e1c60dd874ef6337facde1a4165f8cbd30233aefb0601a85b2",
+          "bytes": 39531
+        },
+        "columns": [
+          "Robin_office_Addie",
+          "Robin_office_Adolph",
+          "Robin_office_Antonina",
+          "Robin_office_Dina",
+          "Robin_office_Donald",
+          "Robin_office_Erma",
+          "Robin_office_Gayle",
+          "Robin_office_Lindsay",
+          "Robin_office_Maryann",
+          "Robin_office_Sammie",
+          "Robin_office_Saul",
+          "Robin_office_Serena",
+          "Robin_office_Shirlene",
+          "Robin_office_Soledad",
+          "Robin_office_Victor",
+          "Robin_office_Wai",
+          "Robin_office_Zelma"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+        "target_sha256": "7cff35e06ec617c205743467362765647cc3dc5ad0df5a32dbffc9e1e9087890",
+        "target_mask_sha256": "6a8a18320548560dd5ff1aa105b55306319fd085ce26251e798b75f59d24460e",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "new_standardization": false
+      },
+      "prediction_seconds": 1.0551416999660432,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_robin_native_head_lr1em4_seed92602": {
+      "id": "s1_robin_native_head_lr1em4_seed92602",
+      "dataset": "robin",
+      "method": "NATIVE_HEAD",
+      "seed": 92602,
+      "learning_rate": 0.0001,
+      "selected_epoch": 1,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_robin_native_head_lr1em4_seed92602/best_1.pt",
+        "sha256": "87a881c03ca1a3418ecbce9e961464c929f41784b957b56db48b0c5068b9690a",
+        "bytes": 10109557
+      },
+      "spec": {
+        "id": "s1_robin_native_head_lr1em4_seed92602",
+        "dataset": "robin",
+        "arm": "NATIVE_HEAD",
+        "learning_rate": 0.0001,
+        "seed": 92602,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/robin/NATIVE_HEAD/seed92602/prediction.npz",
+        "sha256": "fb4cb1b16f19c65bb7d4ad0a3b5c2b2cf3696c63eb8d72a531071b782b0a21fd",
+        "bytes": 262280
+      },
+      "prediction_array_sha256": "143d18a45ecefb01ecbd0f96501ab3b6d3c88c7269b5d714cd7532dca8c736ca",
+      "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\test.npz",
+          "sha256": "ecb32c192c56140a2b896b16d7936f8e9a983d78bef0bdec1ef6d35e2ddb6aa1",
+          "bytes": 167974
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_robin.json",
+          "sha256": "b7c02be4f69617e1c60dd874ef6337facde1a4165f8cbd30233aefb0601a85b2",
+          "bytes": 39531
+        },
+        "columns": [
+          "Robin_office_Addie",
+          "Robin_office_Adolph",
+          "Robin_office_Antonina",
+          "Robin_office_Dina",
+          "Robin_office_Donald",
+          "Robin_office_Erma",
+          "Robin_office_Gayle",
+          "Robin_office_Lindsay",
+          "Robin_office_Maryann",
+          "Robin_office_Sammie",
+          "Robin_office_Saul",
+          "Robin_office_Serena",
+          "Robin_office_Shirlene",
+          "Robin_office_Soledad",
+          "Robin_office_Victor",
+          "Robin_office_Wai",
+          "Robin_office_Zelma"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+        "target_sha256": "7cff35e06ec617c205743467362765647cc3dc5ad0df5a32dbffc9e1e9087890",
+        "target_mask_sha256": "6a8a18320548560dd5ff1aa105b55306319fd085ce26251e798b75f59d24460e",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "new_standardization": false
+      },
+      "prediction_seconds": 1.054333500098437,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_peacock_education_output_affine_lr1em3_seed92601": {
+      "id": "s1_peacock_education_output_affine_lr1em3_seed92601",
+      "dataset": "peacock_education",
+      "method": "OUTPUT_AFFINE",
+      "seed": 92601,
+      "learning_rate": 0.001,
+      "selected_epoch": 4,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_peacock_education_output_affine_lr1em3_seed92601/best_1.pt",
+        "sha256": "70695f83e9c175989fb63ad8d88c205648e0061e570bdc01661757690b4b018f",
+        "bytes": 3557
+      },
+      "spec": {
+        "id": "s1_peacock_education_output_affine_lr1em3_seed92601",
+        "dataset": "peacock_education",
+        "arm": "OUTPUT_AFFINE",
+        "learning_rate": 0.001,
+        "seed": 92601,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/peacock_education/OUTPUT_AFFINE/seed92601/prediction.npz",
+        "sha256": "039e6fa09bf1d798f9675885149137eb580c3b0733819eb56b41b140d018b2d0",
+        "bytes": 200840
+      },
+      "prediction_array_sha256": "6c0ef7e1f488d7b197d28fae1f4467ab86456d38a5171ba2461ab2f498410334",
+      "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_data\\peacock_education\\test.npz",
+          "sha256": "14e8a8ab02872551af249264b40a81f1a17c174b2355b3e8dff1e9cfe0601c92",
+          "bytes": 246550
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_peacock_education.json",
+          "sha256": "d98de679b8fb965becf1ab96af8e53797d81580335c237464e8017ad287bdfe9",
+          "bytes": 39586
+        },
+        "columns": [
+          "Peacock_education_Anita",
+          "Peacock_education_Dustin",
+          "Peacock_education_Forest",
+          "Peacock_education_Gilberto",
+          "Peacock_education_Joshua",
+          "Peacock_education_Karyn",
+          "Peacock_education_Lyle",
+          "Peacock_education_Ophelia",
+          "Peacock_education_Pasquale",
+          "Peacock_education_Patience",
+          "Peacock_education_Robbie",
+          "Peacock_education_Shelly",
+          "Peacock_education_Yolanda"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+        "target_sha256": "2284f5860a5b9edda3d163a2fe216e035a9cb796563541656c9347e773cfd0b0",
+        "target_mask_sha256": "d5bde6d57a0e4d929622fc5a7918f0c7f824c3028a7830b65c7e4bed5b639283",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "TRAIN nanmean/nanstd ddof0; std<1e-6 to1; missing input to standardized0",
+        "new_standardization": false
+      },
+      "prediction_seconds": 1.2466335999779403,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_peacock_education_output_affine_lr1em3_seed92602": {
+      "id": "s1_peacock_education_output_affine_lr1em3_seed92602",
+      "dataset": "peacock_education",
+      "method": "OUTPUT_AFFINE",
+      "seed": 92602,
+      "learning_rate": 0.001,
+      "selected_epoch": 5,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_peacock_education_output_affine_lr1em3_seed92602/best_0.pt",
+        "sha256": "091d4972d933976a1322f4180d2ece94b1cede464edffc3a90a425d21b3c21c6",
+        "bytes": 3557
+      },
+      "spec": {
+        "id": "s1_peacock_education_output_affine_lr1em3_seed92602",
+        "dataset": "peacock_education",
+        "arm": "OUTPUT_AFFINE",
+        "learning_rate": 0.001,
+        "seed": 92602,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/peacock_education/OUTPUT_AFFINE/seed92602/prediction.npz",
+        "sha256": "9d3b406bd010c8ba3e73885c6e053704b46d7c7af394760fcd1a72caf1de4f92",
+        "bytes": 200840
+      },
+      "prediction_array_sha256": "c4895c9b1f35f1d1dc886c6ca58a6fbd25a115b5ebeb3e21dcb7a1e333fb2801",
+      "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_data\\peacock_education\\test.npz",
+          "sha256": "14e8a8ab02872551af249264b40a81f1a17c174b2355b3e8dff1e9cfe0601c92",
+          "bytes": 246550
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_peacock_education.json",
+          "sha256": "d98de679b8fb965becf1ab96af8e53797d81580335c237464e8017ad287bdfe9",
+          "bytes": 39586
+        },
+        "columns": [
+          "Peacock_education_Anita",
+          "Peacock_education_Dustin",
+          "Peacock_education_Forest",
+          "Peacock_education_Gilberto",
+          "Peacock_education_Joshua",
+          "Peacock_education_Karyn",
+          "Peacock_education_Lyle",
+          "Peacock_education_Ophelia",
+          "Peacock_education_Pasquale",
+          "Peacock_education_Patience",
+          "Peacock_education_Robbie",
+          "Peacock_education_Shelly",
+          "Peacock_education_Yolanda"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+        "target_sha256": "2284f5860a5b9edda3d163a2fe216e035a9cb796563541656c9347e773cfd0b0",
+        "target_mask_sha256": "d5bde6d57a0e4d929622fc5a7918f0c7f824c3028a7830b65c7e4bed5b639283",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "TRAIN nanmean/nanstd ddof0; std<1e-6 to1; missing input to standardized0",
+        "new_standardization": false
+      },
+      "prediction_seconds": 1.0592618000227958,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_peacock_education_native_head_lr1em4_seed92601": {
+      "id": "s1_peacock_education_native_head_lr1em4_seed92601",
+      "dataset": "peacock_education",
+      "method": "NATIVE_HEAD",
+      "seed": 92601,
+      "learning_rate": 0.0001,
+      "selected_epoch": 10,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_peacock_education_native_head_lr1em4_seed92601/best_0.pt",
+        "sha256": "072d64afcecf78855bd0cfbc364d64074f92a46bb4bc8887a9c475bec4ad873f",
+        "bytes": 10109557
+      },
+      "spec": {
+        "id": "s1_peacock_education_native_head_lr1em4_seed92601",
+        "dataset": "peacock_education",
+        "arm": "NATIVE_HEAD",
+        "learning_rate": 0.0001,
+        "seed": 92601,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/peacock_education/NATIVE_HEAD/seed92601/prediction.npz",
+        "sha256": "725443341dbe87579c422bd2817a459101c61ca772bdc10907df5e0ed3104124",
+        "bytes": 200840
+      },
+      "prediction_array_sha256": "dcccc4bb7a52ae458e358e8fddd8cb4bd02a46a3202ab584455040f650fa1aa8",
+      "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_data\\peacock_education\\test.npz",
+          "sha256": "14e8a8ab02872551af249264b40a81f1a17c174b2355b3e8dff1e9cfe0601c92",
+          "bytes": 246550
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_peacock_education.json",
+          "sha256": "d98de679b8fb965becf1ab96af8e53797d81580335c237464e8017ad287bdfe9",
+          "bytes": 39586
+        },
+        "columns": [
+          "Peacock_education_Anita",
+          "Peacock_education_Dustin",
+          "Peacock_education_Forest",
+          "Peacock_education_Gilberto",
+          "Peacock_education_Joshua",
+          "Peacock_education_Karyn",
+          "Peacock_education_Lyle",
+          "Peacock_education_Ophelia",
+          "Peacock_education_Pasquale",
+          "Peacock_education_Patience",
+          "Peacock_education_Robbie",
+          "Peacock_education_Shelly",
+          "Peacock_education_Yolanda"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+        "target_sha256": "2284f5860a5b9edda3d163a2fe216e035a9cb796563541656c9347e773cfd0b0",
+        "target_mask_sha256": "d5bde6d57a0e4d929622fc5a7918f0c7f824c3028a7830b65c7e4bed5b639283",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "TRAIN nanmean/nanstd ddof0; std<1e-6 to1; missing input to standardized0",
+        "new_standardization": false
+      },
+      "prediction_seconds": 1.009491599863395,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_peacock_education_native_head_lr1em4_seed92602": {
+      "id": "s1_peacock_education_native_head_lr1em4_seed92602",
+      "dataset": "peacock_education",
+      "method": "NATIVE_HEAD",
+      "seed": 92602,
+      "learning_rate": 0.0001,
+      "selected_epoch": 0,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_peacock_education_native_head_lr1em4_seed92602/best_0.pt",
+        "sha256": "96082d91c96e2744eb12658d73ee0ce849bfcd24193c4b8ec84375dd3eac781a",
+        "bytes": 10109557
+      },
+      "spec": {
+        "id": "s1_peacock_education_native_head_lr1em4_seed92602",
+        "dataset": "peacock_education",
+        "arm": "NATIVE_HEAD",
+        "learning_rate": 0.0001,
+        "seed": 92602,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/peacock_education/NATIVE_HEAD/seed92602/prediction.npz",
+        "sha256": "baa63500dd55318366b496b9b6e92f433b2fdffa9112ceca935705507ba3a7d4",
+        "bytes": 200840
+      },
+      "prediction_array_sha256": "5dded999273c460bba4026680c2d868b3a5b79fcf3481a36758be8f6ba023fdd",
+      "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_data\\peacock_education\\test.npz",
+          "sha256": "14e8a8ab02872551af249264b40a81f1a17c174b2355b3e8dff1e9cfe0601c92",
+          "bytes": 246550
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_peacock_education.json",
+          "sha256": "d98de679b8fb965becf1ab96af8e53797d81580335c237464e8017ad287bdfe9",
+          "bytes": 39586
+        },
+        "columns": [
+          "Peacock_education_Anita",
+          "Peacock_education_Dustin",
+          "Peacock_education_Forest",
+          "Peacock_education_Gilberto",
+          "Peacock_education_Joshua",
+          "Peacock_education_Karyn",
+          "Peacock_education_Lyle",
+          "Peacock_education_Ophelia",
+          "Peacock_education_Pasquale",
+          "Peacock_education_Patience",
+          "Peacock_education_Robbie",
+          "Peacock_education_Shelly",
+          "Peacock_education_Yolanda"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "edd2a344cba5045a2ba840bd11b1b7596587422d1ca42bcab2f1de6f9f6e691d",
+        "target_sha256": "2284f5860a5b9edda3d163a2fe216e035a9cb796563541656c9347e773cfd0b0",
+        "target_mask_sha256": "d5bde6d57a0e4d929622fc5a7918f0c7f824c3028a7830b65c7e4bed5b639283",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "TRAIN nanmean/nanstd ddof0; std<1e-6 to1; missing input to standardized0",
+        "new_standardization": false
+      },
+      "prediction_seconds": 1.0327036001253873,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_jena_output_affine_lr1em3_seed92601": {
+      "id": "s1_jena_output_affine_lr1em3_seed92601",
+      "dataset": "jena",
+      "method": "OUTPUT_AFFINE",
+      "seed": 92601,
+      "learning_rate": 0.001,
+      "selected_epoch": 27,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_jena_output_affine_lr1em3_seed92601/best_0.pt",
+        "sha256": "5ab29017b016e73c271dea3ccba1b0730bde7e6ff64575c3488041201a5dcf03",
+        "bytes": 4645
+      },
+      "spec": {
+        "id": "s1_jena_output_affine_lr1em3_seed92601",
+        "dataset": "jena",
+        "arm": "OUTPUT_AFFINE",
+        "learning_rate": 0.001,
+        "seed": 92601,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/jena/OUTPUT_AFFINE/seed92601/prediction.npz",
+        "sha256": "bec883b7aea549a3619e21fe511da14c3d4e0cefb6e444ac37c90e3d8d42b268",
+        "bytes": 2949720
+      },
+      "prediction_array_sha256": "03c0d900a931365bcce647392a1275f5a9e00a2a445faf851b1ee044c343ffe3",
+      "origins_sha256": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_test.npz",
+          "sha256": "f188ee288c1a3c4722d673a4882a0c271f79ea3f161a725f976869da780161e5",
+          "bytes": 2212337
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_jena.json",
+          "sha256": "678bd4cbd63265290c0eeed8a78b09545a05219b666fd3b818682ce385906820",
+          "bytes": 427411
+        },
+        "columns": [
+          "p (mbar)",
+          "T (degC)",
+          "Tpot (K)",
+          "Tdew (degC)",
+          "rh (%)",
+          "VPmax (mbar)",
+          "VPact (mbar)",
+          "VPdef (mbar)",
+          "sh (g/kg)",
+          "H2OC (mmol/mol)",
+          "rho (g/m**3)",
+          "wv (m/s)",
+          "max. wv (m/s)",
+          "wd (deg)",
+          "rain (mm)",
+          "raining (s)",
+          "SWDR (W/m²)",
+          "PAR (µmol/m²/s)",
+          "max. PAR (µmol/m²/s)",
+          "Tlog (degC)",
+          "CO2 (ppm)"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980",
+        "target_sha256": "8c087e9d9b37088c78dbdd696e4d0348c81cd570db61f25f3d0a446924dbd218",
+        "target_mask_sha256": "3e653f7c0f9c9ecd7456d05fa5a05f1e605e8a2d20e3bd8daef260e970caa1a9",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "new_standardization": false
+      },
+      "prediction_seconds": 6.591275000013411,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_jena_output_affine_lr1em3_seed92602": {
+      "id": "s1_jena_output_affine_lr1em3_seed92602",
+      "dataset": "jena",
+      "method": "OUTPUT_AFFINE",
+      "seed": 92602,
+      "learning_rate": 0.001,
+      "selected_epoch": 20,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_jena_output_affine_lr1em3_seed92602/best_1.pt",
+        "sha256": "0fb8daf1626281799c132c2fad39cec5cc804b4e0f3d5ab74b1b3587cf7114d9",
+        "bytes": 4645
+      },
+      "spec": {
+        "id": "s1_jena_output_affine_lr1em3_seed92602",
+        "dataset": "jena",
+        "arm": "OUTPUT_AFFINE",
+        "learning_rate": 0.001,
+        "seed": 92602,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/jena/OUTPUT_AFFINE/seed92602/prediction.npz",
+        "sha256": "410df518e1043f8ded70f6f6edb6126310c5e90c63a32ea04d9970a737df0697",
+        "bytes": 2949720
+      },
+      "prediction_array_sha256": "1abef72e8ed3b1239db5d2c2c3f7a1abda053622bfa0244b19fe5dfc0856f0b9",
+      "origins_sha256": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_test.npz",
+          "sha256": "f188ee288c1a3c4722d673a4882a0c271f79ea3f161a725f976869da780161e5",
+          "bytes": 2212337
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_jena.json",
+          "sha256": "678bd4cbd63265290c0eeed8a78b09545a05219b666fd3b818682ce385906820",
+          "bytes": 427411
+        },
+        "columns": [
+          "p (mbar)",
+          "T (degC)",
+          "Tpot (K)",
+          "Tdew (degC)",
+          "rh (%)",
+          "VPmax (mbar)",
+          "VPact (mbar)",
+          "VPdef (mbar)",
+          "sh (g/kg)",
+          "H2OC (mmol/mol)",
+          "rho (g/m**3)",
+          "wv (m/s)",
+          "max. wv (m/s)",
+          "wd (deg)",
+          "rain (mm)",
+          "raining (s)",
+          "SWDR (W/m²)",
+          "PAR (µmol/m²/s)",
+          "max. PAR (µmol/m²/s)",
+          "Tlog (degC)",
+          "CO2 (ppm)"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980",
+        "target_sha256": "8c087e9d9b37088c78dbdd696e4d0348c81cd570db61f25f3d0a446924dbd218",
+        "target_mask_sha256": "3e653f7c0f9c9ecd7456d05fa5a05f1e605e8a2d20e3bd8daef260e970caa1a9",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "new_standardization": false
+      },
+      "prediction_seconds": 6.336094900034368,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_jena_native_head_lr1em3_seed92601": {
+      "id": "s1_jena_native_head_lr1em3_seed92601",
+      "dataset": "jena",
+      "method": "NATIVE_HEAD",
+      "seed": 92601,
+      "learning_rate": 0.001,
+      "selected_epoch": 39,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_jena_native_head_lr1em3_seed92601/best_1.pt",
+        "sha256": "aa6f044a3d6a81044ba6a8d2ce709f91076b7685f85c0b020568593d51baca32",
+        "bytes": 10109557
+      },
+      "spec": {
+        "id": "s1_jena_native_head_lr1em3_seed92601",
+        "dataset": "jena",
+        "arm": "NATIVE_HEAD",
+        "learning_rate": 0.001,
+        "seed": 92601,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/jena/NATIVE_HEAD/seed92601/prediction.npz",
+        "sha256": "8290fd7085cbe0c9c381eddc6957690efe14ca5df040bab498bf07bc178935ff",
+        "bytes": 2949720
+      },
+      "prediction_array_sha256": "702a3d694d72a5350b89b7a89730ccf940b0cf0b7609fb4859e617b71dfdf4da",
+      "origins_sha256": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_test.npz",
+          "sha256": "f188ee288c1a3c4722d673a4882a0c271f79ea3f161a725f976869da780161e5",
+          "bytes": 2212337
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_jena.json",
+          "sha256": "678bd4cbd63265290c0eeed8a78b09545a05219b666fd3b818682ce385906820",
+          "bytes": 427411
+        },
+        "columns": [
+          "p (mbar)",
+          "T (degC)",
+          "Tpot (K)",
+          "Tdew (degC)",
+          "rh (%)",
+          "VPmax (mbar)",
+          "VPact (mbar)",
+          "VPdef (mbar)",
+          "sh (g/kg)",
+          "H2OC (mmol/mol)",
+          "rho (g/m**3)",
+          "wv (m/s)",
+          "max. wv (m/s)",
+          "wd (deg)",
+          "rain (mm)",
+          "raining (s)",
+          "SWDR (W/m²)",
+          "PAR (µmol/m²/s)",
+          "max. PAR (µmol/m²/s)",
+          "Tlog (degC)",
+          "CO2 (ppm)"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980",
+        "target_sha256": "8c087e9d9b37088c78dbdd696e4d0348c81cd570db61f25f3d0a446924dbd218",
+        "target_mask_sha256": "3e653f7c0f9c9ecd7456d05fa5a05f1e605e8a2d20e3bd8daef260e970caa1a9",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "new_standardization": false
+      },
+      "prediction_seconds": 6.2089522001333535,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    },
+    "s1_jena_native_head_lr1em3_seed92602": {
+      "id": "s1_jena_native_head_lr1em3_seed92602",
+      "dataset": "jena",
+      "method": "NATIVE_HEAD",
+      "seed": 92602,
+      "learning_rate": 0.001,
+      "selected_epoch": 39,
+      "checkpoint": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/runs/s1_jena_native_head_lr1em3_seed92602/best_1.pt",
+        "sha256": "9f1b192309b9cacf47d4989c90428c3f42baedc8c6f3314ef4827019f90e15e6",
+        "bytes": 10109557
+      },
+      "spec": {
+        "id": "s1_jena_native_head_lr1em3_seed92602",
+        "dataset": "jena",
+        "arm": "NATIVE_HEAD",
+        "learning_rate": 0.001,
+        "seed": 92602,
+        "maximum_epochs": 120,
+        "patience": 6,
+        "epoch_origins": 512,
+        "effective_batch": 4,
+        "optimizer": "AdamW",
+        "weight_decay": 0.0,
+        "gradient_clip": 1.0,
+        "training_path": "cached",
+        "frozen_prefix_kept_on_gpu": true
+      },
+      "selection_seal": {
+        "path": "research/tsfm_readout_adaptation_screen_20261007/selection_seal.json",
+        "sha256": "25d63795e4c189fd0f8e620d280c4df4aa4985a45388b5b6b02c6f93c0eebe8f",
+        "bytes": 73420
+      },
+      "prediction": {
+        "path": ".cache/tsfm_readout_adaptation_screen_20261007/evaluation/jena/NATIVE_HEAD/seed92602/prediction.npz",
+        "sha256": "ce65970d94a0cc13ff2ab5d1415a64d2f1be1a5534a83e33497b838ea41644c9",
+        "bytes": 2949720
+      },
+      "prediction_array_sha256": "b3c75bb30378f321fc21a72f46c3cd8281c0e65e20a8505051098013034dacf9",
+      "origins_sha256": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980",
+      "scoring_provenance": {
+        "canonical_test": {
+          "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_test.npz",
+          "sha256": "f188ee288c1a3c4722d673a4882a0c271f79ea3f161a725f976869da780161e5",
+          "bytes": 2212337
+        },
+        "source_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_jena.json",
+          "sha256": "678bd4cbd63265290c0eeed8a78b09545a05219b666fd3b818682ce385906820",
+          "bytes": 427411
+        },
+        "columns": [
+          "p (mbar)",
+          "T (degC)",
+          "Tpot (K)",
+          "Tdew (degC)",
+          "rh (%)",
+          "VPmax (mbar)",
+          "VPact (mbar)",
+          "VPdef (mbar)",
+          "sh (g/kg)",
+          "H2OC (mmol/mol)",
+          "rho (g/m**3)",
+          "wv (m/s)",
+          "max. wv (m/s)",
+          "wd (deg)",
+          "rain (mm)",
+          "raining (s)",
+          "SWDR (W/m²)",
+          "PAR (µmol/m²/s)",
+          "max. PAR (µmol/m²/s)",
+          "Tlog (degC)",
+          "CO2 (ppm)"
+        ],
+        "coordinates": "original TRAIN-standardized channels after native inverse normalization",
+        "origins_sha256": "b9c7e62f4ac54ce3d214f6a799cd9ceff422244841e82e5cf1e5f1cb2ff5e980",
+        "target_sha256": "8c087e9d9b37088c78dbdd696e4d0348c81cd570db61f25f3d0a446924dbd218",
+        "target_mask_sha256": "3e653f7c0f9c9ecd7456d05fa5a05f1e605e8a2d20e3bd8daef260e970caa1a9",
+        "model_inputs": "only canonical x[origin-512:origin]; no mask, target, basis, or future statistics",
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "new_standardization": false
+      },
+      "prediction_seconds": 6.452880600001663,
+      "new_test_model_instances": 1,
+      "frozen_parameters_and_all_buffers_unchanged": true
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "tsfm_readout_s2_pretest_rule_v1",
+  "executed": false,
+  "authorized": false,
+  "rule": "After S1, consider S2 if optimization is technically valid and the remaining reference LoRA gap or uncertain head continuation leaves a useful matched-parent question. Report normal no improvement/degradation separately from technical or resource failure.",
+  "comparison": "HEAD_CONTINUE versus HEAD_PLUS_LORA from the identical selected HEAD parent, identical initial function/head weights/sample order/extra opportunities",
+  "fairness": "Compare same update counts and report actual adaptation time/memory separately; verify head remains trainable after attaching LoRA",
+  "limits": "S1 does not identify pure internal adaptation gain. S2 requires separate scope and numeric budget approval; do not execute it automatically. S3/S4 remain prohibited.",
+  "novelty": "Unconfirmed; head-first adaptation, transferability metrics and automatic PEFT search are established principles"
+}
