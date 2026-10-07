@@ -1,0 +1,73 @@
+{
+  "schema": "tsfm_readout_architecture_static_audit_v1",
+  "verification": "Safetensors header, pinned config and source execution-flow tracing only; numeric gates not run",
+  "model": "amazon/chronos-bolt-small",
+  "revision": "772f3d25d38aec6d914c8949dab4462e2d46f5d8",
+  "boundary": "imputed standardized [B,512,C] -> rows [B*C,512] -> encode -> Transformer decode -> sequence_output [B*C,1,512] -> full output_patch_embedding -> [B*C,9,64] -> original instance_norm.inverse -> median index4 first48 -> [B,48,C]",
+  "native_head_tensors": {
+    "output_patch_embedding.hidden_layer.bias": {
+      "shape": [
+        2048
+      ],
+      "dtype": "F32",
+      "scalars": 2048
+    },
+    "output_patch_embedding.hidden_layer.weight": {
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "F32",
+      "scalars": 1048576
+    },
+    "output_patch_embedding.output_layer.bias": {
+      "shape": [
+        576
+      ],
+      "dtype": "F32",
+      "scalars": 576
+    },
+    "output_patch_embedding.output_layer.weight": {
+      "shape": [
+        576,
+        2048
+      ],
+      "dtype": "F32",
+      "scalars": 1179648
+    },
+    "output_patch_embedding.residual_layer.bias": {
+      "shape": [
+        576
+      ],
+      "dtype": "F32",
+      "scalars": 576
+    },
+    "output_patch_embedding.residual_layer.weight": {
+      "shape": [
+        576,
+        512
+      ],
+      "dtype": "F32",
+      "scalars": 294912
+    }
+  },
+  "native_head_scalars": 2526336,
+  "theoretical_loss_connected_scalars": 1173600,
+  "unused_rows": "All output/residual rows except 256:304 have zero direct q0.5/first48 gradient; actual hidden ReLU activity remains empirical",
+  "frozen_prefix": "input patch embedding, encoder, Transformer decoder, normalization parameters and all registered buffers including persistent=False quantiles",
+  "dropout": "entire model including head eval(); gradient enable only native-head six tensors; eval does not imply no_grad",
+  "normalization": "Same effective parent callable including applicable zero-variance forward patch; original loc/scale shape [R,1]; inverse flattened [R,576] before point crop; loss in TRAIN-standardized dataset coordinate",
+  "prohibited_cache_api": "pipeline.embed returns encoder [R,33,512] and squeezed norms; not the native head input",
+  "output_affine": {
+    "function": "y0 @ W + beta; W:[C,C], beta:[C] shared across all48 horizons; initialize I/0",
+    "scalars": {
+      "robin": 306,
+      "peacock_education": 182,
+      "jena": 462
+    },
+    "initial_output": "F0",
+    "trainable": "W,beta only"
+  },
+  "confounding": "OUTPUT cross-channel mixing; HEAD shared channel-independent nonlinear block; contrast is not pure information availability",
+  "numeric_gate_status": "NOT_EXECUTED_UNAUTHORIZED"
+}

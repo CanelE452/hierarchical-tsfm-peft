@@ -1,0 +1,477 @@
+{
+  "schema": "tsfm_readout_reuse_audit_v1",
+  "search_scope": [
+    "src",
+    "experiments/internal_adaptation_gap_v1_20260922",
+    "research/v6,v7,v11,v12,v14,v15,v17,v18 matching directories",
+    "scoped .cache data/prediction/feature files and manifests"
+  ],
+  "scope_limit": "Not an exhaustive historical or global absence proof. No v1-v18 full performance re-evaluation.",
+  "new_fit_credit": {
+    "OUTPUT_AFFINE": 0,
+    "NATIVE_HEAD": 0,
+    "scientific_fits_remaining": 24
+  },
+  "new_arms": [
+    {
+      "method": "OUTPUT_AFFINE",
+      "classification": "NOT_FOUND_IN_SEARCH_SCOPE",
+      "required": "raw C->C affine on full F0(B,48,C), identity/bias0, shared horizon, exact recipe, selected predictions",
+      "evidence": "No matched completed fit/selection/prediction chain found; code/plan names are insufficient"
+    },
+    {
+      "method": "NATIVE_HEAD",
+      "classification": "NOT_FOUND_IN_SEARCH_SCOPE",
+      "required": "Entire original output_patch_embedding six tensors on pinned Bolt-small; exact current data/origins/MSE",
+      "evidence": "No matched completed current fit/selection/prediction chain found"
+    }
+  ],
+  "related": [
+    {
+      "path": "experiments/internal_adaptation_gap_v1_20260922",
+      "classification": "RELATED_DIFFERENT_CONTRACT",
+      "reason": "Real old HEAD path on Chronos-2/Jena with hidden[638,21,9,768], base_norm[638,21,21,144], different model/horizon/data; not CODE_ONLY and not reusable as current Bolt head fit"
+    },
+    {
+      "path": "research/tsfm_peft_nonlinear_correction_v14_20261001",
+      "classification": "RELATED_DIFFERENT_CONTRACT",
+      "reason": "Parent prediction plus nonlinear residual predictor from X-last(X); extra past-input branch and external head, not output affine or native forecast-head training; head_only_restore is correction-head serialization",
+      "path_note": "Actual directory resolved by local inventory; inspect reusable code before execution"
+    },
+    {
+      "path": "research/tsfm_peft_coordinate_decoder_v15_20261001",
+      "classification": "RELATED_DIFFERENT_CONTRACT",
+      "reason": "Latent/direct forecast components [N,48,K] and W[K,C], independent/tied decoders; not full raw F0 C->C with bias"
+    },
+    {
+      "path": "research/level_matched_learned_ed_v18_20261006",
+      "classifications": [
+        "PREFLIGHT_ONLY",
+        "RESOURCE_BLOCKED",
+        "CODE_ONLY"
+      ],
+      "reason": "Scientific fits0, updates0, new TEST0. E/D gradient/preflight checks relate to a different architecture; remaining sources unexecuted",
+      "actual_gpu_job_wall_seconds": 21.847596199950203
+    }
+  ],
+  "accuracy_reuse": [
+    {
+      "path": "research/level_matched_learned_ed_v18_20261006/parent_reuse_manifest.json",
+      "classification": "EXACT_REUSABLE",
+      "scope": "Canonical parent F0/LEVEL/direct/native/MSE-LoRA checkpoint-selection-data-prediction bindings; named result reuse, no new scientific fit"
+    },
+    {
+      "path": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "classification": "EXACT_REUSABLE",
+      "scope": "Stored canonical F0/LEVEL/MSE-LoRA/NLinear/Chronos-2/Small MSE+MAE; hashes and origin/mask receipts must match before S1 scoring"
+    },
+    {
+      "path": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "classification": "EXACT_REUSABLE",
+      "scope": "Stored Mini/Tiny and current canonical baseline MSE+MAE; existing timing is context-only outside original campaign"
+    }
+  ],
+  "cache_reuse": {
+    "exact_train_F0": "NOT_FOUND_IN_SEARCH_SCOPE",
+    "exact_native_head_features": "NOT_FOUND_IN_SEARCH_SCOPE",
+    "raw_F0_VAL": {
+      "robin": [
+        30,
+        48,
+        17
+      ],
+      "peacock_education": "No stored F0 VAL array identified",
+      "jena": [
+        371,
+        48,
+        21
+      ]
+    },
+    "raw_F0_TEST": {
+      "robin": [
+        80,
+        48,
+        17
+      ],
+      "peacock_education": [
+        80,
+        48,
+        13
+      ],
+      "jena": [
+        730,
+        48,
+        21
+      ]
+    },
+    "safe_use": "Existing canonical VAL bytes can support F0 initial parity after provenance verification; TEST bytes are accuracy references only after new choices sealed",
+    "excluded": "v14 direct/LEVEL TRAIN outputs, v15 [N,48,K] outputs, old Chronos-2 head features"
+  },
+  "scores_are_stored_not_rerun": true,
+  "old_cost_ratio_reuse": false,
+  "stored_score_receipts": [
+    {
+      "path": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "sha256": "ef4fb370d03ae63e060c6d3b019e68a54ff49631738141fdaef62c9581ec82ec",
+      "bytes": 56024
+    },
+    {
+      "path": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "sha256": "8f58c8fb8129120dd3a10ba9231967063fcfd7e453e204a21b706128e799ab1b",
+      "bytes": 24575
+    }
+  ],
+  "stored_score_anchors": [
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "B",
+      "id": "v6_robin_compress",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.9770230865300422",
+      "mae": "0.6618704700729161"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "LEVEL",
+      "id": "v6_robin_level_res_92601;v6_robin_level_res_92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.27519585359042886",
+      "mae": "0.3245931998704771"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "F0",
+      "id": "v6_robin_f0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.22909530431015587",
+      "mae": "0.2620739422979974"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "MSE_LORA",
+      "id": "v11_robin_full_lora_mse_lr0.001_92601;v11_robin_full_lora_mse_lr0.001_92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.21851704774314318",
+      "mae": "0.25871817997979923"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "DIRECT_NLINEAR",
+      "id": "v7_robin_direct_nlinear_lr0.001_92601;v7_robin_direct_nlinear_lr0.001_92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.3277241112749308",
+      "mae": "0.35341024347492483"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "C2_MV",
+      "id": "robin_C2_MV",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.23015048867707527",
+      "mae": "0.25402410182697727"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "C2_SMALL_MV",
+      "id": "robin_C2_SMALL_MV",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2246504656523076",
+      "mae": "0.2597677161536353"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "C2_UNI",
+      "id": "robin_C2_UNI",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.23258690867680165",
+      "mae": "0.2548757182693712"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "C2_SMALL_UNI",
+      "id": "robin_C2_SMALL_UNI",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.23543390872860842",
+      "mae": "0.26274041249949076"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "B",
+      "id": "peacock_education_a_lr1e-4_s92601__main_only",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2988315778023622",
+      "mae": "0.421164614258922"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "LEVEL",
+      "id": "peacock_education_level_lr1e-3_s92601__retry_heartbeat01;peacock_education_level_lr1e-3_s92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2032661712362121",
+      "mae": "0.3150042747804322"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "F0",
+      "id": "v12_confirmation_peacock_education_f0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.20152139200163005",
+      "mae": "0.30035755345036663"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "MSE_LORA",
+      "id": "peacock_education_full_mse_lr1e-4_s92601;peacock_education_full_mse_lr1e-4_s92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.19817634895372815",
+      "mae": "0.2988394352949437"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "DIRECT_NLINEAR",
+      "id": "peacock_education_direct_lr1e-3_s92601;peacock_education_direct_lr1e-3_s92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.21988384962430318",
+      "mae": "0.3294499602296578"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "C2_MV",
+      "id": "peacock_education_C2_MV",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.19957182242794386",
+      "mae": "0.2951452702072128"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "C2_SMALL_MV",
+      "id": "peacock_education_C2_SMALL_MV",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2042740641119311",
+      "mae": "0.30199216369505366"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "C2_UNI",
+      "id": "peacock_education_C2_UNI",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.19997758563824178",
+      "mae": "0.29621377934295495"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "C2_SMALL_UNI",
+      "id": "peacock_education_C2_SMALL_UNI",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.20557709157984566",
+      "mae": "0.30361917891740703"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "B",
+      "id": "v7_jena_compress",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.3811865183632306",
+      "mae": "0.3810916790195416"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "LEVEL",
+      "id": "v7_jena_level_res_92601;v7_jena_level_res_92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.3243591575923673",
+      "mae": "0.32044991775149667"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "F0",
+      "id": "v7_jena_f0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2923000256096091",
+      "mae": "0.26475762566317573"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "MSE_LORA",
+      "id": "v11_jena_full_lora_mse_lr0.0001_92601;v11_jena_full_lora_mse_lr0.0001_92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.23289161954805002",
+      "mae": "0.23894341520215084"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "DIRECT_NLINEAR",
+      "id": "v7_jena_direct_nlinear_lr0.001_92601;v7_jena_direct_nlinear_lr0.001_92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2739841682820264",
+      "mae": "0.286714002691361"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "C2_MV",
+      "id": "jena_C2_MV",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.25398682694924746",
+      "mae": "0.22445673191956841"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "C2_SMALL_MV",
+      "id": "jena_C2_SMALL_MV",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2631551031209199",
+      "mae": "0.23021684268989517"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "C2_UNI",
+      "id": "jena_C2_UNI",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2683798008100839",
+      "mae": "0.2370230637433369"
+    },
+    {
+      "source": "research/level_chronos2_controls_v1/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "C2_SMALL_UNI",
+      "id": "jena_C2_SMALL_UNI",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.27165513863519697",
+      "mae": "0.23888262432925925"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "BOLT_SMALL_LEVEL",
+      "id": "v6_robin_level_res_92601;v6_robin_level_res_92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.27519585359042886",
+      "mae": "0.3245931998704771"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "BOLT_SMALL_F0",
+      "id": "v6_robin_f0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.22909530431015587",
+      "mae": "0.2620739422979974"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "BOLT_MINI_F0",
+      "id": "robin_BOLT_MINI_F0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.22763621320745372",
+      "mae": "0.2647073110956679"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "robin",
+      "method": "BOLT_TINY_F0",
+      "id": "robin_BOLT_TINY_F0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2436538844328945",
+      "mae": "0.26969735813728074"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "BOLT_SMALL_LEVEL",
+      "id": "peacock_education_level_lr1e-3_s92601__retry_heartbeat01;peacock_education_level_lr1e-3_s92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2032661712362121",
+      "mae": "0.3150042747804322"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "BOLT_SMALL_F0",
+      "id": "v12_confirmation_peacock_education_f0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.20152139200163005",
+      "mae": "0.30035755345036663"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "BOLT_MINI_F0",
+      "id": "peacock_education_BOLT_MINI_F0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.20205682169473732",
+      "mae": "0.30170677157301773"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "peacock_education",
+      "method": "BOLT_TINY_F0",
+      "id": "peacock_education_BOLT_TINY_F0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2027445589856302",
+      "mae": "0.30477954598425694"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "BOLT_SMALL_LEVEL",
+      "id": "v7_jena_level_res_92601;v7_jena_level_res_92602",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.3243591575923673",
+      "mae": "0.32044991775149667"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "BOLT_SMALL_F0",
+      "id": "v7_jena_f0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.2923000256096091",
+      "mae": "0.26475762566317573"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "BOLT_MINI_F0",
+      "id": "jena_BOLT_MINI_F0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.302063502847621",
+      "mae": "0.2714241405384051"
+    },
+    {
+      "source": "research/level_bolt_backbone_scaling_v1_20261006/accuracy_comparison.csv",
+      "dataset": "jena",
+      "method": "BOLT_TINY_F0",
+      "id": "jena_BOLT_TINY_F0",
+      "aggregation": "Mean individual seed losses, not averaged predictions; zero-shot counted once",
+      "mse": "0.3214091228146381",
+      "mae": "0.2810063261596903"
+    }
+  ]
+}
