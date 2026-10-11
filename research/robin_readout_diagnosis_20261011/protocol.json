@@ -1,0 +1,58 @@
+{
+  "schema": "robin_raw_readout_diagnosis_v1",
+  "scope": "Exploratory saved-trace decoder intervention; no compression, backbone calls or TEST evaluation",
+  "parent_result": "research/level_k_tradeoff_20261011/result.json",
+  "dataset": "robin",
+  "context": 512,
+  "horizon": 48,
+  "channels": 17,
+  "train_origins": 512,
+  "val_origins": 30,
+  "decoder_sampling_seed": 92603,
+  "ridge_lambdas": [0.000001, 0.0001, 0.01, 1, 10, 100, 1000, 10000, 100000, 1000000],
+  "arms": [
+    {"id": "RAW_F", "prior": "identity", "support": "identity", "lag": 0, "parameters": 0},
+    {"id": "ZERO_FULL_D8", "prior": "zero", "support": "full", "lag": 8, "parameters": 2601, "reuse_full_train_grid": true},
+    {"id": "RES_FULL_D8", "prior": "identity", "support": "full", "lag": 8, "parameters": 2601},
+    {"id": "ZERO_DIAG_D8", "prior": "zero", "support": "diagonal", "lag": 8, "parameters": 153},
+    {"id": "RES_DIAG_D8", "prior": "identity", "support": "diagonal", "lag": 8, "parameters": 153},
+    {"id": "RES_FULL_D0", "prior": "identity", "support": "full", "lag": 0, "parameters": 289},
+    {"id": "RES_DC_DIFF_D8", "prior": "identity", "support": "lag_minus_current", "lag": 8, "parameters": 2312}
+  ],
+  "fit": {
+    "loss": "per-output observed TRAIN sum SSE plus lambda times squared RMS-scaled coefficients",
+    "residual_target": "observed target minus current frozen TSFM forecast",
+    "intercept": false,
+    "centering": false,
+    "feature_scaling": "TRAIN-only RMS using rows with at least one observed target; fold-local TRAIN RMS within CV",
+    "precision": "feature/statistics/coefficient FP64; readout branch FP32; residual output adds original FP32 forecast",
+    "tie_break": "earliest index in fixed ascending lambda grid",
+    "identity_fallback_candidate": false
+  },
+  "selection": {
+    "primary": "earliest minimum VAL observed channel-macro MSE; repeated exploratory development VAL",
+    "secondary": "earliest minimum equally weighted mean of three TRAIN chronological fold channel-macro MSEs; refit on all TRAIN",
+    "cv_scope_caveat": "Conditional decoder CV: saved forecasts and targets retain parent full-TRAIN normalization. Fold-local readout fits/scales have no heldout-target use, but this is not a fully nested end-to-end rolling backtest.",
+    "arm_choice": "Report every arm; no automatic final-family selection or claim of independent generalization"
+  },
+  "cv": {
+    "train_bounds": [528, 2520],
+    "timestamp_cuts": [528, 1026, 1524, 2022, 2520],
+    "folds": 3,
+    "fit_rule": "origin + horizon <= cut[j], j=1..3",
+    "heldout_rule": "origin >= cut[j] and origin + horizon <= cut[j+1]",
+    "expected_fit_counts": [114, 243, 380],
+    "expected_heldout_counts": [119, 125, 123],
+    "purge": "No overlapping future target timestamp between fit and heldout; historical context may overlap and remains legitimately available"
+  },
+  "horizon_groups": [[1, 8], [9, 48]],
+  "diagnostic_hypotheses": [
+    "H1: zero-centered shrinkage distorts raw forecast level under TRAIN-to-VAL mean changes; equal-capacity identity-centered ridge tests this mechanism",
+    "H2: unrestricted cross-channel readout worsens generalization; full/diagonal crossed with both ridge centers tests capacity effects",
+    "H3: lag features worsen generalization; full residual D8 vs D0 tests lag capacity jointly with changed feature dimension",
+    "H4: constant-level/DC preservation helps; lag-minus-current residual constrains summed temporal gains to identity, with changed dimension and penalty geometry"
+  ],
+  "diagnostics": ["masked per-channel/origin/horizon MSE and MAE", "error excess = correction energy - 2 times correction/residual alignment", "TRAIN/VAL means and variances", "per-channel mean-bias squared vs centered error variance", "summed-lag/DC gains and off-diagonal mixing", "fixed lambda ridge paths", "non-overlapping alternate VAL origin subsets as descriptive sensitivity"],
+  "limits": {"fresh_full_train_grid_candidates": 50, "fresh_cv_grid_candidates": 180, "fresh_ridge_grid_candidates": 230, "fresh_channel_solves": 3910, "reused_grid_candidates": 10, "new_f_calls": 0, "new_test_calls": 0, "wall_seconds": 1800, "incremental_storage_bytes": 1073741824},
+  "claims": "Robin-only mechanism sensitivity on fixed forecasts, not a new decoder novelty claim, compressor benefit, LEVEL improvement, independent TEST result or full E/F/D speed measurement"
+}

@@ -17,6 +17,16 @@ Jena의 MLP K6는 Raw F보다 MSE가 평균 3.89%, MAE가 19.38% 높지만 B32 �
 
 ![K와 표현별 MSE–전체 B32 추론 시간](research/level_k_tradeoff_20261011/figures/accuracy_cost.png)
 
+## Robin 원채널 디코더 진단과 개선 비교 (2026-10-11)
+
+압축 없이도 발생한 D8 성능 악화를 같은 저장 TSFM 예측의 7가지 readout 조건으로 분석했습니다. 규제 중심·채널 혼합을 바꾸면 기존 MSE 0.6259의 큰 손상은 대부분 없어졌지만, Raw F 0.4086 대비 최저 MSE 0.4047의 이익은 1% 미만이고 선택된 모든 readout의 MAE는 더 높았습니다. Robin의 기본 기준선은 Raw F로 유지합니다. 반복 VAL과 조건부 TRAIN 시간순 CV의 진단이며 독립 TEST 결과가 아닙니다.
+
+- [전체 비교·원인 분해·연구 문제와 기여 후보](research/robin_readout_diagnosis_20261011/REPORT_KO.md)
+- [코드·계약·수치 색인](research/robin_readout_diagnosis_20261011/README.md), [실행 기록](research/robin_readout_diagnosis_20261011/EXECUTION_NOTE_KO.md)
+- [21,415개 독립 검증](research/robin_readout_diagnosis_20261011/verification.json), [게시 범위·공개 재현 한계](research/robin_readout_diagnosis_20261011/PUBLICATION_KO.md)
+
+![Robin의 같은 예측에서 디코더 구조별 성능 비교](research/robin_readout_diagnosis_20261011/figures/01_comparison.png)
+
 ## 원래 고정 PCA LEVEL 증거 감사 (2026-10-06)
 
 기존 v1~v16과 로컬 완료 보충 결과를 연결했습니다. **압축 경로 보완·Robin/Peacock 잔차 입력 효과는 조건부 유지, 일반 실용 우위는 축소, 독립 방법론 기여·최적 배분·학습 E/D 대비 우위는 보류**합니다. 현재 LEVEL 계약의 Chronos-2/Small 비교도 이미 완료돼 재사용했으며, 이번 감사·게시의 신규 학습과 추론은 0회입니다.
