@@ -1,0 +1,37 @@
+{
+  "job_id": "jena_TS2_d16_s92601_retry_cache_v3",
+  "pid": 83040,
+  "started_unix": 1791723692.1568754,
+  "settings_before_torch_import": true,
+  "operational_environment": {
+    "PYTORCH_ALLOC_CONF": "backend:native,garbage_collection_threshold:0.6",
+    "TORCH_CUDNN_V8_API_LRU_CACHE_LIMIT": "128"
+  },
+  "encoder_batch": 8,
+  "official_geometry_or_loss_changed": false,
+  "cuda_allocator_backend": "native",
+  "wrapper_sha256": "f0f0399f2fb2fa09b88aa7d5b01d459a7c617af8b2c5b749d8f85da54d4f39ce",
+  "runner_sha256": "42e0241b437fa388ff6efd0015c553ae6a929c516ca0310f006c43421c817597",
+  "command": [
+    "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.venv\\Scripts\\python.exe",
+    "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\professor_compressor_direct_20261011\\memory_retry.py",
+    "--dataset",
+    "jena",
+    "--seed",
+    "92601",
+    "--dim",
+    "16",
+    "--retry-tag",
+    "cache_v3",
+    "--encoder-batch",
+    "8"
+  ],
+  "why": "Prior Jena attempts hit host RSS cap while CUDA cached reservation was 19-21GiB; cache/allocator cause remains a hypothesis.",
+  "primary_references": [
+    "https://docs.pytorch.org/docs/2.10/notes/cuda.html",
+    "https://docs.pytorch.org/docs/stable/cuda_environment_variables.html"
+  ],
+  "status": "INCOMPLETE",
+  "ended_unix": 1791723717.7607667,
+  "result_exists": false
+}

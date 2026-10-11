@@ -1,0 +1,219 @@
+{
+  "calibration": {
+    "train_forecast_origins": "all legal TRAIN origins at predefined stride128",
+    "learning_rate": 0.0001,
+    "selection": "existing development VAL forecast MSE, including epoch0 reconstruction-transfer",
+    "E_F_fixed": true,
+    "max_epochs": 50,
+    "patience": 10,
+    "same_native_decoder_only": true
+  },
+  "supersedes": "LEVEL_Compressor_ALL_EXPERIMENTS_CLI_20261011",
+  "datasets": [
+    "robin",
+    "jena"
+  ],
+  "TS2": {
+    "batch": 8,
+    "lr": 0.001,
+    "official_revision": "b0088e14a99706c05451316dc6db8d3da9351163",
+    "reconstruction_patience": 15,
+    "max_train_length": 3000,
+    "output_dims": [
+      16,
+      320
+    ],
+    "updates": "official default 200 if TRAIN array.size<=100000 else600",
+    "reconstruction_decoder": "d->128 ReLU->C linear",
+    "depth": 10,
+    "reconstruction_epochs": 100,
+    "native_export": "official causal sliding_length1 padding200 last representation",
+    "hidden_dims": 64,
+    "export_main": "offline full past window; decoder trained on same export",
+    "native_train_origins": "all legal TRAIN origins stride1"
+  },
+  "seeds": [
+    92601,
+    92602
+  ],
+  "schema": "professor_direct_native_ED_v1",
+  "L": 512,
+  "known_limits": "Existing repeatedly exposed development VAL and two initialization seeds; no independent confirmation. Old Electricity access incident preserved separately and is not undone by new no-TEST loader.",
+  "H": 48,
+  "sources": {
+    "TS2": "https://github.com/zhihanyue/ts2vec",
+    "F": "https://github.com/amazon-science/chronos-forecasting",
+    "GT": "https://proceedings.mlr.press/v198/sabbaqi22a.html"
+  },
+  "GT": {
+    "batch": 8,
+    "features_decoder": [
+      2,
+      8,
+      1
+    ],
+    "learning_rate": 0.0005,
+    "time_reduction": 4,
+    "taps": 5,
+    "order": 4,
+    "sparsity_rho": 0.14,
+    "features_encoder": [
+      1,
+      8,
+      2
+    ],
+    "no_spatial": "s01=s11=0 frozen; same temporal/feature/downsampling",
+    "latent_features": 2,
+    "final_activation": "linear for signed standardized data",
+    "max_epochs": 100,
+    "reconstruction_patience": 15,
+    "shared_product_coefficients": true
+  },
+  "goal": "Learn original-style GTConvAE native encoder/decoder and normal-scale TS2Vec plus nonlinear decoder, then actually forecast latent future with frozen Chronos-Bolt",
+  "jobs": [
+    {
+      "family": "GT",
+      "seed": 92601,
+      "dataset": "robin",
+      "id": "robin_GT_full_s92601",
+      "no_spatial": false
+    },
+    {
+      "family": "TS2",
+      "seed": 92601,
+      "dim": 16,
+      "dataset": "robin",
+      "id": "robin_TS2_d16_s92601_retry_epoch0_v2",
+      "canonical_id": "robin_TS2_d16_s92601",
+      "retry_tag": "epoch0_v2"
+    },
+    {
+      "family": "TS2",
+      "seed": 92601,
+      "dim": 320,
+      "dataset": "robin",
+      "id": "robin_TS2_d320_s92601"
+    },
+    {
+      "family": "GT",
+      "seed": 92601,
+      "dataset": "robin",
+      "id": "robin_GT_no_spatial_s92601",
+      "no_spatial": true
+    },
+    {
+      "family": "GT",
+      "seed": 92601,
+      "dataset": "jena",
+      "id": "jena_GT_full_s92601",
+      "no_spatial": false
+    },
+    {
+      "family": "TS2",
+      "seed": 92601,
+      "dim": 16,
+      "dataset": "jena",
+      "id": "jena_TS2_d16_s92601_retry_cache_v3",
+      "canonical_id": "jena_TS2_d16_s92601",
+      "retry_tag": "cache_v3",
+      "memory_retry": true,
+      "encoder_batch": 8
+    },
+    {
+      "family": "TS2",
+      "seed": 92601,
+      "dim": 320,
+      "dataset": "jena",
+      "id": "jena_TS2_d320_s92601_retry_cache_v3",
+      "canonical_id": "jena_TS2_d320_s92601",
+      "retry_tag": "cache_v3",
+      "memory_retry": true,
+      "encoder_batch": 8
+    },
+    {
+      "family": "GT",
+      "seed": 92601,
+      "dataset": "jena",
+      "id": "jena_GT_no_spatial_s92601",
+      "no_spatial": true
+    },
+    {
+      "family": "GT",
+      "seed": 92602,
+      "dataset": "robin",
+      "id": "robin_GT_full_s92602",
+      "no_spatial": false
+    },
+    {
+      "family": "TS2",
+      "seed": 92602,
+      "dim": 16,
+      "dataset": "robin",
+      "id": "robin_TS2_d16_s92602"
+    },
+    {
+      "family": "TS2",
+      "seed": 92602,
+      "dim": 320,
+      "dataset": "robin",
+      "id": "robin_TS2_d320_s92602"
+    },
+    {
+      "family": "GT",
+      "seed": 92602,
+      "dataset": "robin",
+      "id": "robin_GT_no_spatial_s92602",
+      "no_spatial": true
+    },
+    {
+      "family": "GT",
+      "seed": 92602,
+      "dataset": "jena",
+      "id": "jena_GT_full_s92602",
+      "no_spatial": false
+    },
+    {
+      "family": "TS2",
+      "seed": 92602,
+      "dim": 16,
+      "dataset": "jena",
+      "id": "jena_TS2_d16_s92602_retry_cache_v3",
+      "canonical_id": "jena_TS2_d16_s92602",
+      "retry_tag": "cache_v3",
+      "memory_retry": true,
+      "encoder_batch": 8
+    },
+    {
+      "family": "TS2",
+      "seed": 92602,
+      "dim": 320,
+      "dataset": "jena",
+      "id": "jena_TS2_d320_s92602_retry_cache_v3",
+      "canonical_id": "jena_TS2_d320_s92602",
+      "retry_tag": "cache_v3",
+      "memory_retry": true,
+      "encoder_batch": 8
+    },
+    {
+      "family": "GT",
+      "seed": 92602,
+      "dataset": "jena",
+      "id": "jena_GT_no_spatial_s92602",
+      "no_spatial": true
+    }
+  ],
+  "evaluation": {
+    "baselines": [
+      "RAW_F",
+      "MEAN_BLOCK_F_R4"
+    ],
+    "persistence": "replace F with latent last value, use same decoder A/B",
+    "reconstruction": "input windows measured separately from future forecast",
+    "no_LEVEL_no_D8": true,
+    "TEST_new_access": 0,
+    "future_targets": "same outer VAL origins/targets/mask, observed macro channel MSE/MAE",
+    "costs": "B1/B32 actual entire EFD, physical normalization/host-device transfers/output synchronization,3warmup10timed"
+  },
+  "amendment": "TS2 calibration epoch0 was omitted in first implementation. Preserve pilot, rerun first case under epoch0-inclusive predeclared selection; extra pilot counted in actual fits/costs, excluded from canonical seed mean. protocol_v1.json preserved.",
+  "operational_retry": "Four Jena TS2 batch8 attempts stopped at host RSS cap with 19-21GiB CUDA reservation. New fresh attempts retain official batch8/hidden64/depth10/max_length3000/600updates while process-local native allocator GC threshold0.6 and cuDNN plan cache128 are applied before torch import. Combined operating change; specific memory cause not proven. Previous attempts, sources, costs remain recorded."
+}

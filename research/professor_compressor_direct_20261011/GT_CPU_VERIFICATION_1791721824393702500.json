@@ -1,0 +1,482 @@
+{
+  "schema": "GT_NATIVE_CPU_IMPLEMENTATION_DIAGNOSTICS_V1",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "dense_Kronecker_degree4_output",
+      "status": "PASS",
+      "max_abs_error": 2.220446049250313e-16,
+      "dtype": "float64",
+      "shape": [
+        2,
+        6,
+        3,
+        3
+      ],
+      "taps": 5
+    },
+    {
+      "name": "dense_Kronecker_input_filter_product_gradients",
+      "status": "PASS",
+      "max_abs_errors": {
+        "input": 2.220446049250313e-16,
+        "filter": 4.440892098500626e-16,
+        "product": 8.881784197001252e-16
+      }
+    },
+    {
+      "name": "temporal_delta_moves_from_t2_to_t3",
+      "status": "PASS"
+    },
+    {
+      "name": "temporal_no_circular_wrap",
+      "status": "PASS"
+    },
+    {
+      "name": "max_pooling_four_timestamp_right_edge_phase",
+      "status": "PASS",
+      "representative_indices": [
+        3.0,
+        7.0,
+        11.0,
+        15.0
+      ]
+    },
+    {
+      "name": "pooling_delta_all_positions",
+      "status": "PASS",
+      "latent_index_by_original_index": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3
+      ]
+    },
+    {
+      "name": "Eq8_right_edge_zero_insertion",
+      "status": "PASS"
+    },
+    {
+      "name": "decoder_length12_to48",
+      "status": "PASS"
+    },
+    {
+      "name": "documented_three_zero_startup_steps",
+      "status": "PASS"
+    },
+    {
+      "name": "final_upsampling_does_not_leave_alternating_fixed_zeros",
+      "status": "PASS",
+      "nonzero_count_by_phase": [
+        22,
+        22,
+        22,
+        24
+      ]
+    },
+    {
+      "name": "constant_history_boundary_and_all_future_phases",
+      "status": "PASS",
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "decoder_delta_Eq8_phase_explicit",
+      "status": "PASS",
+      "active_physical_indices": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "latent_tick": 2,
+      "note": "Right-edge injection plus past-directed interpolation; no claim of a zero-phase inverse"
+    },
+    {
+      "name": "nonmultiple_horizon_predict_extra_then_crop",
+      "status": "PASS"
+    },
+    {
+      "name": "spatial_edge_routes_source_to_adjacent_node",
+      "status": "PASS"
+    },
+    {
+      "name": "graph_change_alters_spatial_path",
+      "status": "PASS"
+    },
+    {
+      "name": "no_spatial_output_invariant_to_graph",
+      "status": "PASS"
+    },
+    {
+      "name": "no_spatial_s01_s11_literal_zero_and_frozen",
+      "status": "PASS"
+    },
+    {
+      "name": "encoder_decoder_product_gradients_exist_and_nonzero",
+      "status": "PASS",
+      "gradients": {
+        "product.s00": {
+          "gradient_exists": true,
+          "nonzero_elements": 1,
+          "elements": 1
+        },
+        "product.s10": {
+          "gradient_exists": true,
+          "nonzero_elements": 1,
+          "elements": 1
+        },
+        "product.s01": {
+          "gradient_exists": true,
+          "nonzero_elements": 1,
+          "elements": 1
+        },
+        "product.s11": {
+          "gradient_exists": true,
+          "nonzero_elements": 1,
+          "elements": 1
+        },
+        "encoder.0.weight": {
+          "gradient_exists": true,
+          "nonzero_elements": 40,
+          "elements": 40
+        },
+        "encoder.1.weight": {
+          "gradient_exists": true,
+          "nonzero_elements": 80,
+          "elements": 80
+        },
+        "decoder.0.weight": {
+          "gradient_exists": true,
+          "nonzero_elements": 80,
+          "elements": 80
+        },
+        "decoder.1.weight": {
+          "gradient_exists": true,
+          "nonzero_elements": 40,
+          "elements": 40
+        }
+      }
+    },
+    {
+      "name": "encoder_decoder_product_weights_actual_update",
+      "status": "PASS",
+      "max_abs_update_by_parameter": {
+        "product.s00": 0.048055927204653896,
+        "product.s10": 0.08866779548913617,
+        "product.s01": 0.05691549482633895,
+        "product.s11": 0.03295445496364365,
+        "encoder.0.weight": 0.9507811362051184,
+        "encoder.1.weight": 1.2479065421786628,
+        "decoder.0.weight": 2.716693490651102,
+        "decoder.1.weight": 1.3667758012200266
+      }
+    },
+    {
+      "name": "tiny_signed_batch_actual_600update_overfit",
+      "status": "PASS",
+      "initial_full_mse": 0.6626263951535951,
+      "final_full_mse": 0.06381149357813908,
+      "final_mse_after_documented_startup": 0.04910481600535136,
+      "updates": 600,
+      "lr": 0.01,
+      "rho": 0,
+      "implementation_diagnostic_only": true,
+      "curve": [
+        {
+          "updates": 1,
+          "full_mse_before_update": 0.6626263951535951
+        },
+        {
+          "updates": 51,
+          "full_mse_before_update": 0.35703546235213673
+        },
+        {
+          "updates": 101,
+          "full_mse_before_update": 0.3507693469394657
+        },
+        {
+          "updates": 151,
+          "full_mse_before_update": 0.34451391940207304
+        },
+        {
+          "updates": 201,
+          "full_mse_before_update": 0.3337735470032437
+        },
+        {
+          "updates": 251,
+          "full_mse_before_update": 0.27584534014522866
+        },
+        {
+          "updates": 301,
+          "full_mse_before_update": 0.13732394431994147
+        },
+        {
+          "updates": 351,
+          "full_mse_before_update": 0.0828261826230209
+        },
+        {
+          "updates": 401,
+          "full_mse_before_update": 0.07433490144181105
+        },
+        {
+          "updates": 451,
+          "full_mse_before_update": 0.07053451797278106
+        },
+        {
+          "updates": 501,
+          "full_mse_before_update": 0.06788500457352929
+        },
+        {
+          "updates": 551,
+          "full_mse_before_update": 0.06504854246731866
+        },
+        {
+          "updates": 600,
+          "full_mse_before_update": 0.06312858458513797
+        }
+      ]
+    },
+    {
+      "name": "linear_final_decoder_can_reconstruct_negative_values",
+      "status": "PASS"
+    },
+    {
+      "name": "calibration_freezes_encoder_and_shared_product",
+      "status": "PASS"
+    },
+    {
+      "name": "calibration_updates_same_native_decoder_and_calls_both_GT_layers",
+      "status": "PASS",
+      "native_decoder_call_counts": [
+        1,
+        1
+      ],
+      "decoder_trainable_coefficients": 120
+    },
+    {
+      "name": "past_latent_append_future_perturbation_invariance",
+      "status": "PASS",
+      "actual_TSFM_inference_scope": false,
+      "scope": "Encoder causal pooling/operator only; runner verifies actual frozen-F inference separately"
+    },
+    {
+      "name": "save_load_prediction_exact",
+      "status": "PASS"
+    },
+    {
+      "name": "paper_feature_bank_parameter_counts",
+      "status": "PASS",
+      "full": {
+        "encoder_filter_coefficients": 120,
+        "decoder_filter_coefficients": 120,
+        "product_coefficients_total": 4,
+        "product_coefficients_trainable": 4,
+        "total_trainable": 244,
+        "taps_per_feature_pair": 5,
+        "bias_coefficients": 0,
+        "product_shared_encoder_decoder": true,
+        "no_spatial": false,
+        "product_coefficients": [
+          0.048055927204653896,
+          0.556915494826339,
+          0.5886677954891362,
+          0.03295445496364365
+        ],
+        "pooling": "max_nonoverlapping_right_edge_timestamp",
+        "decoder_operation_order": "zero_insertion_then_GT_filter",
+        "final_output_activation": "linear_for_signed_standardized_data",
+        "structural_zero_reconstruction_prefix_steps": 3,
+        "forecast_boundary": "decode_concatenated_latent_history_and_predicted_future_then_crop"
+      }
+    },
+    {
+      "name": "CPU_only_no_CUDA_initialization",
+      "status": "PASS"
+    }
+  ],
+  "checks_passed": 27,
+  "scientific_fits": 0,
+  "actual_data_reads": 0,
+  "protected_TEST_reads": 0,
+  "GPU_work_seconds": 0,
+  "CUDA_initialized": false,
+  "tiny_fixture_optimizer_steps": 601,
+  "alignment_L512_H48": {
+    "history_length": 512,
+    "history_latent_ticks": 128,
+    "physical_horizon": 48,
+    "future_latent_ticks": 12,
+    "encoder_tick_j_block": "[4*j,4*j+3]; representative timestamp 4*j+3",
+    "decoder_zero_insert_phase": "right edge at each factor-two stage (Eq8 one-based t=kr)",
+    "forecast_crop_start": 512,
+    "forecast_crop_stop_exclusive": 560,
+    "target_padding": false,
+    "future_blocks": [
+      {
+        "future_latent_tick_zero_based": 0,
+        "physical_block_indices_zero_based": [
+          512,
+          515
+        ],
+        "representative_timestamp_zero_based": 515,
+        "forecast_target_indices_zero_based": [
+          0,
+          3
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 1,
+        "physical_block_indices_zero_based": [
+          516,
+          519
+        ],
+        "representative_timestamp_zero_based": 519,
+        "forecast_target_indices_zero_based": [
+          4,
+          7
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 2,
+        "physical_block_indices_zero_based": [
+          520,
+          523
+        ],
+        "representative_timestamp_zero_based": 523,
+        "forecast_target_indices_zero_based": [
+          8,
+          11
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 3,
+        "physical_block_indices_zero_based": [
+          524,
+          527
+        ],
+        "representative_timestamp_zero_based": 527,
+        "forecast_target_indices_zero_based": [
+          12,
+          15
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 4,
+        "physical_block_indices_zero_based": [
+          528,
+          531
+        ],
+        "representative_timestamp_zero_based": 531,
+        "forecast_target_indices_zero_based": [
+          16,
+          19
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 5,
+        "physical_block_indices_zero_based": [
+          532,
+          535
+        ],
+        "representative_timestamp_zero_based": 535,
+        "forecast_target_indices_zero_based": [
+          20,
+          23
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 6,
+        "physical_block_indices_zero_based": [
+          536,
+          539
+        ],
+        "representative_timestamp_zero_based": 539,
+        "forecast_target_indices_zero_based": [
+          24,
+          27
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 7,
+        "physical_block_indices_zero_based": [
+          540,
+          543
+        ],
+        "representative_timestamp_zero_based": 543,
+        "forecast_target_indices_zero_based": [
+          28,
+          31
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 8,
+        "physical_block_indices_zero_based": [
+          544,
+          547
+        ],
+        "representative_timestamp_zero_based": 547,
+        "forecast_target_indices_zero_based": [
+          32,
+          35
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 9,
+        "physical_block_indices_zero_based": [
+          548,
+          551
+        ],
+        "representative_timestamp_zero_based": 551,
+        "forecast_target_indices_zero_based": [
+          36,
+          39
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 10,
+        "physical_block_indices_zero_based": [
+          552,
+          555
+        ],
+        "representative_timestamp_zero_based": 555,
+        "forecast_target_indices_zero_based": [
+          40,
+          43
+        ]
+      },
+      {
+        "future_latent_tick_zero_based": 11,
+        "physical_block_indices_zero_based": [
+          556,
+          559
+        ],
+        "representative_timestamp_zero_based": 559,
+        "forecast_target_indices_zero_based": [
+          44,
+          47
+        ]
+      }
+    ]
+  },
+  "source_sha256": {
+    "models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+    "verify_gt_cpu.py": "a6300a807cb092ab038915c808a52d1501ef130376cdc40d4484ec02e1c2c656"
+  },
+  "resources": {
+    "wall_seconds": 8.266737600089982,
+    "whole_process_CPU_seconds_since_import_timer": 13.625,
+    "peak_RSS_bytes": 601272320
+  }
+}

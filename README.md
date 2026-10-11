@@ -4,6 +4,18 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## 교수님 제안 GTConvAE·정상 크기 TS2Vec 직접 검증 (2026-10-11)
+
+GTConvAE native graph-time E/D와 공식 hidden64/depth10 TS2Vec를 Robin/Jena × 두 seed에서 실제 학습했습니다. Canonical 표현 fit16개, 미래 평가76개 경로, 비용88개 조건, 전체 VAL 재구성 검산16개를 완료한 개발 결과입니다. 이전 LEVEL A–H는 중지된 미완료 범위로 구분합니다.
+
+Jena TS2Vec d320의 native ridge는 Raw F보다 MSE 약20%, MAE 약5% 좋았지만 TSFM 뒤 decoder calibration은 MSE만 좋아지고 MAE는 나빠졌습니다. 표현 export·label 창·readout이 다른 비교이므로 TSFM만의 인과 효과는 후속 동일 조건 실험으로 확인해야 합니다. d320은 표현 확장이며 Robin에서는 개선이 없었습니다. 반복 개발 VAL·두 seed이며 독립 TEST 확인은 아닙니다.
+
+- [전체 결과·비용·81개 그림](research/professor_compressor_direct_20261011/public/REPORT_KO.md)
+- [코드·계약·수치 색인](research/professor_compressor_direct_20261011/README.md), [원형 대비 변경과 재현 범위](research/professor_compressor_direct_20261011/public/SOURCE_README.md)
+- [완료 당시 최종 감사](research/professor_compressor_direct_20261011/FINAL_EXECUTION_AUDIT.json), [게시 범위·원본 보존·공개 재현 한계](research/professor_compressor_direct_20261011/PUBLICATION_KO.md)
+
+![교수님 제안 직접 실험의 두 자료·두 seed 비교](research/professor_compressor_direct_20261011/figures/METHOD_COMPARISON.png)
+
 ## 동결 TSFM의 K·표현·디코더 비용–오차 비교 (2026-10-11)
 
 같은 미래 디코더 계약으로 PCA·시점별 MLP의 K sweep과 공식 TS2Vec 경량 설정을 비교하고, 원채널 Raw F·Raw + D8 대조 및 B1/B32의 전체 추론 비용을 측정했습니다. 두 자료·두 seed의 반복 VAL 개발 결과이며, 독립 TEST나 LEVEL 전체의 우월성을 주장하지 않습니다.

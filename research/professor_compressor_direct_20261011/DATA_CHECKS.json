@@ -1,0 +1,522 @@
+{
+  "created_for": "Professor_Compressor_Direct_Experiments_REPLACEMENT_20261011",
+  "datasets": {
+    "robin": {
+      "dataset": "robin",
+      "domain_context": {
+        "domain": "multivariate time series",
+        "downstream_task": "representation reconstruction plus frozen TSFM future forecasting",
+        "decision_context": "decide whether GTConvAE/TS2Vec compressor paths deserve continued development",
+        "quality_bar": "development evidence for research; not independent TEST confirmation",
+        "main_leakage_paths": [
+          "normalization fitted outside TRAIN",
+          "graph estimated from VAL or future target",
+          "origin target spilling outside VAL",
+          "reading protected TEST archives",
+          "using future observed values to build inference features"
+        ]
+      },
+      "shapes": {
+        "x": [
+          3312,
+          17
+        ],
+        "mask": [
+          3312,
+          17
+        ],
+        "raw_physical": [
+          3312,
+          17
+        ],
+        "graph": [
+          17,
+          17
+        ],
+        "rec_windows": [
+          12,
+          512,
+          17
+        ],
+        "val_history": [
+          30,
+          512,
+          17
+        ],
+        "val_future": [
+          30,
+          48,
+          17
+        ],
+        "ts2_train_array": [
+          1,
+          1992,
+          17
+        ]
+      },
+      "dtypes": {
+        "x": "float32",
+        "mask": "bool",
+        "raw_physical": "float32",
+        "graph": "float32"
+      },
+      "bounds": {
+        "train": [
+          528,
+          2520
+        ],
+        "val": [
+          2568,
+          3312
+        ]
+      },
+      "origin_checks": {
+        "train_window_starts": {
+          "count": 12,
+          "first": 528,
+          "last": 1936,
+          "fully_within_train": true,
+          "stride_values": [
+            128
+          ],
+          "sha256": "b5da9b066aa64895bc2d00564ec2794d6d2a6606d16f51b86dbff605a6630443"
+        },
+        "train_forecast_origins": {
+          "count": 12,
+          "first": 1040,
+          "last": 2448,
+          "history_within_bounds": true,
+          "target_within_bounds": true,
+          "strictly_increasing": true,
+          "stride_values": [
+            128
+          ],
+          "sha256": "669aba4a6c38ccbbecd0832e4fd88d1a8a4a7fc2cf3786384d712913b4959b8a"
+        },
+        "val_origins": {
+          "count": 30,
+          "first": 2568,
+          "last": 3264,
+          "history_within_bounds": false,
+          "target_within_bounds": true,
+          "strictly_increasing": true,
+          "stride_values": [
+            24
+          ],
+          "sha256": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea"
+        }
+      },
+      "mask_counts": {
+        "total_observed": 56303,
+        "train_observed": 33863,
+        "val_target_observed": 24480,
+        "rec_window_observed": 104445,
+        "val_history_observed": 261120,
+        "unobserved_total": 1,
+        "observed_zero_physical_count": 0
+      },
+      "quality_metrics": {
+        "schema_pass": true,
+        "train_observed_completeness": 0.9999704701157571,
+        "val_target_observed_completeness": 1.0,
+        "time_strictly_increasing": true,
+        "duplicate_time_count": 0,
+        "temporal_split_order_pass": true,
+        "normalization_fit_scope": "TRAIN observed values only",
+        "graph_fit_scope": "TRAIN observed pairwise rows only",
+        "test_scope_pass": true
+      },
+      "finite_checks": {
+        "x_all_finite": true,
+        "raw_physical_observed_all_finite": true,
+        "raw_physical_unobserved_all_nan": true,
+        "mean_all_finite": true,
+        "std_all_finite_positive": true,
+        "ts2_has_nan_for_unobserved": true
+      },
+      "train_standardization": {
+        "observed_train_mean_abs_max": 4.902422006125562e-07,
+        "observed_train_std_abs_max_minus_1": 1.1920928955078125e-07,
+        "mean_close_to_v18_max_abs": 3.814697265625e-06,
+        "std_close_to_v18_max_abs": 0.0
+      },
+      "graph_receipt": {
+        "rule": "TRAIN-only pairwise observed abs Pearson; diagonal set to 0; divided by spectral norm when nonzero",
+        "train_bounds": [
+          528,
+          2520
+        ],
+        "min_pair_count": 1991,
+        "max_pair_count": 1992,
+        "raw_spectral_norm": 10.47357325893084,
+        "scaled_spectral_norm": 1.000000000937077,
+        "nonzero_offdiag": 136,
+        "sha256": "8e9d8a5055a3a7e60f77dadef7007f6ebe51bd09dbf1393ed8844bc902bb36c8"
+      },
+      "array_hashes": {
+        "x": "18186b3b3b4f5b370759dab98b454d8d07c3f4cf2c7459578932592ad7abe950",
+        "mask": "3d5121a15e136031c98f66697adfeb67ada71c66c35ec90e42b6e04ba382f73a",
+        "raw_physical": "5e1e47fedb76ae07a963618f3b5dbb650ce8e3bb582fe4a2511a2c947c41a884",
+        "mean": "3c8f49c84e5c13eb5ce5d671ea8787c3b1e7725e6cf2a9e4598fcc90322f3d34",
+        "std": "8d289bcf6efd0a3238f05fa520979be34878df7e4c1fd861cd893abdd3d446b1",
+        "val_origins": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea",
+        "train_window_starts": "b5da9b066aa64895bc2d00564ec2794d6d2a6606d16f51b86dbff605a6630443",
+        "train_forecast_origins": "669aba4a6c38ccbbecd0832e4fd88d1a8a4a7fc2cf3786384d712913b4959b8a",
+        "graph": "8e9d8a5055a3a7e60f77dadef7007f6ebe51bd09dbf1393ed8844bc902bb36c8"
+      },
+      "contract_hash": "cf88098bf06e2a3703db24d5c34c94036b537f083749b448ccaf855b9474f145",
+      "provenance": {
+        "runtime_v18": {
+          "path": "research/level_matched_learned_ed_v18_20261006/runtime_v18.py",
+          "sha256": "502d33328bb0f6ea523ca1a199cabcec26ae60e55f7e85c6b4fdb60c789094ed"
+        },
+        "parent_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_robin.json",
+          "sha256": "b7c02be4f69617e1c60dd874ef6337facde1a4165f8cbd30233aefb0601a85b2"
+        },
+        "source_contract": {
+          "path": "research\\tsfm_peft_level_confirmation_v6_20260928\\data_contract.json",
+          "sha256": "2e213ce77c242e5a52ce15c735c352bada83c5a2ae4586037f5fe2ea439f0fdc",
+          "bytes": 40149
+        },
+        "trainval_archive": {
+          "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\trainval.npz",
+          "sha256": "04523b70fa2df7b37514ab0f12e0cb25048c35fd120a11d4c6ab56e0ae464e14",
+          "bytes": 111474
+        },
+        "source": {
+          "electricity_csv": "<external-local-path>",
+          "electricity_size_bytes": 174239039,
+          "electricity_sha256": "039d909d8981e2d69eaeb366144e6ab7e84fa5e7e216aee42bddd95384a66418",
+          "metadata_csv": "<external-local-path>",
+          "metadata_size_bytes": 272024,
+          "metadata_sha256": "992d0b29f24f96ad4332bc4dbb534b7bdd7dd2689aad093f94e93068ecddca02",
+          "expected_electricity_sha256": "039d909d8981e2d69eaeb366144e6ab7e84fa5e7e216aee42bddd95384a66418",
+          "expected_metadata_sha256": "992d0b29f24f96ad4332bc4dbb534b7bdd7dd2689aad093f94e93068ecddca02",
+          "source_revision": "9b97ccbe90096aff42ed4fd6493bf7ae692d7118",
+          "additional_download_bytes": 0,
+          "timestamp_policy": "Use provided local-naive hourly timestamp grid as-is; no UTC conversion or DST reconstruction.",
+          "unit_note": "BDG2 electricity meter reading; official paper describes hourly energy in kWh."
+        },
+        "split_dates": {
+          "precontext": {
+            "start": "2016-01-01T00:00:00",
+            "end": "2016-01-23T00:00:00"
+          },
+          "train": {
+            "start": "2016-01-23T00:00:00",
+            "end": "2016-04-15T00:00:00"
+          },
+          "val": {
+            "start": "2016-04-17T00:00:00",
+            "end": "2016-05-18T00:00:00"
+          },
+          "test_a": {
+            "start": "2016-05-20T00:00:00",
+            "end": "2016-06-30T00:00:00"
+          },
+          "test_b": {
+            "start": "2016-06-30T00:00:00",
+            "end": "2016-08-10T00:00:00"
+          }
+        },
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "target_mask": "finite before input replacement; observed zero retained",
+        "time_basis": "Use provided local-naive hourly timestamp grid as-is; no UTC conversion or DST reconstruction.",
+        "parent_generation": "v6"
+      },
+      "no_test_read_contract": {
+        "include_test_used": false,
+        "parent_loaded_keys": [
+          "_C",
+          "_K",
+          "_dataset",
+          "_path",
+          "basis",
+          "columns",
+          "finite",
+          "mean",
+          "std",
+          "times",
+          "train_end",
+          "train_origins",
+          "train_start",
+          "val_origins",
+          "x"
+        ],
+        "test_keys_absent": true,
+        "note": "TEST archive path remains referenced only inside the parent JSON contract; this module does not hash or open it."
+      },
+      "graph_cache": {
+        "path": ".cache/professor_compressor_direct_20261011/data/robin_train_abs_pearson_graph.npz",
+        "sha256": "acf87fc6b61dc4a8e37494525617f2786f37f5ea0d471e5fb5c70dee47de1247",
+        "bytes": 1583
+      }
+    },
+    "jena": {
+      "dataset": "jena",
+      "domain_context": {
+        "domain": "multivariate time series",
+        "downstream_task": "representation reconstruction plus frozen TSFM future forecasting",
+        "decision_context": "decide whether GTConvAE/TS2Vec compressor paths deserve continued development",
+        "quality_bar": "development evidence for research; not independent TEST confirmation",
+        "main_leakage_paths": [
+          "normalization fitted outside TRAIN",
+          "graph estimated from VAL or future target",
+          "origin target spilling outside VAL",
+          "reading protected TEST archives",
+          "using future observed values to build inference features"
+        ]
+      },
+      "shapes": {
+        "x": [
+          35135,
+          21
+        ],
+        "mask": [
+          35135,
+          21
+        ],
+        "raw_physical": [
+          35135,
+          21
+        ],
+        "graph": [
+          21,
+          21
+        ],
+        "rec_windows": [
+          201,
+          512,
+          21
+        ],
+        "val_history": [
+          371,
+          512,
+          21
+        ],
+        "val_future": [
+          371,
+          48,
+          21
+        ],
+        "ts2_train_array": [
+          1,
+          26207,
+          21
+        ]
+      },
+      "dtypes": {
+        "x": "float32",
+        "mask": "bool",
+        "raw_physical": "float32",
+        "graph": "float32"
+      },
+      "bounds": {
+        "train": [
+          0,
+          26207
+        ],
+        "val": [
+          26207,
+          35135
+        ]
+      },
+      "origin_checks": {
+        "train_window_starts": {
+          "count": 201,
+          "first": 0,
+          "last": 25600,
+          "fully_within_train": true,
+          "stride_values": [
+            128
+          ],
+          "sha256": "a72417571cc9558531b70a9463a7abbe5a5ca8ec0e7120a5b5adf00b60bc4a82"
+        },
+        "train_forecast_origins": {
+          "count": 201,
+          "first": 512,
+          "last": 26112,
+          "history_within_bounds": true,
+          "target_within_bounds": true,
+          "strictly_increasing": true,
+          "stride_values": [
+            128
+          ],
+          "sha256": "d3d626359890f75ffcbc52a28b4793e2108baa9837e78fae6c88b4184495ab39"
+        },
+        "val_origins": {
+          "count": 371,
+          "first": 26207,
+          "last": 35087,
+          "history_within_bounds": false,
+          "target_within_bounds": true,
+          "strictly_increasing": true,
+          "stride_values": [
+            24
+          ],
+          "sha256": "6493583a54ec2a350be4834e88642b893b182985cfa6b85b7eb52393d6f8f09b"
+        }
+      },
+      "mask_counts": {
+        "total_observed": 737812,
+        "train_observed": 550334,
+        "val_target_observed": 373948,
+        "rec_window_observed": 2161104,
+        "val_history_observed": 3988761,
+        "unobserved_total": 23,
+        "observed_zero_physical_count": 113247
+      },
+      "quality_metrics": {
+        "schema_pass": true,
+        "train_observed_completeness": 0.999976378539358,
+        "val_target_observed_completeness": 0.9999465194882985,
+        "time_strictly_increasing": true,
+        "duplicate_time_count": 0,
+        "temporal_split_order_pass": true,
+        "normalization_fit_scope": "TRAIN observed values only",
+        "graph_fit_scope": "TRAIN observed pairwise rows only",
+        "test_scope_pass": true
+      },
+      "finite_checks": {
+        "x_all_finite": true,
+        "raw_physical_observed_all_finite": true,
+        "raw_physical_unobserved_all_nan": true,
+        "mean_all_finite": true,
+        "std_all_finite_positive": true,
+        "ts2_has_nan_for_unobserved": true
+      },
+      "train_standardization": {
+        "observed_train_mean_abs_max": 3.378162091394188e-06,
+        "observed_train_std_abs_max_minus_1": 1.1920928955078125e-07,
+        "mean_close_to_v18_max_abs": 4.76837158203125e-07,
+        "std_close_to_v18_max_abs": 2.384185791015625e-07
+      },
+      "graph_receipt": {
+        "rule": "TRAIN-only pairwise observed abs Pearson; diagonal set to 0; divided by spectral norm when nonzero",
+        "train_bounds": [
+          0,
+          26207
+        ],
+        "min_pair_count": 26194,
+        "max_pair_count": 26207,
+        "raw_spectral_norm": 8.63261548603948,
+        "scaled_spectral_norm": 1.0000000005740288,
+        "nonzero_offdiag": 210,
+        "sha256": "ffcb0e1bf71229db00a97303f167642d63dd15177fa60ea6bedcf36cadd5fd23"
+      },
+      "array_hashes": {
+        "x": "1681c7d0aa3deb7ea784921e34176440fe6bff8c71f2810e0a4707e551a539d3",
+        "mask": "43354f82269ee9d72680b6fe5ec06ab7e331762eef9cdbc631ae99007932423f",
+        "raw_physical": "0c4932c7a35a01fc955db8d9d6add8b575baaac0ce791dc9ef42eb0b116be209",
+        "mean": "0b2d6ed2ea90ef8d326f06a572cc07fea91f9a46a4f386d72002b6c16820692f",
+        "std": "e1875d31b7ac944bcc6e0c72a292b898ede117834b19cd8ae5930c7a7f450037",
+        "val_origins": "6493583a54ec2a350be4834e88642b893b182985cfa6b85b7eb52393d6f8f09b",
+        "train_window_starts": "a72417571cc9558531b70a9463a7abbe5a5ca8ec0e7120a5b5adf00b60bc4a82",
+        "train_forecast_origins": "d3d626359890f75ffcbc52a28b4793e2108baa9837e78fae6c88b4184495ab39",
+        "graph": "ffcb0e1bf71229db00a97303f167642d63dd15177fa60ea6bedcf36cadd5fd23"
+      },
+      "contract_hash": "742f7189e27439d282bb4ccc0f7a72c3088146e393f8e12c7e1b72af16fd5d8e",
+      "provenance": {
+        "runtime_v18": {
+          "path": "research/level_matched_learned_ed_v18_20261006/runtime_v18.py",
+          "sha256": "502d33328bb0f6ea523ca1a199cabcec26ae60e55f7e85c6b4fdb60c789094ed"
+        },
+        "parent_contract": {
+          "path": "research/level_matched_learned_ed_v18_20261006/data_contract_jena.json",
+          "sha256": "678bd4cbd63265290c0eeed8a78b09545a05219b666fd3b818682ce385906820"
+        },
+        "source_contract": {
+          "path": "research\\tsfm_peft_practical_controls_v7_20260928\\data_contract_jena.json",
+          "sha256": "8a39daca411ea7553a506ea0c1eddbe10919da39ce55c40ce732740d10c3b1c3",
+          "bytes": 423399
+        },
+        "trainval_archive": {
+          "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_trainval.npz",
+          "sha256": "29cfae52d7cd7128e551ef85da11138ed4d3f7b3ccf27af359c4fc1dedf4a933",
+          "bytes": 1561064
+        },
+        "source": {
+          "csv": "<external-local-path>",
+          "csv_size_bytes": 11068144,
+          "csv_sha256": "65a47db98ad85b0600f2deab1e11055af8fef9c5aedceadbdcd0011748120558",
+          "zip": "<external-local-path>",
+          "zip_size_bytes": 2583427,
+          "zip_sha256": "3ce424b9d1671ebc26c09921c7d4f9444282acb1e8a5f020d90a156287ba83aa",
+          "official_url_recorded": "https://weather.bgc-jena.mpg.de/mpi_roof_2024.zip",
+          "additional_download_bytes": 0,
+          "timestamp_policy": "Use source-naive 10-minute timestamps as-is; do not invent UTC/DST conversion.",
+          "license_note": "MPI-BGC official weather site records CC BY 4.0 terms; local archive hash reused without a new download.",
+          "exposure_note": "Jena/MPI family and this 2024 source hash were previously exposed in local studies; v7 B is not an independent protected confirmation."
+        },
+        "split_dates": {
+          "train": {
+            "start": "2024-01-01T00:10",
+            "end": "2024-07-01T00:00",
+            "bounds": [
+              0,
+              26207
+            ]
+          },
+          "val": {
+            "start": "2024-07-01T00:00",
+            "end": "2024-09-01T00:00",
+            "bounds": [
+              26207,
+              35135
+            ]
+          },
+          "test_a": {
+            "start": "2024-09-01T00:00",
+            "end": "2024-11-01T00:00",
+            "bounds": [
+              35135,
+              43919
+            ]
+          },
+          "test_b": {
+            "start": "2024-11-01T00:00",
+            "end": "2025-01-01T00:10",
+            "bounds": [
+              43919,
+              52704
+            ]
+          }
+        },
+        "normalization": "Existing frozen TRAIN nanmean/nanstd standardization and missing input to standardized zero; no second external standardization",
+        "target_mask": "finite before input replacement; observed zero retained",
+        "time_basis": "Use source-naive 10-minute timestamps as-is; do not invent UTC/DST conversion.",
+        "parent_generation": "v7"
+      },
+      "no_test_read_contract": {
+        "include_test_used": false,
+        "parent_loaded_keys": [
+          "_C",
+          "_K",
+          "_dataset",
+          "_path",
+          "_phase_period",
+          "basis",
+          "columns",
+          "finite",
+          "mean",
+          "std",
+          "times",
+          "train_end",
+          "train_origins",
+          "train_start",
+          "val_origins",
+          "x"
+        ],
+        "test_keys_absent": true,
+        "note": "TEST archive path remains referenced only inside the parent JSON contract; this module does not hash or open it."
+      },
+      "graph_cache": {
+        "path": ".cache/professor_compressor_direct_20261011/data/jena_train_abs_pearson_graph.npz",
+        "sha256": "ec4435540d59cb3d135cd397cf5b74d2f57ee5678d96da3f0d645e7fe546020c",
+        "bytes": 2080
+      }
+    }
+  },
+  "overall_pass": true
+}

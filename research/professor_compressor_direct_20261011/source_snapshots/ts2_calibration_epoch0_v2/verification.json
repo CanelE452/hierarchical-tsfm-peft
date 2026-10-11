@@ -1,0 +1,203 @@
+{
+  "status": "PASS",
+  "source_before_sha256": "ac1911f928612163fa546e62aeca79e35a2d93088e295abd65613f4cf48d3d1b",
+  "source_after_sha256": "42e0241b437fa388ff6efd0015c553ae6a929c516ca0310f006c43421c817597",
+  "checks": [
+    {
+      "case": "initial_best",
+      "passed": true,
+      "metadata": {
+        "optimizer": "Adam",
+        "learning_rate": 0.1,
+        "batch_size_windows": 8,
+        "max_epochs": 5,
+        "patience": 2,
+        "epochs": 2,
+        "optimizer_updates": 2,
+        "best_epoch": 0,
+        "best_val_macro_mse": 0.0,
+        "checkpoint_selection": "repeated development VAL, predeclared MSE/patience; first strict minimum",
+        "initial_checkpoint_candidate_included": true,
+        "initial_val_macro_mse": 0.0,
+        "candidate_epoch_range": [
+          0,
+          2
+        ],
+        "patience_rule": "consecutive completed epochs without strict improvement over the current best candidate",
+        "selected_optimizer_updates": 0,
+        "training_loss": "sum squared error / original observed entry count",
+        "initial_state_sha256": "203ceaf9c8c1da862831b47537999a51c07c78dce3f07f6f7b66ca3330b5573e",
+        "selected_state_sha256": "203ceaf9c8c1da862831b47537999a51c07c78dce3f07f6f7b66ca3330b5573e",
+        "initial_to_selected_changed": false,
+        "best_checkpoint": ".cache/professor_compressor_direct_20261011/cpu_checks/calibration_epoch0_1791722801869441100/initial_best/initial_best_best.pt",
+        "best_checkpoint_sha256": "6d817827a3b7501f02d67637880d18d36b5c377c5ddb6293f14d5bc14e598386",
+        "final_checkpoint": ".cache/professor_compressor_direct_20261011/cpu_checks/calibration_epoch0_1791722801869441100/initial_best/initial_best_final.pt",
+        "final_checkpoint_sha256": "bd8c4ee3e45b7071a83b560b6c84a18a0845e5802e69c703c1d743a6abb81a4d",
+        "learning_curve": ".cache/professor_compressor_direct_20261011/cpu_checks/calibration_epoch0_1791722801869441100/initial_best/initial_best_curve.json",
+        "training_windows": 2
+      },
+      "trace": [
+        {
+          "epoch": 0,
+          "train_observed_mse": null,
+          "val_macro_mse": 0.0,
+          "val_macro_mae": 0.0,
+          "updates": 0,
+          "improved": true,
+          "candidate": "unchanged reconstruction decoder before calibration"
+        },
+        {
+          "epoch": 1,
+          "train_observed_mse": 1.0,
+          "val_macro_mse": 0.01000000476837215,
+          "val_macro_mae": 0.10000002384185791,
+          "updates": 1,
+          "improved": false
+        },
+        {
+          "epoch": 2,
+          "train_observed_mse": 0.809999942779541,
+          "val_macro_mse": 0.039835298674915975,
+          "val_macro_mae": 0.19958782196044922,
+          "updates": 2,
+          "improved": false
+        }
+      ]
+    },
+    {
+      "case": "trained_best",
+      "passed": true,
+      "metadata": {
+        "optimizer": "Adam",
+        "learning_rate": 0.1,
+        "batch_size_windows": 8,
+        "max_epochs": 3,
+        "patience": 2,
+        "epochs": 3,
+        "optimizer_updates": 3,
+        "best_epoch": 3,
+        "best_val_macro_mse": 2.892119925018747,
+        "checkpoint_selection": "repeated development VAL, predeclared MSE/patience; first strict minimum",
+        "initial_checkpoint_candidate_included": true,
+        "initial_val_macro_mse": 4.0,
+        "candidate_epoch_range": [
+          0,
+          3
+        ],
+        "patience_rule": "consecutive completed epochs without strict improvement over the current best candidate",
+        "selected_optimizer_updates": 3,
+        "training_loss": "sum squared error / original observed entry count",
+        "initial_state_sha256": "b216fea82dac88536176384f2d15d100f9fa459c73c0ac9f8980e896a629687c",
+        "selected_state_sha256": "470d6dc8df7d13be7775daeb5adcecf81bde94317171fcf6b196baa802d7d7f6",
+        "initial_to_selected_changed": true,
+        "best_checkpoint": ".cache/professor_compressor_direct_20261011/cpu_checks/calibration_epoch0_1791722801869441100/trained_best/trained_best_best.pt",
+        "best_checkpoint_sha256": "058a62fc37ebdb58ff318484eb0ae613d830a6599131dd880d6ce2690ac4e5a8",
+        "final_checkpoint": ".cache/professor_compressor_direct_20261011/cpu_checks/calibration_epoch0_1791722801869441100/trained_best/trained_best_final.pt",
+        "final_checkpoint_sha256": "ad78456a57b78f479a1b5e64440ed27f966959639f45daf74c96ed8b05440e90",
+        "learning_curve": ".cache/professor_compressor_direct_20261011/cpu_checks/calibration_epoch0_1791722801869441100/trained_best/trained_best_curve.json",
+        "training_windows": 2
+      },
+      "trace": [
+        {
+          "epoch": 0,
+          "train_observed_mse": null,
+          "val_macro_mse": 4.0,
+          "val_macro_mae": 2.0,
+          "updates": 0,
+          "improved": true,
+          "candidate": "unchanged reconstruction decoder before calibration"
+        },
+        {
+          "epoch": 1,
+          "train_observed_mse": 4.0,
+          "val_macro_mse": 3.6100000509619714,
+          "val_macro_mae": 1.900000013411045,
+          "updates": 1,
+          "improved": true
+        },
+        {
+          "epoch": 2,
+          "train_observed_mse": 3.609999895095825,
+          "val_macro_mse": 3.240599383415784,
+          "val_macro_mae": 1.8001664876937866,
+          "updates": 2,
+          "improved": true
+        },
+        {
+          "epoch": 3,
+          "train_observed_mse": 3.2405993938446045,
+          "val_macro_mse": 2.892119925018747,
+          "val_macro_mae": 1.7006233930587769,
+          "updates": 3,
+          "improved": true
+        }
+      ]
+    },
+    {
+      "case": "reconstruction_unchanged",
+      "passed": true,
+      "metadata": {
+        "optimizer": "Adam",
+        "learning_rate": 0.1,
+        "batch_size_windows": 8,
+        "max_epochs": 5,
+        "patience": 2,
+        "epochs": 3,
+        "optimizer_updates": 3,
+        "best_epoch": 1,
+        "best_val_macro_mse": 0.01000000476837215,
+        "checkpoint_selection": "repeated development VAL, predeclared MSE/patience; first strict minimum",
+        "initial_checkpoint_candidate_included": false,
+        "initial_val_macro_mse": null,
+        "candidate_epoch_range": [
+          1,
+          3
+        ],
+        "patience_rule": "consecutive completed epochs without strict improvement over the current best candidate",
+        "selected_optimizer_updates": 1,
+        "training_loss": "sum squared error / original observed entry count",
+        "initial_state_sha256": "203ceaf9c8c1da862831b47537999a51c07c78dce3f07f6f7b66ca3330b5573e",
+        "selected_state_sha256": "5fb49e5cb00c90d0ac8c99fcf2986a752ec136778b109646d7fb2b71eb64d830",
+        "initial_to_selected_changed": true,
+        "best_checkpoint": ".cache/professor_compressor_direct_20261011/cpu_checks/calibration_epoch0_1791722801869441100/reconstruction_unchanged/reconstruction_unchanged_best.pt",
+        "best_checkpoint_sha256": "bf3896bb8e4b79085df83e3debf5fcabe41ba847001a0fdb640f656ec6160ce7",
+        "final_checkpoint": ".cache/professor_compressor_direct_20261011/cpu_checks/calibration_epoch0_1791722801869441100/reconstruction_unchanged/reconstruction_unchanged_final.pt",
+        "final_checkpoint_sha256": "1b62a763be5500eee0076e825af8d77ea9a4aa98b041d720a81fc888df8d873d",
+        "learning_curve": ".cache/professor_compressor_direct_20261011/cpu_checks/calibration_epoch0_1791722801869441100/reconstruction_unchanged/reconstruction_unchanged_curve.json",
+        "training_windows": 2
+      },
+      "trace": [
+        {
+          "epoch": 1,
+          "train_observed_mse": 1.0,
+          "val_macro_mse": 0.01000000476837215,
+          "val_macro_mae": 0.10000002384185791,
+          "updates": 1,
+          "improved": true
+        },
+        {
+          "epoch": 2,
+          "train_observed_mse": 0.809999942779541,
+          "val_macro_mse": 0.039835298674915975,
+          "val_macro_mae": 0.19958782196044922,
+          "updates": 2,
+          "improved": false
+        },
+        {
+          "epoch": 3,
+          "train_observed_mse": 0.6406596302986145,
+          "val_macro_mse": 0.08905076828364145,
+          "val_macro_mae": 0.2984137535095215,
+          "updates": 3,
+          "improved": false
+        }
+      ]
+    }
+  ],
+  "resource_receipt": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\professor_compressor_direct_20261011\\resources\\17600_1791722801868441400.json",
+  "GPU_jobs": 0,
+  "actual_data_fit": 0,
+  "protected_TEST_reads": 0,
+  "fixture_path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\professor_compressor_direct_20261011\\cpu_checks\\calibration_epoch0_1791722801869441100",
+  "existing_actual_runs_modified": false
+}
