@@ -1,0 +1,82 @@
+{
+  "schema": "native_ts2vec_small_k_frozen_tsfm_v1",
+  "family": "TS2VEC_CAUSAL_SMALL",
+  "upstream_repository": "https://github.com/zhihanyue/ts2vec",
+  "upstream_commit": "b0088e14a99706c05451316dc6db8d3da9351163",
+  "datasets": ["robin", "jena"],
+  "k": {"robin": 5, "jena": 6},
+  "seeds": [92601, 92602],
+  "context": 512,
+  "horizon": 48,
+  "native_configuration": {
+    "hidden_dims": 16,
+    "depth": 3,
+    "output_dims": "dataset K",
+    "max_train_length": 512,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "temporal_unit": 0,
+    "n_iters": 2880,
+    "n_epochs": null
+  },
+  "native_algorithm": {
+    "optimizer": "unmodified official torch.optim.AdamW default weight_decay=0.01",
+    "objective": "unmodified hierarchical instance/temporal contrastive loss",
+    "augmentation": "unmodified two random overlapping context crops and binomial timestamp masking",
+    "averaging": "unmodified AveragedModel initialized once and updated after every optimizer step",
+    "encoder_selection": "final SWA after exactly2880 updates; no VAL forecast or reconstruction checkpoint selection",
+    "early_stopping": false,
+    "gradient_clipping": null
+  },
+  "training_data": {
+    "source": "same standardized past-imputed context512 values, restricted to canonical origins whose full history window lies inside TRAIN bounds",
+    "preferred_pool": "all canonical TRAIN origins satisfying origin-context>=train_start and origin<=train_end",
+    "materialized_window_budget_bytes": 2147483648,
+    "fallback_pool": null,
+    "oversized_pool_action": "stop before fit if all eligible windows exceed2GiB; do not silently change pool",
+    "sampling": "official DataLoader shuffle=True/drop_last=True; not MLP's with-replacement per-epoch stream",
+    "future_targets_as_encoder_inputs": false,
+    "missing_input": "finite prior-imputed inputs; original observed masks remain in D8 fitting and scoring",
+    "provenance": "record original canonical count/hash, eligible count/hash, excluded count/hash, min/max history and TRAIN bounds, window count/hash/bytes before fitting",
+    "difference_from_mlp": "MLP may read known pre-TRAIN history while its reconstruction targets are TRAIN-masked; native contrastive training excludes such history windows entirely",
+    "instance_definition": "overlapping past512 windows are separate native contrastive instances; differs from single-series split forecasting recipe"
+  },
+  "export": {
+    "api": "unmodified official TS2Vec.encode",
+    "encoding_window": null,
+    "causal": true,
+    "sliding_length": 1,
+    "sliding_padding": 200,
+    "batch_size": 256,
+    "scientific_origin_batch": 4,
+    "output": "FP32[B,512,K], returned to caller input device",
+    "temporal_dependency": "X[max(0,t-200):t+1]; nativeNaNleftpadding",
+    "configured_nominal_symmetric_receptive_field": 61,
+    "configured_causal_last_output_max_past_lag": 30,
+    "receptive_field_basis": "depth3 produces4 residual blocks with two kernel3 convolutions at dilations1/2/4/8; calculated from native source",
+    "cost_included": "native rolling windows, CPU/GPU transfers and duplication/_net+SWA model residency",
+    "native_default_reproduction": false
+  },
+  "decoder": {
+    "reuse": "K sweep's exact FORECAST_RIDGE_D8 and common initial/final lambda grids, TRAIN-only RMS, masks, origins and validation selection",
+    "max_lag": 8,
+    "ridge_initial_lambdas": [0.0001, 0.01, 1, 10, 100, 1000, 10000],
+    "ridge_lambdas": [0.000001, 0.0001, 0.01, 1, 10, 100, 1000, 10000, 100000, 1000000],
+    "train_origins": 512,
+    "train_sampling_seed": 92603,
+    "future_actual_latent_input": false,
+    "backbone_backward": false,
+    "new_test_calls": 0
+  },
+  "comparison_scope": "same K/VAL/frozen F/final decoder rules/update upper bound; TRAIN-only fit but different full-history window pool, objective/optimizer/capacity/receptive field/data order and actual compute",
+  "cpu_fixture_budget": {"optimizer_steps": 1, "backbone_calls": 0, "scientific_fits": 0},
+  "limits": {
+    "neural_fit_starts": 4,
+    "ridge_fits": 40,
+    "wall_seconds": 3600,
+    "process_cpu_seconds": 14400,
+    "ram_bytes": 8589934592,
+    "allocated_vram_bytes": 8589934592,
+    "incremental_storage_bytes": 1073741824
+  }
+}

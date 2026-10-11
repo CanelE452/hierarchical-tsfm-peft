@@ -1,0 +1,539 @@
+{
+  "survey_date": "2026-10-10",
+  "scope": "Eight candidate families; dynamic/lag AE includes GDFM and TRMF-inspired objectives. Limited primary-paper/official-code audit, not exhaustive novelty review.",
+  "status_labels": {
+    "confirmed": "Source/code actually read",
+    "proposed_adaptation": "Contract-preserving modification not attributed to original authors",
+    "actual_tested": "Prior project inspired variants only; native scholarly methods not reproduced by this audit"
+  },
+  "source_policy": "Primary author/conference/journal/arXiv papers and author official repositories only. Secondary search hits were discovery hints, not evidence.",
+  "methods_document": "METHODS_KO.md",
+  "sources": [
+    {
+      "id": "gtconvae",
+      "title": "Graph-Time Convolutional Autoencoders",
+      "url": "https://proceedings.mlr.press/v198/sabbaqi22a/sabbaqi22a.pdf",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "product_graph": "p3 Eq1",
+        "filters": "p4 Eq2-3",
+        "compression_axis": "p4 Eq4/6; spatial pooling discussion",
+        "decoder": "p5 Eq7-10",
+        "objective": "p5 Eq12",
+        "directed_time_graph": "p7 experimental settings"
+      },
+      "verified_claims": [
+        "Given spatial/time graph; learned four product-coupling scalars, not arbitrary pair-specific lag discovery",
+        "Temporal pooling preserves spatial nodes",
+        "Native decoder reconstructs graph-time node features"
+      ],
+      "landing_url": "https://proceedings.mlr.press/v198/sabbaqi22a.html",
+      "official_code_status": "Not verified by PMLR, PDF, or limited title/GTConvAE GitHub search; not a claim that none exists",
+      "local_pdf": "C:/Users/User/Downloads/sabbaqi22a.pdf"
+    },
+    {
+      "id": "ts2vec",
+      "title": "TS2Vec: Towards Universal Representation of Time Series",
+      "url": "https://ojs.aaai.org/index.php/AAAI/article/view/20881",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "encoder": "paper p2-3",
+        "hierarchical_objective": "p3 Eq1-3",
+        "forecasting": "p4 experimental tasks"
+      },
+      "verified_claims": [
+        "Timestamp-level representation; hierarchical crop/mask contrastive objective",
+        "Forecasting is timestamp representation followed by ridge, no reconstruction decoder"
+      ],
+      "local_pdf": "C:/Users/User/Downloads/08809-YueZ.pdf"
+    },
+    {
+      "id": "ts2vec_export",
+      "title": "zhihanyue/ts2vec: ts2vec.py",
+      "url": "https://github.com/zhihanyue/ts2vec/blob/b0088e14a99706c05451316dc6db8d3da9351163/ts2vec.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "dimensions": "constructor lines16-50",
+        "pooling": "162-204",
+        "sliding_causality": "206-301, especially237-244"
+      },
+      "verified_claims": [
+        "output_dims configurable, default320",
+        "causal flag affects sliding branch; sliding1 creates past-ending per-timestamp windows",
+        "full_series pooling removes temporal sequence"
+      ],
+      "repository": "https://github.com/zhihanyue/ts2vec",
+      "commit_sha": "b0088e14a99706c05451316dc6db8d3da9351163",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "ts2vec_forecasting",
+      "title": "zhihanyue/ts2vec: tasks/forecasting.py",
+      "url": "https://github.com/zhihanyue/ts2vec/blob/b0088e14a99706c05451316dc6db8d3da9351163/tasks/forecasting.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "eval_forecasting: encode(causal=True, sliding_length=1) and fit_ridge"
+      },
+      "verified_claims": [
+        "Original forecast path fits ridge from timestamp representation to future raw observations"
+      ],
+      "repository": "https://github.com/zhihanyue/ts2vec",
+      "commit_sha": "b0088e14a99706c05451316dc6db8d3da9351163",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "ts2vec_encoder",
+      "title": "zhihanyue/ts2vec: models/encoder.py",
+      "url": "https://github.com/zhihanyue/ts2vec/blob/b0088e14a99706c05451316dc6db8d3da9351163/models/encoder.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "TSEncoder input_fc and feature_extractor"
+      },
+      "verified_claims": [
+        "Multivariate input through Linear(input_dims,hidden_dims) to timestamp output dimensions"
+      ],
+      "repository": "https://github.com/zhihanyue/ts2vec",
+      "commit_sha": "b0088e14a99706c05451316dc6db8d3da9351163",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "ts2vec_convolution",
+      "title": "zhihanyue/ts2vec: models/dilated_conv.py",
+      "url": "https://github.com/zhihanyue/ts2vec/blob/b0088e14a99706c05451316dc6db8d3da9351163/models/dilated_conv.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "SamePadConv receptive field and padding"
+      },
+      "verified_claims": [
+        "Default encoder uses symmetric convolutional context, not intrinsically causal"
+      ],
+      "repository": "https://github.com/zhihanyue/ts2vec",
+      "commit_sha": "b0088e14a99706c05451316dc6db8d3da9351163",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "tcn",
+      "title": "An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling",
+      "url": "https://arxiv.org/abs/1803.01271",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "causal_length_preservation": "PDFp3 Section3.1-3.2 Eq1",
+        "dilation": "PDFp3-4 Section3.3 Eq2",
+        "residual_architecture": "PDFp4 Section3.4 Figure1"
+      },
+      "verified_claims": [
+        "Generic causal length-preserving TCN architecture",
+        "This paper is not an autoencoder/compressor paper; AE/readout is a proposed adaptation"
+      ]
+    },
+    {
+      "id": "tcn_code",
+      "title": "locuslab/TCN: TCN/tcn.py",
+      "url": "https://github.com/locuslab/TCN/blob/2f8c2b817050206397458dfd1f5a25ce8a32fe65/TCN/tcn.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "Chomp1d lines6-12; TemporalBlock15-46; TemporalConvNet48-63"
+      },
+      "verified_claims": [
+        "Causal convolution via padding/chomp with stride1",
+        "Dilated residual temporal blocks"
+      ],
+      "repository": "https://github.com/locuslab/TCN",
+      "commit_sha": "2f8c2b817050206397458dfd1f5a25ce8a32fe65",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "gdfm2005",
+      "title": "The Generalized Dynamic Factor Model: One-Sided Estimation and Forecasting",
+      "url": "https://lippi.ws/SC/Forecasting.pdf",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "dynamic_and_static_factors": "Section2 Eq2.1-2.2",
+        "forecast_procedure": "one-sided estimation/forecast sections"
+      },
+      "verified_claims": [
+        "Lag-dependent loadings of common dynamic factors",
+        "Large-panel stationary spectral assumptions; not equivalent to finite-channel amortized AE"
+      ],
+      "official_code_status": "Not verified in this limited audit"
+    },
+    {
+      "id": "trmf",
+      "title": "Temporal Regularized Matrix Factorization for High-dimensional Time Series Prediction",
+      "url": "https://www.cs.utexas.edu/~inderjit/public_papers/trmf_nips16.pdf",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "objective": "Section3",
+        "diagonal_latent_AR": "PDFp5 Section4 Eq9-10"
+      },
+      "verified_claims": [
+        "Latent time-series matrix factorization plus AR temporal regularization",
+        "Amortized encoder for arbitrary history windows is not the original contract"
+      ]
+    },
+    {
+      "id": "trmf_code",
+      "title": "rofuyu/exp-trmf-nips16: python/trmf/trmf.py",
+      "url": "https://github.com/rofuyu/exp-trmf-nips16/blob/d3bb8cc43ab09cedad7c2186d52d3dde5ec8b7a4/python/trmf/trmf.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "latent forecasting around170-180; raw reconstruction183-188"
+      },
+      "verified_claims": [
+        "Original learned latent factors forecast with their own AR and decode with H transpose"
+      ],
+      "repository": "https://github.com/rofuyu/exp-trmf-nips16",
+      "commit_sha": "d3bb8cc43ab09cedad7c2186d52d3dde5ec8b7a4",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "dca",
+      "title": "Unsupervised Discovery of Temporal Structure in Noisy Data with Dynamical Components Analysis",
+      "url": "https://papers.nips.cc/paper_files/paper/2019/file/704cddc91e28d1a5517518b2f12bc321-Paper.pdf",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "predictive_information": "PDFp3 Section2.2 Eq1",
+        "projection_crosslag_covariance": "PDFp4 Section2.3 Eq2-3",
+        "coordinate_invariance": "PDFp4 after Eq3"
+      },
+      "verified_claims": [
+        "Pointwise linear C-to-K projection preserves time",
+        "Gaussian stationary predictive information uses cross-lag covariance",
+        "Joint PI invariant under invertible coordinate transforms; not a scalar-FM compatibility guarantee",
+        "Native reconstruction decoder absent"
+      ]
+    },
+    {
+      "id": "dca_transform",
+      "title": "BouchardLab/DynamicalComponentsAnalysis: src/dca/base.py",
+      "url": "https://github.com/BouchardLab/DynamicalComponentsAnalysis/blob/a140e6fa9524a3bd6d043ae9e96f6e149b9c3745/src/dca/base.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "SingleProjectionComponentsAnalysis.transform lines375-390"
+      },
+      "verified_claims": [
+        "transform is mean-centered X dot coef, supports time sequences/trials"
+      ],
+      "repository": "https://github.com/BouchardLab/DynamicalComponentsAnalysis",
+      "commit_sha": "a140e6fa9524a3bd6d043ae9e96f6e149b9c3745",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "dca_objective",
+      "title": "BouchardLab/DynamicalComponentsAnalysis: src/dca/dca.py",
+      "url": "https://github.com/BouchardLab/DynamicalComponentsAnalysis/blob/a140e6fa9524a3bd6d043ae9e96f6e149b9c3745/src/dca/dca.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "DynamicalComponentsAnalysis lines61-296"
+      },
+      "verified_claims": [
+        "Empirical cross-covariance and Gaussian predictive-information projection objective"
+      ],
+      "repository": "https://github.com/BouchardLab/DynamicalComponentsAnalysis",
+      "commit_sha": "a140e6fa9524a3bd6d043ae9e96f6e149b9c3745",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "dapc",
+      "title": "Representation Learning for Sequence Data with Deep Autoencoding Predictive Components",
+      "url": "https://arxiv.org/abs/2010.03135",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "length_preservation": "PDFp2 footnote2",
+        "predictive_information": "PDFp2-3 Section2.1 Eq1-2",
+        "covariance_penalty": "PDFp3 orthogonality paragraph",
+        "masked_reconstruction": "PDFp4 Section2.2 Eq3-5",
+        "collapse_problem": "PDFp2 introduction and p4 Section2.2"
+      },
+      "verified_claims": [
+        "Sequence length preserved in original study",
+        "Gaussian predictive information plus masked reconstruction/optional shifted reconstruction and identity-covariance penalty",
+        "PI-only powerful encoder can lose information from inputs",
+        "Feed-forward reconstruction decoder exists"
+      ],
+      "official_paper_url": "https://openreview.net/pdf?id=Naqw7EHIfrv"
+    },
+    {
+      "id": "dapc_core",
+      "title": "JunwenBai/DAPC: dapc/dapc.py",
+      "url": "https://github.com/JunwenBai/DAPC/blob/d5568095795b3b172a8441378ec0bc9193c63ec6/dapc/dapc.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "constructor188-225; reconstruction forward267-307; encode368-375"
+      },
+      "verified_claims": [
+        "Linear/DNN/RNN/Transformer E selections and optional DNN reconstruction decoder",
+        "Public code primarily demonstrates Lorenz experiments"
+      ],
+      "repository": "https://github.com/JunwenBai/DAPC",
+      "commit_sha": "d5568095795b3b172a8441378ec0bc9193c63ec6",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "dapc_rnn",
+      "title": "JunwenBai/DAPC: dapc/solver.py",
+      "url": "https://github.com/JunwenBai/DAPC/blob/d5568095795b3b172a8441378ec0bc9193c63ec6/dapc/solver.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "RNN127-173; Transformer186-209"
+      },
+      "verified_claims": [
+        "Unidirectional GRU/LSTM and bidirectional variants are selectable",
+        "RNN returns per-timestep projected sequence; zero/safe input context needed for causal export",
+        "Ordinary Transformer padding mask alone is not causal attention"
+      ],
+      "repository": "https://github.com/JunwenBai/DAPC",
+      "commit_sha": "d5568095795b3b172a8441378ec0bc9193c63ec6",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "cost",
+      "title": "CoST: Contrastive Learning of Disentangled Seasonal-Trend Representations for Time Series Forecasting",
+      "url": "https://arxiv.org/abs/2202.01575",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "tensor_contract": "PDFp2 problem formulation",
+        "trend": "PDFp4 Section3.1 Figure3",
+        "season": "Section3.2",
+        "original_regressor": "PDFp2 final timestamp followed by regressor"
+      },
+      "verified_claims": [
+        "Timestamp trend/season representation, last representation predicts future via regressor",
+        "Causal trend and window-wide Fourier seasonal representation",
+        "No reconstruction decoder in native forecast path"
+      ],
+      "official_paper_url": "https://openreview.net/pdf?id=PilZY3omXV2"
+    },
+    {
+      "id": "cost_encoder",
+      "title": "salesforce/CoST: models/encoder.py",
+      "url": "https://github.com/salesforce/CoST/blob/7bb5271c2b66cd5a1d634c27f5df308f190b50ec/models/encoder.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "Fourier36-76; component dimensions79-112; forward114-164"
+      },
+      "verified_claims": [
+        "output_dims divided by2 for each component; odd5 returns total4",
+        "FFT branch reads full input window",
+        "Trend causal convolution/chomp, multivariate backbone"
+      ],
+      "repository": "https://github.com/salesforce/CoST",
+      "commit_sha": "7bb5271c2b66cd5a1d634c27f5df308f190b50ec",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "cost_export",
+      "title": "salesforce/CoST: cost.py",
+      "url": "https://github.com/salesforce/CoST/blob/7bb5271c2b66cd5a1d634c27f5df308f190b50ec/cost.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "_eval_with_pooling332-335; encode337-423"
+      },
+      "verified_claims": [
+        "Forecast API returns last trend/season feature per window",
+        "Public keyword is casual, with sliding context handling"
+      ],
+      "repository": "https://github.com/salesforce/CoST",
+      "commit_sha": "7bb5271c2b66cd5a1d634c27f5df308f190b50ec",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "cost_forecast",
+      "title": "salesforce/CoST: tasks/forecasting.py",
+      "url": "https://github.com/salesforce/CoST/blob/7bb5271c2b66cd5a1d634c27f5df308f190b50ec/tasks/forecasting.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "encode26-33; ridge49-64"
+      },
+      "verified_claims": [
+        "casual=True and sliding_length=1 in original forecast export",
+        "Future observations predicted by ridge, not latent frozen FM plus reconstruction D"
+      ],
+      "repository": "https://github.com/salesforce/CoST",
+      "commit_sha": "7bb5271c2b66cd5a1d634c27f5df308f190b50ec",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "tnc",
+      "title": "Unsupervised Representation Learning for Time Series with Temporal Neighborhood Coding",
+      "url": "https://arxiv.org/abs/2106.00750",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "window_definition": "PDFp2 Section2",
+        "encoder_contract": "PDFp3 encoder maps C-by-window to vector",
+        "loss": "PDFp4 Eq1"
+      },
+      "verified_claims": [
+        "Multivariate centered-window state representation",
+        "Neighborhood discriminator with positive-unlabeled weighting",
+        "No reconstruction decoder or native L-by-K contract"
+      ],
+      "official_paper_url": "https://openreview.net/pdf?id=8qDwejCuCN"
+    },
+    {
+      "id": "tnc_encoder",
+      "title": "sanatonek/TNC_representation_learning: tnc/models.py",
+      "url": "https://github.com/sanatonek/TNC_representation_learning/blob/6ede058e6b4092a3daea7ef99d0107fb69b6ee6e/tnc/models.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "RnnEncoder5-37"
+      },
+      "verified_claims": [
+        "RNN defaults bidirectional; returns projected last sequence output only"
+      ],
+      "repository": "https://github.com/sanatonek/TNC_representation_learning",
+      "commit_sha": "6ede058e6b4092a3daea7ef99d0107fb69b6ee6e",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "tnc_windows",
+      "title": "sanatonek/TNC_representation_learning: tnc/tnc.py",
+      "url": "https://github.com/sanatonek/TNC_representation_learning/blob/6ede058e6b4092a3daea7ef99d0107fb69b6ee6e/tnc/tnc.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "TNCDataset52-122"
+      },
+      "verified_claims": [
+        "Original samples are centered around chosen timestamps; past-ending export requires protocol change"
+      ],
+      "repository": "https://github.com/sanatonek/TNC_representation_learning",
+      "commit_sha": "6ede058e6b4092a3daea7ef99d0107fb69b6ee6e",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "adapts",
+      "title": "AdaPTS: Adapting Univariate Foundation Models to Probabilistic Multivariate Time Series Forecasting",
+      "url": "https://proceedings.mlr.press/v267/benechehab25a.html",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "forecast_contract": "PDFp2 Definition2.1",
+        "learned_AE": "PDFp4 Section4.1",
+        "dimension_budget": "PDFp7 Figure4"
+      },
+      "verified_claims": [
+        "Learned E/D around frozen scalar foundation model with latent feature-space adaptation",
+        "Broad AE plus frozen FM concept overlaps directly"
+      ],
+      "pdf_url": "https://raw.githubusercontent.com/mlresearch/v267/main/assets/benechehab25a/benechehab25a.pdf"
+    },
+    {
+      "id": "adapts_adapters",
+      "title": "abenechehab/AdaPTS: src/adapts/adapters.py",
+      "url": "https://github.com/abenechehab/AdaPTS/blob/8bf57c7ee3b97bfd3f1852ad8dc8d0695a806278/src/adapts/adapters.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "LinearAutoEncoder348-391; tensor transform/inverse around514"
+      },
+      "verified_claims": [
+        "Pointwise linear/nonlinear feature encoder and decoder"
+      ],
+      "repository": "https://github.com/abenechehab/AdaPTS",
+      "commit_sha": "8bf57c7ee3b97bfd3f1852ad8dc8d0695a806278",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "adapts_training",
+      "title": "abenechehab/AdaPTS: src/adapts/adapts.py",
+      "url": "https://github.com/abenechehab/AdaPTS/blob/8bf57c7ee3b97bfd3f1852ad8dc8d0695a806278/src/adapts/adapts.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "adapter fit/forecast training path"
+      },
+      "verified_claims": [
+        "Adapter weights optimized with forecasting objective through frozen foundation-model forward"
+      ],
+      "repository": "https://github.com/abenechehab/AdaPTS",
+      "commit_sha": "8bf57c7ee3b97bfd3f1852ad8dc8d0695a806278",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "latenttsf",
+      "title": "From Observations to States: Latent Time Series Forecasting",
+      "url": "https://proceedings.mlr.press/v306/yang26y.html",
+      "kind": "primary_paper",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "AE_then_forecast": "method Section3",
+        "MI_surrogate_limits": "theory section"
+      },
+      "verified_claims": [
+        "Reconstruction-pretrained pointwise AE, freeze E/D, train latent forecaster",
+        "Compression and expansion possible; native protocol differs from deploying unchanged frozen Bolt"
+      ],
+      "pdf_url": "https://raw.githubusercontent.com/mlresearch/v306/main/assets/yang26y/yang26y.pdf"
+    },
+    {
+      "id": "latenttsf_ae",
+      "title": "Muyiiiii/LatentTSF: my_AE.py",
+      "url": "https://github.com/Muyiiiii/LatentTSF/blob/7c8ae947ee1220bf4e788ace6bc2f0f122cb26c2/my_AE.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "MLP encoder/decoder17-57"
+      },
+      "verified_claims": [
+        "Pointwise encoder/decoder"
+      ],
+      "repository": "https://github.com/Muyiiiii/LatentTSF",
+      "commit_sha": "7c8ae947ee1220bf4e788ace6bc2f0f122cb26c2",
+      "execution": "Read only; no installation, training or forward"
+    },
+    {
+      "id": "latenttsf_training",
+      "title": "Muyiiiii/LatentTSF: my_train.py",
+      "url": "https://github.com/Muyiiiii/LatentTSF/blob/7c8ae947ee1220bf4e788ace6bc2f0f122cb26c2/my_train.py",
+      "kind": "official_author_code",
+      "verified_date": "2026-10-10",
+      "locators": {
+        "locator": "AE freeze around312; latent forecasting objective around524"
+      },
+      "verified_claims": [
+        "AE frozen, forecasting model trained on latent targets; not evidence of unchanged frozen scalar-FM compatibility"
+      ],
+      "repository": "https://github.com/Muyiiiii/LatentTSF",
+      "commit_sha": "7c8ae947ee1220bf4e788ace6bc2f0f122cb26c2",
+      "execution": "Read only; no installation, training or forward"
+    }
+  ],
+  "new_code_revisions": "GitHub default-branch commit SHA verified by public API on survey date for TS2Vec, DCA, DAPC, CoST, TNC, TCN, AdaPTS and LatentTSF. TRMF SHA reused from earlier same-day primary-code audit.",
+  "not_run": [
+    "Native GTConvAE",
+    "Native TS2Vec",
+    "Native DCA",
+    "Native DAPC",
+    "Native CoST",
+    "Native TNC",
+    "Native TRMF",
+    "Native GDFM",
+    "AdaPTS benchmark",
+    "LatentTSF benchmark"
+  ],
+  "current_project_protocol": "protocol.json/PLAN.md and actual runner results determine the status of LINEAR_POINT, LINEAR_TIME, MLP_POINT, TCN_TIME, GRAPH_TIME_NL; this literature audit does not claim their completion."
+}

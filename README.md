@@ -4,6 +4,19 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## 동결 TSFM의 K·표현·디코더 비용–오차 비교 (2026-10-11)
+
+같은 미래 디코더 계약으로 PCA·시점별 MLP의 K sweep과 공식 TS2Vec 경량 설정을 비교하고, 원채널 Raw F·Raw + D8 대조 및 B1/B32의 전체 추론 비용을 측정했습니다. 두 자료·두 seed의 반복 VAL 개발 결과이며, 독립 TEST나 LEVEL 전체의 우월성을 주장하지 않습니다.
+
+Jena의 MLP K6는 Raw F보다 MSE가 평균 3.89%, MAE가 19.38% 높지만 B32 추론은 3.18배 빠르고 CUDA peak allocated는 56.43% 낮았습니다. MSE 5% 조건은 seed 평균 기준이며 한 seed는 이를 초과합니다. Robin은 MSE 증가 20% 조건에도 압축 후보가 없었고, 압축 없이 학습한 D8에서도 일반화 문제가 나타났습니다. TS2Vec의 이번 작은 설정은 같은 K의 PCA·MLP보다 이득을 보이지 않았습니다.
+
+- [결과 색인·실험 코드·재현 범위](research/level_k_tradeoff_20261011/README.md)
+- [전체 결과·한계·문제 정의와 기여 후보](research/level_k_tradeoff_20261011/REPORT_KO.md)
+- [교수님 제안 방법의 검토와 TS2Vec 설정](research/level_k_tradeoff_20261011/METHOD_CHOICE_KO.md)
+- [실행·실패 복구·검증 기록](research/level_k_tradeoff_20261011/EXECUTION_NOTE_KO.md), [GitHub 게시 범위와 검증 기록 해석](research/level_k_tradeoff_20261011/PUBLICATION_KO.md)
+
+![K와 표현별 MSE–전체 B32 추론 시간](research/level_k_tradeoff_20261011/figures/accuracy_cost.png)
+
 ## 원래 고정 PCA LEVEL 증거 감사 (2026-10-06)
 
 기존 v1~v16과 로컬 완료 보충 결과를 연결했습니다. **압축 경로 보완·Robin/Peacock 잔차 입력 효과는 조건부 유지, 일반 실용 우위는 축소, 독립 방법론 기여·최적 배분·학습 E/D 대비 우위는 보류**합니다. 현재 LEVEL 계약의 Chronos-2/Small 비교도 이미 완료돼 재사용했으며, 이번 감사·게시의 신규 학습과 추론은 0회입니다.
