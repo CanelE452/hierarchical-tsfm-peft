@@ -4,6 +4,19 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## 과거 전용 표현·지연 그래프 진단 (2026-10-12)
+
+E1 정보 사용 검사부터 E2 지연 정보, E3 동일 인코더의 FULL/PREFIX 추출, E4 예측기·복원 분리, E5 학습 목표, E6 고정·갱신 그래프까지 승인된 gate에 따라 실행했습니다. 보호 TEST를 사용하지 않은 반복 VAL 개발 진단입니다. Robin E6와 LSTM은 사전 gate를 통과하지 않아 실행 대상에서 제외했습니다.
+
+미래 경계 검사 32개에서 예측 변화는 0이었습니다. PREFIX는 FULL보다 원공간 MSE 5/8, 정규화 MSE 7/8 조건에서 좋아졌습니다. Jena에서는 현재 타 채널 정보의 MSE 18,314가 전체 지연 정보의 24,790보다 낮았고, Robin의 대조학습은 REC보다 개선됐지만 단순 SELF 기준선을 넘지 못했습니다. Jena의 갱신 그래프 효과는 두 seed에서 방향이 반대였습니다. 검사 통과를 일반화나 방법 우위의 증명으로 해석하지 않습니다.
+
+- [결과·비교 조건·한계·그림을 함께 보는 보고서](research/past_only_repr_diagnosis_20261012/README.md)
+- [상세 원수치와 여섯 질문의 답](research/past_only_repr_diagnosis_20261012/final_report_v5_20261012/REPORT_KO_v5.md), [교수님 공유용 요약](research/past_only_repr_diagnosis_20261012/final_report_v5_20261012/PROFESSOR_SUMMARY_KO_v5.md)
+- [원수치 CSV](research/past_only_repr_diagnosis_20261012/final_report_v5_20261012/raw_metrics_v5.csv), [추론 비용 CSV](research/past_only_repr_diagnosis_20261012/final_report_v5_20261012/cost_closure_timing_v5.csv)
+- [게시 검증·코드와 로컬 자산의 재현 범위](research/past_only_repr_diagnosis_20261012/PUBLICATION_KO.md)
+
+![Jena와 Robin의 타 채널 현재·지연 정보 비교](research/past_only_repr_diagnosis_20261012/final_report_v5_20261012/figures/02_e2_real_lag_delta.png)
+
 ## 교수님 제안 GTConvAE·정상 크기 TS2Vec 직접 검증 (2026-10-11)
 
 GTConvAE native graph-time E/D와 공식 hidden64/depth10 TS2Vec를 Robin/Jena × 두 seed에서 실제 학습했습니다. Canonical 표현 fit16개, 미래 평가76개 경로, 비용88개 조건, 전체 VAL 재구성 검산16개를 완료한 개발 결과입니다. 이전 LEVEL A–H는 중지된 미완료 범위로 구분합니다.

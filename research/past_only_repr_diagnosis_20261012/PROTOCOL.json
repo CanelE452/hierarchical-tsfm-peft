@@ -1,0 +1,42 @@
+{
+  "approved_instructions_sha": "fd41cec626dc1ba2832462114559bfce91522dd57c67573dda781905a2f05126",
+  "plan_sha": "ee4e5208e9da63fb515e84e3d7917f3be82a052ad1dff3cd12fe54626df926be",
+  "HEAD": "60488e6cb398df1462bcd7ff44221b2c35881061",
+  "L": 512,
+  "H": 48,
+  "first_future_origin_rule": "history[o-512:o], target[o:o+48]",
+  "seeds": [
+    92601,
+    92602
+  ],
+  "lambdas": [
+    0.0001,
+    0.01,
+    1.0,
+    100.0,
+    10000.0
+  ],
+  "selection": "TUNE physical original-channel macro MSE; grid-order tie",
+  "scale": "physical per-channel and within-dataset macro; normalized companion; no inter-dataset pool",
+  "new_fit": "TRAIN start+floor(.8*length); observed FIT stats; causal ffill",
+  "frozen": "original TRAIN_ALL preprocessing; historically exposed SWA diagnostic",
+  "gpu_limits_seconds": {
+    "1": 5400,
+    "2": 5400
+  },
+  "cpu_numeric_wall_seconds": 3600,
+  "memory_limit_bytes": 8589934592,
+  "new_cache_conservative_limit_bytes": 4294967296,
+  "E1_samples": {
+    "representation": 16,
+    "cold_full_forecast": 2,
+    "fixed_uniform_selection": true
+  },
+  "ridge_objective": "mean observed output SSE + lambda*coef_l2; intercept unpenalized; alpha=nobs*lambda",
+  "E3_scope": "pending COST_ONLY preflight; FULL or predeclared DIAG_SUBSET",
+  "E3_decoder": "d->128 ReLU->C, Adam1e-3,600update,0/100TUNE reconstruction selection",
+  "E6_objective_gate": "two-seed Jena TUNE direct-ridge MSE: REC vsFORECAST, tieREC; incompleteE5→FORECAST",
+  "E6_real_gate": "ALL_LAG fullMSE<Self and3of4chronologicalblocks; MAE-onlytrade named",
+  "scientific_status": "NO_SCIENCE_RESULTS_YET",
+  "TEST_new_access": 0
+}

@@ -1,0 +1,42 @@
+{
+  "status": "COMPLETE_VERIFIED_WITH_CONDITIONAL_EXCLUSIONS",
+  "completed": "2026-10-12T20:04:28.6249263+09:00",
+  "HEAD": "60488e6cb398df1462bcd7ff44221b2c35881061",
+  "E1": "COMPLETE_VERIFIED:16 frozen paths,32 forecast boundary checks",
+  "E2": "COMPLETE_VERIFIED:2 real+30 synthetic records,128 logical method comparisons",
+  "E3_E4": "COMPLETE_VERIFIED:8 DIAG_SUBSET cases,16 newly fitted D,shared PREFIX D across E4 predictors",
+  "E5": "COMPLETE_VERIFIED:2datasets x4objectives x2seeds;Jena4 frozenBolt attachments",
+  "E6": "COMPLETE_VERIFIED:Jena+syntheticfixed+syntheticchanged x4graphs x2seeds",
+  "E6_Robin": "NOT_APPLICABLE_WITH_REASON:negative E2 NO_LINEAR_32LAG_SIGNAL gate",
+  "LSTM": "NOT_APPLICABLE_WITH_REASON:strict two-seed Jena16 gate failed joint92601 vsself",
+  "completed_neural_optimizer_groups": 72,
+  "completed_neural_optimizer_updates": 43200,
+  "neural_updates_are_not_convergence_proof": true,
+  "TEST_access": 0,
+  "commit_push": 0,
+  "large_model_retraining": 0,
+  "old_LEVEL_resume": 0,
+  "active_campaign_jobs": 0,
+  "resources": {
+    "definition": "GPUjob wall includes CPU work within that process; reading/implementation time separate",
+    "phase2_gpu_job_wall_seconds": 1256.616251700092,
+    "phase1_gpu_job_wall_seconds": 1980.8486158999149,
+    "each_gpu_phase_limit_seconds": 5400,
+    "cpu_only_wall_seconds": 3431.176599099301,
+    "cpu_limit_seconds": 3600
+  },
+  "proof": "receipts/final_proof_v5_20261012_1948/FINAL_VERIFY_v3.json",
+  "proof_sha256": "235ac6a99d3f6b2ace64a7eefa7f2c090a78de5b18c6bd6cc6d3457b39af1d14",
+  "report": "final_report_v5_20261012/REPORT_KO_v5.md",
+  "manifest_sha256": "47cf6e99ca184d696279f51ae8a6925741fe078fde437f46cbf4755009350946",
+  "primary_figures": 7,
+  "readability_supplement": 1,
+  "figures_total": 8,
+  "limitations": [
+    "Repeated VAL development; no independent generalization claim",
+    "E3/E4 old encoders historically exposed to TRAIN_ALL/VAL and DIAG_SUBSET",
+    "d320 is expansion; effective context and supervised capacity differ",
+    "E5 600updates fixed; RF95 readout vsraw33 notcompression-only causal comparison",
+    "E6 graphs reset at each origin window; no persistent global online graph reproduction"
+  ]
+}
