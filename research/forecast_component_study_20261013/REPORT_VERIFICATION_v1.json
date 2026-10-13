@@ -1,0 +1,117 @@
+{
+  "created_at_local": "2026-10-13",
+  "review_type": "point_in_time_report_csv_independent_verification",
+  "status": "PASS_WITH_NUMERIC_TOLERANCE",
+  "report_directory": "research/forecast_component_study_20261013/report_v1",
+  "point_in_time_note": "REPORT_KO.md may later receive an additional reconstruction-audit paragraph; this verification binds to the SHA values recorded here.",
+  "file_sha256": {
+    "REPORT_KO.md": "a1bfc07bb889bf0748b9f89d73cb769d77281817c8d03c0d63a940510a37427e",
+    "all_78_methods.csv": "b76943f9332d5310a33051d01b04f80f90b9ca172b7def2b10aae27267d5d97a",
+    "batch_latency.csv": "4586713b8d40e4cd6bb9022a5c8a9476dab476e5c09b13a746e9e269bff032e2",
+    "paired_contrasts.csv": "af2a25f16bcba11a3224e3fca80edd5e73a5c954b3cc88b7c6ceab97247430de",
+    "chronological_blocks.csv": "0235e99fe59919d7b69f0e025534b658af5910957a782979aba7d7c0301c5a16",
+    "val_channel_metrics.csv": "448f35e9fa311c3db2c7eecac636f533bda12fcb419470e988440f255d836257",
+    "REPORT_BUILD_CHECK.json": "af53b9ee55e4494ffefc81b8280b38a7710551a9bdab67ccd4f22fac8178e4e7"
+  },
+  "source_sha256": {
+    "stage_b_result": "c5b0b9ed505dab0cbd4de54faec59912f41beb84725ef95aaad820022ef77077",
+    "self_lag_result": "8dcec05d906509e14f55eface5ddb790c09f836ac80cab385f595b1a3f6ae667",
+    "validation_final_v2": "1be6e4847608bb133eb575dc9404096cf0f6e3f762b35777a8d1e1c0a8543aab",
+    "make_study_report": "fa6d67015ec25691f4b321953888aeb980031bcd9e7fc1b879ec1438a636974b",
+    "closure_scope_v1": "ff44c99feb91a708ef00f48d01a3f1d42fee0264d69e4f9c833f16e32d6a8b71",
+    "closure_scope_v1_json": "d12e1602de973fad222ae4aa54d9c152f1ba9d914c73c6b703657234228524a4"
+  },
+  "counts": {
+    "all_78_methods.csv": 78,
+    "batch_latency.csv": 156,
+    "paired_contrasts.csv": 52,
+    "chronological_blocks.csv": 208,
+    "val_channel_metrics.csv": 1482,
+    "unique_method_rows": 78,
+    "batch_rows_per_method": 2,
+    "chronological_blocks_per_pair": 4,
+    "unique_chronological_pairs": 52,
+    "channel_rows_jena": 819,
+    "channel_rows_robin": 663
+  },
+  "source_comparison": {
+    "all_methods_vs_stage_b_and_self_lag_json_max_abs_diff": 0.0,
+    "prediction_sha256_match": true,
+    "batch_latency_stage_b_source_max_abs_diff_ms": 0.0,
+    "paired_contrasts_recomputed_from_all_methods_max_abs_diff": 1.4210854715202004e-14,
+    "report_build_check_status": "PASS"
+  },
+  "npz_rescoring": {
+    "val_aggregate_max_abs_diff": 0.00021115567506058142,
+    "val_channel_max_abs_diff": 0.004750268184579909,
+    "chronological_block_max_abs_diff": 0.0002235882930108346,
+    "tolerance_interpretation": "PASS: largest channel difference is 0.00475 on a physical MSE around 368463 for Jena PAR channel; aggregate and block differences are <= 2.3e-4. Differences are float32/float64 and CSV/source precision level, not metric mismatch."
+  },
+  "corrected_scope_point": {
+    "previous_v1_overstatement": "Jena compressed+correction does not uniformly fail against RAW_BOLT_RAW_R. Seed 92602 PRED_BOLT_RAW_R has lower physical MSE than RAW_BOLT_RAW_R but worse MAE and normalized metrics.",
+    "jena_pred_bolt_raw_r_seed92601": {
+      "physical_mse": 13058.847842545863,
+      "physical_mae": 37.5604074892393,
+      "normalized_mse": 0.9607187263796196,
+      "normalized_mae": 0.5655054476047613
+    },
+    "jena_pred_bolt_raw_r_seed92602": {
+      "physical_mse": 12185.09360942984,
+      "physical_mae": 36.9405075525457,
+      "normalized_mse": 0.9435870738845871,
+      "normalized_mae": 0.5634821493784037
+    },
+    "jena_raw_bolt_raw_r": {
+      "physical_mse": 12520.366916716703,
+      "physical_mae": 35.28662029300531,
+      "normalized_mse": 0.8444965418502584,
+      "normalized_mae": 0.4664387017313684
+    },
+    "jena_raw_r_only": {
+      "physical_mse": 10978.293226945532,
+      "physical_mae": 34.265814840840264,
+      "normalized_mse": 0.8781988230377407,
+      "normalized_mae": 0.5111350540433142
+    },
+    "correct_wording": "Jena seed 92602 shows physical-MSE-only improvement over RAW_BOLT_RAW_R, but MAE and normalized metrics remain worse; both PRED_BOLT_RAW_R seeds remain worse than RAW_R_ONLY on physical MSE/MAE."
+  },
+  "scope_boundary": {
+    "reconstruction_audit_v1_included": false,
+    "reason": "Directory did not exist at verification time. It should be verified separately after the worker writes saved reconstruction arrays.",
+    "no_new_training_or_experiment_started_by_verifier": true
+  },
+  "checks": [
+    {
+      "name": "all_78_methods_row_count",
+      "status": "PASS"
+    },
+    {
+      "name": "batch_latency_156_rows_two_batches_per_method",
+      "status": "PASS"
+    },
+    {
+      "name": "paired_contrasts_52_rows_recomputed_from_all_methods",
+      "status": "PASS"
+    },
+    {
+      "name": "chronological_blocks_208_rows_52_pairs_times_4_blocks",
+      "status": "PASS_WITH_TOLERANCE"
+    },
+    {
+      "name": "val_channel_metrics_1482_rows_npz_rescored",
+      "status": "PASS_WITH_TOLERANCE"
+    },
+    {
+      "name": "all_prediction_hashes_match",
+      "status": "PASS"
+    },
+    {
+      "name": "markdown_links_from_REPORT_BUILD_CHECK",
+      "status": "PASS"
+    },
+    {
+      "name": "problematic_v1_claim_corrected",
+      "status": "PASS"
+    }
+  ]
+}

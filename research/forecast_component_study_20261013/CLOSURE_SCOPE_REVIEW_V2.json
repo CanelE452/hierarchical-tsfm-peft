@@ -1,0 +1,105 @@
+{
+  "created_at_local": "2026-10-13",
+  "review_type": "closure_scope_review_v2_after_report_v1_csv_verification",
+  "status": "CORE_AND_REPORT_V1_VERIFIED_RECONSTRUCTION_AUDIT_PENDING_SEPARATE",
+  "supersedes_or_corrects": "CLOSURE_SCOPE_REVIEW.md/json point about Jena compressed+correction versus RAW_BOLT_RAW_R; V1 files preserved.",
+  "answer_to_parent_question": {
+    "core_experiment_complete": true,
+    "report_v1_complete_and_verified": true,
+    "reconstruction_audit_included": false,
+    "remaining_required_for_this_closure": "No new experiment required for PLAN_KO core. If reconstruction_audit_v1 is added, verify it as a separate diagnostic and optionally append report paragraph.",
+    "summary_ko": "[확인] Stage A/A2/B/self-lag와 report_v1 CSV·그림·링크 검산까지 통과했다. [확인] 기존 V1 감사의 Jena RAW_BOLT_RAW_R 관련 문장은 과도하여 V2에서 metric tradeoff로 정정한다. [확인] reconstruction_audit_v1은 검산 시점 미존재라 별도 진단으로 분리한다."
+  },
+  "verified_artifacts": {
+    "report_v1": "research/forecast_component_study_20261013/report_v1/REPORT_KO.md",
+    "report_verification": "research/forecast_component_study_20261013/REPORT_VERIFICATION_v1.md",
+    "report_verification_json": "research/forecast_component_study_20261013/REPORT_VERIFICATION_v1.json",
+    "validation_final_v2": "research/forecast_component_study_20261013/validation_final_v2.json",
+    "stage_b_full_result": "research/forecast_component_study_20261013/stage_b_full_v1/RESULT.json"
+  },
+  "point_in_time_sha256": {
+    "CLOSURE_SCOPE_REVIEW_V1_MD": "ff44c99feb91a708ef00f48d01a3f1d42fee0264d69e4f9c833f16e32d6a8b71",
+    "REPORT_VERIFICATION_v1_JSON": "e012a55c47f1d2911723123f7634e9adba19c114c7d973b5ab321466ad18e572",
+    "REPORT_VERIFICATION_v1_MD": "1be8b8cbeb8448a9437ccf592758a08e452ab90cf4d94aa1ffbd438cdd00e54c",
+    "REPORT_KO.md": "a1bfc07bb889bf0748b9f89d73cb769d77281817c8d03c0d63a940510a37427e",
+    "all_78_methods.csv": "b76943f9332d5310a33051d01b04f80f90b9ca172b7def2b10aae27267d5d97a",
+    "batch_latency.csv": "4586713b8d40e4cd6bb9022a5c8a9476dab476e5c09b13a746e9e269bff032e2",
+    "paired_contrasts.csv": "af2a25f16bcba11a3224e3fca80edd5e73a5c954b3cc88b7c6ceab97247430de",
+    "chronological_blocks.csv": "0235e99fe59919d7b69f0e025534b658af5910957a782979aba7d7c0301c5a16",
+    "val_channel_metrics.csv": "448f35e9fa311c3db2c7eecac636f533bda12fcb419470e988440f255d836257",
+    "REPORT_BUILD_CHECK.json": "af53b9ee55e4494ffefc81b8280b38a7710551a9bdab67ccd4f22fac8178e4e7",
+    "source_stage_b_result": "c5b0b9ed505dab0cbd4de54faec59912f41beb84725ef95aaad820022ef77077",
+    "source_self_lag_result": "8dcec05d906509e14f55eface5ddb790c09f836ac80cab385f595b1a3f6ae667",
+    "source_validation_final_v2": "1be6e4847608bb133eb575dc9404096cf0f6e3f762b35777a8d1e1c0a8543aab",
+    "source_make_study_report": "fa6d67015ec25691f4b321953888aeb980031bcd9e7fc1b879ec1438a636974b",
+    "source_closure_scope_v1": "ff44c99feb91a708ef00f48d01a3f1d42fee0264d69e4f9c833f16e32d6a8b71",
+    "source_closure_scope_v1_json": "d12e1602de973fad222ae4aa54d9c152f1ba9d914c73c6b703657234228524a4"
+  },
+  "report_csv_verification_summary": {
+    "status": "PASS_WITH_NUMERIC_TOLERANCE",
+    "counts": {
+      "all_78_methods.csv": 78,
+      "batch_latency.csv": 156,
+      "paired_contrasts.csv": 52,
+      "chronological_blocks.csv": 208,
+      "val_channel_metrics.csv": 1482,
+      "unique_method_rows": 78,
+      "batch_rows_per_method": 2,
+      "chronological_blocks_per_pair": 4,
+      "unique_chronological_pairs": 52,
+      "channel_rows_jena": 819,
+      "channel_rows_robin": 663
+    },
+    "npz_rescoring": {
+      "val_aggregate_max_abs_diff": 0.00021115567506058142,
+      "val_channel_max_abs_diff": 0.004750268184579909,
+      "chronological_block_max_abs_diff": 0.0002235882930108346,
+      "tolerance_interpretation": "PASS: largest channel difference is 0.00475 on a physical MSE around 368463 for Jena PAR channel; aggregate and block differences are <= 2.3e-4. Differences are float32/float64 and CSV/source precision level, not metric mismatch."
+    },
+    "source_comparison": {
+      "all_methods_vs_stage_b_and_self_lag_json_max_abs_diff": 0.0,
+      "prediction_sha256_match": true,
+      "batch_latency_stage_b_source_max_abs_diff_ms": 0.0,
+      "paired_contrasts_recomputed_from_all_methods_max_abs_diff": 1.4210854715202004e-14,
+      "report_build_check_status": "PASS"
+    }
+  },
+  "corrected_interpretation": {
+    "old_overbroad_claim": "압축+보정이 RAW_R_ONLY나 RAW_BOLT_RAW_R를 이기지는 못한다.",
+    "corrected_claim": "Jena seed92602 PRED_BOLT_RAW_R는 RAW_BOLT_RAW_R보다 physical MSE만 낮지만 MAE와 normalized metrics는 더 나쁘다. seed92601은 RAW_BOLT_RAW_R보다 physical MSE도 나쁘다. 두 seed 모두 RAW_R_ONLY보다 physical MSE/MAE가 나쁘다. 따라서 결론은 metric/seed tradeoff이지 전체 우위 또는 전체 열위가 아니다.",
+    "numbers": {
+      "previous_v1_overstatement": "Jena compressed+correction does not uniformly fail against RAW_BOLT_RAW_R. Seed 92602 PRED_BOLT_RAW_R has lower physical MSE than RAW_BOLT_RAW_R but worse MAE and normalized metrics.",
+      "jena_pred_bolt_raw_r_seed92601": {
+        "physical_mse": 13058.847842545863,
+        "physical_mae": 37.5604074892393,
+        "normalized_mse": 0.9607187263796196,
+        "normalized_mae": 0.5655054476047613
+      },
+      "jena_pred_bolt_raw_r_seed92602": {
+        "physical_mse": 12185.09360942984,
+        "physical_mae": 36.9405075525457,
+        "normalized_mse": 0.9435870738845871,
+        "normalized_mae": 0.5634821493784037
+      },
+      "jena_raw_bolt_raw_r": {
+        "physical_mse": 12520.366916716703,
+        "physical_mae": 35.28662029300531,
+        "normalized_mse": 0.8444965418502584,
+        "normalized_mae": 0.4664387017313684
+      },
+      "jena_raw_r_only": {
+        "physical_mse": 10978.293226945532,
+        "physical_mae": 34.265814840840264,
+        "normalized_mse": 0.8781988230377407,
+        "normalized_mae": 0.5111350540433142
+      },
+      "correct_wording": "Jena seed 92602 shows physical-MSE-only improvement over RAW_BOLT_RAW_R, but MAE and normalized metrics remain worse; both PRED_BOLT_RAW_R seeds remain worse than RAW_R_ONLY on physical MSE/MAE."
+    }
+  },
+  "final_scope_boundary": {
+    "can_claim": "bounded development diagnosis completed; report_v1 CSV/figures/links numerically verified; sparse origin-pool failure source narrowed; PRED objective sometimes improves compressed path versus REC/PCA; compressed Bolt offers raw-Bolt latency reduction in measured batch8 pipelines.",
+    "cannot_claim": "independent TEST generalization; universal accuracy advantage; method-exclusive memory saving; D-only causality; physical and normalized metrics always agree; REC learned improvement under selected criterion; fair native-vs-Bolt equal-cost result.",
+    "reconstruction_audit_v1": "pending separate verification when generated"
+  },
+  "no_new_experiment_started_by_verifier": true
+}

@@ -1,0 +1,41 @@
+{
+  "source_integrity": [
+    {
+      "path": "research\\forecast_component_study_20261013\\component_experiment.py",
+      "current_matches_execution_hash": true,
+      "sha256": "ff4cf8c9ceeaec280a6af69e8c4e586685457030feece790faba464afd282d03"
+    },
+    {
+      "path": "research\\past_only_repr_diagnosis_20261012\\common.py",
+      "current_matches_execution_hash": true,
+      "sha256": "1bb0dc92a37d3bb3af525c2e72b62ab52430237ac4653086da6bf361a8c353c2"
+    },
+    {
+      "path": "research\\forecast_component_study_20261013\\PLAN_KO.md",
+      "current_matches_execution_hash": true,
+      "sha256": "6cbda126093c0b873122138d08760228a724458053f7a30b588aedbc8e8190f6"
+    }
+  ],
+  "python": "3.11.16",
+  "packages": {
+    "numpy": "2.4.6",
+    "torch": "2.10.0+cu128",
+    "transformers": "5.17.0",
+    "chronos-forecasting": "2.3.2",
+    "psutil": "7.2.2"
+  },
+  "case_count": 12,
+  "method_count": 76,
+  "timed_batches": 152,
+  "all_prediction_file_hashes_match": true,
+  "maximum_timed_pipeline_vs_science_physical_difference": 0.0006103515625,
+  "cost_notes": [
+    "train_wall_seconds includes TUNE checkpoint inference and checkpoint writes, not pure optimizer time",
+    "latency includes raw missing-value forward-fill/normalization and inverse normalization; model load/disk read excluded",
+    "VRAM and RSS refer to co-resident benchmark process; not isolated method-exclusive footprint",
+    "ridge fits are float64; published predictions and timed corrections use mathematically equivalent float32 effective coefficients with measured conversion differences",
+    "REC and PRED both select E/D on TUNE physical MSE through Bolt, so choosing checkpoint0 is valid and recorded",
+    "PCA native runs only seed92601; nonlinear REC/PRED each run both seeds; PCA repeated codec controls at REC selected0 are intentionally retained"
+  ],
+  "train_updates": 10800
+}

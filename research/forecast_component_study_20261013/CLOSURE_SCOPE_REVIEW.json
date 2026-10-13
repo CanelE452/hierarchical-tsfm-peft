@@ -1,0 +1,177 @@
+{
+  "created_at_local": "2026-10-13",
+  "review_type": "read_only_scope_audit",
+  "domain": "multivariate time-series forecasting diagnostic experiment",
+  "downstream_decision": "whether the bounded execution is sufficient to close the approved goal of narrowing the existing FORECAST failure and testing learned low-dimensional frozen-Bolt plus correction accuracy/cost",
+  "overall_verdict": "CORE_EXPERIMENT_AND_VALIDATION_COMPLETE_WITH_REPORTING_GAP",
+  "answer_to_parent_question": {
+    "can_core_goal_be_considered_complete": true,
+    "required_experiment_gap": false,
+    "required_reporting_gap": true,
+    "summary_ko": "[확인] Stage A/A2/B/self-lag의 실행 결과와 독립 검산은 존재하고 PASS다. [확인] PLAN_KO의 실험 비교 본체는 충족했다. [확인] 다만 stage_b_full_v1 아래에는 통합 한국어 보고서/그림 파일이 아직 없고, 시간블록별 paired delta를 사람이 바로 읽을 수 있게 요약한 산출물도 보이지 않는다. 이는 새 실험 누락이 아니라 최종 보고 산출물 누락이다."
+  },
+  "evidence_files": {
+    "plan": "research/forecast_component_study_20261013/PLAN_KO.md",
+    "stage_a_result": "research/forecast_component_study_20261013/stage_a_checkpoint_readout_v1/RESULT.json",
+    "stage_a_report": "research/forecast_component_study_20261013/stage_a_checkpoint_readout_v1/REPORT_KO.md",
+    "stage_a2_result": "research/forecast_component_study_20261013/stage_a2_dense_pool_v1/RESULT.json",
+    "stage_a2_report": "research/forecast_component_study_20261013/stage_a2_dense_pool_v1/REPORT_KO.md",
+    "stage_b_result": "research/forecast_component_study_20261013/stage_b_full_v1/RESULT.json",
+    "stage_b_reproducibility": "research/forecast_component_study_20261013/stage_b_full_v1/IMPLEMENTATION_AND_REPRODUCIBILITY.json",
+    "self_lag_result": "research/forecast_component_study_20261013/self_lag_reference_v1/RESULT.json",
+    "independent_validation": "research/forecast_component_study_20261013/validation_final_v2.json",
+    "independent_validation_review": "research/forecast_component_study_20261013/validation_final_review_v2.md"
+  },
+  "completion_conditions": [
+    {
+      "condition": "1. Evaluate saved FORECAST original head, final checkpoint, TUNE-selected checkpoint, and new ridge on same representation; separate training sample count, observed range, selection criterion.",
+      "status": "PASS",
+      "evidence": [
+        "stage_a_checkpoint_readout_v1/RESULT.json status COMPLETE",
+        "validation_final_v2.json stage_a status PASS",
+        "stage_a records_rescored = 38",
+        "Stage A report states checkpoint selection is TUNE physical channel-macro MSE and VAL is used only for selected/final comparison"
+      ],
+      "caveat": "Development VAL only; not independent TEST generalization."
+    },
+    {
+      "condition": "2. Compare same causal encoder + linear decoder reconstruction training (REC) and frozen-Bolt future-prediction training (PRED); include PCA as simple baseline.",
+      "status": "PASS",
+      "evidence": [
+        "stage_b_full_v1/RESULT.json status COMPLETE",
+        "Stage B contains PCA, REC, and PRED cases for Jena and Robin",
+        "REC/PRED nonlinear cases use two seeds; PCA is deterministic seed 92601 only",
+        "component_experiment.py asserts REC/PRED initial hash and batch order match"
+      ],
+      "caveat": "REC selected checkpoint is update0 in all observed Stage B REC cases, so REC should not be described as a learned reconstruction improvement under the frozen-Bolt TUNE criterion."
+    },
+    {
+      "condition": "3. Compare low-dimensional path alone, raw correction alone, raw Bolt plus same correction, compressed Bolt plus same correction, and residual correction.",
+      "status": "PASS",
+      "evidence": [
+        "Stage B method families include RAW_R_ONLY, RAW_BOLT, RAW_BOLT_RAW_R",
+        "Compressed families include PCA/REC/PRED_BOLT, _BOLT_RAW_R, and _BOLT_RESIDUAL_R",
+        "Stage B method count = 76"
+      ],
+      "caveat": "RAW_SELF_LAG is an additional weak self-channel reference, not a structure-matched full raw correction baseline."
+    },
+    {
+      "condition": "4. Include native trainable shared linear 512->48 and persistence; refit same reconstruction decoder to separate encoder and decoder/correction questions.",
+      "status": "PASS",
+      "evidence": [
+        "Stage B method families include PCA/REC/PRED_NATIVE, PCA/REC/PRED_NATIVE_RAW_R, and PCA/REC/PRED_PERSISTENCE",
+        "Stage B includes PCA/REC/PRED_BOLT_COMMON_D",
+        "Native comparator is explicitly recorded as extra learned predictor, unlike frozen Bolt"
+      ],
+      "caveat": "COMMON_D and native controls are diagnostic controls; they do not establish D-only or E-only causality."
+    },
+    {
+      "condition": "5. Record raw metrics, seed/time-block paired differences, train time, inference time/memory, Korean report/figures, and pass independent validation/leak/freeze/path checks.",
+      "status": "PARTIAL_REPORTING_GAP",
+      "evidence": [
+        "Stage B RESULT.json stores physical/normalized MSE/MAE, per-channel metrics, and horizon metrics",
+        "Stage B reproducibility record stores train_updates=10800, timed_batches=152, prediction hash parity, and cost notes",
+        "Stage B resources: wall_seconds=157.29462699987926, peak_allocated_vram_bytes=400394240, peak_sampled_rss_bytes=2004234240",
+        "validation_final_v2.json status PASS for Stage A, A2, Stage B preflight, Stage B full, and self-lag",
+        "Stage A and A2 Korean reports/figures exist"
+      ],
+      "gap": "Stage B integrated Korean report and figures are not present in stage_b_full_v1 at audit time; time-block paired deltas are computable from stored horizon metrics/predictions but not yet visible as a reader-facing summary."
+    }
+  ],
+  "leakage_and_contract_audit": {
+    "protected_test_guard": "PASS_WITH_SCOPE_LIMIT",
+    "evidence": [
+      "common.py access_guard adds audit hook blocking two protected TEST paths from data contracts",
+      "component_experiment.py, diagnose_forecast.py, diagnose_dense_forecast.py, and self_lag_baseline.py call access_guard before loading data",
+      "Stage B RESULT records the two protected TEST paths",
+      "Stage B fixture future_perturbation_past_max_abs is 0.0 for both Jena and Robin",
+      "Stage B fixture prefix_full_max_abs is 9.5367431640625e-07 for both Jena and Robin",
+      "Stage B fixture official_median_max_abs is 0.0 for both Jena and Robin",
+      "Stage B fixture positive_control_max_abs is positive for both datasets"
+    ],
+    "caveat": "The audit hook covers the recorded protected TEST paths; it is not proof against a renamed or manually copied TEST source outside those paths."
+  },
+  "freeze_and_source_audit": {
+    "bolt_freeze": "PASS",
+    "source_integrity": "PASS",
+    "evidence": [
+      "Stage B fixture trainable_bolt_parameters = 0 for Jena and Robin",
+      "bolt_initial_hash equals bolt_final_hash: c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+      "IMPLEMENTATION_AND_REPRODUCIBILITY all_prediction_file_hashes_match = true",
+      "component_experiment.py current_matches_execution_hash = true",
+      "past_only common.py current_matches_execution_hash = true",
+      "PLAN_KO current_matches_execution_hash = true"
+    ]
+  },
+  "key_numeric_findings": {
+    "stage_a2_dense_origin_pool": {
+      "jena_seed_92601_sparse_selected_val_mse": 32063.406406693975,
+      "jena_seed_92601_dense_selected_val_mse": 12887.576479692765,
+      "jena_seed_92602_sparse_selected_val_mse": 33796.72754302103,
+      "jena_seed_92602_dense_selected_val_mse": 15812.935376904798,
+      "robin_seed_92601_sparse_selected_val_mse": 1376.1225291934843,
+      "robin_seed_92601_dense_selected_val_mse": 646.5477966194863,
+      "robin_seed_92602_sparse_selected_val_mse": 1312.8483622974109,
+      "robin_seed_92602_dense_selected_val_mse": 819.0414136054363,
+      "interpretation": "[확인] original FORECAST failure is partly narrowed to sparse origin-pool design. [확인] this does not prove learned low-dimensional frozen-Bolt success."
+    },
+    "stage_b_accuracy": {
+      "jena_best_physical_mse": {
+        "method": "RAW_R_ONLY",
+        "mse": 10978.293226945532,
+        "mae": 34.265814840840264,
+        "normalized_mse": 0.8781988230377407
+      },
+      "jena_best_lowdim_bolt_physical_mse": {
+        "method": "PRED_BOLT",
+        "seed": 92602,
+        "mse": 12988.518950079855,
+        "mae": 38.91086089314905,
+        "normalized_mse": 0.9940511285222758
+      },
+      "jena_best_lowdim_native_raw_correction_physical_mse": {
+        "method": "PRED_NATIVE_RAW_R",
+        "seed": 92602,
+        "mse": 11702.36713601209,
+        "mae": 35.61239419263414,
+        "normalized_mse": 0.8678018741071758
+      },
+      "robin_best_physical_mse": {
+        "method": "RAW_BOLT",
+        "mse": 151.55373813919834,
+        "mae": 5.938975295658204,
+        "normalized_mse": 0.34040188702820484
+      },
+      "robin_best_lowdim_bolt_physical_mse": {
+        "method": "PRED_BOLT",
+        "seed": 92601,
+        "mse": 243.3081722577062,
+        "mae": 9.759254047040844,
+        "normalized_mse": 0.5975121753786576
+      },
+      "robin_self_lag_val_mse": 512.1963008143722,
+      "interpretation": "[확인] low-dimensional PRED improves over REC/PCA in several compressed comparisons and beats RAW_SELF_LAG on Robin, but it does not beat the strongest raw baselines under the bounded VAL diagnosis."
+    },
+    "stage_b_cost": {
+      "wall_seconds": 157.29462699987926,
+      "cumulative_gpu_process_wall_seconds": 175.31526389997452,
+      "peak_allocated_vram_bytes": 400394240,
+      "peak_sampled_rss_bytes": 2004234240,
+      "jena_raw_bolt_batch8_seconds_per_window": 0.003992287500295788,
+      "jena_pred_bolt_batch8_seconds_per_window": 0.0018788875022437423,
+      "robin_raw_bolt_batch8_seconds_per_window": 0.0034163499949499965,
+      "robin_pred_bolt_batch8_seconds_per_window": 0.0018181250197812915,
+      "caveat": "Latency includes preprocessing and inverse normalization but excludes model load/disk. VRAM/RSS are co-resident benchmark process measurements, not method-exclusive increments."
+    }
+  },
+  "claims_to_avoid": [
+    "[확인] Do not claim independent generalization: VAL was repeatedly used for development and TEST was protected.",
+    "[확인] Do not claim universal method failure or success: only two datasets, two nonlinear seeds, one K=floor(C/4), overlapping VAL windows.",
+    "[확인] Do not pool physical MSE across datasets or treat physical and normalized rankings as identical; Jena and Robin use heterogeneous channel units, and some physical/normalized rankings differ.",
+    "[확인] Do not say REC learned a useful codec under the selected criterion; Stage B REC selected update0 in the inspected nonlinear cases.",
+    "[확인] Do not make D-only causal claims from COMMON_D; E/D and correction effects are not causally isolated enough for that wording.",
+    "[확인] Do not treat native linear as a fair frozen-Bolt replacement at identical training conditions; native has extra trainable forecasting head and different cost semantics.",
+    "[확인] Do not report VRAM/RSS as method-exclusive memory savings."
+  ],
+  "recommended_next_action": "No new experiments are required to close the experimental scope. Complete the integrated Korean report/figures and compute reader-facing time-block paired deltas from existing Stage B predictions/horizon metrics, then cite this scope audit and validation_final_v2."
+}

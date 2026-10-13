@@ -4,6 +4,20 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## FORECAST 실패 원인·동결 TSFM 예측 성분 진단 (2026-10-13)
+
+기존 FORECAST에서 구조·초기값·손실·학습 횟수를 유지하고 학습 origin pool을 바꾸자, 두 자료·두 seed의 물리 VAL MSE가 37.61–59.81% 감소했습니다. 고정된 과거 창을 다시 평가한 REC는 학습 구간의 정규화 재구성 MSE를 조금 줄였지만 TUNE 과거 창에서는 네 조건 모두 악화했습니다. 기존 부진을 재구성 목적의 한계 하나로 확정할 수 없습니다.
+
+실제 동결 Chronos-Bolt를 통과해 작은 인코더·디코더를 예측 목적으로 학습하는 경로는 작동했습니다. 압축 경로의 물리 MSE는 REC보다 낮아졌지만, 전체 압축+보정의 정확도 우위는 확보하지 못했습니다. Jena의 원자료 선형 기준선과 Robin의 원자료 Bolt가 강한 대조군입니다. batch8 지연 감소와 MSE/MAE·정규화 지표의 상충을 함께 보고합니다. 두 자료·두 seed·반복 사용 VAL 개발 진단입니다.
+
+- [현재 확인된 것과 다음 검증 순서](research/forecast_component_study_20261013/STATUS_AND_NEXT_KO.md)
+- [실험 조건·원수치·시각자료·비용을 포함한 통합 보고서](research/forecast_component_study_20261013/report_v1/REPORT_KO.md), [전체 자료 색인](research/forecast_component_study_20261013/README.md)
+- [재구성 일반화 진단](research/forecast_component_study_20261013/reconstruction_audit_v1/REPORT_KO_v2.md), [교수님 제안·ExoTimer 비판적 검토](research/forecast_component_study_20261013/DISCUSSION_KO.md)
+- [78경로 원수치](research/forecast_component_study_20261013/report_v1/all_78_methods.csv), [실제 batch1/8 비용](research/forecast_component_study_20261013/report_v1/batch_latency.csv), [독립 검산](research/forecast_component_study_20261013/validation_final_v2.json)
+- [게시 범위와 재현에 필요한 로컬 자산](research/forecast_component_study_20261013/PUBLICATION_KO.md)
+
+![예측 성분·보정과 단순 대안의 MSE·MAE](research/forecast_component_study_20261013/report_v1/whole_system_quality.png)
+
 ## 과거 전용 표현·지연 그래프 진단 (2026-10-12)
 
 E1 정보 사용 검사부터 E2 지연 정보, E3 동일 인코더의 FULL/PREFIX 추출, E4 예측기·복원 분리, E5 학습 목표, E6 고정·갱신 그래프까지 승인된 gate에 따라 실행했습니다. 보호 TEST를 사용하지 않은 반복 VAL 개발 진단입니다. Robin E6와 LSTM은 사전 gate를 통과하지 않아 실행 대상에서 제외했습니다.

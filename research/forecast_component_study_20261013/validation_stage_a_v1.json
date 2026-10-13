@@ -1,0 +1,5357 @@
+{
+  "created_utc": "2026-10-13T07:21:29Z",
+  "purpose": "Independent saved-artifact validation; no training, no protected TEST access, no upstream overwrite.",
+  "stage_a": {
+    "stage": "A",
+    "status": "FAIL",
+    "result_sha256": "d6ca7b4f4590a586525f2439ea6404429babd9193013d9830337329e3c0f7b29",
+    "verification_sha256": "69bb5128f7d0762c929127a335e48d27cb7babaf1026752dae88e5bf7949cb36",
+    "metrics_csv_sha256": "b75bfe1321c54f3616b45064fd79d4e3cbae60694cc630337677f1b9c0f552aa",
+    "checks": [
+      {
+        "check": "stage_a_status_complete",
+        "pass": true,
+        "status": "COMPLETE"
+      },
+      {
+        "check": "stage_a_verification_pass",
+        "pass": true,
+        "status": "PASS"
+      },
+      {
+        "check": "verification_binds_result_sha",
+        "pass": true,
+        "expected": "d6ca7b4f4590a586525f2439ea6404429babd9193013d9830337329e3c0f7b29",
+        "actual": "d6ca7b4f4590a586525f2439ea6404429babd9193013d9830337329e3c0f7b29"
+      },
+      {
+        "check": "source_sha256",
+        "pass": true,
+        "path": "research\\forecast_component_study_20261013\\diagnose_forecast.py",
+        "expected": "f8184ca9ea019228bab305fa1fcdca25a989654b0f6d13c3c42911a98314c690"
+      },
+      {
+        "check": "source_sha256",
+        "pass": true,
+        "path": "research\\past_only_repr_diagnosis_20261012\\common.py",
+        "expected": "1bb0dc92a37d3bb3af525c2e72b62ab52430237ac4653086da6bf361a8c353c2"
+      },
+      {
+        "check": "source_sha256",
+        "pass": true,
+        "path": "research\\past_only_repr_diagnosis_20261012\\e5.py",
+        "expected": "35d64fa782591dcad2c60ba9863a280cd74eca4040aca1c8cc43adf4e103f1e6"
+      },
+      {
+        "check": "source_sha256",
+        "pass": true,
+        "path": "research\\past_only_repr_diagnosis_20261012\\model_neural.py",
+        "expected": "398ded4ce7033e2ee44a976598dcca39df919d32ec5791b586b968cde432f3e9"
+      },
+      {
+        "check": "data_source_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_trainval.npz"
+      },
+      {
+        "check": "contract_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "path": "research/level_matched_learned_ed_v18_20261006/data_contract_jena.json"
+      },
+      {
+        "check": "chronological_fit_tune_val_bounds",
+        "pass": true,
+        "dataset": "jena"
+      },
+      {
+        "check": "fit_only_normalization_declared",
+        "pass": true,
+        "dataset": "jena",
+        "normalization_scope": "FIT_ONLY"
+      },
+      {
+        "check": "split_target_origins_inside_bounds",
+        "pass": true,
+        "dataset": "jena",
+        "split": "fit",
+        "origin_count": 256,
+        "bounds": [
+          0,
+          20965
+        ]
+      },
+      {
+        "check": "split_target_origins_inside_bounds",
+        "pass": true,
+        "dataset": "jena",
+        "split": "tune",
+        "origin_count": 64,
+        "bounds": [
+          20965,
+          26207
+        ]
+      },
+      {
+        "check": "split_target_origins_inside_bounds",
+        "pass": true,
+        "dataset": "jena",
+        "split": "val",
+        "origin_count": 371,
+        "bounds": [
+          26207,
+          35135
+        ]
+      },
+      {
+        "check": "data_source_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\trainval.npz"
+      },
+      {
+        "check": "contract_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "path": "research/level_matched_learned_ed_v18_20261006/data_contract_robin.json"
+      },
+      {
+        "check": "chronological_fit_tune_val_bounds",
+        "pass": true,
+        "dataset": "robin"
+      },
+      {
+        "check": "fit_only_normalization_declared",
+        "pass": true,
+        "dataset": "robin",
+        "normalization_scope": "FIT_ONLY"
+      },
+      {
+        "check": "split_target_origins_inside_bounds",
+        "pass": true,
+        "dataset": "robin",
+        "split": "fit",
+        "origin_count": 256,
+        "bounds": [
+          528,
+          2121
+        ]
+      },
+      {
+        "check": "split_target_origins_inside_bounds",
+        "pass": true,
+        "dataset": "robin",
+        "split": "tune",
+        "origin_count": 64,
+        "bounds": [
+          2121,
+          2520
+        ]
+      },
+      {
+        "check": "split_target_origins_inside_bounds",
+        "pass": true,
+        "dataset": "robin",
+        "split": "val",
+        "origin_count": 30,
+        "bounds": [
+          2568,
+          3312
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_RAW_JOINT_RIDGE_RF63.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 22766.846740054105,
+        "reported_physical_mse": 22766.846822130592,
+        "normalized_mse": 1.0983164000989798,
+        "reported_normalized_mse": 1.0983164000989798
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          null,
+          null,
+          "RAW_JOINT_RIDGE_RF63",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_RAW_JOINT_RIDGE_RF95.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 20010.14886793163,
+        "reported_physical_mse": 20010.148930069114,
+        "normalized_mse": 1.0734731261727561,
+        "reported_normalized_mse": 1.0734731261727561
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          null,
+          null,
+          "RAW_JOINT_RIDGE_RF95",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "PERSISTENCE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_PERSISTENCE.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "PERSISTENCE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": null,
+        "update": null,
+        "method": "PERSISTENCE",
+        "fit_scope": null,
+        "physical_mse": 51614.949123753846,
+        "reported_physical_mse": 51614.949532385595,
+        "normalized_mse": 1.5791008240853301,
+        "reported_normalized_mse": 1.5791008240853301
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          null,
+          null,
+          "PERSISTENCE",
+          null
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_RAW_JOINT_RIDGE_RF63.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1596.5335391594056,
+        "reported_physical_mse": 1596.533539718653,
+        "normalized_mse": 1.9731382299082636,
+        "reported_normalized_mse": 1.9731382299082636
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          null,
+          null,
+          "RAW_JOINT_RIDGE_RF63",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_RAW_JOINT_RIDGE_RF95.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1530.8341080586597,
+        "reported_physical_mse": 1530.8341083403964,
+        "normalized_mse": 2.132426962233333,
+        "reported_normalized_mse": 2.132426962233333
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          null,
+          null,
+          "RAW_JOINT_RIDGE_RF95",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "PERSISTENCE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_PERSISTENCE.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "PERSISTENCE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": null,
+        "update": null,
+        "method": "PERSISTENCE",
+        "fit_scope": null,
+        "physical_mse": 1833.4069340493259,
+        "reported_physical_mse": 1833.4069305303187,
+        "normalized_mse": 1.3084640733596313,
+        "reported_normalized_mse": 1.3084640733596313
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          null,
+          null,
+          "PERSISTENCE",
+          null
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92601_u400_HEAD.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 32063.692100640586,
+        "reported_physical_mse": 32063.692294440938,
+        "normalized_mse": 1.9852728593719113,
+        "reported_normalized_mse": 1.9852728593719113
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          400,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92601_u400_LAST1_Z_RIDGE_original_train.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 30332.803487008987,
+        "reported_physical_mse": 30332.803679897537,
+        "normalized_mse": 1.9434672410070537,
+        "reported_normalized_mse": 1.9434672410070537
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          400,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92601_u400_LAST1_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 24826.73068532824,
+        "reported_physical_mse": 24826.730858773117,
+        "normalized_mse": 1.697318713098106,
+        "reported_normalized_mse": 1.697318713098106
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          400,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST33_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92601_u400_LAST33_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST33_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 22958.1914414765,
+        "reported_physical_mse": 22958.19160684426,
+        "normalized_mse": 1.6748554414435541,
+        "reported_normalized_mse": 1.6748554414435541
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          400,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92601_u600_HEAD.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 32648.06362211484,
+        "reported_physical_mse": 32648.06383996384,
+        "normalized_mse": 2.003165450338344,
+        "reported_normalized_mse": 2.003165450338344
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          600,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92601_u600_LAST1_Z_RIDGE_original_train.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 32286.200929846178,
+        "reported_physical_mse": 32286.201134311013,
+        "normalized_mse": 2.0376389924538736,
+        "reported_normalized_mse": 2.0376389924538736
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          600,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92601_u600_LAST1_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 26769.245507255146,
+        "reported_physical_mse": 26769.24569210456,
+        "normalized_mse": 1.764558711398161,
+        "reported_normalized_mse": 1.764558711398161
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          600,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST33_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92601_u600_LAST33_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST33_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 25749.830662211254,
+        "reported_physical_mse": 25749.8308409501,
+        "normalized_mse": 1.749388941119803,
+        "reported_normalized_mse": 1.749388941119803
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          600,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92602_u500_HEAD.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 33791.98446421426,
+        "reported_physical_mse": 33791.98465734569,
+        "normalized_mse": 1.9773206543488364,
+        "reported_normalized_mse": 1.9773206543488364
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          500,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92602_u500_LAST1_Z_RIDGE_original_train.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 34372.58974331025,
+        "reported_physical_mse": 34372.589957006145,
+        "normalized_mse": 2.001302620315371,
+        "reported_normalized_mse": 2.001302620315371
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          500,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92602_u500_LAST1_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 25764.778433272742,
+        "reported_physical_mse": 25764.7786215713,
+        "normalized_mse": 1.8130781457594267,
+        "reported_normalized_mse": 1.8130781457594267
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          500,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST33_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92602_u500_LAST33_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST33_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 25146.656292112544,
+        "reported_physical_mse": 25146.65648063395,
+        "normalized_mse": 1.7778483731869401,
+        "reported_normalized_mse": 1.7778483731869401
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          500,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92602_u600_HEAD.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 35010.13358666675,
+        "reported_physical_mse": 35010.13380946189,
+        "normalized_mse": 2.029383559507919,
+        "reported_normalized_mse": 2.029383559507919
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          600,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92602_u600_LAST1_Z_RIDGE_original_train.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 35552.04312324038,
+        "reported_physical_mse": 35552.04334017731,
+        "normalized_mse": 2.001506528801505,
+        "reported_normalized_mse": 2.001506528801505
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          600,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92602_u600_LAST1_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 26285.34343439916,
+        "reported_physical_mse": 26285.343628103103,
+        "normalized_mse": 1.7930170138566417,
+        "reported_normalized_mse": 1.7930170138566417
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          600,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST33_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\jena_s92602_u600_LAST33_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "jena",
+        "method": "LAST33_Z_RIDGE",
+        "shape": [
+          371,
+          48,
+          21
+        ],
+        "val_origin_count": 371
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 25892.4938046304,
+        "reported_physical_mse": 25892.49399780868,
+        "normalized_mse": 1.7537373384082144,
+        "reported_normalized_mse": 1.7537373384082144
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          600,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92601_u0_HEAD.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 1376.1225332718145,
+        "reported_physical_mse": 1376.122529765881,
+        "normalized_mse": 1.3675047988126208,
+        "reported_normalized_mse": 1.3675047988126208
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          0,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92601_u0_LAST1_Z_RIDGE_original_train.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 1949.6316301785355,
+        "reported_physical_mse": 1949.6316312127979,
+        "normalized_mse": 2.00434880715013,
+        "reported_normalized_mse": 2.00434880715013
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          0,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92601_u0_LAST1_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1150.0214986057126,
+        "reported_physical_mse": 1150.0214990320815,
+        "normalized_mse": 1.30292973851422,
+        "reported_normalized_mse": 1.30292973851422
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          0,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST33_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92601_u0_LAST33_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST33_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1587.6289582149473,
+        "reported_physical_mse": 1587.6289579573508,
+        "normalized_mse": 1.802650738975685,
+        "reported_normalized_mse": 1.802650738975685
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          0,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92601_u600_HEAD.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 1871.4895617436484,
+        "reported_physical_mse": 1871.489562255496,
+        "normalized_mse": 1.7476120049165906,
+        "reported_normalized_mse": 1.7476120049165906
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          600,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92601_u600_LAST1_Z_RIDGE_original_train.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 2743.31990833738,
+        "reported_physical_mse": 2743.3199086359864,
+        "normalized_mse": 2.2260532888215776,
+        "reported_normalized_mse": 2.2260532888215776
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          600,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92601_u600_LAST1_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 956.8327579401293,
+        "reported_physical_mse": 956.8327585116376,
+        "normalized_mse": 1.3876941101821827,
+        "reported_normalized_mse": 1.3876941101821827
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          600,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST33_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92601_u600_LAST33_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST33_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1088.2847003396716,
+        "reported_physical_mse": 1088.2847009866148,
+        "normalized_mse": 1.5650166239508165,
+        "reported_normalized_mse": 1.5650166239508165
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          600,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92602_u0_HEAD.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 1312.8483642347428,
+        "reported_physical_mse": 1312.8483608838417,
+        "normalized_mse": 1.3612572209978828,
+        "reported_normalized_mse": 1.3612572209978828
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          0,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92602_u0_LAST1_Z_RIDGE_original_train.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 2049.100275926278,
+        "reported_physical_mse": 2049.1002768433736,
+        "normalized_mse": 1.994946850532106,
+        "reported_normalized_mse": 1.994946850532106
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          0,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92602_u0_LAST1_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1253.1222155293087,
+        "reported_physical_mse": 1253.122215429319,
+        "normalized_mse": 1.2899277622593173,
+        "reported_normalized_mse": 1.2899277622593173
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": true,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          0,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST33_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92602_u0_LAST33_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST33_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1355.902733422945,
+        "reported_physical_mse": 1355.9027340819605,
+        "normalized_mse": 1.3287162518492528,
+        "reported_normalized_mse": 1.3287162518492528
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          0,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92602_u600_HEAD.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 2070.9392947265997,
+        "reported_physical_mse": 2070.9393004704875,
+        "normalized_mse": 1.9294594332299557,
+        "reported_normalized_mse": 1.9294594332299557
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          600,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92602_u600_LAST1_Z_RIDGE_original_train.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 2049.2516871616017,
+        "reported_physical_mse": 2049.2516880793573,
+        "normalized_mse": 1.9953166512788,
+        "reported_normalized_mse": 1.9953166512788
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          600,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92602_u600_LAST1_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST1_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1142.3641292437983,
+        "reported_physical_mse": 1142.3641302033832,
+        "normalized_mse": 1.2720932822254687,
+        "reported_normalized_mse": 1.2720932822254687
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          600,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST33_Z_RIDGE",
+        "path": ".cache\\forecast_component_study_20261013\\stage_a\\checkpoint_readout_v1\\robin_s92602_u600_LAST33_Z_RIDGE_fit.npz"
+      },
+      {
+        "check": "prediction_archive_shape_and_origins",
+        "pass": true,
+        "dataset": "robin",
+        "method": "LAST33_Z_RIDGE",
+        "shape": [
+          30,
+          48,
+          17
+        ],
+        "val_origin_count": 30
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 900.456605635363,
+        "reported_physical_mse": 900.4566058155764,
+        "normalized_mse": 1.0834613579621024,
+        "reported_normalized_mse": 1.0834613579621024
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          600,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "source_training_record_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 0
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 100
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 200
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 300
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 500
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600
+      },
+      {
+        "check": "selected_update_is_tune_minimum",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "expected_update": 400,
+        "reported_update": 400,
+        "expected_tune_mse": 37950.74196021444
+      },
+      {
+        "check": "checkpoint_selection_surface_has_no_all_val_metrics",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601
+      },
+      {
+        "check": "training_exposure_sum_matches_result",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "exposure_sum": 4800,
+        "reported": 4800
+      },
+      {
+        "check": "original_sparse_vs_common_fit_counts_explicit",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92601,
+        "original_count": 37,
+        "common_fit_count": 256
+      },
+      {
+        "check": "source_training_record_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 0
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 100
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 200
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 300
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 400
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600
+      },
+      {
+        "check": "selected_update_is_tune_minimum",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "expected_update": 500,
+        "reported_update": 500,
+        "expected_tune_mse": 40058.93159169439
+      },
+      {
+        "check": "checkpoint_selection_surface_has_no_all_val_metrics",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602
+      },
+      {
+        "check": "training_exposure_sum_matches_result",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "exposure_sum": 4800,
+        "reported": 4800
+      },
+      {
+        "check": "original_sparse_vs_common_fit_counts_explicit",
+        "pass": true,
+        "dataset": "jena",
+        "seed": 92602,
+        "original_count": 37,
+        "common_fit_count": 256
+      },
+      {
+        "check": "source_training_record_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 100
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 200
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 300
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 400
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 500
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600
+      },
+      {
+        "check": "selected_update_is_tune_minimum",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "expected_update": 0,
+        "reported_update": 0,
+        "expected_tune_mse": 1027.1349912598118
+      },
+      {
+        "check": "checkpoint_selection_surface_has_no_all_val_metrics",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601
+      },
+      {
+        "check": "training_exposure_sum_matches_result",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "exposure_sum": 1200,
+        "reported": 1200
+      },
+      {
+        "check": "original_sparse_vs_common_fit_counts_explicit",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92601,
+        "original_count": 2,
+        "common_fit_count": 256
+      },
+      {
+        "check": "source_training_record_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 100
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 200
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 300
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 400
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 500
+      },
+      {
+        "check": "checkpoint_sha256",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600
+      },
+      {
+        "check": "selected_update_is_tune_minimum",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "expected_update": 0,
+        "reported_update": 0,
+        "expected_tune_mse": 956.8569461598745
+      },
+      {
+        "check": "checkpoint_selection_surface_has_no_all_val_metrics",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602
+      },
+      {
+        "check": "training_exposure_sum_matches_result",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "exposure_sum": 1200,
+        "reported": 1200
+      },
+      {
+        "check": "original_sparse_vs_common_fit_counts_explicit",
+        "pass": true,
+        "dataset": "robin",
+        "seed": 92602,
+        "original_count": 2,
+        "common_fit_count": 256
+      },
+      {
+        "check": "protected_test_guard_installed",
+        "pass": true,
+        "protected_test_paths_guarded": [
+          "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\test.npz",
+          "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_test.npz"
+        ]
+      }
+    ],
+    "failed_checks": [
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 22766.846740054105,
+        "reported_physical_mse": 22766.846822130592,
+        "normalized_mse": 1.0983164000989798,
+        "reported_normalized_mse": 1.0983164000989798
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          null,
+          null,
+          "RAW_JOINT_RIDGE_RF63",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 20010.14886793163,
+        "reported_physical_mse": 20010.148930069114,
+        "normalized_mse": 1.0734731261727561,
+        "reported_normalized_mse": 1.0734731261727561
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          null,
+          null,
+          "RAW_JOINT_RIDGE_RF95",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": null,
+        "update": null,
+        "method": "PERSISTENCE",
+        "fit_scope": null,
+        "physical_mse": 51614.949123753846,
+        "reported_physical_mse": 51614.949532385595,
+        "normalized_mse": 1.5791008240853301,
+        "reported_normalized_mse": 1.5791008240853301
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          null,
+          null,
+          "PERSISTENCE",
+          null
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1596.5335391594056,
+        "reported_physical_mse": 1596.533539718653,
+        "normalized_mse": 1.9731382299082636,
+        "reported_normalized_mse": 1.9731382299082636
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          null,
+          null,
+          "RAW_JOINT_RIDGE_RF63",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1530.8341080586597,
+        "reported_physical_mse": 1530.8341083403964,
+        "normalized_mse": 2.132426962233333,
+        "reported_normalized_mse": 2.132426962233333
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          null,
+          null,
+          "RAW_JOINT_RIDGE_RF95",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": null,
+        "update": null,
+        "method": "PERSISTENCE",
+        "fit_scope": null,
+        "physical_mse": 1833.4069340493259,
+        "reported_physical_mse": 1833.4069305303187,
+        "normalized_mse": 1.3084640733596313,
+        "reported_normalized_mse": 1.3084640733596313
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          null,
+          null,
+          "PERSISTENCE",
+          null
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 32063.692100640586,
+        "reported_physical_mse": 32063.692294440938,
+        "normalized_mse": 1.9852728593719113,
+        "reported_normalized_mse": 1.9852728593719113
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          400,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 30332.803487008987,
+        "reported_physical_mse": 30332.803679897537,
+        "normalized_mse": 1.9434672410070537,
+        "reported_normalized_mse": 1.9434672410070537
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          400,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 24826.73068532824,
+        "reported_physical_mse": 24826.730858773117,
+        "normalized_mse": 1.697318713098106,
+        "reported_normalized_mse": 1.697318713098106
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          400,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 22958.1914414765,
+        "reported_physical_mse": 22958.19160684426,
+        "normalized_mse": 1.6748554414435541,
+        "reported_normalized_mse": 1.6748554414435541
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          400,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 32648.06362211484,
+        "reported_physical_mse": 32648.06383996384,
+        "normalized_mse": 2.003165450338344,
+        "reported_normalized_mse": 2.003165450338344
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          600,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 32286.200929846178,
+        "reported_physical_mse": 32286.201134311013,
+        "normalized_mse": 2.0376389924538736,
+        "reported_normalized_mse": 2.0376389924538736
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          600,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 26769.245507255146,
+        "reported_physical_mse": 26769.24569210456,
+        "normalized_mse": 1.764558711398161,
+        "reported_normalized_mse": 1.764558711398161
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          600,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 25749.830662211254,
+        "reported_physical_mse": 25749.8308409501,
+        "normalized_mse": 1.749388941119803,
+        "reported_normalized_mse": 1.749388941119803
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92601,
+          600,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 33791.98446421426,
+        "reported_physical_mse": 33791.98465734569,
+        "normalized_mse": 1.9773206543488364,
+        "reported_normalized_mse": 1.9773206543488364
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          500,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 34372.58974331025,
+        "reported_physical_mse": 34372.589957006145,
+        "normalized_mse": 2.001302620315371,
+        "reported_normalized_mse": 2.001302620315371
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          500,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 25764.778433272742,
+        "reported_physical_mse": 25764.7786215713,
+        "normalized_mse": 1.8130781457594267,
+        "reported_normalized_mse": 1.8130781457594267
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          500,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 25146.656292112544,
+        "reported_physical_mse": 25146.65648063395,
+        "normalized_mse": 1.7778483731869401,
+        "reported_normalized_mse": 1.7778483731869401
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          500,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 35010.13358666675,
+        "reported_physical_mse": 35010.13380946189,
+        "normalized_mse": 2.029383559507919,
+        "reported_normalized_mse": 2.029383559507919
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          600,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 35552.04312324038,
+        "reported_physical_mse": 35552.04334017731,
+        "normalized_mse": 2.001506528801505,
+        "reported_normalized_mse": 2.001506528801505
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          600,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 26285.34343439916,
+        "reported_physical_mse": 26285.343628103103,
+        "normalized_mse": 1.7930170138566417,
+        "reported_normalized_mse": 1.7930170138566417
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          600,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 25892.4938046304,
+        "reported_physical_mse": 25892.49399780868,
+        "normalized_mse": 1.7537373384082144,
+        "reported_normalized_mse": 1.7537373384082144
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "jena",
+        "key": [
+          "jena",
+          92602,
+          600,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 1376.1225332718145,
+        "reported_physical_mse": 1376.122529765881,
+        "normalized_mse": 1.3675047988126208,
+        "reported_normalized_mse": 1.3675047988126208
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          0,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 1949.6316301785355,
+        "reported_physical_mse": 1949.6316312127979,
+        "normalized_mse": 2.00434880715013,
+        "reported_normalized_mse": 2.00434880715013
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          0,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1150.0214986057126,
+        "reported_physical_mse": 1150.0214990320815,
+        "normalized_mse": 1.30292973851422,
+        "reported_normalized_mse": 1.30292973851422
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          0,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1587.6289582149473,
+        "reported_physical_mse": 1587.6289579573508,
+        "normalized_mse": 1.802650738975685,
+        "reported_normalized_mse": 1.802650738975685
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          0,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 1871.4895617436484,
+        "reported_physical_mse": 1871.489562255496,
+        "normalized_mse": 1.7476120049165906,
+        "reported_normalized_mse": 1.7476120049165906
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          600,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 2743.31990833738,
+        "reported_physical_mse": 2743.3199086359864,
+        "normalized_mse": 2.2260532888215776,
+        "reported_normalized_mse": 2.2260532888215776
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          600,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 956.8327579401293,
+        "reported_physical_mse": 956.8327585116376,
+        "normalized_mse": 1.3876941101821827,
+        "reported_normalized_mse": 1.3876941101821827
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          600,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1088.2847003396716,
+        "reported_physical_mse": 1088.2847009866148,
+        "normalized_mse": 1.5650166239508165,
+        "reported_normalized_mse": 1.5650166239508165
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92601,
+          600,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 1312.8483642347428,
+        "reported_physical_mse": 1312.8483608838417,
+        "normalized_mse": 1.3612572209978828,
+        "reported_normalized_mse": 1.3612572209978828
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          0,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 2049.100275926278,
+        "reported_physical_mse": 2049.1002768433736,
+        "normalized_mse": 1.994946850532106,
+        "reported_normalized_mse": 1.994946850532106
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          0,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1355.902733422945,
+        "reported_physical_mse": 1355.9027340819605,
+        "normalized_mse": 1.3287162518492528,
+        "reported_normalized_mse": 1.3287162518492528
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          0,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 2070.9392947265997,
+        "reported_physical_mse": 2070.9393004704875,
+        "normalized_mse": 1.9294594332299557,
+        "reported_normalized_mse": 1.9294594332299557
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          600,
+          "ORIGINAL_FORECAST_HEAD",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "physical_mse": 2049.2516871616017,
+        "reported_physical_mse": 2049.2516880793573,
+        "normalized_mse": 1.9953166512788,
+        "reported_normalized_mse": 1.9953166512788
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          600,
+          "LAST1_Z_RIDGE",
+          "ORIGINAL_SPARSE_ORIGINS"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 1142.3641292437983,
+        "reported_physical_mse": 1142.3641302033832,
+        "normalized_mse": 1.2720932822254687,
+        "reported_normalized_mse": 1.2720932822254687
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          600,
+          "LAST1_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      },
+      {
+        "check": "prediction_metric_rescore",
+        "pass": false,
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "physical_mse": 900.456605635363,
+        "reported_physical_mse": 900.4566058155764,
+        "normalized_mse": 1.0834613579621024,
+        "reported_normalized_mse": 1.0834613579621024
+      },
+      {
+        "check": "metrics_csv_matches_prediction",
+        "pass": false,
+        "dataset": "robin",
+        "key": [
+          "robin",
+          92602,
+          600,
+          "LAST33_Z_RIDGE",
+          "COMMON_FIT_256"
+        ]
+      }
+    ],
+    "records_rescored": 38,
+    "case_summaries": [
+      {
+        "dataset": "jena",
+        "seed": 92601,
+        "selected_update": 400,
+        "tune_min_update": 400,
+        "unique_original_training_origins": 37,
+        "common_fit_origins": 256,
+        "checkpoint_updates": [
+          0,
+          100,
+          200,
+          300,
+          400,
+          500,
+          600
+        ]
+      },
+      {
+        "dataset": "jena",
+        "seed": 92602,
+        "selected_update": 500,
+        "tune_min_update": 500,
+        "unique_original_training_origins": 37,
+        "common_fit_origins": 256,
+        "checkpoint_updates": [
+          0,
+          100,
+          200,
+          300,
+          400,
+          500,
+          600
+        ]
+      },
+      {
+        "dataset": "robin",
+        "seed": 92601,
+        "selected_update": 0,
+        "tune_min_update": 0,
+        "unique_original_training_origins": 2,
+        "common_fit_origins": 256,
+        "checkpoint_updates": [
+          0,
+          100,
+          200,
+          300,
+          400,
+          500,
+          600
+        ]
+      },
+      {
+        "dataset": "robin",
+        "seed": 92602,
+        "selected_update": 0,
+        "tune_min_update": 0,
+        "unique_original_training_origins": 2,
+        "common_fit_origins": 256,
+        "checkpoint_updates": [
+          0,
+          100,
+          200,
+          300,
+          400,
+          500,
+          600
+        ]
+      }
+    ],
+    "rescored_rows": [
+      {
+        "dataset": "jena",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 22766.846740054105,
+        "val_physical_mae": 43.956974242668736,
+        "val_normalized_mse": 1.0983164000989798,
+        "val_normalized_mae": 0.5414435102867434,
+        "per_channel_mse": [
+          5.090705027354591,
+          10.60217150306185,
+          10.756627393885722,
+          5.122249422732183,
+          220.33982173738855,
+          19.40287056293501,
+          3.7766607760621103,
+          20.7937414369537,
+          1.5322946676240936,
+          3.845920632546947,
+          199.3569898451894,
+          2.442265829573528,
+          4.914140167172133,
+          12766.895805963088,
+          0.03745767097366074,
+          27499.713939286157,
+          38800.09216102539,
+          143356.54633615876,
+          254846.6370893528,
+          13.500171712076519,
+          312.38212096454004
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "4815144ea72550b60e823003aaf2941c2aac347f75fba8934a68e8d6217bc1b8"
+      },
+      {
+        "dataset": "jena",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 20010.14886793163,
+        "val_physical_mae": 41.9940788486893,
+        "val_normalized_mse": 1.0734731261727561,
+        "val_normalized_mae": 0.5369189912157433,
+        "per_channel_mse": [
+          7.549098014054189,
+          8.929710185726961,
+          9.24485968365985,
+          5.267883228336457,
+          226.7260529148362,
+          16.871296271049328,
+          3.958752579947181,
+          19.047526679649486,
+          1.624734249585088,
+          4.08276768278427,
+          180.0693620476736,
+          2.5752079658347093,
+          5.314206215451994,
+          13171.09608944563,
+          0.03741367612711275,
+          27173.263391755547,
+          33752.58051615643,
+          122706.60428198002,
+          222594.53379218798,
+          10.475108924946776,
+          313.27417471901674
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "74bb9f60ae7e623d85a47253ebdc686de9059b91bae1f1611bb0a15edc282371"
+      },
+      {
+        "dataset": "jena",
+        "seed": null,
+        "update": null,
+        "method": "PERSISTENCE",
+        "fit_scope": null,
+        "val_physical_mse": 51614.949123753846,
+        "val_physical_mae": 63.56089430986295,
+        "val_normalized_mse": 1.5791008240853301,
+        "val_normalized_mae": 0.6372365094953238,
+        "per_channel_mse": [
+          1.8949103025283058,
+          19.369199557168102,
+          19.92376624364524,
+          2.124169547285124,
+          351.1691276293199,
+          50.10725908298193,
+          2.396248611565244,
+          52.83270843593696,
+          0.9835749389431222,
+          2.4754012905547857,
+          329.68409622921166,
+          1.5522044519937166,
+          4.012493777275293,
+          13258.354157542479,
+          0.039912396954102466,
+          10850.701096419412,
+          102570.30753346375,
+          386781.51825488854,
+          568731.814341414,
+          33.68268902579471,
+          848.9884535815337
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "37c4370d9793c5ff32bef947412b0dbc340ff3f40faa94baba2a4f2f3aac0e8a"
+      },
+      {
+        "dataset": "robin",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF63",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 1596.5335391594056,
+        "val_physical_mae": 22.970250714136476,
+        "val_normalized_mse": 1.9731382299082636,
+        "val_normalized_mae": 1.0233512036153851,
+        "per_channel_mse": [
+          47.0760478667822,
+          147.83975802052115,
+          9621.637935304218,
+          425.56879182466463,
+          2917.8592094306427,
+          114.90870660126983,
+          855.7760319384512,
+          362.82469702432587,
+          1783.910027319207,
+          564.6259154294829,
+          2.980052992647588,
+          831.2754483637985,
+          247.98419525243307,
+          45.79746689650419,
+          500.3998038206027,
+          8135.500420602687,
+          535.1056570216574
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "fbc3c17fc1358275e18f78ffc49cd939c8bd60c6270d7f9dd1e8677836663306"
+      },
+      {
+        "dataset": "robin",
+        "seed": null,
+        "update": null,
+        "method": "RAW_JOINT_RIDGE_RF95",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 1530.8341080586597,
+        "val_physical_mae": 22.744557396229247,
+        "val_normalized_mse": 2.132426962233333,
+        "val_normalized_mae": 1.0474775718524956,
+        "per_channel_mse": [
+          50.67590570676917,
+          167.9131862020587,
+          9011.721187979809,
+          449.0329413600411,
+          3216.35808314234,
+          89.44506374046722,
+          993.7742981133862,
+          672.835142351212,
+          1529.090052407512,
+          873.7825458313256,
+          4.364544489629574,
+          676.2666551633477,
+          261.9558575959266,
+          63.46693043980432,
+          540.3979505831193,
+          6849.112105466532,
+          573.9873864239307
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "88db8967fc4ad5c9e76a23c871171047ea03f9e7f5139bd532ee5db78f217e92"
+      },
+      {
+        "dataset": "robin",
+        "seed": null,
+        "update": null,
+        "method": "PERSISTENCE",
+        "fit_scope": null,
+        "val_physical_mse": 1833.4069340493259,
+        "val_physical_mae": 18.494267068074564,
+        "val_normalized_mse": 1.3084640733596313,
+        "val_normalized_mae": 0.6914859890395262,
+        "per_channel_mse": [
+          45.8232221105951,
+          62.5054499768019,
+          11229.633552671237,
+          68.9441371743054,
+          2142.986432440462,
+          161.45504573019855,
+          174.19162308892652,
+          0.0,
+          2531.3531595741433,
+          559.965903722433,
+          4.129604044226987,
+          434.7285272282704,
+          83.58024351550408,
+          34.442877369814234,
+          107.45710416962515,
+          12527.70096564375,
+          999.0200303782475
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "9cd073ec150ebdfcd4cf5c1839d5f73ea40d53af2c2d526b475a4af183cb8664"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 32063.692100640586,
+        "val_physical_mae": 55.20900108241897,
+        "val_normalized_mse": 1.9852728593719113,
+        "val_normalized_mae": 0.9330599689343609,
+        "per_channel_mse": [
+          21.66831530594026,
+          36.99317395162657,
+          40.90247174133869,
+          29.3917081408494,
+          250.99550960180835,
+          101.74244346072079,
+          31.928810963366576,
+          51.8301550221248,
+          12.956518048807729,
+          32.559776153213974,
+          815.2060804563251,
+          1.9629148091564703,
+          3.450640611240162,
+          12037.691468468574,
+          0.033951350673174466,
+          8978.70744818397,
+          62267.60016513204,
+          236886.88785209108,
+          351096.8624151734,
+          53.87375201833337,
+          584.2885427677944
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "710d3e6f78b064e18d5ed4633b1b6acc6add226ddf843d4e16705e88e480c190"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 30332.803487008987,
+        "val_physical_mae": 54.01964882135018,
+        "val_normalized_mse": 1.9434672410070537,
+        "val_normalized_mae": 0.9261467647908788,
+        "per_channel_mse": [
+          22.647048632357386,
+          38.660787694220716,
+          40.10446494423576,
+          29.080874424381154,
+          273.07131312173567,
+          97.25122903044799,
+          30.11279605529292,
+          51.29356357977317,
+          12.283713513607152,
+          30.993716759656063,
+          797.6632492810768,
+          2.087427830871986,
+          3.542821013018388,
+          12684.666326593342,
+          0.034054577483228286,
+          9763.309751974355,
+          58534.77175054812,
+          220787.96798647454,
+          333165.23665918934,
+          51.19335738394525,
+          572.900334566959
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "2c34bc48e19210519876647e1961843875ba09a885dc7b7cd322ed89aa7f219b"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 24826.73068532824,
+        "val_physical_mae": 51.92221927163615,
+        "val_normalized_mse": 1.697318713098106,
+        "val_normalized_mae": 0.8647448987129048,
+        "per_channel_mse": [
+          27.414245773861786,
+          31.56815314506533,
+          31.54696904814763,
+          26.44979358271824,
+          232.98436157392632,
+          77.11159352449785,
+          26.70692068837101,
+          42.463761197124555,
+          10.812900962454135,
+          27.274761773280794,
+          601.4371786919029,
+          1.6307608697515512,
+          2.979089654726643,
+          10768.924525789891,
+          0.03357354261196903,
+          8499.54859047867,
+          47926.681909622755,
+          182008.58585355547,
+          270464.13808757055,
+          40.142397699107484,
+          512.9089631481136
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "a29ecb43de6b2677df2d9c9df8d8edec8ff23d90790db4562b0085e4b35661d1"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 400,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 22958.1914414765,
+        "val_physical_mae": 48.1543732256615,
+        "val_normalized_mse": 1.6748554414435541,
+        "val_normalized_mae": 0.8469791203128296,
+        "per_channel_mse": [
+          22.610748834132057,
+          32.20910920370895,
+          32.22962936276479,
+          25.275700954617843,
+          239.83219065620276,
+          79.34168143916578,
+          26.715662395390527,
+          43.876363363969965,
+          10.835834296216474,
+          27.326953871147637,
+          603.8315919398136,
+          1.532521557515499,
+          2.6318462150661177,
+          10612.075775577574,
+          0.03365843034933038,
+          8257.799902441811,
+          44269.13080364545,
+          167483.5854522025,
+          249858.93957864994,
+          42.231210875798,
+          449.9740550933596
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "c2d1cbfa9d1493b87cade9bb692d260494e94dbfe8a323c7284fd0bf8de93bae"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 32648.06362211484,
+        "val_physical_mae": 56.137850494430865,
+        "val_normalized_mse": 2.003165450338344,
+        "val_normalized_mae": 0.943867072840491,
+        "per_channel_mse": [
+          24.441017593745727,
+          36.96738102830003,
+          40.16207718297202,
+          29.73034744650833,
+          279.26741866111536,
+          101.26655382951635,
+          31.918174934453475,
+          53.399369451463315,
+          12.956269351926231,
+          32.390514205276006,
+          840.4201584310929,
+          2.0478887805362325,
+          3.6046030709940515,
+          12148.003509370523,
+          0.03401993956592119,
+          8967.360344457333,
+          62945.129977680284,
+          240277.9524787636,
+          359138.0460313044,
+          53.39225468649978,
+          590.8456742416292
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "6b6d3952f4f7575b7a37d37c3727fb520006137e6e4c676904e97a48968cf373"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 32286.200929846178,
+        "val_physical_mae": 56.53391629243575,
+        "val_normalized_mse": 2.0376389924538736,
+        "val_normalized_mae": 0.9651176169636668,
+        "per_channel_mse": [
+          23.041739151045665,
+          44.70778746345001,
+          46.11189363473679,
+          32.413860519738996,
+          285.95756296875726,
+          103.70714997396047,
+          30.917400562552032,
+          54.129381097595,
+          12.594492469479523,
+          31.788733560012272,
+          913.6597152465793,
+          2.1344923464289605,
+          3.7810386186335596,
+          12663.950847734188,
+          0.034312598406484714,
+          10186.752627039492,
+          62364.479395251066,
+          235708.1327236199,
+          354805.68404554826,
+          55.56436229069489,
+          640.6759650747273
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "69e52cb0b7253eefcd8e1c56b60a368dbd00fa5a2790119e47e109121c84434f"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 26769.245507255146,
+        "val_physical_mae": 54.35885254148878,
+        "val_normalized_mse": 1.764558711398161,
+        "val_normalized_mae": 0.8912256004996276,
+        "per_channel_mse": [
+          27.313727674302296,
+          33.42421198431679,
+          33.478546872304264,
+          28.08664473956892,
+          253.84855799863723,
+          78.7001383951562,
+          27.85016882515869,
+          43.73181653461396,
+          11.273041375804691,
+          28.4400577020963,
+          640.1707329248835,
+          1.831796077481328,
+          3.367334094864257,
+          10744.683405401514,
+          0.03357997240773201,
+          8363.794370813015,
+          51726.43562786085,
+          196594.45244333803,
+          292917.03092800494,
+          42.04419687532466,
+          554.1643248927672
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "6cbd09629f71c962f28d4df98d693cbc3e8e0a3079493f276f0399d9568bfaa0"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 25749.830662211254,
+        "val_physical_mae": 51.243897205878326,
+        "val_normalized_mse": 1.749388941119803,
+        "val_normalized_mae": 0.875195199231226,
+        "per_channel_mse": [
+          21.31949499464784,
+          35.26091623505276,
+          35.21195983027314,
+          26.97151731935457,
+          258.3539622946035,
+          83.43319143965604,
+          27.572057501567947,
+          46.289737259713036,
+          11.178217861309397,
+          28.19597757273543,
+          656.1418959283943,
+          1.5666811983019795,
+          2.7629037272621457,
+          10542.41020031368,
+          0.03364560637841187,
+          8418.596202793726,
+          49875.14850888101,
+          188730.32589323047,
+          281414.0155420968,
+          45.59227745042522,
+          486.0631229010752
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "81be1710b28e0c8945330539fd859e52f18a75c2993f804e3aa05254ad3b8e33"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 33791.98446421426,
+        "val_physical_mae": 56.68307903340083,
+        "val_normalized_mse": 1.9773206543488364,
+        "val_normalized_mae": 0.9252547675916383,
+        "per_channel_mse": [
+          21.56362861870213,
+          42.099121535454046,
+          44.84410756516768,
+          22.206857655962533,
+          297.33179862093044,
+          112.07657803861997,
+          27.304061314346843,
+          60.79616568997821,
+          11.189293843335824,
+          28.232354963349877,
+          842.8177152846329,
+          2.191210894416227,
+          3.2603735161341625,
+          12720.071894899223,
+          0.033546724481843995,
+          8337.400187688769,
+          66444.66215409196,
+          251112.24081772598,
+          368890.6067617269,
+          62.869233012525704,
+          547.8758850885407
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "5c76be856959992ce40113e1623671c2e19416ae10eee990642010ea1935e0f8"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 34372.58974331025,
+        "val_physical_mae": 57.28277367454463,
+        "val_normalized_mse": 2.001302620315371,
+        "val_normalized_mae": 0.9366287016390412,
+        "per_channel_mse": [
+          23.212783783521452,
+          43.24865955897829,
+          45.22643017619213,
+          24.023048661007223,
+          285.50695229419176,
+          110.24982335338773,
+          27.881638901632904,
+          58.73428162153849,
+          11.43030420136384,
+          28.825816318296454,
+          892.2594791321947,
+          2.3078887916341233,
+          3.396239505464173,
+          13715.683149860195,
+          0.03370117878487747,
+          9132.291210746334,
+          67299.74844949874,
+          252457.00240961002,
+          377053.55225458276,
+          63.25377215855063,
+          546.5163155805
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "f3623b02f5ff1808006fc5c4661c0ef49183a29947107d9b690b9432f3ced8ba"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 25764.778433272742,
+        "val_physical_mae": 53.808043098724944,
+        "val_normalized_mse": 1.8130781457594267,
+        "val_normalized_mae": 0.8979622571531727,
+        "per_channel_mse": [
+          30.74230587939093,
+          39.56416931662567,
+          40.57687903625042,
+          23.022779460245477,
+          298.5864153289281,
+          95.71498439263632,
+          25.723966741712704,
+          53.52844801958043,
+          10.468938578669269,
+          26.39165710779658,
+          784.5456166024074,
+          1.9754411685295763,
+          3.266178025153382,
+          11662.520851177022,
+          0.03362098592721785,
+          8673.263636068892,
+          49929.6016317223,
+          189882.3566111202,
+          278889.0941996946,
+          53.20991742569434,
+          536.1588508750584
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "e824997ae6cd3a13c9ac668e58606e3736883de5e9a14a66d9f7ce5abbee6491"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 500,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 25146.656292112544,
+        "val_physical_mae": 52.264432367036015,
+        "val_normalized_mse": 1.7778483731869401,
+        "val_normalized_mae": 0.8870702413586455,
+        "per_channel_mse": [
+          22.70230219490552,
+          38.64182855996885,
+          39.81700379213986,
+          21.467603886312055,
+          297.88252788046043,
+          96.6949488072896,
+          24.657054975346664,
+          54.771598957530834,
+          10.042268305660452,
+          25.313251367031686,
+          772.1865802270419,
+          1.829056686607804,
+          3.0205298560774243,
+          11386.251549785778,
+          0.033558874129063616,
+          8548.125987048621,
+          48865.75578677872,
+          185540.6419905422,
+          271756.77347488137,
+          53.73334897899717,
+          519.4398819773105
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "d15eada348fd87b05068cc1d729ce01c449c681292d26f2d0436be74022b76a7"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 35010.13358666675,
+        "val_physical_mae": 58.43426108793363,
+        "val_normalized_mse": 2.029383559507919,
+        "val_normalized_mae": 0.9485745945326216,
+        "per_channel_mse": [
+          26.58658816661738,
+          44.10953244249769,
+          46.68254355740477,
+          25.313486902531256,
+          307.70951773565355,
+          110.16945747410011,
+          28.268819462953694,
+          60.04538159391108,
+          11.654457767639954,
+          29.304924266920853,
+          937.1260113177804,
+          2.3101000466321304,
+          3.4916261732820115,
+          13514.146880268005,
+          0.03367660973419707,
+          8645.359265938783,
+          68531.82719377354,
+          259718.5368592868,
+          382541.8540757872,
+          62.08306443631997,
+          566.1918569934248
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "4710dfd879fb29e32f85c8c665357b14abc5950ace99ad5569cbac27e7be8c9e"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 35552.04312324038,
+        "val_physical_mae": 58.67499790681481,
+        "val_normalized_mse": 2.001506528801505,
+        "val_normalized_mae": 0.9419892891413023,
+        "per_channel_mse": [
+          25.47099709135384,
+          43.12540256919401,
+          45.30845959142312,
+          23.907539262778315,
+          294.8910533512699,
+          107.28072853641886,
+          27.02594033788342,
+          58.39347795870721,
+          11.08424133277706,
+          27.95358550410577,
+          911.3711724529227,
+          2.359530314109684,
+          3.557651655433075,
+          14206.133360813596,
+          0.03382234208663001,
+          9764.99125310403,
+          69274.90100580073,
+          259677.42532894292,
+          391468.2355470335,
+          61.41546842188607,
+          558.0400216308418
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "e103f1c28fec7ab376b3e6c817e151003e97f6a1ae2333fd59b1117cf738ee65"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 26285.34343439916,
+        "val_physical_mae": 55.09927168764965,
+        "val_normalized_mse": 1.7930170138566417,
+        "val_normalized_mae": 0.894243838199636,
+        "per_channel_mse": [
+          32.66936157134331,
+          38.96550526663776,
+          39.7498531223247,
+          22.202968436430133,
+          311.32547162464294,
+          93.33111905913658,
+          24.25995433408694,
+          54.283782505101705,
+          9.86435972984455,
+          24.86538630988322,
+          764.7946361620196,
+          2.030480245605546,
+          3.2976860519752913,
+          11757.881383366597,
+          0.033618135075169635,
+          8630.602466835837,
+          51245.54157617659,
+          195352.74172193374,
+          282979.9489016054,
+          50.96539026061755,
+          552.8564996496264
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "99db54abc04c1e447776ef04420ebf8c054cb6f9325ec43b6d5b94f97de5ef97"
+      },
+      {
+        "dataset": "jena",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 25892.4938046304,
+        "val_physical_mae": 53.65215761051737,
+        "val_normalized_mse": 1.7537373384082144,
+        "val_normalized_mae": 0.8815324243147881,
+        "per_channel_mse": [
+          25.601016830926117,
+          37.165239865530445,
+          38.528318995121964,
+          19.741189812341847,
+          306.02138113815914,
+          94.21830639160676,
+          23.192103792979733,
+          55.018644343946,
+          9.453266818208842,
+          23.822818843099572,
+          758.4045104523989,
+          1.8484415705544732,
+          3.0373936474965686,
+          11330.947035668323,
+          0.033559944666770626,
+          8484.447733928137,
+          50467.762548205734,
+          191639.63702717304,
+          279834.8781266019,
+          51.79306918136906,
+          536.8181640328943
+        ],
+        "observed_counts": [
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17808,
+          17788,
+          17808,
+          17808
+        ],
+        "prediction_sha256": "8c30e72d06e4d8b2df12e910287a588ce253b6b8cb789270b95d1b74c96db0b0"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 1376.1225332718145,
+        "val_physical_mae": 22.73628505642077,
+        "val_normalized_mse": 1.3675047988126208,
+        "val_normalized_mae": 0.9260868579717553,
+        "per_channel_mse": [
+          39.015759502551845,
+          97.52979199463421,
+          7389.169710961969,
+          209.87968746242922,
+          1634.2501535696074,
+          129.90842688089944,
+          192.25229700520504,
+          2172.504917700593,
+          1954.127044251541,
+          509.9216230669767,
+          5.193231858911602,
+          349.7046116396691,
+          91.35580319070348,
+          33.44472802234197,
+          109.28718247352101,
+          7817.077603042162,
+          659.4604929971293
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "bf2cb5cfd5125f5994d0a19eace48744e5113e806babb3b988086d3c73a06ec9"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 1949.6316301785355,
+        "val_physical_mae": 26.497321058635904,
+        "val_normalized_mse": 2.00434880715013,
+        "val_normalized_mae": 1.1275633293508895,
+        "per_channel_mse": [
+          52.179638416030734,
+          137.7447825189925,
+          10305.694973726262,
+          330.0175175479983,
+          1943.3259772395213,
+          226.89393862473432,
+          353.102012414428,
+          2389.672014186147,
+          2802.427072891736,
+          663.6902074160434,
+          25.86001469869491,
+          534.0255066201288,
+          130.37425535956365,
+          45.69262584498448,
+          196.6061627979244,
+          12369.241957093722,
+          637.1890556381882
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "f2bb27f5f78264e0af64927dbc6a836f507b9f8c302a045905099d1bc6426dfe"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 1150.0214986057126,
+        "val_physical_mae": 19.9008294344233,
+        "val_normalized_mse": 1.30292973851422,
+        "val_normalized_mae": 0.8616371888972443,
+        "per_channel_mse": [
+          48.299343421701025,
+          94.5368848991646,
+          6664.8865146461385,
+          261.43251743492493,
+          1568.2918458789127,
+          105.48714206239235,
+          214.9053916360161,
+          482.00576743368333,
+          1601.4269458518002,
+          474.6621310953681,
+          4.332295324257832,
+          364.6414422614268,
+          110.68203921123207,
+          32.056148974815166,
+          110.51677998426592,
+          6789.427337614847,
+          622.7749485661672
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "a85aa0d0f172eba96e8da9d99e9c079f0866698c6198d62ae4fedd4a0f1af024"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 0,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 1587.6289582149473,
+        "val_physical_mae": 22.507550781501248,
+        "val_normalized_mse": 1.802650738975685,
+        "val_normalized_mae": 1.0001842235029905,
+        "per_channel_mse": [
+          59.69014235488337,
+          118.93078813994481,
+          8988.699722266172,
+          388.93957546072045,
+          2244.071785382841,
+          146.9754514855473,
+          560.7258536376875,
+          577.1795833593728,
+          1919.4717711308554,
+          609.1074038429543,
+          6.662959314790775,
+          583.486269287782,
+          193.68134257285897,
+          34.248325326755804,
+          282.7115385918371,
+          9654.148510536654,
+          620.9612669624436
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "217fd06969b184a5dae9ef658237c543709f35eb8d028eae9894a0ec48087ccf"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 1871.4895617436484,
+        "val_physical_mae": 25.768563522275834,
+        "val_normalized_mse": 1.7476120049165906,
+        "val_normalized_mae": 1.0527622699796397,
+        "per_channel_mse": [
+          48.50998725405189,
+          115.63247144675447,
+          10068.643549244935,
+          269.7507014030971,
+          1884.4865865852273,
+          194.5557092227253,
+          273.5874302168434,
+          2214.423426438673,
+          2843.2511126453114,
+          582.275711366013,
+          14.882335382556228,
+          521.0344441345325,
+          109.58734889710445,
+          43.106097343361526,
+          153.98337623154842,
+          11842.131972152323,
+          635.4802896769677
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "54a7efbe5ab0f4643b21f9c444cc9a36986f98b977643a0bdf468199e2c627cf"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 2743.31990833738,
+        "val_physical_mae": 30.07401278055679,
+        "val_normalized_mse": 2.2260532888215776,
+        "val_normalized_mae": 1.1912985890843768,
+        "per_channel_mse": [
+          63.1959638579248,
+          118.58278600067311,
+          14569.297625139068,
+          274.18727175093954,
+          2389.225184789333,
+          313.8638475102475,
+          384.28381672573977,
+          2308.5004498402923,
+          4493.506388765884,
+          775.5167296004603,
+          21.605386504203107,
+          793.9389181804165,
+          132.73436787762006,
+          63.55085324198679,
+          219.81380763286643,
+          19051.150905741204,
+          663.4841385766069
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "7ded7ba970260c91330fad945c473b99db44cd97df1808bd71b6c882bd05aad6"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 956.8327579401293,
+        "val_physical_mae": 18.618881162168975,
+        "val_normalized_mse": 1.3876941101821827,
+        "val_normalized_mae": 0.884715238089409,
+        "per_channel_mse": [
+          54.64318210056899,
+          116.3305784662449,
+          5354.9409047318195,
+          333.2532929327691,
+          1193.0448751845345,
+          106.16900305133558,
+          290.48138767083077,
+          580.9888209306647,
+          1073.081966102148,
+          396.03554407924264,
+          9.899560250181047,
+          295.87213977433726,
+          119.19751098735355,
+          23.69069323524669,
+          188.26086163505036,
+          5561.397267609508,
+          568.8692962403619
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "a393e544dd7956bc9ac0b55ef44f2437d7d5f210dd3960b5cea584377415f3ab"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92601,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 1088.2847003396716,
+        "val_physical_mae": 19.113881075638762,
+        "val_normalized_mse": 1.5650166239508165,
+        "val_normalized_mae": 0.9260237522390695,
+        "per_channel_mse": [
+          53.48584582418102,
+          128.87782789204365,
+          6269.765416769743,
+          370.0891850758714,
+          1262.2986036242833,
+          107.70016566940973,
+          348.89395548199724,
+          711.772285992673,
+          1295.7397602383094,
+          390.12507525544294,
+          18.18361642018913,
+          314.3308261247644,
+          143.3288255218516,
+          25.43591775723662,
+          222.1158304447573,
+          6271.473933038088,
+          567.2228346435736
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "c391efd58fba7ca24b00c10dd6450faba15c6a35dffb78e4b310407eb5d7a7bf"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 1312.8483642347428,
+        "val_physical_mae": 22.396970358724765,
+        "val_normalized_mse": 1.3612572209978828,
+        "val_normalized_mae": 0.9235097178849956,
+        "per_channel_mse": [
+          40.29823571306684,
+          93.60813311761815,
+          6792.832786504328,
+          215.67218709637532,
+          1677.7791067832607,
+          128.9607067208723,
+          188.77497521124047,
+          1939.9544472335317,
+          2093.8173054713698,
+          506.43541841418795,
+          5.984290779009278,
+          348.8318865578353,
+          87.5740958794459,
+          39.75738682019908,
+          112.85523924197068,
+          7409.406259352773,
+          635.8797310935421
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "90fa8f38531526f0ca9d569e5f56536a21aee2f306a5e4ac1fae1f33302a7a8e"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 2049.100275926278,
+        "val_physical_mae": 27.085051017290933,
+        "val_normalized_mse": 1.994946850532106,
+        "val_normalized_mae": 1.1298887958514747,
+        "per_channel_mse": [
+          54.00898640680816,
+          130.23382814471535,
+          10828.66757816313,
+          310.0292173386712,
+          2008.426265407775,
+          233.15408036753905,
+          343.0733008964546,
+          2304.5946316834375,
+          3095.959511885737,
+          654.7561988316525,
+          24.231499346442334,
+          577.136664780376,
+          127.3526347968518,
+          48.39482472682692,
+          182.99472646951722,
+          13271.330853244148,
+          640.3598882566432
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "884dc288fc59f30cc3149fe6dfcf5de3366644ed7538ddbf635a55c93f4abe93"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 1253.1222155293087,
+        "val_physical_mae": 19.86179845034215,
+        "val_normalized_mse": 1.2899277622593173,
+        "val_normalized_mae": 0.8572317272435972,
+        "per_channel_mse": [
+          51.473058755291035,
+          77.11953490581804,
+          8063.068601812177,
+          249.96579345267241,
+          1413.0718583207122,
+          117.38885890907042,
+          238.74590900652498,
+          419.05494880396486,
+          1526.7547482705688,
+          416.73208042196154,
+          4.310196192450604,
+          549.2443552604069,
+          99.30673490462304,
+          30.846974691997897,
+          115.97477765616641,
+          7336.92238842476,
+          593.0968442090818
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "b3f82386dfb0bc03a128377fe7ba6e4db9ebdf5297e966a4f928e9da6fdfc915"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 0,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 1355.902733422945,
+        "val_physical_mae": 20.01956771899349,
+        "val_normalized_mse": 1.3287162518492528,
+        "val_normalized_mae": 0.862472378064683,
+        "per_channel_mse": [
+          54.46226108390175,
+          65.76637605108205,
+          9275.089524562238,
+          207.82888328597656,
+          1404.953369441769,
+          88.1420927592143,
+          262.0510123798844,
+          214.6590412281865,
+          1640.0817846944517,
+          476.10778484392046,
+          7.777698017859955,
+          875.3496243910291,
+          111.1851787454445,
+          30.113734629545306,
+          104.00650105728634,
+          7619.563631522112,
+          613.2079694961603
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "ad2cce6ca41141598d586e3ef44b17b161acd4b143e52d3090b1eff5b853bd8c"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "ORIGINAL_FORECAST_HEAD",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 2070.9392947265997,
+        "val_physical_mae": 26.789677421795194,
+        "val_normalized_mse": 1.9294594332299557,
+        "val_normalized_mae": 1.1045290644486885,
+        "per_channel_mse": [
+          53.38533042247534,
+          120.6605793963956,
+          11209.023491939559,
+          283.26530925360186,
+          1944.4034311610053,
+          232.79674220329693,
+          349.73233095700914,
+          2238.194637163934,
+          3247.2632475957794,
+          662.7743942932327,
+          19.236691219757574,
+          587.6247269167897,
+          123.99811911694789,
+          51.48073950444483,
+          189.0146656093537,
+          13259.241545669709,
+          633.8720279289043
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "91e1eb6b823b3547319acd677abd5c702d0238d99e972e7880b6cb6f82e72d5b"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "ORIGINAL_SPARSE_ORIGINS",
+        "val_physical_mse": 2049.2516871616017,
+        "val_physical_mae": 27.08619250878607,
+        "val_normalized_mse": 1.9953166512788,
+        "val_normalized_mae": 1.1300039231644528,
+        "per_channel_mse": [
+          54.00624671794151,
+          130.3113144081009,
+          10830.313467362306,
+          310.1772437838385,
+          2008.113364340619,
+          233.17330057330946,
+          343.19050091541794,
+          2304.6728008197024,
+          3095.433689434967,
+          654.7227103604117,
+          24.237123842271604,
+          577.1701030551525,
+          127.420358223847,
+          48.38142480239099,
+          183.1163249260084,
+          13272.482010678641,
+          640.3566975023034
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "b95326ccf2e266eb5f6d8b7c6d76f04f814c32048db0163b66844e026d98d5c7"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST1_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 1142.3641292437983,
+        "val_physical_mae": 19.514387380831327,
+        "val_normalized_mse": 1.2720932822254687,
+        "val_normalized_mae": 0.8487488978218951,
+        "per_channel_mse": [
+          39.62863413144248,
+          85.71393724127257,
+          6785.906739981927,
+          248.10066949925124,
+          1617.6522345178262,
+          109.63513861590549,
+          246.58242338243338,
+          492.88849933230415,
+          1484.3951104513683,
+          515.2614385128667,
+          4.051345710696108,
+          386.27849212259986,
+          103.03259898154292,
+          35.9285449256078,
+          128.61023362023266,
+          6513.283122721999,
+          623.2410333952934
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "86aeb21a36e400953841f3890d34be2a754945122de7ddf28f3bcd31563f0f4a"
+      },
+      {
+        "dataset": "robin",
+        "seed": 92602,
+        "update": 600,
+        "method": "LAST33_Z_RIDGE",
+        "fit_scope": "COMMON_FIT_256",
+        "val_physical_mse": 900.456605635363,
+        "val_physical_mae": 17.885455883223614,
+        "val_normalized_mse": 1.0834613579621024,
+        "val_normalized_mae": 0.7903703080753628,
+        "per_channel_mse": [
+          29.538975194020026,
+          81.20295862354416,
+          4999.926890397791,
+          212.96790215274956,
+          1274.4162644321893,
+          75.2177983774262,
+          170.5186706476644,
+          437.5390393391005,
+          1485.6770131165101,
+          413.4888504538306,
+          3.567023619431583,
+          317.3458892237188,
+          89.81159009337888,
+          33.207486674941855,
+          102.3105573892484,
+          4986.6920963384855,
+          594.33328972714
+        ],
+        "observed_counts": [
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440,
+          1440
+        ],
+        "prediction_sha256": "1d138900c0669a4cd21eed143a66c5f53d8007d02eab7962d8fe81e3c60f6868"
+      }
+    ],
+    "key_findings": {
+      "robin_original_sparse_training_origins": [
+        {
+          "dataset": "robin",
+          "seed": 92601,
+          "selected_update": 0,
+          "tune_min_update": 0,
+          "unique_original_training_origins": 2,
+          "common_fit_origins": 256,
+          "checkpoint_updates": [
+            0,
+            100,
+            200,
+            300,
+            400,
+            500,
+            600
+          ]
+        },
+        {
+          "dataset": "robin",
+          "seed": 92602,
+          "selected_update": 0,
+          "tune_min_update": 0,
+          "unique_original_training_origins": 2,
+          "common_fit_origins": 256,
+          "checkpoint_updates": [
+            0,
+            100,
+            200,
+            300,
+            400,
+            500,
+            600
+          ]
+        }
+      ],
+      "jena_original_sparse_training_origins": [
+        {
+          "dataset": "jena",
+          "seed": 92601,
+          "selected_update": 400,
+          "tune_min_update": 400,
+          "unique_original_training_origins": 37,
+          "common_fit_origins": 256,
+          "checkpoint_updates": [
+            0,
+            100,
+            200,
+            300,
+            400,
+            500,
+            600
+          ]
+        },
+        {
+          "dataset": "jena",
+          "seed": 92602,
+          "selected_update": 500,
+          "tune_min_update": 500,
+          "unique_original_training_origins": 37,
+          "common_fit_origins": 256,
+          "checkpoint_updates": [
+            0,
+            100,
+            200,
+            300,
+            400,
+            500,
+            600
+          ]
+        }
+      ],
+      "selection_basis": "Reported selected_update equals minimum original-head TUNE physical macro MSE; all-checkpoint VAL metrics are not present in the checkpoint selection surface.",
+      "scope_warning": "VAL is reused development validation, not independent TEST generalization."
+    }
+  },
+  "later_stage_discovery": {
+    "stage_a2*": [
+      {
+        "path": "research\\forecast_component_study_20261013\\stage_a2_dense_pool_v1",
+        "is_dir": true,
+        "children": [
+          "RESULT.json",
+          "jena_s92601_dense256.json",
+          "jena_s92601_sparse_replay.json",
+          "jena_s92602_dense256.json",
+          "jena_s92602_sparse_replay.json",
+          "robin_s92601_dense256.json",
+          "robin_s92601_sparse_replay.json",
+          "robin_s92602_dense256.json",
+          "robin_s92602_sparse_replay.json"
+        ],
+        "sha256": null
+      },
+      {
+        "path": "research\\forecast_component_study_20261013\\STAGE_A2_PROTOCOL.md",
+        "is_dir": false,
+        "children": null,
+        "sha256": "8cdc43b21770393d50bc2f2b733257ef721369fdbf9c9faa728b04244b128381"
+      }
+    ],
+    "stage_b*": [],
+    "component*": [
+      {
+        "path": "research\\forecast_component_study_20261013\\component_experiment.py",
+        "is_dir": false,
+        "children": null,
+        "sha256": "739d91a842640c9a3197d03c66357a8ed8eb71841b7c2a01b5584c39baba2e0b"
+      }
+    ]
+  },
+  "resource": {
+    "wall_seconds": 0.6672384000848979,
+    "gpu_seconds": 0
+  },
+  "status": "FAIL"
+}
