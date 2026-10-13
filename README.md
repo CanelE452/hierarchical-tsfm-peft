@@ -4,6 +4,23 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## 정규화 MSE·학습 일반화·압축률·예측기 대조 (2026-10-13)
+
+사용자가 선택한 FIT-only 정규화 channel-macro MSE에 미래 학습 손실·checkpoint 선택·보정 lambda 선택을 맞췄습니다. G0–G3의 44개 핵심 학습 조건, 236개 방법 결과와 batch1/8 비용 472행을 실제 실행·검산했습니다. 두 자료·두 seed·반복 사용한 개발 VAL 결과입니다.
+
+낮은 학습률과 weight decay는 REC 일반화 문제를 해결하지 못했습니다. Jena의 압축 없는 K=C 항등 초기화 예측 목적 학습은 정규화 MSE를 RAW Bolt 0.8486에서 평균0.7765로 낮췄지만 MAE는 악화했습니다. Robin의 전체 PCA 개선은 두 seed가 모두 학습 전 모델을 선택한 고정 회전 효과입니다. 이를 압축 이득이나 표현학습 성공으로 합쳐 말하지 않습니다.
+
+Jena K=10은 RAW Bolt 대비 주오차가 약3.65% 크지만 batch8의 창당 추론 시간은3.835→2.400ms로 약37.4% 작았습니다. batch1에서는 절감이 없었습니다. 원자료·동일 E/D native·복원 D·보정·시간 구간의 반례도 함께 보고합니다.
+
+- [전체 실험·원수치·비용·한계를 포함한 한국어 보고서](research/forecast_generalization_study_20261013/report_v1/REPORT_KO.md), [결과와 코드 색인](research/forecast_generalization_study_20261013/README.md)
+- [236개 방법 원수치](research/forecast_generalization_study_20261013/report_v1/all_methods.csv), [단독 재측정 비용](research/forecast_generalization_study_20261013/report_v1/batch_cost.csv)
+- [독립 재채점·선택 검산](research/forecast_generalization_study_20261013/validation_resolved_v1/audit.md), [원자료·FIT 통계·정답·마스크 검산](research/forecast_generalization_study_20261013/validation_source_v1/audit.md), [최종 감사 665개 항목](research/forecast_generalization_study_20261013/FINAL_AUDIT_V2.json)
+- [주지표 정렬 보충 실험](research/forecast_metric_alignment_20261013/README.md), [GitHub 게시 범위와 로컬 재현 자산](research/forecast_generalization_study_20261013/PUBLICATION_KO.md)
+
+![성분 수·시간 범위별 정규화 MSE와 원단위 MAE](research/forecast_generalization_study_20261013/report_v1/g2_components_history.png)
+
+![실제 배포 경로의 정확도와 단독 재측정 비용](research/forecast_generalization_study_20261013/report_v1/g3_accuracy_latency.png)
+
 ## FORECAST 실패 원인·동결 TSFM 예측 성분 진단 (2026-10-13)
 
 기존 FORECAST에서 구조·초기값·손실·학습 횟수를 유지하고 학습 origin pool을 바꾸자, 두 자료·두 seed의 물리 VAL MSE가 37.61–59.81% 감소했습니다. 고정된 과거 창을 다시 평가한 REC는 학습 구간의 정규화 재구성 MSE를 조금 줄였지만 TUNE 과거 창에서는 네 조건 모두 악화했습니다. 기존 부진을 재구성 목적의 한계 하나로 확정할 수 없습니다.

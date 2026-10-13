@@ -1,0 +1,63 @@
+{
+  "status": "COMPLETE",
+  "head": "e57d0f01f148dd4004c53531c7c24c45198636ab",
+  "started_unix": 1791881249.6816175,
+  "protected_test_guarded": [
+    "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\test.npz",
+    "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_test.npz"
+  ],
+  "previous_stage": "research\\forecast_component_study_20261013",
+  "previous_cache": ".cache\\forecast_component_study_20261013\\stage_b_full_v1",
+  "variants": [
+    {
+      "name": "PRED_L2_1E4",
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "nonlinear": true,
+      "note": "same architecture and order; Adam L2 weight_decay=1e-4"
+    },
+    {
+      "name": "PRED_LR3E4",
+      "lr": 0.0003,
+      "weight_decay": 0.0,
+      "nonlinear": true,
+      "note": "same architecture and order; lower learning rate 3e-4"
+    },
+    {
+      "name": "PRED_LINEAR_ONLY",
+      "lr": 0.001,
+      "weight_decay": 0.0,
+      "nonlinear": false,
+      "note": "PCA-linear E/D only; removes causal TCN residual capacity"
+    }
+  ],
+  "primary_metric": "TUNE normalized observed channel-macro MSE",
+  "source_hashes": {
+    "research\\forecast_component_study_20261013\\component_experiment.py": "ff4cf8c9ceeaec280a6af69e8c4e586685457030feece790faba464afd282d03",
+    "research\\past_only_repr_diagnosis_20261012\\common.py": "1bb0dc92a37d3bb3af525c2e72b62ab52430237ac4653086da6bf361a8c353c2"
+  },
+  "metric_row_count": 300,
+  "selection_row_count": 60,
+  "training_record_count": 12,
+  "figures": [
+    "research\\forecast_metric_alignment_20261013\\run_v3\\selected_val_normalized_mse.png",
+    "research\\forecast_metric_alignment_20261013\\run_v3\\training_generalization_curves.png",
+    "research\\forecast_metric_alignment_20261013\\run_v3\\selection_criterion_effect.png"
+  ],
+  "bolt_initial_hash": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+  "bolt_final_hash": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+  "resources": {
+    "pid": 49432,
+    "started_unix": 1791881249.5948598,
+    "status": "COMPLETE",
+    "wall_seconds": 402.12076950003393,
+    "peak_sampled_rss_bytes": 1868152832,
+    "peak_allocated_vram_bytes": 321621504,
+    "peak_reserved_vram_bytes": 354418688,
+    "new_cache_bytes": 1173340,
+    "new_research_bytes": 1038502,
+    "disk_free_bytes": 417025425408,
+    "error": null
+  },
+  "verification_status": "PASS"
+}

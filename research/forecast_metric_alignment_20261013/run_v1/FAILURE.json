@@ -1,0 +1,53 @@
+{
+  "status": "FAILED_PRESERVED",
+  "head": "e57d0f01f148dd4004c53531c7c24c45198636ab",
+  "started_unix": 1791880797.8745277,
+  "protected_test_guarded": [
+    "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\test.npz",
+    "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_test.npz"
+  ],
+  "previous_stage": "research\\forecast_component_study_20261013",
+  "previous_cache": ".cache\\forecast_component_study_20261013\\stage_b_full_v1",
+  "variants": [
+    {
+      "name": "PRED_L2_1E4",
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "nonlinear": true,
+      "note": "same architecture and order; Adam L2 weight_decay=1e-4"
+    },
+    {
+      "name": "PRED_LR3E4",
+      "lr": 0.0003,
+      "weight_decay": 0.0,
+      "nonlinear": true,
+      "note": "same architecture and order; lower learning rate 3e-4"
+    },
+    {
+      "name": "PRED_LINEAR_ONLY",
+      "lr": 0.001,
+      "weight_decay": 0.0,
+      "nonlinear": false,
+      "note": "PCA-linear E/D only; removes causal TCN residual capacity"
+    }
+  ],
+  "primary_metric": "TUNE normalized observed channel-macro MSE",
+  "source_hashes": {
+    "research\\forecast_component_study_20261013\\component_experiment.py": "ff4cf8c9ceeaec280a6af69e8c4e586685457030feece790faba464afd282d03",
+    "research\\past_only_repr_diagnosis_20261012\\common.py": "1bb0dc92a37d3bb3af525c2e72b62ab52430237ac4653086da6bf361a8c353c2"
+  },
+  "error": "element 0 of tensors does not require grad and does not have a grad_fn",
+  "traceback": "Traceback (most recent call last):\n  File \"E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\forecast_metric_alignment_20261013\\run_metric_alignment.py\", line 657, in run\n    rows, result = train_variant(\n                   ^^^^^^^^^^^^^^\n  File \"E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\forecast_metric_alignment_20261013\\run_metric_alignment.py\", line 334, in train_variant\n    loss.backward()\n  File \"E:\\CODING\\proj\\hierarchical-tsfm-peft\\.venv\\Lib\\site-packages\\torch\\_tensor.py\", line 630, in backward\n    torch.autograd.backward(\n  File \"E:\\CODING\\proj\\hierarchical-tsfm-peft\\.venv\\Lib\\site-packages\\torch\\autograd\\__init__.py\", line 364, in backward\n    _engine_run_backward(\n  File \"E:\\CODING\\proj\\hierarchical-tsfm-peft\\.venv\\Lib\\site-packages\\torch\\autograd\\graph.py\", line 865, in _engine_run_backward\n    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: element 0 of tensors does not require grad and does not have a grad_fn\n",
+  "resources": {
+    "pid": 51420,
+    "started_unix": 1791880797.8011415,
+    "status": "RUNNING",
+    "wall_seconds": 63.248141299933195,
+    "peak_sampled_rss_bytes": 1563766784,
+    "peak_allocated_vram_bytes": 245663744,
+    "peak_reserved_vram_bytes": 289406976,
+    "new_cache_bytes": 27943,
+    "new_research_bytes": 82063,
+    "disk_free_bytes": 417297784832
+  }
+}
