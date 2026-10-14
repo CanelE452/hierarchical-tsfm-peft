@@ -4,6 +4,14 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## 최신 자기 채널·다변량 정보와 고정 Bolt 진단 (2026-10-14)
+
+동일 시간 특징·FIT/TUNE·손실·후보 선택 규칙에서 SELF33과 JOINT33을 비교하고, Robin FIT512의 수치 재현 수선·실제 배포 비용·검산까지 완료했습니다. 이 선형 readout 계약에서 TUNE의 실용 이득을 확인하지 못해 사전 gate에 따라 후속 학습을 종료했습니다. 작은 K 연구 전체의 해결을 뜻하지 않습니다.
+
+- [한국어 결과 요약·코드·검산 색인](research/bolt_compatible_adaptive_20261014/publication_main_20261014_v1/README_KO.md)
+- [상세 MD 보고서·그림 8개·CSV](research/bolt_compatible_adaptive_20261014/publication_main_20261014_v1/reports/adaptive_REPORT_KO.md), [6장 설명 스토리](research/bolt_compatible_adaptive_20261014/publication_main_20261014_v1/reports/PRESENTATION_BRIEF_KO.md)
+- [완료·미실행 상태와 이유](research/bolt_compatible_adaptive_20261014/publication_main_20261014_v1/reports/CAMPAIGN_CLOSURE_KO.md), [2026-10-14 결과 색인](RESEARCH_RESULTS_20261014_KO.md)
+
 ## 정규화 MSE·학습 일반화·압축률·예측기 대조 (2026-10-13)
 
 사용자가 선택한 FIT-only 정규화 channel-macro MSE에 미래 학습 손실·checkpoint 선택·보정 lambda 선택을 맞췄습니다. G0–G3의 44개 핵심 학습 조건, 236개 방법 결과와 batch1/8 비용 472행을 실제 실행·검산했습니다. 두 자료·두 seed·반복 사용한 개발 VAL 결과입니다.
