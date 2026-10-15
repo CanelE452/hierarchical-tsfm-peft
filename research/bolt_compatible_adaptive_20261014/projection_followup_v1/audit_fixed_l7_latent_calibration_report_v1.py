@@ -21,10 +21,15 @@ COUNTS = (384, 72, 48, 72, 48, 48, 6, 102, 6, 6, 0, 20, 100, 4)
 PRIOR_KEYS = ("parent_report", "parent_report_manifest", "parent_report_audit", "matched_l7_native_diagnostic", "matched_l7_native_audit", "matched_l7_native_cost", "matched_l7_native_cost_audit", "native_selection_registry", "native_bundle_metadata_reader", "parent_report_auditor_source", "E_only_diagnostic", "E_only_audit", "joint_recon_diagnostic", "joint_recon_audit", "causal_lag_diagnostic", "causal_lag_audit")
 EXTRA_BINDINGS = ("controller_source", "module_source", "selection_registry", "plan", "cost_plan", "report_utility")
 FIGURES = ("01_selected_errors", "02_lambda_curves", "03_channel_and_surrogate_context", "04_whole_cost")
-INPUT_SHA = {"train": "88ddbbf7287ad89b7bf81e170b3e05ddfc89bead700e2fefa50bb0dd4e85f576", "audit": "b31b742d3947a205dbaf01cd84239b3cde95e1ea9baf3331a3c08c48a0aa5ba0", "cost": None, "cost_audit": None}
-REPORT_SHA = MANIFEST_SHA = SOURCE_SHA = None
+INPUT_SHA = {"train": "88ddbbf7287ad89b7bf81e170b3e05ddfc89bead700e2fefa50bb0dd4e85f576", "audit": "b31b742d3947a205dbaf01cd84239b3cde95e1ea9baf3331a3c08c48a0aa5ba0", "cost": "d8db7445a7a5a750361149cde9a3ad653d4926e871d72c387fe8cbd285aca17b", "cost_audit": "4a54f5b738beef15bc02a17687624afb8c4493f5df7463aeb7b8e4e35b619c40"}
+REPORT_SHA = "e8f1036dcc27ee2a460b6d87a0f9d1d03368067dab5cb3abd32ec2ec8e368c4f"
+MANIFEST_SHA = "e5a17e7f5131ed611b87beca2d49ec4a05e093c2eaf1d0f42d0343b5f0350198"
+SOURCE_SHA = "3b91764dc6864dd09f1f68a07bd94f11094a002f7f508fc2f97d388e147ce1ad"
+AUDIT_SOURCE_SHA = {"audit": "208816a2656800afa190a9f713abe3e51c4f8ec88cfc1e6116bd4e4788b2464d", "cost_audit": "4a78b4b8ecc0e000021941f613360b2e94457a3a2784ff104602be44d98e06d0"}
+RUNTIME_SHA = "83db8dc961cdf66dc2b0b499c717f89651faebddbbc4f56f939d5d890793b2d5"
 HELPER_SHA = "5f6b7bd4e397603c5441a7b8c765f8032a7f0274c4852bef14b57b8218891980"
 AUDIT_COUNTS = {"fit_conditions_checked": 6, "actual_SVD_fits_checked": 6, "ridge_candidates_checked": 42, "identity_candidates_checked": 6, "FIT_TUNE_prediction_evaluations_checked": 96, "selected_DEV_prediction_evaluations_checked": 6, "score_fields_checked": 3672, "selection_locks_checked": 6, "protected_source_input_and_result_hashes_checked": 226}
+COST_COUNTS = {"cost_cells_checked": 20, "recorded_timer_samples_checked": 100, "selected_full_state_hashes_checked": 9, "selected_q_coefficient_config_hashes_checked": 6, "selection_locks_checked": 6, "physical_prechecks_checked": 9, "physical_first8_windows_checked": 72, "composed_q_references_checked": 6, "independent_canonical_q_and_lag_D_checks": 6, "canonical_TUNE_bridges_checked": 1, "protected_prior_file_hashes_checked": 1923}
 
 
 def same(first, second):
@@ -47,6 +52,7 @@ def expected_tables(values):
             for scale in ("normalized", "physical_per_channel_diagnostic"): out[table].append({**base, "mask": mask, "scale": scale, **entry[field][scale], "prediction_artifact": entry.get("artifact")})
     def diagnostics(base, entry):
         require(entry["FP64_surrogate_is_not_deployment_parity_target"] is True and entry["surrogate_diagnostics"]["surrogate_zero_error_required"] is False, "FP32_PARITY_AND_MEASURED_SURROGATE_SEPARATE")
+        require(all(p["pass"] is True and (p["atol"], p["rtol"]) == (1e-5, 2e-6) for p in entry["independent_FP32_deployment_parity"].values()), "PREDECLARED_FP32_DEPLOYMENT_PARITY")
         out["DIAGNOSTICS"].append({**base, **{k: entry[k] for k in ("status", "surrogate_diagnostics", "independent_FP32_deployment_parity", "FP64_surrogate_is_not_deployment_parity_target", "identity_checks", "coefficient_value_sha256", "input_source", "cached_Bolt_source")}, "prediction_artifact": entry["artifact"]})
     require(set(train["states"]) == set(STATES), "THREE_FIXED_STATES")
     for state in STATES:
@@ -90,7 +96,9 @@ def expected_tables(values):
         for field, denominator_route in (("RAW", "RAW_BOLT"), ("matched_Bolt", matching)):
             denominator = find(rows, route=denominator_route, batch=row["batch"]); by_repeat = {s["repeat"]: s["seconds"] for s in denominator["samples"]}; paired = [by_repeat[s["repeat"]] for s in samples]; ratios = [a/b for a, b in zip(sec, paired)]
             require(row["paired_"+field+"_seconds"] == paired and row["paired_"+field+"_ratios"] == ratios and row["paired_"+field+"_median_ratio"] == statistics.median(ratios) and row["ratio_of_"+field+"_medians"] == statistics.median(sec)/statistics.median(denominator["seconds"]), "INDEPENDENT_PAIRED_AND_MEDIAN_RATIOS")
-        for index, sample in enumerate(samples): require(sample["route"] == route and sample["batch"] == row["batch"] and type(sample["perf_start_ns"]) is type(sample["perf_end_ns"]) is int and (sample["perf_end_ns"]-sample["perf_start_ns"])/1e9 == sample["seconds"] == sec[index], "INTEGER_NS_SAMPLE_BINDING")
+        for index, sample in enumerate(samples):
+            require(sample["route"] == route and sample["batch"] == row["batch"] and type(sample["perf_start_ns"]) is type(sample["perf_end_ns"]) is int and (sample["perf_end_ns"]-sample["perf_start_ns"])/1e9 == sample["seconds"] == sec[index], "INTEGER_NS_SAMPLE_BINDING")
+            require(type(sample["unix_start_ns"]) is type(sample["unix_end_ns"]) is int and cost["resource_terminal"]["started_unix"]*1e9 <= sample["unix_start_ns"] <= sample["unix_end_ns"] <= cost["resource_terminal"]["ended_unix"]*1e9, "TIMERS_WITHIN_COST_PROCESS_RECEIPT")
         out["WHOLE_COST"].append({k: v for k, v in row.items() if k != "samples"}); out["WHOLE_COST_SAMPLES"] += samples
     for stage in INPUT_SHA:
         resource = values[stage]["resource_terminal"]; require(all(type(resource.get(k)) in (int, float) and resource[k] >= 0 for k in ("process_cpu_seconds", "wall_seconds")), "FOUR_CANONICAL_RESOURCE_RECEIPTS")
@@ -143,14 +151,30 @@ def check_markdown(folder, tables, values, bindings=None):
     return len(links)
 
 
+def check_receipts(values):
+    checked = []
+    require(record(Path(__file__).parent/"continuation_runtime_v1.py")["sha256"] == RUNTIME_SHA, "IMMUTABLE_RECEIPT_RUNTIME")
+    for stage in INPUT_SHA:
+        receipt = values[stage]["resource_terminal"]
+        require(all(type(receipt.get(k)) in (int, float) and math.isfinite(receipt[k]) and receipt[k] >= 0 for k in ("process_cpu_seconds", "wall_seconds", "started_unix", "ended_unix")), "CANONICAL_RESOURCE_RECEIPT_FIELDS")
+        saved = parse(metadata(receipt).read_text(encoding="utf-8-sig"))
+        common.exact(saved, {k: v for k, v in receipt.items() if k not in ("path", "sha256")}, "EXACT_RECORDED_RECEIPT_CONTENT")
+        require(receipt["status"] == values[stage]["status"] and receipt["error"] is None and receipt["gpu_process"] is (stage in ("train", "cost")) and receipt["ended_unix"] >= receipt["started_unix"] and receipt["original_budget_records_unchanged"] is True and receipt["elapsed_or_cumulative_budget_caps"] is None, "RESOURCE_PROCESS_STATUS_AND_SCOPE")
+        authorization = parse(metadata(receipt["authorization"]).read_text(encoding="utf-8-sig")); continuation = parse(metadata(receipt["continuation_manifest"]).read_text(encoding="utf-8-sig"))
+        require(authorization["status"] == "APPROVED_HUMAN_UNCAPPED_CONTINUATION" and authorization["latest_human_override"] == "상한내수행하지 말고 쭉해줘" and continuation["authorization_sha256"] == receipt["authorization"]["sha256"] and continuation["runtime_sha256"] == RUNTIME_SHA, "RECORDED_AUTHORIZATION_MANIFEST_RUNTIME_CHAIN")
+        checked.append({"stage": stage, "receipt": record(receipt["path"]), "authorization": receipt["authorization"], "continuation_manifest": receipt["continuation_manifest"]})
+    return checked
+
+
 def load_inputs(manifest):
     values = {}
     for key, digest in INPUT_SHA.items():
         binding = manifest["inputs"][key]; require(binding["sha256"] == digest and Path(binding["path"]).suffix == ".json", "EXACT_JSON_STAGE_SHA:"+key); values[key] = parse(metadata(binding).read_text(encoding="utf-8-sig")); require(values[key]["status"] == ("PASS" if "audit" in key else "COMPLETE") and values[key]["protected_TEST_accessed"] is False, "FOUR_COMPLETE_PASS_NO_TEST")
     train, audit, cost, cost_audit = (values[k] for k in INPUT_SHA)
     same(audit["diagnostic"], manifest["inputs"]["train"]); same(cost_audit["cost"], manifest["inputs"]["cost"])
-    for key in ("audit", "cost_audit"): same(values[key]["audit_source"], manifest["inputs"][key+"_source"])
-    require(all(audit["totals"].get(k) == v for k, v in AUDIT_COUNTS.items()), "EXACT_SCIENCE_AUDIT_COVERAGE")
+    for key, counts in (("audit", AUDIT_COUNTS), ("cost_audit", COST_COUNTS)):
+        same(values[key]["audit_source"], manifest["inputs"][key+"_source"])
+        require(values[key]["audit_source"]["sha256"] == AUDIT_SOURCE_SHA[key] and all(type(values[key]["totals"].get(k)) is int and values[key]["totals"][k] == v for k, v in counts.items()), "EXACT_AUDITOR_SOURCE_AND_COVERAGE")
     for value in (cost, cost_audit):
         same(value["latent_calibration_diagnostic"], manifest["inputs"]["train"]); same(value["latent_calibration_audit"], manifest["inputs"]["audit"]); same(value["selection_registry"], train["selection_registry"])
     require(train["fit_conditions_completed"] == train["resolved_selection_locks"] == train["selected_conditions_completed"] == train["selected_DEV_evaluations_completed"] == 6 and 0 <= train["SVD_fits_completed"] <= 6 and train["ridge_candidates_generated"] == 42 and train["identity_comparisons_generated"] == 6 and train["candidate_FIT_TUNE_evaluations_completed"] == 96 and train["all_6_locks_before_DEV"] is True and not train["failed_paths"] and not train["failed_candidate_paths"], "SIX_FITS_MAX_SIX_SVD_FORTYEIGHT_CANDIDATES_96FT_SIXDEV")
@@ -173,7 +197,7 @@ def load_inputs(manifest):
 
 
 def verify(folder):
-    require(all(isinstance(v, str) and re.fullmatch(r"[0-9a-f]{64}", v) for v in (REPORT_SHA, MANIFEST_SHA, SOURCE_SHA, *INPUT_SHA.values())), "ACTUAL_CALIBRATION_REPORT_NOT_YET_REGISTERED")
+    require(all(isinstance(v, str) and re.fullmatch(r"[0-9a-f]{64}", v) for v in (REPORT_SHA, MANIFEST_SHA, SOURCE_SHA, *INPUT_SHA.values(), *AUDIT_SOURCE_SHA.values())), "ACTUAL_CALIBRATION_REPORT_NOT_YET_REGISTERED")
     require(record(common.__file__)["sha256"] == HELPER_SHA and record(common.common.__file__)["sha256"] == common.COMMON_SHA, "IMMUTABLE_REPORT_METADATA_HELPERS")
     folder = resolve(folder); report_path, manifest_path = local_file(folder/"REPORT_KO.md"), local_file(folder/"MANIFEST.json")
     require(record(report_path)["sha256"] == REPORT_SHA and record(manifest_path)["sha256"] == MANIFEST_SHA, "EXACT_ACTUAL_REPORT_MANIFEST")
@@ -182,11 +206,11 @@ def verify(folder):
     require(set(manifest["inputs"]) == set(INPUT_SHA)|set(PRIOR_KEYS)|set(EXTRA_BINDINGS)|{"audit_source", "cost_audit_source", "report_source"}, "EXACT_REPORT_INPUT_BINDINGS")
     for binding in manifest["inputs"].values(): metadata(binding)
     for key, value in {"PNG_count": 4, "SVG_count": 4, "scientific_NPZ_or_model_read": False, "new_fit_or_training_during_generation": 0, "new_geometry_computed": False, "FP64_surrogate_is_not_FP32_deployment": True, "actual_cost_has_live_F": True, "protected_TEST_accessed": False, "independent_holdout": False, "strict_K_only": False}.items(): common.exact(manifest[key], value, "MANIFEST_SCOPE:"+key)
-    values = load_inputs(manifest); tables = expected_tables(values); require(set(manifest["table_row_counts"]) == set(TABLES), "EXACT_MANIFEST_TABLE_NAMES"); paths = check_files(folder, manifest["files"]); fields, refs = {}, 0
+    values = load_inputs(manifest); receipts = check_receipts(values); tables = expected_tables(values); require(set(manifest["table_row_counts"]) == set(TABLES), "EXACT_MANIFEST_TABLE_NAMES"); paths = check_files(folder, manifest["files"]); fields, refs = {}, 0
     for key, rows in tables.items():
         require(manifest["table_row_counts"][key] == len(rows), "MANIFEST_TABLE_COUNT"); expected = relative_values(rows, folder); fields[key] = check_table(folder/"tables"/(key+".csv"), expected); refs += common.check_reference_paths(expected, folder)
     links = check_markdown(folder, tables, values, manifest["inputs"])
-    return {"status": "PASS", "report": record(report_path), "manifest": record(manifest_path), "source": manifest["source"], "inputs": {k: manifest["inputs"][k] for k in INPUT_SHA}, "table_rows_checked": {k: len(v) for k, v in tables.items()}, "CSV_primitive_fields_compared": fields, "files_checked": len(paths), "PNG_count": 4, "SVG_count": 4, "local_links_checked": links, "relative_artifact_path_existence_checks": refs, "verification_scope": "Independent reconstruction of all 14 tables/nested CSV primitives, actual FP32 own-TUNE selection and tiny signed effects, audited coefficients/scales/rank and measured surrogate context, repeated identity cost limitations, integer-ns timings with both independently recomputed denominators, four canonical resource receipts, exact metadata/source/file/relative Markdown bindings. No scientific NPZ/model/F/GPU/solver/training/timing replay or image visual review.", "scientific_array_model_F_GPU_solver_training_or_timer_replayed": False, "figure_visual_review_performed_by_this_script": False, "protected_TEST_accessed": False, "audit_source": record(__file__)}
+    return {"status": "PASS", "report": record(report_path), "manifest": record(manifest_path), "source": manifest["source"], "inputs": {k: manifest["inputs"][k] for k in INPUT_SHA}, "table_rows_checked": {k: len(v) for k, v in tables.items()}, "CSV_primitive_fields_compared": fields, "files_checked": len(paths), "PNG_count": 4, "SVG_count": 4, "local_links_checked": links, "relative_artifact_path_existence_checks": refs, "resource_receipts_checked": receipts, "verification_scope": "Independent reconstruction of all 14 tables/nested CSV primitives, actual FP32 own-TUNE selection and tiny signed effects, audited coefficients/scales/rank and measured surrogate context, repeated identity cost limitations, integer-ns timings with both independently recomputed denominators, four canonical resource receipt contents and authorization/manifest/runtime bindings, exact metadata/source/file/relative Markdown bindings. No scientific NPZ/model/F/GPU/solver/training/timing replay or image visual review.", "scientific_array_model_F_GPU_solver_training_or_timer_replayed": False, "figure_visual_review_performed_by_this_script": False, "protected_TEST_accessed": False, "audit_source": record(__file__)}
 
 
 if __name__ == "__main__":

@@ -14,10 +14,10 @@ LAMBDAS=(0.,1e-6,1e-4,1e-2,.1,1.,10.)
 ROUTES=("RAW_BOLT",)+tuple(route for state in STATES for route in (state+"_BOLT",state+"_SCALE_ONLY",state+"_SCALE_BIAS"))
 SCALES=("normalized","physical_per_channel_diagnostic")
 TABLES=("CANDIDATE_SCORES","SELECTED_SCORES","BASELINES","PAIRED","CANDIDATES","COEFFICIENTS","SOLVERS","DIAGNOSTICS","SELECTION","SPACE_CONTEXT","FAILURES","WHOLE_COST","WHOLE_COST_SAMPLES","RESOURCES")
-FIXED_SHA={"train":"88ddbbf7287ad89b7bf81e170b3e05ddfc89bead700e2fefa50bb0dd4e85f576","audit":"b31b742d3947a205dbaf01cd84239b3cde95e1ea9baf3331a3c08c48a0aa5ba0","cost":None,"cost_audit":None}
-AUDIT_SOURCES={"audit":{"path":str(HERE/"audit_fixed_l7_latent_calibration_v1.py"),"sha256":"208816a2656800afa190a9f713abe3e51c4f8ec88cfc1e6116bd4e4788b2464d"},"cost_audit":None}
+FIXED_SHA={"train":"88ddbbf7287ad89b7bf81e170b3e05ddfc89bead700e2fefa50bb0dd4e85f576","audit":"b31b742d3947a205dbaf01cd84239b3cde95e1ea9baf3331a3c08c48a0aa5ba0","cost":"d8db7445a7a5a750361149cde9a3ad653d4926e871d72c387fe8cbd285aca17b","cost_audit":"4a54f5b738beef15bc02a17687624afb8c4493f5df7463aeb7b8e4e35b619c40"}
+AUDIT_SOURCES={"audit":{"path":str(HERE/"audit_fixed_l7_latent_calibration_v1.py"),"sha256":"208816a2656800afa190a9f713abe3e51c4f8ec88cfc1e6116bd4e4788b2464d"},"cost_audit":{"path":str(HERE/"audit_fixed_l7_latent_calibration_cost_v1.py"),"sha256":"4a78b4b8ecc0e000021941f613360b2e94457a3a2784ff104602be44d98e06d0"}}
 AUDIT_COUNTS={"fit_conditions_checked":6,"actual_SVD_fits_checked":6,"ridge_candidates_checked":42,"identity_candidates_checked":6,"FIT_TUNE_prediction_evaluations_checked":96,"selected_DEV_prediction_evaluations_checked":6,"score_fields_checked":3672,"selection_locks_checked":6,"protected_source_input_and_result_hashes_checked":226}
-COST_COUNTS={}
+COST_COUNTS={"cost_cells_checked":20,"recorded_timer_samples_checked":100,"selected_full_state_hashes_checked":9,"selected_q_coefficient_config_hashes_checked":6,"selection_locks_checked":6,"physical_prechecks_checked":9,"physical_first8_windows_checked":72,"composed_q_references_checked":6,"independent_canonical_q_and_lag_D_checks":6,"canonical_TUNE_bridges_checked":1,"protected_prior_file_hashes_checked":1923}
 UTILITY={"path":str(HERE/"make_linear_e_adaptation_report_v2.py"),"sha256":"32e2460ea4724144067f264ab1ceb0332cd04c5fce2296838024c119c9572466"}
 
 

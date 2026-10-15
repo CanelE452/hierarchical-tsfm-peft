@@ -4,6 +4,15 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## 교수 미팅용 방법론·추가 실험 마무리 (2026-10-15)
+
+예측 목적 표현·동일 E/D native·ridge·시간별 디코더 보정·시간순 보정 이전을 실제 실행하고 과학/비용 검산과 시각 보고서를 정리했습니다. **작은 K의 Raw 대비 정확도 격차는 미해결입니다.** 방법론 후보·검증 절차와 성능 성공·신규성·독립 일반화를 구분합니다.
+
+- [추가 결과·코드·보고서8개·59CSV·PNG/SVG28쌍 색인](research/bolt_compatible_adaptive_20261014/publication_main_20261015_v2/README_KO.md)
+- [교수님께 설명할 목적·수식·학습/동결 대상·대조·반례](research/bolt_compatible_adaptive_20261014/publication_main_20261015_v2/reports/professor_method_brief_v1/REPORT_KO.md)
+- [마지막 시간순 진단: 두 보정 모두 B 이득이 C에서 악화](research/bolt_compatible_adaptive_20261014/publication_main_20261015_v2/reports/purged_readout_stability_v1/REPORT_KO.md)
+- [실측 비용·원수치·실패를 포함한 STATIC/RAMP 상세 보고](research/bolt_compatible_adaptive_20261014/publication_main_20261015_v2/reports/horizon_decoder_diagnostic_v1/REPORT_KO.md)
+
 ## 작은 K 표현·예측·복원 후속 진단 (2026-10-15)
 
 고정 출력 공간·과거별 디코더·지연 복원·예측 목적 E/D 학습·동일 E/D native 대조를 실행하고 원수치·비용·독립 검산·시각 보고서로 정리했습니다. **Raw 정확도와 압축 비용을 함께 만족하려는 목표는 아직 미해결입니다.** 반복 사용한 개발 구간의 탐색 결과이며 보호 TEST를 사용하지 않았습니다.

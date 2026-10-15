@@ -1,0 +1,218 @@
+{
+  "schema": "level_compressor_protected_access_incident_v1",
+  "incident_id": "electricity_gift_target_materialization_20261011_subagent_full_data_inventory",
+  "recorded_at_kst": "2026-10-11T18:36:00.187262+09:00",
+  "recorded_by": "/root/full_data_inventory",
+  "status": "recorded_violation_not_used_for_training_or_scoring",
+  "violation_summary": {
+    "classification": "protected/campaign target access violation",
+    "reason": "The Electricity GIFT target arrays were materialized before checking prior P1/P2 protected geometry and before confirming the campaign no-access boundary. This conflicts with the protected TEST new-use prohibition and the campaign instruction to avoid target/tail access until the protected boundary is known.",
+    "constraint_breached": [
+      "protect TEST / protected tail from new access",
+      "for Electricity/GIFT, inspect metadata/start/freq/length and prior geometry before prefix target slicing",
+      "do not materialize the full target array or tail"
+    ],
+    "detected_after_root_warning": true,
+    "global_no_new_test_access_zero_must_not_be_claimed": true
+  },
+  "access_timing": {
+    "exact_command_timestamps_available": false,
+    "approximate_window_kst": "2026-10-11 about 18:18-18:23 KST",
+    "ordering_evidence": [
+      "Both target-reading diagnostics occurred before the root warning about Electricity protected P1/P2 geometry.",
+      "Both target-reading diagnostics occurred before the first analysis smoke output files written around 2026-10-11 18:23 KST.",
+      "No further Electricity target access was performed after the root warning; subsequent inspection was limited to prior ga.py/PERIODS/PREMISE_AUDIT metadata/geometry files."
+    ]
+  },
+  "source_paths_accessed": {
+    "metadata_json": "data/gift_eval/electricity/H/dataset_info.json",
+    "arrow_file": "data/gift_eval/electricity/H/data-00000-of-00001.arrow",
+    "arrow_sha256_computed_during_incident": "0d3146c6291665126efdf87d0fe92356027d911017afaf956c17627d109b628b",
+    "arrow_bytes_reported": 51905744,
+    "dataset_info_observed": {
+      "split": "train",
+      "num_examples": 370,
+      "features": [
+        "item_id",
+        "start",
+        "freq",
+        "target"
+      ],
+      "target_feature": "Sequence[float32]"
+    }
+  },
+  "actual_code_that_read_protected_target": [
+    {
+      "label": "diagnostic_1_full_arrow_table_and_target_to_pylist",
+      "code_summary": [
+        "with pyarrow.ipc.open_stream(str(arrow_path)) as reader: table = reader.read_all()",
+        "arrs = table['target'].to_pylist()",
+        "for every array in arrs: np.asarray(a, dtype=np.float64) over the full target length",
+        "computed length/finite/nan/zero/all-zero statistics over all 370 target sequences",
+        "computed lexicographic first128 prefix[:6144] completeness and zero/nan statistics"
+      ],
+      "series_scope": "all 370 series were materialized; lexicographic first 128 series were additionally summarized for prefix feasibility",
+      "target_index_scope": "full target arrays were converted for all series; first128 prefix indices [0, 6144) were additionally sliced",
+      "statistics_printed_to_stdout": {
+        "num_rows": 370,
+        "columns": [
+          "item_id",
+          "start",
+          "freq",
+          "target"
+        ],
+        "target_length_min_median_max": [
+          35064,
+          35064,
+          35064
+        ],
+        "finite_count_min_median_max": [
+          4008,
+          26304,
+          35064
+        ],
+        "nan_total_all_series": 2489562,
+        "zero_total_all_series": 107414,
+        "all_zero_series_total": 0,
+        "first128_ids_rule": "lexicographic item_id order, MT_001..MT_128",
+        "first128_len_ge_6144": "128 of 128",
+        "first128_same_start_unique_count": 1,
+        "first128_same_freq_unique_count": 1,
+        "first128_prefix_completeness_min_mean": [
+          0.0,
+          0.0078125
+        ],
+        "first128_prefix_nan_series_count": 127,
+        "first128_prefix_all_zero_series_count": 0,
+        "first128_prefix_zero_values_total": 1
+      }
+    },
+    {
+      "label": "diagnostic_2_full_target_finite_start_end_scan",
+      "code_summary": [
+        "with pyarrow.ipc.open_stream(str(path)) as reader: table = reader.read_all()",
+        "arrs = table['target'].to_pylist()",
+        "for every array in arrs: np.asarray(a, dtype=np.float64), np.isfinite(x) over full length",
+        "computed finite start/end/counts for all 370 series",
+        "computed first6144/first12288/first18432 finite counts, lexical first128 common observed interval, earliest-start 128 rule, and completeness for candidate 6144 windows"
+      ],
+      "series_scope": "all 370 series were materialized/scanned; lexicographic first128 and earliest-finite-start first128 subsets were summarized",
+      "target_index_scope": "full target indices [0, 35064) were scanned; additional candidate windows [0, 6144), [8760-class starts], [27456, 33600), and earliest128 [0, 6144) were summarized",
+      "statistics_printed_to_stdout": {
+        "finite_start_min": 0,
+        "finite_start_quantiles_10_25_50_75_90": [
+          0.0,
+          0.0,
+          8760.0,
+          8760.0,
+          16563.000000000025
+        ],
+        "finite_start_max": 31056,
+        "finite_end_min_median_max": [
+          35063,
+          35063,
+          35063
+        ],
+        "series_with_any_finite_in_first6144_all": 160,
+        "series_with_any_finite_in_first6144_first128": 1,
+        "series_with_any_finite_in_first12288_all": 323,
+        "series_with_any_finite_in_first12288_first128": 105,
+        "series_with_any_finite_in_first18432_all": 337,
+        "series_with_any_finite_in_first18432_first128": 109,
+        "first128_start_counts_summary": {
+          "min": 0,
+          "median": 8760,
+          "max": 27456
+        },
+        "first128_common_full_observed_interval": {
+          "start": 27456,
+          "end": 35063,
+          "length": 7608
+        },
+        "earliest128_common_full_interval": {
+          "start": 0,
+          "end": 35063,
+          "length": 35064
+        },
+        "lex128_after_common_start_window": {
+          "offset": 27456,
+          "length": 6144,
+          "completeness_min_mean": [
+            1.0,
+            1.0
+          ],
+          "nan_series": 0,
+          "zero_series": 0,
+          "zero_values": 2458
+        },
+        "early128_after_common_start_window": {
+          "offset": 0,
+          "length": 6144,
+          "completeness_min_mean": [
+            1.0,
+            1.0
+          ],
+          "nan_series": 0,
+          "zero_series": 0,
+          "zero_values": 6988
+        },
+        "lex128_global0_window": {
+          "offset": 0,
+          "length": 6144,
+          "completeness_min_mean": [
+            0.0,
+            0.0078125
+          ],
+          "nan_series": 127,
+          "zero_series": 0,
+          "zero_values": 1
+        }
+      }
+    }
+  ],
+  "what_the_statistics_were_used_for": {
+    "model_training": false,
+    "model_inference": false,
+    "model_scoring": false,
+    "method_selection_or_hyperparameter_selection": false,
+    "leaderboard_or_fairness_table": false,
+    "saved_analysis_figures_or_metric_files": false,
+    "human_feasibility_statement_only": true,
+    "details": "The statistics were used only in commentary/final reporting to root that lexical first128 global prefix [0,6144) is not viable, while later common observed windows might be viable after protected-boundary confirmation. No G4/high-C loader, case JSON, prediction NPZ, score, or figure used these values."
+  },
+  "files_written_from_or_containing_protected_target_statistics_before_this_incident_record": {
+    "count": 0,
+    "paths": [],
+    "notes": "The diagnostics printed to stdout/tool transcript only. This PROTECTED_ACCESS_INCIDENT.json is the first repository file intentionally recording the incident and its summarized outputs."
+  },
+  "post_warning_actions": {
+    "additional_target_access_after_warning": false,
+    "allowed_files_read_after_warning": [
+      "results/gap_atlas_stage2_20260924/PERIODS.json",
+      "results/gap_atlas_stage2_20260924/PREMISE_AUDIT.json",
+      ".cache/gap_atlas_stage2_20260924/selection.json",
+      "experiments/gap_atlas_stage2_20260924/ga.py",
+      "experiments/gap_atlas_stage2_20260924/premise_audit.py",
+      "experiments/gap_atlas_stage2_20260924/gift_eval_data.py"
+    ],
+    "action_taken": "Stopped Electricity/GIFT loader feasibility implementation and returned focus to analysis/figures/verification as instructed."
+  },
+  "impact_assessment": {
+    "robin_jena_peacock_contracts_impacted": false,
+    "reason": "The target materialization was isolated to data/gift_eval/electricity/H diagnostics. It did not edit Robin/Jena/Peacock data contracts, masks, origins, normalization, prediction artifacts, or case JSON files.",
+    "analysis_outputs_impacted": false,
+    "reason_analysis": "SUMMARY/FAIRNESS/B_FIXED_STATS/figures were generated from existing Robin/Jena/raw cases and historical references, not from Electricity/GIFT arrays.",
+    "highC_or_G4_results_exist_from_this_access": false,
+    "global_no_new_test_access_zero_claim_valid": false,
+    "allowed_scope_claims_remaining": [
+      "Historical baseline manifest may retain its own row-level new_TEST_access field as a source-local claim only.",
+      "Independent Robin/Jena verifier PASS remains scoped to those cases and must not be generalized to Electricity/GIFT."
+    ]
+  },
+  "required_remediation": [
+    "Do not access Electricity/GIFT target arrays again until prior P1/P2 protected geometry and the allowed prefix window are confirmed from metadata/geometry without target materialization.",
+    "Any future high-C loader must enforce a fixed, predeclared allowed index window before reading target slices.",
+    "Any report must label the earlier lexical-first128/global-prefix finding as contaminated by protected access and exclude it from model comparison or selection.",
+    "Do not state global new_TEST_access=0 for the full campaign after this incident."
+  ]
+}

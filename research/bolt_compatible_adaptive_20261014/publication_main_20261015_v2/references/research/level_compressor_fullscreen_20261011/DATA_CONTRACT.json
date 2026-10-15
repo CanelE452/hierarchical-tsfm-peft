@@ -1,0 +1,1202 @@
+{
+  "schema": "level_compressor_fullscreen_data_contract_v1",
+  "scope": "TRAIN/VAL-only contract for A-H execution; protected TEST value archives are not opened.",
+  "domain": {
+    "type": "multivariate_time_series_forecasting",
+    "downstream_decision": "Compare channel compressors and LEVEL residual paths under frozen univariate TSFM cost/accuracy constraints.",
+    "primary_leakage_paths": [
+      "normalization fitted beyond the fold fit prefix",
+      "missing-value imputation using future observations",
+      "target windows overlapping across fit/calibration/selection/evaluation roles",
+      "opening protected TEST value arrays"
+    ],
+    "quality_bar": "publication-oriented exploratory experiment ledger; zero tolerance for TEST leakage"
+  },
+  "constants": {
+    "context": 512,
+    "horizon": 48,
+    "fit_origin_sample_count": 512,
+    "calibration_origin_sample_count": 256,
+    "sampling_seed": 92603,
+    "selection_stride": 24,
+    "eval_stride": 24
+  },
+  "primary_datasets": [
+    {
+      "dataset": "robin",
+      "fold": "canonical",
+      "shape": [
+        3312,
+        17
+      ],
+      "columns": 17,
+      "context": 512,
+      "horizon": 48,
+      "source_path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\trainval.npz",
+      "source_sha256": "04523b70fa2df7b37514ab0f12e0cb25048c35fd120a11d4c6ab56e0ae464e14",
+      "bounds": {
+        "fit": [
+          528,
+          1922
+        ],
+        "calibration": [
+          1922,
+          2221
+        ],
+        "selection": [
+          2221,
+          2520
+        ],
+        "eval": [
+          2568,
+          3312
+        ],
+        "outer_val": [
+          2568,
+          3312
+        ],
+        "test_a": [
+          3360,
+          4344
+        ],
+        "test_b": [
+          4344,
+          5328
+        ]
+      },
+      "origins": {
+        "train_fit": {
+          "count": 512,
+          "first": 529,
+          "last": 1873,
+          "sha256": "fdfe5db7111308ac8a6f816226645bdae325afb52820245831214937b651f417"
+        },
+        "calibration": {
+          "count": 252,
+          "first": 1922,
+          "last": 2173,
+          "sha256": "e819db6a3d45346d9ad0f373bce823c0d7b1edd80cf992377e54fee24b0309b8"
+        },
+        "selection": {
+          "count": 11,
+          "first": 2221,
+          "last": 2461,
+          "sha256": "8ac1544ec8cbad105a28d7c11ef14841f380472e9f4aecc3a3caa5ee0a7e629d"
+        },
+        "val": {
+          "count": 30,
+          "first": 2568,
+          "last": 3264,
+          "sha256": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea"
+        },
+        "outer_val": {
+          "count": 30,
+          "first": 2568,
+          "last": 3264,
+          "sha256": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea"
+        }
+      },
+      "finite_fraction": {
+        "all_trainval": 0.9999822392725206,
+        "fit": 0.9999578023461896,
+        "calibration": 1.0,
+        "selection": 1.0,
+        "eval": 1.0
+      },
+      "normalization": {
+        "fit_only": true,
+        "mean_sha256": "90c8eea5f9a72c0697fe3728600c363cc4936291ece866ddada6392d29b03fa8",
+        "std_sha256": "23706730c8ee671a0c0c6305cebdc0bc7120732c13fb60d9edbadcafc75e9491",
+        "zero_variance_channels": []
+      },
+      "graph": {
+        "rule": "TRAIN-fit-only symmetric abs(Pearson) graph; each node proposes top-3 neighbors, undirected union is kept, weights are abs correlations, adjacency is divided by spectral radius.",
+        "source": "No physical graph metadata exists in the local Robin/Jena/Peacock trainval contracts or high-C inventory, so this graph is a fixed TRAIN-only estimated graph.",
+        "warning": "This differs from earlier row-normalized graphs, which can be asymmetric and should not be described as an undirected spatial graph.",
+        "bounds": [
+          528,
+          1922
+        ],
+        "top_k": 3,
+        "edge_count_undirected": 39,
+        "spectral_radius_before": 4.536940213103859,
+        "spectral_radius_after": 1.0,
+        "pairwise_observed_count_min": 1393,
+        "pairwise_observed_count_max": 1394,
+        "graph_sha256": "951b945817957273c06a6d021e44ccdf3beb9f700efe38a75459b370173b5069"
+      },
+      "contract_hash": "20a90acfb17cb7f720c951f7676566311832c0e58823a3428d93a1e1209f2ca6",
+      "raw_recovery": {
+        "old_norm_recoverable_from_stored_mean_std": true,
+        "observed_roundtrip_max_abs": 4.76837158203125e-07
+      },
+      "test_values_opened": false
+    },
+    {
+      "dataset": "robin",
+      "fold": "backtest_1",
+      "shape": [
+        3312,
+        17
+      ],
+      "columns": 17,
+      "context": 512,
+      "horizon": 48,
+      "source_path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\trainval.npz",
+      "source_sha256": "04523b70fa2df7b37514ab0f12e0cb25048c35fd120a11d4c6ab56e0ae464e14",
+      "bounds": {
+        "fit": [
+          528,
+          1503
+        ],
+        "calibration": [
+          1503,
+          1712
+        ],
+        "selection": [
+          1712,
+          1922
+        ],
+        "eval": [
+          1922,
+          2221
+        ],
+        "outer_val": [
+          2568,
+          3312
+        ],
+        "test_a": [
+          3360,
+          4344
+        ],
+        "test_b": [
+          4344,
+          5328
+        ]
+      },
+      "origins": {
+        "train_fit": {
+          "count": 512,
+          "first": 528,
+          "last": 1453,
+          "sha256": "c3c882cb5122edec839d66dceddd1f463bbf5c5ea6f14358541b3c9f40954bb3"
+        },
+        "calibration": {
+          "count": 162,
+          "first": 1503,
+          "last": 1664,
+          "sha256": "f0308ba797a0870b852f7600fcf3a1c8b5af96245ad037f61e6fd8f8391e7635"
+        },
+        "selection": {
+          "count": 7,
+          "first": 1712,
+          "last": 1856,
+          "sha256": "115675cb99dbfbb7949e2226bad18ae89e94233432420f3dfa6ea1a048ad74ae"
+        },
+        "val": {
+          "count": 11,
+          "first": 1922,
+          "last": 2162,
+          "sha256": "4ad05ee2d1d3d7969762b60d1aeee5b927a5474bac85b2c46e92e5c60540ac31"
+        },
+        "outer_val": {
+          "count": 30,
+          "first": 2568,
+          "last": 3264,
+          "sha256": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea"
+        }
+      },
+      "finite_fraction": {
+        "all_trainval": 0.9999822392725206,
+        "fit": 0.9999396681749623,
+        "calibration": 1.0,
+        "selection": 1.0,
+        "eval": 1.0
+      },
+      "normalization": {
+        "fit_only": true,
+        "mean_sha256": "e2403d80b4b27f0ed97173a3e6ee6f8db0e950d5b151a8200eae7a83126c584b",
+        "std_sha256": "571e4533d606b1627d0e71a0e305d47c25c4c242192e2254dc844acbd345fd5b",
+        "zero_variance_channels": []
+      },
+      "graph": {
+        "rule": "TRAIN-fit-only symmetric abs(Pearson) graph; each node proposes top-3 neighbors, undirected union is kept, weights are abs correlations, adjacency is divided by spectral radius.",
+        "source": "No physical graph metadata exists in the local Robin/Jena/Peacock trainval contracts or high-C inventory, so this graph is a fixed TRAIN-only estimated graph.",
+        "warning": "This differs from earlier row-normalized graphs, which can be asymmetric and should not be described as an undirected spatial graph.",
+        "bounds": [
+          528,
+          1503
+        ],
+        "top_k": 3,
+        "edge_count_undirected": 40,
+        "spectral_radius_before": 4.756908456103013,
+        "spectral_radius_after": 1.0,
+        "pairwise_observed_count_min": 974,
+        "pairwise_observed_count_max": 975,
+        "graph_sha256": "39b1579dc827d83586bbeec3712821ce602835b372f9c426fbe464e53e502eb0"
+      },
+      "contract_hash": "dd4ee2c08068f7957352a38b07a6326198389a63db23cd71a6b89caf5f920d96",
+      "raw_recovery": {
+        "old_norm_recoverable_from_stored_mean_std": true,
+        "observed_roundtrip_max_abs": 4.76837158203125e-07
+      },
+      "test_values_opened": false
+    },
+    {
+      "dataset": "robin",
+      "fold": "backtest_2",
+      "shape": [
+        3312,
+        17
+      ],
+      "columns": 17,
+      "context": 512,
+      "horizon": 48,
+      "source_path": ".cache\\tsfm_peft_level_confirmation_v6_20260928\\data\\trainval.npz",
+      "source_sha256": "04523b70fa2df7b37514ab0f12e0cb25048c35fd120a11d4c6ab56e0ae464e14",
+      "bounds": {
+        "fit": [
+          528,
+          1713
+        ],
+        "calibration": [
+          1713,
+          1967
+        ],
+        "selection": [
+          1967,
+          2221
+        ],
+        "eval": [
+          2221,
+          2520
+        ],
+        "outer_val": [
+          2568,
+          3312
+        ],
+        "test_a": [
+          3360,
+          4344
+        ],
+        "test_b": [
+          4344,
+          5328
+        ]
+      },
+      "origins": {
+        "train_fit": {
+          "count": 512,
+          "first": 529,
+          "last": 1664,
+          "sha256": "f3d16ef707e45fb7a42f98cf4ac4c9d74e35afe2f6e9968e16b2412b1ec843f5"
+        },
+        "calibration": {
+          "count": 207,
+          "first": 1713,
+          "last": 1919,
+          "sha256": "284b3fc4190f77c185e1fd50bf3f43cebc18a6c3415b06d0588a0ee36c9d95fc"
+        },
+        "selection": {
+          "count": 9,
+          "first": 1967,
+          "last": 2159,
+          "sha256": "b0a80bbc83b3fecf8e9d5782ffd34eb51d2c0a3b0f04b786bd82886e673ce564"
+        },
+        "val": {
+          "count": 11,
+          "first": 2221,
+          "last": 2461,
+          "sha256": "8ac1544ec8cbad105a28d7c11ef14841f380472e9f4aecc3a3caa5ee0a7e629d"
+        },
+        "outer_val": {
+          "count": 30,
+          "first": 2568,
+          "last": 3264,
+          "sha256": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea"
+        }
+      },
+      "finite_fraction": {
+        "all_trainval": 0.9999822392725206,
+        "fit": 0.9999503598907917,
+        "calibration": 1.0,
+        "selection": 1.0,
+        "eval": 1.0
+      },
+      "normalization": {
+        "fit_only": true,
+        "mean_sha256": "d71604dafc17012f622d35ff07e621892f71bb33a6f75d2ae39db727bdb2f8d1",
+        "std_sha256": "b1bd8de5e3f868959ee8b91a5ac31720a89b4cd9dbbf0bee64869cce0f1ca536",
+        "zero_variance_channels": []
+      },
+      "graph": {
+        "rule": "TRAIN-fit-only symmetric abs(Pearson) graph; each node proposes top-3 neighbors, undirected union is kept, weights are abs correlations, adjacency is divided by spectral radius.",
+        "source": "No physical graph metadata exists in the local Robin/Jena/Peacock trainval contracts or high-C inventory, so this graph is a fixed TRAIN-only estimated graph.",
+        "warning": "This differs from earlier row-normalized graphs, which can be asymmetric and should not be described as an undirected spatial graph.",
+        "bounds": [
+          528,
+          1713
+        ],
+        "top_k": 3,
+        "edge_count_undirected": 39,
+        "spectral_radius_before": 4.47323130856064,
+        "spectral_radius_after": 1.0,
+        "pairwise_observed_count_min": 1184,
+        "pairwise_observed_count_max": 1185,
+        "graph_sha256": "15347808ae77da08553f94b69f4f26ea8da3c7e2ac45d845d6df0a22a947aec0"
+      },
+      "contract_hash": "340f6dcd3232ba9b392a755a9627f645dd0d5425e45ed869f758dcd3cd8d7424",
+      "raw_recovery": {
+        "old_norm_recoverable_from_stored_mean_std": true,
+        "observed_roundtrip_max_abs": 4.76837158203125e-07
+      },
+      "test_values_opened": false
+    },
+    {
+      "dataset": "jena",
+      "fold": "canonical",
+      "shape": [
+        35135,
+        21
+      ],
+      "columns": 21,
+      "context": 512,
+      "horizon": 48,
+      "source_path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_trainval.npz",
+      "source_sha256": "29cfae52d7cd7128e551ef85da11138ed4d3f7b3ccf27af359c4fc1dedf4a933",
+      "bounds": {
+        "fit": [
+          0,
+          18344
+        ],
+        "calibration": [
+          18344,
+          22275
+        ],
+        "selection": [
+          22275,
+          26207
+        ],
+        "eval": [
+          26207,
+          35135
+        ],
+        "outer_val": [
+          26207,
+          35135
+        ],
+        "test_a": [
+          35135,
+          43919
+        ],
+        "test_b": [
+          43919,
+          52704
+        ]
+      },
+      "origins": {
+        "train_fit": {
+          "count": 512,
+          "first": 545,
+          "last": 18205,
+          "sha256": "09002f0fd7c1f9a62c8bdd13be1e0b51e4fcf7fd243319b4245ec3b44cc7b152"
+        },
+        "calibration": {
+          "count": 256,
+          "first": 18348,
+          "last": 22222,
+          "sha256": "a501b2c7f2c2b61d586511d9288df12852cad9a398324de53d4475a8c47ff067"
+        },
+        "selection": {
+          "count": 162,
+          "first": 22275,
+          "last": 26139,
+          "sha256": "636f0629cef77d917c858a6595ee4690ace06390ec007cb2a2fd8410752c5cb3"
+        },
+        "val": {
+          "count": 371,
+          "first": 26207,
+          "last": 35087,
+          "sha256": "6493583a54ec2a350be4834e88642b893b182985cfa6b85b7eb52393d6f8f09b"
+        },
+        "outer_val": {
+          "count": 371,
+          "first": 26207,
+          "last": 35087,
+          "sha256": "6493583a54ec2a350be4834e88642b893b182985cfa6b85b7eb52393d6f8f09b"
+        }
+      },
+      "finite_fraction": {
+        "all_trainval": 0.9999688277189345,
+        "fit": 0.99999740410774,
+        "calibration": 0.999975772552725,
+        "selection": 0.9998788935716708,
+        "eval": 0.9999466632531149
+      },
+      "normalization": {
+        "fit_only": true,
+        "mean_sha256": "c90afda58d5b0a835aea5302fa9ae717765750d666c1f709a461a316e6a5899b",
+        "std_sha256": "6da1a9330ce6a2ae22ebba470d632773c0943934426b6e19551ca2984cb85dda",
+        "zero_variance_channels": []
+      },
+      "graph": {
+        "rule": "TRAIN-fit-only symmetric abs(Pearson) graph; each node proposes top-3 neighbors, undirected union is kept, weights are abs correlations, adjacency is divided by spectral radius.",
+        "source": "No physical graph metadata exists in the local Robin/Jena/Peacock trainval contracts or high-C inventory, so this graph is a fixed TRAIN-only estimated graph.",
+        "warning": "This differs from earlier row-normalized graphs, which can be asymmetric and should not be described as an undirected spatial graph.",
+        "bounds": [
+          0,
+          18344
+        ],
+        "top_k": 3,
+        "edge_count_undirected": 43,
+        "spectral_radius_before": 3.8395874334687603,
+        "spectral_radius_after": 1.0,
+        "pairwise_observed_count_min": 18343,
+        "pairwise_observed_count_max": 18344,
+        "graph_sha256": "4ba0ca456ac116ecf3d1b0eee8f1287e86c9da3c7d32155d007001fa2def14ca"
+      },
+      "contract_hash": "cacd43bb35daab3d61b4c57513b07b4aa88a9fd66d2659e470ef0e1558d1e72c",
+      "raw_recovery": {
+        "old_norm_recoverable_from_stored_mean_std": true,
+        "observed_roundtrip_max_abs": 4.76837158203125e-07
+      },
+      "test_values_opened": false
+    },
+    {
+      "dataset": "jena",
+      "fold": "backtest_1",
+      "shape": [
+        35135,
+        21
+      ],
+      "columns": 21,
+      "context": 512,
+      "horizon": 48,
+      "source_path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_trainval.npz",
+      "source_sha256": "29cfae52d7cd7128e551ef85da11138ed4d3f7b3ccf27af359c4fc1dedf4a933",
+      "bounds": {
+        "fit": [
+          0,
+          12840
+        ],
+        "calibration": [
+          12840,
+          15592
+        ],
+        "selection": [
+          15592,
+          18344
+        ],
+        "eval": [
+          18344,
+          22275
+        ],
+        "outer_val": [
+          26207,
+          35135
+        ],
+        "test_a": [
+          35135,
+          43919
+        ],
+        "test_b": [
+          43919,
+          52704
+        ]
+      },
+      "origins": {
+        "train_fit": {
+          "count": 512,
+          "first": 534,
+          "last": 12792,
+          "sha256": "9f34ce04ea035d17786fd8488868427ce916fe445e847c974bada712ce83085e"
+        },
+        "calibration": {
+          "count": 256,
+          "first": 12843,
+          "last": 15537,
+          "sha256": "1510cd1ad0e1df0fec5cc547c581b6730dd813c10a170b5b74c06b2a3d7e00a6"
+        },
+        "selection": {
+          "count": 113,
+          "first": 15592,
+          "last": 18280,
+          "sha256": "f0c68f52f2a2b247e1b34546c32aced0dc659378624d8741913da14d83f7bdff"
+        },
+        "val": {
+          "count": 162,
+          "first": 18344,
+          "last": 22208,
+          "sha256": "b6bcd6a7c45bed88ae3d5621c2736d752aebcceff9c598ec3170ceadc685af32"
+        },
+        "outer_val": {
+          "count": 371,
+          "first": 26207,
+          "last": 35087,
+          "sha256": "6493583a54ec2a350be4834e88642b893b182985cfa6b85b7eb52393d6f8f09b"
+        }
+      },
+      "finite_fraction": {
+        "all_trainval": 0.9999688277189345,
+        "fit": 1.0,
+        "calibration": 1.0,
+        "selection": 0.9999826965669989,
+        "eval": 0.999975772552725
+      },
+      "normalization": {
+        "fit_only": true,
+        "mean_sha256": "c77875e22e26f36b4d61eed0d0bafce24edf7463a972c9672daf93ee28a8dbdd",
+        "std_sha256": "0e1af9117c838b1d8b14c4acc19aaffb541810e33192b240fa9b54897f4f6bd3",
+        "zero_variance_channels": []
+      },
+      "graph": {
+        "rule": "TRAIN-fit-only symmetric abs(Pearson) graph; each node proposes top-3 neighbors, undirected union is kept, weights are abs correlations, adjacency is divided by spectral radius.",
+        "source": "No physical graph metadata exists in the local Robin/Jena/Peacock trainval contracts or high-C inventory, so this graph is a fixed TRAIN-only estimated graph.",
+        "warning": "This differs from earlier row-normalized graphs, which can be asymmetric and should not be described as an undirected spatial graph.",
+        "bounds": [
+          0,
+          12840
+        ],
+        "top_k": 3,
+        "edge_count_undirected": 44,
+        "spectral_radius_before": 3.7553827588643522,
+        "spectral_radius_after": 1.0,
+        "pairwise_observed_count_min": 12840,
+        "pairwise_observed_count_max": 12840,
+        "graph_sha256": "9c5cf1cc93d472bbdfe4fe6cf7bb7d278152e78739f19653c1b83a07acc29d83"
+      },
+      "contract_hash": "cc71dd12a986e3a99d543ce3c604dce4c707f035b56b7fdb7e09012823a8b4c7",
+      "raw_recovery": {
+        "old_norm_recoverable_from_stored_mean_std": true,
+        "observed_roundtrip_max_abs": 4.76837158203125e-07
+      },
+      "test_values_opened": false
+    },
+    {
+      "dataset": "jena",
+      "fold": "backtest_2",
+      "shape": [
+        35135,
+        21
+      ],
+      "columns": 21,
+      "context": 512,
+      "horizon": 48,
+      "source_path": ".cache\\tsfm_peft_practical_controls_v7_20260928\\data\\jena_trainval.npz",
+      "source_sha256": "29cfae52d7cd7128e551ef85da11138ed4d3f7b3ccf27af359c4fc1dedf4a933",
+      "bounds": {
+        "fit": [
+          0,
+          15592
+        ],
+        "calibration": [
+          15592,
+          18933
+        ],
+        "selection": [
+          18933,
+          22275
+        ],
+        "eval": [
+          22275,
+          26207
+        ],
+        "outer_val": [
+          26207,
+          35135
+        ],
+        "test_a": [
+          35135,
+          43919
+        ],
+        "test_b": [
+          43919,
+          52704
+        ]
+      },
+      "origins": {
+        "train_fit": {
+          "count": 512,
+          "first": 540,
+          "last": 15533,
+          "sha256": "ee2041b41e1a009a687fd7d688ca6b4f7c0b3798b7d20d57de367110ecdf6bca"
+        },
+        "calibration": {
+          "count": 256,
+          "first": 15595,
+          "last": 18874,
+          "sha256": "828161fb21c138ce766f1e93687769545fdea78d3aa44e68dfe9f5470c5c07b9"
+        },
+        "selection": {
+          "count": 138,
+          "first": 18933,
+          "last": 22221,
+          "sha256": "c924b8e62ada75f469ce6644c9552e1338db30361a16d8acd2ba783f7e33b0ac"
+        },
+        "val": {
+          "count": 162,
+          "first": 22275,
+          "last": 26139,
+          "sha256": "636f0629cef77d917c858a6595ee4690ace06390ec007cb2a2fd8410752c5cb3"
+        },
+        "outer_val": {
+          "count": 371,
+          "first": 26207,
+          "last": 35087,
+          "sha256": "6493583a54ec2a350be4834e88642b893b182985cfa6b85b7eb52393d6f8f09b"
+        }
+      },
+      "finite_fraction": {
+        "all_trainval": 0.9999688277189345,
+        "fit": 1.0,
+        "calibration": 0.9999857470674591,
+        "selection": 0.9999715026645009,
+        "eval": 0.9998788935716708
+      },
+      "normalization": {
+        "fit_only": true,
+        "mean_sha256": "5b218644335ced68cbee4c5833cf94184ab82b3c4be28de929973ab04979cfb9",
+        "std_sha256": "5ce9e5eac5a61a9a7249147d611f246584597bbd783af6d54c8f5c886ba9a777",
+        "zero_variance_channels": []
+      },
+      "graph": {
+        "rule": "TRAIN-fit-only symmetric abs(Pearson) graph; each node proposes top-3 neighbors, undirected union is kept, weights are abs correlations, adjacency is divided by spectral radius.",
+        "source": "No physical graph metadata exists in the local Robin/Jena/Peacock trainval contracts or high-C inventory, so this graph is a fixed TRAIN-only estimated graph.",
+        "warning": "This differs from earlier row-normalized graphs, which can be asymmetric and should not be described as an undirected spatial graph.",
+        "bounds": [
+          0,
+          15592
+        ],
+        "top_k": 3,
+        "edge_count_undirected": 43,
+        "spectral_radius_before": 3.6440454422860116,
+        "spectral_radius_after": 1.0,
+        "pairwise_observed_count_min": 15592,
+        "pairwise_observed_count_max": 15592,
+        "graph_sha256": "c367c248f12a857d3da8b40c0d362eff16f4941b471f9c7de5a085c9c09df07d"
+      },
+      "contract_hash": "fc04e9067d54c463345ded46ecb75e4d933dac939481a6cc798c6d4846189cf3",
+      "raw_recovery": {
+        "old_norm_recoverable_from_stored_mean_std": true,
+        "observed_roundtrip_max_abs": 4.76837158203125e-07
+      },
+      "test_values_opened": false
+    },
+    {
+      "dataset": "peacock_education",
+      "fold": "canonical",
+      "shape": [
+        3312,
+        13
+      ],
+      "columns": 13,
+      "context": 512,
+      "horizon": 48,
+      "source_path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_data\\peacock_education\\trainval.npz",
+      "source_sha256": "5dede47a0a2d4e2695cfb7b5352f56e69c38ec553124f1d1794fa88ba406f82d",
+      "bounds": {
+        "fit": [
+          528,
+          1922
+        ],
+        "calibration": [
+          1922,
+          2221
+        ],
+        "selection": [
+          2221,
+          2520
+        ],
+        "eval": [
+          2568,
+          3312
+        ],
+        "outer_val": [
+          2568,
+          3312
+        ],
+        "test_a": [
+          3360,
+          4344
+        ],
+        "test_b": [
+          4344,
+          5328
+        ]
+      },
+      "origins": {
+        "train_fit": {
+          "count": 512,
+          "first": 529,
+          "last": 1873,
+          "sha256": "fdfe5db7111308ac8a6f816226645bdae325afb52820245831214937b651f417"
+        },
+        "calibration": {
+          "count": 252,
+          "first": 1922,
+          "last": 2173,
+          "sha256": "e819db6a3d45346d9ad0f373bce823c0d7b1edd80cf992377e54fee24b0309b8"
+        },
+        "selection": {
+          "count": 11,
+          "first": 2221,
+          "last": 2461,
+          "sha256": "8ac1544ec8cbad105a28d7c11ef14841f380472e9f4aecc3a3caa5ee0a7e629d"
+        },
+        "val": {
+          "count": 30,
+          "first": 2568,
+          "last": 3264,
+          "sha256": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea"
+        },
+        "outer_val": {
+          "count": 30,
+          "first": 2568,
+          "last": 3264,
+          "sha256": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea"
+        }
+      },
+      "finite_fraction": {
+        "all_trainval": 0.995958751393534,
+        "fit": 0.9945922083655225,
+        "calibration": 0.9992281965526113,
+        "selection": 0.9992281965526113,
+        "eval": 1.0
+      },
+      "normalization": {
+        "fit_only": true,
+        "mean_sha256": "62c98d5cebb35e580afd84cd6f2d88419f52ee50eed97ecc35c624e3bec1b2f3",
+        "std_sha256": "089e8001aee4c2beb323060edc8ba43cce92856658fcc246e771727089e4579f",
+        "zero_variance_channels": []
+      },
+      "graph": {
+        "rule": "TRAIN-fit-only symmetric abs(Pearson) graph; each node proposes top-3 neighbors, undirected union is kept, weights are abs correlations, adjacency is divided by spectral radius.",
+        "source": "No physical graph metadata exists in the local Robin/Jena/Peacock trainval contracts or high-C inventory, so this graph is a fixed TRAIN-only estimated graph.",
+        "warning": "This differs from earlier row-normalized graphs, which can be asymmetric and should not be described as an undirected spatial graph.",
+        "bounds": [
+          528,
+          1922
+        ],
+        "top_k": 3,
+        "edge_count_undirected": 32,
+        "spectral_radius_before": 4.643238459273909,
+        "spectral_radius_after": 1.0,
+        "pairwise_observed_count_min": 1321,
+        "pairwise_observed_count_max": 1393,
+        "graph_sha256": "7ebdb9bceb3da81882e88542f27d5aebf38c20e36eb1f12832c083e49beeeb2c"
+      },
+      "contract_hash": "9cf2f1246610ef625b35969f72c71962283ef65129130f74f475f78cabfb78d6",
+      "raw_recovery": {
+        "old_norm_recoverable_from_stored_mean_std": true,
+        "observed_roundtrip_max_abs": 2.384185791015625e-07
+      },
+      "test_values_opened": false
+    },
+    {
+      "dataset": "peacock_education",
+      "fold": "backtest_1",
+      "shape": [
+        3312,
+        13
+      ],
+      "columns": 13,
+      "context": 512,
+      "horizon": 48,
+      "source_path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_data\\peacock_education\\trainval.npz",
+      "source_sha256": "5dede47a0a2d4e2695cfb7b5352f56e69c38ec553124f1d1794fa88ba406f82d",
+      "bounds": {
+        "fit": [
+          528,
+          1503
+        ],
+        "calibration": [
+          1503,
+          1712
+        ],
+        "selection": [
+          1712,
+          1922
+        ],
+        "eval": [
+          1922,
+          2221
+        ],
+        "outer_val": [
+          2568,
+          3312
+        ],
+        "test_a": [
+          3360,
+          4344
+        ],
+        "test_b": [
+          4344,
+          5328
+        ]
+      },
+      "origins": {
+        "train_fit": {
+          "count": 512,
+          "first": 528,
+          "last": 1453,
+          "sha256": "c3c882cb5122edec839d66dceddd1f463bbf5c5ea6f14358541b3c9f40954bb3"
+        },
+        "calibration": {
+          "count": 162,
+          "first": 1503,
+          "last": 1664,
+          "sha256": "f0308ba797a0870b852f7600fcf3a1c8b5af96245ad037f61e6fd8f8391e7635"
+        },
+        "selection": {
+          "count": 7,
+          "first": 1712,
+          "last": 1856,
+          "sha256": "115675cb99dbfbb7949e2226bad18ae89e94233432420f3dfa6ea1a048ad74ae"
+        },
+        "val": {
+          "count": 11,
+          "first": 1922,
+          "last": 2162,
+          "sha256": "4ad05ee2d1d3d7969762b60d1aeee5b927a5474bac85b2c46e92e5c60540ac31"
+        },
+        "outer_val": {
+          "count": 30,
+          "first": 2568,
+          "last": 3264,
+          "sha256": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea"
+        }
+      },
+      "finite_fraction": {
+        "all_trainval": 0.995958751393534,
+        "fit": 0.9943195266272189,
+        "calibration": 0.9985277880014722,
+        "selection": 0.991941391941392,
+        "eval": 0.9992281965526113
+      },
+      "normalization": {
+        "fit_only": true,
+        "mean_sha256": "ded7ea86c2aa920a70546662cc85a764d4d878d6cd5458e35d9276296c099ec8",
+        "std_sha256": "e8c7fd145e1a27bfc07fe3f39e0d461219957573fb5532a77128fca151558b9d",
+        "zero_variance_channels": []
+      },
+      "graph": {
+        "rule": "TRAIN-fit-only symmetric abs(Pearson) graph; each node proposes top-3 neighbors, undirected union is kept, weights are abs correlations, adjacency is divided by spectral radius.",
+        "source": "No physical graph metadata exists in the local Robin/Jena/Peacock trainval contracts or high-C inventory, so this graph is a fixed TRAIN-only estimated graph.",
+        "warning": "This differs from earlier row-normalized graphs, which can be asymmetric and should not be described as an undirected spatial graph.",
+        "bounds": [
+          528,
+          1503
+        ],
+        "top_k": 3,
+        "edge_count_undirected": 32,
+        "spectral_radius_before": 4.7650558529425115,
+        "spectral_radius_after": 1.0,
+        "pairwise_observed_count_min": 908,
+        "pairwise_observed_count_max": 975,
+        "graph_sha256": "211ea2ca17c278963bb90278ee8404d457e0a63f3c2003e95350e6d1e458a89d"
+      },
+      "contract_hash": "c6ca90b9c15b9e658ad3e16a36e883c1f3ed941f56f7cbc3eac9d83b1b2188f0",
+      "raw_recovery": {
+        "old_norm_recoverable_from_stored_mean_std": true,
+        "observed_roundtrip_max_abs": 2.384185791015625e-07
+      },
+      "test_values_opened": false
+    },
+    {
+      "dataset": "peacock_education",
+      "fold": "backtest_2",
+      "shape": [
+        3312,
+        13
+      ],
+      "columns": 13,
+      "context": 512,
+      "horizon": 48,
+      "source_path": ".cache\\tsfm_peft_a_confirmation_v12_20261001\\confirmation_data\\peacock_education\\trainval.npz",
+      "source_sha256": "5dede47a0a2d4e2695cfb7b5352f56e69c38ec553124f1d1794fa88ba406f82d",
+      "bounds": {
+        "fit": [
+          528,
+          1713
+        ],
+        "calibration": [
+          1713,
+          1967
+        ],
+        "selection": [
+          1967,
+          2221
+        ],
+        "eval": [
+          2221,
+          2520
+        ],
+        "outer_val": [
+          2568,
+          3312
+        ],
+        "test_a": [
+          3360,
+          4344
+        ],
+        "test_b": [
+          4344,
+          5328
+        ]
+      },
+      "origins": {
+        "train_fit": {
+          "count": 512,
+          "first": 529,
+          "last": 1664,
+          "sha256": "f3d16ef707e45fb7a42f98cf4ac4c9d74e35afe2f6e9968e16b2412b1ec843f5"
+        },
+        "calibration": {
+          "count": 207,
+          "first": 1713,
+          "last": 1919,
+          "sha256": "284b3fc4190f77c185e1fd50bf3f43cebc18a6c3415b06d0588a0ee36c9d95fc"
+        },
+        "selection": {
+          "count": 9,
+          "first": 1967,
+          "last": 2159,
+          "sha256": "b0a80bbc83b3fecf8e9d5782ffd34eb51d2c0a3b0f04b786bd82886e673ce564"
+        },
+        "val": {
+          "count": 11,
+          "first": 2221,
+          "last": 2461,
+          "sha256": "8ac1544ec8cbad105a28d7c11ef14841f380472e9f4aecc3a3caa5ee0a7e629d"
+        },
+        "outer_val": {
+          "count": 30,
+          "first": 2568,
+          "last": 3264,
+          "sha256": "1364df723f7c92c3f2bb41a52c573eed3fa8572b8f8753cc4971e5312678feea"
+        }
+      },
+      "finite_fraction": {
+        "all_trainval": 0.995958751393534,
+        "fit": 0.9950665368386887,
+        "calibration": 0.9927316777710479,
+        "selection": 0.9996971532404604,
+        "eval": 0.9992281965526113
+      },
+      "normalization": {
+        "fit_only": true,
+        "mean_sha256": "93f8b1fc6845b24d2770707c0a2d56d5903531ed8fa53917eb7da48f3f77fe61",
+        "std_sha256": "9f7771f05ae1818d4c7c3a5b2d4efefa47748302da5eeec9a89465ce1028bb15",
+        "zero_variance_channels": []
+      },
+      "graph": {
+        "rule": "TRAIN-fit-only symmetric abs(Pearson) graph; each node proposes top-3 neighbors, undirected union is kept, weights are abs correlations, adjacency is divided by spectral radius.",
+        "source": "No physical graph metadata exists in the local Robin/Jena/Peacock trainval contracts or high-C inventory, so this graph is a fixed TRAIN-only estimated graph.",
+        "warning": "This differs from earlier row-normalized graphs, which can be asymmetric and should not be described as an undirected spatial graph.",
+        "bounds": [
+          528,
+          1713
+        ],
+        "top_k": 3,
+        "edge_count_undirected": 32,
+        "spectral_radius_before": 4.640736813357945,
+        "spectral_radius_after": 1.0,
+        "pairwise_observed_count_min": 1114,
+        "pairwise_observed_count_max": 1185,
+        "graph_sha256": "5f391446e893c70b20a95d3ea17f0f0a58daaede7304615e209ba51bdd1b6b08"
+      },
+      "contract_hash": "ccad9f11f6d54752b891b4ea7df55842324125ebd5a0d23484e168f283bff144",
+      "raw_recovery": {
+        "old_norm_recoverable_from_stored_mean_std": true,
+        "observed_roundtrip_max_abs": 2.384185791015625e-07
+      },
+      "test_values_opened": false
+    }
+  ],
+  "local_extra_data": {
+    "peacock_education": "available as a primary TRAIN/VAL-only v18 dataset; not a new unseen dataset",
+    "high_channel_hierarchical_sources": [
+      {
+        "path": "data\\hierarchical\\Traffic\\data.csv",
+        "sha256": "3af82e94effc62e33b96e9d3a8dc8754c455fc6f18fd56a9c30ee98cffb61023",
+        "rows": 366,
+        "channels_excluding_time": 207,
+        "first_timestamp": "2008-01-01",
+        "current_L512_H48_accuracy_status": "BLOCKED_SPLIT",
+        "reason": "raw high-C local source exists, but rows are shorter than L+H=560 or lack the current L512/H48 TRAIN/VAL/mask contract"
+      },
+      {
+        "path": "data\\hierarchical\\TourismLarge\\data.csv",
+        "sha256": "2c38bd1625889f4414079296507c54762122b0b4c86c0ecc0fe6f84f6f6ead0e",
+        "rows": 228,
+        "channels_excluding_time": 555,
+        "first_timestamp": "1998-01-01",
+        "current_L512_H48_accuracy_status": "BLOCKED_SPLIT",
+        "reason": "raw high-C local source exists, but rows are shorter than L+H=560 or lack the current L512/H48 TRAIN/VAL/mask contract"
+      },
+      {
+        "path": "data\\hierarchical\\Wiki2\\data.csv",
+        "sha256": "157f97d1f9041c99266a5deff3a2f2789e80f8b157fd947cfa7782c4b990c393",
+        "rows": 366,
+        "channels_excluding_time": 199,
+        "first_timestamp": "2016-01-01",
+        "current_L512_H48_accuracy_status": "BLOCKED_SPLIT",
+        "reason": "raw high-C local source exists, but rows are shorter than L+H=560 or lack the current L512/H48 TRAIN/VAL/mask contract"
+      },
+      {
+        "path": "data\\hierarchical\\Labour\\data.csv",
+        "sha256": "f53a66d035cc95d2d5ab16932d12d8b45799705e0a9332ae3fa0f9fdf166e18e",
+        "rows": 514,
+        "channels_excluding_time": 57,
+        "first_timestamp": "1978-02-01",
+        "current_L512_H48_accuracy_status": "BLOCKED_SPLIT",
+        "reason": "raw high-C local source exists, but rows are shorter than L+H=560 or lack the current L512/H48 TRAIN/VAL/mask contract"
+      }
+    ],
+    "gift_eval_sources": [
+      {
+        "path": "data\\gift_eval\\bitbrains_fast_storage\\H\\dataset_info.json",
+        "dataset_name": "bitbrains_fast_storage/H",
+        "num_examples": 1250,
+        "dataset_size": 25310143,
+        "target_feature": {
+          "feature": {
+            "feature": {
+              "dtype": "float32",
+              "_type": "Value"
+            },
+            "_type": "Sequence"
+          },
+          "length": 2,
+          "_type": "Sequence"
+        },
+        "current_multivariate_contract_status": "BLOCKED_DATA",
+        "reason": "local GIFT-Eval shards are univariate/example-oriented; no verified aligned CxT L512/H48 TRAIN/VAL/mask contract is present in this run"
+      },
+      {
+        "path": "data\\gift_eval\\bitbrains_rnd\\5T\\dataset_info.json",
+        "dataset_name": "bitbrains_rnd/5T",
+        "num_examples": 500,
+        "dataset_size": 120986392,
+        "target_feature": {
+          "feature": {
+            "feature": {
+              "dtype": "float32",
+              "_type": "Value"
+            },
+            "_type": "Sequence"
+          },
+          "length": 2,
+          "_type": "Sequence"
+        },
+        "current_multivariate_contract_status": "BLOCKED_DATA",
+        "reason": "local GIFT-Eval shards are univariate/example-oriented; no verified aligned CxT L512/H48 TRAIN/VAL/mask contract is present in this run"
+      },
+      {
+        "path": "data\\gift_eval\\bitbrains_rnd\\H\\dataset_info.json",
+        "dataset_name": "bitbrains_rnd/H",
+        "num_examples": 500,
+        "dataset_size": 10105892,
+        "target_feature": {
+          "feature": {
+            "feature": {
+              "dtype": "float32",
+              "_type": "Value"
+            },
+            "_type": "Sequence"
+          },
+          "length": 2,
+          "_type": "Sequence"
+        },
+        "current_multivariate_contract_status": "BLOCKED_DATA",
+        "reason": "local GIFT-Eval shards are univariate/example-oriented; no verified aligned CxT L512/H48 TRAIN/VAL/mask contract is present in this run"
+      },
+      {
+        "path": "data\\gift_eval\\bizitobs_l2c\\5T\\dataset_info.json",
+        "dataset_name": "bizitobs_l2c/5T",
+        "num_examples": 1,
+        "dataset_size": 1150905,
+        "target_feature": {
+          "feature": {
+            "feature": {
+              "dtype": "float32",
+              "_type": "Value"
+            },
+            "_type": "Sequence"
+          },
+          "length": 7,
+          "_type": "Sequence"
+        },
+        "current_multivariate_contract_status": "BLOCKED_DATA",
+        "reason": "local GIFT-Eval shards are univariate/example-oriented; no verified aligned CxT L512/H48 TRAIN/VAL/mask contract is present in this run"
+      },
+      {
+        "path": "data\\gift_eval\\bizitobs_l2c\\H\\dataset_info.json",
+        "dataset_name": "bizitobs_l2c/H",
+        "num_examples": 1,
+        "dataset_size": 95960,
+        "target_feature": {
+          "feature": {
+            "feature": {
+              "dtype": "float32",
+              "_type": "Value"
+            },
+            "_type": "Sequence"
+          },
+          "length": 7,
+          "_type": "Sequence"
+        },
+        "current_multivariate_contract_status": "BLOCKED_DATA",
+        "reason": "local GIFT-Eval shards are univariate/example-oriented; no verified aligned CxT L512/H48 TRAIN/VAL/mask contract is present in this run"
+      },
+      {
+        "path": "data\\gift_eval\\electricity\\H\\dataset_info.json",
+        "dataset_name": "electricity/H",
+        "num_examples": 370,
+        "dataset_size": 51904710,
+        "target_feature": {
+          "feature": {
+            "dtype": "float32",
+            "_type": "Value"
+          },
+          "_type": "Sequence"
+        },
+        "current_multivariate_contract_status": "BLOCKED_DATA",
+        "reason": "local GIFT-Eval shards are univariate/example-oriented; no verified aligned CxT L512/H48 TRAIN/VAL/mask contract is present in this run"
+      }
+    ]
+  },
+  "loader_contract": {
+    "entrypoint": "research.level_compressor_fullscreen_20261011.data_contract.load_dataset(name, fold=None)",
+    "folds": [
+      "canonical",
+      "backtest_1",
+      "backtest_2"
+    ],
+    "fold_aliases": {
+      "None": "canonical",
+      "0": "backtest_1",
+      "1": "backtest_2"
+    },
+    "returned_arrays": {
+      "x": "float32 [T,C], fold-fit normalized, missing values filled only from previous observed normalized values or zero before first observation",
+      "raw": "float32 [T,C], observed original-scale values with NaN where finite mask is false",
+      "finite": "bool [T,C], original observation mask",
+      "timestamps": "stored timestamp array from trainval archive",
+      "train_graph": "float32 [C,C], symmetric TRAIN-fit-only abs(Pearson) top-3-union adjacency scaled to spectral radius <= 1"
+    },
+    "returned_origins": {
+      "train_fit_origins": "sorted sample up to 512 legal target-contained origins from fold fit segment, seed 92603",
+      "calibration_origins": "sorted sample up to 256 legal target-contained origins from fold calibration segment, seed 92604",
+      "selection_origins": "stride-24 legal target-contained origins from fold selection segment",
+      "val_origins": "canonical outer VAL origins for canonical fold; fold eval origins for backtest folds",
+      "eval_origins": "alias of val_origins for the active fold",
+      "outer_val_origins": "existing development VAL origins, preserved for all folds",
+      "existing_val_origins": "alias of outer_val_origins",
+      "canonical_train_origins": "existing TRAIN origins from the source trainval archive, preserved for reuse checks"
+    },
+    "hash_policy": "contract_hash hashes source artifact sha256, finite mask, fold-local normalization, origin receipts, fold plan, timestamp hash, precision contract, and graph rule/hash.",
+    "graph_policy": "No physical graph metadata was found for the primary trainval contracts; the returned graph is an estimated TRAIN-only undirected graph. Earlier row-normalized graph utilities are asymmetric and should be reported separately.",
+    "test_policy": "runtime_v18.load_data(..., include_test=False) only; TEST bounds may be recorded from JSON metadata, but TEST value archives are not opened."
+  }
+}
