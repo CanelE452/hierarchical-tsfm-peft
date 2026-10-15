@@ -1,0 +1,89 @@
+{
+  "status": "CONFIRMED_AUDIT_METADATA_SERIALIZATION_FAILURE_REPAIRED",
+  "failed_audit_artifact": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\audits\\FIT_TARGET_COMPARISON_AUDIT_v1.json",
+    "sha256": "4282c8e8fe50aab8f87d50b2ceb3e0e7789c0ac6d6786437349b08bc8ec48baf",
+    "bytes": 12219
+  },
+  "failed_artifact_is_complete_valid_JSON": false,
+  "failed_artifact_JSON_parser_error": {
+    "type": "JSONDecodeError",
+    "message": "Expecting value: line 344 column 46 (char 11876)"
+  },
+  "failed_audit_source": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\audit_fit_target_comparison_v1.py",
+    "sha256": "5f4608029043f04e9f7474b95707deee8f2eed4ee6fe9c98b6c659e1a74586d0",
+    "bytes": 56317
+  },
+  "failed_audit_resource_terminal": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\resources\\29992_1791995747661005900_audit_FIT_target_FIT_TARGET_COMPARISON_AUDIT_v1.json",
+    "sha256": "a231ae56db6c018803f0ab4d8c0486843e43ab404f53fa8a1584f3c2e0193a7e",
+    "bytes": 1122
+  },
+  "first_resource_status": "PASS",
+  "first_resource_PASS_scope": "Internal numerical and source checks returned PASS; final audit JSON serialization subsequently failed. This is not a completed accepted audit artifact.",
+  "original_exception": {
+    "type": "TypeError",
+    "message": "Object of type bool is not JSON serializable",
+    "stage": "final json.dump output",
+    "field": "retained_topK_subspace_unique",
+    "value_type": "NumPy bool scalar"
+  },
+  "accepted_audit": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\audits\\FIT_TARGET_COMPARISON_AUDIT_v2.json",
+    "sha256": "14399051dc1614f785f4548daa139d92c8769e59fcbee9f38a98126914aedab6",
+    "bytes": 550048
+  },
+  "fresh_audit_source": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\audit_fit_target_comparison_v2.py",
+    "sha256": "4051156617c8728c3dab69d4d9a937083c5e3d43f61c4612935c23a38b7c7f66",
+    "bytes": 56653
+  },
+  "producer": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\runs\\actual_fit_target_v1\\RESULT.json",
+    "sha256": "5d213da750bc6eb3b43dcb9d25fa08c3313f4c2662148cc2bad45adcc2cf6f98"
+  },
+  "source_difference": {
+    "exactly_one_bool_scalar_adapter_verified": true,
+    "old_expression": "boundary_unique = k == target.shape[-1] or eigenvalues[k - 1] - eigenvalues[k] > numerical_bound",
+    "new_expression": "boundary_unique = bool(k == target.shape[-1] or eigenvalues[k - 1] - eigenvalues[k] > numerical_bound)",
+    "mathematical_checks_tolerances_arrays_scores_and_selection_unchanged": true
+  },
+  "regression_tests": {
+    "fresh_tests_passed": 17,
+    "preserved_v1_projection_metadata_serialization_failure_reproduced": true,
+    "fresh_v2_projection_and_output_subspace_metadata_JSON_roundtrips_passed": true
+  },
+  "protected_TEST_accessed": false,
+  "model_or_head_called": false,
+  "training_reexecuted": false,
+  "original_source_failed_output_and_receipt_preserved": true,
+  "resource_terminal": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\resources\\59648_1791995992171752100_audit_fit_target_scalar_failure_identity_v1.json",
+    "sha256": "a523ff662768093633b2474cfddc948e97c5a98dab22690b6c893cdb5411e7cd",
+    "status": "COMPLETE",
+    "tag": "audit_fit_target_scalar_failure_identity_v1",
+    "pid": 59648,
+    "gpu_process": false,
+    "process_created_unix": 1791995992.032126,
+    "started_unix": 1791995992.1717522,
+    "authorization": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\AUTHORIZATION_SCOPE_v1.json",
+      "sha256": "6b04574eba607766e7c9c72cc18403af5a52a23e3d2e603d0451359d4c8050d0"
+    },
+    "continuation_manifest": {
+      "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\CONTINUATION_MANIFEST_v1.json",
+      "sha256": "b4577b06e043f4d3e557d35f33eafdc4a1f238628f8e93652172720af24780b8"
+    },
+    "original_budget_records_unchanged": true,
+    "elapsed_or_cumulative_budget_caps": null,
+    "sampled_peak_rss_bytes": 23293952,
+    "peak_allocated_vram_bytes": 0,
+    "peak_reserved_vram_bytes": 0,
+    "wall_seconds": 0.02593219978734851,
+    "process_cpu_seconds": 0.078125,
+    "heartbeat_unix": 1791995992.1969674,
+    "error": null,
+    "ended_unix": 1791995992.1984687
+  }
+}

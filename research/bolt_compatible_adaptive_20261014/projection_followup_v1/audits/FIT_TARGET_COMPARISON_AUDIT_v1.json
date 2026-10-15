@@ -1,0 +1,344 @@
+{
+  "status": "PASS",
+  "producer": {
+    "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\projection_followup_v1\\runs\\actual_fit_target_v1\\RESULT.json",
+    "sha256": "5d213da750bc6eb3b43dcb9d25fa08c3313f4c2662148cc2bad45adcc2cf6f98"
+  },
+  "datasets": {
+    "robin": {
+      "original_input_producer": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\research\\bolt_compatible_adaptive_20261014\\runs\\first_robin_v1\\RESULT.json",
+        "sha256": "78bb6adc828ffa7689f1b74f83f5661d79c5828ce8ca67769ef273e3d1cae5be"
+      },
+      "original_canonical_input_bridge": {
+        "path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\smallk_failure_followup_20261014\\input_bridge\\old_conditions_actual_v1\\RESULT.json",
+        "sha256": "fffbbfef30cb65c8ccca2e1c7036873f5924bbb6bd71eb1fe5afe2823ee967f7",
+        "verified_sha256": "fffbbfef30cb65c8ccca2e1c7036873f5924bbb6bd71eb1fe5afe2823ee967f7"
+      },
+      "splits": {
+        "fit": {
+          "windows": 256,
+          "channels": 17,
+          "first_origin": 1040,
+          "last_origin": 2073,
+          "observed_counts": [
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288,
+            12288
+          ]
+        },
+        "tune": {
+          "windows": 64,
+          "channels": 17,
+          "first_origin": 2121,
+          "last_origin": 2472,
+          "observed_counts": [
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072,
+            3072
+          ]
+        },
+        "val": {
+          "windows": 30,
+          "channels": 17,
+          "first_origin": 2568,
+          "last_origin": 3264,
+          "observed_counts": [
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440,
+            1440
+          ]
+        }
+      },
+      "projections": {
+        "PCA_PINV": {
+          "projection": {
+            "components": 4,
+            "FIT_rows_with_overlap": 131072,
+            "latent_covariance": [
+              [
+                0.9999999999999987,
+                -4.1692994542930073e-16,
+                9.986586210763981e-16,
+                -6.491118406670715e-16
+              ],
+              [
+                -4.1692994542930073e-16,
+                1.0000000000000022,
+                -1.6987279638502883e-15,
+                -2.0166160408230382e-15
+              ],
+              [
+                9.986586210763981e-16,
+                -1.6987279638502883e-15,
+                1.0000000000000042,
+                4.409016554629552e-15
+              ],
+              [
+                -6.491118406670715e-16,
+                -2.0166160408230382e-15,
+                4.409016554629552e-15,
+                1.0000000000000029
+              ]
+            ],
+            "decoder_rule": "independent_lstsq(E32_as64,I_C,rcond=1e-15) cast32 serialized64",
+            "FIT_whitening_and_inverse_verified": true,
+            "independent_samples_claimed": false,
+            "E_future_labels_used": false,
+            "D_indirect_FIT_future_dependence_via_E": false
+          },
+          "bolt": {
+            "fit": {
+              "encoder_max_abs": 0.0,
+              "anchored_decoder_max_abs": 0.0
+            },
+            "tune": {
+              "encoder_max_abs": 0.0,
+              "anchored_decoder_max_abs": 0.0
+            },
+            "val": {
+              "encoder_max_abs": 0.0,
+              "anchored_decoder_max_abs": 0.0
+            }
+          },
+          "native": {
+            "92601": {
+              "selection": {
+                "selected_index": 1,
+                "selected_update": 100,
+                "selected_tune_mse": 0.18961808267096386
+              },
+              "checkpoints": [
+                {
+                  "update": 0,
+                  "forward_max_abs": 0.0,
+                  "recalculated_tune_mse": 0.5414335272921333
+                },
+                {
+                  "update": 100,
+                  "forward_max_abs": 1.4007091522216797e-06,
+                  "recalculated_tune_mse": 0.18961808267096386
+                },
+                {
+                  "update": 200,
+                  "forward_max_abs": 1.430511474609375e-06,
+                  "recalculated_tune_mse": 0.2020328800536795
+                },
+                {
+                  "update": 400,
+                  "forward_max_abs": 1.430511474609375e-06,
+                  "recalculated_tune_mse": 0.2278745407095502
+                },
+                {
+                  "update": 600,
+                  "forward_max_abs": 1.3113021850585938e-06,
+                  "recalculated_tune_mse": 0.20035506760710198
+                }
+              ],
+              "splits": {
+                "fit": {
+                  "encoder_max_abs": 7.152557373046875e-07,
+                  "latent_future_max_abs": 1.9073486328125e-06,
+                  "anchored_decoder_max_abs": 2.384185791015625e-07
+                },
+                "tune": {
+                  "encoder_max_abs": 7.152557373046875e-07,
+                  "latent_future_max_abs": 2.384185791015625e-06,
+                  "anchored_decoder_max_abs": 7.450580596923828e-08
+                },
+                "val": {
+                  "encoder_max_abs": 9.5367431640625e-07,
+                  "latent_future_max_abs": 1.430511474609375e-06,
+                  "anchored_decoder_max_abs": 1.1920928955078125e-07
+                }
+              },
+              "optimizer_updates_independently_replayed": false
+            },
+            "92602": {
+              "selection": {
+                "selected_index": 1,
+                "selected_update": 100,
+                "selected_tune_mse": 0.19445168855065278
+              },
+              "checkpoints": [
+                {
+                  "update": 0,
+                  "forward_max_abs": 0.0,
+                  "recalculated_tune_mse": 0.5414335272921333
+                },
+                {
+                  "update": 100,
+                  "forward_max_abs": 1.0728836059570312e-06,
+                  "recalculated_tune_mse": 0.19445168855065278
+                },
+                {
+                  "update": 200,
+                  "forward_max_abs": 1.519918441772461e-06,
+                  "recalculated_tune_mse": 0.2033201304819675
+                },
+                {
+                  "update": 400,
+                  "forward_max_abs": 1.0728836059570312e-06,
+                  "recalculated_tune_mse": 0.20519237939654178
+                },
+                {
+                  "update": 600,
+                  "forward_max_abs": 1.430511474609375e-06,
+                  "recalculated_tune_mse": 0.22010979986856616
+                }
+              ],
+              "splits": {
+                "fit": {
+                  "encoder_max_abs": 7.152557373046875e-07,
+                  "latent_future_max_abs": 1.9073486328125e-06,
+                  "anchored_decoder_max_abs": 2.384185791015625e-07
+                },
+                "tune": {
+                  "encoder_max_abs": 7.152557373046875e-07,
+                  "latent_future_max_abs": 1.9073486328125e-06,
+                  "anchored_decoder_max_abs": 8.940696716308594e-08
+                },
+                "val": {
+                  "encoder_max_abs": 9.5367431640625e-07,
+                  "latent_future_max_abs": 1.3113021850585938e-06,
+                  "anchored_decoder_max_abs": 1.1920928955078125e-07
+                }
+              },
+              "optimizer_updates_independently_replayed": false
+            }
+          },
+          "oracle": {
+            "fit": {
+              "complete_target_positions": 12288,
+              "latent_future_max_abs": 0.0,
+              "anchored_decoder_max_abs": 0.0,
+              "deployment_or_selection_use": false,
+              "strict_lower_bound_for_fixed_decoder_or_all_decoders": false
+            },
+            "tune": {
+              "complete_target_positions": 3072,
+              "latent_future_max_abs": 0.0,
+              "anchored_decoder_max_abs": 0.0,
+              "deployment_or_selection_use": false,
+              "strict_lower_bound_for_fixed_decoder_or_all_decoders": false
+            },
+            "val": {
+              "complete_target_positions": 1440,
+              "latent_future_max_abs": 0.0,
+              "anchored_decoder_max_abs": 0.0,
+              "deployment_or_selection_use": false,
+              "strict_lower_bound_for_fixed_decoder_or_all_decoders": false
+            }
+          },
+          "score_field_checks": 348,
+          "saved_prediction_arrays_checked": 22,
+          "F_forward_independently_replayed": false,
+          "future_label_perturbation": {
+            "recorded_scope": "Actual extracted two-window deployment payload; fixed fitted E/D/F, not whole raw-future replay",
+            "producer_record_and_executed_source_checked": true,
+            "independently_replayed_in_audit": false,
+            "whole_raw_future_replay_or_general_leakage_proof": false
+          }
+        },
+        "FIT_TARGET_PINV": {
+          "projection": {
+            "components": 4,
+            "FIT_rows_with_overlap": 131072,
+            "latent_covariance": [
+              [
+                0.9999999999999972,
+                -1.0902737046514233e-15,
+                -2.064049885869279e-16,
+                1.8580514730970332e-16
+              ],
+              [
+                -1.0902737046514233e-15,
+                0.9999999999999998,
+                -1.0343288725511712e-16,
+                4.721700461174372e-17
+              ],
+              [
+                -2.064049885869279e-16,
+                -1.0343288725511712e-16,
+                0.9999999999999994,
+                -1.2487298521601797e-16
+              ],
+              [
+                1.8580514730970332e-16,
+                4.721700461174372e-17,
+                -1.2487298521601797e-16,
+                1.000000000000001
+              ]
+            ],
+            "decoder_rule": "independent_lstsq(E32_as64,I_C,rcond=1e-15) cast32 serialized64",
+            "FIT_whitening_and_inverse_verified": true,
+            "independent_samples_claimed": false,
+            "E_future_labels_used": true,
+            "D_indirect_FIT_future_dependence_via_E": true,
+            "FIT_complete_future_positions": 12288,
+            "FIT_Gram_eigenvalues": [
+              203484.7000409549,
+              36793.68358286356,
+              8879.743199551685,
+              5047.714824676033,
+              4468.674525843026,
+              3516.961557696191,
+              2401.4435699527057,
+              1822.1280168874969,
+              1731.135544689133,
+              1298.7069785448302,
+              1122.5162533131645,
+              611.253750442411,
+              533.4593130617443,
+              529.4868129221687,
+              363.36257667900287,
+              285.50765013209514,
+              171.52597092365744
+            ],
+            "FIT_Gram_roundoff_energy_bound": 6.0631944835772606e-09,
+            "target_rank_recorded": 17,
+            "target_rank_independently_resolved": true,
+            "independent_certain_target_rank": 17,
+            "retained_topK_subspace_unique": 

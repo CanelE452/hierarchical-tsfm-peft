@@ -4,6 +4,15 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## 작은 K 표현·예측·복원 후속 진단 (2026-10-15)
+
+고정 출력 공간·과거별 디코더·지연 복원·예측 목적 E/D 학습·동일 E/D native 대조를 실행하고 원수치·비용·독립 검산·시각 보고서로 정리했습니다. **Raw 정확도와 압축 비용을 함께 만족하려는 목표는 아직 미해결입니다.** 반복 사용한 개발 구간의 탐색 결과이며 보호 TEST를 사용하지 않았습니다.
+
+- [현재까지 결과·MD 보고서·그림·코드 색인](research/bolt_compatible_adaptive_20261014/publication_main_20261015_v1/README_KO.md)
+- [동일 E/D의 native6조건·전체 비용20조건](research/bolt_compatible_adaptive_20261014/publication_main_20261015_v1/reports/matched_l7_native_v2/REPORT_KO.md)
+- [최신 잠재값 보정6조건: 독립 검산 완료, 비용 미실행](research/bolt_compatible_adaptive_20261014/publication_main_20261015_v1/reports/fixed_l7_latent_calibration_snapshot_v1/REPORT_KO.md)
+- [게시 범위와 로컬 재현 자산](research/bolt_compatible_adaptive_20261014/publication_main_20261015_v1/CODE_AND_REPRODUCTION_KO.md)
+
 ## 최신 자기 채널·다변량 정보와 고정 Bolt 진단 (2026-10-14)
 
 동일 시간 특징·FIT/TUNE·손실·후보 선택 규칙에서 SELF33과 JOINT33을 비교하고, Robin FIT512의 수치 재현 수선·실제 배포 비용·검산까지 완료했습니다. 이 선형 readout 계약에서 TUNE의 실용 이득을 확인하지 못해 사전 gate에 따라 후속 학습을 종료했습니다. 작은 K 연구 전체의 해결을 뜻하지 않습니다.
