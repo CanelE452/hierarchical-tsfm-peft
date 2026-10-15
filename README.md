@@ -4,6 +4,17 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## 시간 앞단 R1–R5: 상담 반영 실제 실행 (2026-10-15)
+
+새 A/B/C 시간 분할에서 TSMixer·TimeMixer 원리를 적용한 앞단, C/K 압축, 동일 잔차 G, 직접 예측·LoRA 대조를 실제 학습하고 이후 C 구간의 추론·전체 비용을 측정했습니다. 신경망 80조건·121,200 update와 ridge 10개 alpha 적합을 실행했습니다. **시간 앞단의 일부 효과는 있지만 작은-K+Bolt의 G-only·LoRA 대비 추가 가치는 확보하지 못했습니다.** 최대 학습량에서도 미해결인 12조건과 Robin L2048의 자료 부족을 구분해 보고합니다.
+
+- [최신 결과·원수치·그림·실험 코드 색인](research/temporal_frontend_campaign_20261015_v1/README_KO.md)
+- [교수님 설명용 요약](research/temporal_frontend_campaign_20261015_v1/PROFESSOR_BRIEF_v3.md), [상세 한국어 보고서](research/temporal_frontend_campaign_20261015_v1/REPORT_KO_v3.md)
+- [전체 B/C 점수](research/temporal_frontend_campaign_20261015_v1/SCORES.csv), [실측 비용](research/temporal_frontend_campaign_20261015_v1/COST.csv), [검산 결과](research/temporal_frontend_campaign_20261015_v1/AUDIT_v2.json)
+- [게시 범위·압축 비용 원자료 복원·재현 조건](research/temporal_frontend_campaign_20261015_v1/PUBLICATION_KO.md)
+
+![같은 잔차 G에서 시간 앞단·압축의 추가 가치](research/temporal_frontend_campaign_20261015_v1/figures/03_matched_residual_v2.png)
+
 ## 교수 미팅용 방법론·추가 실험 마무리 (2026-10-15)
 
 예측 목적 표현·동일 E/D native·ridge·시간별 디코더 보정·시간순 보정 이전을 실제 실행하고 과학/비용 검산과 시각 보고서를 정리했습니다. **작은 K의 Raw 대비 정확도 격차는 미해결입니다.** 방법론 후보·검증 절차와 성능 성공·신규성·독립 일반화를 구분합니다.

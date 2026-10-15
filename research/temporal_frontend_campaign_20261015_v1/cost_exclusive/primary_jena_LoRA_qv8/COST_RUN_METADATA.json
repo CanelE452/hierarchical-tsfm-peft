@@ -1,0 +1,163 @@
+{
+  "status": "COMPLETE_VALID",
+  "started_utc": "2026-10-15T05:18:20.618291+00:00",
+  "finished_utc": "2026-10-15T05:18:23.686187+00:00",
+  "pid": 13584,
+  "python": "3.11.16",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "torch": "2.10.0+cu128",
+  "device": "cuda:0",
+  "cuda_runtime": "12.8",
+  "torch_cpu_threads": 2,
+  "gpu_name": "NVIDIA GeForce RTX 4070",
+  "gpu_total_memory_bytes": 12878086144,
+  "warmups_per_route_batch": 5,
+  "requested_measured_repeats": 10,
+  "measured_rounds": 10,
+  "candidate_count": 1,
+  "batch_sizes": [
+    1,
+    8
+  ],
+  "order": "round r rotates candidate list left by r modulo q; rounds rounded up to a multiple of q",
+  "active_candidates": 1,
+  "F_instances_supplied_by_caller": 1,
+  "factory_load_unload_in_whole_timer": false,
+  "physical_preprocessing_CPU_return_in_whole_timer": true,
+  "stage_timers": "caller last_stages, same instrumented trial; missing stages stay null",
+  "exclusive_process_claimed_by_caller": true,
+  "exclusive_process_not_verified_by_this_module": true,
+  "training_stopped_and_no_competing_GPU_work": "caller responsibility; this module does not terminate or inspect jobs",
+  "memory_interpretation": "allocated-minus-resident is an accounting difference including active parameters, buffers and temporary allocations; not a causal activation-only measurement",
+  "rss_interpretation": "before/after resident set; Windows peak_wset is process-lifetime high-water mark, not a resettable per-trial peak",
+  "F_resident_parameter_buffer_bytes": 190872100,
+  "routes": [
+    {
+      "id": "primary_jena_LoRA_qv8",
+      "type": "LORA",
+      "dataset": "jena",
+      "fold": "primary",
+      "r": 21,
+      "seed": 92601,
+      "block": "R4",
+      "configured_lr": 0.0001,
+      "checkpoint": "selected/primary_jena_LoRA_qv8.pt",
+      "updates": 1200,
+      "selected_update": 1000,
+      "selected_B": {
+        "mse": 0.5445424410711726,
+        "mae": 0.40521341177685183,
+        "channel_mse": [
+          0.022650579945000585,
+          0.14312521997013375,
+          0.1310262967806548,
+          0.10714753946774133,
+          0.6412381520433459,
+          0.549370520498036,
+          0.18388264831617365,
+          1.892540640608193,
+          0.1823897308880941,
+          0.181735456582453,
+          0.0946653833758372,
+          0.6992463382080588,
+          0.6854372905613548,
+          0.8540916867155649,
+          1.163562761475767,
+          0.5339062041505694,
+          0.7923934153314474,
+          0.7485745629603616,
+          1.085560704102971,
+          0.24060905829328963,
+          0.5022370722195758
+        ],
+        "channel_mae": [
+          0.10281308595511457,
+          0.24896247341114064,
+          0.23988195830100156,
+          0.2439647552768513,
+          0.5652743227443408,
+          0.44119610080545524,
+          0.3169638169474638,
+          0.8227344802350506,
+          0.3158835567604855,
+          0.31523736328673485,
+          0.21067452599073255,
+          0.6159911655084381,
+          0.6014543576391271,
+          0.6124001209476443,
+          0.2311732371698864,
+          0.23002194885934427,
+          0.5236659869875702,
+          0.5058096317261516,
+          0.5954305025997835,
+          0.3261642295301671,
+          0.4437840266314059
+        ],
+        "counts": [
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224,
+          4224
+        ],
+        "n_observed": 88704
+      },
+      "training_status": "COMPLETE_VALID"
+    }
+  ],
+  "input_contracts": [
+    {
+      "dataset": "jena",
+      "batch": 1,
+      "physical_shape": [
+        1,
+        2048,
+        21
+      ],
+      "physical_dtype": "float32",
+      "past_observed_values": 43008,
+      "physical_observed_mean_std_sha256": [
+        "6c4eee2be88e3dd2afdc0618603041ec0d56d249ebb2b3f69a5e47172b573b8b",
+        "47608175edc77e4c76608803290bd335c159562fcb2b653892ba34e92fc67415",
+        "9321bf07030a9224789bacf2451274dc22e757d4b7dfaa1449753f5f1299e8d4",
+        "c3cd85b44055b2c876f7f729b4ac0e1135036f96933a72aa8ad7b32b7eac41ac"
+      ]
+    },
+    {
+      "dataset": "jena",
+      "batch": 8,
+      "physical_shape": [
+        8,
+        2048,
+        21
+      ],
+      "physical_dtype": "float32",
+      "past_observed_values": 344064,
+      "physical_observed_mean_std_sha256": [
+        "c704d9b68e05290c6b21b66b5db617bc838728ba8f931f7169e3e5059b54eb5c",
+        "ac4588643f58f4567352d3cfa784fd8dbd3486b14bf7996173c60936f5376d3c",
+        "9321bf07030a9224789bacf2451274dc22e757d4b7dfaa1449753f5f1299e8d4",
+        "c3cd85b44055b2c876f7f729b4ac0e1135036f96933a72aa8ad7b32b7eac41ac"
+      ]
+    }
+  ],
+  "raw_trial_count_including_warmups_errors": 30,
+  "error_count": 0,
+  "cleanup_failure_count": 0
+}
