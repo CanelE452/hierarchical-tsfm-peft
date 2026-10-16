@@ -217,3 +217,7 @@ T 막대는 고정 9역할 ×4데이터셋의36행이며 전체46조건을 대�
 ## 원수치와 복원
 
 [SCORES](SCORES.csv), [비용 74조건 전사표](COST_MAIN4_FRESH_VALUES.csv), [재현 및 복원](REPRODUCE.md). 부속 JSON/CSV를 원바이트 gzip으로 게시한 항목은 각 manifest의 원경로·SHA를 따라 복원한다. 진단 통과를 성능 개선이나 새 독립 실험으로 세지 않는다.
+
+## 게시 후 비용 실패 진단
+
+[Electricity Raw parity 행렬·원수치](diagnostics/electricity_raw_parity_report_20261016_v1/REPORT_KO.md)는 같은 V 과거 입력의 배치1·8과 row 분할4종을 실제 재추론한 후속 진단이다. 기존 V405/T46 정확도 그림의 표본 수나 학습 완료 수에 더하지 않는다.

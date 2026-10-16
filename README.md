@@ -12,6 +12,7 @@
 - [상세 한국어 보고서](research/informs_broad_validation_20261015_v1/REPORT_KO.md), [교수님 상담용 핵심·반례](research/informs_broad_validation_20261015_v1/PROFESSOR_BRIEF.md)
 - [전체 원수치](research/informs_broad_validation_20261015_v1/SCORES.csv), [실제 비용](research/informs_broad_validation_20261015_v1/COST.csv)
 - [무손실 통계 복원·재현](research/informs_broad_validation_20261015_v1/REPRODUCE.md), [미완료 범위·재개 조건](research/informs_broad_validation_20261015_v1/RESUME.md)
+- [Electricity Raw 비용 실패 추가 진단·그림](research/informs_broad_validation_20261015_v1/diagnostics/electricity_raw_parity_report_20261016_v1/REPORT_KO.md): 같은 과거 입력의 8개 추론 조건에서 OOM은 재현되지 않았고, 분할 추론 6조건의 출력 차이로 원 parity 검사가 실패했습니다. 학습·정답 평가·비용 프로토콜 완료를 뜻하지 않습니다.
 
 ## 시간 앞단 R1–R5: 상담 반영 실제 실행 (2026-10-15)
 

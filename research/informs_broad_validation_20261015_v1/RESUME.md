@@ -33,7 +33,7 @@ M5 3panel/등록9 placeholder는 실제 접근·라이선스 자산이 없어서
 
 ## 비용과 검증
 
-현재 core72는60 MEASURED/12 FAILED다. Jena Raw B8은4variant 모두 추론 성공했으나 원 parity gate가 실패했다. 원 tolerance와 실패 영수증을 유지하고 누락 timed 비용을 완료로 세지 않는다. Electricity8건은 원 Raw row parity gate 실패가 확인됐으며 variant별 수치/OOM 세부 원인은 미확정이다. 상세 dict 저장 전 assertion으로 종료돼 Jena처럼 모든 추론 성공으로 단정할 수 없다. [원 gate 확인 영수증](publication_derivatives/gzip_extra_aux_20261016_v1/files/item_0250.json.gz)에8건의 원 execution/log SHA 대사와 세부 원인 미확정을 보존했다. 이 경로의 실패가 독립적인 다른 비용 경로를 중단시키는 이유는 아니다.
+현재 core72는60 MEASURED/12 FAILED다. Jena Raw B8은4variant 모두 추론 성공했으나 원 parity gate가 실패했다. 원 tolerance와 실패 영수증을 유지하고 누락 timed 비용을 완료로 세지 않는다. Electricity 원8건은 반환 dict 저장 전 assertion으로 종료돼 당시 variant별 수치/OOM 세부 원인은 미확정이었다. [원 gate 확인 영수증](publication_derivatives/gzip_extra_aux_20261016_v1/files/item_0250.json.gz)에 당시 확인 범위를 보존했다. 이후 [같은 원 함수의 추가 실제 진단](diagnostics/electricity_raw_parity_report_20261016_v1/REPORT_KO.md)에서 B1/B8 각4variant가 모두 반환했고 OOM은 재현되지 않았다. full 자기비교 외 분할6조건은 원 공차를 통과하지 못했다. 이 재현 결과로 모든 역사적 실패의 직접 원인이나 특정 kernel을 확정하지 않는다. 기존 실패12건과 timed 비용 미완료 상태는 유지한다. 이 경로의 실패가 독립적인 다른 비용 경로를 중단시키는 이유는 아니다.
 
 최종 K전환은20scope3600trial(원exact1440+fresh2160) 모두 resource-valid로 완료·독립 원수치 검산됐다. 이전 제한 실행166(165valid/1invalid)은 역사적 부분/실패로 보존하고3600에 더하지 않는다. 이 비용 완료가 shared/max 미완료 학습이나 학습된 순서화의 이득을 채우지 않는다. 정확한 deep-G Hpast fresh8은 미측정이고 Beijing 심화 LoRA 새 비용은169.6135초 잔여로 최소240초 admission을 통과하지 못했다.
 
@@ -45,6 +45,10 @@ checkpoint replay50은50PASS(41fresh+9reuse)이며 고유 replay70과 겹친다.
 
 선택이 locked된 뒤 남은 학습을 기존 T에 맞춰 이어서 모델/K를 바꾸지 않는다. 새 개발은 별도 등록·분리된 평가로 다루며 이미 본 T를 선택 자료로 재사용하지 않는다. 비용·시간·저장 한도는 실제 중앙 ledger와 원 승인 계약이 우선한다. 미측정 경로를 포함한 총 ETA나 추가 자원으로 전체 완료를 보장하지 않는다.
 
-총 추가 GPU/CPU/wall 시간은 미측정이다. 저장 search/refit receipt의 seconds·updates는 해당 자료/호출의 관찰값이며 누적 update와 호출시간을 혼동하거나48조건에 일괄 외삽하지 않는다. 현재 GPU 누적43030.3865/43200초와 학습 최소 미달을 함께 보존한다.
+총 추가 GPU/CPU/wall 시간은 미측정이다. 저장 search/refit receipt의 seconds·updates는 해당 자료/호출의 관찰값이며 누적 update와 호출시간을 혼동하거나48조건에 일괄 외삽하지 않는다. 최초 게시 조립시점 GPU 누적은43030.3865/43200초였다. 이후 Electricity 원 parity 진단에62.677388429641724초를 추가 정산해 누적43093.06391596794초, 잔여106.93608403205872초다. [실제 CLOSED·상한 준수 영수증](diagnostics/electricity_raw_parity_prepare_20261016_v1/GPU_AUDIT.json)에 원 수치와 자식 종료 확인을 보존했다. 학습 최소 미달은 바뀌지 않았다.
+
+## 게시 후 확인
+
+첫 PARTIAL 게시 commit은 `61b85f9e17839ddfb49b35dfca97757b9e03d18d`이며 당시 원격 main과6042개 파일의 경로·Git blob을 대사했다. 대표 보고서·그림7개는 GitHub 실제 HTTP200과 SHA도 일치했다. 위의 게시 전 대기 문장은 이전 조립시점의 기록이다. 추가 parity 보고서는 학습·T 평가를 수행하지 않은 후속 진단이며, 원 source39·registry·selection lock과 실패8건은 변경하지 않았다.
 
 완료된 분석 그림의 실제 공개 경로는 [PUBLIC_FIGURES_KO.md](PUBLIC_FIGURES_KO.md)를 따르며, 그림 존재를 남은 학습 완료의 근거로 세지 않는다.
