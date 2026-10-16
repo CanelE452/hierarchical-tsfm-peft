@@ -1,12 +1,14 @@
 # 고정 TSFM의 다변량 적응 실험
 
+**2026-10-16 우선순위 변경 후 실제 Jena 핵심 검증:** [B2·동일 표현 no-Bolt·별도 학습 no-Bolt·Raw/Ridge/G/PCA/LoRA의 정확도·CPU 비용](priority_b2_validation_20261016_v1/README_KO.md). 기존 scheduler와 실제 학습2개를 중단하고 checkpoint10개를 보존했다. 새 직접 대조2개는 학습·전체 V·독립 재채점·CPU 재추론·비용까지 완료했다. B2는 B0·직접 대조보다 나았으나 ridge/G/LoRA 대비 전체 우위는 미확보다. PeMS08·추가 seed는 후속이며 기존 전체 큐는 자동 재개하지 않는다. 아래의 과거 진행 기록은 작성 시점 snapshot이다.
+
 **추가 저장-V 진단:** [full-C PCA 가역성·6방법 재채점·270행 분해·그림](diagnostics/fullC_fixed_basis_diagnostic_20261016_v1/RESULTS_KO.md). 차원 축소가 없는 K=C에서도 Raw 대비 MSE 감소·MAE 증가가 함께 나타나 압축 손실과 좌표/예측 경로를 구분한다. 새 학습 완료나 TSFM 단독 원인 입증은 아니다.
 
 [최신 core56 대응·진행 중15fit의 실제 포함 범위·잔여 exact ID](diagnostics/postT_core56_scope_20261016_v1/README_KO.md).
 
 **후속 CPU 부분 결과 갱신:** [Jena4조건의 전체 V·독립 재채점·같은 CPU 비용·Raw 분할 진단](postT_V_only_cpu_lag_20261016_v1/RESULTS_WITH_COST_KO.md), [고정 PCA6조건의 V·CPU 비용](postT_V_only_cpu_fixed_pca_20261016_v1/RESULTS_WITH_COST_KO.md). Jena 네 조건은 전체 V43 FP64 재채점과 fresh CPU6 checkpoint replay를 통과했다. PCA6도 각각 전체 V·FP64·CPU6 replay가 완료됐고, 전체 비용 산술 감사24영수증/1200trial이 통과했다. Raw 비용 B1/B8은 원 row-parity guard 실패이며 숫자를 대신 넣지 않았다. 시간 혼합이 B0보다 나았지만 ridge/G 대비 추가 가치는 확보하지 못했다. 아래 원471행의 수치와 기존 검색 보고서는 역사적 snapshot으로 보존한다.
 
-[Beijing 다중 K](postT_V_only_cpu_multik_20261016_v1/README_PREPARATION_KO.md)의 fixed nested3은 전체 V·독립 재채점·fresh CPU6 replay를 완료했다. 공유/max-K·독립 적합과 Beijing 시간/지연·Jena/B4/LoRA/표준 포트를 포함한 새15 fit·총22 V 산출물의 실행 큐는 진행 중이다. probe12개 통과와 실제15개 학습 완료를 구분하며, 새 학습 전체의 비용은 아직 측정하지 않았다. 원 신경망 최소56조건의 any-device 대응은 현재19개/미충족37개이며 GPU-only8개와 구분한다. 후속 검산 PASS를 수렴·방법론 우위·독립 일반화나 원 계획 전체 완료로 해석하지 않는다.
+[Beijing 다중 K](postT_V_only_cpu_multik_20261016_v1/README_PREPARATION_KO.md)의 fixed nested3은 전체 V·독립 재채점·fresh CPU6 replay를 완료했다. 공유/max-K·독립 적합과 Beijing 시간/지연·Jena/B4/LoRA/표준 포트를 포함한 새15 fit·총22 V 산출물의 실행 큐는 최신 지시에 따라 중단됐다(실제 실행2개·미시작13개). probe12개 통과와 실제15개 학습 완료를 구분하며, 새 학습 전체의 비용은 아직 측정하지 않았다. 원 신경망 최소56조건의 any-device 대응은 현재19개/미충족37개이며 GPU-only8개와 구분한다. 후속 검산 PASS를 수렴·방법론 우위·독립 일반화나 원 계획 전체 완료로 해석하지 않는다.
 
 **PARTIAL — 실행 결과 부분 공개·필수 학습 미완료.** 고정 Chronos-Bolt의 stream 수를 C에서 K로 줄일 때 시간 처리·채널 압축·예측 결합·지연·가변 K가 예측과 전체 비용에 무엇을 추가하는지 강한 native/Raw/LoRA 대안과 비교했다. 일부 결합 이득은 관찰됐지만 Beijing T에는 V의 개선이 유지되지 않았고 PeMS H_B2–LoRA T MSE 차이는약0.23%로 작다. 일반적 우월성·TSFM 유지의 필수성은 확정하지 못했다.
 

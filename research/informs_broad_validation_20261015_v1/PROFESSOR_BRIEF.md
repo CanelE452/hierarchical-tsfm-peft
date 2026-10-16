@@ -1,5 +1,7 @@
 # 교수님 상담용 핵심 정리
 
+**2026-10-16 우선순위 변경 후 실제 Jena 핵심 검증:** [B2·동일 표현 no-Bolt·별도 학습 no-Bolt·Raw/Ridge/G/PCA/LoRA의 정확도·CPU 비용](priority_b2_validation_20261016_v1/README_KO.md). 기존 scheduler와 실제 학습2개를 중단하고 checkpoint10개를 보존했다. 새 직접 대조2개는 학습·전체 V·독립 재채점·CPU 재추론·비용까지 완료했다. B2는 B0·직접 대조보다 나았으나 ridge/G/LoRA 대비 전체 우위는 미확보다. PeMS08·추가 seed는 후속이며 기존 전체 큐는 자동 재개하지 않는다. 아래의 과거 진행 기록은 작성 시점 snapshot이다.
+
 ## 후속 CPU 실험에서 지금 설명할 수 있는 방법론
 
 **후보 구조는 확보했지만 강한 기준선 대비 성공한 최종 방법론은 아직 없다.** 아래는 후속 V-only 비교의 현재 판단이며, 뒤의 07:58 원 캠페인 snapshot과 G/checkpoint를 섞지 않는다. [Jena 정확도·전체 CPU 비용·실패 진단](postT_V_only_cpu_lag_20261016_v1/RESULTS_WITH_COST_KO.md), [PCA6 비교](postT_V_only_cpu_fixed_pca_20261016_v1/RESULTS_WITH_COST_KO.md), [core56의 현재·진행·잔여 exact ID](diagnostics/postT_core56_scope_20261016_v1/README_KO.md)가 근거다.

@@ -1,12 +1,14 @@
 # Hierarchical TSFM PEFT screen
 
+**2026-10-16 우선순위 변경 후 실제 Jena 핵심 검증:** [B2·동일 표현 no-Bolt·별도 학습 no-Bolt·Raw/Ridge/G/PCA/LoRA의 정확도·CPU 비용](research/informs_broad_validation_20261015_v1/priority_b2_validation_20261016_v1/README_KO.md). 기존 scheduler와 실제 학습2개를 중단하고 checkpoint10개를 보존했다. 새 직접 대조2개는 학습·전체 V·독립 재채점·CPU 재추론·비용까지 완료했다. B2는 B0·직접 대조보다 나았으나 ridge/G/LoRA 대비 전체 우위는 미확보다. PeMS08·추가 seed는 후속이며 기존 전체 큐는 자동 재개하지 않는다. 아래의 과거 진행 기록은 작성 시점 snapshot이다.
+
 동일 Chronos-Bolt-small + LoRA에서 실제 hierarchy 관계의 추가 예측 가치를 평가합니다.
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
 ## INFORMS 확대 검증: 부분 결과 (2026-10-16)
 
-- **후속 CPU 결과 검산 완료:** [Jena 표현4조건의 전체 V·같은 CPU 비용·Raw 분할 진단](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/RESULTS_WITH_COST_KO.md), [고정 PCA6조건의 V·CPU 비용](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_fixed_pca_20261016_v1/RESULTS_WITH_COST_KO.md). Jena 시간 혼합은 시점별 압축보다 나았으나 ridge/G를 이기지 못했고, 지연 구조의 추가 가치도 미확인입니다. 새 비용24조건의 원 trial 재집계가 통과했으며 Raw 비용2조건은 출력 일치 guard 실패로 숫자가 없습니다. [검색3epoch 당시 기록](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/PROGRESS_E3_KO.md)은 보존합니다. 별도15 fresh 학습·22개 V 산출물의 실행은 진행 중이며 이 결과의 완료 수에 넣지 않았습니다.
+- **후속 CPU 결과 검산 완료:** [Jena 표현4조건의 전체 V·같은 CPU 비용·Raw 분할 진단](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/RESULTS_WITH_COST_KO.md), [고정 PCA6조건의 V·CPU 비용](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_fixed_pca_20261016_v1/RESULTS_WITH_COST_KO.md). Jena 시간 혼합은 시점별 압축보다 나았으나 ridge/G를 이기지 못했고, 지연 구조의 추가 가치도 미확인입니다. 새 비용24조건의 원 trial 재집계가 통과했으며 Raw 비용2조건은 출력 일치 guard 실패로 숫자가 없습니다. [검색3epoch 당시 기록](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/PROGRESS_E3_KO.md)은 보존합니다. 해당 큰 큐는 최신 우선순위 지시로 중단했으며, 당시 예정15개를 완료 수에 넣지 않았습니다.
 
 - [full-C 고정 PCA의 추가 진단](research/informs_broad_validation_20261015_v1/diagnostics/fullC_fixed_basis_diagnostic_20261016_v1/RESULTS_KO.md): 정보 차원을 유지한 좌표 변환에서도 MSE·MAE가 달랐습니다. 6방법 저장V 재채점·basis 검산·270행 분해·실제 그림이며 새 모델 학습 완료는 아닙니다.
 
