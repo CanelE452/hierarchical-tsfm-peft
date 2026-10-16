@@ -6,7 +6,7 @@
 
 ## INFORMS 확대 검증: 부분 결과 (2026-10-16)
 
-- **추가 CPU 학습 진행 중:** [Jena4조건의1 epoch 실제 중간 보고서·곡선·코드](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md). 최종 V·검산·배포 비용은 미완료이며 기존 T를 관측한 뒤의 별도 탐색적 V 전용 비교입니다.
+- **추가 CPU 비교 진행 중:** [Jena4조건의3epoch 검색 완료 보고서·곡선·원수치·코드](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/PROGRESS_E3_KO.md). 검색은 네 조건 모두 완료했고, 두 조건의 새 적합·전체 V43 예측도 완료했습니다. 네 조건의 최종 V 비교·독립 재채점·배포 비용은 아직 미완료이며, 기존 T를 관측한 뒤의 별도 탐색적 V 전용 비교입니다. [이전1epoch 기록](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md)은 보존합니다.
 
 **PARTIAL.** Beijing·Jena·Electricity·PeMS08에서 채널 압축, 시간 처리, 같은 G의 예측 결합, 지연 압축과 가변 K를 실제 비교했습니다. V의 결합 이득은 Beijing의 잠금 후 T에서 유지되지 않았고, PeMS08의 H_B2는 LoRA보다 T MSE가 약0.23% 낮았습니다. 한 seed·한 시간 구간의 관찰이며, 필수 학습·반복 검증과 전체 정확도–비용 우위는 미해결입니다.
 

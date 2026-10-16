@@ -4,9 +4,13 @@ PARTIAL 결과다. V는 선택 구간이며, T는 기존에 잠근 방법만 추
 
 ## 후속 CPU 검색 중간 기록
 
+![Jena4조건의3epoch 검색과 선택 endpoint](postT_V_only_cpu_lag_20261016_v1/diagnostics/search_milestone_e3_root_20261016_v2/SEARCH_MILESTONE_E3.svg)
+
+[3epoch 완료 보고서·16행 CSV·계약](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E3_KO.md). 네 조건 모두 검색3epoch를 완료했고 선택 epoch는3/1/3/1이다. 완료 checkpoint4개와 event16개에서 독립 재구성한 CSV가 원 공개본과 byte 단위로 일치했다. PNG v2를 실제 열어 초기 tick·범례·표·선택점의 가독성을 확인했다. A_stop 선택 기록이며 네 조건의 최종 V·비용이나 충분 수렴을 증명하지 않는다.
+
 ![Jena4조건의1 epoch A_stop 중간 곡선](postT_V_only_cpu_lag_20261016_v1/diagnostics/progress_through_e1_20261016_v1/SEARCH_PROGRESS_E1.svg)
 
-[중간 보고서·CSV·계약](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md). 동일 K6·seed·학습 노출의 A_stop 검색 기록이며 최종 V 성능·수렴·독립 일반화 검증을 뜻하지 않는다. 네 학습은3epoch까지 진행 중이다.
+[이전1epoch 중간 보고서·CSV·계약](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md). 당시 검색 진행 상태의 snapshot을 보존했다. 최신 상태는 위3epoch 기록을 따르며, 어느 그림도 독립 일반화 검증을 뜻하지 않는다.
 
 ## 핵심 고정 비교
 

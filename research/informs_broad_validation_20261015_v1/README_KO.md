@@ -1,6 +1,8 @@
 # 고정 TSFM의 다변량 적응 실험
 
-**후속 CPU 학습 진행:** [Jena B0/B2/지연 인코더4조건의1 epoch 중간 보고서·곡선·코드](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md). 새3epoch 검색과 이후 A60 적합·V·검산·비용은 아직 미완료다. 이 별도 post-T development는 아래 동결된 원471행의 완료 수를 변경하지 않는다.
+**후속 CPU 비교 진행:** [Jena B0/B2/지연 인코더4조건의3epoch 검색 완료 보고서·곡선·코드](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E3_KO.md). 모두 검색1863 update·29769 origin 노출을 완료했다. B0/과거 지연은3epoch, B2/양방향 지연은1epoch를 선택했다. 두 조건은 새 A60 적합·전체 V43 예측까지 완료했고, 네 조건의 최종 비교·독립 재채점·배포 비용은 아직 미완료다. 이 별도 post-T development는 아래 동결된 원471행의 완료 수를 변경하지 않는다. [이전1epoch snapshot](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md)은 당시 기록 그대로다.
+
+[고정 PCA6조건](postT_V_only_cpu_fixed_pca_20261016_v1/README_KO.md)과 [Beijing 다중 K의5fit/12V 비교](postT_V_only_cpu_multik_20261016_v1/README_PREPARATION_KO.md)는 아직 실행 대기다. CPU loader의 승인 캐시4파일은 [opaque 접근 검증](postT_V_only_cpu_fixed_pca_20261016_v1/diagnostics/cost_cache_assets_verified_root_v1/COST_CACHE_ASSET_ACCESS.json)으로 확인했다. 준비·검사 통과를 실제 학습·추론 완료로 세지 않는다.
 
 **PARTIAL — 실행 결과 부분 공개·필수 학습 미완료.** 고정 Chronos-Bolt의 stream 수를 C에서 K로 줄일 때 시간 처리·채널 압축·예측 결합·지연·가변 K가 예측과 전체 비용에 무엇을 추가하는지 강한 native/Raw/LoRA 대안과 비교했다. 일부 결합 이득은 관찰됐지만 Beijing T에는 V의 개선이 유지되지 않았고 PeMS H_B2–LoRA T MSE 차이는약0.23%로 작다. 일반적 우월성·TSFM 유지의 필수성은 확정하지 못했다.
 

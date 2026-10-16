@@ -5,7 +5,10 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import time
+import types
 import unittest
+from unittest import mock
 
 HERE = Path(__file__).resolve().parent
 HELPER = HERE / "verify_cpu_outputs.py"
@@ -103,6 +106,53 @@ class VerifyGuards(unittest.TestCase):
             return dict(original(*args, **kwargs), actual_F_streams=35)
         with self.assertRaises(ValueError):
             h.replay_call(wrong, "new", "task", "c", "p", "m", 100)
+
+    def test_execute_reports_unattempted_unknown_fresh_and_cached_forward_separately(self):
+        h = self.helper
+        for branch in ("before_call", "forward_then_error", "fresh", "cached"):
+            with self.subTest(branch=branch), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                public, cache, asset = root / "public", root / "cache", root / "asset"
+                post = public / HERE.name
+                post.mkdir(parents=True)
+                condition = dict(run_id="tiny", family="B0")
+                plan = dict(conditions=[condition], deadline_unix=time.time()+20, max_RSS_bytes=4294967296,
+                            model_asset_relative_path="tiny_model", postT_registry_sha256="pin")
+                records, forwards = {}, []
+                runner = types.SimpleNamespace(NAME=HERE.name, metadata=lambda *a: plan, validate_task=lambda *a: None,
+                    rss_record=lambda *a: {}, save_private_failure=lambda *a: dict(phase=a[-2], error_class=type(a[-1]).__name__))
+                process = types.SimpleNamespace(pid=123, create_time=lambda: 1., memory_info=lambda: types.SimpleNamespace(rss=1))
+                def load_task(*args, **kwargs):
+                    if branch == "before_call":
+                        raise RuntimeError("synthetic failure before replay")
+                    return {"synthetic": True}
+                def replay(*args, **kwargs):
+                    forwards.append("fake forward entered")
+                    if branch == "forward_then_error":
+                        raise RuntimeError("synthetic failure after a fake forward")
+                    return dict(status="PASS", run_id="tiny", origins=list(range(6)), actual_F_streams=36,
+                        expected_F_streams=36, atol=1e-5, rtol=1e-4, executed_now=branch == "fresh", T_final_accessed=False)
+                modules = dict(psutil=types.SimpleNamespace(Process=lambda *a: process),
+                    torch=types.SimpleNamespace(set_num_threads=lambda *a: None, cuda=types.SimpleNamespace(is_initialized=lambda: False)),
+                    data_contract=types.SimpleNamespace(load_task=load_task), fit_base=types.SimpleNamespace(),
+                    route_predictions=types.SimpleNamespace(replay_route=replay))
+                env = dict(CUDA_VISIBLE_DEVICES="-1", OMP_NUM_THREADS="2", MKL_NUM_THREADS="2", OPENBLAS_NUM_THREADS="2",
+                    HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1", INFORMS_ASSET_ROOT=str(asset), INFORMS_CACHE_ROOT=str(cache / HERE.name))
+                values = dict(fit_receipt=dict(artifact_sha256="artifact"))
+                with mock.patch.dict(sys.modules, modules), mock.patch.dict(h.os.environ, env, clear=True), \
+                     mock.patch.object(h, "load_runner", return_value=runner), mock.patch.object(h, "sha", return_value="pin"), \
+                     mock.patch.object(h, "new", side_effect=lambda p, v: records.__setitem__(Path(p).name, v)), \
+                     mock.patch.object(h, "prepare_inputs", return_value=(values, {}, {}, {})), \
+                     mock.patch.object(h, "registry_projection", return_value=[]), \
+                     mock.patch.object(h, "ensure_registry_alias", return_value=dict(sha256="pin")):
+                    code = h.execute(public, cache, asset, "pin", "replay", "tiny", time.time()+10, post / "result")
+                result = records["RESULT.json"]
+                expected = dict(before_call=False, forward_then_error=None, fresh=True, cached=False)[branch]
+                self.assertIs(result["actual_checkpoint_forward_in_this_command"], expected)
+                self.assertEqual(result["checkpoint_replay_call_attempted"], branch != "before_call")
+                self.assertEqual(result["checkpoint_replay_receipt_returned"], branch in {"fresh", "cached"})
+                self.assertEqual(len(forwards), int(branch != "before_call"))
+                self.assertEqual(code, 0 if branch in {"fresh", "cached"} else 1)
 
     def test_T_modes_unregistered_ID_and_existing_output_are_refused(self):
         h = self.helper

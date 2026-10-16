@@ -176,6 +176,7 @@ def execute(old_public, old_cache, asset, plan_sha, mode, run_id, deadline, outp
     error_class, postflight_error_class, value, alias = None, None, None, None
     failures, bindings = [], {}
     source_post = False
+    replay_attempted = False
     started = time.perf_counter()
     try:
         values, score, paths, bindings = prepare_inputs(runner, plan, old_public, old_cache, run_id, condition)
@@ -201,6 +202,7 @@ def execute(old_public, old_cache, asset, plan_sha, mode, run_id, deadline, outp
             import route_predictions
             task = data.load_task("jena", cache_dir=old_cache)
             runner.validate_task(task, plan, data, fit_base)
+            replay_attempted = True
             value = replay_call(route_predictions.replay_route, run_id, task, private, public,
                                 asset / plan["model_asset_relative_path"], deadline)
             if sha(public / "EXPERIMENT_REGISTRY.csv") != plan["postT_registry_sha256"]:
@@ -220,8 +222,12 @@ def execute(old_public, old_cache, asset, plan_sha, mode, run_id, deadline, outp
         stop.set()
         watchdog.join(timeout=1)
         passed = error_class is None and postflight_error_class is None and source_post and value is not None and value.get("status") == "PASS"
+        actual_checkpoint_forward = False
+        if replay_attempted:
+            actual_checkpoint_forward = None if value is None else value["executed_now"]
         new(output / "RESULT.json", dict(status="PASS" if passed else "FAILED_OR_NUMERICAL_MISMATCH_PRESERVED", run_id=run_id, mode=mode,
-            scientific_result=value, actual_checkpoint_forward_in_this_command=mode == "replay" and value is not None and value.get("executed_now") is True,
+            scientific_result=value, actual_checkpoint_forward_in_this_command=actual_checkpoint_forward,
+            checkpoint_replay_call_attempted=replay_attempted, checkpoint_replay_receipt_returned=replay_attempted and value is not None,
             saved_full_V_rescoring=mode == "rescore", subset_checkpoint_replay=mode == "replay", training_rerun=False,
             full_V_origin_count=43, replay_origin_count=6 if mode == "replay" else 0, actual_pid=process.pid, actual_create_time=process.create_time(),
             error_class=error_class, postflight_error_class=postflight_error_class, private_failures=failures, metadata_alias=alias,
