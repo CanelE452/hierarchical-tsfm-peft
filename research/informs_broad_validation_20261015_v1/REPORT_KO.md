@@ -284,7 +284,7 @@ K 전환은 [실제 최종 K20 감사](publication_derivatives/gzip_extra_aux_20
 
 남은 것은 학습된 P의 순수한 추가 가치, 압축·잠재 예측·D 중 병목의 확정, TSFM 유지의 필수성, 충분 학습·반복 seed·전체 최소 커버리지, 다른 시기 일반화, 미측정/실패 비용을 포함한 공정한 전체 비용 결론이다. 현재 결과를 학습 문제 하나나 방법의 불가능성 하나로 고정하지 않는다. 새 구조·대조학습·동적 그래프의 필요성을 이번 수치로 확정하지 않는다.
 
-재개대장의 registered nonCOMPLETE는192이며 PARTIAL025124+PENDING54+BLOCKED9+BUDGET3+LT3 2다. E1 GPU3epoch 미달48은192의 부분집합이므로 더하지 않는다. CSV의56target과 CPU fresh9를 분리한다. 과거 reference union439는 미완료192와 이미 COMPLETE인 reference247을 함께 담으므로439개 미완료가 아니다. E0는 별도28중19 endpoint 미완료다. 정확한 ID/상태/참조 명령은 [RESUME_QUEUE.json](RESUME_QUEUE.json), [RESUME_COMMANDS.ps1](RESUME_COMMANDS.ps1), [RESUME.md](RESUME.md)에 남긴다. T를 이미 본 상태이므로 참조는 PRE_SELECTION_REFERENCE_ONLY이며 새 개발·별도 평가 설계와 자원 감사 전 학습을 자동 실행하지 않는다. 독립 원리의 실패를 다른 미실행 블록의 생략 근거로 쓰지 않는다.
+재개대장의 registered nonCOMPLETE는192이며 PARTIAL025124+PENDING54+BLOCKED9+BUDGET3+LT3 2다. E1 GPU3epoch 미달48은192의 부분집합이므로 더하지 않는다. CSV의56target과 CPU fresh9를 분리한다. 과거 reference union439는 미완료192와 이미 COMPLETE인 reference247을 함께 담으므로439개 미완료가 아니다. E0는 별도28중19 endpoint 미완료다. 정확한 ID/상태/참조 명령은 [과거 RESUME_QUEUE 원바이트 복원](publication_derivatives/opaque_old_metadata_20261017_v1/README_RESTORE_KO_v1.md), [RESUME_COMMANDS.ps1](RESUME_COMMANDS.ps1), [RESUME.md](RESUME.md)에 남긴다. T를 이미 본 상태이므로 참조는 PRE_SELECTION_REFERENCE_ONLY이며 새 개발·별도 평가 설계와 자원 감사 전 학습을 자동 실행하지 않는다. 독립 원리의 실패를 다른 미실행 블록의 생략 근거로 쓰지 않는다.
 
 ## 12. 재현·게시 상태
 

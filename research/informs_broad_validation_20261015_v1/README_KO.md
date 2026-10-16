@@ -1,5 +1,11 @@
 # 고정 TSFM의 다변량 적응 실험
 
+**2026-10-17 Beijing 핵심 대조 완료:** [원수치·학습량·검산 보고](priority_valid_minima_20261016_v1/CORE_CONTRAST_KO_v1.md) · [그림과 근거](priority_valid_minima_20261016_v1/CORE_CONTRAST_VISUALIZATION_KO_v1.md). 같은 K6에서 B2 MSE0.855426은 B0 0.797966보다 높아 앞단의 추가 이득이 확인되지 않았다. B2 K11은0.780057로 낮았지만 B8 whole median은0.572880초로 K6 0.326401초보다 컸다. 새2 fit/fullV·독립 FP64·fresh CPU6·CPU2 네 비용/200trial 검산을 완료했고 기존 B2 K6는 정확한 조건으로 재사용했다. 단일seed·반복 V·P/K·초기화·용량/선택 학습량 차이가 있어 순수 압축효과·수렴·독립 일반화를 확정하지 않는다. **전체 MASTER는 미완료**다.
+
+![Beijing 같은 K의 앞단과 K6/K11 정확도·전체 비용](priority_valid_minima_20261016_v1/figures/CORE_CONTRAST_v1.svg)
+
+과거 재개 큐와 두 운송 메타데이터는 [원바이트 복원 안내](publication_derivatives/opaque_old_metadata_20261017_v1/README_RESTORE_KO_v1.md)를 따른다. 아래 준비·실행 중 문구는 각 작성 시점의 기록이다.
+
 **최신 Beijing 최소 비교 완료:** [결과·원수치·학습 조건·독립 감사·그림](priority_valid_minima_20261016_v1/README_KO.md). 세 조건의 실제 전체 V43 추론·FP64 재채점·fresh CPU6·CPU2 B1/B8 비용을 완료했고, [nested PCA 비용 그림](priority_nested_cost_20261016_v1/VISUALIZATION_KO_v1.md)도 연결했다. 동일 개발 V와 한 seed에서 선택된 refit 길이가 다르므로 구조만의 효과·일반화·전체 MASTER 완료로 확대하지 않는다. 이전 P2 통계3개는 [exact 공개 복원](stats_packs/pack_numeric_priority_followup_20261016_v1/README_KO.md)을 먼저 수행한다. 아래 이전 snapshot의 준비/실행 중 표시는 당시 상태다.
 
 

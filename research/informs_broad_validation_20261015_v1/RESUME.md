@@ -1,5 +1,7 @@
 # 미완료 상태와 재개 경계
 
+**2026-10-17 현재 상태:** 과거 큰15조건 큐는 중단된 채 보존됐고 자동 재시작하지 않았다. 새 명시 대조의 Beijing B0 K6·B2 K11은 학습·전체 V·FP64·fresh CPU6·네 비용과 [결과 보고](priority_valid_minima_20261016_v1/CORE_CONTRAST_KO_v1.md)를 완료했다. Jena LoRA/B4·나머지 K·공유/max refit·PeMS C32 등은 이 게시 시점 미실행이며 원 마감·자원·T 잠금 안에서 필요한 조건만 명시 입장한다. 다음 예정은 기존 Jena B2의 동일 조건 검증/비용 후 Jena LoRA/B4다. 현재 완료와 전체 MASTER 미완료를 구분한다. 아래 수량·실행 중 문구는 과거 snapshot이며 현재 프로세스 수를 뜻하지 않는다.
+
 [최신 core56 대응·진행 중15fit의 실제 포함 범위·잔여 exact ID](diagnostics/postT_core56_scope_20261016_v1/README_KO.md).
 
 ## 별도 post-T CPU 작업 진행
@@ -10,7 +12,7 @@
 
 원 GPU 장부의8/56 및 미달48과 별도로, 원 CPU fresh9와 새 Jena B0/B2의 대응2를 합친 any-device 과학 조건은19/56이다. 이는 T 관측 후의 별도 탐색적 개발이며 원 GPU 재개나 독립 일반화를 뜻하지 않는다. 기존 source39·registry471·SCORES/COST·선택 잠금은 보존한다. 아래 원 미완료192와 재개 참조는 그 snapshot의 기록이다. M5 자료 차단은 독립적인 나머지 실행을 막는 조건으로 확대하지 않는다.
 
-**PARTIAL.** 필수 학습의 실제 미달과 재개 경계다. 정확한 ID·원 상태·이유·참조 명령은 [RESUME_QUEUE.json](RESUME_QUEUE.json), [RESUME_COMMANDS.ps1](RESUME_COMMANDS.ps1)에 보존한다. 이미 T를 보았으므로 학습 명령은 PRE_SELECTION_REFERENCE_ONLY이며 기존 잠금 아래 즉시 실행할 큐가 아니다. 새 development·분리된 평가 설계 및 resource audit이 먼저 필요하다.
+**PARTIAL.** 필수 학습의 실제 미달과 재개 경계다. 정확한 ID·원 상태·이유·참조 명령은 [과거 RESUME_QUEUE 원바이트 복원](publication_derivatives/opaque_old_metadata_20261017_v1/README_RESTORE_KO_v1.md), [RESUME_COMMANDS.ps1](RESUME_COMMANDS.ps1)에 보존한다. 이미 T를 보았으므로 학습 명령은 PRE_SELECTION_REFERENCE_ONLY이며 기존 잠금 아래 즉시 실행할 큐가 아니다. 새 development·분리된 평가 설계 및 resource audit이 먼저 필요하다.
 
 ## 등록된 학습·범위
 

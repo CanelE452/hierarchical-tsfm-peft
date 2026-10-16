@@ -1,5 +1,7 @@
 # 공개 원수치·원바이트 복원
 
+**2026-10-17 메타데이터 세 파일의 복원:** 과거 루트 RESUME_QUEUE와 운송 묶음 두 BATCH receipt는 [정확한 원바이트 복원 안내](publication_derivatives/opaque_old_metadata_20261017_v1/README_RESTORE_KO_v1.md)를 따른다. 세 파일만 byte gzip으로 저장하고 두 fresh destination/반복 skip/불일치 거부와 ROOT의 여섯 바이트 SHA 검사를 마쳤다. 원 JSON·보호 T 숫자를 해석하지 않는다. 과거 큐를 복원하더라도 자동 학습 재개나 새 보호 T 평가를 승인하는 것은 아니다.
+
 **최신 P2 결과만 재현하는 경우:** [정확히3개 V 통계의 무손실 pack](stats_packs/pack_numeric_priority_followup_20261016_v1/README_KO.md)만 아래처럼 복원한다. 공개 manifest/PROOF와 두 fresh destination의 실제 복원으로 원 CSV/gzip 바이트 일치를 확인했다. 기존 로컬 원본은 보존했으며 같은 SHA 파일은 건너뛰고 다른 파일은 덮지 않는다. `parent_full_cpu` 통계는 원래 공개 경로에 있다. 이 작업은 새 평가·학습이 아니다. 아래 역사적 전체 복원 절차는 별개이며 P2 재현에 전체 archive를 해석할 필요가 없다.
 
 ```powershell
