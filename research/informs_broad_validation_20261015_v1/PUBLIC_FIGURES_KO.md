@@ -2,6 +2,24 @@
 
 PARTIAL 결과다. V는 선택 구간이며, T는 기존에 잠근 방법만 추론했다. 모든 조건의 학습 완료나 독립 일반화를 주장하지 않는다. 원수치·조건·미완료 상태는 상세 보고서와 함께 읽는다.
 
+## 후속 CPU 전체 V와 같은 프로토콜의 비용
+
+[Jena 전체 수치·검산·비용·실패 보고서](postT_V_only_cpu_lag_20261016_v1/RESULTS_WITH_COST_KO.md)의7방법이다. 전체 V43 저장 예측의 재채점과 CPU6 재추론은 서로 다른 검사다. Raw 비용2조건은 FAILED여서 비용 점이 없다. 다른6방법×2batch의 warm10/timed20/separate-stage20을 실제 측정하고 원 trial을 독립 재집계했다. 그림의 min–max는 관측 범위이며 CI가 아니다. 세 그림의 PNG 원본을 실제 열어 가독성과 실패 표시를 확인했으며, GitHub에는 같은 수치의 SVG를 우선 게시한다.
+
+![Jena 전체 V43 정규화 MSE와 MAE](postT_V_only_cpu_lag_20261016_v1/diagnostics/final_cpu_comparison_root_20261016_v1/ACCURACY_MSE_MAE.svg)
+
+![CPU whole-pipeline batch1과8](postT_V_only_cpu_lag_20261016_v1/diagnostics/final_cpu_comparison_root_20261016_v1/CPU_WHOLE_COST_B1_B8.svg)
+
+![동일 데이터 문제의 정확도와 CPU 비용](postT_V_only_cpu_lag_20261016_v1/diagnostics/final_cpu_comparison_root_20261016_v1/ACCURACY_CPU_COST_SCATTER.svg)
+
+[고정 PCA6의 별도 보고서](postT_V_only_cpu_fixed_pca_20261016_v1/RESULTS_WITH_COST_KO.md)도 실제 전수 V·FP64·CPU6 replay·비용12를 포함한다. 고정 PCA의 optimizer update0과 신경망 search3epoch를 같은 학습량으로 표현하지 않는다. 아래 검색 곡선은 당시 A_stop 기록이며 최신 전체 V 결과와 구분한다.
+
+## 고정 PCA6의 같은 자료 오차와 CPU 비용
+
+![고정 PCA6의 전체 V 오차와 CPU 비용](postT_V_only_cpu_fixed_pca_20261016_v1/diagnostics/final_pca_cpu_summary_root_v1/rendered_root_v1/PCA_ACCURACY_CPU_COST.svg)
+
+[원 집계6행·실제 검산·그림 결박](postT_V_only_cpu_fixed_pca_20261016_v1/RESULTS_WITH_COST_KO.md)을 제공한다. Beijing/Jena V43/H48, Electricity V50/H48, PeMS V148/H12를 구분한다. 자료 간 평균·동일 CPU Raw 대비 가속비는 없으며, PCA 고정 변환의 update0을 신경망 학습 완료로 세지 않는다. 생성한300dpi PNG를 실제 열어 글자·수치·범례의 가독성을 확인했다.
+
 ## 후속 CPU 검색 중간 기록
 
 ![Jena4조건의3epoch 검색과 선택 endpoint](postT_V_only_cpu_lag_20261016_v1/diagnostics/search_milestone_e3_root_20261016_v2/SEARCH_MILESTONE_E3.svg)

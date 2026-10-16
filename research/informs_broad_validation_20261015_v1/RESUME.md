@@ -1,10 +1,14 @@
 # 미완료 상태와 재개 경계
 
+[최신 core56 대응·진행 중15fit의 실제 포함 범위·잔여 exact ID](diagnostics/postT_core56_scope_20261016_v1/README_KO.md).
+
 ## 별도 post-T CPU 작업 진행
 
-[Jena4조건 검색 완료 보고서](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E3_KO.md)의 새 ID들은 동일 K6·seed·손실·노출 일정에서 CPU로 새로 시작한 개발 비교다. 네 조건 모두3epoch 검색을 완료했으며, 선택은 B0/과거 지연3epoch와 B2/양방향 지연1epoch다. 두 조건의 새 A60 적합·V43 예측은 완료했고 나머지는 진행 중이다. [이전1epoch snapshot](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md)과 구분하며, 기존 중단 학습을 재개하거나 원 선택 잠금을 해제하지 않았다. 기존 작업이 실행 중이면 새 중복 작업을 시작하지 않는다. 새 CLI도 기존 run/prediction 경로를 덮거나 재개하지 않는다.
+[Jena4조건 최신 비용 보고서](postT_V_only_cpu_lag_20261016_v1/RESULTS_WITH_COST_KO.md)의 search3epoch·selected fresh A60 refit·전체 V43·FP644·fresh CPU6 replay4는 완료됐다. 원 Raw/ridge/G의 fresh CPU6 replay도 완료했고, 같은 CPU에서 ridge/G4+새표현8의 비용을 측정했다. Raw B1/B8은 원 출력 일치 guard 실패로 미완료이며 숫자를 대입하지 않는다. [고정 PCA6조건](postT_V_only_cpu_fixed_pca_20261016_v1/RESULTS_WITH_COST_KO.md)은 전체 V·FP64·fresh CPU6 replay와 비용12가 완료됐다. 이 합24비용/1200trial은 별도 산술 검산을 통과했다. 원 T를 다시 평가하거나 원 중단 학습을 재개한 결과는 아니다.
 
-네 조건 전체의 V/독립 검산/비용과 [고정 PCA6조건](postT_V_only_cpu_fixed_pca_20261016_v1/README_KO.md), [다중 K의 새 CPU 비교](postT_V_only_cpu_multik_20261016_v1/README_PREPARATION_KO.md)는 아직 미완료다. Raw/ridge/G의 같은 CPU 비용도 fresh6-origin 수치 parity 후 측정하며, 이전 replay cache를 새 CPU forward로 세지 않는다. 아래 원471행의 상태·미완료192·GPU3epoch 미달48은 그대로 보존한다. 이번 CPU 진행을 T 관측 전의 원 GPU 최소 실행이나 독립 일반화 완료로 바꾸어 세지 않는다.
+다중 K fixed nested3은 전체 V·FP64·fresh CPU6 replay가 완료됐으며, 공유/max-K/독립 E4 5fit·Beijing 시간/지연6fit·다른 family4fit의 **새15fit 큐가 실행 중**이다. 전체 예상 V 출력은22개이며 fixed nested3은 optimizer0의 보조 비교다. 실제 probe12개(BJ6+family4+E4공유/max2)와 학습15개를 혼동하지 않는다. 현재 수행 중인 동일 ID는 종료 또는 상태 확인 없이 다시 실행하지 않는다. 해당 새 모델들의 full-V/독립 검산·비용 완료는 각 실제 영수증을 확인해야 하며 아직 전체 완료가 아니다.
+
+원 GPU 장부의8/56 및 미달48과 별도로, 원 CPU fresh9와 새 Jena B0/B2의 대응2를 합친 any-device 과학 조건은19/56이다. 이는 T 관측 후의 별도 탐색적 개발이며 원 GPU 재개나 독립 일반화를 뜻하지 않는다. 기존 source39·registry471·SCORES/COST·선택 잠금은 보존한다. 아래 원 미완료192와 재개 참조는 그 snapshot의 기록이다. M5 자료 차단은 독립적인 나머지 실행을 막는 조건으로 확대하지 않는다.
 
 **PARTIAL.** 필수 학습의 실제 미달과 재개 경계다. 정확한 ID·원 상태·이유·참조 명령은 [RESUME_QUEUE.json](RESUME_QUEUE.json), [RESUME_COMMANDS.ps1](RESUME_COMMANDS.ps1)에 보존한다. 이미 T를 보았으므로 학습 명령은 PRE_SELECTION_REFERENCE_ONLY이며 기존 잠금 아래 즉시 실행할 큐가 아니다. 새 development·분리된 평가 설계 및 resource audit이 먼저 필요하다.
 

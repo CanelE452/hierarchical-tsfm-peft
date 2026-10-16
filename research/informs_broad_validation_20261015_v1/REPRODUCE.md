@@ -8,6 +8,8 @@
 
 ## 바이트 정확 복원
 
+**후속 공개 형식:** [최신 복원 순서](RESTORE_INDEX_KO.md)는 기존 V archive transport를 먼저 복원하고, 기존 stats pack과 새 PCA6 numeric pack을 FORMAT별로 처리한다. 새 numeric MANIFEST를 원 stats_pack.py에 그대로 넘기지 않는다. 원 member/tar/XZ와 CSV/gzip SHA를 유지하며 모델 학습·새 TEST 평가를 실행하는 명령이 아니다.
+
 [pack 실행·복원 문서](publication_derivatives/final_md_20261016_v2/docs/doc_0071.md)의 두 실제 명령을 사용한다. K8 복원의 `--public-root`는 campaign 폴더이고 aux95 복원의 `--destination`은 저장소 루트다. 같은 원본은 건너뛰고 다른 기존 파일은 덮지 않는다.
 
 기존 충분통계 pack은 canonical manifest와 alias extension의 원 경로·원 SHA 복원을 각각 수행해야 한다. 새 canonical pack 하나만으로 모든 alias가 생긴다고 가정하지 않는다. T46은 [실제 전수 복원 문서](publication_derivatives/final_md_20261016_v2/docs/doc_0010.md)의 명령을 사용한다. 저장소 루트에서 다음을 실행한다.
