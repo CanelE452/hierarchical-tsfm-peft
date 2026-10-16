@@ -1,0 +1,192 @@
+{
+  "format": "fullC_fixed_basis_saved_V_diagnostic_v1",
+  "status": "SAVED_V_STATISTICS_AND_FIXED_BASIS_DIAGNOSTIC_COMPLETE",
+  "science_completion_claimed": false,
+  "performance_success_claimed": false,
+  "cohort": {
+    "data_sha": "b39023bcae04736eff9a0fd9a3d56e10dc7f32bd668a53d681290cb9193d8269",
+    "scaler_sha": "3348bcf1fa76d382f23cf20597fa90de6e21dac587d4ca9f6883f235a10f93fb",
+    "split": "V_select",
+    "cohort": "beijing:primary:V_select:stride48",
+    "arrays": {
+      "target_normalized": {
+        "shape": [
+          43,
+          48,
+          11
+        ],
+        "dtype": "float32",
+        "sha256": "1b03cad2bb2fca92dbc19ab4f588a4e194b191323b2890bddfe4530951689fa7"
+      },
+      "observed": {
+        "shape": [
+          43,
+          48,
+          11
+        ],
+        "dtype": "bool",
+        "sha256": "b0775eee2288b021f260db23f36bbbe6364231390a28b2f810d05bd2ed79e7c2"
+      },
+      "origins": {
+        "shape": [
+          43
+        ],
+        "dtype": "int64",
+        "sha256": "596d5fac3452cb6d00167e76156fcfd05331410d86b10dadcc896037c25ca0a6"
+      },
+      "channel_ids": {
+        "shape": [
+          11
+        ],
+        "dtype": "<U5",
+        "sha256": "4688e20fc5d503ff58a436744491abce205c1cd6930f54f881eccb27430854ac"
+      }
+    }
+  },
+  "basis": {
+    "stored_dtype": "float32",
+    "arithmetic_dtype": "float64",
+    "singular_values": [
+      1.0000000409957381,
+      1.0000000296917635,
+      1.0000000169667826,
+      1.000000014064072,
+      1.0000000069884263,
+      1.0000000057796188,
+      1.0000000011318495,
+      0.9999999925363923,
+      0.9999999854737159,
+      0.9999999776872271,
+      0.9999999682273141
+    ],
+    "full_basis_rank": 11,
+    "rank_tolerance_numeric_only": 2.4424907543070518e-15,
+    "condition_number_2": 1.0000000727684264,
+    "prefix_diagnostics": [
+      {
+        "k": 3,
+        "gram_max_abs": 1.8555626590810448e-08,
+        "projection_rank": 3,
+        "projection_identity_max_abs": 0.9966288257592574,
+        "projection_identity_frobenius": 2.8284271247461903,
+        "affine_zero_offset_max_abs": 0.021609333891274285,
+        "deterministic_coordinate_probe_max_abs": 0.9973687242908236
+      },
+      {
+        "k": 6,
+        "gram_max_abs": 4.097300465577547e-08,
+        "projection_rank": 6,
+        "projection_identity_max_abs": 0.7343735400243004,
+        "projection_identity_frobenius": 2.2360679774997907,
+        "affine_zero_offset_max_abs": 0.015490569891762718,
+        "deterministic_coordinate_probe_max_abs": 0.7498641099160631
+      },
+      {
+        "k": 11,
+        "gram_max_abs": 5.141091929949937e-08,
+        "projection_rank": 11,
+        "projection_identity_max_abs": 6.336228031145197e-08,
+        "projection_identity_frobenius": 1.4007892358063903e-07,
+        "affine_zero_offset_max_abs": 1.3324657210933566e-09,
+        "deterministic_coordinate_probe_max_abs": 6.358412107942968e-08
+      }
+    ],
+    "performance_pass_threshold": null,
+    "actual_history_reconstruction_tested": false,
+    "target_or_prediction_arrays_read": false
+  },
+  "scores": [
+    {
+      "label": "RAW",
+      "run_id": "primary_beijing_E1_RAW_BOLT_SMALL_k0_s92601",
+      "mse": 0.7968786536971475,
+      "mae": 0.5618622043428347,
+      "sse": 15565.065198967417,
+      "sae": 11134.22990532848,
+      "count": 20539,
+      "active_channels": 11,
+      "n_origins": 43,
+      "horizon": 48,
+      "original_channels": 11
+    },
+    {
+      "label": "DIRECT_G",
+      "run_id": "primary_beijing_E1_DIRECT_G_k0_s92601",
+      "mse": 0.8091814805925012,
+      "mae": 0.5993137650617376,
+      "sse": 15837.47399983404,
+      "sae": 11902.335872985655,
+      "count": 20539,
+      "active_channels": 11,
+      "n_origins": 43,
+      "horizon": 48,
+      "original_channels": 11
+    },
+    {
+      "label": "RAW_RIDGE",
+      "run_id": "primary_beijing_E1_RAW_RIDGE_k0_s92601",
+      "mse": 0.8315416367816169,
+      "mae": 0.6073577987792294,
+      "sse": 16243.339642486328,
+      "sae": 12039.613744774178,
+      "count": 20539,
+      "active_channels": 11,
+      "n_origins": 43,
+      "horizon": 48,
+      "original_channels": 11
+    },
+    {
+      "label": "PCA_K3",
+      "run_id": "postT_cpu_beijing_E4_NESTED_PCA_k3_s92601_v1",
+      "mse": 0.7979250373047883,
+      "mae": 0.6139606908709884,
+      "sse": 15717.062763944512,
+      "sae": 12279.324248404053,
+      "count": 20539,
+      "active_channels": 11,
+      "n_origins": 43,
+      "horizon": 48,
+      "original_channels": 11
+    },
+    {
+      "label": "PCA_K6",
+      "run_id": "postT_cpu_beijing_E4_NESTED_PCA_k6_s92601_v1",
+      "mse": 0.7794565960483854,
+      "mae": 0.59563573063231,
+      "sse": 15343.377164531375,
+      "sae": 11904.362119992744,
+      "count": 20539,
+      "active_channels": 11,
+      "n_origins": 43,
+      "horizon": 48,
+      "original_channels": 11
+    },
+    {
+      "label": "PCA_K11",
+      "run_id": "postT_cpu_beijing_E4_NESTED_PCA_k11_s92601_v1",
+      "mse": 0.7517899596417101,
+      "mae": 0.5765475116735715,
+      "sse": 14794.288176535487,
+      "sae": 11512.367726050597,
+      "count": 20539,
+      "active_channels": 11,
+      "n_origins": 43,
+      "horizon": 48,
+      "original_channels": 11
+    }
+  ],
+  "paired_group_rows": 270,
+  "raw_and_nested_foundation_identity_formula_matched": true,
+  "foundation_sha": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+  "cell_wins_are_strict_sufficient_statistic_comparisons": true,
+  "cell_definition": "one origin x original channel x registered horizon band, observed count > 0",
+  "uncertainty": [
+    "single seed and repeated post-T developmental V; no independent generalization",
+    "metadata target/mask fingerprints matched, but target arrays/mask positions not independently reconstructed",
+    "no model/weights/raw/Task/target/prediction arrays or protected T opened; no forward, training, cost or process operation",
+    "FP64 rescore covers saved SSE/SAE statistics, not a new prediction-array audit",
+    "paired origin/channel/band cells and temporal blocks are descriptive, not independent significance samples",
+    "basis invertibility does not imply row forecaster rotation equivariance or future predictability",
+    "normalization/centering/decoder/anchor route differences prevent TSFM-only causal attribution"
+  ]
+}

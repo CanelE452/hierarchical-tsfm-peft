@@ -8,6 +8,8 @@
 
 - **후속 CPU 결과 검산 완료:** [Jena 표현4조건의 전체 V·같은 CPU 비용·Raw 분할 진단](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/RESULTS_WITH_COST_KO.md), [고정 PCA6조건의 V·CPU 비용](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_fixed_pca_20261016_v1/RESULTS_WITH_COST_KO.md). Jena 시간 혼합은 시점별 압축보다 나았으나 ridge/G를 이기지 못했고, 지연 구조의 추가 가치도 미확인입니다. 새 비용24조건의 원 trial 재집계가 통과했으며 Raw 비용2조건은 출력 일치 guard 실패로 숫자가 없습니다. [검색3epoch 당시 기록](research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/PROGRESS_E3_KO.md)은 보존합니다. 별도15 fresh 학습·22개 V 산출물의 실행은 진행 중이며 이 결과의 완료 수에 넣지 않았습니다.
 
+- [full-C 고정 PCA의 추가 진단](research/informs_broad_validation_20261015_v1/diagnostics/fullC_fixed_basis_diagnostic_20261016_v1/RESULTS_KO.md): 정보 차원을 유지한 좌표 변환에서도 MSE·MAE가 달랐습니다. 6방법 저장V 재채점·basis 검산·270행 분해·실제 그림이며 새 모델 학습 완료는 아닙니다.
+
 **PARTIAL.** Beijing·Jena·Electricity·PeMS08에서 채널 압축, 시간 처리, 같은 G의 예측 결합, 지연 압축과 가변 K를 실제 비교했습니다. V의 결합 이득은 Beijing의 잠금 후 T에서 유지되지 않았고, PeMS08의 H_B2는 LoRA보다 T MSE가 약0.23% 낮았습니다. 한 seed·한 시간 구간의 관찰이며, 필수 학습·반복 검증과 전체 정확도–비용 우위는 미해결입니다.
 
 - [최신 결과·원수치·그림·실험 코드](research/informs_broad_validation_20261015_v1/README_KO.md)

@@ -47,7 +47,7 @@ class NumericPublicationTests(unittest.TestCase):
         names=[p.relative_to(repo).as_posix() for p in (campaign/"README.md",directory/"MANIFEST.json",archive)]
         return repo,campaign,names,archive,pc,codec
 
-    def transport_fixture(self,temp):
+    def transport_fixture(self,temp,directory=None):
         repo,campaign,names,archive,pc,codec=self.fixture(temp,legacy=True)
         transport=self.h.load_transport();original_manifest=archive.with_name("MANIFEST.json")
         selection=dict(format=transport.SELECTION_SCHEMA,
@@ -60,7 +60,7 @@ class NumericPublicationTests(unittest.TestCase):
         private_output=Path(temp)/"private_transport_tiny"
         proof=transport.pack(repo,selection_path,self.h.sha(selection_path),private_output,wall_seconds=30)
         self.assertEqual(proof["status"],"PASS_ARCHIVE_BYTE_TRANSPORT")
-        destination=campaign/self.h.TRANSPORT_DIRECTORY;destination.mkdir(parents=True)
+        destination=campaign/(directory or self.h.TRANSPORT_DIRECTORY);destination.mkdir(parents=True)
         for name in ("MANIFEST.json","part_0000.transport.xz"):
             (destination/name).write_bytes((private_output/name).read_bytes())
         transported=destination/"part_0000.transport.xz"
@@ -122,6 +122,52 @@ class NumericPublicationTests(unittest.TestCase):
             original_manifest.write_bytes(original_bytes);archive.write_bytes(archive.read_bytes()+b"tamper")
             result=self.h.inspect(campaign,names,tracked=set())
             self.assertIn("TRANSPORT_ARCHIVE_INVALID",{r["rule"] for r in result["failures"]})
+
+    def test_only_exact_part0_and_part1_namespaces_are_allowed(self):
+        approved=("publication_derivatives/transport_legacy_V_part0_20261016_v1",
+                  "publication_derivatives/transport_legacy_V_part1_20261016_v1")
+        self.assertEqual(self.h.TRANSPORT_DIRECTORIES,approved)
+        for directory in (approved[1],approved[1]+"_extra","publication_derivatives/transport_legacy_V_part2_20261016_v1"):
+            with self.subTest(directory=directory),tempfile.TemporaryDirectory() as temp:
+                _,campaign,names,_,_,_=self.transport_fixture(temp,directory)
+                result=self.h.inspect(campaign,names,tracked=set())
+                self.assertEqual(result["status"],"PASS" if directory==approved[1] else "FAIL",result["failures"])
+                if directory!=approved[1]:
+                    self.assertIn("TRANSPORT_ARCHIVE_INVALID",{r["rule"] for r in result["failures"]})
+
+    def test_part1_original_manifest_is_explicit_normal_and_bound_to_exact_bytes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo,campaign,names,archive,original_manifest,_=self.transport_fixture(temp,self.h.TRANSPORT_DIRECTORIES[1])
+            selected=[n for n in names if n!=original_manifest.relative_to(repo).as_posix()]
+            self.assertEqual(self.h.inspect(campaign,selected,tracked=set())['status'],'FAIL')
+            blob=original_manifest.read_bytes();original_manifest.write_bytes(blob+b" ")
+            result=self.h.inspect(campaign,names,tracked=set())
+            self.assertIn("TRANSPORT_ARCHIVE_INVALID",{r["rule"] for r in result["failures"]})
+            original_manifest.write_bytes(blob);archive.write_bytes(archive.read_bytes()+b"tamper")
+            result=self.h.inspect(campaign,names,tracked=set())
+            self.assertIn("TRANSPORT_ARCHIVE_INVALID",{r["rule"] for r in result["failures"]})
+
+    def test_two_exact_transport_namespaces_share_real_union_size_and_file_caps(self):
+        with tempfile.TemporaryDirectory() as temp:
+            repo,campaign,names,first,_,_=self.transport_fixture(temp)
+            second_dir=campaign/self.h.TRANSPORT_DIRECTORIES[1];second_dir.mkdir(parents=True)
+            for name in ("MANIFEST.json",first.name):
+                (second_dir/name).write_bytes((first.parent/name).read_bytes())
+                names.append((second_dir/name).relative_to(repo).as_posix())
+            result=self.h.inspect(campaign,names,tracked=set())
+            self.assertEqual(result["status"],"PASS",result["failures"])
+            self.assertEqual(len(result["transport_archives"]),2)
+            total=sum((repo/n).stat().st_size for n in names)
+            self.assertEqual(result["selected_bytes"],total)
+            pc,codec=self.h.load_dependencies()
+            with mock.patch.object(pc,"MAX_BUNDLE_BYTES",total-1),mock.patch.object(self.h,"load_dependencies",return_value=(pc,codec)):
+                result=self.h.inspect(campaign,names,tracked=set())
+            self.assertIn("BUNDLE_SIZE_LIMIT",{r["rule"] for r in result["failures"]})
+            transport=self.h.load_transport()
+            with mock.patch.object(transport,"MAX_ARCHIVE",first.stat().st_size-1),mock.patch.object(self.h,"load_transport",return_value=transport):
+                result=self.h.inspect(campaign,names,tracked=set())
+            self.assertEqual(result["status"],"FAIL")
+            self.assertEqual(sum(r["rule"]=="TRANSPORT_ARCHIVE_INVALID" for r in result["failures"]),2)
 
     def test_numeric_missing_manifest_or_tampered_bytes_never_pass_via_virtual_link(self):
         with tempfile.TemporaryDirectory() as temp:

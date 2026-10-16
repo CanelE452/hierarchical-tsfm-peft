@@ -6,12 +6,14 @@
 
 ## 공개 충분통계
 
-기존 [stats pack 코드](stats_pack.py)·[T46 manifest](stats_packs/pack_1792097901794080200/MANIFEST.json)를 유지한다. 후속 PCA6은 [numeric manifest](stats_packs/pack_numeric_postT_fixed_pca6_root_20261016_v1/MANIFEST.json)의 별도 형식이다. 기존 V part 하나는 [원 archive byte transport](publication_derivatives/transport_legacy_V_part0_20261016_v1/README_KO.md)를 먼저 복원해야 한다. 원 CSV/gzip 정밀도·행은 보존하며 재현용 liblzma/zlib가 다르면 SHA 기준을 완화하지 않고 실패한다. 아래는 각 실제 FORMAT에 맞는 코드로 나누어 실행하는 순서다.
+기존 [stats pack 코드](stats_pack.py)·[T46 manifest](stats_packs/pack_1792097901794080200/MANIFEST.json)를 유지한다. 후속 PCA6은 [numeric manifest](stats_packs/pack_numeric_postT_fixed_pca6_root_20261016_v1/MANIFEST.json)의 별도 형식이다. 기존 V part0·part1은 각각 [part0 transport](publication_derivatives/transport_legacy_V_part0_20261016_v1/README_KO.md)·[part1 transport](publication_derivatives/transport_legacy_V_part1_20261016_v1/README_KO.md)를 먼저 복원해야 한다. 원 CSV/gzip 정밀도·행은 보존하며 재현용 liblzma/zlib가 다르면 SHA 기준을 완화하지 않고 실패한다. 아래는 각 실제 FORMAT에 맞는 코드로 나누어 실행하는 순서다.
 
 ```powershell
 $R = 'research/informs_broad_validation_20261015_v1'
 python (Join-Path $R 'stats_pack_transport.py') restore --manifest (Join-Path $R 'publication_derivatives/transport_legacy_V_part0_20261016_v1/MANIFEST.json') --destination .
 if ($LASTEXITCODE -ne 0) { throw 'legacy archive transport restore failed' }
+python (Join-Path $R 'stats_pack_transport.py') restore --manifest (Join-Path $R 'publication_derivatives/transport_legacy_V_part1_20261016_v1/MANIFEST.json') --destination .
+if ($LASTEXITCODE -ne 0) { throw 'legacy archive part1 transport restore failed' }
 Get-ChildItem -LiteralPath (Join-Path $R 'stats_packs') -Filter MANIFEST.json -Recurse | ForEach-Object {
   $statsManifest = Get-Content -LiteralPath $_.FullName -Raw -Encoding UTF8 | ConvertFrom-Json
   if ($statsManifest.format -eq 'public_error_stats_pack_v1') {

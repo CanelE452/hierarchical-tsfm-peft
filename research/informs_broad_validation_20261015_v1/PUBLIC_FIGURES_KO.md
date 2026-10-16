@@ -2,6 +2,12 @@
 
 PARTIAL 결과다. V는 선택 구간이며, T는 기존에 잠근 방법만 추론했다. 모든 조건의 학습 완료나 독립 일반화를 주장하지 않는다. 원수치·조건·미완료 상태는 상세 보고서와 함께 읽는다.
 
+## full-C 고정 좌표 변환 진단
+
+![full-C basis 가역성과 오차의 horizon·시간 분해](diagnostics/fullC_fixed_basis_diagnostic_20261016_v1/figures_root_v1/FIXED_FULLC_COORDINATES.svg)
+
+[6방법·15쌍의270행 원수치와 한계](diagnostics/fullC_fixed_basis_diagnostic_20261016_v1/RESULTS_KO.md)를 제공한다. 실제 생성300dpi PNG를 열어 수치·범례를 확인했고 게시에는 같은 SVG를 선택했다. 새 forward·학습·비용0, source/basis/저장V 검산이며 일반화나 수렴의 증거가 아니다.
+
 ## 후속 CPU 전체 V와 같은 프로토콜의 비용
 
 [Jena 전체 수치·검산·비용·실패 보고서](postT_V_only_cpu_lag_20261016_v1/RESULTS_WITH_COST_KO.md)의7방법이다. 전체 V43 저장 예측의 재채점과 CPU6 재추론은 서로 다른 검사다. Raw 비용2조건은 FAILED여서 비용 점이 없다. 다른6방법×2batch의 warm10/timed20/separate-stage20을 실제 측정하고 원 trial을 독립 재집계했다. 그림의 min–max는 관측 범위이며 CI가 아니다. 세 그림의 PNG 원본을 실제 열어 가독성과 실패 표시를 확인했으며, GitHub에는 같은 수치의 SVG를 우선 게시한다.

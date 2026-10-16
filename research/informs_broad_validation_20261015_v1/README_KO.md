@@ -1,5 +1,7 @@
 # 고정 TSFM의 다변량 적응 실험
 
+**추가 저장-V 진단:** [full-C PCA 가역성·6방법 재채점·270행 분해·그림](diagnostics/fullC_fixed_basis_diagnostic_20261016_v1/RESULTS_KO.md). 차원 축소가 없는 K=C에서도 Raw 대비 MSE 감소·MAE 증가가 함께 나타나 압축 손실과 좌표/예측 경로를 구분한다. 새 학습 완료나 TSFM 단독 원인 입증은 아니다.
+
 [최신 core56 대응·진행 중15fit의 실제 포함 범위·잔여 exact ID](diagnostics/postT_core56_scope_20261016_v1/README_KO.md).
 
 **후속 CPU 부분 결과 갱신:** [Jena4조건의 전체 V·독립 재채점·같은 CPU 비용·Raw 분할 진단](postT_V_only_cpu_lag_20261016_v1/RESULTS_WITH_COST_KO.md), [고정 PCA6조건의 V·CPU 비용](postT_V_only_cpu_fixed_pca_20261016_v1/RESULTS_WITH_COST_KO.md). Jena 네 조건은 전체 V43 FP64 재채점과 fresh CPU6 checkpoint replay를 통과했다. PCA6도 각각 전체 V·FP64·CPU6 replay가 완료됐고, 전체 비용 산술 감사24영수증/1200trial이 통과했다. Raw 비용 B1/B8은 원 row-parity guard 실패이며 숫자를 대신 넣지 않았다. 시간 혼합이 B0보다 나았지만 ridge/G 대비 추가 가치는 확보하지 못했다. 아래 원471행의 수치와 기존 검색 보고서는 역사적 snapshot으로 보존한다.

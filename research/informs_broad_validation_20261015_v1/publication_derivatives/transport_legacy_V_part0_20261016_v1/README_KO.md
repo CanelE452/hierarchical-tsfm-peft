@@ -3,12 +3,13 @@
 기존 V 충분통계의 part 하나를 무손실 숫자 인코딩으로 다시 포장했다. 기존 로컬 `part_0000.tar.xz`와 원 MANIFEST는 바꾸거나 삭제하지 않았다. 새 포장은 원 member16개, 순서·tar header/padding 및 **원 XZ archive12,132,156byte의 SHA**까지 동일하게 재생성한다. 원 archive의41개 record에 해당하는 집계 행은 정밀도·개행·행 수를 유지한다. 새 모델 학습·추론·TEST target 평가를 수행한 작업이 아니다.
 
 - [새 transport manifest](MANIFEST.json), [원 archive의 별도·반복 복원 proof](PROOF.json), [공개 복사 SHA](ROOT_COPY_BINDING.json), [ROOT의 별도 실제 CLI 복원](ROOT_INDEPENDENT_RESTORE.json)
-- [기존의 원 MANIFEST](../../stats_packs/pack_1792065325663656600/MANIFEST.json)는 그대로 유지한다. 나머지10개 archive part도 같은 경로에 유지한다.
+- [기존의 원 MANIFEST](../../stats_packs/pack_1792065325663656600/MANIFEST.json)는 그대로 유지한다. part1은 [별도 transport](../transport_legacy_V_part1_20261016_v1/README_KO.md)로 보존하고 나머지9개 archive part는 같은 경로에 유지한다.
 
 새 clone의 저장소 루트에서 **이 transport를 먼저 복원**한 뒤 원 충분통계를 복원한다.
 
 ```text
 python research/informs_broad_validation_20261015_v1/stats_pack_transport.py restore --manifest research/informs_broad_validation_20261015_v1/publication_derivatives/transport_legacy_V_part0_20261016_v1/MANIFEST.json --destination .
+python research/informs_broad_validation_20261015_v1/stats_pack_transport.py restore --manifest research/informs_broad_validation_20261015_v1/publication_derivatives/transport_legacy_V_part1_20261016_v1/MANIFEST.json --destination .
 python research/informs_broad_validation_20261015_v1/stats_pack.py restore --manifest research/informs_broad_validation_20261015_v1/stats_packs/pack_1792065325663656600/MANIFEST.json --destination .
 ```
 

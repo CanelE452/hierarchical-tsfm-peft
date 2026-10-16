@@ -21,6 +21,7 @@ CORE_SHA="0d8c4e4cc9881b70907acf7a154133a64cb582227c1df357521a7668e7fde3fd"
 CODEC_SHA="c9c42c780306b6e75eb68c939db1c3a9658b3e2680a3d57c15c9971cbefd8743"
 TRANSPORT_SHA="5824cc8bebeb21bd1c818c4fd1fb2d5d0b2cd38ceb1d588228f6f69a05742a85"
 TRANSPORT_DIRECTORY="publication_derivatives/transport_legacy_V_part0_20261016_v1"
+TRANSPORT_DIRECTORIES=(TRANSPORT_DIRECTORY,"publication_derivatives/transport_legacy_V_part1_20261016_v1")
 SCHEMA="numeric_aware_publication_inspection_v1"
 
 
@@ -121,7 +122,7 @@ def inspect(campaign,files,tracked=None):
         if name in pre:inventory.append(dict(file=name,bytes=pre[name][0],sha256=pre[name][1]))
         try:
             transport=load_transport()
-            if path.parent!=campaign/TRANSPORT_DIRECTORY or re.fullmatch(r"part_\d{4}\.transport\.xz",path.name) is None:
+            if path.parent not in {campaign/directory for directory in TRANSPORT_DIRECTORIES} or re.fullmatch(r"part_\d{4}\.transport\.xz",path.name) is None:
                 raise ValueError("Transport archive is outside the approved exact public namespace")
             if not path.is_file() or not 0<path.stat().st_size<=min(pc.MAX_FILE_BYTES,transport.MAX_ARCHIVE):
                 raise ValueError("Transport archive missing or exceeds individual limit")
