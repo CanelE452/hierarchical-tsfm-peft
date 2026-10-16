@@ -1,5 +1,8 @@
 # Hierarchical TSFM PEFT screen
 
+**2026-10-17 Jena LoRA·B4 완료:** [기존 B2와 정확도·전체 비용 비교](research/informs_broad_validation_20261015_v1/priority_valid_family_20261016_v1/RESULT_STATUS_KO_v1.md). 같은 search3/refit1 노출에서 LoRA가 더 정확했고 작은 K의 B2는 더 빨랐다. 새2학습·전체 V·독립 검산·CPU6·새4비용과 그림을 완료했으며, B2는 기존 정확도+새 검증/비용이다. 반복 개발 V·한 seed·수렴 미확정·전체 MASTER 미완료를 유지한다.
+
+
 **2026-10-17 Beijing 핵심 대조 완료:** [B0 K6·B2 K6/K11의 원수치·학습량·검산 보고](research/informs_broad_validation_20261015_v1/priority_valid_minima_20261016_v1/CORE_CONTRAST_KO_v1.md) · [그림](research/informs_broad_validation_20261015_v1/priority_valid_minima_20261016_v1/CORE_CONTRAST_VISUALIZATION_KO_v1.md). 이번 같은 K6 조건에서는 B2 앞단의 추가 이득이 확인되지 않았고, K11의 낮은 오차와 큰 전체 비용을 함께 확인했다. 실제2학습·전체 V·독립 재채점·체크포인트 재추론·새4비용까지 완료했다. 반복 개발 V·단일seed·서로 다른 선택 학습량의 조건부 결과이며 전체 MASTER·수렴·일반화는 미완료다. 아래는 이전 시점의 기록을 보존한다.
 
 **2026-10-16 Beijing 후순위 검증 완료:** [B2·causal·bidirectional K6의 실제 학습/전체 V·FP64·checkpoint 재추론·전체 비용·보고서와 그림](research/informs_broad_validation_20261015_v1/priority_valid_minima_20261016_v1/README_KO.md). [고정 nested PCA K3/6/11 비용과 그림](research/informs_broad_validation_20261015_v1/priority_nested_cost_20261016_v1/VISUALIZATION_KO_v1.md)도 완료했다. 반복 개발 V·단일 seed·서로 다른 선택 refit 길이의 결과이며, 전체 MASTER·수렴·독립 일반화는 미완료다. 이전 후속의 공개 통계3개는 [원 바이트 복원 안내](research/informs_broad_validation_20261015_v1/stats_packs/pack_numeric_priority_followup_20261016_v1/README_KO.md)를 통해 복원한다. 아래 내용은 각 작성 시점의 기록이다.
