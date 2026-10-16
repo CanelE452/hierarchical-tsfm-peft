@@ -1,5 +1,7 @@
 # 고정 TSFM의 다변량 적응 실험
 
+**후속 CPU 학습 진행:** [Jena B0/B2/지연 인코더4조건의1 epoch 중간 보고서·곡선·코드](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md). 새3epoch 검색과 이후 A60 적합·V·검산·비용은 아직 미완료다. 이 별도 post-T development는 아래 동결된 원471행의 완료 수를 변경하지 않는다.
+
 **PARTIAL — 실행 결과 부분 공개·필수 학습 미완료.** 고정 Chronos-Bolt의 stream 수를 C에서 K로 줄일 때 시간 처리·채널 압축·예측 결합·지연·가변 K가 예측과 전체 비용에 무엇을 추가하는지 강한 native/Raw/LoRA 대안과 비교했다. 일부 결합 이득은 관찰됐지만 Beijing T에는 V의 개선이 유지되지 않았고 PeMS H_B2–LoRA T MSE 차이는약0.23%로 작다. 일반적 우월성·TSFM 유지의 필수성은 확정하지 못했다.
 
 - [상세 결과·방법·다섯 축 판정](REPORT_KO.md) · [교수님 상담 핵심](PROFESSOR_BRIEF.md)

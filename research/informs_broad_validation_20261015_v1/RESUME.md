@@ -1,5 +1,11 @@
 # 미완료 상태와 재개 경계
 
+## 별도 post-T CPU 작업 진행
+
+[Jena4조건 중간 보고서](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md)의 새 ID들은 동일 K6·seed·손실·노출 일정에서 CPU로 새로 시작한 개발 비교다. 1 epoch까지 실제 완료하고3epoch 검색을 진행 중인 시점의 snapshot이며, 기존 중단 학습을 재개하거나 원 선택 잠금을 해제하지 않았다. 기존 작업이 실행 중이면 새 중복 작업을 시작하지 않는다. 새 CLI도 기존 run/prediction 경로를 덮거나 재개하지 않는다.
+
+새V/검산/비용 결과와 [고정 PCA6조건](postT_V_only_cpu_fixed_pca_20261016_v1/README_KO.md)은 아직 미완료다. 아래 원471행의 상태·미완료192·GPU3epoch 미달48은 그대로 보존한다. 이번 CPU 진행을 T 관측 전의 원 GPU 최소 실행이나 독립 일반화 완료로 바꾸어 세지 않는다.
+
 **PARTIAL.** 필수 학습의 실제 미달과 재개 경계다. 정확한 ID·원 상태·이유·참조 명령은 [RESUME_QUEUE.json](RESUME_QUEUE.json), [RESUME_COMMANDS.ps1](RESUME_COMMANDS.ps1)에 보존한다. 이미 T를 보았으므로 학습 명령은 PRE_SELECTION_REFERENCE_ONLY이며 기존 잠금 아래 즉시 실행할 큐가 아니다. 새 development·분리된 평가 설계 및 resource audit이 먼저 필요하다.
 
 ## 등록된 학습·범위

@@ -2,6 +2,12 @@
 
 PARTIAL 결과다. V는 선택 구간이며, T는 기존에 잠근 방법만 추론했다. 모든 조건의 학습 완료나 독립 일반화를 주장하지 않는다. 원수치·조건·미완료 상태는 상세 보고서와 함께 읽는다.
 
+## 후속 CPU 검색 중간 기록
+
+![Jena4조건의1 epoch A_stop 중간 곡선](postT_V_only_cpu_lag_20261016_v1/diagnostics/progress_through_e1_20261016_v1/SEARCH_PROGRESS_E1.svg)
+
+[중간 보고서·CSV·계약](postT_V_only_cpu_lag_20261016_v1/PROGRESS_E1_KO.md). 동일 K6·seed·학습 노출의 A_stop 검색 기록이며 최종 V 성능·수렴·독립 일반화 검증을 뜻하지 않는다. 네 학습은3epoch까지 진행 중이다.
+
 ## 핵심 고정 비교
 
 ![동일 G의 V 비교](diagnostics/deep_g_matched_figures_1792096000000/render_v2_1792096170672/same_deep_G_MSE.svg)
