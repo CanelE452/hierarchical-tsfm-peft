@@ -1,0 +1,17 @@
+--- locked_route_pairs.py
++++ locked_route_pairs_scope_v2.py
+@@ -1,4 +1,4 @@
+-"""Public-only decomposition of predeclared locked route comparisons."""
++"""Public-only decomposition of fixed structural locked route comparisons."""
+ import argparse
+ from collections import defaultdict
+ import csv
+@@ -386,7 +386,7 @@
+         prior_original_14_pairs_not_added_as_independent_samples=True,source_and_inputs_unchanged=True,
+         output_sha256={p.name:file_sha(p) for p in output.iterdir() if p.is_file()})
+     _write_json(output/'RESULT.json',result)
+-    (output/'README_KO.md').write_text('# 잠금된 T route의 공개 충분통계 비교\n\n52개 구조 비교는 T 오차를 보기 전 고정한 역할 명세다. '
++    (output/'README_KO.md').write_text('# 잠금된 T route의 공개 충분통계 비교\n\n52쌍은 T 관찰 뒤 수행한 보고용 구조 분해다. 방법과 역할은 기존 선택 잠금에 고정됐으며 이번 보조표에서 점수 순위로 비교를 빼거나 바꾸지 않았다. '
+         '기존 target/mask/channel/origin descriptor와 공개 SSE/SAE/count를 확인했으며 원 target 값이나 NPZ를 다시 검산하지 않았다. '
+         '시간 block은 원 metadata plan을 그대로 사용하고, 패턴 그룹은 frozen A-only 분류를 재적합하지 않았다. '
+         '채널 macro를 사용하며 block 또는 band 평균을 전체 오차로 대체하지 않는다. '

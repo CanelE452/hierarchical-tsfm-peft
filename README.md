@@ -4,6 +4,15 @@
 이 hierarchy screen의 실행 계약은 [MASTER](docs/00_MASTER_CLI_hierarchical_tsfm_peft_new_pc_20260921.txt)입니다. 별도 승인된 채널 압축 잔차 연구는 아래 결과 색인과 해당 PLAN을 따릅니다.
 실행 기록은 `results/hier_peft_screen_v1/`에 저장합니다. 논문 PASS를 주장하지 않습니다.
 
+## INFORMS 확대 검증: 부분 결과 (2026-10-16)
+
+**PARTIAL.** Beijing·Jena·Electricity·PeMS08에서 채널 압축, 시간 처리, 같은 G의 예측 결합, 지연 압축과 가변 K를 실제 비교했습니다. V의 결합 이득은 Beijing의 잠금 후 T에서 유지되지 않았고, PeMS08의 H_B2는 LoRA보다 T MSE가 약0.23% 낮았습니다. 한 seed·한 시간 구간의 관찰이며, 필수 학습·반복 검증과 전체 정확도–비용 우위는 미해결입니다.
+
+- [최신 결과·원수치·그림·실험 코드](research/informs_broad_validation_20261015_v1/README_KO.md)
+- [상세 한국어 보고서](research/informs_broad_validation_20261015_v1/REPORT_KO.md), [교수님 상담용 핵심·반례](research/informs_broad_validation_20261015_v1/PROFESSOR_BRIEF.md)
+- [전체 원수치](research/informs_broad_validation_20261015_v1/SCORES.csv), [실제 비용](research/informs_broad_validation_20261015_v1/COST.csv)
+- [무손실 통계 복원·재현](research/informs_broad_validation_20261015_v1/REPRODUCE.md), [미완료 범위·재개 조건](research/informs_broad_validation_20261015_v1/RESUME.md)
+
 ## 시간 앞단 R1–R5: 상담 반영 실제 실행 (2026-10-15)
 
 새 A/B/C 시간 분할에서 TSMixer·TimeMixer 원리를 적용한 앞단, C/K 압축, 동일 잔차 G, 직접 예측·LoRA 대조를 실제 학습하고 이후 C 구간의 추론·전체 비용을 측정했습니다. 신경망 80조건·121,200 update와 ridge 10개 alpha 적합을 실행했습니다. **시간 앞단의 일부 효과는 있지만 작은-K+Bolt의 G-only·LoRA 대비 추가 가치는 확보하지 못했습니다.** 최대 학습량에서도 미해결인 12조건과 Robin L2048의 자료 부족을 구분해 보고합니다.

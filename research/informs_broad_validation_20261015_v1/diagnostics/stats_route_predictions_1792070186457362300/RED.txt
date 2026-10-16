@@ -1,0 +1,44 @@
+test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact (test_stats_pack.StatsPackTests.test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact) ... 
+  test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact (test_stats_pack.StatsPackTests.test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact) (opaque=False) ... ERROR
+  test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact (test_stats_pack.StatsPackTests.test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact) (opaque=True) ... ERROR
+test_legacy_E0_scope_and_seven_column_route_statistics_stay_rejected (test_stats_pack.StatsPackTests.test_legacy_E0_scope_and_seven_column_route_statistics_stay_rejected) ... 
+  test_legacy_E0_scope_and_seven_column_route_statistics_stay_rejected (test_stats_pack.StatsPackTests.test_legacy_E0_scope_and_seven_column_route_statistics_stay_rejected) (relative='route_predictions/toy/T_final/PUBLIC_ERROR_STATS.csv.gz') ... FAIL
+
+======================================================================
+ERROR: test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact (test_stats_pack.StatsPackTests.test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact) (opaque=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<public-root>\test_stats_pack.py", line 82, in test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact
+    directory = module.pack(self.public, **options)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<public-root>\stats_pack.py", line 276, in pack
+    raise ValueError("Only standard public sufficient-statistic gzip files may be packed")
+ValueError: Only standard public sufficient-statistic gzip files may be packed
+
+======================================================================
+ERROR: test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact (test_stats_pack.StatsPackTests.test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact) (opaque=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<public-root>\test_stats_pack.py", line 80, in test_route_T_final_pack_inspect_restore_and_virtual_publication_are_exact
+    directory = module.pack(self.public, **options)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<public-root>\stats_pack.py", line 276, in pack
+    raise ValueError("Only standard public sufficient-statistic gzip files may be packed")
+ValueError: Only standard public sufficient-statistic gzip files may be packed
+
+======================================================================
+FAIL: test_legacy_E0_scope_and_seven_column_route_statistics_stay_rejected (test_stats_pack.StatsPackTests.test_legacy_E0_scope_and_seven_column_route_statistics_stay_rejected) (relative='route_predictions/toy/T_final/PUBLIC_ERROR_STATS.csv.gz')
+----------------------------------------------------------------------
+ValueError: Only standard public sufficient-statistic gzip files may be packed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<public-root>\test_stats_pack.py", line 116, in test_legacy_E0_scope_and_seven_column_route_statistics_stay_rejected
+    with self.assertRaisesRegex(ValueError, message):
+AssertionError: "schema differs" does not match "Only standard public sufficient-statistic gzip files may be packed"
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.080s
+
+FAILED (failures=1, errors=2)

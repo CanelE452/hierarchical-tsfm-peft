@@ -1,0 +1,165 @@
+{
+  "files": {
+    "channel_patterns.py": {
+      "before_sha256": "75b81e34f5780ac282718746d380770d1bb18cd4f8e3336925f1fd9d681ca0c7",
+      "preserved_source": "source_snapshots/channel_patterns_before_control_lr_metadata_75b81e34f578.py",
+      "after_sha256": "4730e078bc325dbd6827e30d4f5334074d6b62bd84eedec2bff3d58f6f4c82d7"
+    },
+    "test_channel_patterns.py": {
+      "before_sha256": "9b7124e78c6b14c41f7cbb5fc9e8f15114165b3350fa63bb7e60767405568578",
+      "preserved_source": "source_snapshots/test_channel_patterns_before_control_lr_metadata_9b7124e78c6b.py",
+      "after_sha256": "bda53d3789015c91187befc8119236636cfb0eb8b6206104db647ec64f7078c9"
+    },
+    "report_figures.py": {
+      "before_sha256": "4ed9d5f061f9ff9ba350ee32620e3ab591c102b884a3d3ac210d37f1d1d90772",
+      "preserved_source": "source_snapshots/report_figures_before_control_lr_metadata_4ed9d5f061f9.py",
+      "after_sha256": "12e1d52f9ec411d0e74670fd1f9cf002377ba47ceb7bea5b3c1e4caada5132d2"
+    },
+    "test_report_figures.py": {
+      "before_sha256": "0be7dc93410a566225ef7e2658e73389a046dc955976296ba0aa7b044acb8c10",
+      "preserved_source": "source_snapshots/test_report_figures_before_control_lr_metadata_0be7dc93410a.py",
+      "after_sha256": "a095dd737c93aa6e3f96389a604458e9d1fdad3331d2fdbb87892c906b12f8f0"
+    }
+  },
+  "scientific_six_sha256": {
+    "fit_base.py": "c59cc77ba48e3f061ffa8d2385442286ea989b3ab86c17ea352caeb6d2c1bf20",
+    "training.py": "ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07",
+    "networks.py": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+    "data_contract.py": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+    "evaluation.py": "275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd",
+    "gpu_runtime.py": "c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158"
+  },
+  "reason": "Support recorded A+M control LR metadata without mixing unknown or different learned recipes",
+  "GPU_execution": true,
+  "actual_complete_control_metadata_read_only_checks": [
+    {
+      "run_id": "primary_electricity_E2_G_REFIT_APLUSM_k0_s92601_G",
+      "learning_rate": 0.001,
+      "selected_epoch": 0.25,
+      "source_file": "runs/primary_electricity_E2_G_REFIT_APLUSM_k0_s92601_G/CONTROL_SOURCE_CONTRACT.json",
+      "source_sha256": "895afa950e6160ce9f6c185f5dfce594379a8e5270c0c9aed71358ede7d584fe",
+      "receipt_sha256": "66093c6f47e84b6ec784c12fce0f32ef5dc7b3617488d2552ac610fad7b07212"
+    },
+    {
+      "run_id": "primary_electricity_E2_LORA_REFIT_APLUSM_k0_s92601_LORA",
+      "learning_rate": 0.0001,
+      "selected_epoch": 0.25,
+      "source_file": "runs/primary_electricity_E2_LORA_REFIT_APLUSM_k0_s92601_LORA/CONTROL_SOURCE_CONTRACT.json",
+      "source_sha256": "e0b0a7a16e427b00c7fbad3c2b22bdbdae672b72e6d4da82e9b4b95fc86f445b",
+      "receipt_sha256": "c0605a6a102533a06e08d5fe6668bc1cd9421b22cde9ea75ed44951041c00180"
+    },
+    {
+      "run_id": "primary_pems08_E2_G_REFIT_APLUSM_k0_s92601_G",
+      "learning_rate": 0.001,
+      "selected_epoch": 0.25,
+      "source_file": "runs/primary_pems08_E2_G_REFIT_APLUSM_k0_s92601_G/CONTROL_SOURCE_CONTRACT.json",
+      "source_sha256": "13ae0db728b90155c1837776fba23ce9dd30dd2c4244514e457c5062e009a74a",
+      "receipt_sha256": "ab02d2b5166340ccf515acf8c37a68ab84c4f734cdd9d09234d6ea5393714d3a"
+    },
+    {
+      "run_id": "primary_pems08_E2_LORA_REFIT_APLUSM_k0_s92601_LORA",
+      "learning_rate": 0.0001,
+      "selected_epoch": 0.25,
+      "source_file": "runs/primary_pems08_E2_LORA_REFIT_APLUSM_k0_s92601_LORA/CONTROL_SOURCE_CONTRACT.json",
+      "source_sha256": "00322fb059a6c6947f8efdbd419790437cc92df7e6b0ee9f6be8211097c238eb",
+      "receipt_sha256": "fae99288f66aa1d6a7e32f3a65ac4184ed469a654882d5ec6cd046846011fff2"
+    }
+  ],
+  "pre_patch_unknown_iterative_pair_emitted_and_post_patch_excluded": true,
+  "scientific_six_verified_unchanged": true,
+  "changes": [
+    "Pattern and figure fit metadata prefer SOURCE_CONTRACT.json and use CONTROL_SOURCE_CONTRACT.json only when SOURCE_CONTRACT.json is absent",
+    "Control spec.lr, config SHA, source hashes and selected epoch are preserved; unknown or invalid source LR is not replaced by a guessed value",
+    "Figure calibration metadata reads the actual receipt learning_rate field with legacy lr support",
+    "Figure learned-model matched comparisons require recorded positive finite non-bool LR and config SHA; two iterative recipes must have equal LR",
+    "Exact frozen-parent checks and closed-form/fixed comparisons retain their existing behavior"
+  ],
+  "red_tests": {
+    "command": "python -m pytest test_channel_patterns.py::ChannelPatternTests::test_control_source_identity_preserves_recorded_lr_receipt_and_parent test_report_figures.py::ReportFiguresTests::test_control_source_fallback_and_calibration_receipt_lr_preserve_provenance -q",
+    "exit_code": 1,
+    "failed": 2,
+    "expected_failure": "None != 0.001"
+  },
+  "targeted_tests": {
+    "command": "python -m pytest test_channel_patterns.py test_report_figures.py test_report_campaign.py test_selection_training_guard.py test_lr_followup.py -q",
+    "exit_code": 0,
+    "passed": 63,
+    "subtests_passed": 28,
+    "elapsed_seconds": 15.37
+  },
+  "test_environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "scientific_result_files_modified_by_this_patch": false,
+  "actual_registry_mutated_by_this_patch": false,
+  "actual_postprocessing_rerun_delegated_to_root": true,
+  "root_default_suite": {
+    "command": "python -m pytest -q",
+    "exit_code": 1,
+    "passed": 18,
+    "failed": 1,
+    "elapsed_seconds": 19.94,
+    "failing_test": "tests/test_model_parity.py::test_actual_labour_model_parity_and_all_arm_smoke",
+    "failure": "src/hier_peft/smoke.py:109 torch.save: worktree .cache directory does not exist",
+    "unrelated_environment_failure_left_outside_patch_scope": true,
+    "unintended_legacy_smoke_side_effects": {
+      "command": "$env:CUDA_VISIBLE_DEVICES=''; $env:OMP_NUM_THREADS='1'; $env:MKL_NUM_THREADS='1'; $env:OPENBLAS_NUM_THREADS='1'; & '<asset-root>/.venv/Scripts/python.exe' -m pytest -q",
+      "cwd": "<worktree>",
+      "requested_shell_environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "actual_child_CUDA_VISIBLE_DEVICES_not_captured": true,
+      "exec_session_id": 35632,
+      "initial_exec_chunk_id": "0f420a",
+      "final_exec_chunk_id": "ec1ec2",
+      "OS_PID_not_captured": true,
+      "process_exit_code": 1,
+      "process_finished": true,
+      "pytest_summary": "1 failed, 18 passed in 19.94s",
+      "failure_test": "tests/test_model_parity.py::test_actual_labour_model_parity_and_all_arm_smoke",
+      "failure_location": "src/hier_peft/smoke.py:109 torch.save(state1, ckpt)",
+      "failure_message": "RuntimeError: Parent directory <worktree>/.cache does not exist.",
+      "legacy_smoke_attempt": "2026-10-15T11:26:03.738305+00:00",
+      "confirmed_legacy_smoke_optimizer_updates": 2,
+      "CUDA_synchronize_reached": true,
+      "prior_no_GPU_execution_claim_withdrawn": true,
+      "raw_stdout_file_not_captured": true,
+      "evidence_kind": "Structured tool-result record and later recovered artifact hashes; not a byte-exact raw stdout capture",
+      "original_unintended_file_changes": [
+        "results/hier_peft_screen_v1/SMOKE_AUDIT.json: previous PASS overwritten with RUNNING for this attempt",
+        "results/hier_peft_screen_v1/UPDATE_LEDGER.jsonl: smoke LORA update1 and update2 appended for this attempt"
+      ],
+      "incident_artifacts_not_restored_by_this_subagent": true,
+      "artifact_state_at_final_read": [
+        {
+          "file": "results/hier_peft_screen_v1/SMOKE_AUDIT.json",
+          "sha256": "4b162806085498a160ec5a820d733395c6572c2e2b562fef527df8d1dd25ebe0",
+          "equals_HEAD_bytes": true
+        },
+        {
+          "file": "results/hier_peft_screen_v1/UPDATE_LEDGER.jsonl",
+          "sha256": "ea4b14658ecde1cb4a22586ee575f1022c269d6872e90f015c8a98571358c0a2",
+          "equals_HEAD_bytes": true
+        }
+      ]
+    },
+    "evidence_file": "source_snapshots/CONTROL_LR_METADATA_ROOT_PYTEST_INCIDENT.json",
+    "evidence_sha256": "a6c583515cb55d58131216d7c90503748c5065b35a8d751efe1a03786af33ad7"
+  },
+  "GPU_execution_note": "Unintended root default pytest executed legacy Labour smoke including two optimizer updates and CUDA synchronization; targeted 63-test suite was separate.",
+  "scientific_result_files_modified_during_work": true,
+  "scientific_result_files_note": "Legacy smoke temporarily modified two results files; at final read both matched HEAD byte-for-byte after external recovery. This subagent did not restore them.",
+  "no_further_tests_or_actual_runs_after_root_stop_instruction": true,
+  "public_derivation": {
+    "original_sha256": "eaec6de46e7e1e98b0ade28a70169d3fbc2552afe740c770a31aac59375bd3c6",
+    "original_locally_preserved": true,
+    "only_known_local_root_strings_redacted": true,
+    "canonical_incident_public_relative_path": "diagnostics/auxiliary_smoke_incident_1792063794892752300/INCIDENT_AND_RESTORE.json"
+  }
+}

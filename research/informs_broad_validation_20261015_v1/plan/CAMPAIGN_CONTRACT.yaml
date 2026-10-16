@@ -1,0 +1,250 @@
+# 새로 제안한 계약 템플릿이다. 기존 저장소의 실행 가능한 config라고 가정하지 않는다.
+# MASTER_PLAN.md를 읽은 CLI가 실제 자산·코드를 확인한 뒤 CONFIG_LOCK으로 확정한다.
+version: 1
+status: DESIGN_NOT_EXECUTED
+repository: CanelE452/hierarchical-tsfm-peft
+observed_main_sha: c7a06e522e1cd8e100a3e2291a7f693dd3f7125f
+proposed_campaign_dir: research/informs_broad_validation_20261015_v1
+
+scope:
+  mandatory_blocks:
+    - E0_unresolved_learning_ledger_and_targeted_continuation
+    - E1_data_k_training_breadth
+    - E2_forecast_combination_and_conditional_correction
+    - E3_time_consistent_lag_compression
+    - E4_ordered_multi_k_pilot
+    - final_locked_evaluation_and_cost
+    - independent_rescoring_and_main_publication
+  positive_result_gate_for_minimum_coverage: false
+  automatic_architecture_search_outside_registered_families: false
+  new_protected_test_access: false
+
+resources:
+  estimated_policy_not_runtime_guarantee: true
+  max_gpu_active_hours: 12.0
+  max_wall_hours: 48.0
+  max_new_local_gib: 30.0
+  max_free_download_gib: 5.0
+  max_public_file_mib: 20.0
+  max_public_increment_mib: 250.0
+  preflight_probe_max_minutes: 30
+  auto_increase_budget: false
+  preserve_foreign_processes: true
+  allow_paid_compute: false
+  schedule: breadth_first_then_matched_deepening
+  publish_partial_when_budget_exhausted: true
+  reserve_for_audit_and_reporting: true
+
+access:
+  free_official_data_download: true
+  free_official_model_download: true
+  credentials_in_logs: false
+  accept_terms_on_user_behalf: false
+  source_license_check_required: true
+  isolated_dependency_environment_only: true
+  raw_data_publication: false
+  private_consultation_publication: false
+
+sources:
+  electricity_hourly_description: https://zenodo.org/records/3889830
+  electricity_original_description: https://archive.ics.uci.edu/dataset/321/electricity
+  pems08_author_code_start: https://github.com/kwuking/TimeMixer
+  m5_official_data_entry: https://www.kaggle.com/competitions/m5-forecasting-accuracy/data
+
+# 파일/배열/컬럼 이름은 실제 읽은 뒤 mapping을 생성한다.
+datasets:
+  beijing:
+    role: legacy_development
+    expected_channels: 11
+    context_length: 512
+    prediction_length: 48
+    k_grid: [2, 3, 6, 9, 11]
+    historically_unseen_to_researcher: false
+  jena:
+    role: legacy_development
+    expected_channels: 21
+    context_length: 512
+    prediction_length: 48
+    k_grid: [5, 6, 11, 16, 21]
+    historically_unseen_to_researcher: false
+  electricity:
+    role: broad_validation
+    expected_channels_if_standard_hourly: 321
+    context_length: 512
+    prediction_length: 48
+    k_ratios: [0.125, 0.25, 0.5, 0.75, 1.0]
+    full_channel_run_required: true
+    nested_channel_counts: [32, 64, 128, 321]
+    historically_unseen_to_researcher: to_be_audited
+  pems08:
+    role: broad_validation
+    expected_sensors: 170
+    target_variable: verify_flow_from_source
+    context_length: 512
+    prediction_length: 12
+    k_ratios: [0.125, 0.25, 0.5, 0.75, 1.0]
+    full_channel_run_required: true
+    nested_channel_counts: [32, 64, 128, 170]
+    zero_is_automatically_missing: false
+    historically_unseen_to_researcher: to_be_audited
+  m5:
+    role: limited_panel_validation_not_full_competition
+    context_length: 364
+    prediction_length: 28
+    panels: 3
+    max_items_per_panel: 128
+    panel_definition: store_by_department_after_schema_review
+    panel_selection: stable_sha256_of_metadata_ids_only
+    item_selection: stable_sha256_of_metadata_ids_only
+    k_ratios: [0.125, 0.25, 0.5, 0.75, 1.0]
+    zero_is_automatically_missing: false
+    future_covariates_in_primary_track: false
+    historically_unseen_to_researcher: to_be_audited
+  robin:
+    role: legacy_short_history_stress
+    expected_channels: 17
+    context_length: 512
+    prediction_length: 48
+    k_grid: [4, 5, 9, 13, 17]
+    historically_unseen_to_researcher: false
+
+splits:
+  primary_proposed_fractions:
+    A_fit: 0.50
+    A_stop: 0.10
+    M_cal: 0.10
+    V_select: 0.10
+    T_final: 0.20
+  respect_existing_protected_boundaries: true
+  base_refit_A_fit_plus_A_stop_after_epoch_lock: true
+  combination_parents_frozen_before_M_cal: true
+  final_model_selection_split: V_select
+  final_test_scoring: once_after_all_selection_locks
+  target_must_fit_within_split: true
+  training_origin_stride: 1
+  evaluation_origin_stride: prediction_length
+  append_last_overlapping_origin: false
+  online_parameter_updates_at_test: false
+  common_origins_for_length_comparison: true
+
+training:
+  screen_seeds: [92601]
+  strengthen_seeds: [92601, 92602]
+  final_seeds: [92601, 92602, 92603]
+  select_best_test_seed: false
+  effective_batch: 16
+  adapt_microbatch_without_changing_effective_batch: true
+  screen_epoch_endpoints: [0.25, 1, 3]
+  strengthen_epoch_endpoints: [10, 30]
+  final_max_epochs: 100
+  early_stop_patience_epochs: 5
+  stop_split: A_stop
+  external_learning_rates: [0.001, 0.0001]
+  lora_learning_rates: [0.0001, 0.00001]
+  optimizer: AdamW
+  weight_decay: 0.0
+  gradient_clip_norm: 1.0
+  undertrained_if_last_checkpoint_still_best: true
+  legacy_continuation_update_endpoints: [4800, 9600, 19200]
+
+models:
+  frozen_backbone: verify_existing_chronos_bolt_small_snapshot
+  primary_point_prediction: median_quantile_0_5
+  no_temporal_adapter: existing_B0_after_review
+  temporal_front: existing_B2_after_review
+  decomposed_multiscale_front: existing_B4_after_review
+  residual_g_hidden: 32
+  decoder_lags: [0, 1, 2, 4, 8, 16, 32]
+  lora_rank: 8
+  lora_targets: verify_actual_query_and_value_modules
+  merged_lora_cost_required: true
+  standard_adapter: verified_deterministic_AdaPTS_on_Bolt_port
+  g_only_baseline_required: true
+  past_only_equal_capacity_control_required: true
+  practical_refit_A_plus_M_baselines: [G, LoRA]
+
+combination:
+  parents: [B0, B2, B4, Raw]
+  scalar_alpha_fit_split: M_cal
+  scalar_alpha_bounds: [0.0, 1.0]
+  scalar_alpha_controls: [0.0, 0.5, 1.0]
+  fit_dtype: float64
+  conditional_features: [past_minus_current, G_forecast_minus_current, parent_forecast_minus_G]
+  conditional_hidden: 32
+  conditional_output_init: zero
+  conditional_fit_split: M_cal
+  conditional_checkpoint_split: V_select
+  past_control_replaces_parent_delta_with_recent_H_history: true
+  learned_runtime_call_skipping: false
+
+lag_encoder:
+  mandatory_pilot_datasets: [beijing, pems08]
+  fallback_diagnostic_if_pems_blocked: electricity
+  k_ratios_for_pilot: [0.25, 0.5, 1.0]
+  causal_lags: [0, 1, 2, 4, 8, 16, 32]
+  two_sided_history_control_lags: [-16, -8, -4, 0, 4, 8, 16]
+  allow_future_after_forecast_origin: false
+  padding: normalized_training_mean_zero
+  initialization: lag0_PCA_others_zero
+  prefix_test_excludes_first_rows: 32
+
+ordered_multi_k:
+  mandatory_pilot_datasets: [beijing, electricity]
+  family_candidates: [B0, B2]
+  family_selection_split: V_select
+  k_ratios: [0.25, 0.5, 1.0]
+  shared_checkpoint: true
+  sample_k: balanced_cycle
+  decoder_prefix_slice_by_lag_axis: true
+  compute_only_requested_K_at_cost_measurement: true
+  controls: [independent_K_training, posthoc_prefix_truncation, nested_PCA]
+
+metrics:
+  primary: normalized_observed_channel_macro_MSE
+  secondary: [normalized_observed_channel_macro_MAE]
+  pems_physical_secondary: [MAE, RMSE]
+  m5_physical_secondary: [MAE, WAPE, total_sales_bias, zero_positive_split]
+  constant_channel_scale: 1.0
+  undefined_metric_policy: NA_with_coverage
+  call_panel_metric_full_M5_WRMSSE: false
+  oracle_outputs_are_deployable: false
+
+cost:
+  batches: [1, 8]
+  warmups: 10
+  min_timed_trials: 20
+  order: balanced_rotation
+  include_CPU_preprocess_to_CPU_return: true
+  fresh_process_memory: true
+  load_F_in_G_only_process: false
+  raw_row_microbatch_candidates: [full, 32, 8, 4]
+  compare_only_same_device_dtype_and_scope: true
+  report_training_peak_separately: true
+
+verification:
+  independent_float64_rescorer: true
+  checkpoint_replay: fixed_preselected_V_origins
+  training_rerun_claim_requires_actual_rerun: true
+  failure_injection_tests: true
+  inference_atol: 0.00001
+  inference_rtol: 0.0001
+  aggregation_atol: 0.000000001
+  aggregation_rtol: 0.0000001
+  publish_origin_channel_error_stats: true
+  mark_statistics_only_audit_scope: true
+
+publication:
+  target_branch: main
+  authorized_for_this_campaign: true
+  force_push: false
+  bypass_branch_protection: false
+  explicit_allowlist_staging: true
+  preserve_foreign_changes: true
+  keep_negative_results: true
+  declare_partial_if_mandatory_coverage_missing: true
+  update_root_readme_latest_link: true
+  verify_remote_ancestry_and_file_hashes_after_push: true
+  secrets_scan_before_push: true
+  raw_dataset_upload: false
+  foundation_weight_upload: false
+  evidence_receipt_avoids_self_referential_commit_hash: true

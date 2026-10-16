@@ -1,0 +1,121 @@
+# 남은 등록 grid·두 번째 시간 절단 실행 bridge
+
+[remaining_breadth.py](remaining_breadth.py)는 사전 등록된 미실행 E1 행을 기존 학습·예측 API에 연결한다. 이 문서는 구현 및 CPU 검사의 기록이다. **이 bridge로 실제 GPU 실험을 실행했다는 영수증이 아니다.** 실제 완료는 새 execution batch, 각 fit receipt와 V prediction manifest 및 이후 독립 감사에서 확인한다.
+
+현재 GPU 소유자의 명시적 인계 뒤 ROOT가 실행한다. 다른 프로세스의 종료, 활성 lease 삭제, 중첩 lease, 기존 부분 학습 재개는 수행하지 않는다. [전체 계획](CAMPAIGN_PLAN.md), [자원 계약](RESOURCE_ENFORCEMENT_KO.md), [원점·표적 계약](PREDICTION_CONTRACT_KO.md), [최종 선택 규칙](FINAL_SELECTION_RULE_KO_v1.md)을 바꾸지 않는다.
+
+## 범위와 비교 조건
+
+registry에서 execution_status가 정확히 PENDING_QUEUE인 다음 행만 선택한다.
+
+- primary, E1, FULL_REGISTERED_GRID, B0/B2.
+- secondary, TIME_TRANSFER_REQUIRED, E1의 RAW/B0/B2/B4/LORA. 별도 CPU 작업으로 완료한 DIRECT_G 두 행은 제외한다.
+
+`--scope all|primary|secondary`로 운영 순서를 나눌 수 있다. 기본값 `all`은 기존 두 범위의 선택과 registry 순서를 그대로 유지한다. `secondary`는 두 번째 시간 절단 최소 대조 10행만, `primary`는 추가 K grid 12행만 대상으로 한다(scope 추가 당시 pending snapshot 기준). 다른 범위의 행은 fit·predict·상태 갱신하지 않는다. 어떤 scope에서도 전체 registry 중복 검사와 전체 대상 pending 행의 과학 identity 검증을 먼저 수행하므로, scope 밖의 손상된 ID·축을 숨기지 않는다. 기존 source/selection/storage/GPU 소유권 guard를 그대로 적용한다. plan의 `scope` 필드와 exact run IDs로 실제 대상을 확인한다.
+
+`--run-id ID`를 반복하면 검증된 pending 중 명시한 ID만 선택한다. 전체 eligible identity 검증을 먼저 끝내고 scope와 명시 ID를 적용한다. 미등록·완료·현재 eligible이 아닌 ID, 반복 ID, scope 불일치는 실행 의존 모듈 import 전에 거부한다. 결과의 순서는 인자 순서와 관계없이 원 registry 순서다. 이 옵션을 생략하면 기존 기본 plan과 선택·순서를 보존한다. API의 `run_ids=None`도 같은 의미이며, 명시할 때는 비어 있지 않은 list 또는 tuple을 사용한다. 명시 plan은 `requested_run_ids`와 실제 registry 순서의 `exact_run_ids`를 함께 기록한다. 제외한 행의 조건·상태를 바꾸지 않으며 성능에 따른 gate도 추가하지 않는다.
+
+새 ID를 등록하거나 데이터·K·seed·fold·L/H·planned_epoch_endpoints를 바꾸지 않는다. registry의 계획 endpoint는 원래 0.25/1/3을 유지한다. 이 bridge의 실제 endpoint는 **0.25 한 개**이므로, 완료해도 endpoint 1/3과 수렴은 미해결이다.
+
+학습 경로는 기존 fit_base.fit_base를 직접 호출한다. A_fit에서 초기화·통계를 적합하고 A_stop으로 epoch 0 또는 0.25를 선택한 뒤, 선택한 epoch만 새 A60 모델로 refit한다. 원채널 정규화 observed macro MSE, AdamW, weight_decay 0, gradient clipping 1, effective batch 16, microbatch 4, F row microbatch 128, FP32, seed 92601을 유지한다. B0/B2/B4의 lr은 0.001이다. plain LORA는 fit family LORA, lr 0.0001, rank 8, alpha 16으로 명시한다. registry K=0을 실제 모델의 C로 해석하되 registry 과학 열은 변경하지 않는다.
+
+plain RAW는 baseline="RAW"로 prediction_cache.predict_parent를 호출하는 **학습 0회** 기준선이다. 가짜 학습 receipt나 optimizer update를 만들지 않는다. RAW와 학습 완료 경로 모두 fold를 명시하여 V_select의 등록된 전체 원점·채널을 실제 추론한다. secondary를 건너뛰는 기존 postfit CLI를 사용하지 않으며, alias를 숨기는 monkeypatch도 사용하지 않는다.
+
+foundation은 기존 로컬 Chronos-Bolt-small snapshot revision 772f3d25d38aec6d914c8949dab4462e2d46f5d8만 사용한다. H=48과 PeMS08 H=12에 맞춰 caller 소유 FrozenBolt를 교체한다. 모델 다운로드·설치·백본 재학습은 하지 않는다.
+
+## 계획과 실제 실행
+
+R을 현재 campaign 폴더, A를 원 저장소의 자산 루트, C를 기존 private campaign cache로 둔다. 실제 실행에는 이미 준비된 Python 가상환경을 사용한다.
+
+메타데이터 확인만 수행하는 기본 명령:
+
+~~~powershell
+python -X utf8 -B remaining_breadth.py
+~~~
+
+secondary를 먼저 확인하려면 `python -X utf8 -B remaining_breadth.py --scope secondary`를 사용한다. primary만 확인하려면 `--scope primary`를 사용한다. 기본 명령은 `--scope all`과 같다.
+
+Elec K41·PeMS08 K22의 B0/B2 네 행만 먼저 확인하는 metadata-only 명령:
+
+~~~powershell
+python -X utf8 -B remaining_breadth.py --scope primary --run-id primary_electricity_E1_B0_k41_s92601 --run-id primary_electricity_E1_B2_k41_s92601 --run-id primary_pems08_E1_B0_k22_s92601 --run-id primary_pems08_E1_B2_k22_s92601
+~~~
+
+ROOT가 GPU 인계와 자원 여유를 확인한 뒤 실제 실행하려면 동일 명령에 `--execute --reserve-seconds 6000`을 추가한다. 네 행을 고르는 것은 다른 primary 여덟 행이나 전체 grid를 삭제하는 결정이 아니다. 완료된 ID를 다시 명시하면 non-pending으로 거부하므로 각 호출 직전에 plan을 새로 확인한다. 이 패치의 검사는 네 행의 실제 학습·추론을 실행하지 않았다.
+
+이 명령은 stdlib만 import하고 registry·source SHA·파일 존재 여부를 읽는다. 데이터를 열거나 모델을 import하지 않으며, 파일·registry·GPU 상태를 변경하지 않는다. ACTIVE_GPU_LEASE.json 존재 여부는 metadata이며 프로세스 생존 또는 실제 OS lock의 증거가 아니다. 시간·비용을 측정한 것으로 표시하지 않는다.
+
+ROOT가 GPU 인계를 확인한 뒤 실행할 명령:
+
+~~~powershell
+$env:CUDA_VISIBLE_DEVICES = '0'
+$env:INFORMS_ASSET_ROOT = $taskAssetRoot
+$env:INFORMS_CACHE_ROOT = $taskCampaignCache
+python -X utf8 -B remaining_breadth.py --execute --reserve-seconds 6000
+~~~
+
+ROOT가 secondary 우선 실행을 선택한 경우 위 실행 명령에 `--scope secondary`를 추가한다. 이후 primary 실행에는 `--scope primary`를 명시한다. scope는 새 실험 조건이나 새 ID를 만들지 않으며, 각 호출 시점의 PENDING_QUEUE만 선택한다. 여기에 적힌 명령은 향후 인계 후 실행용이며 이번 CPU 검사에서 실행하지 않았다.
+
+taskAssetRoot와 taskCampaignCache는 ROOT가 이미 확인한 A/C를 가리켜야 한다. owner/child 인증 환경키가 있으면 실행을 거부한다. 실제 소유권은 같은 C의 중앙 GPUReservation OS lock으로 단 한 번 취득한다. total_gpu_seconds=43200, purpose=training, 기본 reserve_seconds=6000, hard wall deadline=1792050350+172800을 사용한다. lease가 이미 점유되면 다른 작업을 중단하지 않고 소유권 오류로 종료한다.
+
+T selection lock과 require_pre_selection, 아래 scientific six SHA, C+R 총 30 GiB 및 추가 512 MiB 여유, 각 파일시스템의 512 MiB free space를 실행 전·작업 경계에서 검사한다. 진행 중 단일 CUDA 연산을 강제 중단하는 타이머는 아니며 최종 저장·소유권 반납을 위한 5초 headroom을 둔다. 새 GPU process-wall charge는 중앙 receipt에 남는다. 이후 ROOT가 실제 charge와 deadline 초과 여부를 별도로 확인한다.
+
+예외를 traceback 문자열로 private cache에 보관하고 공개 영수증에는 상대 경로·오류 종류만 적는다. 한 route의 source/config 충돌, 일부 파일, 실패는 원본을 보존하며 다른 독립 route를 계속한다. 실패한 foundation은 재사용하지 않는다. LoRA adapter 생성 후 .to() 실패가 기존 try 밖일 수 있으므로 caller 소유 foundation을 버리고 다음 route에서 새 snapshot을 읽는다. hash 복원 실패를 성공으로 처리하지 않는다. V의 TimeoutError는 실제 deadline에 도달한 경우에만 자원 중단으로 분류한다.
+
+현재 scientific source 자체의 고정 SHA가 바뀐 경우는 전역 사전조건 실패이므로 새 실험을 시작하지 않는다. 이미 완성된 동일 source/spec artifact와 V cache는 SHA·기존 API 계약이 맞을 때만 재사용한다. 부분 checkpoint나 일부 V 파일을 자동 재개하거나 덮어쓰지 않는다.
+
+## 상태와 산출물 해석
+
+- 실제 fit이 COMPLETE_VALID일 때만 V를 추론한다. V 저장까지 성공한 행만 execution_status=COMPLETE_VALID로 갱신한다.
+- 0.25 학습 상태와 RAW의 NO_TRAINING을 구별하고 validity_status는 독립 감사 전까지 PENDING_INDEPENDENT_VALIDATION으로 유지한다.
+- 자원 소진은 DEFERRED_RESOURCE, 경로 오류는 EXECUTION_FAILED로 기록한다. 실제 부분 update/exposure가 receipt에 있으면 보존한다. 재사용 artifact, 새 fit 호출, 새 V 추론, 재사용 V는 별도 집계한다.
+- 새 공개 execution batch는 execution_batches/remaining_breadth_&lt;stamp&gt;.json에 생성한다. 전역 import/소유권/마지막 source 검증 오류도 기록하며, 이미 반납한 중앙 GPU receipt는 실제 파일 존재·SHA로 연결한다. fit 호출이 receipt 반환 전에 실패하면 학습 여부를 false로 단정하지 않고 null·PARTIAL_TRAINING_UNRESOLVED와 별도 미확정 개수로 남긴다. 각 실제 fit과 V는 기존 runs/ 및 predictions/ 구조에 저장한다. raw arrays·checkpoint·절대 private path는 공개하지 않는다.
+- root SCORES.csv, T 진입, selection lock, commit/push는 이 bridge가 수행하지 않는다. 독립 저장 예측 재채점·checkpoint replay·비용·최종 게시가 별도로 남는다.
+- 이 CLI는 PENDING_QUEUE만 선택한다. 실패·부분·DEFERRED 행을 다시 PENDING으로 자동 되돌리지 않는다. 재개 전 ROOT가 원인과 원 파일을 확인해야 하며, 최종 selection lock 뒤 같은 campaign에서 학습을 계속할 수 없다. 필요한 후속은 별도 campaign으로 분리한다.
+
+## 고정 scientific six
+
+~~~text
+fit_base.py    c59cc77ba48e3f061ffa8d2385442286ea989b3ab86c17ea352caeb6d2c1bf20
+training.py    ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07
+networks.py    787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54
+data_contract.py 0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b
+evaluation.py  275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd
+gpu_runtime.py c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158
+~~~
+
+## CPU 검증 및 현재 계획 목록
+
+[확인] 반복 `--run-id` 추가 시 실제 CLI가 해당 인자를 거부하는 RED를 확인한 뒤 `test_remaining_breadth`만 **31/31 PASS**로 검사했다. 기본 동등·registry 순서, 명시 subset과 미선택 행 보존, unknown·완료 ID·중복·빈 목록·scope 불일치 거부, 필터 밖의 손상된 eligible identity·전역 중복 거부, CLI의 plan/execute 전달, invalid 실행의 무쓰기를 포함한다. 실제 R metadata-only plan은 primary pending 12 중 위 네 행만 선택했다. 원본 코드와 같은 시점에 읽은 기본 all/primary/secondary plan은 완전히 같았고, source6/18/train20/CORE22와 실제 registry bytes는 검증 구간 전후 같았다. CUDA=-1·CPU thread 환경값 2·framework 및 실행 모듈 import guard 아래 수행했으며 실제 학습·V·T·비용은 실행하지 않았다. 원문·새 SHA와 범위는 [반복 ID 패치 증빙](SOURCE_PATCH_REMAINING_BREADTH_RUN_ID.json)에 기록한다. 아래 22행 목록은 scope 도입 당시 기록이며 이후 실제 완료 상태와 구별한다.
+
+[확인] scope 추가 검사는 `test_remaining_breadth` 모듈만 실행하여 **25/25 PASS**였다. 새 회귀는 기본 all 동등·순서, primary 12/secondary 10 분리, 잘못된 scope의 실행 전 거부, 다른 scope의 손상된 identity·전역 중복 거부, main에서 plan/execute까지 scope 전달, 선택 범위에 pending이 없을 때 다른 행과 파일을 보존하는 동작을 포함한다. 임시 registry 외에 실제 실행을 호출하지 않았다. 실제 R에 대한 세 scope의 metadata-only CLI dry run도 all 22 / primary 12 / secondary 10을 확인했고, registry bytes·공개 파일 목록·source6/18 SHA가 전후 동일했다. CUDA_VISIBLE_DEVICES=-1, 세 CPU thread 환경값은 각각 2였고 numpy/torch/chronos 및 실행 의존 모듈 import guard를 통과했다. 이 검증은 학습·V 추론·비용 측정·T 평가가 아니다. [패치 증빙](SOURCE_PATCH_REMAINING_BREADTH_SCOPE.json)에 원문 SHA와 세 범위의 exact IDs를 남긴다.
+
+[확인] 2026-10-15 작성 시 새 test_remaining_breadth 모듈의 **20/20 synthetic 검사 PASS**, 마지막 실행은 0.170초였다. 기본 root pytest나 전체 suite는 실행하지 않았다. 임시 registry만 사용하여 선택·중복 ID·alias·과학 열 불변·T lock 실행 거부·부분 파일 보존·artifact SHA 불일치·CPU dry-run 무쓰기 및 금지된 framework/실행 모듈 import 부재를 확인했다. 반납한 lease receipt 연결, 전역 오류 뒤 공개 기록 보존, deadline 전후 timeout 구별, 반환 전 학습 시도의 미확정 표시도 검사했다.
+
+실제 R의 메타데이터 plan도 별도의 import guard 아래 실행했다. pending 22행=primary 12+secondary 10, scientific six SHA 일치, 실행 전후 registry/six SHA 일치, numpy/torch/chronos/psutil/campaign/fit_base/data_contract/prediction_cache/resources/registry_extension import 0을 확인했다. ACTIVE 기록은 존재했으므로 GPU 실행은 호출하지 않았다. 이 검사는 미래의 실제 학습·추론 성공을 보장하지 않는다.
+
+~~~text
+primary_beijing_E1_B0_k9_s92601
+primary_beijing_E1_B2_k9_s92601
+primary_jena_E1_B0_k16_s92601
+primary_jena_E1_B2_k16_s92601
+primary_electricity_E1_B0_k41_s92601
+primary_electricity_E1_B2_k41_s92601
+primary_electricity_E1_B0_k241_s92601
+primary_electricity_E1_B2_k241_s92601
+primary_pems08_E1_B0_k22_s92601
+primary_pems08_E1_B2_k22_s92601
+primary_pems08_E1_B0_k128_s92601
+primary_pems08_E1_B2_k128_s92601
+secondary_beijing_E1_RAW_k0_s92601
+secondary_beijing_E1_B0_k3_s92601
+secondary_beijing_E1_B2_k3_s92601
+secondary_beijing_E1_B4_k3_s92601
+secondary_beijing_E1_LORA_k0_s92601
+secondary_jena_E1_RAW_k0_s92601
+secondary_jena_E1_B0_k6_s92601
+secondary_jena_E1_B2_k6_s92601
+secondary_jena_E1_B4_k6_s92601
+secondary_jena_E1_LORA_k0_s92601
+~~~
+

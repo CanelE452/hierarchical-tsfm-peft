@@ -1,0 +1,155 @@
+"""A-only pattern and independently weighted group-error CPU checks."""
+import copy
+import csv
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+import numpy as np
+
+import data_contract as data
+import prediction_cache
+
+
+def task_fixture():
+    rng = np.random.default_rng(82)
+    x = rng.normal(size=(400, 4))
+    x[4:, 1] = x[:-4, 0]
+    x[:, 2] = 3.
+    mask = np.ones_like(x, bool)
+    mask[20:24, 0] = False
+    mask[:, 3] = False
+    return dict(name="toy", physical=x, observed=mask, columns=["source", "target", "constant", "missing"],
+                period=4, L=64, H=4, data_sha256="toy_source", metadata={},
+                times=np.arange(400, dtype=np.int64), interval_seconds=1)
+
+
+class ChannelPatternTests(unittest.TestCase):
+    def setUp(self):
+        import channel_patterns
+        self.module = channel_patterns
+        self.tmp = tempfile.TemporaryDirectory(prefix="informs_patterns_")
+        self.addCleanup(self.tmp.cleanup)
+        self.public, self.cache = Path(self.tmp.name) / "public", Path(self.tmp.name) / "private"
+        self.public.mkdir(); self.cache.mkdir()
+
+    def test_known_direction_and_future_suffix_invariance(self):
+        task = task_fixture()
+        rows, thresholds = self.module.fit_task_patterns(task, 200)
+        target = rows[1]
+        self.assertEqual(target["delayed_source_channel"], "source")
+        self.assertEqual(target["delayed_lag"], 4)
+        self.assertAlmostEqual(target["delayed_rho"], 1., places=12)
+        changed = copy.deepcopy(task)
+        changed["physical"][200:] = np.nan
+        changed["observed"][200:] = False
+        other, other_thresholds = self.module.fit_task_patterns(changed, 200)
+        self.assertEqual(rows, other)
+        self.assertEqual(thresholds, other_thresholds)
+
+    def test_constant_missing_exact_zeros_and_gap_difference(self):
+        task = task_fixture()
+        task["physical"][:200, 0] = np.arange(200)
+        task["physical"][4, 0] = 1e-12
+        rows, _ = self.module.fit_task_patterns(task, 200)
+        self.assertIsNone(rows[2]["variability"])
+        self.assertEqual(rows[2]["variability_group"], "NA")
+        self.assertIsNone(rows[2]["seasonality"])
+        self.assertIsNone(rows[2]["delayed_crosschannel"])
+        self.assertIsNone(rows[3]["intermittency"])
+        valid = task["observed"][:200, 0]
+        pair = valid[1:] & valid[:-1]
+        expected = np.std(np.diff(task["physical"][:200, 0])[pair]) / np.std(task["physical"][:200, 0][valid])
+        self.assertEqual(rows[0]["variability_pairs"], int(pair.sum()))
+        self.assertAlmostEqual(rows[0]["variability"], expected)
+        self.assertAlmostEqual(rows[0]["intermittency"], 1 / int(valid.sum()))
+
+    def test_pairwise_mask_means_large_offset_and_minimum_count(self):
+        rng = np.random.default_rng(4)
+        x = 1e12 + rng.normal(size=(90, 3))
+        mask = rng.random(x.shape) > .2
+        rho, counts = self.module.delayed_correlation_matrix(x, mask, 4, min_pairs=30)
+        for target in range(3):
+            for source in range(3):
+                good = mask[4:, target] & mask[:-4, source]
+                self.assertEqual(counts[target, source], int(good.sum()))
+                # The stable reference removes an arbitrary shared offset first.
+                a = x[4:, target][good] - 1e12
+                b = x[:-4, source][good] - 1e12
+                self.assertAlmostEqual(rho[target, source], np.corrcoef(a, b)[0, 1], places=10)
+        invalid = x.copy(); invalid[~mask] = np.nan
+        again, _ = self.module.delayed_correlation_matrix(invalid, mask, 4, min_pairs=30)
+        np.testing.assert_allclose(rho, again, atol=0, rtol=0, equal_nan=True)
+        a = rng.normal(size=(31, 2)); m = np.ones_like(a, bool)
+        r30, _ = self.module.delayed_correlation_matrix(a, m, 1, min_pairs=30)
+        r29, _ = self.module.delayed_correlation_matrix(a[:-1], m[:-1], 1, min_pairs=30)
+        self.assertTrue(np.isfinite(r30).all())
+        self.assertTrue(np.isnan(r29).all())
+
+    def test_median_boundary_all_equal_and_na_are_explicit(self):
+        values = [0., 1., 2., None]
+        groups, threshold = self.module.median_groups(values)
+        self.assertEqual(threshold, 1.)
+        self.assertEqual(groups, ["low", "low", "high", "NA"])
+        self.assertEqual(self.module.median_groups([0., 0., None]), (["low", "low", "NA"], 0.))
+        self.assertEqual(self.module.median_groups([None]), (["NA"], None))
+
+    def test_pair_subset_constant_and_tie_direction_are_not_spurious(self):
+        rng = np.random.default_rng(92)
+        source = rng.normal(size=100)
+        x = np.column_stack((source, source, np.r_[0., source[:-1]]))
+        task = dict(name="toy", physical=x, observed=np.ones_like(x, bool), columns=["first", "second", "target"], period=4)
+        rows, _ = self.module.fit_task_patterns(task, 100)
+        self.assertEqual(rows[2]["delayed_source_channel"], "first")
+        self.assertEqual(rows[2]["delayed_lag"], 1)
+        x[:, 0] = 1e12 + .1
+        x[0, 0] += 1.
+        mask = np.ones_like(x, bool)
+        # At lag1 the target side is constant although channel0 is not constant on all A.
+        rho, _ = self.module.delayed_correlation_matrix(x, mask, 1)
+        self.assertTrue(np.isnan(rho[0]).all())
+
+    def test_group_macro_balances_channels_instead_of_pooling_cells(self):
+        p = np.zeros((2, 2, 3), np.float32)
+        y = np.zeros_like(p); mask = np.ones_like(p, bool)
+        p[:, :, 0] = 1.; p[:, :, 1] = 3.; mask[0, 1:, 1] = False; mask[1, :, 1] = False
+        mask[:, :, 2] = False
+        totals = self.module.channel_error_totals(p, y, mask)
+        score = self.module.aggregate_channel_group(totals, [0, 1, 2], 4)
+        self.assertEqual(score["mse"], 5.)
+        self.assertEqual(score["mae"], 2.)
+        self.assertEqual(score["active_channels"], 2)
+        self.assertEqual(score["zero_observed_channels"], 1)
+        self.assertEqual(score["observed_target_cells"], 5)
+        self.assertNotEqual(score["mse"], (4 + 9) / 5)
+
+    def test_actual_toy_fit_and_v_evaluation_keep_all_groups(self):
+        task = task_fixture()
+        # Forecast fitting statistics require every channel to be observed on A.
+        task["observed"][:, 3] = True
+        rows = []
+        for run_id, family, baseline in (("current", "CURRENT", "CURRENT"), ("seasonal", "SEASONAL_NAIVE", "SEASONAL")):
+            prediction_cache.predict_parent(run_id, task, "V_select", self.cache, self.public,
+                                            None, baseline=dict(kind=baseline, period=4))
+            rows.append(dict(experiment_id=run_id, dataset="toy", family=family, latent_k=0, seed=1, fold="primary"))
+        with (self.public / "EXPERIMENT_REGISTRY.csv").open("w", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
+        with patch.object(self.module.data, "load_task", return_value=task):
+            snapshot = self.module.fit_patterns(self.public, self.cache, datasets=["toy"])
+        result = self.module.evaluate_groups(self.public, self.cache, snapshot)
+        with (Path(result) / "GROUP_ERRORS.csv").open() as stream:
+            scores = list(csv.DictReader(stream))
+        self.assertEqual(len(scores), 2 * 4 * 3)
+        self.assertEqual({r["group"] for r in scores}, {"low", "high", "NA"})
+        self.assertTrue((Path(result) / "PAIRED_GROUP_DIFFERENCES.csv").is_file())
+        manifest = json.loads((Path(result) / "EVALUATION_MANIFEST.json").read_text())
+        self.assertEqual(manifest["prediction_count"], 2)
+        self.assertFalse(manifest["pattern_fit_used_future_targets"])
+        with self.assertRaisesRegex(ValueError, "SELECTION_LOCK"):
+            self.module.evaluate_groups(self.public, self.cache, snapshot, split="T_final")
+
+
+if __name__ == "__main__":
+    unittest.main()

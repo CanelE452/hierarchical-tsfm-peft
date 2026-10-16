@@ -1,0 +1,98 @@
+{
+  "status": "CPU_SYNTHETIC_REGRESSION_VERIFIED",
+  "reason": "Make measured cost figures readable by separating measurement scopes, shortening labels and exposing all RAW row variants separately.",
+  "sources_before": {
+    "report_figures.py": {
+      "sha256": "12e1d52f9ec411d0e74670fd1f9cf002377ba47ceb7bea5b3c1e4caada5132d2",
+      "preserved_source": "source_snapshots/report_figures_before_cost_readability_12e1d52f9ec4.py",
+      "snapshot_sha256": "12e1d52f9ec411d0e74670fd1f9cf002377ba47ceb7bea5b3c1e4caada5132d2"
+    },
+    "test_report_figures.py": {
+      "sha256": "a095dd737c93aa6e3f96389a604458e9d1fdad3331d2fdbb87892c906b12f8f0",
+      "preserved_source": "source_snapshots/test_report_figures_before_cost_readability_a095dd737c93.py",
+      "snapshot_sha256": "a095dd737c93aa6e3f96389a604458e9d1fdad3331d2fdbb87892c906b12f8f0"
+    }
+  },
+  "sources_after_sha256": {
+    "report_figures.py": "55aa26fee92da7990d39cc009e5db787e7c49fab6778174dfb1ec3105e216104",
+    "test_report_figures.py": "f6fd44e8cb76370022dc48305f136608c10f42d8661036e07c8cd361a1a147dd"
+  },
+  "change_scope": "Only report_figures._costs presentation and one related synthetic regression test; publication_check.py edits by another worker were preserved.",
+  "original_source_outside_costs_byte_identical": true,
+  "original_cost_input_validation_and_CSV_collector_identical": true,
+  "existing_cost_accuracy_csv_schema_and_values_unchanged": true,
+  "presentation_changes": [
+    "Fresh single route and balanced shared process appear in separate scatter panels with the same log-x and y limits.",
+    "Point numbers replace long ID annotations; short method/K/epoch/A+M/row key and deterministic family colors remain consistent across panels.",
+    "RAW primary markers use the minimum complete fresh median within the same cost snapshot, exact route and batch/device; the shared marker uses only the same row setting. This is a display rule, not scientific model selection.",
+    "Every RAW row condition remains in cost_accuracy.csv and new cost_raw_rows.csv plus separate latency/memory figures.",
+    "Fresh memory is separate, with allocated/reserved peaks and registered GPU resident weights; shared-process peak is not plotted as exclusive memory.",
+    "Captions distinguish post-activation batch time, excluded switching/loading, timed-plus-stage allocator peak, registered CPU parameters/buffers plus native Ridge arrays, and unregistered LoRA backup exclusions.",
+    "New cost_plot_keys.csv preserves exact IDs, display keys/labels and original measurements with additional presentation metadata."
+  ],
+  "raw_display_rule_if_no_complete_fresh": "No minimum selection; retain the recorded RAW conditions in the primary plot.",
+  "original_PNGs_visually_inspected": [
+    "figures/snapshot_20261015T125625Z_1792068985880974400/cost_pems08_B1_cuda.png",
+    "figures/snapshot_20261015T125625Z_1792068985880974400/cost_pems08_B8_cuda.png"
+  ],
+  "test_verification": {
+    "command": "python -X utf8 -m unittest test_report_figures -v",
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2"
+    },
+    "cuda_preflight": {
+      "available": false,
+      "device_count": 0
+    },
+    "regression_tests_added": 1,
+    "before_fix": {
+      "tests": 20,
+      "passed": 19,
+      "errors": 1,
+      "exit_code": 1,
+      "expected_error": "Missing separate RAW-row output in the new presentation regression."
+    },
+    "after_fix": {
+      "tests": 20,
+      "passed": 20,
+      "errors": 0,
+      "failures": 0,
+      "exit_code": 0
+    },
+    "regression_scope": [
+      "All fourteen synthetic measurement rows and the original CSV schema are retained.",
+      "RAW representative setting differs correctly by batch (B1 row32; B8 full), with corresponding shared markers.",
+      "All ten synthetic RAW rows are exported separately.",
+      "Scatter panels use identical log-x limits, numeric annotations and stable colors per point key.",
+      "Fresh memory/raw-row figures and A+M method labels are present."
+    ],
+    "only_temporary_synthetic_data_used": true,
+    "root_pytest_executed": false
+  },
+  "scientific_six_source_sha256_before": {
+    "fit_base.py": "c59cc77ba48e3f061ffa8d2385442286ea989b3ab86c17ea352caeb6d2c1bf20",
+    "training.py": "ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07",
+    "networks.py": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+    "data_contract.py": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+    "evaluation.py": "275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd",
+    "gpu_runtime.py": "c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158"
+  },
+  "scientific_six_source_sha256_after": {
+    "fit_base.py": "c59cc77ba48e3f061ffa8d2385442286ea989b3ab86c17ea352caeb6d2c1bf20",
+    "training.py": "ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07",
+    "networks.py": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+    "data_contract.py": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+    "evaluation.py": "275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd",
+    "gpu_runtime.py": "c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158"
+  },
+  "scientific_six_sources_unchanged": true,
+  "source_scientific_registry_or_original_result_files_modified_by_this_patch": false,
+  "existing_data_NPZ_weights_models_TEST_opened_by_this_patch": false,
+  "new_model_fit_or_prediction_forward_executed_by_this_patch": false,
+  "GPU_execution": false,
+  "actual_generator_and_visual_verification_delegated_to_root": true,
+  "actual_generator_10056_completed_before_mutation_as_confirmed_by_root": true,
+  "commit_or_push_executed": false
+}

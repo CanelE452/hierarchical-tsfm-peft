@@ -1,0 +1,43 @@
+--- report_figures_cost_namespace_v2.py
++++ report_figures_cost_namespace_layout_v3.py
+@@ -229,9 +229,9 @@
+     return "V selection / preliminary / " + (".25 screen present" if limited else "no independent generalization claim")
+ 
+ 
+-def _save(fig, directory, stem, caption, watermark, bottom=.18):
++def _save(fig, directory, stem, caption, watermark, bottom=.18, top=.88):
+     fig.text(.01, .01, watermark + "\n" + caption, fontsize=8, color="#663300", va="bottom")
+-    fig.subplots_adjust(bottom=bottom, top=.88, left=.09, right=.97, hspace=.48, wspace=.34)
++    fig.subplots_adjust(bottom=bottom, top=top, left=.09, right=.97, hspace=.48, wspace=.34)
+     files = []
+     for suffix in ("png", "svg"):
+         path = directory / (stem + "." + suffix)
+@@ -633,6 +633,9 @@
+                     fontsize=8, bbox=dict(facecolor="white", edgecolor="none", alpha=.8, pad=.2))
+             if not scoped: ax.text(.5, .5, "Not measured in this scope", transform=ax.transAxes, ha="center")
+             ax.set_xscale("log"); ax.set_xlim(limits); ax.set_ylim(ylimits[0] - ypad, ylimits[1] + ypad)
++            ax.xaxis.set_major_locator(matplotlib.ticker.LogLocator(base=10, subs=(1., 2., 5.), numticks=6))
++            ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda value, position: f"{value:.3g}"))
++            ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+             ax.set(title=title, xlabel=f"Batch B={batch} median ms (log scale)")
+             ax.grid(alpha=.2)
+         axes[0].set_ylabel("Normalized macro MSE")
+@@ -696,6 +699,9 @@
+                             hatch=None if filled else "//", label=("Fresh allocated" if filled else "Fresh reserved") if index == 0 else None)
+             axes[0].set_yticks(np.arange(len(raw_fresh)), [r["short_label"] for r in raw_fresh], fontsize=8)
+             axes[0].invert_yaxis(); axes[0].set_xscale("log"); axes[0].set_xlabel(f"B={batch} median ms (log scale)")
++            axes[0].xaxis.set_major_locator(matplotlib.ticker.LogLocator(base=10, subs=(1., 2., 5.), numticks=6))
++            axes[0].xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda value, position: f"{value:.3g}"))
++            axes[0].xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+             axes[1].set_xlabel("Fresh GPU peak MiB (timed + stage)")
+             for ax in axes: ax.grid(axis="x", alpha=.2); ax.legend(fontsize=8)
+             fig.suptitle(f"{dataset} / B={batch} / {device} / every recorded RAW row variant")
+@@ -826,7 +832,7 @@
+             plotted_steps_per_origin=history + horizon))
+         caption = unit_note + ". Target gaps stay masked. "
+         caption += "Post-hoc extremes are not representative evidence or additional independent samples." if split == "V_select" else "Only predeclared fixed cases; no T-dependent case selection."
+-        files += _save(fig, directory, stem, caption, _watermark(split, chosen))
++        files += _save(fig, directory, stem, caption, _watermark(split, chosen), top=.78)
+     return files, descriptors
+ 
+ 

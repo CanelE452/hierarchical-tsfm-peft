@@ -1,0 +1,123 @@
+--- preserved/report_campaign_before_ordered_scores_02fe3efe9ca1.py
++++ report_campaign.py
+@@ -203,7 +203,7 @@
+ 
+ def _predictions(public, cache, registry, fits, inputs, issues, lock):
+     results = []
+-    paths = sorted({path for name in ("predictions", "route_predictions") for path in (public / name).rglob("PREDICTION_MANIFEST.json")})
++    paths = sorted({path for name in ("predictions", "route_predictions", "ordered_predictions") for path in (public / name).rglob("PREDICTION_MANIFEST.json")})
+     for path in paths:
+         try:
+             manifest = _load(path)
+@@ -594,7 +594,7 @@
+     verified = {row["manifest_relative_path"]:row for row in scores}
+     bad = {row.get("file") for row in issues if row.get("scope")=="prediction"}
+     result = []
+-    for root in (public/"predictions", public/"route_predictions"):
++    for root in (public/"predictions", public/"route_predictions", public/"ordered_predictions"):
+         for path in sorted(root.rglob("PREDICTION_MANIFEST.json")):
+             relative = path.relative_to(public).as_posix()
+             try:
+--- preserved/test_report_campaign_before_ordered_scores_d27a6099e009.py
++++ test_report_campaign.py
+@@ -88,6 +88,100 @@
+         issues = report._rows(directory/"INPUT_ISSUES.csv")
+         self.assertTrue(any(row["scope"]=="prediction" and "archive" in row["reason"].lower() for row in issues))
+ 
++    def ordered_prefix_fixture(self):
++        parent, run_id = "ordered_parent", "ordered_parent__prefix_k2"
++        for identity, k in ((parent, "3"), (run_id, "2")):
++            self.registry.append(dict(self.registry[-1], experiment_id=identity, block="E4",
++                                      family="ORDERED_MULTI_K", latent_k=k))
++        for filename in ("EXPERIMENT_REGISTRY.csv", "EXPERIMENT_REGISTRY_INITIAL.csv"):
++            self.write_registry(filename, self.registry)
++        config = report._load(self.public/"CONFIG_LOCK.json")
++        config["registry_rows"] = len(self.registry)
++        (self.public/"CONFIG_LOCK.json").write_text(json.dumps(config), encoding="utf-8")
++        artifact = self.cache/"runs"/parent/"toy_selected.bin"
++        artifact.parent.mkdir(parents=True)
++        artifact.write_bytes(b"opaque toy fit artifact; never deserialized")
++        folder = self.public/"runs"/parent; folder.mkdir(parents=True)
++        (folder/"BASE_FIT_RECEIPT.json").write_text(json.dumps(dict(run_id=parent, status="COMPLETE_VALID",
++            training_status="LIMITED_SCREEN", epochs=[.25], selected_epoch=.25,
++            artifact_cache_relative_path=artifact.relative_to(self.cache).as_posix(), artifact_sha256=data.sha256_file(artifact))), encoding="utf-8")
++        (folder/"SOURCE_CONTRACT.json").write_text(json.dumps(dict(spec=dict(lr=.001))), encoding="utf-8")
++        # A frozen toy forecast exercises stored-array scoring without a model or F execution.
++        prediction_cache.predict_parent(run_id, self.task, "V_select", self.cache, self.public, None,
++                                        baseline=dict(kind="CURRENT"))
++        original = self.public/"predictions"/run_id/"V_select"
++        ordered = self.public/"ordered_predictions"/run_id; ordered.mkdir(parents=True)
++        for name in ("PREDICTION_MANIFEST.json", "REFERENCE_CONTRACT.json", "PUBLIC_ERROR_STATS.csv.gz"):
++            (original/name).rename(ordered/name)
++        manifest_path = ordered/"PREDICTION_MANIFEST.json"
++        manifest = report._load(manifest_path)
++        archive = self.cache/"ordered_predictions"/run_id/"V_select.npz"
++        archive.parent.mkdir(parents=True)
++        (self.cache/manifest["cache_relative_path"]).rename(archive)
++        manifest.update(cache_relative_path=archive.relative_to(self.cache).as_posix(),
++                        public_stats_relative_path=(ordered/"PUBLIC_ERROR_STATS.csv.gz").relative_to(self.public).as_posix())
++        manifest["metadata"].update(parent_run_id=parent, variant="shared", inference_latent_k=2,
++                                    stored_latent_k=3, parent_artifact_sha256=data.sha256_file(artifact))
++        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
++        return run_id, manifest_path, archive
++
++    def test_ordered_prefix_saved_arrays_reach_scores_indexes_coverage_and_claims(self):
++        run_id, manifest_path, archive = self.ordered_prefix_fixture()
++        registry_before = (self.public/"EXPERIMENT_REGISTRY.csv").read_bytes()
++        directory = self.generate()
++        scores = report._rows(directory/"SCORES.csv")
++        self.assertCountEqual([row["run_id"] for row in scores], ["current", "seasonal", run_id])
++        row = next(row for row in scores if row["run_id"]==run_id)
++        self.assertEqual(row["numeric_audit"], "PASS_SAVED_PREDICTION_FP64_AND_PUBLIC_STATS")
++        self.assertEqual(row["training_status"], "LIMITED_SCREEN")
++        self.assertEqual(float(row["learning_rate"]), .001)
++        self.assertEqual(float(row["selected_epoch"]), .25)
++        with np.load(archive, allow_pickle=False) as saved:
++            error = saved["pred_normalized"].astype(np.float64)-saved["target_normalized"].astype(np.float64)
++            mask = saved["observed"]
++            mse = np.mean([np.mean(error[:,:,k][mask[:,:,k]]**2) for k in range(3)])
++            mae = np.mean([np.mean(np.abs(error[:,:,k][mask[:,:,k]])) for k in range(3)])
++        self.assertAlmostEqual(float(row["mse"]), mse, places=12)
++        self.assertAlmostEqual(float(row["mae"]), mae, places=12)
++        relative = manifest_path.relative_to(self.public).as_posix()
++        indexed = next(row for row in report._rows(directory/"PREDICTION_MANIFEST.csv") if row["run_id"]==run_id)
++        self.assertEqual(indexed["manifest_relative_path"], relative)
++        self.assertEqual(indexed["numeric_status"], "PASS")
++        indexed_run = next(row for row in report._rows(directory/"RUN_INDEX.csv") if row["run_id"]==run_id)
++        self.assertEqual(indexed_run["numeric_prediction_manifests"], relative)
++        coverage = [row for row in report._rows(directory/"COVERAGE.csv") if row["block"]=="E4"]
++        self.assertEqual(sum(int(row["numeric_V_runs"]) for row in coverage), 1)
++        claim = next(row for row in report._rows(directory/"CLAIM_EVIDENCE.csv") if row["claim_id"]=="ordered_multik")
++        self.assertEqual(claim["status"], "PARTIAL_EVIDENCE_UNRESOLVED")
++        self.assertIn("`"+run_id+"`", (directory/"REPORT_KO.md").read_text(encoding="utf-8"))
++        summary = report._load(directory/"SUMMARY.json")
++        self.assertEqual(summary["numeric_V_run_count"], 3)
++        self.assertEqual(summary["issue_count"], 0)
++        self.assertFalse(summary["campaign_complete"])
++        inputs = report._load(directory/"INPUT_MANIFEST.json")["inputs"]
++        self.assertTrue(any(item["scope"]=="public" and item["file"]==relative for item in inputs))
++        self.assertTrue(any(item["scope"]=="private" and item["file"]==archive.relative_to(self.cache).as_posix() for item in inputs))
++        self.assertEqual((self.public/"EXPERIMENT_REGISTRY.csv").read_bytes(), registry_before)
++
++    def test_ordered_prefix_corrupt_public_statistics_are_reported_and_excluded(self):
++        run_id, manifest_path, _ = self.ordered_prefix_fixture()
++        stats = manifest_path.with_name("PUBLIC_ERROR_STATS.csv.gz")
++        with gzip.open(stats, "rt", encoding="utf-8", newline="") as stream:
++            rows = list(csv.DictReader(stream))
++        rows[0]["sse"] = str(float(rows[0]["sse"])+1.)
++        with gzip.open(stats, "wt", encoding="utf-8", newline="") as stream:
++            writer = csv.DictWriter(stream, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
++        directory = self.generate()
++        self.assertNotIn(run_id, [row["run_id"] for row in report._rows(directory/"SCORES.csv")])
++        issues = [row for row in report._rows(directory/"INPUT_ISSUES.csv") if row.get("file")==manifest_path.relative_to(self.public).as_posix()]
++        self.assertEqual(len(issues), 1)
++        issue = issues[0]
++        self.assertEqual(issue["scope"], "prediction")
++        self.assertIn("band SSE", issue["reason"])
++        indexed = next(row for row in report._rows(directory/"PREDICTION_MANIFEST.csv") if row["run_id"]==run_id)
++        self.assertEqual(indexed["numeric_status"], "EXCLUDED")
++        self.assertEqual(report._load(directory/"SUMMARY.json")["excluded_prediction_count"], 1)
++
+     def test_missing_manifest_keeps_pending_and_wrong_saved_score_is_excluded(self):
+         current = self.public/"predictions/current/V_select/PREDICTION_MANIFEST.json"
+         altered = report._load(current); altered["score"]["mse"] = -7

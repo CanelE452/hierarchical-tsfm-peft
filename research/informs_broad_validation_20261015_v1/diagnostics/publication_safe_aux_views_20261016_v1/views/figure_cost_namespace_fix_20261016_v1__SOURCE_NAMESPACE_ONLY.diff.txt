@@ -1,0 +1,14 @@
+--- report_figures.py
++++ report_figures_cost_namespace_v2.py
+@@ -528,10 +528,8 @@
+ def _costs(records, directory, split, public, inputs, private=None):
+     matched, plot_rows = [], []
+     by_id = {r["run_id"]: r for r in records}
+-    for path in sorted(public.rglob("*.json")):
++    for path in sorted((public / "costs").rglob("*.json")):
+         relative = path.relative_to(public)
+-        if "figures" in relative.parts or not (any("cost" in part.lower() for part in relative.parts)):
+-            continue
+         value = _json(path)
+         if value.get("scope") not in {"fresh_process_single_route", "general_shared_F_balanced"}:
+             continue

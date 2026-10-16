@@ -1,0 +1,21 @@
+{
+  "source": "prediction_cache.py",
+  "before_sha256": "a958a9695946b38a1229746c25bef075e9bb3ec2e32282536d223c417eec94ec",
+  "after_sha256": "87ef7a7c4c6cded33796b2138d243016aa171433ba2a4c3c2d5e6856155f0d61",
+  "scientific_predictions_before_patch": 0,
+  "reason": "Separate A-only calibration parents from freshly fitted AplusM V/T-only controls; preserve canonical A60 scoring while separating normalization fit_end and label train_end.",
+  "changes": [
+    "Explicit role base_parent or AplusM_control; reject M_cal for AplusM_control before target access.",
+    "Use normalization.train_end for training boundary; keep normalization.fit_end for model initialization and input normalization.",
+    "Validate artifact role and pre-M or end-M training boundary.",
+    "Support CONTROL_FIT_RECEIPT.json fallback without changing base-fit source."
+  ],
+  "verification": {
+    "scope": "Synthetic CPU only",
+    "test_prediction_cache_tests": 10,
+    "exit_code": 0,
+    "real_data_used": false,
+    "real_foundation_used": false,
+    "gpu_used": false
+  }
+}

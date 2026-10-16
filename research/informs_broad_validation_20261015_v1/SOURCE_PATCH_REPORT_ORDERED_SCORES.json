@@ -1,0 +1,82 @@
+{
+  "status": "EXPLICIT_TOY_REGRESSION_VERIFIED_ACTUAL_REPORT_REGEN_PENDING",
+  "observed_UTC": "2026-10-15T13:05:47.170521+00:00",
+  "files": {
+    "report_campaign.py": {
+      "before_sha256": "02fe3efe9ca1029a05243cb5e6b591ca9973278bc038929c2fa5cf3f13261cd3",
+      "preserved_source": "source_snapshots/report_campaign_before_ordered_scores_02fe3efe9ca1.py",
+      "after_sha256": "e9a4a05abae5d696bd54d9e82b0c14d7b7d3add794fb5ac196e7f950da9f4bf6"
+    },
+    "test_report_campaign.py": {
+      "before_sha256": "d27a6099e00918395217975d195d5127ebbdebc5bbdae05c5ab7ac7485c27eb7",
+      "preserved_source": "source_snapshots/test_report_campaign_before_ordered_scores_d27a6099e009.py",
+      "after_sha256": "8df55462369371f4c4be1c570b88bdfbdaec501164e6fac8f1958a5b0a2ed3f1"
+    }
+  },
+  "reason": "Report score discovery and manifest inventory omitted ordered_predictions, silently dropping 20 registered E4 V outputs from a root integration snapshot.",
+  "ownership": "Only report_campaign.py and test_report_campaign.py production files modified. Other agents/results/registry preserved; prior Robin resume behavior preserved.",
+  "changes": [
+    "Add ordered_predictions to existing independent saved-array FP64/public-statistics rescoring discovery.",
+    "Add ordered_predictions to prediction manifest inventory, including explicit exclusion on failed independent numeric checks."
+  ],
+  "existing_dataflow_review": {
+    "parent_fit_resolution": "Existing metadata.parent_run_id fallback in _fit_for retained; no new parent fitting or model loading.",
+    "downstream": [
+      "SCORES.csv inherits parent learning_rate/selected_epoch/training_status",
+      "PREDICTION_MANIFEST.csv exposes PASS or EXCLUDED",
+      "RUN_INDEX.csv links saved numeric manifests; derived prefixes do not claim their own independent fit receipt",
+      "COVERAGE.csv and SUMMARY.json count verified E4 V IDs",
+      "CLAIM_EVIDENCE.csv ordered_multik becomes PARTIAL_EVIDENCE_UNRESOLVED, never scientific completion",
+      "REPORT_KO.md E4 lists independently verified saved scores",
+      "RESUME_QUEUE.json no longer treats a verified ordered V as missing V"
+    ]
+  },
+  "actual_metadata_only_review": {
+    "evidence": "diagnostics/report_ordered_scores_1792069378950148500/ORDERED_INPUT_METADATA.json",
+    "ordered_manifests": 20,
+    "registered_output_ids": 20,
+    "learned_outputs_with_registered_complete_parent_and_matching_recorded_artifact_SHA": 14,
+    "fixed_nested_PCA_outputs": 6,
+    "actual_private_arrays_or_artifacts_opened": false,
+    "scientific_numeric_revalidation_of_actual_outputs": "ROOT must regenerate the actual report and run campaign audit; this task read public metadata only"
+  },
+  "red": {
+    "receipt": "diagnostics/report_ordered_scores_1792069378950148500/RED.json",
+    "tests_run": 2,
+    "failures": 2,
+    "errors": 0,
+    "exit_code": 1
+  },
+  "green": {
+    "receipt": "diagnostics/report_ordered_scores_1792069378950148500/GREEN.json",
+    "tests_run": 20,
+    "passed": 20,
+    "failures": 0,
+    "errors": 0,
+    "exit_code": 0,
+    "CUDA_initialized": false,
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "OPENBLAS_NUM_THREADS": "2"
+    },
+    "duration_seconds": 3.428705930709839
+  },
+  "regression_scope": "Actual FP64 macro MSE/MAE from sealed temporary toy NPZ plus reaggregated toy public gzip; opaque temporary fit artifact hashed only; no trained model, actual campaign arrays, weights, GPU, TEST, root pytest, full-suite replay, or registry writes.",
+  "scientific_six_sha256": {
+    "fit_base.py": "c59cc77ba48e3f061ffa8d2385442286ea989b3ab86c17ea352caeb6d2c1bf20",
+    "training.py": "ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07",
+    "networks.py": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+    "data_contract.py": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+    "evaluation.py": "275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd",
+    "gpu_runtime.py": "c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158"
+  },
+  "scientific_six_verified_unchanged": true,
+  "Git_mutations": 0,
+  "GPU_calls": 0,
+  "registry_mutated": false,
+  "existing_results_modified": false,
+  "campaign_complete": false,
+  "final_payload_or_publication_verified": false
+}
