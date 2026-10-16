@@ -1,5 +1,7 @@
 # 고정 TSFM의 다변량 적응 실험
 
+**최신 우선 후속 완료:** [Jena 두 seed·PeMS08 같은 최종 표현의 no-Bolt 비교와 CPU 전체 비용](priority_core_followup_20261016_v1/README_KO.md). Jena B2의 B0 대비 MSE 감소는 두 seed에서 관찰됐으나 새 seed의 MAE 이득은 작았다. PeMS08은 부모와 head 모두 전체 V148을 CPU에서 평가했고, Bolt의 조건부 정확도 이득과 큰 비용을 함께 확인했다. 반복 개발 V·제한 학습 결과이며, 원 MASTER 전체 완료나 Ridge/G/LoRA 대비 우위는 아니다. 후순위 nested PCA 비용과 Beijing 최소3조건은 이 보고 시점에 준비만 완료했다. 아래는 과거 snapshot을 보존한다.
+
 **2026-10-16 우선순위 변경 후 실제 Jena 핵심 검증:** [B2·동일 표현 no-Bolt·별도 학습 no-Bolt·Raw/Ridge/G/PCA/LoRA의 정확도·CPU 비용](priority_b2_validation_20261016_v1/README_KO.md). 기존 scheduler와 실제 학습2개를 중단하고 checkpoint10개를 보존했다. 새 직접 대조2개는 학습·전체 V·독립 재채점·CPU 재추론·비용까지 완료했다. B2는 B0·직접 대조보다 나았으나 ridge/G/LoRA 대비 전체 우위는 미확보다. PeMS08·추가 seed는 후속이며 기존 전체 큐는 자동 재개하지 않는다. 아래의 과거 진행 기록은 작성 시점 snapshot이다.
 
 **추가 저장-V 진단:** [full-C PCA 가역성·6방법 재채점·270행 분해·그림](diagnostics/fullC_fixed_basis_diagnostic_20261016_v1/RESULTS_KO.md). 차원 축소가 없는 K=C에서도 Raw 대비 MSE 감소·MAE 증가가 함께 나타나 압축 손실과 좌표/예측 경로를 구분한다. 새 학습 완료나 TSFM 단독 원인 입증은 아니다.

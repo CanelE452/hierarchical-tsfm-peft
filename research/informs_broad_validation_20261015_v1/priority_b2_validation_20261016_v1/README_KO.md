@@ -1,5 +1,7 @@
 # B2 우선 검증: Jena 핵심 비교 완료, 반복 확인은 후속
 
+**후속 결과:** [Jena 추가 seed·PeMS08 동일 표현 비교·CPU 비용·그림](../priority_core_followup_20261016_v1/README_KO.md)을 완료했다. 아래 본문은 첫 Jena 핵심 검증 당시의 snapshot이다.
+
 **B2 계산 경로는 통과했고 B0·두 no-Bolt 선형 대조보다 오차가 낮았다. Ridge·G·제한 학습 LoRA보다 정확하지 않았으며, no-Bolt 대비 CPU 추론 비용도 크게 높았다.** 단일 seed의 반복 개발 V 결과다. 방법론의 일반적 우위나 전체 연구 완료를 주장하지 않는다.
 
 - [판단 보고: 구조·추가 가치·Bolt 필요성·정확도와 비용·후속 범위](INFORMS_METHOD_STATUS_KO.md)

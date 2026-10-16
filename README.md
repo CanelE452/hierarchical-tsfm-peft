@@ -1,5 +1,7 @@
 # Hierarchical TSFM PEFT screen
 
+**2026-10-16 최신 우선 후속 검증:** [Jena 두 seed와 PeMS08 동일 표현 no-Bolt 비교·원수치·CPU 비용·그림](research/informs_broad_validation_20261015_v1/priority_core_followup_20261016_v1/README_KO.md). Jena의 두 seed 모두 B2가 B0보다 MSE가 낮았지만 추가 seed의 MAE 차이는 작았다. PeMS08은 같은 최종 P/E/D·전체 과거·CPU 전체 V148에서 Bolt가 선형 head보다 정확했고 추론 비용은 훨씬 컸다. Ridge·G·LoRA를 포함한 전체 우위와 독립 일반화는 미확인이다. 우선 검증 완료와 원 MASTER의 미완료 범위를 구분한다. 아래 진행 기록은 작성 시점 snapshot이다.
+
 **2026-10-16 우선순위 변경 후 실제 Jena 핵심 검증:** [B2·동일 표현 no-Bolt·별도 학습 no-Bolt·Raw/Ridge/G/PCA/LoRA의 정확도·CPU 비용](research/informs_broad_validation_20261015_v1/priority_b2_validation_20261016_v1/README_KO.md). 기존 scheduler와 실제 학습2개를 중단하고 checkpoint10개를 보존했다. 새 직접 대조2개는 학습·전체 V·독립 재채점·CPU 재추론·비용까지 완료했다. B2는 B0·직접 대조보다 나았으나 ridge/G/LoRA 대비 전체 우위는 미확보다. PeMS08·추가 seed는 후속이며 기존 전체 큐는 자동 재개하지 않는다. 아래의 과거 진행 기록은 작성 시점 snapshot이다.
 
 동일 Chronos-Bolt-small + LoRA에서 실제 hierarchy 관계의 추가 예측 가치를 평가합니다.

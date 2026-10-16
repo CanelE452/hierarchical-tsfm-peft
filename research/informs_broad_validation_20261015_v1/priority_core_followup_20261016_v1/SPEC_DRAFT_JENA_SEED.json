@@ -1,0 +1,105 @@
+{
+  "schema": "PRIORITY_JENA_SECOND_SEED_v1",
+  "namespace": "priority_core_followup_20261016_v1",
+  "status": "DRAFT_PROPOSAL_NOT_EXECUTABLE",
+  "stage": "POST_T_V_ONLY_DEVELOPMENT",
+  "seed": 92602,
+  "role_run_ids": {
+    "B0": "priority_seed2_jena_B0_k6_s92602_v1",
+    "B2": "priority_seed2_jena_B2_k6_s92602_v1"
+  },
+  "conditions": [
+    {
+      "run_id": "priority_seed2_jena_B0_k6_s92602_v1",
+      "dataset": "jena",
+      "family": "B0",
+      "latent_k": 6,
+      "seed": 92602,
+      "fold": "primary",
+      "epochs": [0.25, 1.0, 3.0],
+      "lr": 0.001,
+      "device": "cpu",
+      "microbatch": 4,
+      "effective_batch": 16,
+      "F_row_microbatch": 128,
+      "checkpoint_inputs": false,
+      "lora_rank": 8,
+      "lora_alpha": 16,
+      "stage_label": "POST_T_FRESH_SECOND_SEED_FIXED_ORIGINAL_BOUNDS"
+    },
+    {
+      "run_id": "priority_seed2_jena_B2_k6_s92602_v1",
+      "dataset": "jena",
+      "family": "B2",
+      "latent_k": 6,
+      "seed": 92602,
+      "fold": "primary",
+      "epochs": [0.25, 1.0, 3.0],
+      "lr": 0.001,
+      "device": "cpu",
+      "microbatch": 4,
+      "effective_batch": 16,
+      "F_row_microbatch": 128,
+      "checkpoint_inputs": false,
+      "lora_rank": 8,
+      "lora_alpha": 16,
+      "stage_label": "POST_T_FRESH_SECOND_SEED_FIXED_ORIGINAL_BOUNDS"
+    }
+  ],
+  "maximum_new_training_conditions": 2,
+  "upstream_priority_plan_relative_path": "priority_b2_validation_20261016_v1/PREREG_PLAN.json",
+  "upstream_priority_plan_sha256": "475f983058871ff36b4112b6aa56dc252b17aea47eb6ae1744ff119c2ad5138f",
+  "reviewed_shared_runner_sha256": "f3e4279ddd250a51b09ce88938f8f202dfd02e3b24d1adff3bb36c567dc7ef07",
+  "reviewed_prefix_loader_sha256": "6b496dcbbb6cef48acb9010c630ed81359a2d60bff89aaec9e9e77c4b6d0b541",
+  "runner_sha256": "ROOT_TO_SEAL_AFTER_SOURCE_REVIEW",
+  "inherited_fields_ROOT_must_copy_byte_semantics_from_pinned_upstream_plan": [
+    "source39",
+    "immutable_public",
+    "task_contract",
+    "foundation_tensor_sha256",
+    "model_asset_relative_path",
+    "instance_norm_source_relative_path",
+    "instance_norm_source_sha256"
+  ],
+  "inherited_task_contract_seed_note": "The inherited task_contract seed92601 identifies the original reference metadata; actual training seed is exclusively conditions[].seed=92602.",
+  "original_primary_split_ranges": {
+    "A_fit": [0, 10482],
+    "A_stop": [10482, 12579],
+    "M_cal": [12579, 14675],
+    "V_select": [14675, 16772],
+    "T_final": [16772, 20965]
+  },
+  "materialized_prefix_end_exclusive": 16772,
+  "original_full_task_identity": "INHERITED_NOT_RECOMPUTED",
+  "materialized_prefix_fingerprints": "Recomputed by reviewed safe_jena_prefix; never relabel inherited full Task hashes as prefix hashes",
+  "protected_tail_numeric_parse_allowed": false,
+  "new_T_target_operations_allowed": false,
+  "V_reference_public_relative_path": "postT_V_only_cpu_lag_20261016_v1/predictions/postT_cpu_jena_E3_B2_k6_s92601_v1/V_select/PREDICTION_MANIFEST.json",
+  "V_reference_sha256": "6a885f3c8f298009ae93c731409baff116263a41c9c17ecaff713cf5e9499148",
+  "deadline_unix": 1792222550,
+  "resources": {
+    "CPU_threads": 2,
+    "max_worker_RSS_bytes": 3221225472,
+    "maximum_model_workers": 2,
+    "storage_limit_bytes": 32212254720,
+    "admission_reserve_bytes": 268435456,
+    "costs_must_not_overlap_training": true,
+    "ROOT_CPU_supervisor_required": true
+  },
+  "execution_modes": ["fit", "rescore", "replay", "cost"],
+  "independent_validation": {
+    "saved_full_V_FP64_rescore": "43 origins x 48 horizons x 21 channels with original masks; public SSE/SAE/count verified",
+    "fresh_checkpoint_replay": "6 origins; CPU batches4+2; original fixed atol1e-5/rtol1e-4; actual F36 streams/2 calls",
+    "replay_selection_seed": 92601,
+    "cost": "ROOT quiet proof + single CPU2 worker, B1/B8, original10 warmup/20 timed/20 stage-probe; no cached forecasts or Z"
+  },
+  "quiet_cost_proof_schema": {
+    "status": "QUIET_CPU_COST_WINDOW",
+    "active_model_workers": [],
+    "active_cost_workers": []
+  },
+  "interrupt_limit": "Original _stage deadline handling saves at an optimizer-update boundary. Arbitrary process signals are not converted to checkpoint-safe interrupts by this wrapper; preserve partial files and reconcile through ROOT.",
+  "claim_limit": "New seed on already-used V is a development robustness check, not an unseen generalization assessment. Original frozen registry, T lock and old runs are unchanged.",
+  "actual_Task_model_fit_prediction_cost_or_child_operations": 0,
+  "ROOT_next_steps": "After priority report: review source/tests; decide execution; create new immutable PREREG_PLAN.json with status SEALED_BY_ROOT and inherited pins; create namespace private cache; use existing CPU supervisor. Draft alone cannot execute."
+}
