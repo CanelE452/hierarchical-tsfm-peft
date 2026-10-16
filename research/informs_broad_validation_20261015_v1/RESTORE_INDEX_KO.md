@@ -1,5 +1,12 @@
 # 공개 원수치·원바이트 복원
 
+**최신 P2 결과만 재현하는 경우:** [정확히3개 V 통계의 무손실 pack](stats_packs/pack_numeric_priority_followup_20261016_v1/README_KO.md)만 아래처럼 복원한다. 공개 manifest/PROOF와 두 fresh destination의 실제 복원으로 원 CSV/gzip 바이트 일치를 확인했다. 기존 로컬 원본은 보존했으며 같은 SHA 파일은 건너뛰고 다른 파일은 덮지 않는다. `parent_full_cpu` 통계는 원래 공개 경로에 있다. 이 작업은 새 평가·학습이 아니다. 아래 역사적 전체 복원 절차는 별개이며 P2 재현에 전체 archive를 해석할 필요가 없다.
+
+```powershell
+python -B research/informs_broad_validation_20261015_v1/stats_pack_numeric.py restore --manifest research/informs_broad_validation_20261015_v1/stats_packs/pack_numeric_priority_followup_20261016_v1/MANIFEST.json --destination .
+```
+
+
 원수치 행·조건·정밀도를 줄이지 않고 공개 파일 한도를 맞추기 위해 충분통계와 부속 자료를 무손실로 묶었다. 원본은 로컬에 보존했다. 각 manifest의 원경로·원 SHA·payload SHA를 확인한다. 원본과 같은 파일은 건너뛰고 다르면 실패하므로 기존 파일을 덮어쓰지 않는다. 모델 가중치·전체 원자료·원 target 배열은 이 공개 묶음에 포함하지 않는다.
 
 복원은 데이터셋을 새로 선택하거나 학습을 재개하는 명령이 아니다. 공개 SSE/SAE/count의 재채점과 JSON/CSV byte 복원을 위한 것이다. 새 clone에서 저장소 루트를 현재 디렉터리로 사용한다. `R`은 `research/informs_broad_validation_20261015_v1`이다.

@@ -1,5 +1,8 @@
 # Hierarchical TSFM PEFT screen
 
+**2026-10-16 Beijing 후순위 검증 완료:** [B2·causal·bidirectional K6의 실제 학습/전체 V·FP64·checkpoint 재추론·전체 비용·보고서와 그림](research/informs_broad_validation_20261015_v1/priority_valid_minima_20261016_v1/README_KO.md). [고정 nested PCA K3/6/11 비용과 그림](research/informs_broad_validation_20261015_v1/priority_nested_cost_20261016_v1/VISUALIZATION_KO_v1.md)도 완료했다. 반복 개발 V·단일 seed·서로 다른 선택 refit 길이의 결과이며, 전체 MASTER·수렴·독립 일반화는 미완료다. 이전 후속의 공개 통계3개는 [원 바이트 복원 안내](research/informs_broad_validation_20261015_v1/stats_packs/pack_numeric_priority_followup_20261016_v1/README_KO.md)를 통해 복원한다. 아래 내용은 각 작성 시점의 기록이다.
+
+
 **2026-10-16 최신 우선 후속 검증:** [Jena 두 seed와 PeMS08 동일 표현 no-Bolt 비교·원수치·CPU 비용·그림](research/informs_broad_validation_20261015_v1/priority_core_followup_20261016_v1/README_KO.md). Jena의 두 seed 모두 B2가 B0보다 MSE가 낮았지만 추가 seed의 MAE 차이는 작았다. PeMS08은 같은 최종 P/E/D·전체 과거·CPU 전체 V148에서 Bolt가 선형 head보다 정확했고 추론 비용은 훨씬 컸다. Ridge·G·LoRA를 포함한 전체 우위와 독립 일반화는 미확인이다. 우선 검증 완료와 원 MASTER의 미완료 범위를 구분한다. 아래 진행 기록은 작성 시점 snapshot이다.
 
 **2026-10-16 우선순위 변경 후 실제 Jena 핵심 검증:** [B2·동일 표현 no-Bolt·별도 학습 no-Bolt·Raw/Ridge/G/PCA/LoRA의 정확도·CPU 비용](research/informs_broad_validation_20261015_v1/priority_b2_validation_20261016_v1/README_KO.md). 기존 scheduler와 실제 학습2개를 중단하고 checkpoint10개를 보존했다. 새 직접 대조2개는 학습·전체 V·독립 재채점·CPU 재추론·비용까지 완료했다. B2는 B0·직접 대조보다 나았으나 ridge/G/LoRA 대비 전체 우위는 미확보다. PeMS08·추가 seed는 후속이며 기존 전체 큐는 자동 재개하지 않는다. 아래의 과거 진행 기록은 작성 시점 snapshot이다.
