@@ -4,6 +4,8 @@ Q1 데이터·평가
 
 [확인] pre-T 경계·mask·zero·scaler 지문과 독립 FP64/KKT 검사를 수행했다. 상류 보간·pretraining overlap UNKNOWN, 반복 V·과거 T46노출을 유지한다.
 
+[확인] 사용자 요청 뒤 넓힌 로컬 검색에서 M5 sales validation/evaluation·calendar·sell_prices와 원 ZIP을 찾았다. [로컬 자산 검증](M5_LOCAL_ASSET_DISCOVERY.json)은 파일 SHA·크기·header만 대사한다. 원 A01의 401은 과거 외부 접근과 제한된 inventory 기록이며, 현재 로컬 접근 차단을 뜻하지 않는다. M5 수치 행 파싱·학습·평가는 수행하지 않았고, M5 입력·split·평가 계약은 NOT_REGISTERED다.
+
 Q2 시간·표현·디코더·최적화
 
 [확인] 기존 selected-refit B2−B0 관측:
@@ -11,6 +13,8 @@ Q2 시간·표현·디코더·최적화
 [계약 동등성 확인] jena seed92601 (reference seed=92601.0, cpu→cpu): B2 MSE=0.6834428963980711, MAE=0.49388492449756366; 대 B0 ΔMSE=-12.83771584997208%, ΔMAE=-5.1975527249072275%
 
 [계약 동등성 확인] jena seed92602 (reference seed=92602.0, cpu→cpu): B2 MSE=0.6788139247817864, MAE=0.5018712267137262; 대 B0 ΔMSE=-10.091916208827547%, ΔMAE=-0.12914550968850128%
+
+[계약 동등성 확인] pems08 seed92601 (reference seed=92601.0, cuda→cuda): B2 MSE=0.10425969886874899, MAE=0.20584179428793917; 대 B0 ΔMSE=-1.0241597567935696%, ΔMAE=-3.2228426816118128%
 
 [계약 동등성 확인] pems32 seed92601 (reference seed=92601, cuda→cuda): B2 MSE=0.09037503616821203, MAE=0.19860355836775184; 대 B0 ΔMSE=-9.964616493693665%, ΔMAE=-6.080660315325547%
 
@@ -94,6 +98,10 @@ B2−B0와 B0−CAP의 같은 endpoint 대조 및 CP0의 실제 Δ도 같은 전
 
 A_stop-selected refit의 학습량·용량 차이가 남는다. SAME_UPDATE_RESULTS의 동일 endpoint를 별도로 읽는다. 기존 H1~16 MAE 악화와 일부 채널 손해를 숨기지 않는다.
 
+[TRAJECTORY_DIAGNOSTICS.json](TRAJECTORY_DIAGNOSTICS.json)은 실제 저장 sampler의 permutation·cursor·epoch·RNG를 비교한다. 중간의 전체 과거 소비 순서는 별도 로그가 없어 입증하지 않는다. 같은 파일과 RUNS의 fit_MSE/fit_MAE는 원 D·shared·Dh의 fit/V 차이를 보존한다. 원 D의 FP64 core 재계산과 원 FP32 core 점수는 수치 공차와 함께 구분한다.
+
+[H1~16/17~32/33~48](HORIZON_BAND_SUMMARY.csv), [paired-origin coverage](PAIRED_ORIGIN_COVERAGE.csv)에서 MSE와 MAE를 함께 확인한다. origin 차이 원수치는 private에 보존하며 공개 SHA로 결속한다.
+
 Q3 PCA 초기화
 
 [확인] 실제 완료한 초기화 쌍:
@@ -132,7 +140,29 @@ jena: MSE=0.6507532376921696, MAE=0.39933404413514123, device=cuda:0; 기존 Bol
 
 pems08: MSE=0.08530764087177074, MAE=0.18167400062894662, device=cuda:0; 기존 Bolt Raw 대비 ΔMSE=-10.536730724300456%, ΔMAE=-7.466786890673074%; 맥락 비교 제한=MISSING_OR_DIFFERENT_device
 
+pems08: MSE=0.08530764087177074, MAE=0.18167400062894662, device=cuda; 기존 Bolt Raw 대비 ΔMSE=-10.536730724300456%, ΔMAE=-7.466786890673074%; 평가 계약 동등성 확인
+
 backbone과 native channel grouping이 함께 바뀐 실용 비교다. B2 P/E의 단일요인 메커니즘 증거가 아니며, 정확도와 공정 E2E 비용을 함께 봐야 한다.
+
+[계약 동등성 확인] pems08 seed92601 (reference seed=92601, cuda→cuda): Chronos2_nativeRaw MSE=0.08530764087177074, MAE=0.18167400062894662; 대 B2 ΔMSE=-18.17774097049399%, ΔMAE=-11.74095559290828%
+
+[맥락 비교: MISSING_OR_DIFFERENT_device] jena seednone (reference seed=92601.0, cpu→cuda:0): Chronos2_nativeRaw MSE=0.6507532376921696, MAE=0.39933404413514123; 대 B2 ΔMSE=-4.783085591815322%, ΔMAE=-19.144313922643097%
+
+[맥락 비교: MISSING_OR_DIFFERENT_device] pems08 seednone (reference seed=92601.0, cpu→cuda:0): Chronos2_nativeRaw MSE=0.08530764087177074, MAE=0.18167400062894662; 대 B2 ΔMSE=-18.17773936715337%, ΔMAE=-11.740954397537456%
+
+[맥락 비교: MISSING_OR_DIFFERENT_point_statistic, MISSING_OR_DIFFERENT_device, MISSING_OR_DIFFERENT_backend] jena seednone (reference seed=92601.0, cpu→cuda:0): Chronos2_nativeRaw MSE=0.6507532376921696, MAE=0.39933404413514123; 대 Ridge ΔMSE=16.906048949042223%, ΔMAE=-1.5258754503851195%
+
+[맥락 비교: MISSING_OR_DIFFERENT_point_statistic, MISSING_OR_DIFFERENT_device, MISSING_OR_DIFFERENT_backend] pems08 seednone (reference seed=92601.0, cpu→cuda:0): Chronos2_nativeRaw MSE=0.08530764087177074, MAE=0.18167400062894662; 대 Ridge ΔMSE=-62.747095123380554%, ΔMAE=-21.871408866270457%
+
+[맥락 비교: MISSING_OR_DIFFERENT_point_statistic, MISSING_OR_DIFFERENT_device, MISSING_OR_DIFFERENT_backend] pems08 seed92601 (reference seed=92601.0, cpu→cuda): Chronos2_nativeRaw MSE=0.08530764087177074, MAE=0.18167400062894662; 대 Ridge ΔMSE=-62.747095123380554%, ΔMAE=-21.871408866270457%
+
+[계약 동등성 확인] pems08 seed92601 (reference seed=92601, cuda→cuda): Chronos2_nativeRaw MSE=0.08530764087177074, MAE=0.18167400062894662; 대 LoRA ΔMSE=0.6878349574972534%, ΔMAE=-0.037748052940145715%
+
+[맥락 비교: MISSING_OR_DIFFERENT_device] jena seednone (reference seed=92601.0, cpu→cuda:0): Chronos2_nativeRaw MSE=0.6507532376921696, MAE=0.39933404413514123; 대 LoRA ΔMSE=15.3975462818352%, ΔMAE=0.08122978880238026%
+
+[맥락 비교: MISSING_OR_DIFFERENT_device] pems08 seednone (reference seed=92601.0, cuda→cuda:0): Chronos2_nativeRaw MSE=0.08530764087177074, MAE=0.18167400062894662; 대 LoRA ΔMSE=0.687834756244141%, ΔMAE=-0.03774830903733516%
+
+E04는 이미 선택된 모델을 측정 장치에서 다시 예측한 수치 경로다. 원 CPU 결과를 덮지 않으며 run ID·device·dtype·prediction SHA를 비용에 직접 연결한다.
 
 Q6 정확도·전체 비용
 
@@ -197,6 +227,30 @@ jena Moirai_B2 cuda B8.0: warm ms/origin=3.6037875106558204, status=COMPLETE
 jena Chronos2_nativeRaw cuda B1.0: warm ms/origin=29.620399931445718, status=COMPLETE
 
 jena Chronos2_nativeRaw cuda B8.0: warm ms/origin=5.319481279002503, status=COMPLETE
+
+pems08 Raw cuda B1.0: warm ms/origin=47.54204999994727, status=COMPLETE
+
+pems08 Raw cuda B8.0: warm ms/origin=33.650112499998386, status=COMPLETE
+
+pems08 B2 cuda B1.0: warm ms/origin=29.463449999980185, status=COMPLETE
+
+pems08 B2 cuda B8.0: warm ms/origin=9.186049999996726, status=COMPLETE
+
+pems08 Ridge cpu B1.0: warm ms/origin=0.7496499999888329, status=COMPLETE
+
+pems08 Ridge cpu B8.0: warm ms/origin=0.7990875000132291, status=COMPLETE
+
+pems08 LoRA cuda B1.0: warm ms/origin=48.26574999992772, status=COMPLETE
+
+pems08 LoRA cuda B8.0: warm ms/origin=32.687074999998345, status=COMPLETE
+
+pems08 Chronos2_nativeRaw cuda B1.0: warm ms/origin=37.83485000008113, status=COMPLETE
+
+pems08 Chronos2_nativeRaw cuda B8.0: warm ms/origin=97.34219999998572, status=COMPLETE
+
+jena LoRA cuda B1.0: warm ms/origin=12.379550000105155, status=COMPLETE
+
+jena LoRA cuda B8.0: warm ms/origin=5.623068750011839, status=COMPLETE
 
 [확인] Jena CPU B1 실용 대조: Ridge core=float64 MSE=0.5566463357048567, MAE=0.40552180175406594, warm ms/origin=0.2991999499499798; B2 core=float32 MSE=0.6834428963980711, MAE=0.49388492449756366, warm ms/origin=48.65384986624122. 같은 device/B/cohort/physical input/mask/scope/threads facet. Ridge가 두 오차와 지연 모두 낮다. 이 조건에서 B2의 실용적 약점이다. core 정밀도가 다르며 동일 정밀도 단일요인 비교가 아니다.
 

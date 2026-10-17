@@ -221,8 +221,8 @@ class ReportingTests(unittest.TestCase):
             self.assertEqual(raw["selection"], "NO_TARGET_SELECTION")
             self.assertEqual(raw["refit"], "NO_TARGET_PARAMETER_REFIT")
             self.assertEqual(raw["updates"], 0)
-            atomic_json(report/"DATA_AUDIT.json", dict(datasets={}))
-            reporting._documents(dict(report=report), value, [])
+            atomic_json(report/"DATA_AUDIT.json", reporting.read(repo/"reports/adapter_diagnostics_20261017_v2/DATA_AUDIT.json"))
+            reporting._documents(dict(repo=repo, report=report), value, [])
             table = reporting.rows(report/"PPT_T1_ACCURACY_COST.csv")
             native = next(r for r in table if r["method"] == "Chronos2_nativeRaw")
             self.assertIn("joint", native["F_routing"])
@@ -401,7 +401,7 @@ class ReportingTests(unittest.TestCase):
     def test_required_pre_t_audit_failure_fails_overall_verify_but_m5_block_is_allowed(self):
         repo=Path(__file__).resolve().parents[1]
         with tempfile.TemporaryDirectory(dir=repo,prefix="report_test_") as directory:
-            report=Path(directory); ctx=dict(repo=repo,report=report)
+            report=Path(directory)/"report"; ctx=dict(repo=repo,report=report,cache=Path(directory)/"cache")
             audit=dict(status="PASS_WITH_M5_BLOCK",datasets={},synthetic_G1_G4=dict(status="PASS"))
             atomic_json(report/"DATA_AUDIT.json",audit)
             (report/"DATA_AUDIT_KO.md").write_text("Synthetic fixture",encoding="utf-8")
@@ -414,6 +414,10 @@ class ReportingTests(unittest.TestCase):
             atomic_json(report/"NEW_STATS_REPLAY.json",dict(rows=[]))
             atomic_json(report/"RESOURCE_LEDGER.json",{})
             reporting.horizon_bindings(report,[])
+            reporting.report_helper(ctx,"report_supplements").build_supplements(ctx,dict(runs=[],endpoints=[],horizon=[]),[])
+            atomic_json(report/"TRAJECTORY_DIAGNOSTICS.json",dict(status="PARTIAL", expected_a03_snapshots=0,
+                checked_a03_snapshots=0, expected_b03_jobs=0, checked_b03_jobs=0, a03_sampler_pairs=[], b03_fit_rows=[],
+                public_sources={},private_artifacts=[],model_calls=0,new_training=False))
             (report/"figures").mkdir()
             for figure in reporting.FIGURES:
                 for extension in ("png","svg"):
@@ -608,6 +612,71 @@ class ReportingTests(unittest.TestCase):
             archive.write_bytes(b"changed")
             with self.assertRaisesRegex(ValueError,"archive SHA mismatch"):
                 reporting.complete_cost_metadata(ctx,{"E02":(job,result,receipt)},data)
+
+    def test_e04_keeps_device_replay_distinct_and_joins_its_measured_cost(self):
+        repo = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory(dir=repo, prefix="report_test_") as directory:
+            report = Path(directory)
+            job = dict(job_id="E04_jena_lora", question_id="E04", family="DEPLOYMENT_COST", dataset_cohort="jena",
+                       seed=92601, K=0, device="cuda", scientific_identity="synthetic-replay")
+            atomic_json(report/"EXPERIMENT_PLAN.json", seal_plan(dict(jobs=[job], source_hashes={})))
+            replay = dict(run_id="E04_jena_lora_LoRA_V_replay", method="LoRA", cohort="jena", C=21, K=0, L=512, H=48,
+                          seed=92601, device="cuda", dtype="float32", backend="torch_eager", MSE=1., MAE=.5,
+                          prediction_sha256="a"*64, channel_sse=[48.]*21, channel_sae=[24.]*21, channel_counts=[48]*21)
+            cost = dict(method="LoRA", C=21, L=512, H=48, B=1, status="COMPLETE", device="cuda",
+                        median_ms_batch=2., median_ms_origin=2., accuracy_run_id=replay["run_id"],
+                        accuracy_MSE=1., accuracy_MAE=.5, accuracy_archive_sha256="a"*64)
+            atomic_json(report/"receipts/E04_jena_lora.json", dict(status="COMPLETE", result=dict(
+                rows=[cost], full_v_replay=dict(LoRA=replay), measurements_exclusive=True, other_campaign_workers_observed=[])))
+            value = reporting.collect(dict(repo=repo, report=report))
+            run = next(row for row in value["runs"] if row["run_id"] == replay["run_id"])
+            self.assertEqual(run["origin"], "EXISTING_SELECTED_ROUTE_DEVICE_PARITY_REPLAY")
+            self.assertEqual(run["fit"], "EXISTING_SELECTED_ROUTE_NO_NEW_TRAINING")
+            self.assertIs(reporting.cost_accuracy_match(value["costs"][0], value["runs"]), run)
+
+    def test_lora_route_uses_original_channel_streams_when_k_is_zero(self):
+        self.assertIn("C independent", reporting.f_routing(dict(method="LoRA", K=0)))
+
+    def test_trajectory_evidence_joins_exact_run_and_saved_sampler_scope(self):
+        data = dict(runs=[dict(run_id="B03_s92601_6")], endpoints=[dict(run_id="endpoint")], bindings={})
+        value = dict(public_sources={"producer.json": "a"*64}, b03_fit_rows=[dict(
+            run_id="B03_s92601_6", fit_MSE=.25, fit_MAE=.3, stage="A60", score_scope="FP64 fixed D")],
+            a03_sampler_pairs=[dict(status="PASS_ACTUAL_SAVED_SAMPLER_STATE", scope="saved state only",
+                records=[dict(job_id="endpoint", sampler_sha256="b"*64, order_sha256="c"*64)])])
+        reporting.join_trajectory_evidence(data, value)
+        self.assertEqual(data["runs"][0]["fit_MSE"], .25)
+        self.assertEqual(data["endpoints"][0]["sampler_sha256"], "b"*64)
+        self.assertEqual(data["endpoints"][0]["sampler_comparison_scope"], "saved state only")
+        self.assertEqual(data["bindings"]["producer.json"], "a"*64)
+
+    def test_native_practical_pairs_include_selected_lora_b2_and_ridge(self):
+        common = dict(cohort="jena", seed=92601, metric_scale="canonical_A60", C=21, L=512, H=48,
+            split="V_select", device="cuda", backend="torch_eager", dtype="float32", point_statistic="quantile_0.5",
+            **{field: "a"*64 for field in reporting.ARRAY_KEYS}, scaler_sha256="b"*64)
+        runs = [dict(common, run_id="route_"+method, method=method, MSE=1., MAE=.5)
+                for method in ("Raw", "B2", "Ridge", "LoRA", "Chronos2_nativeRaw")]
+        runs[-1]["seed"] = None
+        pairs = reporting.comparisons(dict(runs=runs))
+        references = {row["reference"] for row in pairs if row["method"] == "Chronos2_nativeRaw"}
+        self.assertEqual(references, {"Raw", "B2", "Ridge", "LoRA"})
+
+    def test_device_replay_inherits_original_backbone_and_independently_rechecks_saved_predictions(self):
+        import numpy as np
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            values = dict(pred_normalized=np.ones((1, 2, 1), np.float32), target_normalized=np.zeros((1, 2, 1), np.float32),
+                observed=np.ones((1, 2, 1), bool), origins=np.array([12500]), channel_ids=np.array(["a"]))
+            archive = root/"V.npz"; np.savez(archive, **values)
+            run = dict(run_id="replay", method="LoRA", cohort="toy", C=1, H=2, MSE=1., MAE=1.,
+                origin="EXISTING_SELECTED_ROUTE_DEVICE_PARITY_REPLAY", _archive_path=archive,
+                independent_private_score_sha256=reporting.sha(archive), source_file="receipt.json", source_sha256="a"*64)
+            data = dict(runs=[run], horizon=[], channel=[])
+            reporting.complete_device_replay_metadata(dict(cache=root), data)
+            self.assertEqual(len(data["horizon"]), 2)
+            self.assertEqual(data["new_stats_replay"][0]["status"], "PASS_INDEPENDENT_DEVICE_REPLAY_FP64")
+            run["MSE"] = 2.
+            with self.assertRaisesRegex(ValueError, "score"):
+                reporting.complete_device_replay_metadata(dict(cache=root), data)
 
     def test_initialization_curve_legend_omits_missing_end_and_shortens_recorded_end(self):
         self.assertEqual(reporting.initialization_curve_label("PCA",92601,None),"PCA 92601")

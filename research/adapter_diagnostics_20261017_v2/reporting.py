@@ -10,6 +10,7 @@ import pickle
 import pickletools
 import hashlib
 import gzip
+import importlib.util
 from pathlib import Path
 import re
 import subprocess
@@ -28,12 +29,43 @@ RUN_FIELDS = ["run_id", "cohort", "method", "source_family", "backbone", "backbo
 RUN_FIELDS += ["evaluation_contract_derivation", "prediction_binding_scope"]
 FIT_FIELDS = ["search_selection_stage_seconds", "refit_stage_seconds", "fit_stage_total_seconds", "fit_time_scope", "fit_device", "fit_source_refs"]
 RUN_FIELDS += FIT_FIELDS
+RUN_FIELDS += ["fit_MSE", "fit_MAE", "fit_score_scope", "fit_score_source", "fit_score_source_sha256"]
 ARRAY_KEYS = {"target_sha256": "target_normalized", "mask_sha256": "observed", "origins_sha256": "origins", "channel_sha256": "channel_ids"}
+
+
+def report_helper(ctx, name, bindings=None):
+    path = Path(ctx["repo"])/"reports"/NAME/"code"/(name+".py")
+    module_name = "adapter_report_"+name
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    if bindings is not None:
+        _source(path, ctx, bindings)
+    return module
+
+
+def join_trajectory_evidence(data, value):
+    data["bindings"].update(value["public_sources"])
+    by_run = {row["run_id"]: row for row in data["runs"]}
+    for record in value["b03_fit_rows"]:
+        if record["run_id"] in by_run:
+            by_run[record["run_id"]].update(fit_MSE=record.get("fit_MSE"), fit_MAE=record.get("fit_MAE"),
+                fit_score_scope=record.get("score_scope", "Producer recorded masked fit score; stage="+str(record.get("stage"))),
+                fit_score_source="TRAJECTORY_DIAGNOSTICS.json", fit_score_source_sha256=None)
+    endpoints = {row["run_id"]: row for row in data["endpoints"]}
+    for pair in value["a03_sampler_pairs"]:
+        for record in pair["records"]:
+            if record["job_id"] in endpoints:
+                endpoints[record["job_id"]].update(sampler_sha256=record["sampler_sha256"],
+                    order_sha256=record["order_sha256"], sampler_comparison_status=pair["status"],
+                    sampler_comparison_scope=pair["scope"], historical_consumed_order_trace_verified=False)
+    data["trajectory"] = value
 
 
 def canonical_method(value):
     return {"Bolt_Raw": "Raw", "Bolt_B0": "B0", "Bolt_B2": "B2", "B2_CAP_POINTWISE": "CAP",
-            "RAW": "Raw", "RAW_RIDGE": "Ridge", "RIDGE": "Ridge"}.get(value, value)
+            "RAW": "Raw", "RAW_RIDGE": "Ridge", "RIDGE": "Ridge", "LORA": "LoRA", "Bolt_LoRA_R8": "LoRA"}.get(value, value)
 
 
 def f_routing(run):
@@ -42,7 +74,7 @@ def f_routing(run):
         return "Native multivariate: C joint channels per origin group; B independent origin groups"
     if run.get("backbone") == "NONE" or method == "Ridge" or method.endswith("FULL_HISTORY_PROBE"):
         return "No F calls; source-bound deterministic regression"
-    if method in ("Raw", "Moirai_Raw"):
+    if method in ("Raw", "Moirai_Raw", "LoRA"):
         return "C independent univariate streams per origin"
     return "K latent independent univariate streams per origin"
 
@@ -52,6 +84,8 @@ def cost_accuracy_match(cost, runs):
         return None
     choices = [run for run in runs if run["cohort"] == cost["cohort"] and canonical_method(run["method"]) == canonical_method(cost["method"])
                and all(number(run.get(key)) == number(cost.get(key)) for key in ("C", "L", "H"))]
+    if cost.get("accuracy_run_id"):
+        choices = [run for run in choices if run["run_id"] == cost["accuracy_run_id"]]
     seed = cost.get("supervision_seed")
     if seed is not None:
         choices = [run for run in choices if number(run.get("seed")) == number(seed)]
@@ -376,6 +410,13 @@ def complete_new_metadata(ctx, results, data):
             else:
                 scored = score_prediction_archive(path, binding["sha256"], None, run)
             run.update(contract_metadata(scored), independent_private_score_sha256=binding["sha256"])
+            run["evaluation_contract_derivation"] = "Independent bound saved prediction: canonical raw array-byte fingerprints; original producer's encoded fingerprints remain in its immutable source"
+            if job["question_id"] == "B02":
+                run["channel_order_validation"] = "DERIVED_REGISTERED_ORDER_FROM_BOUND_B02_WRITER"
+                _source(Path(ctx["repo"])/"research"/BROAD/"DATA_CONTRACT.json", ctx, data["bindings"])
+                _source(Path(ctx["repo"])/"research"/NAME/"ridge_jobs.py", ctx, data["bindings"])
+                if job["dataset_cohort"] == "pems32":
+                    _source(Path(ctx["repo"])/"research"/BROAD/"priority_pems_subset_20261016_v1/PLAN.json", ctx, data["bindings"])
             run["_archive_path"] = path
             data["horizon"][:] = [row for row in data["horizon"] if row["run_id"] != run["run_id"]]
             data["channel"][:] = [row for row in data["channel"] if row["run_id"] != run["run_id"]]
@@ -557,6 +598,10 @@ def complete_cost_metadata(ctx, results, data):
                     raise ValueError("E02 saved V canonical arrays disagree with selected run")
                 run.update(independent_private_score_sha256=expected)
                 run["_archive_path"] = path
+                if "horizon" in data and "channel" in data:
+                    for key in ("horizon", "channel"):
+                        data[key][:] = [row for row in data[key] if row["run_id"] != run["run_id"]]
+                    _stats_from_result(score, run, data["horizon"], data["channel"])
                 name, digest = _source(receipt_path, ctx, data["bindings"])
                 data.setdefault("new_stats_replay", []).append(dict(run_id=run["run_id"], status="PASS_E02_BOUND_STORED_FP64_JOIN",
                     MSE=score["MSE"], MAE=score["MAE"], arrays=score["array_fingerprints"],
@@ -586,6 +631,32 @@ def complete_cost_metadata(ctx, results, data):
             cost.update(trainable_params=run.get("trainable_params"), parameter_source_run_id=run["run_id"],
                         parameter_source_sha256=run["source_sha256"], parameter_source_archive_sha256=run.get("independent_private_score_sha256"),
                         parameter_derivation="Trainable count from exact archive-bound C01 accuracy source; resident count remains unmeasured")
+
+
+def complete_device_replay_metadata(ctx, data):
+    if "cache" not in ctx:
+        return
+    for run in data["runs"]:
+        if run.get("origin") != "EXISTING_SELECTED_ROUTE_DEVICE_PARITY_REPLAY":
+            continue
+        path = Path(run["_archive_path"])
+        digest = run["independent_private_score_sha256"]
+        score = score_prediction_archive(path, digest, None, run)
+        actual = contract_metadata(score)
+        if any(run.get(field) and run[field] != actual.get(field) for field in ARRAY_KEYS):
+            raise ValueError("Device replay canonical score arrays differ")
+        run.update(actual, G6_channel_coverage="INDEPENDENT_DEVICE_REPLAY_SAVED_FP64",
+                   G6_horizon_coverage="INDEPENDENT_DEVICE_REPLAY_SAVED_FP64")
+        for key in ("horizon", "channel"):
+            data[key][:] = [row for row in data[key] if row["run_id"] != run["run_id"]]
+        _stats_from_result(score, run, data["horizon"], data["channel"])
+        root = Path(ctx["cache"]).resolve()
+        if not path.resolve().is_relative_to(root):
+            raise ValueError("Device replay archive escapes campaign cache")
+        data.setdefault("new_stats_replay", []).append(dict(run_id=run["run_id"],
+            status="PASS_INDEPENDENT_DEVICE_REPLAY_FP64", MSE=score["MSE"], MAE=score["MAE"], arrays=score["array_fingerprints"],
+            private_artifacts=[dict(reference="cache://"+path.resolve().relative_to(root).as_posix(), sha256=digest)],
+            public_verification_sources=[dict(reference="repo://"+run["source_file"], sha256=run["source_sha256"])], model_calls=0))
 
 
 def complete_probe_metadata(ctx, results, data):
@@ -889,7 +960,41 @@ def collect(ctx):
             run["_prediction_sha256"] = result.get("private_prediction_archive_sha256")
             runs.append(run)
             _stats_from_result(result, run, horizon, channel)
-        elif question in ("E01", "E02", "E03"):
+        elif question in ("E01", "E02", "E03", "E04"):
+            for method, replay in result.get("full_v_replay", {}).items():
+                if replay.get("MSE") is None or replay.get("MAE") is None:
+                    continue
+                run = {**common, **{key: value for key, value in replay.items() if key in RUN_FIELDS}, **contract_metadata(replay)}
+                run.update(run_id=replay["run_id"], method=canonical_method(method),
+                    origin="EXISTING_SELECTED_ROUTE_DEVICE_PARITY_REPLAY", fit="EXISTING_SELECTED_ROUTE_NO_NEW_TRAINING",
+                    refit="NO_NEW_REFIT", selection="EXISTING_SELECTED_ARTIFACT", MSE=replay["MSE"], MAE=replay["MAE"],
+                    independent_private_score_sha256=replay.get("prediction_sha256"),
+                    checkpoint_sha256=replay.get("source_checkpoint_sha256"),
+                    prediction_binding_scope="Full development V replay of the already-selected route on the measured device; original saved reference retained")
+                original = next((row for row in runs if row["run_id"] == replay.get("original_accuracy_run_id")), None)
+                if original is None:
+                    original = next((row for row in runs if row["cohort"] == run["cohort"] and row["method"] == run["method"]
+                                     and row.get("seed") in (run.get("seed"), None)), None)
+                if original is not None:
+                    for field in ("backbone", "backbone_revision", "routing", "input_info_scope", "supervision_scope"):
+                        if field in original:
+                            run[field] = original[field]
+                if run["method"] == "Ridge":
+                    run.update(backbone="NONE", backbone_revision=None, routing="no_foundation")
+                if run["method"] in ("Raw", "Chronos2_nativeRaw"):
+                    run["supervision_scope"] = "A60 scaler statistics only; no target parameter learning or selection"
+                if run["method"] == "Chronos2_nativeRaw":
+                    run["routing"] = "native_multivariate_per_origin"
+                reference = replay.get("private_prediction_ref")
+                if reference and "://" in reference:
+                    scheme, name = reference.split("://", 1)
+                    if scheme in ctx:
+                        root = Path(ctx[scheme]).resolve(); path = (root/name).resolve()
+                        if not path.is_relative_to(root):
+                            raise ValueError("Device replay prediction escapes bound root")
+                        run["_archive_path"] = path
+                runs.append(run)
+                _stats_from_result(replay, run, horizon, channel)
             cost_rows = result.get("rows", result.get("measurements", [result]))
             if isinstance(cost_rows, dict):
                 cost_rows = list(cost_rows.values())
@@ -914,7 +1019,9 @@ def collect(ctx):
                     median_ms_per_origin=median*1000/batch if median is not None and batch else entry.get("ms_per_origin", entry.get("median_ms_origin")),
                     IQR_ms=number(entry.get("IQR_seconds"))*1000 if number(entry.get("IQR_seconds")) is not None else entry.get("IQR_ms_batch"),
                     scope=entry.get("scope", result.get("scope")), device=entry.get("device", job["device"]), threads=entry.get("threads", 2),
-                    dtype=entry.get("dtype", "source_bound"), warmups=entry.get("warmups", 10), repetitions=entry.get("repetitions", entry.get("timed_trials", 20)),
+                    dtype=entry.get("dtype", "source_bound"), hardware=entry.get("hardware", result.get("hardware")),
+                    warmups=entry.get("warmups", 10), repetitions=entry.get("repetitions", entry.get("timed_trials", 20)),
+                    accuracy_run_id=entry.get("accuracy_run_id"),
                     fit_seconds=entry.get("fit_seconds"), cold_load_seconds=entry.get("cold_load_seconds"),
                     cold_shared_load_seconds=entry.get("cold_shared_load_seconds"), cold_load_scope=entry.get("cold_load_scope", result.get("cold_load_scope")),
                     trainable_params=entry.get("trainable_params"),
@@ -933,8 +1040,14 @@ def collect(ctx):
                     individual_timed_seconds=entry.get("individual_timed_seconds"),
                     exclusive=entry.get("exclusive_queue_owned_by_caller", result.get("exclusive_queue_owned_by_caller",
                         result.get("measurements_exclusive") is True or (result.get("cpu_heavy_workers_during_cost") == 1 and result.get("other_campaign_workers_observed") == []))),
-                    accuracy_MSE=entry.get("MSE"), accuracy_MAE=entry.get("MAE"), accuracy_source=entry.get("accuracy_source"),
-                    accuracy_archive_sha256=entry.get("prediction_archive_sha256", result.get("bindings", {}).get(source_method, {}).get("prediction_sha256")),
+                    accuracy_MSE=entry.get("accuracy_MSE", entry.get("MSE")), accuracy_MAE=entry.get("accuracy_MAE", entry.get("MAE")), accuracy_source=entry.get("accuracy_source"),
+                    accuracy_archive_sha256=entry.get("accuracy_archive_sha256", entry.get("prediction_archive_sha256", result.get("bindings", {}).get(source_method, {}).get("prediction_sha256"))),
+                    measured_batch_parity=entry.get("measured_batch_parity"),
+                    physical_F_series_rows=entry.get("physical_F_rows"), F_calls=entry.get("F_calls"),
+                    IQR_ms_per_origin=entry.get("IQR_ms_origin"),
+                    accuracy_reference_run_id=entry.get("accuracy_reference_run_id"),
+                    accuracy_reference_archive_sha256=entry.get("accuracy_reference_archive_sha256"),
+                    accuracy_reference_MSE=entry.get("accuracy_reference_MSE"), accuracy_reference_MAE=entry.get("accuracy_reference_MAE"),
                     source_file=relative, source_sha256=digest))
     # Complete channel marginals for every public per-horizon/channel statistic.
     grouped = defaultdict(lambda: dict(SSE=0., SAE=0., count=0))
@@ -963,7 +1076,19 @@ def collect(ctx):
     for index, cost in enumerate(collected["costs"]):
         collected["costs"][index] = canonical_cohort(cost, repo)
     complete_cost_metadata(ctx, results, collected)
+    if "asset" in ctx and "cache" in ctx and any(job["question_id"] == "E01" for job, _, _ in results.values()):
+        helper = report_helper(ctx, "pems32_cost_metadata", collected["bindings"])
+        collected["pems32_cost_metadata"] = helper.complete_cost_metadata(ctx, results, collected)
+    complete_device_replay_metadata(ctx, collected)
     complete_fit_metadata(ctx, results, collected)
+    if "asset" in ctx and "cache" in ctx and any(job["question_id"] == "B03" for job in plan["jobs"]):
+        helper = report_helper(ctx, "trajectory_diagnostics", collected["bindings"])
+        join_trajectory_evidence(collected, helper.build_trajectory_diagnostics(ctx, collected))
+    if "cache" in ctx and (report/"M5_LOCAL_ASSET_DISCOVERY.json").is_file():
+        helper = report_helper(ctx, "m5_local_assets", collected["bindings"])
+        collected["m5_local_assets"] = helper.verify_local_m5_assets(ctx)
+        for name in ("M5_LOCAL_ASSET_DISCOVERY.json", "M5_LOCAL_ASSETS_KO.md"):
+            _source(report/name, ctx, collected["bindings"])
     cohort_by_run = {run["run_id"]: run["cohort"] for run in collected["runs"]+collected["endpoints"]}
     for row in collected["channel"]+collected["horizon"]:
         row["cohort"] = cohort_by_run[row["run_id"]]
@@ -1002,7 +1127,9 @@ def comparisons(data, contextual=False):
             block = next((prefix for prefix in ("B01", "B02", "B03", "C02", "D02") if row["run_id"].startswith(prefix)), "SELECTED_BASELINES")
             groups[(row["cohort"], row.get("metric_scale"), block)].append(row)
     registered = {
-        "SELECTED_BASELINES": (("B0", "B2"), ("CAP", "B2"), ("Raw", "B2"), ("Ridge", "B2"), ("Raw", "Chronos2_nativeRaw")),
+        "SELECTED_BASELINES": (("B0", "B2"), ("CAP", "B2"), ("Raw", "B2"), ("Ridge", "B2"),
+                               ("Raw", "Chronos2_nativeRaw"), ("B2", "Chronos2_nativeRaw"),
+                               ("Ridge", "Chronos2_nativeRaw"), ("LoRA", "Chronos2_nativeRaw")),
         "B01": (("B0_FULL_HISTORY_PROBE", "B2_FULL_HISTORY_PROBE"), ("B2_CAP_POINTWISE_FULL_HISTORY_PROBE", "B2_FULL_HISTORY_PROBE")),
         "B02": (("OWN_CHANNEL_32BLOCK_RIDGE", "ALL_CHANNEL_32BLOCK_RIDGE"),),
         "B03": (("B2_ORIGINAL_D", "B2_DECODER_SHARED"), ("B2_ORIGINAL_D", "B2_DECODER_HORIZON"), ("B2_DECODER_SHARED", "B2_DECODER_HORIZON")),
@@ -1015,6 +1142,9 @@ def comparisons(data, contextual=False):
                 deterministic = reference_name in ("Raw", "Ridge", "Moirai_Raw")
                 candidates = [r for r in group if r["method"] == reference_name and r.get("seed") == method.get("seed")]
                 pairing_rule = "Same source seed; device/backend/dtype-matching reference preferred when duplicate routes exist"
+                if not candidates and method_name == "Chronos2_nativeRaw" and method.get("seed") is None:
+                    candidates = [r for r in group if r["method"] == reference_name and r.get("seed") == 92601]
+                    pairing_rule = "Native route has no target-training seed; compare primary already-selected supervised seed92601; reference seed and device differences retained"
                 if not candidates and deterministic:
                     candidates = [r for r in group if r["method"] == reference_name and r.get("seed") in (None, 92601)]
                     pairing_rule = "Deterministic baseline fixed saved evaluation reference; original source seed retained, target-supervision seed not applicable"
@@ -1233,7 +1363,7 @@ def figures(ctx, data, private_qualitative=True):
             axis.set_ylabel("Normalized macro "+metric); axis.grid(alpha=.2)
             if not points:
                 axis.text(.5, .5, "No valid exclusive matched latency yet\nUnmeasured values remain NA", transform=axis.transAxes, ha="center")
-    fig.suptitle("Saved full-V accuracy and first-B E2E parity/cost | separate device/cohort/batch/dtype/input facets")
+    fig.suptitle("Saved full-V accuracy and first-B E2E parity/cost | separate device/cohort/batch/dtype/input facets", y=1.001)
     fig.tight_layout()
     _save(fig, "accuracy_cost", report, metadata)
     metadata["accuracy_cost"]["plotted_points"] = points
@@ -1295,24 +1425,42 @@ def figures(ctx, data, private_qualitative=True):
         fig = error_profile_figure(plt, profiles, dimension)
         _save(fig, figure_name, report, metadata)
         metadata[figure_name]["paired_profiles"] = profiles
-    fig, axes = plt.subplots(3, 2, figsize=(13, 10))
-    for pair, cohort in zip(axes, ("jena", "pems08", "pems32")):
-        chosen = [r for r in data["runs"] if r["cohort"] == cohort and r.get("seed") in (92601, None)
-                  and (r["method"] in ("Raw", "B0", "B2", "CAP", "Ridge") or r["method"].startswith(("Moirai_", "Chronos2_")))]
-        for axis, metric in zip(pair, ("MSE", "MAE")):
-            labels = [r["method"]+"\n"+str(r.get("device"))+" "+("existing" if r["origin"] == "EXISTING_RESULT_REUSED" else "new") for r in chosen]
-            axis.bar(range(len(chosen)), [r[metric] for r in chosen],
-                     color=["#E69F00" if r["method"].startswith("Chronos2_") else "#009E73" if r["method"].startswith("Moirai_") else "#0072B2" for r in chosen])
-            axis.set_xticks(range(len(chosen)), labels)
-            axis.set_ylabel("Normalized macro "+metric); axis.set_title(cohort+" | V; seed92601 or deterministic Raw")
-            axis.tick_params(axis="x", rotation=35, labelsize=8)
-            if not chosen:
-                axis.text(.5, .5, "No completed cohort rows", transform=axis.transAxes, ha="center")
+    fig, axes = plt.subplots(3, 4, figsize=(22, 12), gridspec_kw={"width_ratios": [3, 3, 1.6, 1.6]})
+    backbone_sources = []
+    for panels, cohort in zip(axes, ("jena", "pems08", "pems32")):
+        representatives = {}
+        for run in data["runs"]:
+            if run["cohort"] != cohort or run.get("seed") not in (92601, None):
+                continue
+            if run["method"] in ("Raw", "B0", "B2", "CAP", "Ridge", "LoRA", "Chronos2_nativeRaw") or run["method"].startswith("Moirai_"):
+                representatives.setdefault(run["method"], run)
+        backbone_sources.extend(dict(cohort=cohort, method=method, run_id=run["run_id"],
+            source_sha256=run["source_sha256"], device=run.get("device"), dtype=run.get("dtype"))
+            for method, run in representatives.items())
+        for practical, pair in ((False, panels[:2]), (True, panels[2:])):
+            chosen = [run for method, run in representatives.items() if (method == "Chronos2_nativeRaw") == practical]
+            for axis, metric in zip(pair, ("MSE", "MAE")):
+                labels = [run["method"]+" | "+str(run.get("device"))+" "+str(run.get("dtype")) for run in chosen]
+                axis.barh(range(len(chosen)), [run[metric] for run in chosen],
+                    color=["#E69F00" if practical else "#009E73" if run["method"].startswith("Moirai_") else "#0072B2" for run in chosen])
+                axis.set_yticks(range(len(chosen)), labels, fontsize=7)
+                axis.set_xlabel("Normalized macro "+metric)
+                axis.set_title(cohort+(" | Practical alternative" if practical else " | Univariate F / regression"), fontsize=9)
+                axis.invert_yaxis()
+                if practical:
+                    axis.set_facecolor("#fff6e8")
+                    axis.set_xlim(panels[0 if metric == "MSE" else 1].get_xlim())
+                    axis.set_ylim(-1, 1)
+                if not chosen:
+                    axis.text(.5, .5, "NOT MEASURED", transform=axis.transAxes, ha="center", fontsize=8)
     pending = [j for j in data["jobs"] if j["question_id"] in ("D02", "D03")]
     coverage = "; ".join(j["job_id"]+"="+j["status"] for j in pending)
     fig.suptitle("Backbones by cohort/device/provenance | native multivariate = practical alternative; see contract limits for mechanisms")
     fig.text(.5, -.02, coverage, ha="center", fontsize=7, wrap=True)
     fig.tight_layout(); _save(fig, "backbone_comparison", report, metadata)
+    metadata["backbone_comparison"].update(selected_runs=backbone_sources,
+        selection="First source-bound selected run per method/cohort, seed92601 or deterministic; no averaging. Device replicas remain in RUNS and F1.",
+        native_layout="Separate right-hand practical-alternative panels; no single-factor backbone claim")
     if private_qualitative:
         qualitative(ctx, data, metadata)
     else:
@@ -1571,6 +1719,7 @@ def practical_cost_observations(data):
 
 def _documents(ctx, data, matched):
     report = Path(ctx["report"])
+    presentation = report_helper(ctx, "report_presentation", data["bindings"])
     counts = Counter(j["status"] for j in data["jobs"])
     closed = all(j["status"] not in ("PLANNED", "RUNNING") for j in data["jobs"])
     scientific = "SCIENTIFIC_COMPLETE" if all(j["status"] in SUCCESS for j in data["jobs"]) else "SCIENTIFIC_PARTIAL"
@@ -1585,6 +1734,8 @@ def _documents(ctx, data, matched):
         ("Q4", "단변량 backbone 교체", "[미검증] D01 smoke/parity와 실제 matched Raw/B0/B2 trio는 다르다. D02 미완료는 adapter 일반성 미확인을 뜻한다."),
         ("Q5", "native multivariate 대안", "[미검증] Chronos2 D01과 실제 nativeRaw 개발 V·공정 비용은 구분한다. D03이 없으면 실용 우열을 결론내리지 않는다."),
         ("Q6", "정확도·전체 비용", "[확인] 새 독점 E2E 측정만 주 비교에 쓴다. 미측정 Raw latency/speedup은 NA다. Ridge 우위 cohort를 유지하며 보편적 TSFM 우열은 주장하지 않는다.")]
+    if data.get("m5_local_assets"):
+        questions[0] = ("Q1", questions[0][1], questions[0][2]+"\n\n[확인] 사용자 요청 뒤 넓힌 로컬 검색에서 M5 sales validation/evaluation·calendar·sell_prices와 원 ZIP을 찾았다. [로컬 자산 검증](M5_LOCAL_ASSET_DISCOVERY.json)은 파일 SHA·크기·header만 대사한다. 원 A01의 401은 과거 외부 접근과 제한된 inventory 기록이며, 현재 로컬 접근 차단을 뜻하지 않는다. M5 수치 행 파싱·학습·평가는 수행하지 않았고, M5 입력·split·평가 계약은 NOT_REGISTERED다.")
     def paired_observation(reference, method, prefix=None):
         run_map = {r["run_id"]: r for r in data["runs"]}
         relevant = [pair for pair in comparisons(data)+comparisons(data, contextual=True)
@@ -1625,6 +1776,8 @@ def _documents(ctx, data, matched):
         ("\n\n재적합 shared 대 Dh:\n\n"+decoder if decoder else "\n\n[미검증] B03 shared/Dh 완료 쌍이 없다.")+
         "\n\n"+common_endpoint_interpretation(data, common_compared)+
         "\n\nA_stop-selected refit의 학습량·용량 차이가 남는다. SAME_UPDATE_RESULTS의 동일 endpoint를 별도로 읽는다. 기존 H1~16 MAE 악화와 일부 채널 손해를 숨기지 않는다.")
+    questions[1] = ("Q2", questions[1][1], questions[1][2]+
+        "\n\n[TRAJECTORY_DIAGNOSTICS.json](TRAJECTORY_DIAGNOSTICS.json)은 실제 저장 sampler의 permutation·cursor·epoch·RNG를 비교한다. 중간의 전체 과거 소비 순서는 별도 로그가 없어 입증하지 않는다. 같은 파일과 RUNS의 fit_MSE/fit_MAE는 원 D·shared·Dh의 fit/V 차이를 보존한다. 원 D의 FP64 core 재계산과 원 FP32 core 점수는 수치 공차와 함께 구분한다.\n\n[H1~16/17~32/33~48](HORIZON_BAND_SUMMARY.csv), [paired-origin coverage](PAIRED_ORIGIN_COVERAGE.csv)에서 MSE와 MAE를 함께 확인한다. origin 차이 원수치는 private에 보존하며 공개 SHA로 결속한다.")
     initialization = paired_observation("B2_PCA", "B2_QR", "C02")
     questions[2] = ("Q3", questions[2][1], ("[확인] 실제 완료한 초기화 쌍:\n\n"+initialization+
         "\n\n두 arm의 common endpoint sampler/order 지문과 P/center 초기 지문은 원 job receipt에 결속했다. 해당 K·F·고정 학습 예산에서의 관측이며 PCA 일반적 필요성·설명분산과 미래정보 동일성을 입증하지 않는다.")
@@ -1648,6 +1801,9 @@ def _documents(ctx, data, matched):
     questions[4] = ("Q5", questions[4][1], ("[확인] 실제 native multivariate 개발 V 평가:\n\n"+"\n\n".join(native)+
         "\n\nbackbone과 native channel grouping이 함께 바뀐 실용 비교다. B2 P/E의 단일요인 메커니즘 증거가 아니며, 정확도와 공정 E2E 비용을 함께 봐야 한다.")
         if native else "[미검증] D03 실제 nativeRaw cohort 평가가 아직 없다. D01 smoke/profile만으로 실용 대안의 우열을 판단하지 않는다.")
+    questions[4] = ("Q5", questions[4][1], questions[4][2]+"\n\n"+
+        "\n\n".join(paired_observation(method, "Chronos2_nativeRaw") for method in ("B2", "Ridge", "LoRA"))+
+        "\n\nE04는 이미 선택된 모델을 측정 장치에서 다시 예측한 수치 경로다. 원 CPU 결과를 덮지 않으며 run ID·device·dtype·prediction SHA를 비용에 직접 연결한다.")
     cost_text = [str(row["cohort"])+" "+str(row["method"])+" "+str(row["device"])+" B"+str(row["B"])+
                  ": warm ms/origin="+str(row.get("median_ms_per_origin"))+", status="+str(row.get("status")) for row in data["costs"]]
     questions[5] = ("Q6", questions[5][1], ("[확인] 실제 새 비용 영수증:\n\n"+"\n\n".join(cost_text) if cost_text else "[미검증] 새 공정 E2E 비용 완료 영수증이 없다.")+
@@ -1659,6 +1815,8 @@ def _documents(ctx, data, matched):
         ("현재 수집된 Jena 최소 MSE는 "+best["method"]+" `"+repr(best["MSE"])+"`, MAE `"+repr(best["MAE"])+"`이다. 서로 다른 기능·용량·학습량의 결과를 포함하므로 순수 구조 효과로 읽지 않는다.") if best else "완료 정확도 없음.",
         "정확도 허용폭·실용 속도 목표는 UNREGISTERED다. 2seed는 각각 보이며 범위 이상의 일반화·수렴·계층적 모든 K-prefix를 입증하지 않는다.", "",
         "[전체 job 상태](JOB_STATUS.csv) · [정확도](RUNS_FULL_PRECISION.csv) · [공통 update](SAME_UPDATE_RESULTS.csv) · [같은 endpoint 대조](SAME_UPDATE_COMPARISONS.csv) · [계약 확인 비교](MATCHED_COMPARISONS.csv) · [제한 있는 맥락 비교](CONTEXTUAL_COMPARISONS.csv) · [비용](COST_FULL_PRECISION.csv) · [질문별 판단](QUESTIONS_AND_DECISIONS_KO.md) · [감사](VALIDATION.json)", ""]
+    text += [presentation.readme_supplement(data),
+             "[자료 감사 보완](DATA_AUDIT_SUPPLEMENT_KO.md) · [자료 출처·단위](DATA_SOURCE_DETAILS.json) · [horizon 구간 요약](HORIZON_BAND_SUMMARY.csv) · [paired-origin 결속](PAIRED_ORIGIN_BINDINGS.json)", ""]
     for figure in FIGURES:
         text += ["!["+figure+"](figures/"+figure+".png)", ""]
     atomic(report/"README_KO.md", "\n".join(text))
@@ -1676,6 +1834,8 @@ def _documents(ctx, data, matched):
         a03_note += " [기록된 A03 검산 영수증](A03_INDEPENDENT_COHORT_CHECK.json): status="+str(a03.get("status"))+", exit_code="+str(a03.get("verification_exit_code"))+", endpoint="+str(a03.get("checked_jobs"))+", public artifact SHA="+str(a03.get("checked_public_artifact_hashes"))+", CP0 group="+str(a03.get("CP0_family_groups"))+", parity PASS="+str(a03.get("parity_pass_jobs"))+". 원 private 예측값은 공개하지 않는다."
     atomic(report/"REPRODUCE_KO.md", "# 검증한 재현 경로\n\n명령의 repository working directory는 clone root다. 기본 실행은 no-op이다.\n\n```text\npython -m research.adapter_diagnostics_20261017_v2.run\npython -m research.adapter_diagnostics_20261017_v2.run --mode audit --asset-root ASSET_ROOT --cache-root PRIVATE_CACHE\npython -m research.adapter_diagnostics_20261017_v2.run --mode plan --asset-root ASSET_ROOT --cache-root PRIVATE_CACHE\npython -m research.adapter_diagnostics_20261017_v2.run --mode execute --plan REPORT_ROOT/EXPERIMENT_PLAN.json --asset-root ASSET_ROOT --cache-root PRIVATE_CACHE\npython -m research.adapter_diagnostics_20261017_v2.run --mode report --asset-root ASSET_ROOT --cache-root PRIVATE_CACHE\npython -m research.adapter_diagnostics_20261017_v2.run --mode verify --asset-root ASSET_ROOT --cache-root PRIVATE_CACHE\npython -m research.adapter_diagnostics_20261017_v2.reporting --reaggregate REPORT_ROOT\n```"
         +"\n실제 실행 및 종료코드는 VALIDATION.json과 root 실행 영수증을 따른다. plan/execute는 봉인 source/data identity가 맞는 승인 private 자산을 필요로 한다. SOURCE_BINDINGS.json은 수치 source SHA를, requirements-lock.txt와 START_STATE는 환경·출발 commit을 남긴다.\n\n마지막 --reaggregate는 공개 ERROR_BY_CHANNEL의 SSE/SAE/count로 macro 점수를 독립 재집계하며 원자료·모델·네트워크를 쓰지 않는다. --figures REPORT_ROOT는 공개 집계 CSV만으로 F1~F5를 재생성한다. F6 curve 원수치는 private에만 있으며 승인된 해당 hash의 private prediction이 있어야 정확히 재생성할 수 있다. main clone만으로 원자료까지 완전 재현한다고 주장하지 않는다."+a03_note+"\n")
+    with (report/"REPRODUCE_KO.md").open("a", encoding="utf-8", newline="\n") as stream:
+        stream.write("\n\nE04 보완 실행은 원 106-job 실행기와 별도로 수행했다. 공개 worker는 [lora_cost_runner.py](code/lora_cost_runner.py)와 [lora_cost_runner_v2.py](code/lora_cost_runner_v2.py)의 execute_job(job, ctx)이며, 승인 private 자산·원 누적 CAMPAIGN 장부·인증 GPU parent lease가 필요하다. 두 private controller의 SHA는 확장 계획과 receipt의 execution_control에 결속되어 있다. 실제 실행 명령은 아래와 같다.\n\n```text\npython PRIVATE_CACHE/e04_orchestrate.py --execute\npython PRIVATE_CACHE/e04_parent_v2_orchestrate.py --execute\n```\n\n첫 controller는 Jena parent convention 실패와 PeMS 성공을 모두 보존했다. v2는 Jena만 교정했으며 PeMS를 다시 측정하지 않았다. 초기 manifest의 artifact/state 2-field label과 deployment의 scaler 포함 3-field parent를 각각 exact 검증한다. 기존 106개 job과 원예산은 변하지 않았다. 위 generic run --mode execute는 최초106개 계획을 실행한 역사적 명령이며, 확장 E04 재실행은 별도 worker/parent lease 경로를 따른다.\n\n실제로 검증한 모델 로드 없는 자산 검사:\n\n```text\npython reports/adapter_diagnostics_20261017_v2/code/lora_cost_runner.py --inspect --cohort jena --asset-root ASSET_ROOT --cache-root PRIVATE_CACHE\npython reports/adapter_diagnostics_20261017_v2/code/lora_cost_runner.py --inspect --cohort pems08 --asset-root ASSET_ROOT --cache-root PRIVATE_CACHE\npython reports/adapter_diagnostics_20261017_v2/code/lora_cost_runner_v2.py --inspect --cohort jena --asset-root ASSET_ROOT --cache-root PRIVATE_CACHE\n```\n\n보조 paired-origin/band/trajectory gate는 reporting.verify가 code/verify_report_supplements.py를 호출하여 실제 공개 집계와 private SHA를 대조한다. CODE와 report/code의 최종 테스트 대상 SHA는 TEST_VALIDATION.json에 있다.\n")
     ppt_accuracy = []
     for run in data["runs"]:
         matching = [cost for cost in data["costs"] if cost_accuracy_match(cost, [run]) is not None]
@@ -1695,13 +1855,22 @@ def _documents(ctx, data, matched):
                 accuracy_cost_scope=cost.get("accuracy_source", "Saved full V accuracy; timed first B with source parity") if cost else None,
                 accuracy_status=run["status"], cost_status=cost.get("status", "NOT_MEASURED"), run_id=run["run_id"],
                 source_sha256=run["source_sha256"], cost_source_sha256=cost.get("source_sha256")))
-    csv_write(report/"PPT_T1_ACCURACY_COST.csv", ppt_accuracy)
-    csv_write(report/"PPT_T2_MECHANISM_ABLATION.csv", matched+comparisons(data, contextual=True)+common_compared)
-    csv_write(report/"PPT_T3_COVERAGE_CLAIMS.csv", [dict(question=q, goal=title, evidence_status=body, scientific_status=scientific) for q, title, body in questions])
-    csv_write(report/"PPT_T4_DATASET_PROTOCOL.csv", [dict(dataset=name, version="pinned existing lineage", C=row.get("full_permitted_shape", [None, None])[1],
-        L=row.get("L"), H=row.get("H"), input_information="past observed channels only", fit_selection_evaluation=row.get("primary_split_ranges"),
-        origins=row.get("checks", {}).get("origins"), exposure="reused development V; historical T exposed; current T locked", status=row["status"])
-        for name, row in audit["datasets"].items()])
+    hardware_path = report/"HARDWARE.json"
+    hardware = read(hardware_path) if hardware_path.is_file() else {}
+    if hardware_path.is_file():
+        _source(hardware_path, ctx, data["bindings"])
+    csv_write(report/"PPT_T1_ACCURACY_COST.csv", presentation.enrich_accuracy_cost_rows(ppt_accuracy, data, hardware))
+    csv_write(report/"PPT_T2_MECHANISM_ABLATION.csv", presentation.mechanism_rows(matched+comparisons(data, contextual=True)+common_compared, data))
+    csv_write(report/"PPT_T3_COVERAGE_CLAIMS.csv", presentation.coverage_rows(questions, data, audit))
+    csv_write(report/"PPT_T4_DATASET_PROTOCOL.csv", presentation.dataset_protocol_rows(audit, data, ctx["repo"]))
+    details = presentation.data_source_details(audit, data, ctx["repo"])
+    for source in details["source_bindings"]:
+        name = source.get("path", source.get("reference", "")).removeprefix("repo://")
+        if name:
+            data["bindings"][name] = source["sha256"]
+    atomic_json(report/"DATA_SOURCE_DETAILS.json", details)
+    atomic(report/"DATA_AUDIT_SUPPLEMENT_KO.md", "# 원 A01 감사의 출처·단위 보완\n\n원 DATA_AUDIT_KO.md와 DATA_AUDIT.json은 검증 당시의 receipt-bound 원본을 보존한다. 아래는 같은 자료의 추가 공개 메타데이터다.\n\n"+
+           presentation.data_audit_supplement(audit, data, ctx["repo"]))
     return dict(scientific_status=scientific, all_job_statuses_terminal=closed, job_counts=dict(counts))
 
 
@@ -1878,6 +2047,9 @@ def verify(ctx, write=False):
     report, repo = Path(ctx["report"]), Path(ctx["repo"])
     problems, checks = [], []
     required = ["README_KO.md", "QUESTIONS_AND_DECISIONS_KO.md", "DATA_AUDIT_KO.md", "DATA_AUDIT.json", "METHOD_CONTRACT.md", "EXPERIMENT_PLAN.json", "JOB_STATUS.csv", "RUNS_FULL_PRECISION.csv", "SAME_UPDATE_RESULTS.csv", "SAME_UPDATE_COMPARISONS.csv", "MATCHED_COMPARISONS.csv", "CONTEXTUAL_COMPARISONS.csv", "COST_FULL_PRECISION.csv", "ERROR_BY_HORIZON.csv", "HORIZON_STATS_BINDINGS.json", "ERROR_BY_CHANNEL.csv", "REPRESENTATION_PROBES.csv", "INITIALIZATION_DIAGNOSTICS.csv", "SOURCE_BINDINGS.json", "NEW_STATS_REPLAY.json", "RESOURCE_LEDGER.json", "REPRODUCE_KO.md", "NEXT_STEPS_KO.md"]
+    required += ["TRAJECTORY_DIAGNOSTICS.json", "HORIZON_BAND_SUMMARY.csv", "PAIRED_ORIGIN_COVERAGE.csv", "PAIRED_ORIGIN_BINDINGS.json",
+                 "DATA_SOURCE_DETAILS.json", "DATA_AUDIT_SUPPLEMENT_KO.md", "PPT_T1_ACCURACY_COST.csv", "PPT_T2_MECHANISM_ABLATION.csv",
+                 "PPT_T3_COVERAGE_CLAIMS.csv", "PPT_T4_DATASET_PROTOCOL.csv"]
     required += ["figures/"+figure+"."+extension for figure in FIGURES for extension in ("png", "svg")]
     for name in required:
         if not (report/name).is_file():
@@ -1895,6 +2067,15 @@ def verify(ctx, write=False):
         problems.append("Required pre-T data audit failed: "+str(audit.get("status")))
     checks.append(dict(gate="G1_DATA", status="PASS_PRE_T_SCOPE" if pre_t_ok else "FAIL_REQUIRED_PRE_T_AUDIT", source_status=audit.get("status"),
                        source_sha256=sha(report/"DATA_AUDIT.json"), scope="Actual pinned pre-T prefix boundaries/mask/zero/scaler plus synthetic fill; upstream ancestry/overlap remain UNKNOWN"))
+    if (report/"M5_LOCAL_ASSET_DISCOVERY.json").is_file():
+        try:
+            local_m5 = report_helper(ctx, "m5_local_assets").verify_local_m5_assets(ctx)
+            checks.append(dict(gate="G1_M5_LOCAL_ASSETS", status=local_m5["status"],
+                source_sha256=sha(report/"M5_LOCAL_ASSET_DISCOVERY.json"),
+                scope="Current local file bytes/header schema only; historical external HTTP401 retained; no M5 row values parsed, fitting or evaluation"))
+        except (ValueError, FileNotFoundError) as error:
+            problems.append("M5 local asset binding rejected: "+str(error))
+            checks.append(dict(gate="G1_M5_LOCAL_ASSETS", status="FAIL", reason=str(error)))
     tests_path = report/"TEST_VALIDATION.json"
     tests = read(tests_path) if tests_path.is_file() else None
     method = method_evidence(ctx, plan)
@@ -1987,6 +2168,12 @@ def verify(ctx, write=False):
     checks.append(dict(gate="G7_CACHE", status="FAIL_BOUND_ARTIFACTS" if not replay_check["all_bound_artifacts_verified"] or any(not row["all_bound_artifacts_verified"] for row in cache_checks) else "PASS_CURRENT_BOUND_ARTIFACTS" if cache_checks else "NO_COMPLETED_BOUND_ARTIFACTS",
                        checked=cache_checks, saved_replay_graph=replay_check,
                        scope="Actual complete receipt identity and bound public/private hashes plus verification-time B01 late bindings. Late capture does not prove historical prediction immutability; subsequent mutation is rejected."))
+    try:
+        supplement_check = report_helper(ctx, "verify_report_supplements").verify_supplements(ctx)
+        checks.append(supplement_check)
+    except ValueError as error:
+        problems.append("Independent supplement verification failed: "+str(error))
+        checks.append(dict(gate="G8_INDEPENDENT_REPORT_SUPPLEMENTS", status="FAIL", reason=str(error)))
     for row in rows(report/"COST_FULL_PRECISION.csv"):
         if row.get("median_ms_per_origin") and float(row["median_ms_per_origin"]) <= 0:
             problems.append("Nonpositive measured latency")
@@ -2030,6 +2217,12 @@ def manifest(ctx):
 def build_report(ctx):
     report, repo = Path(ctx["report"]), Path(ctx["repo"])
     data = collect(ctx)
+    if data.get("trajectory"):
+        atomic_json(report/"TRAJECTORY_DIAGNOSTICS.json", data["trajectory"])
+        for run in data["runs"]:
+            if run.get("fit_score_source") == "TRAJECTORY_DIAGNOSTICS.json":
+                run["fit_score_source_sha256"] = sha(report/"TRAJECTORY_DIAGNOSTICS.json")
+        _source(report/"TRAJECTORY_DIAGNOSTICS.json", ctx, data["bindings"])
     matched = comparisons(data)
     csv_write(report/"JOB_STATUS.csv", data["jobs"])
     csv_write(report/"RUNS_FULL_PRECISION.csv", data["runs"], RUN_FIELDS)
@@ -2046,8 +2239,19 @@ def build_report(ctx):
     csv_write(report/"INITIALIZATION_DIAGNOSTICS.csv", data["initializations"])
     csv_write(report/"INITIALIZATION_CURVES.csv", data["initialization_curves"])
     atomic_json(report/"LEGACY_STATS_REPLAY.json", dict(rows=data["legacy_stats_replay"], model_calls=0, protected_T_access=False))
-    atomic_json(report/"NEW_STATS_REPLAY.json", dict(rows=data.get("new_stats_replay", []), model_calls=0, protected_T_access=False))
+    helper = report_helper(ctx, "report_supplements", data["bindings"])
+    supplement = helper.build_supplements(ctx, data, matched+comparisons(data, contextual=True)+same_update_comparisons(data))
+    for path in supplement["public_files"]:
+        _source(path, ctx, data["bindings"])
+    atomic_json(report/"NEW_STATS_REPLAY.json", dict(rows=data.get("new_stats_replay", []),
+        trajectory=data.get("trajectory"), report_supplements=supplement["binding"],
+        source_derived_cost_metadata=data.get("pems32_cost_metadata"), m5_local_assets=data.get("m5_local_assets"),
+        model_calls=0, protected_T_access=False))
     state = _documents(ctx, data, matched)
+    for name in ("TRAJECTORY_ENVIRONMENT_CHECK.json", "TRAJECTORY_ENVIRONMENT_KO.md"):
+        if (report/name).is_file():
+            _source(report/name, ctx, data["bindings"])
+    report_helper(ctx, "verify_report_supplements", data["bindings"])
     figure_metadata = figures(ctx, data)
     atomic_json(report/"FIGURE_METADATA.json", figure_metadata)
     ledger_path = Path(ctx["cache"])/"CAMPAIGN.json"
