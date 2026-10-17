@@ -1,8 +1,8 @@
-# 전체 요청 충족 감사 — 로컬 검증 완료, main 게시 대기
+# 전체 요청 충족 감사 — 과학 PARTIAL, 첫 main payload 게시 확인
 
-과학 캠페인은 **PARTIAL**, 완료된 증거의 독립 검증은 **PASS**, 연구 판정은 **DESCRIPTIVE_DEVELOPMENT_EVIDENCE**, main 게시는 **PENDING**이다. Jena DCA 미수렴으로 필수 forecast 비교가 남았으므로 전체 실험 완료나 보편적인 성능 우위를 선언하지 않는다. 이 문서는 실제 로컬 증거 snapshot이며 첫 payload의 실제 원격 게시 후 상태를 갱신한다.
+과학 캠페인은 **PARTIAL**, 완료된 증거의 독립 검증은 **PASS**, 연구 판정은 **DESCRIPTIVE_DEVELOPMENT_EVIDENCE**, 첫 main payload 게시는 **PROVEN**, closing metadata 게시·최종 원격 확인은 **PENDING**이다. Jena DCA 미수렴으로 필수 forecast 비교가 남았으므로 전체 실험 완료나 보편적인 성능 우위를 선언하지 않는다. 이 문서는 완료된 로컬 증거와 실제 첫 payload 원격 게시의 snapshot이다. 과학 미완료와 게시 성공을 합치지 않는다.
 
-[확인] 감사 시각 2026-10-17T23:18:10.782833+00:00. 원문912행 SHA256은 55af78e3ade0d4cebcbc09f0f453b457afc7f748b2a2316486e4eadf8869e679다. 원문278개 명시 항목을 포함한657개 요구 ID/원문/section/행을 삭제·교체 없이 보존했다. [REQUIREMENT_COVERAGE.csv](REQUIREMENT_COVERAGE.csv)는 요구별 담당module/tests/job, 실제 증거·SHA, 상태와 확인 범위를 담는다. PROVEN은 해당 행의 한정된 증거 범위이며 연구 전체 성공을 뜻하지 않는다.
+[확인] 최종 게시 감사 시각 2026-10-17T23:29:55.777974+00:00. 원문912행 SHA256은 55af78e3ade0d4cebcbc09f0f453b457afc7f748b2a2316486e4eadf8869e679다. 원문278개 명시 항목을 포함한657개 요구 ID/원문/section/행을 삭제·교체 없이 보존했다. [REQUIREMENT_COVERAGE.csv](REQUIREMENT_COVERAGE.csv)는 요구별 담당module/tests/job, 실제 증거·SHA, 상태와 확인 범위를 담는다. PROVEN은 해당 행의 한정된 증거 범위이며 연구 전체 성공을 뜻하지 않는다.
 
 [확인] 원37job plan cab1bbc423e7ae7e5cf7029443a7be9a4e01246d76ec6af3a16d72b16fa7693f와 별도cost-only2job plan c6b0f84acf94e223f3e3dbe81d0cee3f5b47ead8663fffeb811e6a9d446c71fc을 유지했다. 봉인source 24개와 별도controller가 실제 바이트와 일치한다. 현재 report source dfa332fa872260d6277b0a79c5bc2e17606b86d796f91524c4315bf4cac1d575, verifier 546059a3a3d787799989539297c7b4889739d71fd91e06460a86e455fca781a7 및 전체 최종 test의 source/test SHA도 현재 파일과 일치한다. 과학 source/recipe와 보고/검증 source 수정을 구분했다.
 
@@ -64,16 +64,22 @@ D 일반화 : 부분
 
 [확인] [PUBLIC_REPLAY_VERIFICATION.json](PUBLIC_REPLAY_VERIFICATION.json)의 실제 공개 CSV/JSON CLI replay는34개 exact byte PASS다: F1–F5 PNG/SVG/sourceCSV15개, public table9개, PPT table4개, 문서6개. [VISUAL_INSPECTION.json](VISUAL_INSPECTION.json)은 실제 읽은5개PNG와 마지막 표시 수정 후 동일15figure파일의 hash를 결속한다. F4는 Jena 미수렴을 표시하고 DCA곡선을 만들지 않았다. F6은 선택사항으로 생략하고 private곡선 재생성 PASS로 합산하지 않는다.
 
-verifier의 외부3gate(시각 확인/공개 replay/원격 게시) UNVERIFIED는 수행하지 않은 외부 작업을 로컬에서 추론하지 않기 위한 계약이다. 앞2gate는 별도 실제 proof로 보완됐고 remote는 아직 PENDING이다. private 학습/배열 검산과 공개 통계 source-only 재생성의 경계는 [PUBLIC_PRIVATE_ARTIFACTS.md](PUBLIC_PRIVATE_ARTIFACTS.md)와 [REPRODUCE_KO.md](REPRODUCE_KO.md)에 기록했다.
+verifier의 외부3gate(시각 확인/공개 replay/원격 게시) UNVERIFIED는 수행하지 않은 외부 작업을 로컬에서 추론하지 않기 위한 계약이다. 시각/replay gate는 별도 실제 proof로 보완됐다. remote gate도 [REMOTE_PROOF.json](REMOTE_PROOF.json)의 첫 payload 범위에서 PASS이며 closing metadata 전체의 최종 원격 확인은 별도 gate다. private 학습/배열 검산과 공개 통계 source-only 재생성의 경계는 [PUBLIC_PRIVATE_ARTIFACTS.md](PUBLIC_PRIVATE_ARTIFACTS.md)와 [REPRODUCE_KO.md](REPRODUCE_KO.md)에 기록했다.
 
 ## 보존, 예산, 게시
 
 [확인] [ORIGINAL_PRESERVATION_CHECK.json](ORIGINAL_PRESERVATION_CHECK.json)은 원 checkout의 동일 HEAD와912개의 exact Git porcelain -z status 바이트 SHA 614d7291b6b5ca7e580cef0e5a2a74d6a1436693ce80fca419b19311d66ad7ae를 확인했다. 모든 원 dirty 사용자 파일의 byte별 검증 주장은 하지 않는다. 별도WORK의 SHA-inventory에 든 과거 공개1225파일은 parent:protected_bytes PASS다. 원 assets/environment를 읽고 편집·실행 출력은 격리 WORK/newcache에 두었다.
 
-[확인] [RESOURCE_LEDGER.json](RESOURCE_LEDGER.json) snapshot에서 wall 10435.228초, 누적GPU charge 5370.250초, 새cache 720,025,422byte, 공식source 다운로드 305,232byte다. 남은 wall 11164.772초/GPU 9029.750초는 이 시점 기준이며 이후 감사/게시 wall은 최종 원장에서 갱신한다. 원6h/4h 및72m/48m 예약과 retained cache를 고려한 더 엄격한 상한을 유지하고 과거 누적 원장을 초기화하지 않았다. CPU-worker/parentCPU/GPU charge의 범위와 중복 가능성을 분리했다.
+[확인] [RESOURCE_LEDGER.json](RESOURCE_LEDGER.json) snapshot에서 wall 11067.056초, 누적GPU charge 5370.250초, 새cache 724,712,604byte, 공식source 다운로드 305,232byte다. 남은 wall 10532.944초/GPU 9029.750초는 이 시점 기준이며 이후 감사/게시 wall은 최종 원장에서 갱신한다. 원6h/4h 및72m/48m 예약과 retained cache를 고려한 더 엄격한 상한을 유지하고 과거 누적 원장을 초기화하지 않았다. CPU-worker/parentCPU/GPU charge의 범위와 중복 가능성을 분리했다.
 
 [확인] [ARTIFACT_MANIFEST.json](ARTIFACT_MANIFEST.json)의348개 현재 payload hash를 대사했다. 본 감사/요구표/VALIDATION/REMOTE 및 outer metadata를 자기hash순환 없이 별도 결속하는 정책을 유지한다. rootREADME 최신 결과 링크와 과거PeMS CPU상태/별도CUDA 완료를 구분했다.
 
-**main 게시는 아직 PENDING이다.** 현재 REMOTE_PROOF.json/outer PUBLIC_ALLOWLIST·PUBLICATION_CHECK·PUBLIC_MANIFEST는 존재하지 않으며 존재하는 링크처럼 표시하지 않는다. root가 실제 allowlist/privacy/size/index gate를 통과하고 정상 commit/push한 후 remote ancestry 및 code/report/figure/repro 경로를 확인한다. force push나 보호규칙 우회는 허용되지 않는다. 첫 payload remote proof 이후 본 감사의 게시 상태를 갱신하며 closing metadata commit의 최종 원격 proof는 별도로 확인한다.
+**첫 main payload 게시를 확인했다.** [main commit](https://github.com/CanelE452/hierarchical-tsfm-peft/commit/52745b4d71c0ae7ab33c8914412602f2c7412a57)의 SHA는 52745b4d71c0ae7ab33c8914412602f2c7412a57다. [REMOTE_PROOF.json](REMOTE_PROOF.json)은 실제 fetch/ls-remote/main ancestry와 346개 stable path의 Gitblob을 로컬 파일과 exact 비교해 223,023,390byte PASS를 기록했다. code, 새 수치/통계, F1–F5 그림과 source, 재현 문서, rootREADME/history가 해당 commit에 존재한다. 정상 push 자체는 root의 실제 exit0 관찰이며 읽기 전용 proof helper가 push했다고 주장하지 않는다.
 
-matrix 상태 집계: {"CONDITIONAL_NOT_ADMITTED": 12, "OPTIONAL_OMITTED": 3, "PARTIAL_NUMERICAL": 5, "PENDING_PUBLICATION": 14, "PROVEN": 275, "PROVEN_WITH_LIMITS": 337, "READY_FOR_FINAL_RESPONSE": 11}. READY_FOR_FINAL_RESPONSE는 아직 보내지 않은 최종 한국어 응답의 준비 checklist이며 응답을 이미 실행/검증했다는 뜻이 아니다.
+공개 REMOTE proof의 제외 목록은 변경 가능한 감사·요구표·resource·resume·manifest·validation 및 proof 자체를 분리한다. 이번 최신 감사/metadata를 첫 원격 commit의 파일과 동일하다고 부르지 않는다. **outer allowlist/manifest 생성과 closing metadata commit/push 및 전체 allowlist의 최종 원격 확인은 이snapshot에서 아직 PENDING이다.** root가 본2파일 동결 후 공식prepare를1회 수행하고 실제 index/privacy/size/hash gate 및 정상 closing push를 완료해야 한다. 그 결과는 별도 최종 proof와 최종 응답에서 확인하며 없는 TOP3 Markdown링크를 만들지 않았다.
+
+첫payload의 실제 사전 guard는 명시 파일/content/index 검증을 통과했다. generated SVG/PPT/RESULT7파일의 의도적인 whitespace 관찰을 별도로 보존했고 그 외payload strict diff-check는 exit0이다. 이를 모든파일 whitespace 경고0으로 확대하지 않는다. 해당 실제 로그는 private guard binding 범위이며 강제 push·hook 우회는 없다.
+
+REPORT_STATE의 resource는 보고서 생성 당시의 날짜가 있는 snapshot이다. 첫payload의34개 replay artifact를 바꾸지 않고 유지했으며 최신 RESOURCE_LEDGER는 첫push 뒤의 별도 날짜 snapshot이다. 두시점의 wall/cache 차이를 원장 reset이나 수치 재실행으로 해석하지 않는다.
+
+matrix 상태 집계: {"CONDITIONAL_NOT_ADMITTED": 12, "OPTIONAL_OMITTED": 3, "PARTIAL_NUMERICAL": 5, "PROVEN": 275, "PROVEN_REMOTE_PAYLOAD": 14, "PROVEN_WITH_LIMITS": 337, "READY_FOR_FINAL_RESPONSE": 11}. READY_FOR_FINAL_RESPONSE는 아직 보내지 않은 최종 한국어 응답의 준비 checklist이며 응답을 이미 실행/검증했다는 뜻이 아니다.
