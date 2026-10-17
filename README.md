@@ -1,5 +1,9 @@
 # Hierarchical TSFM PEFT screen
 
+**2026-10-17 남은 두 방법군 검증 완료:** [현재 판단과 한계](research/informs_broad_validation_20261015_v1/priority_valid_family_20261016_v1/REMAINING_RESULT_STATUS_KO_v1.md) · [상세 MD](research/informs_broad_validation_20261015_v1/priority_valid_family_20261016_v1/REMAINING_FAMILY_KO_v1.md) · [원정밀도 CSV](research/informs_broad_validation_20261015_v1/priority_valid_family_20261016_v1/REMAINING_FAMILY_RESULTS_v1.csv) · [두 자료별 그림](research/informs_broad_validation_20261015_v1/priority_valid_family_20261016_v1/REMAINING_FAMILY_VISUALIZATION_KO_v1.md). Jena의 AdaPTS 저장소 port K6는 기존 B2보다 MSE가 높았고, Beijing B4 K11은 기존 B2보다 MSE가 소폭 낮지만 B8 warm whole 비용은 증가했다. 신규2 fit·전체 V·FP64·CPU6·4개 B1/B8 비용과 독립 검산·그림을 완료했다. 한 seed·반복 개발 V·제한 학습과 구조 차이가 있는 결과이며 수렴·독립 일반화·순수 인과효과·전체 MASTER 완료를 주장하지 않는다. 주 후보 B2를 유지하며 다음 PeMS C32 Raw/G와 같은 조건의 B0/B2 비교는 아직 미입장이다. 새 원격 게시 SHA는 별도 확인 대상이다.
+
+과거 PeMS `parent_full_cpu`의 단일 V 충분통계 파일을 사용하는 재현은 [Git-history 원바이트 수동 복원 안내](research/informs_broad_validation_20261015_v1/publication_derivatives/git_history_v_stats_20261017_v1/README_KO.md)를 먼저 따른다. 이 단일 파일에 한해 새 안내가 과거 서명된 RESTORE_INDEX의 원공개경로 설명보다 우선하며, 과거 소비자 실행 전에 같은 원 경로로 복원해야 한다. 원 과학 문서와 다른 복원 계약은 보존한다.
+
 **2026-10-17 Beijing multi-K 실제 결과:** [현재 판단·원수치·비용·그림](research/informs_broad_validation_20261015_v1/priority_multik_resume_20261016_v1/RESULT_STATUS_KO_v1.md). 두 저장점 재개 부모의6개 K 출력을 실제 검증했다. Shared K6 MSE0.775934 / max-only prefix0.893394이며, PCA보다 일관되게 좋은 결과는 아니다. 전체 V·FP64·CPU6·12비용을 완료했고 한 seed·반복 V·제한 학습/전체 MASTER 미완료를 유지한다.
 
 

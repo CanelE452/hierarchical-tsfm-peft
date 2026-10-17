@@ -1,5 +1,9 @@
 # 고정 TSFM의 다변량 적응 실험
 
+**2026-10-17 남은 방법군 두 조건 완료:** [현재 판단·한계](priority_valid_family_20261016_v1/REMAINING_RESULT_STATUS_KO_v1.md) · [상세 MD](priority_valid_family_20261016_v1/REMAINING_FAMILY_KO_v1.md) · [원정밀도 CSV](priority_valid_family_20261016_v1/REMAINING_FAMILY_RESULTS_v1.csv) · [그림과 근거](priority_valid_family_20261016_v1/REMAINING_FAMILY_VISUALIZATION_KO_v1.md). Jena AdaPTS 저장소 port K6의 정규화 MSE0.736819는 기존 B2 0.683443보다 높았다. Beijing B4 K11은0.765187로 기존 B2 0.780057보다 소폭 낮았지만 B8 warm whole median은0.594887초로 B2 0.572880초보다 컸다. 자료 간 MSE 순위가 아닌 각 자료 안의 비교다. 신규2 fit·전체 V·별도 FP64·fresh CPU6·CPU2 B1/B8 비용4조건과 독립 검산·그림을 완료했다. 반복 개발 V·한 seed·제한 학습 및 구조 차이로 수렴·일반화·순수 구조 효과를 확정하지 않는다. **전체 MASTER는 미완료이며 주 후보 B2를 유지한다.** 다음 PeMS C32 Raw/G와 같은 조건의 B0/B2 비교는 아직 미입장이고 새 원격 게시 확인은 별도다.
+
+과거 `parent_full_cpu`의 단일 PeMS V 충분통계는 [새 Git-history 원바이트 수동 복원 안내](publication_derivatives/git_history_v_stats_20261017_v1/README_KO.md)를 먼저 따른다. 이 파일에 한해 새 안내가 과거 서명 RESTORE_INDEX의 원공개경로 설명보다 우선한다. 과거 P2 감사 등 원 경로를 여는 소비자를 실행하기 전에 같은 원 경로로 복원해야 하며, 현재 새 N5의 canonical 입력이나 원 과학 문서는 바꾸지 않는다.
+
 **2026-10-17 multi-K 부모 재개와 실제6출력 완료:** [판단·원수치·학습량·비용·그림](priority_multik_resume_20261016_v1/RESULT_STATUS_KO_v1.md). shared가 max-only prefix보다 K3/6/11 MSE가 낮았으나 fixed PCA보다 일관된 우위는 아니다. 두 refit/6fullV·FP64·CPU6/12CPU2비용을 검산했다. 주 B2 후보 대체·수렴·독립 일반화·전체 MASTER 완료를 주장하지 않는다.
 
 
