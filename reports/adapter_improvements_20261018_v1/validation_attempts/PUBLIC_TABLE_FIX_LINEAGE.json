@@ -1,0 +1,21 @@
+{
+  "schema": "report-only-public-table-fix-lineage-v1",
+  "recorded_utc": "2026-10-17T22:45:09.574701+00:00",
+  "causes": [
+    "Generic report CSV writer changed the header/default-cell serialization of receipt-bound MULTIK_AUDIT.csv",
+    "RUNS retained redundant origin_paired_vs_shared statistics, producing a242106-byte field above the standard CSV reader limit"
+  ],
+  "preserved_failure": "validation_attempts/VALIDATION_after_report_build_v1.json",
+  "preserved_reporter": "validation_attempts/reporting_before_public_table_fix.py",
+  "preserved_bad_csv": "validation_attempts/MULTIK_after_report_build_v1.csv",
+  "previous_test_evidence": "TEST_VALIDATION_POST_AUDIT_FIX.json",
+  "receipt_bound_MULTIK_restored_sha256": "4f26b3b8a23972246f06c0663c464106116762815b9db7f71f99bada03986731",
+  "restoration": "Reconstructed only the deterministic original CSV serialization from the unchanged SHA-bound public job rows; verified exact original receipt SHA before writing",
+  "scientific_sources_plans_receipts_unchanged": true,
+  "next": "Strict historical CSV integer parser integration fix follows; actual independent tables, final regression and public replay remain pending",
+  "fixed_reporter_sha256": "59bb75f1e51cf3b5abceb9c3324675204a124fe26a61117099b78a15937075be",
+  "focused_test_status": "43passed10.04s exit0",
+  "actual_report_rebuild_exit_code": 0,
+  "post_rebuild_MULTIK_sha256": "4f26b3b8a23972246f06c0663c464106116762815b9db7f71f99bada03986731",
+  "independent_read_only_review": "Producer80rows exactbytes/receipt binding and RUNS299rows standard CSV reader confirmed; no source/producer/PAIR provenance mutation"
+}

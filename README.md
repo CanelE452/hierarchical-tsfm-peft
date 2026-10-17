@@ -1,5 +1,9 @@
 # Hierarchical TSFM PEFT screen
 
+**최신 P/E/D 개선 실험 (2026-10-18):** [실제 실행·재사용 범위, 대응 비교, 비용과 남은 작업](reports/adapter_improvements_20261018_v1/README_KO.md) · [분석](reports/adapter_improvements_20261018_v1/RESULT_ANALYSIS_KO.md) · [발표용 표](reports/adapter_improvements_20261018_v1/PPT_TABLES_KO.md). 등록된 예산·수치 한도를 적용한 부분 결과다. DCA 미수렴과 조건부 미실행을 완료 결과와 구분하며, 목표 정확도·속도 임계값은 등록되지 않았다. 저장 예측 독립 검산, whole-path 비용 parity, 공개 그림 재생성의 확인 범위는 보고서에 기록한다.
+
+**선행 진단 완료 (2026-10-18):** [동결 어댑터 진단·기존 PeMS32 CUDA 후속 결과·로컬 M5 자산 확인](reports/adapter_diagnostics_20261017_v2/README_KO.md). 아래 PeMS32 CPU 중단·미완료 문구는 해당 시점의 과거 기록이며, 이후 CUDA 분기 완료 여부는 이 진단 보고서를 따른다. 이 선행 봉인 패키지는 이번 개선 실험에서 수정하지 않았다.
+
 **B2 원인 검증 중단 결과 (2026-10-17 22:27 KST):** [완료·미완료 구분, MD 보고서·원수치·코드·그림](reports/informs_b2_why_where_20261017/README_KO.md). 대조 모델 두 seed의 학습과 B0/B2의 저장된 공통 학습량 평가를 정리했다. 대조 모델의 공통 학습량 평가·probe·PeMS 재개·새 비용·최종 독립 검산은 미완료이며, 사용자 요청으로 실행과 자동 후속을 중지했다. 아래 계획·진행 문구는 작성 시점의 기록이다.
 
 **INFORMS 발표용 결과 패키지 (2026-10-17):** [표·보고서·생성 코드·그림 5개](reports/informs_ppt_ready_20261017/README.md). 기존 완료 결과와 비교 조건을 모았으며 PeMS C32 B0/B2의 최종 성능은 미완료다. 원수치·비용 출처·미완료 셀·주장 범위를 함께 제공한다.

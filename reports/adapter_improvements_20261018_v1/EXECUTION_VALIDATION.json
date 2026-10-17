@@ -1,0 +1,115 @@
+{
+  "schema": "adapter-improvements-actual-execution-validation-v1",
+  "checked_utc": "2026-10-17T22:34:53.917063+00:00",
+  "status": "PASS",
+  "scientific_status": "PARTIAL",
+  "invocations": [
+    {
+      "plan": "reports/adapter_improvements_20261018_v1/EXPERIMENT_PLAN.json",
+      "plan_sha256": "cab1bbc423e7ae7e5cf7029443a7be9a4e01246d76ec6af3a16d72b16fa7693f",
+      "registered_jobs": 37,
+      "statuses": {
+        "REUSED_VERIFIED": 2,
+        "COMPLETE": 28,
+        "NOT_CONVERGED": 2,
+        "NOT_RUN_DEPENDENCY": 5
+      },
+      "command": "python -m research.adapter_improvements_20261018_v1.run --mode execute --asset-root PRIVATE_ASSET_ROOT --cache-root PRIVATE_CAMPAIGN_CACHE --report-root reports/adapter_improvements_20261018_v1 --plan reports/adapter_improvements_20261018_v1/EXPERIMENT_PLAN.json",
+      "exit_code": 0,
+      "root_observation": {
+        "exit_code": 0,
+        "observed_utc": "2026-10-17T22:29:42.594164+00:00",
+        "tool_session_id": 74525,
+        "observation": "Actual completed exec session returned exit_code0 after COST_PEMS32_CUDA COMPLETE66.30s"
+      },
+      "private_log": {
+        "reference": "cache://execution_v1.txt",
+        "sha256": "08f312da9a05815bd2cf894d57682dfe9eb9f93a104500361254b374e1f69476",
+        "bytes": 31345
+      }
+    },
+    {
+      "plan": "reports/adapter_improvements_20261018_v1/SUPPLEMENTAL_PLANS/COST_JENA_SEED2_v1.json",
+      "plan_sha256": "c6b0f84acf94e223f3e3dbe81d0cee3f5b47ead8663fffeb811e6a9d446c71fc",
+      "registered_jobs": 2,
+      "statuses": {
+        "COMPLETE": 2
+      },
+      "command": "python -m research.adapter_improvements_20261018_v1.run --mode execute --asset-root PRIVATE_ASSET_ROOT --cache-root PRIVATE_CAMPAIGN_CACHE --report-root reports/adapter_improvements_20261018_v1 --plan reports/adapter_improvements_20261018_v1/SUPPLEMENTAL_PLANS/COST_JENA_SEED2_v1.json",
+      "exit_code": 0,
+      "root_observation": {
+        "exit_code": 0,
+        "observed_utc": "2026-10-17T22:34:53.060517+00:00",
+        "tool_session_id": 48803,
+        "observation": "Actual completed exec session returned exit_code0 after COST_JENA_CUDA_s92602 COMPLETE40.19s"
+      },
+      "private_log": {
+        "reference": "cache://execution_cost_seed2_v1.txt",
+        "sha256": "6043ff36f04cf39e44dd6d0c1a7441035c8699fb5eddaf2025eda8df5602ee13",
+        "bytes": 14515
+      }
+    }
+  ],
+  "registered_jobs": 39,
+  "statuses": {
+    "REUSED_VERIFIED": 2,
+    "COMPLETE": 30,
+    "NOT_CONVERGED": 2,
+    "NOT_RUN_DEPENDENCY": 5
+  },
+  "statuses_by_kind": {
+    "reuse_pca": {
+      "REUSED_VERIFIED": 2
+    },
+    "decoder": {
+      "COMPLETE": 2
+    },
+    "initialization": {
+      "NOT_CONVERGED": 2,
+      "COMPLETE": 2
+    },
+    "profile": {
+      "COMPLETE": 6,
+      "NOT_RUN_DEPENDENCY": 2
+    },
+    "training": {
+      "COMPLETE": 12,
+      "NOT_RUN_DEPENDENCY": 2
+    },
+    "decoder_transfer": {
+      "COMPLETE": 1
+    },
+    "lift_jobs": {
+      "NOT_RUN_DEPENDENCY": 1
+    },
+    "multik_audit": {
+      "COMPLETE": 1
+    },
+    "costs": {
+      "COMPLETE": 6
+    }
+  },
+  "new_scored_selected_arms": 24,
+  "environment": {
+    "python": "3.11.16",
+    "interpreter_scope": "Existing project Python3.11 scientific environment",
+    "libraries": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "torch": "2.10.0+cu128",
+      "transformers": "5.17.0",
+      "matplotlib": "3.11.2"
+    },
+    "worker_threads": "Registered scientific/cost workers explicitly use BLAS/OMP2; final legacy regression scope is recorded in TEST_VALIDATION.json"
+  },
+  "execution_controller_sha256": "b7befebf961ae6c865137246d0c0a02fcc61731d72cbae8b97533bce15fcb827",
+  "proof_wrapper": {
+    "reference": "cache://record_execution_validation.py",
+    "sha256": "a16ffc5c58884c7d42cc34f6de207f322ec93e5edfbd2458dda8e63b8800dd07"
+  },
+  "private_observations": {
+    "reference": "cache://ACTUAL_EXECUTION_EXITS.json",
+    "sha256": "9c4c0cbc864a991808bfa8e334aa38aece64857ed3711ba5db7cebb1495aed34"
+  },
+  "scope": "Actual CLI exit codes and preserved logs, immutable plan/source/receipt coverage. Exit0 is not scientific completion: numerical/dependency terminals remain explicit. Independent predictions, whole-path parity, tests, public replay, visual inspection and remote publication have separate proofs."
+}
