@@ -1,5 +1,7 @@
 # Hierarchical TSFM PEFT screen
 
+**최신 종료 보고(2026-10-17):** [PeMS B0/B2 실제 미완료 상태](research/informs_broad_validation_20261015_v1/priority_pems_subset_20261016_v1/B0_B2_RESULT_STATUS_KO_v1.md) · [방법론 판단·기존 근거·원수치·그림·재개 조건](research/informs_broad_validation_20261015_v1/priority_pems_subset_20261016_v1/PRIORITY_FINAL_JUDGMENT_KO_20261017_v2.md). 두 fit은 search 약1.61epoch에서 시간 상한으로 종료됐고 체크포인트를 보존했다. 새 final V·재추론·비용은 미완료이며 독립 감사는 새 정확도0행의 NOT_COMPLETE다. 기존 Raw/G 완료 결과와 구분한다. 아래 중간 snapshot과 과거 진입 전 문구는 각 작성 시점의 기록이다.
+
 **최신 중간 보고(2026-10-17):** [지금까지의 판단·기존 결과·그림과 B0/B2 진행 상태](research/informs_broad_validation_20261015_v1/priority_pems_subset_20261016_v1/INTERIM_METHOD_STATUS_KO_20261017_v1.md). Raw/G 완료 결과와 새 B0/B2 학습 중 상태를 구분했다. 새 B0/B2는 search 0.25 epoch 저장점을 확인했으며 최종 성능·추론·비용은 아직 미완료다.
 
 과거 통계 pack의 `pack_1792097901794080200/part_0000.tar.xz`를 쓰는 재현은 [단일 chunk 원바이트 수동 복원 안내](research/informs_broad_validation_20261015_v1/publication_derivatives/git_history_pack_20261017_v1/README_KO.md)를 기존 pack README·REPRODUCE·RESTORE_INDEX 절차보다 먼저 따른다. 해당 한 파일의 원 Git 바이트와 로컬 원본은 보존하며, 과거 소비자 실행 전에 같은 원 경로로 복원해야 한다.
