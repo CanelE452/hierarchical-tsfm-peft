@@ -1,0 +1,731 @@
+{
+  "schema": "PRESEALED_V_ONLY_QUALITATIVE_SELECTION_v1",
+  "status": "PASS_FIXED_SELECTION_AND_SAVED_V_RESCORE",
+  "scope_sha256": "855894caf685d13fa101c6458db6ea3499a5a47a35cd188acec28c37bb5943cd",
+  "inventory_sha256": "7036af76db9cbfaa33f22dff77f469ae1a5c689332d4ec892bb0d924c7eaf9ea",
+  "selection_rule": {
+    "origins_rule": "sort shared V origin IDs ascending; indices[0,n//2,n-1]; no error-based filtering",
+    "channels_rule": "first, middle, last of original ordered C-channel IDs; indices[0,C//2,C-1]; no performance selection",
+    "horizon_rule": "all H saved future steps",
+    "missing_rule": "mask every method using same source observation mask; missing remains gap; no imputation",
+    "normalization": "original physical units through the original saved scaler when V schema supports; otherwise clearly state normalized units",
+    "display_scope": "Jena C21 and PeMS C170 only; never replace new C32 matched missing cells by these cohorts"
+  },
+  "datasets": {
+    "jena": {
+      "C": 21,
+      "H": 48,
+      "V_origins": 43,
+      "panels": [
+        {
+          "origin_slot": 0,
+          "channel_slot": 0,
+          "origin_array_index": 0,
+          "origin_id": 14675,
+          "channel_array_index": 0,
+          "channel_id": "p (mbar)"
+        },
+        {
+          "origin_slot": 0,
+          "channel_slot": 1,
+          "origin_array_index": 0,
+          "origin_id": 14675,
+          "channel_array_index": 10,
+          "channel_id": "rho (g/m**3)"
+        },
+        {
+          "origin_slot": 0,
+          "channel_slot": 2,
+          "origin_array_index": 0,
+          "origin_id": 14675,
+          "channel_array_index": 20,
+          "channel_id": "CO2 (ppm)"
+        },
+        {
+          "origin_slot": 1,
+          "channel_slot": 0,
+          "origin_array_index": 21,
+          "origin_id": 15683,
+          "channel_array_index": 0,
+          "channel_id": "p (mbar)"
+        },
+        {
+          "origin_slot": 1,
+          "channel_slot": 1,
+          "origin_array_index": 21,
+          "origin_id": 15683,
+          "channel_array_index": 10,
+          "channel_id": "rho (g/m**3)"
+        },
+        {
+          "origin_slot": 1,
+          "channel_slot": 2,
+          "origin_array_index": 21,
+          "origin_id": 15683,
+          "channel_array_index": 20,
+          "channel_id": "CO2 (ppm)"
+        },
+        {
+          "origin_slot": 2,
+          "channel_slot": 0,
+          "origin_array_index": 42,
+          "origin_id": 16691,
+          "channel_array_index": 0,
+          "channel_id": "p (mbar)"
+        },
+        {
+          "origin_slot": 2,
+          "channel_slot": 1,
+          "origin_array_index": 42,
+          "origin_id": 16691,
+          "channel_array_index": 10,
+          "channel_id": "rho (g/m**3)"
+        },
+        {
+          "origin_slot": 2,
+          "channel_slot": 2,
+          "origin_array_index": 42,
+          "origin_id": 16691,
+          "channel_array_index": 20,
+          "channel_id": "CO2 (ppm)"
+        }
+      ],
+      "normalization": "A60/refit channel z-score; original units not recovered; no scaler values opened",
+      "common_scaler_sha256": "5f0c7d6aeddcfe9577e381375d36cadc47d2572469118da73e6ad837031fa2b9",
+      "same_prediction_device_all_methods": true,
+      "same_training_budget_claimed": false
+    },
+    "pems08": {
+      "C": 170,
+      "H": 12,
+      "V_origins": 148,
+      "panels": [
+        {
+          "origin_slot": 0,
+          "channel_slot": 0,
+          "origin_array_index": 0,
+          "origin_id": 12499,
+          "channel_array_index": 0,
+          "channel_id": "sensor_index_000"
+        },
+        {
+          "origin_slot": 0,
+          "channel_slot": 1,
+          "origin_array_index": 0,
+          "origin_id": 12499,
+          "channel_array_index": 85,
+          "channel_id": "sensor_index_085"
+        },
+        {
+          "origin_slot": 0,
+          "channel_slot": 2,
+          "origin_array_index": 0,
+          "origin_id": 12499,
+          "channel_array_index": 169,
+          "channel_id": "sensor_index_169"
+        },
+        {
+          "origin_slot": 1,
+          "channel_slot": 0,
+          "origin_array_index": 74,
+          "origin_id": 13387,
+          "channel_array_index": 0,
+          "channel_id": "sensor_index_000"
+        },
+        {
+          "origin_slot": 1,
+          "channel_slot": 1,
+          "origin_array_index": 74,
+          "origin_id": 13387,
+          "channel_array_index": 85,
+          "channel_id": "sensor_index_085"
+        },
+        {
+          "origin_slot": 1,
+          "channel_slot": 2,
+          "origin_array_index": 74,
+          "origin_id": 13387,
+          "channel_array_index": 169,
+          "channel_id": "sensor_index_169"
+        },
+        {
+          "origin_slot": 2,
+          "channel_slot": 0,
+          "origin_array_index": 147,
+          "origin_id": 14263,
+          "channel_array_index": 0,
+          "channel_id": "sensor_index_000"
+        },
+        {
+          "origin_slot": 2,
+          "channel_slot": 1,
+          "origin_array_index": 147,
+          "origin_id": 14263,
+          "channel_array_index": 85,
+          "channel_id": "sensor_index_085"
+        },
+        {
+          "origin_slot": 2,
+          "channel_slot": 2,
+          "origin_array_index": 147,
+          "origin_id": 14263,
+          "channel_array_index": 169,
+          "channel_id": "sensor_index_169"
+        }
+      ],
+      "normalization": "A60/refit channel z-score; original units not recovered; no scaler values opened",
+      "common_scaler_sha256": "94e8c71c42f8d58a1d258fb200d86a24595fe1793203da1543b3e47a60569c60",
+      "same_prediction_device_all_methods": false,
+      "same_training_budget_claimed": false
+    }
+  },
+  "source_bindings": [
+    {
+      "asset_id": "JENA_B0",
+      "method": "B0",
+      "run_id": "postT_cpu_jena_E3_B0_k6_s92601_v1",
+      "dataset": "jena",
+      "archive_sha256": "45da21b70596fd98eb54114e8a2814cc67c092b1761e04e6a0a66f49f1e8158d",
+      "checkpoint_sha256": "c2677a60fc3eebfe60f929ce4016d6ef4ee431c794d0e3a21c9f8c6c5b51d38d",
+      "manifest_file": "research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/predictions/postT_cpu_jena_E3_B0_k6_s92601_v1/V_select/PREDICTION_MANIFEST.json",
+      "manifest_sha256": "a1b5c7bb97ee29b1c69ea541d8b5b0408d3571b67fb664be4d6909324ec45b7e",
+      "prediction_device": "cpu",
+      "source_fit_device": "cpu",
+      "scaler_sha256": "5f0c7d6aeddcfe9577e381375d36cadc47d2572469118da73e6ad837031fa2b9",
+      "array_fingerprints": {
+        "pred_normalized": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "float32",
+          "sha256": "f0905a4156909b92ddbd06c52a3964228215132f3a20735c081ed087eb17ed0d"
+        },
+        "target_normalized": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "float32",
+          "sha256": "3b16ebbb7722347f5c02af1380e8eef9a7f6524fcbc4f1eec274a50fcb701d12"
+        },
+        "observed": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "bool",
+          "sha256": "004c9cb19d9592eff42a0b7818298ea88f19d515291c2d321c118ff628f37f42"
+        },
+        "origins": {
+          "shape": [
+            43
+          ],
+          "dtype": "int64",
+          "sha256": "6d6bc4124e0d770ceae0819bbd59b36ca3750ff610aed7d26dbfe5c1a9e775ce"
+        },
+        "channel_ids": {
+          "shape": [
+            21
+          ],
+          "dtype": "<U20",
+          "sha256": "558b9106a501307d57f131f89e86530120d04cb6da9f0b6525794348a0de3919"
+        }
+      }
+    },
+    {
+      "asset_id": "JENA_B2",
+      "method": "B2",
+      "run_id": "postT_cpu_jena_E3_B2_k6_s92601_v1",
+      "dataset": "jena",
+      "archive_sha256": "578267d5a457165e5a179275802621354bb8fc2190cde1add18769a67365856d",
+      "checkpoint_sha256": "020d7d980e685c38e9b94472676a5d6b7f8b188ab573a16bd367aa20712a5963",
+      "manifest_file": "research/informs_broad_validation_20261015_v1/postT_V_only_cpu_lag_20261016_v1/predictions/postT_cpu_jena_E3_B2_k6_s92601_v1/V_select/PREDICTION_MANIFEST.json",
+      "manifest_sha256": "6a885f3c8f298009ae93c731409baff116263a41c9c17ecaff713cf5e9499148",
+      "prediction_device": "cpu",
+      "source_fit_device": "cpu",
+      "scaler_sha256": "5f0c7d6aeddcfe9577e381375d36cadc47d2572469118da73e6ad837031fa2b9",
+      "array_fingerprints": {
+        "pred_normalized": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "float32",
+          "sha256": "4bda04d5109d797d2da95fb501adacfca3d15e73faa70c0ed9dd4cd50ddb0730"
+        },
+        "target_normalized": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "float32",
+          "sha256": "3b16ebbb7722347f5c02af1380e8eef9a7f6524fcbc4f1eec274a50fcb701d12"
+        },
+        "observed": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "bool",
+          "sha256": "004c9cb19d9592eff42a0b7818298ea88f19d515291c2d321c118ff628f37f42"
+        },
+        "origins": {
+          "shape": [
+            43
+          ],
+          "dtype": "int64",
+          "sha256": "6d6bc4124e0d770ceae0819bbd59b36ca3750ff610aed7d26dbfe5c1a9e775ce"
+        },
+        "channel_ids": {
+          "shape": [
+            21
+          ],
+          "dtype": "<U20",
+          "sha256": "558b9106a501307d57f131f89e86530120d04cb6da9f0b6525794348a0de3919"
+        }
+      }
+    },
+    {
+      "asset_id": "JENA_R5B",
+      "method": "Joint no-Bolt",
+      "run_id": "priority_jena_R5b_joint_linear_k6_s92601_v1",
+      "dataset": "jena",
+      "archive_sha256": "43f8d5819946d3dc08d2f71b39755686ab8fd554a36feed4c2ecd9592c46b5b6",
+      "checkpoint_sha256": "46c6b7152932282f4f9b1f3fe56061b2d951d84722e149ba8cd0c387326918d5",
+      "manifest_file": "research/informs_broad_validation_20261015_v1/priority_b2_validation_20261016_v1/predictions/priority_jena_R5b_joint_linear_k6_s92601_v1/V_select/PREDICTION_MANIFEST.json",
+      "manifest_sha256": "09c65f45f76f5ce509d533c6bb13254d02f24c7e44b4ee740b138457dc84a2d6",
+      "prediction_device": "cpu",
+      "source_fit_device": "cpu",
+      "scaler_sha256": "5f0c7d6aeddcfe9577e381375d36cadc47d2572469118da73e6ad837031fa2b9",
+      "array_fingerprints": {
+        "target_normalized": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "float32",
+          "sha256": "3b16ebbb7722347f5c02af1380e8eef9a7f6524fcbc4f1eec274a50fcb701d12"
+        },
+        "observed": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "bool",
+          "sha256": "004c9cb19d9592eff42a0b7818298ea88f19d515291c2d321c118ff628f37f42"
+        },
+        "origins": {
+          "shape": [
+            43
+          ],
+          "dtype": "int64",
+          "sha256": "6d6bc4124e0d770ceae0819bbd59b36ca3750ff610aed7d26dbfe5c1a9e775ce"
+        },
+        "channel_ids": {
+          "shape": [
+            21
+          ],
+          "dtype": "<U20",
+          "sha256": "558b9106a501307d57f131f89e86530120d04cb6da9f0b6525794348a0de3919"
+        },
+        "pred_normalized": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "float32",
+          "sha256": "8b77b018af0d4008603b9315d0552b4ea50ebee7fb9ee8084fc5292179b4980d"
+        }
+      }
+    },
+    {
+      "asset_id": "JENA_LORA",
+      "method": "LoRA",
+      "run_id": "postT_cpu_jena_E1_LORA_R8_k0_s92601_family_v1",
+      "dataset": "jena",
+      "archive_sha256": "88051d8745e213f3d0b0374e5f9c661c443d684c35b41484b2b71ced0ef91082",
+      "checkpoint_sha256": "756ccf0e49a752948590cad156d89d30ef4f91adb1452d09cce9ffa8ec18c9ae",
+      "manifest_file": "research/informs_broad_validation_20261015_v1/priority_valid_family_20261016_v1/predictions/postT_cpu_jena_E1_LORA_R8_k0_s92601_family_v1/V_select/PREDICTION_MANIFEST.json",
+      "manifest_sha256": "3e5509eed7c2063ed2a9a2cf04da79d8f1ef5fa9c71cffe1ef6cf484686a86a6",
+      "prediction_device": "cpu",
+      "source_fit_device": "cpu",
+      "scaler_sha256": "5f0c7d6aeddcfe9577e381375d36cadc47d2572469118da73e6ad837031fa2b9",
+      "array_fingerprints": {
+        "target_normalized": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "float32",
+          "sha256": "3b16ebbb7722347f5c02af1380e8eef9a7f6524fcbc4f1eec274a50fcb701d12"
+        },
+        "observed": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "bool",
+          "sha256": "004c9cb19d9592eff42a0b7818298ea88f19d515291c2d321c118ff628f37f42"
+        },
+        "origins": {
+          "shape": [
+            43
+          ],
+          "dtype": "int64",
+          "sha256": "6d6bc4124e0d770ceae0819bbd59b36ca3750ff610aed7d26dbfe5c1a9e775ce"
+        },
+        "channel_ids": {
+          "shape": [
+            21
+          ],
+          "dtype": "<U20",
+          "sha256": "558b9106a501307d57f131f89e86530120d04cb6da9f0b6525794348a0de3919"
+        },
+        "pred_normalized": {
+          "shape": [
+            43,
+            48,
+            21
+          ],
+          "dtype": "float32",
+          "sha256": "0b6063d5cdaafe5f0f2cb9080c2c72c96f87d084a81d0754ae49e1c8b46d1484"
+        }
+      }
+    },
+    {
+      "asset_id": "PEMS_B0",
+      "method": "B0",
+      "run_id": "primary_pems08_E1_B0_k43_s92601__e1",
+      "dataset": "pems08",
+      "archive_sha256": "719df157ea7fc4ee88cbf3598fe9b7d4dada15d3c8002306f23fd0e6c4a4fe9f",
+      "checkpoint_sha256": "198aad342525b9ee91bead7d60d0519c0aaca2c0599a647bd7bec146ce784da8",
+      "manifest_file": "research/informs_broad_validation_20261015_v1/predictions/primary_pems08_E1_B0_k43_s92601__e1/V_select/PREDICTION_MANIFEST.json",
+      "manifest_sha256": "fff159fbc8a7cd712fb16d2fc7d1439a68d7c7624f324d52b81a263b3d346f52",
+      "prediction_device": "cuda",
+      "source_fit_device": "cuda",
+      "scaler_sha256": "94e8c71c42f8d58a1d258fb200d86a24595fe1793203da1543b3e47a60569c60",
+      "array_fingerprints": {
+        "pred_normalized": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "float32",
+          "sha256": "c51dead55522051c226154a24b362ade341b56a1000af3f725addec234082c55"
+        },
+        "target_normalized": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "float32",
+          "sha256": "e589043c86ae1ea102e9abd3b998bae8213c13d2c0469522ab5947bf6f7a1b0b"
+        },
+        "observed": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "bool",
+          "sha256": "fbe2d4b493cec71fb919f2754c21a963398745a6aa89bf9453c35720b62ee5f9"
+        },
+        "origins": {
+          "shape": [
+            148
+          ],
+          "dtype": "int64",
+          "sha256": "9cf012ce9e2f496dd3e10056955bc2f79623ee65e7a1d1be52a98f1e455fbf4f"
+        },
+        "channel_ids": {
+          "shape": [
+            170
+          ],
+          "dtype": "<U16",
+          "sha256": "0212721e3a0456ab388f811c883f38298fbbe02155454e241cc957a2668efce5"
+        }
+      }
+    },
+    {
+      "asset_id": "PEMS_B2_CPU",
+      "method": "B2",
+      "run_id": "diagnostic_pems08_B2_parent_full_CPU_V148_k43_s92601_v1",
+      "dataset": "pems08",
+      "archive_sha256": "f74728443c6f7f60e328054f092212a118f2022922add66236eb194bcf225ffe",
+      "checkpoint_sha256": "0d9a5c6b40c5ca6159e5183b9089aada2d537475f67270b79a3aa7cb784e6161",
+      "manifest_file": "research/informs_broad_validation_20261015_v1/priority_core_followup_20261016_v1/parent_full_cpu/diagnostic_pems08_B2_parent_full_CPU_V148_k43_s92601_v1/V_select/PREDICTION_MANIFEST.json",
+      "manifest_sha256": "2a15685db2394e133dd708ed4a245f9e1c33b98fc1d2d5e3d215b6afbf34b4b0",
+      "prediction_device": "cpu",
+      "source_fit_device": "cuda",
+      "scaler_sha256": "94e8c71c42f8d58a1d258fb200d86a24595fe1793203da1543b3e47a60569c60",
+      "array_fingerprints": {
+        "target_normalized": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "float32",
+          "sha256": "e589043c86ae1ea102e9abd3b998bae8213c13d2c0469522ab5947bf6f7a1b0b"
+        },
+        "observed": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "bool",
+          "sha256": "fbe2d4b493cec71fb919f2754c21a963398745a6aa89bf9453c35720b62ee5f9"
+        },
+        "origins": {
+          "shape": [
+            148
+          ],
+          "dtype": "int64",
+          "sha256": "9cf012ce9e2f496dd3e10056955bc2f79623ee65e7a1d1be52a98f1e455fbf4f"
+        },
+        "channel_ids": {
+          "shape": [
+            170
+          ],
+          "dtype": "<U16",
+          "sha256": "0212721e3a0456ab388f811c883f38298fbbe02155454e241cc957a2668efce5"
+        },
+        "pred_normalized": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "float32",
+          "sha256": "7aa8810c84c7c82d84615afaad36fdaba4dbe32bf7744e6669bbd6f7d03c91bb"
+        }
+      }
+    },
+    {
+      "asset_id": "PEMS_FIXED_HEAD",
+      "method": "Fixed no-Bolt",
+      "run_id": "priority_pems08_fixedB2_linear_k43_s92601_v1",
+      "dataset": "pems08",
+      "archive_sha256": "6e146e22165fb6fbe3a7acf49bce0c63d83f1b8e2ee0921be9ccea10aca07fb4",
+      "checkpoint_sha256": "7fb44a46472e6b58a432667789e602d4acafb472d78b0d817078b79052d20ec8",
+      "manifest_file": "research/informs_broad_validation_20261015_v1/priority_core_followup_20261016_v1/predictions/priority_pems08_fixedB2_linear_k43_s92601_v1/V_select/PREDICTION_MANIFEST.json",
+      "manifest_sha256": "b9623f30bd9b377fdb56143083e2cd457ff8912cca7921cb384c10fc3d96d0b1",
+      "prediction_device": "cpu",
+      "source_fit_device": "cpu",
+      "scaler_sha256": "94e8c71c42f8d58a1d258fb200d86a24595fe1793203da1543b3e47a60569c60",
+      "array_fingerprints": {
+        "target_normalized": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "float32",
+          "sha256": "e589043c86ae1ea102e9abd3b998bae8213c13d2c0469522ab5947bf6f7a1b0b"
+        },
+        "observed": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "bool",
+          "sha256": "fbe2d4b493cec71fb919f2754c21a963398745a6aa89bf9453c35720b62ee5f9"
+        },
+        "origins": {
+          "shape": [
+            148
+          ],
+          "dtype": "int64",
+          "sha256": "9cf012ce9e2f496dd3e10056955bc2f79623ee65e7a1d1be52a98f1e455fbf4f"
+        },
+        "channel_ids": {
+          "shape": [
+            170
+          ],
+          "dtype": "<U16",
+          "sha256": "0212721e3a0456ab388f811c883f38298fbbe02155454e241cc957a2668efce5"
+        },
+        "pred_normalized": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "float32",
+          "sha256": "bfea82ec2cb14a465eb165045e5cfb1ba941977e60ae7ce44f1858e90738de29"
+        }
+      }
+    },
+    {
+      "asset_id": "PEMS_G_CPU3",
+      "method": "G",
+      "run_id": "primary_pems08_E1_DIRECT_G_k0_s92601__cpu_fresh_e3",
+      "dataset": "pems08",
+      "archive_sha256": "3814f4f25f1d6ba17df636fca58df889f5cb39b0b9a0aafd2a2ceac33dbb1fac",
+      "checkpoint_sha256": "9b1da615d004f73707236a845ee1889242a40a5589a8b24aac562ecdbefa875b",
+      "manifest_file": "research/informs_broad_validation_20261015_v1/predictions/primary_pems08_E1_DIRECT_G_k0_s92601__cpu_fresh_e3/V_select/PREDICTION_MANIFEST.json",
+      "manifest_sha256": "c323157743b58bfc1984aba4dc5de00e44493d8bcdbaaadebf03c4b527cca3b4",
+      "prediction_device": "cpu",
+      "source_fit_device": "cpu",
+      "scaler_sha256": "94e8c71c42f8d58a1d258fb200d86a24595fe1793203da1543b3e47a60569c60",
+      "array_fingerprints": {
+        "pred_normalized": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "float32",
+          "sha256": "c972431be0378293be997c0f23cd72cd6b665475fae379fffd1d38d83499f0f4"
+        },
+        "target_normalized": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "float32",
+          "sha256": "e589043c86ae1ea102e9abd3b998bae8213c13d2c0469522ab5947bf6f7a1b0b"
+        },
+        "observed": {
+          "shape": [
+            148,
+            12,
+            170
+          ],
+          "dtype": "bool",
+          "sha256": "fbe2d4b493cec71fb919f2754c21a963398745a6aa89bf9453c35720b62ee5f9"
+        },
+        "origins": {
+          "shape": [
+            148
+          ],
+          "dtype": "int64",
+          "sha256": "9cf012ce9e2f496dd3e10056955bc2f79623ee65e7a1d1be52a98f1e455fbf4f"
+        },
+        "channel_ids": {
+          "shape": [
+            170
+          ],
+          "dtype": "<U16",
+          "sha256": "0212721e3a0456ab388f811c883f38298fbbe02155454e241cc957a2668efce5"
+        }
+      }
+    }
+  ],
+  "existing_V_FP64_rescores": [
+    {
+      "asset_id": "JENA_B0",
+      "method": "B0",
+      "dataset": "jena",
+      "run_id": "postT_cpu_jena_E3_B0_k6_s92601_v1",
+      "mse": 0.7841039310324822,
+      "mae": 0.5209622100413023,
+      "max_score_delta": 0.0,
+      "tolerance": 1e-12,
+      "status": "PASS_SAVED_V_FP64_RESCORE_ONLY"
+    },
+    {
+      "asset_id": "JENA_B2",
+      "method": "B2",
+      "dataset": "jena",
+      "run_id": "postT_cpu_jena_E3_B2_k6_s92601_v1",
+      "mse": 0.6834428963980711,
+      "mae": 0.49388492449756366,
+      "max_score_delta": 0.0,
+      "tolerance": 1e-12,
+      "status": "PASS_SAVED_V_FP64_RESCORE_ONLY"
+    },
+    {
+      "asset_id": "JENA_R5B",
+      "method": "Joint no-Bolt",
+      "dataset": "jena",
+      "run_id": "priority_jena_R5b_joint_linear_k6_s92601_v1",
+      "mse": 0.7201979035862862,
+      "mae": 0.5096956056913189,
+      "max_score_delta": 0.0,
+      "tolerance": 1e-12,
+      "status": "PASS_SAVED_V_FP64_RESCORE_ONLY"
+    },
+    {
+      "asset_id": "JENA_LORA",
+      "method": "LoRA",
+      "dataset": "jena",
+      "run_id": "postT_cpu_jena_E1_LORA_R8_k0_s92601_family_v1",
+      "mse": 0.5639229417433508,
+      "mae": 0.3990099292123415,
+      "max_score_delta": 1.1102230246251565e-16,
+      "tolerance": 1e-12,
+      "status": "PASS_SAVED_V_FP64_RESCORE_ONLY"
+    },
+    {
+      "asset_id": "PEMS_B0",
+      "method": "B0",
+      "dataset": "pems08",
+      "run_id": "primary_pems08_E1_B0_k43_s92601__e1",
+      "mse": 0.10533853373970749,
+      "mae": 0.21269667346266236,
+      "max_score_delta": 0.0,
+      "tolerance": 1e-12,
+      "status": "PASS_SAVED_V_FP64_RESCORE_ONLY"
+    },
+    {
+      "asset_id": "PEMS_B2_CPU",
+      "method": "B2",
+      "dataset": "pems08",
+      "run_id": "diagnostic_pems08_B2_parent_full_CPU_V148_k43_s92601_v1",
+      "mse": 0.1042596968257376,
+      "mae": 0.2058417915000405,
+      "max_score_delta": 0.0,
+      "tolerance": 1e-12,
+      "status": "PASS_SAVED_V_FP64_RESCORE_ONLY"
+    },
+    {
+      "asset_id": "PEMS_FIXED_HEAD",
+      "method": "Fixed no-Bolt",
+      "dataset": "pems08",
+      "run_id": "priority_pems08_fixedB2_linear_k43_s92601_v1",
+      "mse": 0.12062288970242165,
+      "mae": 0.21817543249412344,
+      "max_score_delta": 2.7755575615628914e-17,
+      "tolerance": 1e-12,
+      "status": "PASS_SAVED_V_FP64_RESCORE_ONLY"
+    },
+    {
+      "asset_id": "PEMS_G_CPU3",
+      "method": "G",
+      "dataset": "pems08",
+      "run_id": "primary_pems08_E1_DIRECT_G_k0_s92601__cpu_fresh_e3",
+      "mse": 0.09938846978422584,
+      "mae": 0.18905427923411572,
+      "max_score_delta": 0.0,
+      "tolerance": 1e-12,
+      "status": "PASS_SAVED_V_FP64_RESCORE_ONLY"
+    }
+  ],
+  "curves_csv_sha256": "15edcf356a1857b85695e47076490080dd308e8a079f6480b55c0a1797518dd8",
+  "curve_rows": 2700,
+  "new_training": 0,
+  "new_model_inference": 0,
+  "new_cost_measurement": 0,
+  "protected_T_numeric_access": 0,
+  "checkpoint_tensor_opened": false,
+  "independent_generalization_proven": false,
+  "whole_MASTER_complete": false
+}
