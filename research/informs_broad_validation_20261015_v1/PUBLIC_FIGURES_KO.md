@@ -47,15 +47,15 @@ T 막대는 고정 9역할 ×4데이터셋의36행이며 전체46조건을 대�
 ## 학습곡선 가독성 보완
 
 기존 그림과 수치를 보존하고 같은 공개 CSV로 범례를 별도 열에 배치했다. 학습을 다시 하지 않았다. Beijing V 보완본을 실제 열어 겹침 해소를 확인했다.
-- [learning_beijing_T_final.svg](diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_beijing_T_final.svg)
-- [learning_beijing_V_select.svg](diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_beijing_V_select.svg)
-- [learning_electricity_T_final.svg](diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_electricity_T_final.svg)
-- [learning_electricity_V_select.svg](diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_electricity_V_select.svg)
+- [learning_beijing_T_final.svg](https://raw.githubusercontent.com/CanelE452/hierarchical-tsfm-peft/b76a8384d0e870c6e6aed365f6b52889d1c7b035/research/informs_broad_validation_20261015_v1/diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_beijing_T_final.svg)
+- [learning_beijing_V_select.svg](https://raw.githubusercontent.com/CanelE452/hierarchical-tsfm-peft/b76a8384d0e870c6e6aed365f6b52889d1c7b035/research/informs_broad_validation_20261015_v1/diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_beijing_V_select.svg)
+- [learning_electricity_T_final.svg](https://raw.githubusercontent.com/CanelE452/hierarchical-tsfm-peft/b76a8384d0e870c6e6aed365f6b52889d1c7b035/research/informs_broad_validation_20261015_v1/diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_electricity_T_final.svg)
+- [learning_electricity_V_select.svg](https://raw.githubusercontent.com/CanelE452/hierarchical-tsfm-peft/b76a8384d0e870c6e6aed365f6b52889d1c7b035/research/informs_broad_validation_20261015_v1/diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_electricity_V_select.svg)
 - [learning_jena_T_final.svg](diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_jena_T_final.svg)
-- [learning_jena_V_select.svg](diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_jena_V_select.svg)
-- [learning_pems08_T_final.svg](diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_pems08_T_final.svg)
-- [learning_pems08_V_select.svg](diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_pems08_V_select.svg)
-- [learning_robin_V_select.svg](diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_robin_V_select.svg)
+- [learning_jena_V_select.svg](https://raw.githubusercontent.com/CanelE452/hierarchical-tsfm-peft/b76a8384d0e870c6e6aed365f6b52889d1c7b035/research/informs_broad_validation_20261015_v1/diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_jena_V_select.svg)
+- [learning_pems08_T_final.svg](https://raw.githubusercontent.com/CanelE452/hierarchical-tsfm-peft/b76a8384d0e870c6e6aed365f6b52889d1c7b035/research/informs_broad_validation_20261015_v1/diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_pems08_T_final.svg)
+- [learning_pems08_V_select.svg](https://raw.githubusercontent.com/CanelE452/hierarchical-tsfm-peft/b76a8384d0e870c6e6aed365f6b52889d1c7b035/research/informs_broad_validation_20261015_v1/diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_pems08_V_select.svg)
+- [learning_robin_V_select.svg](https://raw.githubusercontent.com/CanelE452/hierarchical-tsfm-peft/b76a8384d0e870c6e6aed365f6b52889d1c7b035/research/informs_broad_validation_20261015_v1/diagnostics/learning_layout_readability_20261016_v1/snapshot_1792104606617359600/learning_robin_V_select.svg)
 
 ## V: 405개 저장 예측 /71개 그림
 

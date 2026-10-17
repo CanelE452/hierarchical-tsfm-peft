@@ -1,5 +1,8 @@
 # Hierarchical TSFM PEFT screen
 
+**2026-10-17 Beijing multi-K 실제 결과:** [현재 판단·원수치·비용·그림](research/informs_broad_validation_20261015_v1/priority_multik_resume_20261016_v1/RESULT_STATUS_KO_v1.md). 두 저장점 재개 부모의6개 K 출력을 실제 검증했다. Shared K6 MSE0.775934 / max-only prefix0.893394이며, PCA보다 일관되게 좋은 결과는 아니다. 전체 V·FP64·CPU6·12비용을 완료했고 한 seed·반복 V·제한 학습/전체 MASTER 미완료를 유지한다.
+
+
 **2026-10-17 Jena LoRA·B4 완료:** [기존 B2와 정확도·전체 비용 비교](research/informs_broad_validation_20261015_v1/priority_valid_family_20261016_v1/RESULT_STATUS_KO_v1.md). 같은 search3/refit1 노출에서 LoRA가 더 정확했고 작은 K의 B2는 더 빨랐다. 새2학습·전체 V·독립 검산·CPU6·새4비용과 그림을 완료했으며, B2는 기존 정확도+새 검증/비용이다. 반복 개발 V·한 seed·수렴 미확정·전체 MASTER 미완료를 유지한다.
 
 

@@ -1,5 +1,8 @@
 # 고정 TSFM의 다변량 적응 실험
 
+**2026-10-17 multi-K 부모 재개와 실제6출력 완료:** [판단·원수치·학습량·비용·그림](priority_multik_resume_20261016_v1/RESULT_STATUS_KO_v1.md). shared가 max-only prefix보다 K3/6/11 MSE가 낮았으나 fixed PCA보다 일관된 우위는 아니다. 두 refit/6fullV·FP64·CPU6/12CPU2비용을 검산했다. 주 B2 후보 대체·수렴·독립 일반화·전체 MASTER 완료를 주장하지 않는다.
+
+
 **2026-10-17 Jena 방법군 비교 완료:** [현재 판단·원수치·새 비용과 그림](priority_valid_family_20261016_v1/RESULT_STATUS_KO_v1.md). LoRA MSE0.563923 / 기존 B2 0.683443 / B4 0.704353, B8 warm whole median1.142014 /0.327021 /0.346629초다. 같은 노출량에서 작은 K는 비용 이득과 정확도 격차를 함께 보였다. 신규2학습/전체 V·FP64·CPU6·4비용과 별도 B2 reference를 완료했다. 원 후처리·감사 실패 기록을 보존했고 반복 V·한 seed·수렴/독립 일반화 및 전체 MASTER 미완료를 구분한다.
 
 
