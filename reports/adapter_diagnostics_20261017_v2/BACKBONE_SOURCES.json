@@ -1,0 +1,201 @@
+{
+  "checked_at": "2026-10-17T15:20:27.055627+00:00",
+  "verification_scope": "Official public card/config/license/source metadata read; pretrained runtime smoke recorded separately.",
+  "metadata_transfer_budget_note": "Conservative 4MiB reservation includes preceding source inspection; no model weights transferred during metadata audit.",
+  "models": {
+    "moirai2": {
+      "repository": "Salesforce/moirai-2.0-R-small",
+      "revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "gated": false,
+      "model_card_license": "CC-BY-NC-4.0",
+      "code_repository": "SalesforceAIResearch/uni2ts",
+      "code_revision": "cfd46d4510ed8896f263116f32928eede05b0a75",
+      "code_license": "Apache-2.0",
+      "config": {
+        "attn_dropout_p": 0,
+        "d_ff": 1024,
+        "d_model": 384,
+        "dropout_p": 0,
+        "max_seq_len": 512,
+        "num_layers": 6,
+        "num_predict_token": 4,
+        "patch_size": 16,
+        "quantile_levels": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9
+        ],
+        "scaling": true
+      },
+      "sources": [
+        {
+          "url": "https://huggingface.co/Salesforce/moirai-2.0-R-small/raw/30f43ff08c8494f4943ae1521e9d4e94a0fbb389/README.md",
+          "bytes": 3170,
+          "sha256": "f6dbd74f440ef637ba986147717c2ddf38979b3fba3c35ed6768939822aec73a"
+        },
+        {
+          "url": "https://huggingface.co/Salesforce/moirai-2.0-R-small/raw/30f43ff08c8494f4943ae1521e9d4e94a0fbb389/config.json",
+          "bytes": 291,
+          "sha256": "6b74b03c8ec199fabc352c0203465958142ca468183da68549652734836f853d"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceAIResearch/uni2ts/cfd46d4510ed8896f263116f32928eede05b0a75/src/uni2ts/model/moirai2/forecast.py",
+          "bytes": 40883,
+          "sha256": "42135e3b84e7e3d0d592ae3b53543fd20ca007e595251e8ec5d067f58d3a070e"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceAIResearch/uni2ts/cfd46d4510ed8896f263116f32928eede05b0a75/src/uni2ts/model/moirai2/module.py",
+          "bytes": 5957,
+          "sha256": "22b6c00302980e09416f884d3e212c28792bfd5519c192de0a5432bee7fbc6a8"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceAIResearch/uni2ts/cfd46d4510ed8896f263116f32928eede05b0a75/pyproject.toml",
+          "bytes": 1977,
+          "sha256": "3c44f84889c871b897d9c914626fd60d1f78fa6b76fb7c7332c9e7b969550bec"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/SalesforceAIResearch/uni2ts/cfd46d4510ed8896f263116f32928eede05b0a75/LICENSE.txt",
+          "bytes": 11411,
+          "sha256": "f5f58eb4b77c4b1709334b97f1f04772df7e97c7863be1c0d4c639ee1a871cae"
+        }
+      ],
+      "weights": {
+        "filename": "model.safetensors",
+        "bytes": 45557824,
+        "sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669",
+        "download_status": "NOT_DOWNLOADED_DURING_SOURCE_AUDIT"
+      },
+      "runtime_validation": "NOT_RUN_AT_SOURCE_AUDIT",
+      "parameter_count_card": 11400000,
+      "routing": "independent univariate [B*K,L,1]",
+      "point_statistic": "median quantile0.5; index4 from configured9 quantiles",
+      "native_horizon": 64,
+      "pretraining": {
+        "known_card_sources": [
+          "Subset of Salesforce/GiftEvalPretrain and GiftEval Train historical context (card claims non-leaking)",
+          "Mixup from non-leaking subsets of Chronos Dataset (card claim)",
+          "KernelSynth synthetic data",
+          "Internal Salesforce operational data"
+        ],
+        "Jena_PeMS_exact_series_and_time_overlap": "UNKNOWN",
+        "independent_pretraining_holdout_claim_allowed": false
+      }
+    },
+    "chronos2": {
+      "repository": "autogluon/chronos-2-small",
+      "revision": "ddec01313e50b6bc58ebaa92ede81bc24a3d9f9a",
+      "gated": false,
+      "model_card_license": "Apache-2.0",
+      "code_repository": "amazon-science/chronos-forecasting",
+      "code_revision": "1224fafa91e1ecd6674f5204066b159e40b5e4a1",
+      "code_license": "Apache-2.0",
+      "config": {
+        "architectures": [
+          "Chronos2Model"
+        ],
+        "chronos_config": {
+          "context_length": 8192,
+          "input_patch_size": 16,
+          "input_patch_stride": 16,
+          "max_output_patches": 64,
+          "output_patch_size": 16,
+          "quantiles": [
+            0.01,
+            0.05,
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5,
+            0.6,
+            0.7,
+            0.8,
+            0.9,
+            0.95,
+            0.99
+          ],
+          "time_encoding_scale": 8192,
+          "use_arcsinh": true,
+          "use_reg_token": true
+        },
+        "chronos_pipeline_class": "Chronos2Pipeline",
+        "d_ff": 2048,
+        "d_kv": 64,
+        "d_model": 512,
+        "dense_act_fn": "relu",
+        "dropout_rate": 0.1,
+        "feed_forward_proj": "relu",
+        "initializer_factor": 0.05,
+        "is_gated_act": false,
+        "layer_norm_epsilon": 1e-06,
+        "model_type": "t5",
+        "num_heads": 8,
+        "num_layers": 6,
+        "pad_token_id": 0,
+        "reg_token_id": 1,
+        "rope_theta": 10000.0,
+        "torch_dtype": "float32",
+        "transformers_version": "4.49.0",
+        "use_cache": true,
+        "vocab_size": 2
+      },
+      "sources": [
+        {
+          "url": "https://huggingface.co/autogluon/chronos-2-small/raw/ddec01313e50b6bc58ebaa92ede81bc24a3d9f9a/README.md",
+          "bytes": 1360,
+          "sha256": "c27a3415d8482238aef5c419a7e58ef2f3fd2a45247148f17e5237521059abf7"
+        },
+        {
+          "url": "https://huggingface.co/autogluon/chronos-2-small/raw/ddec01313e50b6bc58ebaa92ede81bc24a3d9f9a/config.json",
+          "bytes": 969,
+          "sha256": "f2780468adc8b16322aa0b6e28b26476c9401ecf64ab53292b6d2b0d3f423722"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/amazon-science/chronos-forecasting/1224fafa91e1ecd6674f5204066b159e40b5e4a1/src/chronos/chronos2/model.py",
+          "bytes": 36894,
+          "sha256": "2aaab2f90cc9bb486d69483cb1f0d11b593643ce54c97f4902958a7776905782"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/amazon-science/chronos-forecasting/1224fafa91e1ecd6674f5204066b159e40b5e4a1/src/chronos/chronos2/pipeline.py",
+          "bytes": 57203,
+          "sha256": "9fad1e4fb7251471463a40408a32d25d31b23b7afb88069911f095071b9b0599"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/amazon-science/chronos-forecasting/1224fafa91e1ecd6674f5204066b159e40b5e4a1/LICENSE",
+          "bytes": 10142,
+          "sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b"
+        }
+      ],
+      "weights": {
+        "filename": "model.safetensors",
+        "bytes": 111749048,
+        "sha256": "492290ae82bb89f9769e3479ce90b3179de1f33e600c34daa0352531538b23cd",
+        "download_status": "NOT_DOWNLOADED_DURING_SOURCE_AUDIT"
+      },
+      "runtime_validation": "NOT_RUN_AT_SOURCE_AUDIT",
+      "parameter_count_card": 28000000,
+      "routing": "native multivariate group=one origin; different origins have distinct groups",
+      "point_statistic": "median quantile0.5; index6 from configured13 quantiles",
+      "pretraining": {
+        "known_card_sources": [
+          "autogluon/chronos_datasets",
+          "Salesforce/GiftEvalPretrain"
+        ],
+        "Jena_PeMS_exact_series_and_time_overlap": "UNKNOWN",
+        "independent_pretraining_holdout_claim_allowed": false
+      }
+    }
+  },
+  "runtime_source_audit": {
+    "chronos_forecasting_version": "2.3.2",
+    "installed_model_sha256": "2aaab2f90cc9bb486d69483cb1f0d11b593643ce54c97f4902958a7776905782",
+    "installed_model_matches_inspected_code_commit": true,
+    "uni2ts_dependency_conflict": "Official torch<2.5/gluonts0.14/einops0.7 requirements differ from existing environment. Do not downgrade; isolated no-deps overlay with runtime validation only."
+  }
+}

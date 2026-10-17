@@ -1,0 +1,1702 @@
+{
+  "status": "PASS",
+  "checked_utc": "2026-10-17T18:09:45.535407+00:00",
+  "validator_command": "python -m research.adapter_diagnostics_20261017_v2.run --mode verify --asset-root ASSET_ROOT --cache-root PRIVATE_CACHE",
+  "exit_code": 0,
+  "checked_plan_sha256": "1fc765b20c3e0cd2f94f49b3e88f2bf6ff7fe6f27e1829f2c3f5c11bc1fdb196",
+  "checked_source_sha256": "dfa54d23b020b14e59d50a7054054bbd585fd6af6f984e7a54ef3b7284739491",
+  "checks": [
+    {
+      "gate": "G1_DATA",
+      "status": "PASS_PRE_T_SCOPE",
+      "source_status": "PASS_WITH_M5_BLOCK",
+      "source_sha256": "5d29b7c8f351db4f6519e55ea05b752d9cabe4615ec6406bfbb43aaea8037735",
+      "scope": "Actual pinned pre-T prefix boundaries/mask/zero/scaler plus synthetic fill; upstream ancestry/overlap remain UNKNOWN"
+    },
+    {
+      "gate": "G2_METHOD",
+      "status": "PASS_RECORDED_D01_APPLICABLE_SCOPE",
+      "backbone_smoke": [
+        {
+          "backbone": "moirai2",
+          "device": "cuda",
+          "dtype": "float32",
+          "shape": [
+            2,
+            48,
+            3
+          ],
+          "point_statistic": "quantile_0.5",
+          "median_index": 4,
+          "routing": "independent_univariate",
+          "official_parity_max_abs": 0.0,
+          "mask_parity_max_abs": 0.0,
+          "tolerance": {
+            "atol": 2e-05,
+            "rtol": 2e-05,
+            "registered_before_measurement": true
+          },
+          "routing_sentinel": {
+            "passed": true,
+            "origin_isolation": true,
+            "split_merge": true,
+            "channel_isolation": true,
+            "atol": 2e-05,
+            "rtol": 2e-05,
+            "max_split_merge_abs_error": 3.129243850708008e-07
+          },
+          "adapter_gradient": {
+            "status": "PASS",
+            "steps": [
+              {
+                "step": 0,
+                "seconds": 0.0642475001513958,
+                "gradients": {
+                  "Z": {
+                    "finite": true,
+                    "l1": 0.13185133039951324
+                  },
+                  "E": {
+                    "finite": true,
+                    "l1": 0.06836347281932831
+                  },
+                  "P_output": {
+                    "finite": true,
+                    "l1": 0.5133061408996582
+                  },
+                  "P_interior": {
+                    "finite": true,
+                    "l1": 0.0
+                  }
+                }
+              },
+              {
+                "step": 1,
+                "seconds": 0.02391160000115633,
+                "gradients": {
+                  "Z": {
+                    "finite": true,
+                    "l1": 0.08593040704727173
+                  },
+                  "E": {
+                    "finite": true,
+                    "l1": 0.04344248026609421
+                  },
+                  "P_output": {
+                    "finite": true,
+                    "l1": 0.3407523036003113
+                  },
+                  "P_interior": {
+                    "finite": true,
+                    "l1": 0.23359714448451996
+                  }
+                }
+              }
+            ],
+            "profile_scope": "synthetic B2 C3K2; not a real Jena completion-time predictor"
+          },
+          "backbone_weight_hash": "4420eba1ebfa6c7cf93a0491a9a8ac28f02e6f6ad0caf37b89e4ace6245a4efc",
+          "frozen_weights_unchanged": true,
+          "trainable_backbone_parameters": 0,
+          "save_load_prediction_parity": true,
+          "original_scaler_forward_parity": {
+            "status": "PASS",
+            "reference": "original pinned PackedStdScaler under no_grad",
+            "input_shape": [
+              6,
+              35,
+              16
+            ],
+            "exact_forward_equal": true,
+            "atol": 0,
+            "rtol": 0,
+            "max_loc_absolute_difference": 0.0,
+            "max_scale_absolute_difference": 0.0,
+            "shim_source_sha256": "eda4e6e1f332b34e7e014a8e71bee1753780baea36612970ce42ceb98c755d89",
+            "change": "Only final padding assignments become torch.where; statistics/correction/epsilon unchanged",
+            "parameters": 0,
+            "pretrained_state_hash_preserved_during_substitution": true
+          },
+          "cost_scope": "synthetic resident F path B2,L512,C3; not E01 E2E or valid full-training profile",
+          "job_id": "D01_moirai2",
+          "status": "PASS_APPLICABLE_RECORDED_SCOPE",
+          "receipt_source": "receipts/D01_moirai2.json",
+          "receipt_sha256": "f8111d7fe2db311cc7b9bf0ccd28f8ff21cc6fbd4cd6a143c1f407b568fad512",
+          "source": "jobs/D01_moirai2.json",
+          "sha256": "5c24a530ae9ce96bde27d809499fa0d6e91e9b696545734e8e381fc0e1df4b90",
+          "scientific_identity": "f0d9717ef98073db779db182eea43e130c2022b770c79fd96a7cb462e6ab1759",
+          "producer_source": "research/adapter_diagnostics_20261017_v2/backbone_jobs.py",
+          "producer_source_sha256": "c284646eb390fce449f56d05fdd1dd05710e15bdd3d4acd8def832636f75ff6f",
+          "private_binding_verification_gate": "G7_CACHE",
+          "private_binding_count": 410,
+          "binding_chain": "Plan scientific identity -> complete receipt -> bound public producer JSON -> private_artifacts checked by G7; no model loaded here",
+          "optimizer_scope": {
+            "status": "SOURCE_ASSERTION_NO_SEPARATE_RUNTIME_FIELD",
+            "detail": "Producer asserts optimizer excludes frozen F before synthetic adapter steps; result has gradient steps but no separate optimizer-exclusion boolean"
+          }
+        },
+        {
+          "backbone": "chronos2",
+          "device": "cuda",
+          "dtype": "float32",
+          "shape": [
+            2,
+            48,
+            3
+          ],
+          "point_statistic": "quantile_0.5",
+          "median_index": 6,
+          "routing": "native_multivariate_per_origin",
+          "official_parity_max_abs": 0.0,
+          "mask_parity_max_abs": 0.0,
+          "tolerance": {
+            "atol": 2e-05,
+            "rtol": 2e-05,
+            "registered_before_measurement": true
+          },
+          "routing_sentinel": {
+            "passed": true,
+            "origin_isolation": true,
+            "split_merge": true,
+            "channel_isolation": null,
+            "atol": 2e-05,
+            "rtol": 2e-05,
+            "max_split_merge_abs_error": 1.043081283569336e-07
+          },
+          "adapter_gradient": {
+            "status": "NOT_APPLICABLE_NATIVE_RAW"
+          },
+          "backbone_weight_hash": "9d6b6d9539739eccb3d00c1839f813d04c3e14cebf11c5500f4fa96dcbd35eb4",
+          "frozen_weights_unchanged": true,
+          "trainable_backbone_parameters": 0,
+          "save_load_prediction_parity": true,
+          "original_scaler_forward_parity": null,
+          "cost_scope": "synthetic resident F path B2,L512,C3; not E01 E2E or valid full-training profile",
+          "job_id": "D01_chronos2",
+          "status": "PASS_APPLICABLE_RECORDED_SCOPE",
+          "receipt_source": "receipts/D01_chronos2.json",
+          "receipt_sha256": "79f94523bf13e49f68f87b12c7cf2e81171be8215ab20bd9a1f80f355662e39b",
+          "source": "jobs/D01_chronos2.json",
+          "sha256": "6e17f92afe70e2070986bcf19f539d49f437863c51d284952c74c7399858eea1",
+          "scientific_identity": "2a1abf6c8ebda08bd2ef37f772ffb55ea19b4f2e43e7d68c79a43a14be427a6f",
+          "producer_source": "research/adapter_diagnostics_20261017_v2/backbone_jobs.py",
+          "producer_source_sha256": "c284646eb390fce449f56d05fdd1dd05710e15bdd3d4acd8def832636f75ff6f",
+          "private_binding_verification_gate": "G7_CACHE",
+          "private_binding_count": 4,
+          "binding_chain": "Plan scientific identity -> complete receipt -> bound public producer JSON -> private_artifacts checked by G7; no model loaded here",
+          "optimizer_scope": {
+            "status": "NOT_APPLICABLE_NATIVE_RAW",
+            "detail": "Native Raw has no adapter optimizer/gradient test; channel-isolation NA is retained"
+          }
+        }
+      ],
+      "raw_or_model_loads": 0,
+      "scope": "Actual D01 producer records only: official/masked parity, routing, frozen weights and save/load. Moirai synthetic adapter gradient is applicable; native Chronos2 gradient/optimizer/channel-isolation NA stay NA. No Jena full-training/generalization or E2E-cost conclusion; private/source hashes follow G7.",
+      "test_receipt": {
+        "command": "python -m pytest -q --tb=short",
+        "exit_code": 0,
+        "checked_utc": "2026-10-17T18:08:55.949835+00:00",
+        "wall_seconds": 32.0390854999423,
+        "output_summary": "101 passed in 29.51s",
+        "log_sha256": "19ad180d48f3e07e7bbfd59b95bc36a82bd2a7d88798a0b8534229b027e4c424",
+        "plan_sha256": "1fc765b20c3e0cd2f94f49b3e88f2bf6ff7fe6f27e1829f2c3f5c11bc1fdb196",
+        "tested_source_sha256": {
+          "research/adapter_diagnostics_20261017_v2/__init__.py": "4a6b9a1b6cf0c7163ca2b1f3eae19bf2515285222219f52743274e68ec555a11",
+          "research/adapter_diagnostics_20261017_v2/backbone_costs.py": "9395acf47e1ad5f1cb2e1993c306350f6c1450feaabef639eca2f943957a49e7",
+          "research/adapter_diagnostics_20261017_v2/backbone_jobs.py": "c284646eb390fce449f56d05fdd1dd05710e15bdd3d4acd8def832636f75ff6f",
+          "research/adapter_diagnostics_20261017_v2/backbones.py": "34761d69324f40d05998cbf2607dcec7ff9b2c218483835701ba79d5cf667ae0",
+          "research/adapter_diagnostics_20261017_v2/core.py": "b4095d9a9298acf714e71b4a3c40167ff24444ac6c89830b7d30d12f06ba1562",
+          "research/adapter_diagnostics_20261017_v2/costs.py": "02f3326b71c6fd5bd327c0b5c91441325a400db34d1e01d145739e7fbe276dcf",
+          "research/adapter_diagnostics_20261017_v2/data_audit.py": "883eafa5bd2d9c6fa3d7feeac67f3949285773a64bfebb7bcb46a7a0db77e800",
+          "research/adapter_diagnostics_20261017_v2/existing_jobs.py": "6a8e7d4d940414ad71c2583581b681dd0a05f54e79293db1350d76a7b90d61d6",
+          "research/adapter_diagnostics_20261017_v2/functional_scaler.py": "eda4e6e1f332b34e7e014a8e71bee1753780baea36612970ce42ceb98c755d89",
+          "research/adapter_diagnostics_20261017_v2/gpu_endpoints.py": "6a4e085f641022923338c2b912618f4395e8e55aba3dec2359840eb0a7780a72",
+          "research/adapter_diagnostics_20261017_v2/new_jobs.py": "013fdd8c10218d14e10ed274cdbfe6eb3ce207aec6e90d82c2a5e5305f84fce7",
+          "research/adapter_diagnostics_20261017_v2/reporting.py": "dfa54d23b020b14e59d50a7054054bbd585fd6af6f984e7a54ef3b7284739491",
+          "research/adapter_diagnostics_20261017_v2/ridge_jobs.py": "a120389515684d6927e1393d8ae671fc62487bdd24397c650f678e125be837ab",
+          "research/adapter_diagnostics_20261017_v2/run.py": "975f4a575493788dedf592b44debeaebbb55ed124ea29280fc5ea94700ca7830",
+          "tests/test_adapter_diagnostics_backbones.py": "06229d49543f4d2bc61f1b2fd0bc55f4a44cff570700439531a9bc234781e5bc",
+          "tests/test_adapter_diagnostics_core.py": "5c1fc596753f2d8a56b43b2b530a5e7850040a198d9c96027f1b767a396eff17",
+          "tests/test_adapter_diagnostics_cost_bindings.py": "764af828cb8d88f806f8192fa3118e91404c83831d62ea190512f7af4881846c",
+          "tests/test_adapter_diagnostics_existing.py": "d1291ac32d08ee8855f8b3cbc53cfccdf79d7f56c03e34ffc372095f2222816a",
+          "tests/test_adapter_diagnostics_moirai_scaler.py": "b2b8420c5f7c43a127ba10c11cbb03261d2177cb584419305ed44884f8761c89",
+          "tests/test_adapter_diagnostics_new.py": "8dac89a0019bbb33d3b05f7812e159a9fe39dd6d5027523d66c01a7701a3dcd9",
+          "tests/test_adapter_diagnostics_reporting.py": "c5a05d35cbdc004ae365d83c087da72db0ed720e62007ed14551537d5cd8bfb4",
+          "tests/test_adapter_diagnostics_review_fixes.py": "c0a4fbd6425609a586bc2b81234872c0a30583c046a596fcc5fb701bfc8b06c6"
+        },
+        "tracked_test_side_effects_restored": true,
+        "scope": "Full project tests; actual legacy CUDA smoke under authenticated child GPU lease; final scientific and reporting sources included"
+      }
+    },
+    {
+      "gate": "G3_PAIR",
+      "status": "PASS_EXACT_SUBSET_WITH_CONTEXTUAL_LIMITS",
+      "exact_hash_comparisons": 19,
+      "contextual_comparisons": 14,
+      "common_search_endpoint_rows": 72,
+      "common_search_endpoint_exact": 72,
+      "common_search_endpoint_contextual": 0,
+      "common_progress_identity": "Same cohort/seed/split/metric_scale/epoch/updates/exposures; all canonical contract fields checked separately; source-derived arithmetic rechecked",
+      "scope": "Exact subset requires C/L/H, cohort/split/scale/point/device/backend/dtype plus identical canonical scaler/target/mask/origin/channel hashes. B01 canonical target hashes identify reference FP32 bytes after exact saved-FP64-value equality; raw saved dtype/hash and derived channel order are explicit in NEW_STATS_REPLAY. Common search endpoints are separate from selected-refit/fixed diagnostic pairs. Contextual differences do not pass this gate; sampler order/select-refit evidence remains in corresponding jobs"
+    },
+    {
+      "gate": "G4_SOLVER",
+      "status": "PASS_REGISTERED_SYNTHETIC_CASE",
+      "evidence": {
+        "status": "PASS",
+        "masked_augmented_lstsq_max_abs_coefficient_difference": 1.7763568394002505e-15,
+        "masked_normal_equation_max_abs_residual": 1.1102230246251565e-16,
+        "solver_fallbacks": 0,
+        "save_load_predictions_exact": true,
+        "window_reset_and_observed_zero": true,
+        "zero_observation_fit_channel_rejected": true,
+        "electricity_poison_tail_numeric_values_parsed": 0,
+        "shared_and_replicated_Dh_prediction_max_abs_difference": 0.0,
+        "shared_and_replicated_Dh_objective_abs_difference": 0.0,
+        "shared_Dh_penalty_convention": "alpha times mean_h ||D_h||^2; shared alpha ||D||^2",
+        "ridge_objective_convention": "SSE_c / N_c across all origin,h; intercept unpenalized; not sklearn unscaled alpha",
+        "sklearn_equivalent_alpha": "alpha_sklearn = alpha_repository * N_c for each channel"
+      },
+      "scope": "Independent masked augmented-lstsq, KKT, intercept/save-load and identical shared/replicated Dh objective; real decoder evidence is separate"
+    },
+    {
+      "gate": "G5_RESUME",
+      "status": "CURRENT_RUNTIME_AND_HISTORICAL_EVIDENCE",
+      "source_sha256": "1a2bff51977e4e5dd5f9b846d104b2f687a9b067e0f493bc11b55eb2006119ee",
+      "current_runtime": [
+        {
+          "job_id": "C00_pems_pair_profile",
+          "source": "receipts/C00_pems_pair_profile.json",
+          "sha256": "a6ac2816463437fb855e34d3ea9f38d4ec769465285f1e55a9cd022ae0a840b8",
+          "status": "COMPLETE",
+          "disposable_next_update_profiles": {
+            "B0": {
+              "next_update_branch_audit": null,
+              "source_bundle_unchanged_after_both_profiles": null,
+              "source_bundle_fingerprint_before_and_after": null,
+              "global_CPU_and_CUDA_RNG_restored": null,
+              "disposable_profile_only": true
+            },
+            "B2": {
+              "next_update_branch_audit": null,
+              "source_bundle_unchanged_after_both_profiles": null,
+              "source_bundle_fingerprint_before_and_after": null,
+              "global_CPU_and_CUDA_RNG_restored": null,
+              "disposable_profile_only": true
+            }
+          }
+        },
+        {
+          "job_id": "C00_pems_gpu_pair_profile",
+          "source": "receipts/C00_pems_gpu_pair_profile.json",
+          "sha256": "0e5889c6affe88bc9a591f9c95b1e42612711974d8aa5977a3c38e4bcce495b5",
+          "status": "COMPLETE",
+          "disposable_next_update_profiles": {
+            "B0": {
+              "next_update_branch_audit": {
+                "status": "MEASURED_NUMERICAL_DEVICE_BRANCH",
+                "identical_initial_model_optimizer_sampler_CPU_RNG": true,
+                "initial_state_fingerprint": "6165ec1c9b77dcd1fe79915aa26dc29dba588baf9d3cbc47ec81be7e2358e4f8",
+                "CPU_and_CUDA_sampler_after_next_update_equal": true,
+                "max_absolute_parameter_difference": 7.450580596923828e-09,
+                "per_parameter_max_absolute_difference": {
+                  "E": 0.0,
+                  "D": 7.450580596923828e-09,
+                  "center": 0.0
+                },
+                "CPU_next_update_loss": 0.10695693828165531,
+                "CUDA_next_update_loss": 0.10695693641901016,
+                "optimizer_device_check": {
+                  "non_step_optimizer_tensors_checked": 4,
+                  "all_non_step_optimizer_tensors_match_parameter_device": true,
+                  "step_scalar_may_remain_CPU_for_non_capturable_AdamW": true
+                },
+                "historical_bitwise_equivalence_claimed": false,
+                "original_CPU_RNG_restored": true,
+                "new_branch_CUDA_RNG_restored": true,
+                "audit_updates_excluded_from_training": true
+              },
+              "source_bundle_unchanged_after_both_profiles": true,
+              "source_bundle_fingerprint_before_and_after": "ae33307f169a3df895d4d07401eddfd639c9161a3893f062c008993721146f2a",
+              "global_CPU_and_CUDA_RNG_restored": true,
+              "disposable_profile_only": true
+            },
+            "B2": {
+              "next_update_branch_audit": {
+                "status": "MEASURED_NUMERICAL_DEVICE_BRANCH",
+                "identical_initial_model_optimizer_sampler_CPU_RNG": true,
+                "initial_state_fingerprint": "7f4545986b051f748752b7999bef2353000955386beae8bca059abad5f65d46d",
+                "CPU_and_CUDA_sampler_after_next_update_equal": true,
+                "max_absolute_parameter_difference": 1.4401855878531933e-05,
+                "per_parameter_max_absolute_difference": {
+                  "E": 2.9802322387695312e-08,
+                  "D": 2.9802322387695312e-08,
+                  "center": 0.0,
+                  "front.mixer.temporal.input.weight": 2.2351741790771484e-08,
+                  "front.mixer.temporal.input.bias": 7.450580596923828e-09,
+                  "front.mixer.temporal.output.weight": 3.8370490074157715e-07,
+                  "front.mixer.temporal.output.bias": 2.7008354663848877e-08,
+                  "front.mixer.feature.input.weight": 2.9802322387695312e-08,
+                  "front.mixer.feature.input.bias": 2.9802322387695312e-08,
+                  "front.mixer.feature.output.weight": 2.2351741790771484e-08,
+                  "front.mixer.feature.output.bias": 1.4401855878531933e-05
+                },
+                "CPU_next_update_loss": 0.1068221889436245,
+                "CUDA_next_update_loss": 0.10682219080626965,
+                "optimizer_device_check": {
+                  "non_step_optimizer_tensors_checked": 20,
+                  "all_non_step_optimizer_tensors_match_parameter_device": true,
+                  "step_scalar_may_remain_CPU_for_non_capturable_AdamW": true
+                },
+                "historical_bitwise_equivalence_claimed": false,
+                "original_CPU_RNG_restored": true,
+                "new_branch_CUDA_RNG_restored": true,
+                "audit_updates_excluded_from_training": true
+              },
+              "source_bundle_unchanged_after_both_profiles": true,
+              "source_bundle_fingerprint_before_and_after": "8b18702eb0fa5f61fa696694aadcb00217184216aff99b9c49251c6e3c4e5635",
+              "global_CPU_and_CUDA_RNG_restored": true,
+              "disposable_profile_only": true
+            }
+          }
+        },
+        {
+          "job_id": "C01_pems32_cuda_B0",
+          "source": "receipts/C01_pems32_cuda_B0.json",
+          "sha256": "3a5b40fa17699a741cb0770f32ea7b2aff03c176e31844f7a6b8796a5e36d382",
+          "status": "COMPLETE",
+          "exact_CPU_continuation": false,
+          "continuation_kind": "CPU_TO_CUDA_NUMERICAL_BRANCH",
+          "historical_bitwise_equivalence_claimed": false,
+          "original_partial_sha256": "62f058cd9806335455af140d31bcd2b8aaacf454dae6d10b79740c8876642e6c",
+          "original_resume_audit_sha256": null,
+          "saved_branch_runtime_restore": [
+            {
+              "source": "runs/pems_B0/ACTUAL_BRANCH_RESTORE_CHECKS.json",
+              "sha256": "177210ac6925094adfdd2047c4b35f0ebbd2b57d6f43c8f99ba41bc75018ebf3",
+              "evidence": {
+                "checks": [
+                  {
+                    "updates": 847,
+                    "parameter_device": "cuda:0",
+                    "CPU_RNG_restored": true,
+                    "CUDA_RNG_restored": true,
+                    "non_step_optimizer_tensors_checked": 4,
+                    "all_non_step_optimizer_tensors_match_parameter_device": true,
+                    "step_scalar_may_remain_CPU_for_non_capturable_AdamW": true
+                  }
+                ],
+                "exactness_scope": "saved CUDA branch state only; historical CPU-to-CUDA is numerical"
+              }
+            }
+          ]
+        },
+        {
+          "job_id": "C01_pems32_cuda_B2",
+          "source": "receipts/C01_pems32_cuda_B2.json",
+          "sha256": "f764df90892c2d25ca4cc120550a58b7d5d4c44be791b1d892daf9b1429f31ce",
+          "status": "COMPLETE",
+          "exact_CPU_continuation": false,
+          "continuation_kind": "CPU_TO_CUDA_NUMERICAL_BRANCH",
+          "historical_bitwise_equivalence_claimed": false,
+          "original_partial_sha256": "3a9b6bbda6768549ad48ae5011ca3da6d6f14ec76fa75b7c9cec3b9138617c41",
+          "original_resume_audit_sha256": null,
+          "saved_branch_runtime_restore": [
+            {
+              "source": "runs/pems_B2/ACTUAL_BRANCH_RESTORE_CHECKS.json",
+              "sha256": "7a470cc34351ec1064318995cffaf4c3cc1baacbe5d83f765d7ae9614ccd5a9d",
+              "evidence": {
+                "checks": [
+                  {
+                    "updates": 846,
+                    "parameter_device": "cuda:0",
+                    "CPU_RNG_restored": true,
+                    "CUDA_RNG_restored": true,
+                    "non_step_optimizer_tensors_checked": 20,
+                    "all_non_step_optimizer_tensors_match_parameter_device": true,
+                    "step_scalar_may_remain_CPU_for_non_capturable_AdamW": true
+                  }
+                ],
+                "exactness_scope": "saved CUDA branch state only; historical CPU-to-CUDA is numerical"
+              }
+            }
+          ]
+        }
+      ],
+      "scope": "Historical exact CPU restore, disposable common-state CPU/CUDA next-update numerical audit, and completed C01 CPU or CUDA branch continuation are separate evidence; CUDA branch does not claim historical CPU bitwise equality"
+    },
+    {
+      "gate": "G8_JOB_COVERAGE",
+      "checked": 106,
+      "status": "PASS"
+    },
+    {
+      "gate": "G6_PUBLIC_FP64_REAGGREGATION",
+      "status": "PASS_ALL_SCORED_ROWS",
+      "rows": [
+        {
+          "run_id": "postT_cpu_jena_E3_B0_k6_s92601_v1",
+          "maximum_absolute_difference": 1.1102230246251565e-15
+        },
+        {
+          "run_id": "postT_cpu_jena_E3_B2_k6_s92601_v1",
+          "maximum_absolute_difference": 8.881784197001252e-16
+        },
+        {
+          "run_id": "priority_seed2_jena_B0_k6_s92602_v1",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "priority_seed2_jena_B2_k6_s92602_v1",
+          "maximum_absolute_difference": 2.220446049250313e-16
+        },
+        {
+          "run_id": "priority_jena_R5a_fixedB2_linear_k6_s92601_v1",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "priority_jena_R5b_joint_linear_k6_s92601_v1",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "diagnostic_pems08_B2_parent_full_CPU_V148_k43_s92601_v1",
+          "maximum_absolute_difference": 1.3877787807814457e-17
+        },
+        {
+          "run_id": "priority_pems08_fixedB2_linear_k43_s92601_v1",
+          "maximum_absolute_difference": 1.3877787807814457e-17
+        },
+        {
+          "run_id": "primary_jena_E1_RAW_BOLT_SMALL_k0_s92601",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "primary_jena_E1_RAW_RIDGE_k0_s92601",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "primary_jena_E1_DIRECT_G_k0_s92601__cpu_fresh_e3",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "primary_jena_E1_PCA_FIXED_BOLT_k6_s92601",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "postT_cpu_jena_E1_LORA_R8_k0_s92601_family_v1",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "primary_pems08_E1_RAW_BOLT_SMALL_k0_s92601",
+          "maximum_absolute_difference": 1.3877787807814457e-17
+        },
+        {
+          "run_id": "primary_pems08_E1_RAW_RIDGE_k0_s92601",
+          "maximum_absolute_difference": 2.7755575615628914e-17
+        },
+        {
+          "run_id": "primary_pems08_E1_DIRECT_G_k0_s92601__e1",
+          "maximum_absolute_difference": 4.163336342344337e-17
+        },
+        {
+          "run_id": "primary_pems08_E1_DIRECT_G_k0_s92601__cpu_fresh_e3",
+          "maximum_absolute_difference": 2.7755575615628914e-17
+        },
+        {
+          "run_id": "primary_pems08_E1_B0_k43_s92601__e1",
+          "maximum_absolute_difference": 4.163336342344337e-17
+        },
+        {
+          "run_id": "primary_pems08_E1_LORA_R8_k0_s92601",
+          "maximum_absolute_difference": 1.3877787807814457e-17
+        },
+        {
+          "run_id": "postT_cpu_pems08_E1_SUBSET_RAW_k0_s92601_C32_priority_v1",
+          "maximum_absolute_difference": 1.3877787807814457e-17
+        },
+        {
+          "run_id": "postT_cpu_pems08_E1_SUBSET_DIRECT_G_k0_s92601_C32_priority_v1",
+          "maximum_absolute_difference": 2.7755575615628914e-17
+        },
+        {
+          "run_id": "A02_cap_s92601",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A02_cap_s92602",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "B01_B0_s92601",
+          "maximum_absolute_difference": 3.3306690738754696e-16
+        },
+        {
+          "run_id": "B01_B0_s92602",
+          "maximum_absolute_difference": 2.220446049250313e-16
+        },
+        {
+          "run_id": "B01_B2_s92601",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "B01_B2_s92602",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "B01_B2_CAP_POINTWISE_s92601",
+          "maximum_absolute_difference": 5.551115123125783e-16
+        },
+        {
+          "run_id": "B01_B2_CAP_POINTWISE_s92602",
+          "maximum_absolute_difference": 2.220446049250313e-16
+        },
+        {
+          "run_id": "B02_jena_OWN_CHANNEL_32BLOCK_RIDGE",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "B02_jena_ALL_CHANNEL_32BLOCK_RIDGE",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "B02_pems32_OWN_CHANNEL_32BLOCK_RIDGE",
+          "maximum_absolute_difference": 2.7755575615628914e-17
+        },
+        {
+          "run_id": "B02_pems32_ALL_CHANNEL_32BLOCK_RIDGE",
+          "maximum_absolute_difference": 2.7755575615628914e-17
+        },
+        {
+          "run_id": "B03_s92601_6",
+          "maximum_absolute_difference": 3.3306690738754696e-16
+        },
+        {
+          "run_id": "B03_s92601_7",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "B03_s92601_8",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "B03_s92602_6",
+          "maximum_absolute_difference": 5.551115123125783e-17
+        },
+        {
+          "run_id": "B03_s92602_7",
+          "maximum_absolute_difference": 4.996003610813204e-16
+        },
+        {
+          "run_id": "B03_s92602_8",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C01_pems32_cuda_B0",
+          "maximum_absolute_difference": 9.159339953157541e-16
+        },
+        {
+          "run_id": "C01_pems32_cuda_B2",
+          "maximum_absolute_difference": 8.326672684688674e-16
+        },
+        {
+          "run_id": "C02_s92601_0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92601_1",
+          "maximum_absolute_difference": 5.551115123125783e-16
+        },
+        {
+          "run_id": "C02_s92602_0",
+          "maximum_absolute_difference": 4.440892098500626e-16
+        },
+        {
+          "run_id": "C02_s92602_1",
+          "maximum_absolute_difference": 4.440892098500626e-16
+        },
+        {
+          "run_id": "D02_moirai_s92601_0",
+          "maximum_absolute_difference": 2.220446049250313e-16
+        },
+        {
+          "run_id": "D02_moirai_s92601_1",
+          "maximum_absolute_difference": 2.220446049250313e-16
+        },
+        {
+          "run_id": "D02_moirai_s92601_2",
+          "maximum_absolute_difference": 3.3306690738754696e-16
+        },
+        {
+          "run_id": "D02_moirai_s92602_0",
+          "maximum_absolute_difference": 1.1102230246251565e-16
+        },
+        {
+          "run_id": "D02_moirai_s92602_1",
+          "maximum_absolute_difference": 3.3306690738754696e-16
+        },
+        {
+          "run_id": "D02_moirai_s92602_2",
+          "maximum_absolute_difference": 3.3306690738754696e-16
+        },
+        {
+          "run_id": "D03_jena_0",
+          "maximum_absolute_difference": 2.220446049250313e-16
+        },
+        {
+          "run_id": "D03_pems08_0",
+          "maximum_absolute_difference": 6.245004513516506e-16
+        },
+        {
+          "run_id": "A03_B0_s92601_e0_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e0_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e0_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e1_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e1_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e1_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e2_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e2_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e2_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e3_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e3_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92601_e3_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e0_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e0_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e0_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e1_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e1_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e1_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e2_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e2_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e2_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e3_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e3_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B0_s92602_e3_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e0_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e0_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e0_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e1_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e1_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e1_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e2_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e2_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e2_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e3_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e3_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92601_e3_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e0_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e0_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e0_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e1_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e1_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e1_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e2_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e2_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e2_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e3_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e3_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_s92602_e3_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e0_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e0_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e0_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e1_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e1_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e1_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e2_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e2_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e2_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e3_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e3_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92601_e3_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e0_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e0_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e0_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e1_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e1_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e1_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e2_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e2_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e2_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e3_A_fit",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e3_A_stop",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "A03_B2_CAP_POINTWISE_s92602_e3_V_select",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92601_train_endpoint_PCA_0.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92601_train_endpoint_PCA_0.25",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92601_train_endpoint_PCA_1.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92601_train_endpoint_PCA_3.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92601_train_endpoint_QR_0.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92601_train_endpoint_QR_0.25",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92601_train_endpoint_QR_1.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92601_train_endpoint_QR_3.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92602_train_endpoint_PCA_0.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92602_train_endpoint_PCA_0.25",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92602_train_endpoint_PCA_1.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92602_train_endpoint_PCA_3.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92602_train_endpoint_QR_0.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92602_train_endpoint_QR_0.25",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92602_train_endpoint_QR_1.0",
+          "maximum_absolute_difference": 0.0
+        },
+        {
+          "run_id": "C02_s92602_train_endpoint_QR_3.0",
+          "maximum_absolute_difference": 0.0
+        }
+      ],
+      "uncovered": [],
+      "checked_scored_rows": 141,
+      "horizon_channel_consistency": {
+        "checked_runs": [
+          "A02_cap_s92601",
+          "A02_cap_s92602",
+          "A03_B0_s92601_e0_A_fit",
+          "A03_B0_s92601_e0_A_stop",
+          "A03_B0_s92601_e0_V_select",
+          "A03_B0_s92601_e1_A_fit",
+          "A03_B0_s92601_e1_A_stop",
+          "A03_B0_s92601_e1_V_select",
+          "A03_B0_s92601_e2_A_fit",
+          "A03_B0_s92601_e2_A_stop",
+          "A03_B0_s92601_e2_V_select",
+          "A03_B0_s92601_e3_A_fit",
+          "A03_B0_s92601_e3_A_stop",
+          "A03_B0_s92601_e3_V_select",
+          "A03_B0_s92602_e0_A_fit",
+          "A03_B0_s92602_e0_A_stop",
+          "A03_B0_s92602_e0_V_select",
+          "A03_B0_s92602_e1_A_fit",
+          "A03_B0_s92602_e1_A_stop",
+          "A03_B0_s92602_e1_V_select",
+          "A03_B0_s92602_e2_A_fit",
+          "A03_B0_s92602_e2_A_stop",
+          "A03_B0_s92602_e2_V_select",
+          "A03_B0_s92602_e3_A_fit",
+          "A03_B0_s92602_e3_A_stop",
+          "A03_B0_s92602_e3_V_select",
+          "A03_B2_CAP_POINTWISE_s92601_e0_A_fit",
+          "A03_B2_CAP_POINTWISE_s92601_e0_A_stop",
+          "A03_B2_CAP_POINTWISE_s92601_e0_V_select",
+          "A03_B2_CAP_POINTWISE_s92601_e1_A_fit",
+          "A03_B2_CAP_POINTWISE_s92601_e1_A_stop",
+          "A03_B2_CAP_POINTWISE_s92601_e1_V_select",
+          "A03_B2_CAP_POINTWISE_s92601_e2_A_fit",
+          "A03_B2_CAP_POINTWISE_s92601_e2_A_stop",
+          "A03_B2_CAP_POINTWISE_s92601_e2_V_select",
+          "A03_B2_CAP_POINTWISE_s92601_e3_A_fit",
+          "A03_B2_CAP_POINTWISE_s92601_e3_A_stop",
+          "A03_B2_CAP_POINTWISE_s92601_e3_V_select",
+          "A03_B2_CAP_POINTWISE_s92602_e0_A_fit",
+          "A03_B2_CAP_POINTWISE_s92602_e0_A_stop",
+          "A03_B2_CAP_POINTWISE_s92602_e0_V_select",
+          "A03_B2_CAP_POINTWISE_s92602_e1_A_fit",
+          "A03_B2_CAP_POINTWISE_s92602_e1_A_stop",
+          "A03_B2_CAP_POINTWISE_s92602_e1_V_select",
+          "A03_B2_CAP_POINTWISE_s92602_e2_A_fit",
+          "A03_B2_CAP_POINTWISE_s92602_e2_A_stop",
+          "A03_B2_CAP_POINTWISE_s92602_e2_V_select",
+          "A03_B2_CAP_POINTWISE_s92602_e3_A_fit",
+          "A03_B2_CAP_POINTWISE_s92602_e3_A_stop",
+          "A03_B2_CAP_POINTWISE_s92602_e3_V_select",
+          "A03_B2_s92601_e0_A_fit",
+          "A03_B2_s92601_e0_A_stop",
+          "A03_B2_s92601_e0_V_select",
+          "A03_B2_s92601_e1_A_fit",
+          "A03_B2_s92601_e1_A_stop",
+          "A03_B2_s92601_e1_V_select",
+          "A03_B2_s92601_e2_A_fit",
+          "A03_B2_s92601_e2_A_stop",
+          "A03_B2_s92601_e2_V_select",
+          "A03_B2_s92601_e3_A_fit",
+          "A03_B2_s92601_e3_A_stop",
+          "A03_B2_s92601_e3_V_select",
+          "A03_B2_s92602_e0_A_fit",
+          "A03_B2_s92602_e0_A_stop",
+          "A03_B2_s92602_e0_V_select",
+          "A03_B2_s92602_e1_A_fit",
+          "A03_B2_s92602_e1_A_stop",
+          "A03_B2_s92602_e1_V_select",
+          "A03_B2_s92602_e2_A_fit",
+          "A03_B2_s92602_e2_A_stop",
+          "A03_B2_s92602_e2_V_select",
+          "A03_B2_s92602_e3_A_fit",
+          "A03_B2_s92602_e3_A_stop",
+          "A03_B2_s92602_e3_V_select",
+          "B01_B0_s92601",
+          "B01_B0_s92602",
+          "B01_B2_CAP_POINTWISE_s92601",
+          "B01_B2_CAP_POINTWISE_s92602",
+          "B01_B2_s92601",
+          "B01_B2_s92602",
+          "B02_jena_ALL_CHANNEL_32BLOCK_RIDGE",
+          "B02_jena_OWN_CHANNEL_32BLOCK_RIDGE",
+          "B02_pems32_ALL_CHANNEL_32BLOCK_RIDGE",
+          "B02_pems32_OWN_CHANNEL_32BLOCK_RIDGE",
+          "B03_s92601_6",
+          "B03_s92601_7",
+          "B03_s92601_8",
+          "B03_s92602_6",
+          "B03_s92602_7",
+          "B03_s92602_8",
+          "C01_pems32_cuda_B0",
+          "C01_pems32_cuda_B2",
+          "C02_s92601_0",
+          "C02_s92601_1",
+          "C02_s92602_0",
+          "C02_s92602_1",
+          "D02_moirai_s92601_0",
+          "D02_moirai_s92601_1",
+          "D02_moirai_s92601_2",
+          "D02_moirai_s92602_0",
+          "D02_moirai_s92602_1",
+          "D02_moirai_s92602_2",
+          "D03_jena_0",
+          "D03_pems08_0",
+          "diagnostic_pems08_B2_parent_full_CPU_V148_k43_s92601_v1",
+          "postT_cpu_jena_E1_LORA_R8_k0_s92601_family_v1",
+          "postT_cpu_pems08_E1_SUBSET_DIRECT_G_k0_s92601_C32_priority_v1",
+          "postT_cpu_pems08_E1_SUBSET_RAW_k0_s92601_C32_priority_v1",
+          "primary_jena_E1_DIRECT_G_k0_s92601__cpu_fresh_e3",
+          "primary_jena_E1_PCA_FIXED_BOLT_k6_s92601",
+          "primary_jena_E1_RAW_BOLT_SMALL_k0_s92601",
+          "primary_jena_E1_RAW_RIDGE_k0_s92601",
+          "primary_pems08_E1_B0_k43_s92601__e1",
+          "primary_pems08_E1_DIRECT_G_k0_s92601__cpu_fresh_e3",
+          "primary_pems08_E1_DIRECT_G_k0_s92601__e1",
+          "primary_pems08_E1_LORA_R8_k0_s92601",
+          "primary_pems08_E1_RAW_BOLT_SMALL_k0_s92601",
+          "primary_pems08_E1_RAW_RIDGE_k0_s92601",
+          "priority_jena_R5a_fixedB2_linear_k6_s92601_v1",
+          "priority_jena_R5b_joint_linear_k6_s92601_v1",
+          "priority_pems08_fixedB2_linear_k43_s92601_v1",
+          "priority_seed2_jena_B0_k6_s92602_v1",
+          "priority_seed2_jena_B2_k6_s92602_v1"
+        ],
+        "checked_channels": 3990,
+        "maximum_statistic_absolute_difference": 6.746267899870872e-08,
+        "maximum_channel_mean_absolute_difference": 1.4163785943159984e-13,
+        "channel_mean_tolerance": 1e-10,
+        "tolerance_units": "Per-channel observed mean SSE/count or SAE/count; exact integer counts and all H positions remain required. FP64 reduction order can change large unnormalized sums.",
+        "largest_statistic_discrepancies": [
+          {
+            "run_id": "A03_B0_s92601_e0_A_fit",
+            "channel_id": "15",
+            "statistic": "SSE",
+            "horizon_sum": 453192.4737697751,
+            "channel_marginal": 453192.4737698426,
+            "raw_sum_absolute_difference": 6.746267899870872e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.4163785943159984e-13
+          },
+          {
+            "run_id": "A03_B0_s92602_e0_A_fit",
+            "channel_id": "15",
+            "statistic": "SSE",
+            "horizon_sum": 453192.4737697751,
+            "channel_marginal": 453192.4737698426,
+            "raw_sum_absolute_difference": 6.746267899870872e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.4163785943159984e-13
+          },
+          {
+            "run_id": "A03_B2_s92601_e0_A_fit",
+            "channel_id": "15",
+            "statistic": "SSE",
+            "horizon_sum": 453192.4737697751,
+            "channel_marginal": 453192.4737698426,
+            "raw_sum_absolute_difference": 6.746267899870872e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.4163785943159984e-13
+          },
+          {
+            "run_id": "A03_B2_s92602_e0_A_fit",
+            "channel_id": "15",
+            "statistic": "SSE",
+            "horizon_sum": 453192.4737697751,
+            "channel_marginal": 453192.4737698426,
+            "raw_sum_absolute_difference": 6.746267899870872e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.4163785943159984e-13
+          },
+          {
+            "run_id": "A03_B2_CAP_POINTWISE_s92601_e0_A_fit",
+            "channel_id": "15",
+            "statistic": "SSE",
+            "horizon_sum": 453192.4737697751,
+            "channel_marginal": 453192.4737698426,
+            "raw_sum_absolute_difference": 6.746267899870872e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.4163785943159984e-13
+          },
+          {
+            "run_id": "A03_B2_CAP_POINTWISE_s92602_e0_A_fit",
+            "channel_id": "15",
+            "statistic": "SSE",
+            "horizon_sum": 453192.4737697751,
+            "channel_marginal": 453192.4737698426,
+            "raw_sum_absolute_difference": 6.746267899870872e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.4163785943159984e-13
+          },
+          {
+            "run_id": "A03_B2_CAP_POINTWISE_s92602_e3_A_fit",
+            "channel_id": "15",
+            "statistic": "SSE",
+            "horizon_sum": 399240.0921379691,
+            "channel_marginal": 399240.0921380311,
+            "raw_sum_absolute_difference": 6.199115887284279e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.301504057762328e-13
+          },
+          {
+            "run_id": "A03_B2_s92602_e1_A_fit",
+            "channel_id": "15",
+            "statistic": "SSE",
+            "horizon_sum": 417554.1422888933,
+            "channel_marginal": 417554.1422889514,
+            "raw_sum_absolute_difference": 5.809124559164047e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.2196253987293929e-13
+          },
+          {
+            "run_id": "A03_B0_s92601_e0_A_fit",
+            "channel_id": "16",
+            "statistic": "SSE",
+            "horizon_sum": 415932.51053344354,
+            "channel_marginal": 415932.51053349965,
+            "raw_sum_absolute_difference": 5.611218512058258e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.1780750344440229e-13
+          },
+          {
+            "run_id": "A03_B0_s92602_e0_A_fit",
+            "channel_id": "16",
+            "statistic": "SSE",
+            "horizon_sum": 415932.51053344354,
+            "channel_marginal": 415932.51053349965,
+            "raw_sum_absolute_difference": 5.611218512058258e-08,
+            "observed_count": 476304,
+            "channel_mean_absolute_difference": 1.1780750344440229e-13
+          }
+        ],
+        "horizon_missing_runs": [
+          "C02_s92601_train_endpoint_PCA_0.0",
+          "C02_s92601_train_endpoint_PCA_0.25",
+          "C02_s92601_train_endpoint_PCA_1.0",
+          "C02_s92601_train_endpoint_PCA_3.0",
+          "C02_s92601_train_endpoint_QR_0.0",
+          "C02_s92601_train_endpoint_QR_0.25",
+          "C02_s92601_train_endpoint_QR_1.0",
+          "C02_s92601_train_endpoint_QR_3.0",
+          "C02_s92602_train_endpoint_PCA_0.0",
+          "C02_s92602_train_endpoint_PCA_0.25",
+          "C02_s92602_train_endpoint_PCA_1.0",
+          "C02_s92602_train_endpoint_PCA_3.0",
+          "C02_s92602_train_endpoint_QR_0.0",
+          "C02_s92602_train_endpoint_QR_0.25",
+          "C02_s92602_train_endpoint_QR_1.0",
+          "C02_s92602_train_endpoint_QR_3.0"
+        ],
+        "historical_equal_count_marginal_only": [
+          "postT_cpu_jena_E3_B0_k6_s92601_v1",
+          "postT_cpu_jena_E3_B2_k6_s92601_v1"
+        ]
+      },
+      "scope": "Only runs with public observed per-channel sufficient statistics; absence is not a score verification"
+    },
+    {
+      "gate": "G7_CACHE",
+      "status": "PASS_CURRENT_BOUND_ARTIFACTS",
+      "checked": [
+        {
+          "job_id": "A01_data",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A04_solver",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A02_cap_s92601",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A02_cap_s92602",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e0_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e0_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e0_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e1_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e1_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e1_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e2_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e2_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e2_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e3_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e3_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92601_e3_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e0_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e0_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e0_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e1_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e1_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e1_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e2_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e2_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e2_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e3_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e3_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B0_s92602_e3_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e0_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e0_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e0_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e1_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e1_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e1_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e2_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e2_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e2_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e3_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e3_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92601_e3_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e0_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e0_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e0_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e1_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e1_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e1_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e2_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e2_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e2_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e3_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e3_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_s92602_e3_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e0_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e0_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e0_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e1_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e1_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e1_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e2_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e2_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e2_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e3_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e3_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92601_e3_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e0_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e0_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e0_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e1_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e1_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e1_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e2_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e2_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e2_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e3_A_fit",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e3_A_stop",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "A03_B2_CAP_POINTWISE_s92602_e3_V_select",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B01_B0_s92601",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B01_B0_s92602",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B01_B2_s92601",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B01_B2_s92602",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B01_B2_CAP_POINTWISE_s92601",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B01_B2_CAP_POINTWISE_s92602",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B02_jena",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B02_pems32",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "D01_moirai2",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "D01_chronos2",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B03_s92601",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "B03_s92602",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "C00_pems_pair_profile",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "C00_pems_gpu_pair_profile",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "C01_pems32_cuda_B0",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "C01_pems32_cuda_B2",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "C02_s92601",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "C02_s92602",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "D02_moirai_s92601",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "D02_moirai_s92602",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "D03_jena",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "D03_pems08",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "E01_pems32_B0_b1",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "E01_pems32_B0_b8",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "E01_pems32_B2_b1",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "E01_pems32_B2_b8",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "E01_jena_matched",
+          "all_bound_artifacts_verified": true
+        },
+        {
+          "job_id": "E03_jena_gpu",
+          "all_bound_artifacts_verified": true
+        }
+      ],
+      "saved_replay_graph": {
+        "source": "NEW_STATS_REPLAY.json",
+        "sha256": "e52bce90f915cfed823682d9928d12ba86dd957f51d51af3b432eddfafc27a08",
+        "late_bound_rows": 6,
+        "all_bound_artifacts_verified": true
+      },
+      "scope": "Actual complete receipt identity and bound public/private hashes plus verification-time B01 late bindings. Late capture does not prove historical prediction immutability; subsequent mutation is rejected."
+    },
+    {
+      "gate": "G9_TYPES_AND_SIZE",
+      "status": "PASS",
+      "public_files": 1178,
+      "bytes": 137096057
+    }
+  ],
+  "problems": [],
+  "raw_or_model_loads": 0,
+  "independent_public_reaggregation_runs": 141,
+  "publication_note": "This validation is not a remote main push receipt or official staged payload checker"
+}

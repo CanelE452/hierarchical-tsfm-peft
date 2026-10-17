@@ -1,0 +1,1414 @@
+{
+  "status": "COMPLETE",
+  "reason": null,
+  "result": {
+    "schema": "ADAPTER_DATA_AUDIT_v1",
+    "checked_utc": "2026-10-17T15:41:05.982834+00:00",
+    "source_bindings": {
+      "research/adapter_diagnostics_20261017_v2/data_audit.py": "883eafa5bd2d9c6fa3d7feeac67f3949285773a64bfebb7bcb46a7a0db77e800",
+      "research/informs_broad_validation_20261015_v1/DATA_CONTRACT.json": "618d2c45716ee787293a373f1861bbbc755bb6df74a9ede1d5a9552ee51f6f6c",
+      "research/informs_broad_validation_20261015_v1/ASSET_SOURCES.json": "7229befde53cc1e95ae79babcb1f2a1a797a7788c9d4347242dc9f8586ca23e9",
+      "research/informs_broad_validation_20261015_v1/data_contract.py": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+      "research/informs_broad_validation_20261015_v1/ridge_baseline.py": "a0aa9487d8d66491952a8112dc00ad450b6915802b3d650dbe4c73e9ba3ad533",
+      "research/informs_broad_validation_20261015_v1/RIDGE_PROTOCOL_KO.md": "4b582706216388d5e9381c742f96e121ba93827714fe4d164555b82d7bedfab7",
+      "research/informs_broad_validation_20261015_v1/priority_b2_validation_20261016_v1/safe_jena_prefix.py": "6b496dcbbb6cef48acb9010c630ed81359a2d60bff89aaec9e9e77c4b6d0b541"
+    },
+    "datasets": {
+      "beijing": {
+        "status": "COMPLETE",
+        "inherited_source_metadata": {
+          "source_reference": ".cache/smallk_predictive_alignment_20261013/beijing_repair/raw_dataset/beijing_aotizhongxin/b04da438b2f331ac/fit_tune_payload.npz",
+          "source_sha256": "78063851dd3e65512e3e3ced22210839697553f2d652fc0be9513736af598277",
+          "source_bytes": 1524625,
+          "source_contract_sha256": "9116703c22b3dea317cb1ff750fd45d05c5d6e4a226946a41334e0794484849f",
+          "permitted_source_bounds": [
+            0,
+            21038
+          ],
+          "source_kind": "physical",
+          "historically_unseen_to_researcher": false,
+          "archive_deserialization_scope": "Required NPZ members decompress in full then FIT slicing; old TUNE/VAL physically deserialized but excluded from all returned arrays/computation",
+          "ancestry": "Physical FP32 observations",
+          "new_to_campaign": false,
+          "pretraining_overlap_known": "unknown"
+        },
+        "full_permitted_shape": [
+          21038,
+          11
+        ],
+        "L": 512,
+        "H": 48,
+        "primary_split_ranges": {
+          "A_fit": [
+            0,
+            10519
+          ],
+          "A_stop": [
+            10519,
+            12622
+          ],
+          "M_cal": [
+            12622,
+            14726
+          ],
+          "V_select": [
+            14726,
+            16830
+          ],
+          "T_final": [
+            16830,
+            21038
+          ]
+        },
+        "pretraining_overlap": "UNKNOWN",
+        "pretraining_note": "Dataset lineage alone cannot prove model training overlap",
+        "access": {
+          "source_reference": ".cache/smallk_predictive_alignment_20261013/beijing_repair/raw_dataset/beijing_aotizhongxin/b04da438b2f331ac/fit_tune_payload.npz",
+          "source_sha256": "78063851dd3e65512e3e3ced22210839697553f2d652fc0be9513736af598277",
+          "source_bytes": 1524625,
+          "source_contract_reference": ".cache/smallk_predictive_alignment_20261013/beijing_repair/raw_dataset/beijing_aotizhongxin/b04da438b2f331ac/contract.json",
+          "source_contract_sha256": "9116703c22b3dea317cb1ff750fd45d05c5d6e4a226946a41334e0794484849f",
+          "materialized_rows": 16830,
+          "source_bounds": [
+            0,
+            16830
+          ],
+          "members": [
+            {
+              "member": "physical.npy",
+              "source_shape": [
+                28051,
+                11
+              ],
+              "materialized_source_bounds": [
+                0,
+                16830
+              ],
+              "numeric_values_decoded": 185130,
+              "protected_T_numeric_values_decoded": 0
+            },
+            {
+              "member": "mask.npy",
+              "source_shape": [
+                28051,
+                11
+              ],
+              "materialized_source_bounds": [
+                0,
+                16830
+              ],
+              "numeric_values_decoded": 185130,
+              "protected_T_numeric_values_decoded": 0
+            },
+            {
+              "member": "times.npy",
+              "source_shape": [
+                28051
+              ],
+              "materialized_source_bounds": [
+                0,
+                16830
+              ],
+              "numeric_values_decoded": 16830,
+              "protected_T_numeric_values_decoded": 0
+            }
+          ],
+          "new_T_numeric_values_parsed": 0,
+          "source_blob_IO": "Opaque ZIP bytes may include skipped prefixes/tails; only registered pre-T segment decoded"
+        },
+        "checks": {
+          "status": "PASS",
+          "prefix_rows": 16830,
+          "channels": 11,
+          "actual_observed_zero_count_preT": 17580,
+          "observed_count_preT": 180140,
+          "missing_count_preT": 4990,
+          "A_fit_min_channel_observation_count": 9535,
+          "constant_channels_A_fit": 0,
+          "A_fit_statistics_fingerprints": {
+            "mean": "cf967f8b13172298e5eaf3b38c62cb8061b46940cd7ff20bb98ceed77d246dde",
+            "std": "c26130899912110e24caa8dcebae74f9c73b400d0c18e090ad381bc7b46f80c9",
+            "count": "590ad3ff4d542b579ec345d45d06921832890f13d539b0d70d45162c367db835"
+          },
+          "A60_scaler_sha256": "3348bcf1fa76d382f23cf20597fa90de6e21dac587d4ca9f6883f235a10f93fb",
+          "origins": {
+            "A_fit": 9960,
+            "A_stop": 43,
+            "M_cal": 43,
+            "V_select": 43
+          },
+          "origin_hashes": {
+            "A_fit": "718697784a39a490126bcd8405cc40c42e5986d17a3ca4cdc962f4630ea251b3",
+            "A_stop": "5c2eab267219bd200585a95959e318e667a6f9b847f4b6417a5510827f19a422",
+            "M_cal": "d2d5c68977bb606d3fa2ad1c8e0a7fb6ca1b39be9fdcfee957b6fc1092f5ad93",
+            "V_select": "fac1a646f2337d84a5aee097e9a966bf4a015bbc31551dccd381eb2daac88358"
+          },
+          "prefix_array_sha256": {
+            "physical": "2019879115dae5864ea71c341848428421196028e48ffe96cdcbb1523752a123",
+            "observed": "e1e93ef5308d8b0667a20e9780560f0e8bceaeb8aecb71b624f51574dc31d29f",
+            "times": "752db1e35035ba4d06eb024068b6e22942eb03330c2a266c158b91997a56c2d5",
+            "columns": "55f21242a84289243876a03a6dd7f56576b31bc3ab5a3dbc93ba71196317ac31"
+          },
+          "first_materialized_timestamp_ns": 1362096000000000000,
+          "last_materialized_timestamp_ns": 1422680400000000000,
+          "future_mutation_history_unchanged": true,
+          "A_outside_mutation_statistics_unchanged": true,
+          "inherited_full_task_data_sha256": "b39023bcae04736eff9a0fd9a3d56e10dc7f32bd668a53d681290cb9193d8269",
+          "inherited_identity_recomputed": false
+        },
+        "ridge": {
+          "status": "REUSED_VERIFIED",
+          "run_id": "primary_beijing_E1_RAW_RIDGE_k0_s92601",
+          "artifact_sha256": "11933ec1fcb992f9106f562b4804747df6c8f5ae0d556fa6269bb6ea7bfe83aa",
+          "replay_receipt_reference": "runs/primary_beijing_E1_RAW_RIDGE_k0_s92601/RIDGE_REPLAY_RECEIPT.json",
+          "replay_receipt_sha256": "14e9c9958ee7ad7cd7def71d03955feeca2efd317f971c167c35acad7637ec01",
+          "source_sha256": "b7737a33815cd4b531b0c2d7e822acf639bc7eab25ff12d612cd9ded6ef91a3d",
+          "data_sha256": "b39023bcae04736eff9a0fd9a3d56e10dc7f32bd668a53d681290cb9193d8269",
+          "model_sha256": "800fa8493f55e64b214b27b030fe9f0aa9dfbfb32753ed29c71252cf6fdc1638",
+          "scaler_sha256": "3348bcf1fa76d382f23cf20597fa90de6e21dac587d4ca9f6883f235a10f93fb",
+          "selected_alpha": 0.01,
+          "parameters": 17424,
+          "historical_KKT_max_abs_residual": 2.3689817468808272e-17,
+          "KKT_evidence": "Historical verified receipt reused; no new real-data refit or KKT claimed",
+          "selection_grid_boundary": "Selected .01 is lower grid boundary; no global optimum claim"
+        }
+      },
+      "jena": {
+        "status": "COMPLETE",
+        "inherited_source_metadata": {
+          "source_reference": ".cache/tsfm_peft_practical_controls_v7_20260928/data/jena_trainval.npz",
+          "source_sha256": "29cfae52d7cd7128e551ef85da11138ed4d3f7b3ccf27af359c4fc1dedf4a933",
+          "source_bytes": 1561064,
+          "source_contract_sha256": "678bd4cbd63265290c0eeed8a78b09545a05219b666fd3b818682ce385906820",
+          "permitted_source_bounds": [
+            0,
+            20965
+          ],
+          "source_kind": "legacy_normalized",
+          "historically_unseen_to_researcher": false,
+          "archive_deserialization_scope": "Required NPZ members decompress in full then FIT slicing; old TUNE/VAL physically deserialized but excluded from all returned arrays/computation",
+          "ancestry": "FP32 inverse of legacy full-TRAIN normalization; rounding and normalization ancestry remain; not lossless raw A-only",
+          "new_to_campaign": false,
+          "pretraining_overlap_known": "unknown"
+        },
+        "full_permitted_shape": [
+          20965,
+          21
+        ],
+        "L": 512,
+        "H": 48,
+        "primary_split_ranges": {
+          "A_fit": [
+            0,
+            10482
+          ],
+          "A_stop": [
+            10482,
+            12579
+          ],
+          "M_cal": [
+            12579,
+            14675
+          ],
+          "V_select": [
+            14675,
+            16772
+          ],
+          "T_final": [
+            16772,
+            20965
+          ]
+        },
+        "pretraining_overlap": "UNKNOWN",
+        "pretraining_note": "Dataset lineage alone cannot prove model training overlap",
+        "access": {
+          "status": "MATERIALIZED_PRE_T_PREFIX_ONLY",
+          "source_relative_path": ".cache/tsfm_peft_practical_controls_v7_20260928/data/jena_trainval.npz",
+          "source_sha256": "29cfae52d7cd7128e551ef85da11138ed4d3f7b3ccf27af359c4fc1dedf4a933",
+          "source_bytes": 1561064,
+          "source_rows": 35135,
+          "old_permitted_rows": 20965,
+          "materialized_rows": 16772,
+          "materialized_bounds": [
+            0,
+            16772
+          ],
+          "contract_relative_path": "research/level_matched_learned_ed_v18_20261006/data_contract_jena.json",
+          "contract_sha256": "678bd4cbd63265290c0eeed8a78b09545a05219b666fd3b818682ce385906820",
+          "original_primary_split_ranges": {
+            "A_fit": [
+              0,
+              10482
+            ],
+            "A_stop": [
+              10482,
+              12579
+            ],
+            "M_cal": [
+              12579,
+              14675
+            ],
+            "V_select": [
+              14675,
+              16772
+            ],
+            "T_final": [
+              16772,
+              20965
+            ]
+          },
+          "members": [
+            {
+              "member": "x.npy",
+              "descr": "<f4",
+              "shape": [
+                35135,
+                21
+              ],
+              "fortran_order": true,
+              "itemsize": 4,
+              "header_total_bytes": 128,
+              "payload_bytes": 2951340,
+              "materialized_shape": [
+                16772,
+                21
+              ],
+              "numeric_payload_bytes_converted": 1408848,
+              "opaque_payload_bytes_discarded": 1469040,
+              "payload_bytes_left_unread": 73452,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "finite.npy",
+              "descr": "|b1",
+              "shape": [
+                35135,
+                21
+              ],
+              "fortran_order": true,
+              "itemsize": 1,
+              "header_total_bytes": 128,
+              "payload_bytes": 737835,
+              "materialized_shape": [
+                16772,
+                21
+              ],
+              "numeric_payload_bytes_converted": 352212,
+              "opaque_payload_bytes_discarded": 367260,
+              "payload_bytes_left_unread": 18363,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "times.npy",
+              "descr": "<i8",
+              "shape": [
+                35135
+              ],
+              "fortran_order": false,
+              "itemsize": 8,
+              "header_total_bytes": 128,
+              "payload_bytes": 281080,
+              "materialized_shape": [
+                16772
+              ],
+              "numeric_payload_bytes_converted": 134176,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 146904,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "mean.npy",
+              "descr": "<f4",
+              "shape": [
+                21
+              ],
+              "fortran_order": false,
+              "itemsize": 4,
+              "header_total_bytes": 128,
+              "payload_bytes": 84,
+              "materialized_shape": [
+                21
+              ],
+              "numeric_payload_bytes_converted": 84,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 0,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "std.npy",
+              "descr": "<f4",
+              "shape": [
+                21
+              ],
+              "fortran_order": false,
+              "itemsize": 4,
+              "header_total_bytes": 128,
+              "payload_bytes": 84,
+              "materialized_shape": [
+                21
+              ],
+              "numeric_payload_bytes_converted": 84,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 0,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "columns.npy",
+              "descr": "<U20",
+              "shape": [
+                21
+              ],
+              "fortran_order": false,
+              "itemsize": 80,
+              "header_total_bytes": 128,
+              "payload_bytes": 1680,
+              "materialized_shape": [
+                21
+              ],
+              "numeric_payload_bytes_converted": 1680,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 0,
+              "tail_numeric_values_parsed": 0
+            }
+          ],
+          "inherited_full_task_data_sha256": "3928079b90efb066e02a8a3bef76dfefd92452a2ad0b26c29caf14393a161a58",
+          "inherited_full_task_array_sha256": {
+            "physical": "8ee32710d5b232402d7b689ed799b73e0f18c95b6af3a9f59b450da99df39b6a",
+            "observed": "b541c6a6aebe19a68194a3dc5408f74cb10751d02d812f89014624c2179b77fe",
+            "times": "aadd95c5233f8bea4577c61da8f5e31cc4eec4168bcc89161725f83db1bd3a69",
+            "columns": "73aab7ba2ebb1732c67d594928c565bbb4fd2151e5a97b8079d9fb498aa64890"
+          },
+          "inherited_identity_status": "INHERITED_NOT_RECOMPUTED",
+          "materialized_prefix_sha256": "7a07c77f2ef253427620fecd0e8ef05a46c91e7366d06a071372ce3d45864c70",
+          "materialized_prefix_array_sha256": {
+            "physical": "5425ff11e957a2b208edaeff3bd6575cb12ec59e4f3370b0aabfedd92abc6515",
+            "observed": "41821c5304fd567eb70496607647b284197098e74b83eb2bf10b23933030f510",
+            "times": "6c8b7b3802f9d6b37938234268ae04f61dfa02f91c5e9a593eeb9ed3195d033a",
+            "columns": "73aab7ba2ebb1732c67d594928c565bbb4fd2151e5a97b8079d9fb498aa64890"
+          },
+          "old_task_contract_sha256": "49030d9ae6f2586752229bde1d7290046946ae9e9921873aa1a57336ebd5697a",
+          "new_T_numeric_values_parsed": 0,
+          "raw_values_published": false,
+          "original_source_bytes_preserved": true,
+          "physical_IO_scope": "Source file opaque SHA reads whole compressed bytes; ZIP may buffer/decompress opaque tail while skipping; only selected prefix payload bytes reach numeric decoding"
+        },
+        "checks": {
+          "status": "PASS",
+          "prefix_rows": 16772,
+          "channels": 21,
+          "actual_observed_zero_count_preT": 59088,
+          "observed_count_preT": 352212,
+          "missing_count_preT": 0,
+          "A_fit_min_channel_observation_count": 10482,
+          "constant_channels_A_fit": 0,
+          "A_fit_statistics_fingerprints": {
+            "mean": "79a30270f552f81a021caed11df4f7a412d641b0d2ce08628f3f59bda37a7c64",
+            "std": "a86d412b54cddbcf8e53e6d6da5bcb1bad11af6addf0cfa3ae6c62153daade57",
+            "count": "12d29962668ab1fbd41ee510d42a3d83f66417b42420cd634ddac5e614894950"
+          },
+          "A60_scaler_sha256": "5f0c7d6aeddcfe9577e381375d36cadc47d2572469118da73e6ad837031fa2b9",
+          "origins": {
+            "A_fit": 9923,
+            "A_stop": 43,
+            "M_cal": 43,
+            "V_select": 43
+          },
+          "origin_hashes": {
+            "A_fit": "0086236826b8bda1e73648202350e5379c8d9a37d4032067aa4e216158d2d83e",
+            "A_stop": "1c506b187e2850fa3420eba423fedc77dbaf3310abd8e65f8979f81e99f516d9",
+            "M_cal": "9d42fa8b1a50c34a8b8d7d097ab5b2ee3f0c41ab65ae56f0cb7a67a9a073810e",
+            "V_select": "73591e8a10339f37e069a3b5aa6c31df6e009eaa2467b6b377a8a073b006f351"
+          },
+          "prefix_array_sha256": {
+            "physical": "5425ff11e957a2b208edaeff3bd6575cb12ec59e4f3370b0aabfedd92abc6515",
+            "observed": "41821c5304fd567eb70496607647b284197098e74b83eb2bf10b23933030f510",
+            "times": "6c8b7b3802f9d6b37938234268ae04f61dfa02f91c5e9a593eeb9ed3195d033a",
+            "columns": "73aab7ba2ebb1732c67d594928c565bbb4fd2151e5a97b8079d9fb498aa64890"
+          },
+          "first_materialized_timestamp_ns": 1704067800000000000,
+          "last_materialized_timestamp_ns": 1714130400000000000,
+          "future_mutation_history_unchanged": true,
+          "A_outside_mutation_statistics_unchanged": true,
+          "inherited_full_task_data_sha256": "3928079b90efb066e02a8a3bef76dfefd92452a2ad0b26c29caf14393a161a58",
+          "inherited_identity_recomputed": false
+        },
+        "ridge": {
+          "status": "REUSED_VERIFIED",
+          "run_id": "primary_jena_E1_RAW_RIDGE_k0_s92601",
+          "artifact_sha256": "b7aea950cdaa4f93e49175910ebe6073975fbea3d6f399af5c1707bbce60c5e6",
+          "replay_receipt_reference": "runs/primary_jena_E1_RAW_RIDGE_k0_s92601/RIDGE_REPLAY_RECEIPT.json",
+          "replay_receipt_sha256": "2029f51f09183cd9fa22395e8af3403c9d93e1f4298efdc43258f9d7c22241e6",
+          "source_sha256": "b7737a33815cd4b531b0c2d7e822acf639bc7eab25ff12d612cd9ded6ef91a3d",
+          "data_sha256": "3928079b90efb066e02a8a3bef76dfefd92452a2ad0b26c29caf14393a161a58",
+          "model_sha256": "42caf1278a4b16d0bf03aafc2e4ed7f15af4d39b1e79e384a5b1d58e6b43884d",
+          "scaler_sha256": "5f0c7d6aeddcfe9577e381375d36cadc47d2572469118da73e6ad837031fa2b9",
+          "selected_alpha": 0.01,
+          "parameters": 33264,
+          "historical_KKT_max_abs_residual": 1.81603863891322e-17,
+          "KKT_evidence": "Historical verified receipt reused; no new real-data refit or KKT claimed",
+          "selection_grid_boundary": "Selected .01 is lower grid boundary; no global optimum claim"
+        }
+      },
+      "robin": {
+        "status": "COMPLETE",
+        "inherited_source_metadata": {
+          "source_reference": ".cache/tsfm_peft_level_confirmation_v6_20260928/data/trainval.npz",
+          "source_sha256": "04523b70fa2df7b37514ab0f12e0cb25048c35fd120a11d4c6ab56e0ae464e14",
+          "source_bytes": 111474,
+          "source_contract_sha256": "b7c02be4f69617e1c60dd874ef6337facde1a4165f8cbd30233aefb0601a85b2",
+          "permitted_source_bounds": [
+            528,
+            2121
+          ],
+          "source_kind": "legacy_normalized",
+          "historically_unseen_to_researcher": false,
+          "archive_deserialization_scope": "Required NPZ members decompress in full then FIT slicing; old TUNE/VAL physically deserialized but excluded from all returned arrays/computation",
+          "ancestry": "FP32 inverse of legacy full-TRAIN normalization; rounding and normalization ancestry remain; not lossless raw A-only",
+          "new_to_campaign": false,
+          "pretraining_overlap_known": "unknown"
+        },
+        "full_permitted_shape": [
+          1593,
+          17
+        ],
+        "L": 512,
+        "H": 48,
+        "primary_split_ranges": {
+          "A_fit": [
+            0,
+            796
+          ],
+          "A_stop": [
+            796,
+            955
+          ],
+          "M_cal": [
+            955,
+            1115
+          ],
+          "V_select": [
+            1115,
+            1274
+          ],
+          "T_final": [
+            1274,
+            1593
+          ]
+        },
+        "pretraining_overlap": "UNKNOWN",
+        "pretraining_note": "Dataset lineage alone cannot prove model training overlap",
+        "access": {
+          "source_reference": ".cache/tsfm_peft_level_confirmation_v6_20260928/data/trainval.npz",
+          "source_sha256": "04523b70fa2df7b37514ab0f12e0cb25048c35fd120a11d4c6ab56e0ae464e14",
+          "source_bytes": 111474,
+          "source_contract_reference": "research/level_matched_learned_ed_v18_20261006/data_contract_robin.json",
+          "source_contract_sha256": "b7c02be4f69617e1c60dd874ef6337facde1a4165f8cbd30233aefb0601a85b2",
+          "materialized_rows": 1274,
+          "source_bounds": [
+            528,
+            1802
+          ],
+          "members": [
+            {
+              "member": "x.npy",
+              "source_shape": [
+                3312,
+                17
+              ],
+              "materialized_source_bounds": [
+                528,
+                1802
+              ],
+              "numeric_values_decoded": 21658,
+              "protected_T_numeric_values_decoded": 0
+            },
+            {
+              "member": "finite.npy",
+              "source_shape": [
+                3312,
+                17
+              ],
+              "materialized_source_bounds": [
+                528,
+                1802
+              ],
+              "numeric_values_decoded": 21658,
+              "protected_T_numeric_values_decoded": 0
+            },
+            {
+              "member": "times.npy",
+              "source_shape": [
+                3312
+              ],
+              "materialized_source_bounds": [
+                528,
+                1802
+              ],
+              "numeric_values_decoded": 1274,
+              "protected_T_numeric_values_decoded": 0
+            }
+          ],
+          "new_T_numeric_values_parsed": 0,
+          "source_blob_IO": "Opaque ZIP bytes may include skipped prefixes/tails; only registered pre-T segment decoded"
+        },
+        "checks": {
+          "status": "PASS",
+          "prefix_rows": 1274,
+          "channels": 17,
+          "actual_observed_zero_count_preT": 0,
+          "observed_count_preT": 21657,
+          "missing_count_preT": 1,
+          "A_fit_min_channel_observation_count": 795,
+          "constant_channels_A_fit": 0,
+          "A_fit_statistics_fingerprints": {
+            "mean": "67c6bd26a9dbbfac7530d1ab90b111b4d364137b40acb72225d8435cc392d2a5",
+            "std": "86da88cb01458f266dadd397af2f17c0e940696924f3259fe8504f90dd69614c",
+            "count": "0ac54b7746f003056746882a86b8bc06a4d165421707e406c6ca6a15ee82848b"
+          },
+          "A60_scaler_sha256": "9ee88501873c78f2240a92fdfe14748034e936a750b6d84e7a6b397db3823888",
+          "origins": {
+            "A_fit": 237,
+            "A_stop": 3,
+            "M_cal": 3,
+            "V_select": 3
+          },
+          "origin_hashes": {
+            "A_fit": "4a13d51492161513bf113072d44b862c057f75b02c00fad0f3d6ae15c30fc98b",
+            "A_stop": "2251949dc67d5be7908a09e4dd2719ecbabad52d00109640ae2a7a55b7778096",
+            "M_cal": "fca88f759d723a6f93ab48f7bc3b21c475c23a9ad7a07f9d90f785b60598a950",
+            "V_select": "4a39d248445e14cb626acf478e0f4a960f03d0cac8b55d30e65a0d05790e2d3b"
+          },
+          "prefix_array_sha256": {
+            "physical": "a29de95edc2d1226bbf125502ddb90bf8e4cd4d3354c23cb5ce2a7550f6e7ac0",
+            "observed": "9c489193a1e41b5244018f745f1f2975f29198b31f8346e71c97070ddd0f02b4",
+            "times": "2a72325d2d8ce038a1406fd730c0a8978abfef5b47f643293859f00405bb555d",
+            "columns": "1c7ae05d51a9c1a5add2eabbf45bd57d49ac46bc6e069890c6012b6c0b6074fa"
+          },
+          "first_materialized_timestamp_ns": 1453507200000000000,
+          "last_materialized_timestamp_ns": 1458090000000000000,
+          "future_mutation_history_unchanged": true,
+          "A_outside_mutation_statistics_unchanged": true,
+          "inherited_full_task_data_sha256": "e785cc016fbd0117d93261060b4ff9bd34c0dfdf6e0930beba473a1187a0ac63",
+          "inherited_identity_recomputed": false
+        },
+        "ridge": {
+          "status": "BLOCKED_MISSING_ASSET",
+          "reason": "Pinned ridge artifact or public replay receipt absent"
+        }
+      },
+      "pems08": {
+        "status": "COMPLETE",
+        "inherited_source_metadata": {
+          "source_key": "data",
+          "source_shape": [
+            17856,
+            170,
+            3
+          ],
+          "source_dtype": "float64",
+          "selected_feature_axis": 2,
+          "selected_feature_index": 0,
+          "target_semantics": "Traffic flow, feature0 as author ASTGCN preprocessing target and input selector",
+          "timestamp_timezone": "No timestamps in NPZ; synthetic elapsed grid from 1970-01-01T00:00:00; calendar dates not asserted",
+          "grid_evidence": "Pinned author configuration points_per_hour=12 => 5min; num_of_vertices=170",
+          "columns_are": "Preserved complete NPZ sensor axis order; original external sensor IDs not in NPZ",
+          "units": "Traffic flow as author data; exact physical counting-unit specification absent",
+          "zero_policy": "Finite mask including 0 observed; zero not treated as missing",
+          "upstream_imputation": "Author distributed NPZ preprocessing unavailable; cannot rule out original future-based interpolation. No new interpolation applied",
+          "license": "AUTHOR_RESEARCH_DISTRIBUTION_FORMAL_LICENSE_UNSPECIFIED",
+          "raw_publication_allowed": false,
+          "task_deviation": "L512/H12 differs from TimeMixer paper L96/H12; not original benchmark-score reproduction",
+          "source_url": "https://raw.githubusercontent.com/guoshnBJTU/ASTGNN/9c2e19b98c4cedf1f35214d8789685b6381b3aad/data/PEMS08/PEMS08.npz",
+          "source_sha256": "e1d03ce74e9fb79149e6e7c37c680214822c4a285baa2f42278cacabcd25c075",
+          "source_bytes": 18525419,
+          "source_reference": "sources/PEMS08.npz",
+          "new_to_campaign": true,
+          "historically_unseen_to_researcher": "unknown",
+          "pretraining_overlap_known": "unknown"
+        },
+        "full_permitted_shape": [
+          17856,
+          170
+        ],
+        "L": 512,
+        "H": 12,
+        "primary_split_ranges": {
+          "A_fit": [
+            0,
+            8928
+          ],
+          "A_stop": [
+            8928,
+            10713
+          ],
+          "M_cal": [
+            10713,
+            12499
+          ],
+          "V_select": [
+            12499,
+            14284
+          ],
+          "T_final": [
+            14284,
+            17856
+          ]
+        },
+        "pretraining_overlap": "UNKNOWN",
+        "pretraining_note": "Dataset lineage alone cannot prove model training overlap",
+        "access": {
+          "source_reference": "data/pems08_permitted.npz",
+          "source_sha256": "44276ac16c3812a8e075a763f1faa20dd3f290f15d4617315494597719b8f24e",
+          "receipt_sha256": "bc3b48bf4637728808fe0fbc550792756a08bfe6b2f3db3f7d2be2af4106d737",
+          "materialized_rows": 14284,
+          "members": [
+            {
+              "member": "physical.npy",
+              "descr": "<f4",
+              "shape": [
+                17856,
+                170
+              ],
+              "fortran_order": false,
+              "itemsize": 4,
+              "header_total_bytes": 128,
+              "payload_bytes": 12142080,
+              "materialized_shape": [
+                14284,
+                170
+              ],
+              "numeric_payload_bytes_converted": 9713120,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 2428960,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "observed.npy",
+              "descr": "|b1",
+              "shape": [
+                17856,
+                170
+              ],
+              "fortran_order": false,
+              "itemsize": 1,
+              "header_total_bytes": 128,
+              "payload_bytes": 3035520,
+              "materialized_shape": [
+                14284,
+                170
+              ],
+              "numeric_payload_bytes_converted": 2428280,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 607240,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "times.npy",
+              "descr": "<i8",
+              "shape": [
+                17856
+              ],
+              "fortran_order": false,
+              "itemsize": 8,
+              "header_total_bytes": 128,
+              "payload_bytes": 142848,
+              "materialized_shape": [
+                14284
+              ],
+              "numeric_payload_bytes_converted": 114272,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 28576,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "columns.npy",
+              "descr": "<U16",
+              "shape": [
+                170
+              ],
+              "fortran_order": false,
+              "itemsize": 64,
+              "header_total_bytes": 128,
+              "payload_bytes": 10880,
+              "materialized_shape": [
+                170
+              ],
+              "numeric_payload_bytes_converted": 10880,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 0,
+              "tail_numeric_values_parsed": 0
+            }
+          ],
+          "new_T_numeric_values_parsed": 0,
+          "source_blob_IO": "Opaque compressed file hashing; only pre-T members decoded numerically"
+        },
+        "checks": {
+          "status": "PASS",
+          "prefix_rows": 14284,
+          "channels": 170,
+          "actual_observed_zero_count_preT": 8507,
+          "observed_count_preT": 2428280,
+          "missing_count_preT": 0,
+          "A_fit_min_channel_observation_count": 8928,
+          "constant_channels_A_fit": 0,
+          "A_fit_statistics_fingerprints": {
+            "mean": "3756f5b7c8b8c1aa157c1ee4464564a5612ffc3a4e0885b9f16e4ddf0fd977bc",
+            "std": "d39e670c96536d2b303d6275c75e6e7bfababc9ab781ce2d10ba5c2999ffc47e",
+            "count": "3904055fc3770dcb870e8dbffe473b4608d8d10d3bf5891a551f40edd050073d"
+          },
+          "A60_scaler_sha256": "94e8c71c42f8d58a1d258fb200d86a24595fe1793203da1543b3e47a60569c60",
+          "origins": {
+            "A_fit": 8405,
+            "A_stop": 148,
+            "M_cal": 148,
+            "V_select": 148
+          },
+          "origin_hashes": {
+            "A_fit": "e9ff527ccc0f3f61a309efd919d42da9c3ba9a4a6c380d6c6e63fcf694fb8fcc",
+            "A_stop": "2f458b830ff884e95fbe9cc41591c113a2447e6538618a500eca09aee285d3f4",
+            "M_cal": "3e72b86873cf8227f144f75dd54a263e071e82c45aa13bb2bc5162e9c20f30d4",
+            "V_select": "e1af4c1f2afb28101f5350b0cdbc1c8ab6c4fa7af08666f74e7665b73a64edac"
+          },
+          "prefix_array_sha256": {
+            "physical": "803571ecf55e842f1ab1c3d31c2e72d6ca31bf7553fc281cded218b0284d5693",
+            "observed": "e283ea09c206d26c5f8a5945be9cf35f2b5dec073b106de6767945797cccfa82",
+            "times": "e7998fdb0e5ade1f38f4a49cdac35a060cc5445eeaf826b06846005725e3195f",
+            "columns": "2cf1c198f69045c6fb2da1af0e878e6b79cc756aab3d203f120af7ae320614e4"
+          },
+          "first_materialized_timestamp_ns": 0,
+          "last_materialized_timestamp_ns": 4284900000000000,
+          "future_mutation_history_unchanged": true,
+          "A_outside_mutation_statistics_unchanged": true,
+          "inherited_full_task_data_sha256": "d7b31d48ba3f3e15f571ad3f850732e53aab6ec1289cf3f33e40763c295b8697",
+          "inherited_identity_recomputed": false
+        },
+        "ridge": {
+          "status": "REUSED_VERIFIED",
+          "run_id": "primary_pems08_E1_RAW_RIDGE_k0_s92601",
+          "artifact_sha256": "357b0b7e1a8aa540853aff4cd44ae36744b1adb61227da3948d48a31c98de1f3",
+          "replay_receipt_reference": "runs/primary_pems08_E1_RAW_RIDGE_k0_s92601/RIDGE_REPLAY_RECEIPT.json",
+          "replay_receipt_sha256": "eac976ffe5d013cc7117e09fc8a8955eb3ffb6d51752031216a96b78122ff7a5",
+          "source_sha256": "b7737a33815cd4b531b0c2d7e822acf639bc7eab25ff12d612cd9ded6ef91a3d",
+          "data_sha256": "d7b31d48ba3f3e15f571ad3f850732e53aab6ec1289cf3f33e40763c295b8697",
+          "model_sha256": "1e0c57b3aeda0f3aadf4496abc7e7de06b0af4813ca4b2f51e06a252435c5ad4",
+          "scaler_sha256": "94e8c71c42f8d58a1d258fb200d86a24595fe1793203da1543b3e47a60569c60",
+          "selected_alpha": 0.01,
+          "parameters": 67320,
+          "historical_KKT_max_abs_residual": 3.8163916471489756e-17,
+          "KKT_evidence": "Historical verified receipt reused; no new real-data refit or KKT claimed",
+          "selection_grid_boundary": "Selected .01 is lower grid boundary; no global optimum claim"
+        }
+      },
+      "electricity": {
+        "status": "COMPLETE",
+        "inherited_source_metadata": {
+          "columns": [
+            "T1",
+            "T2",
+            "T3",
+            "T4",
+            "T5",
+            "T6",
+            "T7",
+            "T8",
+            "T9",
+            "T10",
+            "T11",
+            "T12",
+            "T13",
+            "T14",
+            "T15",
+            "T16",
+            "T17",
+            "T18",
+            "T19",
+            "T20",
+            "T21",
+            "T22",
+            "T23",
+            "T24",
+            "T25",
+            "T26",
+            "T27",
+            "T28",
+            "T29",
+            "T30",
+            "T31",
+            "T32",
+            "T33",
+            "T34",
+            "T35",
+            "T36",
+            "T37",
+            "T38",
+            "T39",
+            "T40",
+            "T41",
+            "T42",
+            "T43",
+            "T44",
+            "T45",
+            "T46",
+            "T47",
+            "T48",
+            "T49",
+            "T50",
+            "T51",
+            "T52",
+            "T53",
+            "T54",
+            "T55",
+            "T56",
+            "T57",
+            "T58",
+            "T59",
+            "T60",
+            "T61",
+            "T62",
+            "T63",
+            "T64",
+            "T65",
+            "T66",
+            "T67",
+            "T68",
+            "T69",
+            "T70",
+            "T71",
+            "T72",
+            "T73",
+            "T74",
+            "T75",
+            "T76",
+            "T77",
+            "T78",
+            "T79",
+            "T80",
+            "T81",
+            "T82",
+            "T83",
+            "T84",
+            "T85",
+            "T86",
+            "T87",
+            "T88",
+            "T89",
+            "T90",
+            "T91",
+            "T92",
+            "T93",
+            "T94",
+            "T95",
+            "T96",
+            "T97",
+            "T98",
+            "T99",
+            "T100",
+            "T101",
+            "T102",
+            "T103",
+            "T104",
+            "T105",
+            "T106",
+            "T107",
+            "T108",
+            "T109",
+            "T110",
+            "T111",
+            "T112",
+            "T113",
+            "T114",
+            "T115",
+            "T116",
+            "T117",
+            "T118",
+            "T119",
+            "T120",
+            "T121",
+            "T122",
+            "T123",
+            "T124",
+            "T125",
+            "T126",
+            "T127",
+            "T128",
+            "T129",
+            "T130",
+            "T131",
+            "T132",
+            "T133",
+            "T134",
+            "T135",
+            "T136",
+            "T137",
+            "T138",
+            "T139",
+            "T140",
+            "T141",
+            "T142",
+            "T143",
+            "T144",
+            "T145",
+            "T146",
+            "T147",
+            "T148",
+            "T149",
+            "T150",
+            "T151",
+            "T152",
+            "T153",
+            "T154",
+            "T155",
+            "T156",
+            "T157",
+            "T158",
+            "T159",
+            "T160",
+            "T161",
+            "T162",
+            "T163",
+            "T164",
+            "T165",
+            "T166",
+            "T167",
+            "T168",
+            "T169",
+            "T170",
+            "T171",
+            "T172",
+            "T173",
+            "T174",
+            "T175",
+            "T176",
+            "T177",
+            "T178",
+            "T179",
+            "T180",
+            "T181",
+            "T182",
+            "T183",
+            "T184",
+            "T185",
+            "T186",
+            "T187",
+            "T188",
+            "T189",
+            "T190",
+            "T191",
+            "T192",
+            "T193",
+            "T194",
+            "T195",
+            "T196",
+            "T197",
+            "T198",
+            "T199",
+            "T200",
+            "T201",
+            "T202",
+            "T203",
+            "T204",
+            "T205",
+            "T206",
+            "T207",
+            "T208",
+            "T209",
+            "T210",
+            "T211",
+            "T212",
+            "T213",
+            "T214",
+            "T215",
+            "T216",
+            "T217",
+            "T218",
+            "T219",
+            "T220",
+            "T221",
+            "T222",
+            "T223",
+            "T224",
+            "T225",
+            "T226",
+            "T227",
+            "T228",
+            "T229",
+            "T230",
+            "T231",
+            "T232",
+            "T233",
+            "T234",
+            "T235",
+            "T236",
+            "T237",
+            "T238",
+            "T239",
+            "T240",
+            "T241",
+            "T242",
+            "T243",
+            "T244",
+            "T245",
+            "T246",
+            "T247",
+            "T248",
+            "T249",
+            "T250",
+            "T251",
+            "T252",
+            "T253",
+            "T254",
+            "T255",
+            "T256",
+            "T257",
+            "T258",
+            "T259",
+            "T260",
+            "T261",
+            "T262",
+            "T263",
+            "T264",
+            "T265",
+            "T266",
+            "T267",
+            "T268",
+            "T269",
+            "T270",
+            "T271",
+            "T272",
+            "T273",
+            "T274",
+            "T275",
+            "T276",
+            "T277",
+            "T278",
+            "T279",
+            "T280",
+            "T281",
+            "T282",
+            "T283",
+            "T284",
+            "T285",
+            "T286",
+            "T287",
+            "T288",
+            "T289",
+            "T290",
+            "T291",
+            "T292",
+            "T293",
+            "T294",
+            "T295",
+            "T296",
+            "T297",
+            "T298",
+            "T299",
+            "T300",
+            "T301",
+            "T302",
+            "T303",
+            "T304",
+            "T305",
+            "T306",
+            "T307",
+            "T308",
+            "T309",
+            "T310",
+            "T311",
+            "T312",
+            "T313",
+            "T314",
+            "T315",
+            "T316",
+            "T317",
+            "T318",
+            "T319",
+            "T320",
+            "T321"
+          ],
+          "header": [
+            "@relation Electricity",
+            "@attribute series_name string",
+            "@attribute start_timestamp date",
+            "@frequency hourly",
+            "@missing false",
+            "@equallength true",
+            "@data"
+          ],
+          "start_timestamp": "2012-01-01T00:00:01.000000000",
+          "total_source_rows": 26304,
+          "permitted_rows": 24240,
+          "protected_cutoff_exclusive": "2014-10-07T00:00:00.000000000",
+          "numeric_values_parsed": 7781040,
+          "tail_numeric_values_not_parsed": 662544,
+          "protected_tail_policy": "Count/split opaque text only; float conversion permitted prefix only",
+          "timestamp_timezone": "Source does not specify timezone; protected project UTC boundary applied as naive matching clock",
+          "timestamp_offset_seconds": 1,
+          "units": "Source calls hourly aggregated electricity consumption; raw UCI kW ancestry; exact aggregation and unit conversion not rederived",
+          "zero_policy": "All finite values including 0 observed; source declares no missing",
+          "preprocessing_ancestry": "Official 321 hourly 2012-2014 Lai et al. aggregated panel, not selected 321 of original 370 columns; upstream imputation/aggregation not reconstructed",
+          "license": "CC-BY-4.0",
+          "source_missing_declaration": "false",
+          "source_equallength_declaration": "true",
+          "source_url": "https://zenodo.org/api/records/3889830/files/electricity_hourly_dataset.ts/content",
+          "source_sha256": "bc33039133b9f1ca2e73d6b58d97306dd063f865fd12fbb0920ab312f047ad28",
+          "source_bytes": 35932338,
+          "source_reference": "sources/electricity_hourly_dataset.ts",
+          "new_to_campaign": true,
+          "historically_unseen_to_researcher": "unknown",
+          "pretraining_overlap_known": "unknown",
+          "raw_publication_allowed": false
+        },
+        "full_permitted_shape": [
+          24240,
+          321
+        ],
+        "L": 512,
+        "H": 48,
+        "primary_split_ranges": {
+          "A_fit": [
+            0,
+            12120
+          ],
+          "A_stop": [
+            12120,
+            14544
+          ],
+          "M_cal": [
+            14544,
+            16968
+          ],
+          "V_select": [
+            16968,
+            19392
+          ],
+          "T_final": [
+            19392,
+            24240
+          ]
+        },
+        "pretraining_overlap": "UNKNOWN",
+        "pretraining_note": "Dataset lineage alone cannot prove model training overlap",
+        "access": {
+          "source_reference": "data/electricity_permitted.npz",
+          "source_sha256": "4d31bcc7584e48971a354230514fd505648ae82bc64c9bb71fba03c61ac5f64e",
+          "receipt_sha256": "2c32b308e521ea223580555eeadf2b61694eba6cd0f52aae8f8e32eb4a4df944",
+          "materialized_rows": 19392,
+          "members": [
+            {
+              "member": "physical.npy",
+              "descr": "<f4",
+              "shape": [
+                24240,
+                321
+              ],
+              "fortran_order": false,
+              "itemsize": 4,
+              "header_total_bytes": 128,
+              "payload_bytes": 31124160,
+              "materialized_shape": [
+                19392,
+                321
+              ],
+              "numeric_payload_bytes_converted": 24899328,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 6224832,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "observed.npy",
+              "descr": "|b1",
+              "shape": [
+                24240,
+                321
+              ],
+              "fortran_order": false,
+              "itemsize": 1,
+              "header_total_bytes": 128,
+              "payload_bytes": 7781040,
+              "materialized_shape": [
+                19392,
+                321
+              ],
+              "numeric_payload_bytes_converted": 6224832,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 1556208,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "times.npy",
+              "descr": "<i8",
+              "shape": [
+                24240
+              ],
+              "fortran_order": false,
+              "itemsize": 8,
+              "header_total_bytes": 128,
+              "payload_bytes": 193920,
+              "materialized_shape": [
+                19392
+              ],
+              "numeric_payload_bytes_converted": 155136,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 38784,
+              "tail_numeric_values_parsed": 0
+            },
+            {
+              "member": "columns.npy",
+              "descr": "<U4",
+              "shape": [
+                321
+              ],
+              "fortran_order": false,
+              "itemsize": 16,
+              "header_total_bytes": 128,
+              "payload_bytes": 5136,
+              "materialized_shape": [
+                321
+              ],
+              "numeric_payload_bytes_converted": 5136,
+              "opaque_payload_bytes_discarded": 0,
+              "payload_bytes_left_unread": 0,
+              "tail_numeric_values_parsed": 0
+            }
+          ],
+          "new_T_numeric_values_parsed": 0,
+          "source_blob_IO": "Opaque compressed file hashing; only pre-T members decoded numerically"
+        },
+        "checks": {
+          "status": "PASS",
+          "prefix_rows": 19392,
+          "channels": 321,
+          "actual_observed_zero_count_preT": 66243,
+          "observed_count_preT": 6224832,
+          "missing_count_preT": 0,
+          "A_fit_min_channel_observation_count": 12120,
+          "constant_channels_A_fit": 0,
+          "A_fit_statistics_fingerprints": {
+            "mean": "dec30e1f132fd064d8e1b6a662afa17f9b79d77847dda108863007b66a5c3ae0",
+            "std": "08bf45458c6f4911402279535b32a2c4e4d4ca2df661a0d49b7fdb303dce7e0c",
+            "count": "01488d978cfb7537cc2f9130b7eb8aabc4e6a5d1217fd8c5dece6a6ca8e90bd8"
+          },
+          "A60_scaler_sha256": "ee837cab095dacd518cb44f57372fd70ad2bc21ff1093e5b8d6c03d2571c83ad",
+          "origins": {
+            "A_fit": 11561,
+            "A_stop": 50,
+            "M_cal": 50,
+            "V_select": 50
+          },
+          "origin_hashes": {
+            "A_fit": "e928bace911ab63c7995ad5a807b5b458f1cab25972c4513634103b90ec5606b",
+            "A_stop": "bdbe128334872868f07797be6053e4a6b93d65374bd7b142560db18b7bd9a300",
+            "M_cal": "6918a0682ed2d113112f733af72f29768bf52e9ba744d811f9e336bc305f7d9c",
+            "V_select": "86b7b5cf9cfe5ba52256802e924a3b88615b3ce8cb803a9110cd0e76d5e6a501"
+          },
+          "prefix_array_sha256": {
+            "physical": "fda4a659c0e35d4b03e4cc9a92dc969b65f327472a4a0b5c32d580e507b3e63b",
+            "observed": "8d24f619eb6d2418808d9bcf55906ad0d6b35cf44d77d54eebb1734b4a73a630",
+            "times": "6a4af54de4763047930d7936711bace898e6a8c0c0895d183e77a039a07c7e04",
+            "columns": "58504964cd02ad8bc750db53d0b367752b434ab0afb554858e61ae1a248b8159"
+          },
+          "first_materialized_timestamp_ns": 1325376001000000000,
+          "last_materialized_timestamp_ns": 1395183601000000000,
+          "future_mutation_history_unchanged": true,
+          "A_outside_mutation_statistics_unchanged": true,
+          "inherited_full_task_data_sha256": "bdd13409af6dd0d9a466362bff0d6685bc2995c3af4718fb6d3b4b1aeb86b0cb",
+          "inherited_identity_recomputed": false
+        },
+        "ridge": {
+          "status": "REUSED_VERIFIED",
+          "run_id": "primary_electricity_E1_RAW_RIDGE_k0_s92601",
+          "artifact_sha256": "965ba84e912cd6738d2b294ffcdcdb3ead3def92aa7225dbc4e7743a73a5d494",
+          "replay_receipt_reference": "runs/primary_electricity_E1_RAW_RIDGE_k0_s92601/RIDGE_REPLAY_RECEIPT.json",
+          "replay_receipt_sha256": "43300ffc20c5c432d07901531725010bbcde30203dedf33b65de3baefb049b29",
+          "source_sha256": "b7737a33815cd4b531b0c2d7e822acf639bc7eab25ff12d612cd9ded6ef91a3d",
+          "data_sha256": "bdd13409af6dd0d9a466362bff0d6685bc2995c3af4718fb6d3b4b1aeb86b0cb",
+          "model_sha256": "0f3101d576c7eae6567087c5059c13475f13b49ce4c3ef4cbac98a280653a656",
+          "scaler_sha256": "ee837cab095dacd518cb44f57372fd70ad2bc21ff1093e5b8d6c03d2571c83ad",
+          "selected_alpha": 0.01,
+          "parameters": 508464,
+          "historical_KKT_max_abs_residual": 3.7730235602495554e-17,
+          "KKT_evidence": "Historical verified receipt reused; no new real-data refit or KKT claimed",
+          "selection_grid_boundary": "Selected .01 is lower grid boundary; no global optimum claim"
+        }
+      },
+      "m5": {
+        "status": "BLOCKED_ACCESS_OR_LICENSE",
+        "approved_sales_calendar_prices_assets_verified": false,
+        "new_authentication_requests": 0,
+        "new_downloads": 0,
+        "new_broad_local_searches": 0,
+        "reason": "No approved M5 sales/calendar/prices in the registered inventory; no mirror or authentication retry",
+        "prior_receipt_sha256": "bd92318e2440a8757c352d6f16c8e52bdaddee9c4a6f4e6a4ea02c7c7743007f",
+        "prior_http_status": 401,
+        "prior_local_raw_candidates": 0,
+        "prior_status": "BLOCKED_AUTHENTICATION_401",
+        "prior_record_created_utc": "2026-10-16T07:13:47.118760+00:00"
+      }
+    },
+    "synthetic_G1_G4": {
+      "status": "PASS",
+      "masked_augmented_lstsq_max_abs_coefficient_difference": 1.7763568394002505e-15,
+      "masked_normal_equation_max_abs_residual": 1.1102230246251565e-16,
+      "solver_fallbacks": 0,
+      "save_load_predictions_exact": true,
+      "window_reset_and_observed_zero": true,
+      "zero_observation_fit_channel_rejected": true,
+      "electricity_poison_tail_numeric_values_parsed": 0,
+      "shared_and_replicated_Dh_prediction_max_abs_difference": 0.0,
+      "shared_and_replicated_Dh_objective_abs_difference": 0.0,
+      "shared_Dh_penalty_convention": "alpha times mean_h ||D_h||^2; shared alpha ||D||^2",
+      "ridge_objective_convention": "SSE_c / N_c across all origin,h; intercept unpenalized; not sklearn unscaled alpha",
+      "sklearn_equivalent_alpha": "alpha_sklearn = alpha_repository * N_c for each channel"
+    },
+    "protected_T_numeric_values_parsed": 0,
+    "new_raw_sources_parsed": 0,
+    "F_calls": 0,
+    "model_loads": 0,
+    "scientific_scope": "Repeated development V; protected T remains locked; no independent generalization claim",
+    "model_card_overlap_review": {
+      "source_reference": "reports/adapter_diagnostics_20261017_v2/BACKBONE_SOURCES.json",
+      "source_sha256": "0fd337855c27b81c11bfe2f35971b123bf1fb1d12ea84a708441a23007bbb284",
+      "models": {
+        "moirai2": {
+          "revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+          "pretraining": {
+            "known_card_sources": [
+              "Subset of Salesforce/GiftEvalPretrain and GiftEval Train historical context (card claims non-leaking)",
+              "Mixup from non-leaking subsets of Chronos Dataset (card claim)",
+              "KernelSynth synthetic data",
+              "Internal Salesforce operational data"
+            ],
+            "Jena_PeMS_exact_series_and_time_overlap": "UNKNOWN",
+            "independent_pretraining_holdout_claim_allowed": false
+          }
+        },
+        "chronos2": {
+          "revision": "ddec01313e50b6bc58ebaa92ede81bc24a3d9f9a",
+          "pretraining": {
+            "known_card_sources": [
+              "autogluon/chronos_datasets",
+              "Salesforce/GiftEvalPretrain"
+            ],
+            "Jena_PeMS_exact_series_and_time_overlap": "UNKNOWN",
+            "independent_pretraining_holdout_claim_allowed": false
+          }
+        }
+      },
+      "Jena_PeMS_Electricity_exact_series_and_time_overlap": "UNKNOWN",
+      "independent_pretraining_holdout_claim_allowed": false
+    },
+    "wall_seconds": 0.8738174000754952,
+    "status": "PASS_WITH_M5_BLOCK"
+  },
+  "started_at": "2026-10-17T15:41:07.690677+00:00",
+  "consumed_resource": {
+    "wall_seconds": 0.0025298595428466797,
+    "process_cpu_seconds": 0.0,
+    "gpu_lease_seconds": 0
+  },
+  "scientific_identity": "0c5a4e0304e94f90058b6622b171c047e82c36318dcce896a36d80a1000ac22c",
+  "artifact_hashes": {
+    "DATA_AUDIT.json": "5d29b7c8f351db4f6519e55ea05b752d9cabe4615ec6406bfbb43aaea8037735"
+  },
+  "finished_at": "2026-10-17T15:41:07.694210+00:00"
+}
