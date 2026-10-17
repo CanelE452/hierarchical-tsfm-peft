@@ -1,5 +1,7 @@
 # Hierarchical TSFM PEFT screen
 
+**B2 원인 검증 중단 결과 (2026-10-17 22:27 KST):** [완료·미완료 구분, MD 보고서·원수치·코드·그림](reports/informs_b2_why_where_20261017/README_KO.md). 대조 모델 두 seed의 학습과 B0/B2의 저장된 공통 학습량 평가를 정리했다. 대조 모델의 공통 학습량 평가·probe·PeMS 재개·새 비용·최종 독립 검산은 미완료이며, 사용자 요청으로 실행과 자동 후속을 중지했다. 아래 계획·진행 문구는 작성 시점의 기록이다.
+
 **INFORMS 발표용 결과 패키지 (2026-10-17):** [표·보고서·생성 코드·그림 5개](reports/informs_ppt_ready_20261017/README.md). 기존 완료 결과와 비교 조건을 모았으며 PeMS C32 B0/B2의 최종 성능은 미완료다. 원수치·비용 출처·미완료 셀·주장 범위를 함께 제공한다.
 
 **최신 종료 보고(2026-10-17):** [PeMS B0/B2 실제 미완료 상태](research/informs_broad_validation_20261015_v1/priority_pems_subset_20261016_v1/B0_B2_RESULT_STATUS_KO_v1.md) · [방법론 판단·기존 근거·원수치·그림·재개 조건](research/informs_broad_validation_20261015_v1/priority_pems_subset_20261016_v1/PRIORITY_FINAL_JUDGMENT_KO_20261017_v2.md). 두 fit은 search 약1.61epoch에서 시간 상한으로 종료됐고 체크포인트를 보존했다. 새 final V·재추론·비용은 미완료이며 독립 감사는 새 정확도0행의 NOT_COMPLETE다. 기존 Raw/G 완료 결과와 구분한다. 아래 중간 snapshot과 과거 진입 전 문구는 각 작성 시점의 기록이다.
