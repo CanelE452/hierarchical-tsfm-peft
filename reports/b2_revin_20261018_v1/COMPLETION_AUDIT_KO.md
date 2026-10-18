@@ -1,6 +1,6 @@
 # B2 + RevIN 최소 목표 완료 대사
 
-검사 단계: payload; snapshot 2026-10-18T03:48:00.644385+00:00. 등록한 과학 작업은 모두 terminal이며 상한에서의 개선 지속·일반화 한계와 게시 단계는 별도로 기록한다. 이 문서는 최종 원격 closing proof까지 확인했다는 선언이 아니다.
+검사 단계: closing; snapshot 2026-10-18T03:51:25.392401+00:00. 등록한 과학 작업은 모두 terminal이며 상한에서의 개선 지속·일반화 한계와 게시 단계는 별도로 기록한다. 이 문서는 최종 원격 closing proof까지 확인했다는 선언이 아니다.
 
 신규 개선 설정 4개, Jena 구성 대조 2개, 신규 search/refit arm-stage 10개, 기존 OFF 선택 결과 4개 재사용. 최종 cap은 {'jena': 3, 'pems32': 6}다. 신규 GPU 전체 경로 28개와 역사적 CPU Ridge 2개를 구분했다.
 
@@ -40,8 +40,8 @@
 
 8. 코드·설정·검산·표·그림·한국어 분석의 정상 main 게시와 원격 확인·미완료 보고
 
-   상태: PENDING_REMOTE_PUBLICATION; 근거: REPLAY_PROOF.json, TEST_VALIDATION.json, PRESERVATION_CHECK.json
+   상태: REMOTE_PAYLOAD_VERIFIED_FINAL_CLOSING_PROOF_SEPARATE; 근거: REPLAY_PROOF.json, TEST_VALIDATION.json, PRESERVATION_CHECK.json, REMOTE_PROOF.json
 
-원격 게시 증거는 아직 없다. 정상 main push와 실제 remote blob proof가 남아 있다.
+원격 main 첫 payload의 실제 commit: `a23f3e66155deac9591eb66e9e73a93c542844d2`. 해당 proof에 포함된 파일 bytes를 다시 대사했다. closing metadata 게시와 최종 전체 파일 proof는 이후 정상 push 단계에서 확인해야 한다.
 
 원본 dirty checkout은 Git status/HEAD 보존 범위이며 모든 dirty 파일의 content SHA 검증을 뜻하지 않는다. 별도 protected tracked 10062개는 실제 byte guard의 PASS를 따른다.
