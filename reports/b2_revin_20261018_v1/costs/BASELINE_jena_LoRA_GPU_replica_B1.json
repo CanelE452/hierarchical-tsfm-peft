@@ -1,0 +1,220 @@
+{
+  "status": "COMPLETE",
+  "identity": {
+    "accuracy_run_id": "BASELINE_jena_LoRA_GPU_replica",
+    "cap": 0,
+    "batch_size": 1,
+    "prediction_binding": {
+      "reference": "repo://.cache/adapter_diagnostics_20261017_v2/lora_cost/E04_JENA_LORA_PARENT_V2_CUDA_V43.npz",
+      "sha256": "d37641ab68dc28f7e920108e054e3fd5f0b75a1a1f24529b9efc89c98a0559b3"
+    },
+    "bundle_binding": {
+      "reference": "asset://.cache/informs_broad_validation_20261015_v1/priority_valid_family_20261016_v1/runs/postT_cpu_jena_E1_LORA_R8_k0_s92601_family_v1/selected_bundle.pt",
+      "sha256": "756ccf0e49a752948590cad156d89d30ef4f91adb1452d09cce9ffa8ec18c9ae"
+    },
+    "source_hashes": {
+      "research/b2_revin_20261018_v1/costs.py": "f2982242273b89afe4195b6351e802b697a79e7d731673976356f09bd4986a07",
+      "research/adapter_improvements_20261018_v1/costs.py": "27183d3c78f580b92d9070a8ea6732925b546de741ce2f7c77abc788a85ee2c1",
+      "research/informs_broad_validation_20261015_v1/measure_costs.py": "5048cd08bd29a8da184d647e2cc5763010472c69dac3cad9ce7c3bf32766312c"
+    },
+    "protocol": {
+      "device": "cuda",
+      "batches": [
+        1,
+        8
+      ],
+      "warmups": 10,
+      "timed_trials": 20,
+      "stage_trials": 1,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "whole_path": "physical+mask -> causal fill -> global zscore -> outer RevIN if enabled -> P/E/F/D -> outer inverse -> physical inverse -> CPU",
+      "denominator": "origin",
+      "saved_V_parity": "entire saved V at each batch facet, two serialized loads",
+      "cached_forecast_reads_in_timed_path": 0
+    },
+    "decisions_binding": {
+      "reference": "report://DECISIONS.json",
+      "sha256": "300850d51b5db0d09cc6cd367a90e09d02b51597c72d67c1787f8f9be74e0d8e"
+    }
+  },
+  "row": {
+    "run_id": "BASELINE_jena_LoRA_GPU_replica",
+    "job_id": "BASELINE_jena_LoRA_GPU_replica",
+    "method": "LoRA_GPU_replica",
+    "arm": null,
+    "seed": 92601,
+    "dataset": "jena",
+    "C": 21,
+    "K": 21,
+    "L": 512,
+    "H": 48,
+    "accuracy_run_id": "BASELINE_jena_LoRA_GPU_replica",
+    "accuracy_job_id": "BASELINE_jena_LoRA_GPU_replica",
+    "device": "cuda",
+    "batch_size": 1,
+    "cost_valid": true,
+    "status": "COMPLETE",
+    "precision_comparison": "METHOD_LEVEL",
+    "warmups": 10,
+    "timed_trials": 20,
+    "metric_accumulation_dtype": "float64",
+    "units": "ms",
+    "cpu_blas_threads": 2,
+    "memory_scope": "cost phase; training excluded; process RSS sampled at 5ms",
+    "load_included_in_warm": false,
+    "stage_probe_is_intrusive_separate_scope": true,
+    "process_scope": "one cohort/device worker, sequential routes; not fresh process per method",
+    "CUDA_reserved_scope": "allocator may retain earlier route allocations in this worker",
+    "whole_path": "physical+mask -> causal fill -> global zscore -> outer RevIN if enabled -> P/E/F/D -> outer inverse -> physical inverse -> CPU",
+    "accuracy_prediction_binding": {
+      "reference": "repo://.cache/adapter_diagnostics_20261017_v2/lora_cost/E04_JENA_LORA_PARENT_V2_CUDA_V43.npz",
+      "sha256": "d37641ab68dc28f7e920108e054e3fd5f0b75a1a1f24529b9efc89c98a0559b3"
+    },
+    "accuracy_bundle_binding": {
+      "reference": "asset://.cache/informs_broad_validation_20261015_v1/priority_valid_family_20261016_v1/runs/postT_cpu_jena_E1_LORA_R8_k0_s92601_family_v1/selected_bundle.pt",
+      "sha256": "756ccf0e49a752948590cad156d89d30ef4f91adb1452d09cce9ffa8ec18c9ae"
+    },
+    "accuracy_base_checkpoint_binding": null,
+    "accuracy_refiner_binding": null,
+    "accuracy_parent_kind": null,
+    "base_training_device": "cpu",
+    "base_inference_device": "cuda",
+    "full_original_channel_context": null,
+    "accuracy_source_kind": "HISTORICAL_VERIFIED",
+    "accuracy_source_evidence": [],
+    "accuracy_result_binding": null,
+    "accuracy_receipt_binding": null,
+    "accuracy_source_sha256": "c58ed5ed690a812dd326f9c77a9c941268faeddafd1aea78c55e0036142df5e5",
+    "accuracy_config_sha256": "aa98575c1c0a73500ef0f7ac8c3f9a1830d1428932dc5fe5a61dc79bbec04edc",
+    "accuracy_foundation_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "data_sha256": "3928079b90efb066e02a8a3bef76dfefd92452a2ad0b26c29caf14393a161a58",
+    "scaler_sha256": "5f0c7d6aeddcfe9577e381375d36cadc47d2572469118da73e6ad837031fa2b9",
+    "origins_sha256": null,
+    "point_statistic": "quantile_0.5",
+    "accuracy_units": "global_A60_normalized",
+    "cached_forecast_reads_in_timed_path": 0,
+    "serialized_head_bytes": "NOT_APPLICABLE",
+    "source_kind": "NEW_FINAL_ACTUAL_GPU_MEASUREMENT",
+    "training_seconds": "UNKNOWN",
+    "backbone_dtype": "float32",
+    "head_dtype": "float32",
+    "core_dtype": "float32",
+    "prediction_dtype": "float32",
+    "physical_output_dtype": "float64",
+    "F_params": 47718016,
+    "adapter_params": 294912,
+    "adapter_real_degrees_of_freedom": 294912,
+    "refiner_parameter_elements": 0,
+    "refiner_complex_elements": 0,
+    "refiner_real_degrees_of_freedom": 0,
+    "refiner_parameter_bytes": 0,
+    "refiner_buffer_bytes": 0,
+    "refiner_parameter_dtypes": [],
+    "refiner_target_trained_real_degrees": 0,
+    "retained_base_target_trained_params": null,
+    "base_decoder_dtype": "NOT_PRESENT",
+    "total_resident_params": 48012928,
+    "serialized_adapter_bytes": 1204683,
+    "serialized_base_checkpoint_bytes": 1204683,
+    "serialized_refiner_bytes": "NOT_APPLICABLE",
+    "serialized_adapter_scope": "actual adapter bundle file; D also lists head artifact bytes separately",
+    "saved_V_parity": {
+      "status": "PASS",
+      "n_origins": 43,
+      "last_batch_size": 1,
+      "max_abs": 1.430511474609375e-06,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "comparison": "physical route inverse-normalized versus entire saved normalized V prediction"
+    },
+    "serialized_reload_saved_V_parity": {
+      "status": "PASS",
+      "n_origins": 43,
+      "last_batch_size": 1,
+      "max_abs": 1.430511474609375e-06,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "comparison": "physical route inverse-normalized versus entire saved normalized V prediction"
+    },
+    "serialized_reload_parity": {
+      "status": "PASS",
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "max_abs": 0.0,
+      "n_origins": 43
+    },
+    "memory": {
+      "resident_weights_gpu_MiB": 182.0298194885254,
+      "resident_weights_cpu_MiB": 1.125,
+      "active_adapter_MiB": 0.0,
+      "active_adapter_definition": "All active non-foundation model parameter/buffer bytes on GPU; merged LoRA adapter bytes are zero",
+      "foundation_instances_created": 1,
+      "peak_allocated_MiB": 213.5576171875,
+      "peak_reserved_MiB": 298.0
+    },
+    "median_batch_ms": 11.644599999272032,
+    "IQR_batch_ms": 0.8926749942474999,
+    "p95_batch_ms": 12.785940000685514,
+    "median_ms_per_origin": 11.644599999272032,
+    "IQR_ms_per_origin": 0.8926749942474999,
+    "p95_ms_per_origin": 12.785940000685514,
+    "p95_scope": "20-sample descriptive quantile; no stable tail guarantee",
+    "stage_sum_equals_whole_claimed": false,
+    "reason": null,
+    "cold_observations": [
+      {
+        "load_plus_first_physical_seconds": 0.4844066000005114,
+        "scope": "new route and foundation load plus first physical prediction; OS page cache uncontrolled"
+      },
+      {
+        "load_plus_first_physical_seconds": 0.48124510000343435,
+        "scope": "new route and foundation load plus first physical prediction; OS page cache uncontrolled"
+      }
+    ],
+    "cold_time_scope": "two observed loads, no repeated disk-cold distribution",
+    "sampled_process_RSS_peak_MiB": 1480.8046875,
+    "F_rows_per_timed_batch": [
+      21
+    ],
+    "cap": 0,
+    "revin": false,
+    "final": true,
+    "accuracy_cap": 0,
+    "loaded_F_state_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "accuracy_prediction_model_label_sha256": "NOT_APPLICABLE",
+    "cost_protocol": {
+      "device": "cuda",
+      "batches": [
+        1,
+        8
+      ],
+      "warmups": 10,
+      "timed_trials": 20,
+      "stage_trials": 1,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "whole_path": "physical+mask -> causal fill -> global zscore -> outer RevIN if enabled -> P/E/F/D -> outer inverse -> physical inverse -> CPU",
+      "denominator": "origin",
+      "saved_V_parity": "entire saved V at each batch facet, two serialized loads",
+      "cached_forecast_reads_in_timed_path": 0
+    },
+    "cost_id": "BASELINE_jena_LoRA_GPU_replica_CUDA_B1",
+    "hardware": "NVIDIA GeForce RTX 4070",
+    "source_file": "reports/b2_revin_20261018_v1/costs/BASELINE_jena_LoRA_GPU_replica_B1.json",
+    "new_measured": true,
+    "accuracy_inputs_binding": {
+      "reference": "cache://VERIFIED_ROWS.json",
+      "sha256": "6a1fd3ec52de76c6d0328d81758203b00d47a0f581a2a5d25249de5c5c7a3d94"
+    }
+  },
+  "trials_binding": {
+    "reference": "report://costs/BASELINE_jena_LoRA_GPU_replica_B1.trials.csv",
+    "sha256": "cadb0c0d2ed9c452db587f2fbc4bd957bde160c82381b79f5f296d128d2f125e"
+  },
+  "attempt": 1,
+  "completed_utc": "2026-10-18T03:41:55Z",
+  "consumed_wall_seconds": 3.23598051071167
+}

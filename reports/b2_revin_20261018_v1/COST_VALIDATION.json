@@ -1,0 +1,151 @@
+{
+  "status": "PASS",
+  "new_GPU_rows": 28,
+  "historical_CPU_context_rows": 2,
+  "expected_whole_path_GPU_rows": 28,
+  "all_measurements_source_bound": true,
+  "accuracy_inputs_binding": {
+    "reference": "cache://VERIFIED_ROWS.json",
+    "sha256": "6a1fd3ec52de76c6d0328d81758203b00d47a0f581a2a5d25249de5c5c7a3d94"
+  },
+  "decisions_binding": {
+    "reference": "report://DECISIONS.json",
+    "sha256": "300850d51b5db0d09cc6cd367a90e09d02b51597c72d67c1787f8f9be74e0d8e"
+  },
+  "source_hashes": {
+    "research/b2_revin_20261018_v1/costs.py": "f2982242273b89afe4195b6351e802b697a79e7d731673976356f09bd4986a07",
+    "research/adapter_improvements_20261018_v1/costs.py": "27183d3c78f580b92d9070a8ea6732925b546de741ce2f7c77abc788a85ee2c1",
+    "research/informs_broad_validation_20261015_v1/measure_costs.py": "5048cd08bd29a8da184d647e2cc5763010472c69dac3cad9ce7c3bf32766312c"
+  },
+  "protocol": {
+    "device": "cuda",
+    "batches": [
+      1,
+      8
+    ],
+    "warmups": 10,
+    "timed_trials": 20,
+    "stage_trials": 1,
+    "F_row_microbatch": 128,
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "whole_path": "physical+mask -> causal fill -> global zscore -> outer RevIN if enabled -> P/E/F/D -> outer inverse -> physical inverse -> CPU",
+    "denominator": "origin",
+    "saved_V_parity": "entire saved V at each batch facet, two serialized loads",
+    "cached_forecast_reads_in_timed_path": 0
+  },
+  "cost_receipts": [
+    {
+      "reference": "report://costs/B0_jena_REVIN_OFF_s92601_cap3_B1.json",
+      "sha256": "03b6d503771bdf90b7f187ee359a40c5664a68bd56468a5b115e7e614f7fd649"
+    },
+    {
+      "reference": "report://costs/B0_jena_REVIN_OFF_s92601_cap3_B8.json",
+      "sha256": "f0a305f0b9259eef6066b7a7b120fdef27abddcac098b597441b29354a5e8a4f"
+    },
+    {
+      "reference": "report://costs/B0_jena_REVIN_OFF_s92602_cap3_B1.json",
+      "sha256": "c945df3bfe56d1df9252d370931b78b23c5b715f925f8aa8cfbac19b277ff848"
+    },
+    {
+      "reference": "report://costs/B0_jena_REVIN_OFF_s92602_cap3_B8.json",
+      "sha256": "d82d47b7135851f46bcbc5469b18d1547cfebfb1ad11e3a0f32ae98b4d48238e"
+    },
+    {
+      "reference": "report://costs/B2_jena_REVIN_OFF_s92601_cap3_B1.json",
+      "sha256": "65710e558c7f7dc43235c289b6d75615e243746476b765448298501efa350887"
+    },
+    {
+      "reference": "report://costs/B2_jena_REVIN_OFF_s92601_cap3_B8.json",
+      "sha256": "f9aba5c6dbab65f02d2b48eed4ed2867301679d54ccafb60ccc51a9ac1af5b46"
+    },
+    {
+      "reference": "report://costs/B2_jena_REVIN_OFF_s92602_cap3_B1.json",
+      "sha256": "e825a9dbdea8175fa978a9af8a472e9320ab26eafd14e60db9bb7f8f24031753"
+    },
+    {
+      "reference": "report://costs/B2_jena_REVIN_OFF_s92602_cap3_B8.json",
+      "sha256": "1c0870686f160df33a7d4652080509e0842df08ad291a91ccd04ff63aa6fb7e6"
+    },
+    {
+      "reference": "report://costs/B2_jena_REVIN_ON_s92601_cap3_B1.json",
+      "sha256": "ab249b21b52a2daeb24f4b95cf188e4e5f3d84445ec59d5f5dfae0f52684a3bb"
+    },
+    {
+      "reference": "report://costs/B2_jena_REVIN_ON_s92601_cap3_B8.json",
+      "sha256": "5a322459485d49e95918d0d601697427d021dee1b706294d33ba6d00def9b590"
+    },
+    {
+      "reference": "report://costs/B2_jena_REVIN_ON_s92602_cap3_B1.json",
+      "sha256": "728f998d9a9a1ceda5735b2b4e31d4c39f7035d7aeae5787a4190a19012bfc37"
+    },
+    {
+      "reference": "report://costs/B2_jena_REVIN_ON_s92602_cap3_B8.json",
+      "sha256": "6097a5bd9a33959560f124b3c4af9e2ab9953f9666b8d35442136638ab1df5e0"
+    },
+    {
+      "reference": "report://costs/BASELINE_jena_LoRA_GPU_replica_B1.json",
+      "sha256": "700529028b1f4671ea191fa9132f3961751b2d5f5f5838281b5c06b3aba14aee"
+    },
+    {
+      "reference": "report://costs/BASELINE_jena_LoRA_GPU_replica_B8.json",
+      "sha256": "13a48f679e6fe8f2dab71a8aa9f7b44cd8539030ddf2416b3b2c3ebdd44c2ed0"
+    },
+    {
+      "reference": "report://costs/BASELINE_jena_Raw_B1.json",
+      "sha256": "b0f56dd6a780d4ae40b8d87df82fcf9df8927b4cef204e88db9b91cf19bd2f8b"
+    },
+    {
+      "reference": "report://costs/BASELINE_jena_Raw_B8.json",
+      "sha256": "0eabbf5348add64fddd52eac3cce5fb283fef99b73caa46feac468e9a1b70b30"
+    },
+    {
+      "reference": "report://costs/B2_pems32_REVIN_OFF_s92601_cap6_B1.json",
+      "sha256": "1c4ec044d157a67a02987d29e3433a794e91af3b83460fcbaab3947b963530bf"
+    },
+    {
+      "reference": "report://costs/B2_pems32_REVIN_OFF_s92601_cap6_B8.json",
+      "sha256": "be76df9d8c607d2074675d65b8c61a37db4e871b15a101a33dad9a9e929dd961"
+    },
+    {
+      "reference": "report://costs/B2_pems32_REVIN_OFF_s92602_cap6_B1.json",
+      "sha256": "63d12676ae6568f83f072a8536e8a2e60324695b7c05030134e9ad2bbc3d1fc7"
+    },
+    {
+      "reference": "report://costs/B2_pems32_REVIN_OFF_s92602_cap6_B8.json",
+      "sha256": "b819c18ea9e1652dd89b8f9ee1b0596245a555d405548620af8ba1a2b37ec04e"
+    },
+    {
+      "reference": "report://costs/B2_pems32_REVIN_ON_s92601_cap6_B1.json",
+      "sha256": "721e31efbfa7f1158cfe0db79ec223796f71a0fdca84ba9582846da843f41fb3"
+    },
+    {
+      "reference": "report://costs/B2_pems32_REVIN_ON_s92601_cap6_B8.json",
+      "sha256": "a9cbc3d09726eb4090f6c425321ae7f60ad09c3cb800a8ceffec89ae494d39fe"
+    },
+    {
+      "reference": "report://costs/B2_pems32_REVIN_ON_s92602_cap6_B1.json",
+      "sha256": "09e98e23e5c8165292ba1236d55763c19ae70fd61e54bb33725847132a2fdef9"
+    },
+    {
+      "reference": "report://costs/B2_pems32_REVIN_ON_s92602_cap6_B8.json",
+      "sha256": "965d0233f2e55ffb131ad1b235bd75c10acf2a424366b441545c6736645f9cdd"
+    },
+    {
+      "reference": "report://costs/BASELINE_pems32_DirectG_B1.json",
+      "sha256": "a97b900affcae896f539e35610879ef786917c06e8bea802a187eaa4c419519e"
+    },
+    {
+      "reference": "report://costs/BASELINE_pems32_DirectG_B8.json",
+      "sha256": "d19f2c71154fa675b49149bba5cef194a8281ed7bd44438f12d2371640ee48c0"
+    },
+    {
+      "reference": "report://costs/BASELINE_pems32_Raw_B1.json",
+      "sha256": "75bd67ebdf20a80f482c94cddabb2f6f299bba1fef8aa07d1d0a92a762e246b4"
+    },
+    {
+      "reference": "report://costs/BASELINE_pems32_Raw_B8.json",
+      "sha256": "dccc4d41fbe676c140386fe947a37749315b477a4b99f78c6b7ce978a4dcae7f"
+    }
+  ]
+}

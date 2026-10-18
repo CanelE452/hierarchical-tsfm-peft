@@ -1,0 +1,220 @@
+{
+  "status": "COMPLETE",
+  "identity": {
+    "accuracy_run_id": "B2_jena_REVIN_ON_s92601_cap3",
+    "cap": 3,
+    "batch_size": 1,
+    "prediction_binding": {
+      "reference": "cache://predictions/B2_jena_REVIN_ON_s92601/cap3/selected_A60_V_select.npz",
+      "sha256": "66b7dac96f0d8be8b96673c55fa57d9a001e5ad7b5210cd867c031e8bb9c4db2"
+    },
+    "bundle_binding": {
+      "reference": "cache://runs/B2_jena_REVIN_ON_s92601/cap3/selected_bundle.pt",
+      "sha256": "149bdc623fa18b28cbb9f44054a94c7962895d044b78b94759181889ba64fba7"
+    },
+    "source_hashes": {
+      "research/b2_revin_20261018_v1/costs.py": "f2982242273b89afe4195b6351e802b697a79e7d731673976356f09bd4986a07",
+      "research/adapter_improvements_20261018_v1/costs.py": "27183d3c78f580b92d9070a8ea6732925b546de741ce2f7c77abc788a85ee2c1",
+      "research/informs_broad_validation_20261015_v1/measure_costs.py": "5048cd08bd29a8da184d647e2cc5763010472c69dac3cad9ce7c3bf32766312c"
+    },
+    "protocol": {
+      "device": "cuda",
+      "batches": [
+        1,
+        8
+      ],
+      "warmups": 10,
+      "timed_trials": 20,
+      "stage_trials": 1,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "whole_path": "physical+mask -> causal fill -> global zscore -> outer RevIN if enabled -> P/E/F/D -> outer inverse -> physical inverse -> CPU",
+      "denominator": "origin",
+      "saved_V_parity": "entire saved V at each batch facet, two serialized loads",
+      "cached_forecast_reads_in_timed_path": 0
+    },
+    "decisions_binding": {
+      "reference": "report://DECISIONS.json",
+      "sha256": "300850d51b5db0d09cc6cd367a90e09d02b51597c72d67c1787f8f9be74e0d8e"
+    }
+  },
+  "row": {
+    "run_id": "B2_jena_REVIN_ON_s92601_cap3",
+    "job_id": "B2_jena_REVIN_ON_s92601",
+    "method": "B2_REVIN_ON",
+    "arm": null,
+    "seed": 92601,
+    "dataset": "jena",
+    "C": 21,
+    "K": 6,
+    "L": 512,
+    "H": 48,
+    "accuracy_run_id": "B2_jena_REVIN_ON_s92601_cap3",
+    "accuracy_job_id": "B2_jena_REVIN_ON_s92601",
+    "device": "cuda",
+    "batch_size": 1,
+    "cost_valid": true,
+    "status": "COMPLETE",
+    "precision_comparison": "METHOD_LEVEL",
+    "warmups": 10,
+    "timed_trials": 20,
+    "metric_accumulation_dtype": "float64",
+    "units": "ms",
+    "cpu_blas_threads": 2,
+    "memory_scope": "cost phase; training excluded; process RSS sampled at 5ms",
+    "load_included_in_warm": false,
+    "stage_probe_is_intrusive_separate_scope": true,
+    "process_scope": "one cohort/device worker, sequential routes; not fresh process per method",
+    "CUDA_reserved_scope": "allocator may retain earlier route allocations in this worker",
+    "whole_path": "physical+mask -> causal fill -> global zscore -> outer RevIN if enabled -> P/E/F/D -> outer inverse -> physical inverse -> CPU",
+    "accuracy_prediction_binding": {
+      "reference": "cache://predictions/B2_jena_REVIN_ON_s92601/cap3/selected_A60_V_select.npz",
+      "sha256": "66b7dac96f0d8be8b96673c55fa57d9a001e5ad7b5210cd867c031e8bb9c4db2"
+    },
+    "accuracy_bundle_binding": {
+      "reference": "cache://runs/B2_jena_REVIN_ON_s92601/cap3/selected_bundle.pt",
+      "sha256": "149bdc623fa18b28cbb9f44054a94c7962895d044b78b94759181889ba64fba7"
+    },
+    "accuracy_base_checkpoint_binding": null,
+    "accuracy_refiner_binding": null,
+    "accuracy_parent_kind": null,
+    "base_training_device": "cuda",
+    "base_inference_device": "cuda",
+    "full_original_channel_context": null,
+    "accuracy_source_kind": "NEW_TRAINED",
+    "accuracy_source_evidence": [],
+    "accuracy_result_binding": null,
+    "accuracy_receipt_binding": null,
+    "accuracy_source_sha256": "37c264f16d8a97c5c286bedd2b9d53cda0a338be1ff674e6b78b6dec7cf2c358",
+    "accuracy_config_sha256": "54d016926f29ead18bdbb7053d06b5960acfff29f121fbdea341d5c5de6a66e3",
+    "accuracy_foundation_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "data_sha256": "3928079b90efb066e02a8a3bef76dfefd92452a2ad0b26c29caf14393a161a58",
+    "scaler_sha256": "5f0c7d6aeddcfe9577e381375d36cadc47d2572469118da73e6ad837031fa2b9",
+    "origins_sha256": null,
+    "point_statistic": "quantile_0.5",
+    "accuracy_units": "global_A60_normalized",
+    "cached_forecast_reads_in_timed_path": 0,
+    "serialized_head_bytes": "NOT_APPLICABLE",
+    "source_kind": "NEW_FINAL_ACTUAL_GPU_MEASUREMENT",
+    "training_seconds": "UNKNOWN",
+    "backbone_dtype": "float32",
+    "head_dtype": "float32",
+    "core_dtype": "float32",
+    "prediction_dtype": "float32",
+    "physical_output_dtype": "float64",
+    "F_params": 47718016,
+    "adapter_params": 35759,
+    "adapter_real_degrees_of_freedom": 35759,
+    "refiner_parameter_elements": 0,
+    "refiner_complex_elements": 0,
+    "refiner_real_degrees_of_freedom": 0,
+    "refiner_parameter_bytes": 0,
+    "refiner_buffer_bytes": 0,
+    "refiner_parameter_dtypes": [],
+    "refiner_target_trained_real_degrees": 0,
+    "retained_base_target_trained_params": null,
+    "base_decoder_dtype": "float32",
+    "total_resident_params": 47753775,
+    "serialized_adapter_bytes": 153532,
+    "serialized_base_checkpoint_bytes": 153532,
+    "serialized_refiner_bytes": "NOT_APPLICABLE",
+    "serialized_adapter_scope": "actual adapter bundle file; D also lists head artifact bytes separately",
+    "saved_V_parity": {
+      "status": "PASS",
+      "n_origins": 43,
+      "last_batch_size": 1,
+      "max_abs": 3.814697265625e-06,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "comparison": "physical route inverse-normalized versus entire saved normalized V prediction"
+    },
+    "serialized_reload_saved_V_parity": {
+      "status": "PASS",
+      "n_origins": 43,
+      "last_batch_size": 1,
+      "max_abs": 3.814697265625e-06,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "comparison": "physical route inverse-normalized versus entire saved normalized V prediction"
+    },
+    "serialized_reload_parity": {
+      "status": "PASS",
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "max_abs": 0.0,
+      "n_origins": 43
+    },
+    "memory": {
+      "resident_weights_gpu_MiB": 182.16630935668945,
+      "resident_weights_cpu_MiB": 0.0,
+      "active_adapter_MiB": 0.1364898681640625,
+      "active_adapter_definition": "All active non-foundation model parameter/buffer bytes on GPU; merged LoRA adapter bytes are zero",
+      "foundation_instances_created": 1,
+      "peak_allocated_MiB": 197.7822265625,
+      "peak_reserved_MiB": 266.0
+    },
+    "median_batch_ms": 11.925750000955304,
+    "IQR_batch_ms": 0.9101249979721615,
+    "p95_batch_ms": 13.034440000410541,
+    "median_ms_per_origin": 11.925750000955304,
+    "IQR_ms_per_origin": 0.9101249979721615,
+    "p95_ms_per_origin": 13.034440000410541,
+    "p95_scope": "20-sample descriptive quantile; no stable tail guarantee",
+    "stage_sum_equals_whole_claimed": false,
+    "reason": null,
+    "cold_observations": [
+      {
+        "load_plus_first_physical_seconds": 0.34172940000280505,
+        "scope": "new route and foundation load plus first physical prediction; OS page cache uncontrolled"
+      },
+      {
+        "load_plus_first_physical_seconds": 0.33654260000184877,
+        "scope": "new route and foundation load plus first physical prediction; OS page cache uncontrolled"
+      }
+    ],
+    "cold_time_scope": "two observed loads, no repeated disk-cold distribution",
+    "sampled_process_RSS_peak_MiB": 1395.55078125,
+    "F_rows_per_timed_batch": [
+      6
+    ],
+    "cap": 3,
+    "revin": true,
+    "final": true,
+    "accuracy_cap": 3,
+    "loaded_F_state_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "accuracy_prediction_model_label_sha256": "NOT_APPLICABLE",
+    "cost_protocol": {
+      "device": "cuda",
+      "batches": [
+        1,
+        8
+      ],
+      "warmups": 10,
+      "timed_trials": 20,
+      "stage_trials": 1,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "whole_path": "physical+mask -> causal fill -> global zscore -> outer RevIN if enabled -> P/E/F/D -> outer inverse -> physical inverse -> CPU",
+      "denominator": "origin",
+      "saved_V_parity": "entire saved V at each batch facet, two serialized loads",
+      "cached_forecast_reads_in_timed_path": 0
+    },
+    "cost_id": "B2_jena_REVIN_ON_s92601_cap3_CUDA_B1",
+    "hardware": "NVIDIA GeForce RTX 4070",
+    "source_file": "reports/b2_revin_20261018_v1/costs/B2_jena_REVIN_ON_s92601_cap3_B1.json",
+    "new_measured": true,
+    "accuracy_inputs_binding": {
+      "reference": "cache://VERIFIED_ROWS.json",
+      "sha256": "6a1fd3ec52de76c6d0328d81758203b00d47a0f581a2a5d25249de5c5c7a3d94"
+    }
+  },
+  "trials_binding": {
+    "reference": "report://costs/B2_jena_REVIN_ON_s92601_cap3_B1.trials.csv",
+    "sha256": "1fce356051497988c83a6411df8f220518ceef9fa49e933856e1d425b701a387"
+  },
+  "attempt": 1,
+  "completed_utc": "2026-10-18T03:41:46Z",
+  "consumed_wall_seconds": 2.423619508743286
+}

@@ -1,0 +1,187 @@
+{
+  "campaign": "b2_revin_20261018_v1",
+  "source_hashes": {
+    "research/b2_revin_20261018_v1/contracts.py": "2267f3a5b41eb3a45efcfc982e02e4733eee7588ec57c0f777592edd35727038",
+    "research/b2_revin_20261018_v1/revin.py": "153f40222156f86082363610ce6cad0431a56cd3bd9aa2c285177f171b973cf0",
+    "research/b2_revin_20261018_v1/deployment.py": "33411815737c2543f3eef436c3ddc9458b6f58dcc72545c8078024d3c69ba08d",
+    "research/b2_revin_20261018_v1/training_jobs.py": "3f5f277e130a3873882d9e72e99453214c51138374ebd1d29f8e732318455518"
+  },
+  "jobs": [
+    {
+      "job_id": "B2_jena_REVIN_OFF_s92601",
+      "cohort": "jena",
+      "seed": 92601,
+      "family": "B2",
+      "revin": false,
+      "K": 6,
+      "device": "cuda",
+      "initial_action": "EXACT_OFF_REUSE",
+      "conditional": false
+    },
+    {
+      "job_id": "B2_jena_REVIN_OFF_s92602",
+      "cohort": "jena",
+      "seed": 92602,
+      "family": "B2",
+      "revin": false,
+      "K": 6,
+      "device": "cuda",
+      "initial_action": "EXACT_OFF_REUSE",
+      "conditional": false
+    },
+    {
+      "job_id": "B2_jena_REVIN_ON_s92601",
+      "cohort": "jena",
+      "seed": 92601,
+      "family": "B2",
+      "revin": true,
+      "K": 6,
+      "device": "cuda",
+      "initial_action": "NEW_ON",
+      "conditional": false
+    },
+    {
+      "job_id": "B2_jena_REVIN_ON_s92602",
+      "cohort": "jena",
+      "seed": 92602,
+      "family": "B2",
+      "revin": true,
+      "K": 6,
+      "device": "cuda",
+      "initial_action": "NEW_ON",
+      "conditional": false
+    },
+    {
+      "job_id": "B2_pems32_REVIN_OFF_s92601",
+      "cohort": "pems32",
+      "seed": 92601,
+      "family": "B2",
+      "revin": false,
+      "K": 8,
+      "device": "cuda",
+      "initial_action": "EXACT_OFF_REUSE",
+      "conditional": false
+    },
+    {
+      "job_id": "B2_pems32_REVIN_OFF_s92602",
+      "cohort": "pems32",
+      "seed": 92602,
+      "family": "B2",
+      "revin": false,
+      "K": 8,
+      "device": "cuda",
+      "initial_action": "EXACT_OFF_REUSE",
+      "conditional": false
+    },
+    {
+      "job_id": "B2_pems32_REVIN_ON_s92601",
+      "cohort": "pems32",
+      "seed": 92601,
+      "family": "B2",
+      "revin": true,
+      "K": 8,
+      "device": "cuda",
+      "initial_action": "NEW_ON",
+      "conditional": false
+    },
+    {
+      "job_id": "B2_pems32_REVIN_ON_s92602",
+      "cohort": "pems32",
+      "seed": 92602,
+      "family": "B2",
+      "revin": true,
+      "K": 8,
+      "device": "cuda",
+      "initial_action": "NEW_ON",
+      "conditional": false
+    },
+    {
+      "job_id": "B0_jena_REVIN_OFF_s92601",
+      "cohort": "jena",
+      "seed": 92601,
+      "family": "B0",
+      "revin": false,
+      "K": 6,
+      "device": "cuda",
+      "conditional": true,
+      "condition": "Jena A_stop-selected common normalization; only its two seeds run"
+    },
+    {
+      "job_id": "B0_jena_REVIN_OFF_s92602",
+      "cohort": "jena",
+      "seed": 92602,
+      "family": "B0",
+      "revin": false,
+      "K": 6,
+      "device": "cuda",
+      "conditional": true,
+      "condition": "Jena A_stop-selected common normalization; only its two seeds run"
+    },
+    {
+      "job_id": "B0_jena_REVIN_ON_s92601",
+      "cohort": "jena",
+      "seed": 92601,
+      "family": "B0",
+      "revin": true,
+      "K": 6,
+      "device": "cuda",
+      "conditional": true,
+      "condition": "Jena A_stop-selected common normalization; only its two seeds run"
+    },
+    {
+      "job_id": "B0_jena_REVIN_ON_s92602",
+      "cohort": "jena",
+      "seed": 92602,
+      "family": "B0",
+      "revin": true,
+      "K": 6,
+      "device": "cuda",
+      "conditional": true,
+      "condition": "Jena A_stop-selected common normalization; only its two seeds run"
+    }
+  ],
+  "initial_epochs": [
+    0.25,
+    1.0,
+    3.0
+  ],
+  "extended_epochs": [
+    0.25,
+    1.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0
+  ],
+  "recipe": {
+    "lr": 0.001,
+    "effective_batch": 16,
+    "microbatch": 4,
+    "F_row_microbatch": 128,
+    "checkpoint_inputs": false,
+    "optimizer": "AdamW",
+    "weight_decay": 0,
+    "clip": 1,
+    "core_dtype": "float32"
+  },
+  "extension": "Any group arm strictly best at cap3 triggers all four arms through epoch6",
+  "selection": "A_fit training, strict minimum A_stop MSE and earlier tie; fresh A60 refit before repeated V",
+  "normalization": "Two-seed minimum A_stop mean; tie OFF",
+  "excluded": [
+    "SOFTS",
+    "FreTS",
+    "LIFT",
+    "N-HiTS",
+    "CycleNet",
+    "TimesNet",
+    "ForeCA",
+    "full AdaPTS",
+    "K/init sweep"
+  ],
+  "D_seed2": "NOT_APPLICABLE: D is not evidence for the final minimum composition",
+  "user_hard_wall_limit": null,
+  "user_hard_GPU_limit": null,
+  "T_access": false,
+  "V_independent_test": false,
+  "implementation_plan_sha256": "954026b5950579e0b97e6c7c7db5d7e6b1dd39ff5af23fc6a8d56f9fc5b71a15"
+}
