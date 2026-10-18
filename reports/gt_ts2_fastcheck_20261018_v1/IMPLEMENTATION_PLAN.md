@@ -13,7 +13,7 @@ Purpose: determine whether longer physical history and pretrained TS2Vec residua
 - [x] Profile discarded TRAIN smoke; seal 300 or uniformly 100 updates by the registered time rule. Cache only fixed TS2 window features. Execute four forecast adaptation arms times two seeds from identical seed-specific GT parents and sample orders.
 - [x] Evaluate CP0 and fixed final update, independently aggregate FP64 observed channel statistics / horizon bands / paired origins, and diagnose branch use and immutable frozen weights.
 - [x] Measure actual full online routes at B1/B8 in separate processes, preserving model/feature work and distinguishing allocated/reserved memory.
-- [ ] Render three figures and Korean analysis; verify replay, meaningful tests, actual coverage, preservation, scoped normal main push, and actual remote blob bytes.
+- [x] Render three figures and Korean analysis; verify replay, meaningful tests, actual coverage, preservation, scoped normal main push, and actual remote blob bytes.
 
 ## Interfaces and scope
 
