@@ -1,6 +1,6 @@
 # 메모리 예산 실험 완료 감사
 
-[확인] 과학 실행과 독립 검증은 완료됐고 게시 단계는 `PENDING_PUSH`다. 이 문서는 마지막 push 이후 전체 allowlist 원격 검증을 미리 완료했다고 주장하지 않는다.
+[확인] 과학 실행과 독립 검증은 완료됐고 게시 단계는 `PAYLOAD_REMOTE_VERIFIED_CLOSING_READY`다. 이 문서는 마지막 push 이후 전체 allowlist 원격 검증을 미리 완료했다고 주장하지 않는다.
 
 ```text
 phase  screens  selected_confirms
@@ -20,6 +20,6 @@ GPU 값은 allocated/reserved 텐서·allocator 계층이다. PID total은 이�
 
 메모리 절감만으로 신규성·입력별 적응성을 주장하지 않는다. K별 신규 모델을 수행했어도 독립 학습 모델 비교이며 동일 모수 고정 대조나 단일 checkpoint 즉시 K 전환이 아니다.
 
-시작부터 이 마감 snapshot까지 실제 경과 120.86분이다. RUNTIME의 report snapshot과 이 마감 시각은 구분한다. reservation/launcher/worker/loop/search/refit/test 시간은 겹치는 범위이며 GPU kernel busy time은 측정하지 않았다.
+시작부터 이 마감 snapshot까지 실제 경과 122.53분이다. RUNTIME의 report snapshot과 이 마감 시각은 구분한다. reservation/launcher/worker/loop/search/refit/test 시간은 겹치는 범위이며 GPU kernel busy time은 측정하지 않았다.
 
 게시 proof의 범위는 VALIDATION/STATUS에 있다. payload 단계에서는 정상 main push와 실제 원격 검증이 남아 있고, closing 단계에서는 stable payload 원격 일치만 확인됐다. 마지막 정상 push 뒤의 final allowlist 검증 결과와 실제 closing SHA는 root의 마지막 외부 proof 및 최종 사용자 응답에 남긴다. [요구항목별 근거](REQUIREMENT_COVERAGE.csv), [재개 범위](RESUME_QUEUE.json), [재현](REPRODUCE.md).
