@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "status": "REGISTERED_BEFORE_ANY_NEW_GPU_TRAINING_OR_FORECAST_SCORES",
+  "reason": "Cross-resolution ancestry audit found an earlier protected cutoff for transformer station 2 in the existing ETTm2 campaign.",
+  "original_candidate": "ETTh2",
+  "source_original_rows": 17420,
+  "original_prepared_prefix_rows": 13936,
+  "per_file_historical_ETTh2_TEST_start": 13936,
+  "same_station_ETTm2_protected_TEST_start_15minute_rows": 55680,
+  "same_station_earliest_hourly_cutoff": 13920,
+  "earliest_protected_cutoff_timestamp": "2018-02-01 00:00:00",
+  "initial_preparation_overlap": {
+    "hourly_records": 16,
+    "scope": "Possible shared physical source observations, not a claim of numeric equality between hourly and minute variants.",
+    "consumed_by_new_training_or_forecast_scoring": false,
+    "disclosure": "The initial prefix was numerically materialized before this cross-resolution relationship was considered. Do not claim that every initial preparation attempt avoided every related protected interval. It was never passed to a new GPU training or forecasting run."
+  },
+  "preservation": {
+    "old_prefix": "cache://data/ETTh2/PREFIX_PHYSICAL.npz",
+    "old_config": "cache://data/ETTh2/DATA_DIAGNOSTIC.json",
+    "old_registry": "waves/WAVE_001.json",
+    "old_data_audit": "DATA_PREFLIGHT.json",
+    "old_status": "NUMERICALLY_VALID_PER_FILE_BUT_SUPERSEDED_FOR_CROSS_RESOLUTION_PROTECTION",
+    "overwrite_or_delete": false
+  },
+  "replacement": {
+    "dataset": "ETTh2_safe17400",
+    "source_original_rows": 17420,
+    "cohort_rows": 17400,
+    "cohort_definition": "First 17400 original hourly coordinates, declared before any forecast score; this is a custom development cohort rather than the official ETT split.",
+    "prefix_rows": 13920,
+    "A_fit": [0, 8700],
+    "A_stop": [8700, 10440],
+    "A60": [0, 10440],
+    "M_cal": [10440, 12180],
+    "V_select": [12180, 13920],
+    "T_final_within_cohort": [13920, 17400],
+    "source_tail_outside_cohort": [17400, 17420],
+    "columns_and_frequency": "All original seven physical channels, native hourly frequency, unchanged.",
+    "preparation": "Stream exactly 13920 records from the original CSV after validating original N17420 metadata. Do not load and slice the superseded NPZ.",
+    "training_recipe_change": false,
+    "forecast_result_used_to_choose_cutoff": false
+  },
+  "evidence": [
+    "Existing internal_adaptation_gap_v1_20260922 protocol and DATA_AUDIT mark ETTm2 protected TEST start55680 at the day boundary.",
+    "The existing ANCHOR_WINDOW_STUDY_PROTOCOL identifies ETTh2 and ETTm2 as resolutions of transformer station2.",
+    "The ETTh1 source TEST starts13936; its related ETTm1 development boundary55744 maps to13936 hourly records.",
+    "Appliances uses an already isolated physical prefix ending15788, exactly its existing protected EVAL boundary."
+  ],
+  "interpretation": "The initial DATA_PREFLIGHT remains evidence of numerical per-file coordinate/scaler checks only; it is superseded as an assessment of cross-resolution protection. All future completion claims must disclose this preparation amendment."
+}

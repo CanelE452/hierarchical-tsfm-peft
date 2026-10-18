@@ -1,0 +1,1258 @@
+{
+  "status": "COMPLETE_DIAGNOSTICS",
+  "datasets": [
+    {
+      "schema_version": 1,
+      "status": "NOT_READY_UNOBSERVED_CHANNEL",
+      "dataset": "uci360_air_quality",
+      "C": 13,
+      "L": 512,
+      "H": 48,
+      "interval_seconds": 3600,
+      "period": 24,
+      "original_rows": 9357,
+      "prefix_rows": 7485,
+      "prefix_only_approved": true,
+      "candidate_training_admitted": false,
+      "columns": [
+        "CO(GT)",
+        "PT08.S1(CO)",
+        "NMHC(GT)",
+        "C6H6(GT)",
+        "PT08.S2(NMHC)",
+        "NOx(GT)",
+        "PT08.S3(NOx)",
+        "NO2(GT)",
+        "PT08.S4(NO2)",
+        "PT08.S5(O3)",
+        "T",
+        "RH",
+        "AH"
+      ],
+      "clock": "Source local-naive hourly labels; no timezone conversion",
+      "split_ranges": {
+        "A_fit": [
+          0,
+          4678
+        ],
+        "A_stop": [
+          4678,
+          5614
+        ],
+        "A60": [
+          0,
+          5614
+        ],
+        "M_cal": [
+          5614,
+          6549
+        ],
+        "V_select": [
+          6549,
+          7485
+        ],
+        "T_final": [
+          7485,
+          9357
+        ]
+      },
+      "train_structure": {
+        "scope": "A_fit_only",
+        "rows": 4678,
+        "columns": 13,
+        "observed_counts": [
+          3604,
+          4531,
+          914,
+          4531,
+          4531,
+          3675,
+          4531,
+          3672,
+          4531,
+          4531,
+          4531,
+          4531,
+          4531
+        ],
+        "missing_fraction_per_channel": [
+          0.2295852928601967,
+          0.03142368533561346,
+          0.804617357845233,
+          0.03142368533561346,
+          0.03142368533561346,
+          0.21440786660966227,
+          0.03142368533561346,
+          0.21504916631038906,
+          0.03142368533561346,
+          0.03142368533561346,
+          0.03142368533561346,
+          0.03142368533561346,
+          0.03142368533561346
+        ],
+        "all_channel_missing_rows": 31,
+        "unobserved_columns": [],
+        "constant_columns": [],
+        "numerical_rank": 13,
+        "participation_effective_rank": 2.557470746388016,
+        "standardized_energy_fraction_by_k": {
+          "4": 0.916335471438759,
+          "7": 0.9656051065060468
+        },
+        "rank_definition": "Observed A_fit channel centering/scaling; missing cells set to A_fit mean solely for this structure diagnostic; no interpolation or forecast scoring",
+        "selection_information": "TRAIN structure only; no target error or A_stop/M_cal/V_select/T_final value enters this diagnostic"
+      },
+      "role_observability": {
+        "A_fit": {
+          "origin_stride": 1,
+          "origins": 4119,
+          "first_origin": 512,
+          "last_origin": 4630,
+          "observed_targets_per_channel": [
+            147061,
+            190758,
+            23112,
+            190758,
+            190758,
+            150754,
+            190758,
+            150610,
+            190758,
+            190758,
+            190758,
+            190758,
+            190758
+          ],
+          "observed_scalar_targets": 2188359,
+          "possible_scalar_targets": 2570256,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            3604,
+            4531,
+            914,
+            4531,
+            4531,
+            3675,
+            4531,
+            3672,
+            4531,
+            4531,
+            4531,
+            4531,
+            4531
+          ]
+        },
+        "A_stop": {
+          "origin_stride": 48,
+          "origins": 19,
+          "first_origin": 4678,
+          "last_origin": 5542,
+          "observed_targets_per_channel": [
+            549,
+            911,
+            0,
+            911,
+            911,
+            537,
+            911,
+            537,
+            911,
+            911,
+            911,
+            911,
+            911
+          ],
+          "observed_scalar_targets": 9822,
+          "possible_scalar_targets": 11856,
+          "unobserved_columns": [
+            "NMHC(GT)"
+          ],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            572,
+            935,
+            0,
+            935,
+            935,
+            560,
+            935,
+            560,
+            935,
+            935,
+            935,
+            935,
+            935
+          ]
+        },
+        "A60": {
+          "origin_stride": 1,
+          "origins": 5055,
+          "first_origin": 512,
+          "last_origin": 5566,
+          "observed_targets_per_channel": [
+            174549,
+            235638,
+            23112,
+            235638,
+            235638,
+            177618,
+            235638,
+            177474,
+            235638,
+            235638,
+            235638,
+            235638,
+            235638
+          ],
+          "observed_scalar_targets": 2673495,
+          "possible_scalar_targets": 3154320,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            4176,
+            5466,
+            914,
+            5466,
+            5466,
+            4235,
+            5466,
+            4232,
+            5466,
+            5466,
+            5466,
+            5466,
+            5466
+          ]
+        },
+        "V_select": {
+          "origin_stride": 48,
+          "origins": 19,
+          "first_origin": 6549,
+          "last_origin": 7413,
+          "observed_targets_per_channel": [
+            803,
+            780,
+            0,
+            780,
+            780,
+            782,
+            780,
+            782,
+            780,
+            780,
+            780,
+            780,
+            780
+          ],
+          "observed_scalar_targets": 9387,
+          "possible_scalar_targets": 11856,
+          "unobserved_columns": [
+            "NMHC(GT)"
+          ],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            827,
+            804,
+            0,
+            804,
+            804,
+            805,
+            804,
+            805,
+            804,
+            804,
+            804,
+            804,
+            804
+          ]
+        }
+      },
+      "readiness_issues": [
+        {
+          "role": "A_stop",
+          "unobserved_columns": [
+            "NMHC(GT)"
+          ]
+        }
+      ],
+      "qualification_scope": "A_fit_and_A_stop_observability_only",
+      "column_selection": "All preregistered physical channels retained; no validation-based channel removal",
+      "source_metadata": [
+        {
+          "reference": "asset-parent://mltimeseries/data_external/uci_air_quality/source_qc_manifest.json",
+          "sha256": "ec9ad9ddae53efc59478507b501d8b51924bf04ab01541d373b509833ac7a644",
+          "bytes": 15804
+        },
+        {
+          "reference": "asset-parent://mltimeseries/data_external/uci_air_quality/acquisition_manifest.json",
+          "sha256": "e2d8d07091af47e4839ffebd928406d35a135c79c5e5ef4bfb561ef5defb8257",
+          "bytes": 1940
+        }
+      ],
+      "source_full_file_hashed": false,
+      "source_prefix_consumed_records": 7485,
+      "source_prefix_consumed_bytes": 627704,
+      "source_prefix_consumed_sha256": "8c23641e0fa5ce91b56784dd547384287cd5f65ea03edfe072b3638fe7bf03fe",
+      "source_prefix_hash_scope": "Only header and exactly floor(.8N) CSV records consumed by the parser; not a full-source hash",
+      "source_prefix_hash_encoding": "Consumed original CSV bytes",
+      "historical_full_raw_sha256_in_metadata_not_recomputed": "13277ae5d8581e80b7be09d47c7d3d06fe9b8e957078f2cf6e859f955e62f996",
+      "source_reference": "asset-parent://mltimeseries/data_external/uci_air_quality/raw/AirQualityUCI.csv",
+      "prefix_array_hashes": {
+        "physical": "0ed99449fe707528e52cd255c0928918bb8a7ab638cf86e766d104acf4d96b0b",
+        "observed": "c809a74b37d957b943c211144a41a85e9f0e9e167000ad400773890af4ca5820",
+        "times": "0eb82dfbc477ff1f7cbd0cbafcf266ac06805942446edf96ebe8656b8cd66403",
+        "columns": "13151def1f91d5b955789fa2044ba7317098502262c53e1c58a6307a6a250a1d"
+      },
+      "missingness": "Original observed values and missing mask; missing targets remain NaN; Air Quality values <=-200 are missing",
+      "normalization": "No source scaler used. Fit fresh A_fit/A60 population statistics in the training consumer; reset causal history fill per window",
+      "protected_numeric_access": {
+        "T_final": false,
+        "old_EVAL": false,
+        "full_raw_file": false
+      },
+      "development_exposure": "Previously used public source or family; this adaptive development search is not independent test evidence",
+      "source_row_count_note": "UCI page describes 9358 instances; the existing local timestamp/schema QC records 9357 usable hourly rows. This prefix uses the local 9357-row contract and does not claim equality to the page count.",
+      "source_sha256": "8ccda143eb223154e6bae9c4568cfaec304501995cdbf8cbed5189e45ddc6962",
+      "dependency_source_hashes": {
+        "research/b2_dataset_extension_20261018_v1/data.py": "3f814bb95b5a5720826e1c6601ee659a6b7959cc004d9aea564bf8779a1c5497"
+      },
+      "prefix_sha256": "2877d93533adf9695032e7e83832a9609954c84a208786885fa57be092c15a20",
+      "prefix_bytes": 231373
+    },
+    {
+      "schema_version": 1,
+      "status": "READY",
+      "dataset": "ETTh2",
+      "C": 7,
+      "L": 512,
+      "H": 48,
+      "interval_seconds": 3600,
+      "period": 24,
+      "original_rows": 17420,
+      "prefix_rows": 13936,
+      "prefix_only_approved": true,
+      "candidate_training_admitted": true,
+      "columns": [
+        "HUFL",
+        "HULL",
+        "MUFL",
+        "MULL",
+        "LUFL",
+        "LULL",
+        "OT"
+      ],
+      "clock": "Source naive hourly timestamps; timezone unspecified",
+      "split_ranges": {
+        "A_fit": [
+          0,
+          8710
+        ],
+        "A_stop": [
+          8710,
+          10452
+        ],
+        "A60": [
+          0,
+          10452
+        ],
+        "M_cal": [
+          10452,
+          12194
+        ],
+        "V_select": [
+          12194,
+          13936
+        ],
+        "T_final": [
+          13936,
+          17420
+        ]
+      },
+      "train_structure": {
+        "scope": "A_fit_only",
+        "rows": 8710,
+        "columns": 7,
+        "observed_counts": [
+          8710,
+          8710,
+          8710,
+          8710,
+          8710,
+          8710,
+          8710
+        ],
+        "missing_fraction_per_channel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "all_channel_missing_rows": 0,
+        "unobserved_columns": [],
+        "constant_columns": [],
+        "numerical_rank": 7,
+        "participation_effective_rank": 3.3424400677418853,
+        "standardized_energy_fraction_by_k": {
+          "2": 0.7237573000307591,
+          "4": 0.9363367685024646
+        },
+        "rank_definition": "Observed A_fit channel centering/scaling; missing cells set to A_fit mean solely for this structure diagnostic; no interpolation or forecast scoring",
+        "selection_information": "TRAIN structure only; no target error or A_stop/M_cal/V_select/T_final value enters this diagnostic"
+      },
+      "role_observability": {
+        "A_fit": {
+          "origin_stride": 1,
+          "origins": 8151,
+          "first_origin": 512,
+          "last_origin": 8662,
+          "observed_targets_per_channel": [
+            391248,
+            391248,
+            391248,
+            391248,
+            391248,
+            391248,
+            391248
+          ],
+          "observed_scalar_targets": 2738736,
+          "possible_scalar_targets": 2738736,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            8710,
+            8710,
+            8710,
+            8710,
+            8710,
+            8710,
+            8710
+          ]
+        },
+        "A_stop": {
+          "origin_stride": 48,
+          "origins": 36,
+          "first_origin": 8710,
+          "last_origin": 10390,
+          "observed_targets_per_channel": [
+            1728,
+            1728,
+            1728,
+            1728,
+            1728,
+            1728,
+            1728
+          ],
+          "observed_scalar_targets": 12096,
+          "possible_scalar_targets": 12096,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            1742,
+            1742,
+            1742,
+            1742,
+            1742,
+            1742,
+            1742
+          ]
+        },
+        "A60": {
+          "origin_stride": 1,
+          "origins": 9893,
+          "first_origin": 512,
+          "last_origin": 10404,
+          "observed_targets_per_channel": [
+            474864,
+            474864,
+            474864,
+            474864,
+            474864,
+            474864,
+            474864
+          ],
+          "observed_scalar_targets": 3324048,
+          "possible_scalar_targets": 3324048,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            10452,
+            10452,
+            10452,
+            10452,
+            10452,
+            10452,
+            10452
+          ]
+        },
+        "V_select": {
+          "origin_stride": 48,
+          "origins": 36,
+          "first_origin": 12194,
+          "last_origin": 13874,
+          "observed_targets_per_channel": [
+            1728,
+            1728,
+            1728,
+            1728,
+            1728,
+            1728,
+            1728
+          ],
+          "observed_scalar_targets": 12096,
+          "possible_scalar_targets": 12096,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            1742,
+            1742,
+            1742,
+            1742,
+            1742,
+            1742,
+            1742
+          ]
+        }
+      },
+      "readiness_issues": [],
+      "qualification_scope": "A_fit_and_A_stop_observability_only",
+      "column_selection": "All preregistered physical channels retained; no validation-based channel removal",
+      "source_metadata": [
+        {
+          "reference": "asset-parent://tsfm-peft-method-screen/results/branch_mixture_lora_v1_20260922/DATA_AUDIT.json",
+          "sha256": "43ac15e76dfee8a626e9e91af96fc65b67cfc16d834564e216718d63470089c6",
+          "bytes": 9188
+        },
+        {
+          "reference": "asset-parent://covariate-trust-pilot/data/external_datasets_manifest.json",
+          "sha256": "a736cd59edaa77b5e2b515e9536ef59c5bd2e1b29cc4c99e6b3c24ec9a7c371c",
+          "bytes": 2108
+        }
+      ],
+      "source_full_file_hashed": false,
+      "source_prefix_consumed_records": 13936,
+      "source_prefix_consumed_bytes": 1911780,
+      "source_prefix_consumed_sha256": "b675118fe12f57a27bf92983376889c6ee8681e2d92338deb9038c58488ad917",
+      "source_prefix_hash_scope": "Only header and exactly floor(.8N) CSV records consumed by the parser; not a full-source hash",
+      "source_prefix_hash_encoding": "Consumed original CSV bytes",
+      "historical_full_raw_sha256_in_metadata_not_recomputed": "a3dc2c597b9218c7ce1cd55eb77b283fd459a1d09d753063f944967dd6b9218b",
+      "source_reference": "asset-parent://covariate-trust-pilot/data/ett_small/ETTh2.csv",
+      "prefix_array_hashes": {
+        "physical": "ec09c1f084cf1834059f040da7fd6ed29f443591d0ccaa7e90b5de4dbc4dbc11",
+        "observed": "51abb167188ac0732c1dfb5cf140eec99d3fea66dca8ab0335d66bd069fb9770",
+        "times": "3e644d1ea785c8d452882586b9ac45b0c20d9b4a74ba052cc3658a1b0e183a99",
+        "columns": "2330ae00c0acd367eb47fc8288715e771725dc90a1edb1665eecbed4b85da784"
+      },
+      "missingness": "Original observed values and missing mask; missing targets remain NaN; Air Quality values <=-200 are missing",
+      "normalization": "No source scaler used. Fit fresh A_fit/A60 population statistics in the training consumer; reset causal history fill per window",
+      "protected_numeric_access": {
+        "T_final": false,
+        "old_EVAL": false,
+        "full_raw_file": false
+      },
+      "development_exposure": "Previously used public source or family; this adaptive development search is not independent test evidence",
+      "source_row_count_note": "Original row count follows the bound existing source schema metadata",
+      "source_sha256": "8ccda143eb223154e6bae9c4568cfaec304501995cdbf8cbed5189e45ddc6962",
+      "dependency_source_hashes": {
+        "research/b2_dataset_extension_20261018_v1/data.py": "3f814bb95b5a5720826e1c6601ee659a6b7959cc004d9aea564bf8779a1c5497"
+      },
+      "prefix_sha256": "99e4b964fd81d7eddf40544fd4472ffc443878559bda404e6cdb7095777b30e6",
+      "prefix_bytes": 252448
+    },
+    {
+      "schema_version": 1,
+      "status": "READY",
+      "dataset": "appliances",
+      "C": 26,
+      "L": 512,
+      "H": 48,
+      "interval_seconds": 600,
+      "period": 144,
+      "original_rows": 19735,
+      "prefix_rows": 15788,
+      "prefix_only_approved": true,
+      "candidate_training_admitted": true,
+      "columns": [
+        "Appliances",
+        "lights",
+        "T1",
+        "RH_1",
+        "T2",
+        "RH_2",
+        "T3",
+        "RH_3",
+        "T4",
+        "RH_4",
+        "T5",
+        "RH_5",
+        "T6",
+        "RH_6",
+        "T7",
+        "RH_7",
+        "T8",
+        "RH_8",
+        "T9",
+        "RH_9",
+        "T_out",
+        "Press_mm_hg",
+        "RH_out",
+        "Windspeed",
+        "Visibility",
+        "Tdewpoint"
+      ],
+      "clock": "Source naive 10-minute timestamps; timezone unspecified",
+      "split_ranges": {
+        "A_fit": [
+          0,
+          9867
+        ],
+        "A_stop": [
+          9867,
+          11841
+        ],
+        "A60": [
+          0,
+          11841
+        ],
+        "M_cal": [
+          11841,
+          13814
+        ],
+        "V_select": [
+          13814,
+          15788
+        ],
+        "T_final": [
+          15788,
+          19735
+        ]
+      },
+      "train_structure": {
+        "scope": "A_fit_only",
+        "rows": 9867,
+        "columns": 26,
+        "observed_counts": [
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867,
+          9867
+        ],
+        "missing_fraction_per_channel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "all_channel_missing_rows": 0,
+        "unobserved_columns": [],
+        "constant_columns": [],
+        "numerical_rank": 26,
+        "participation_effective_rank": 5.325071090153028,
+        "standardized_energy_fraction_by_k": {
+          "7": 0.8272116777655374,
+          "13": 0.9510971709760658
+        },
+        "rank_definition": "Observed A_fit channel centering/scaling; missing cells set to A_fit mean solely for this structure diagnostic; no interpolation or forecast scoring",
+        "selection_information": "TRAIN structure only; no target error or A_stop/M_cal/V_select/T_final value enters this diagnostic"
+      },
+      "role_observability": {
+        "A_fit": {
+          "origin_stride": 1,
+          "origins": 9308,
+          "first_origin": 512,
+          "last_origin": 9819,
+          "observed_targets_per_channel": [
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784,
+            446784
+          ],
+          "observed_scalar_targets": 11616384,
+          "possible_scalar_targets": 11616384,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867,
+            9867
+          ]
+        },
+        "A_stop": {
+          "origin_stride": 48,
+          "origins": 41,
+          "first_origin": 9867,
+          "last_origin": 11787,
+          "observed_targets_per_channel": [
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968
+          ],
+          "observed_scalar_targets": 51168,
+          "possible_scalar_targets": 51168,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974
+          ]
+        },
+        "A60": {
+          "origin_stride": 1,
+          "origins": 11282,
+          "first_origin": 512,
+          "last_origin": 11793,
+          "observed_targets_per_channel": [
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536,
+            541536
+          ],
+          "observed_scalar_targets": 14079936,
+          "possible_scalar_targets": 14079936,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841,
+            11841
+          ]
+        },
+        "V_select": {
+          "origin_stride": 48,
+          "origins": 41,
+          "first_origin": 13814,
+          "last_origin": 15734,
+          "observed_targets_per_channel": [
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968,
+            1968
+          ],
+          "observed_scalar_targets": 51168,
+          "possible_scalar_targets": 51168,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974,
+            1974
+          ]
+        }
+      },
+      "readiness_issues": [],
+      "qualification_scope": "A_fit_and_A_stop_observability_only",
+      "column_selection": "All preregistered physical channels retained; no validation-based channel removal",
+      "source_metadata": [
+        {
+          "reference": "asset-parent://hierarchical-tsfm-peft/.cache/smallk_predictive_alignment_20261013/raw_dataset/appliances/2fccf354445d886e/contract.json",
+          "sha256": "be9971a6d452bfda6c4f1272f20a619a1458e2c5c053c35ea692278ed88fe6b6",
+          "bytes": 9125
+        }
+      ],
+      "source_full_file_hashed": false,
+      "source_prepared_prefix_payload_sha256": "b7edce3bb41c150e59a203948bd3a539b879940926d9dc8522a6bed4644d68ec",
+      "source_prefix_hash_scope": "Entire already isolated physical FIT_TUNE payload only; raw ZIP and EVAL payloads were not read or hashed",
+      "original_normalized_arrays_consumed": false,
+      "physical_inverse_transform_required": false,
+      "source_reference": "asset-parent://hierarchical-tsfm-peft/.cache/smallk_predictive_alignment_20261013/raw_dataset/appliances/2fccf354445d886e/fit_tune_payload.npz",
+      "prefix_array_hashes": {
+        "physical": "e97a8fbcc216c836ae979b7b08957e425970003c38a263e06f5a25a92c49a947",
+        "observed": "9b0680223ff2155406b4bfe1f361deae464543b6a550b63fe4fe02687cccb440",
+        "times": "2fbab12760aa42678eebac4933646bca4448842100ad385a46d46d3699690b54",
+        "columns": "0caadbf48f07224dbc0ebfd606708d1355c1192b218537fd91a9cd72dae6f33e"
+      },
+      "missingness": "Original observed values and missing mask; missing targets remain NaN; Air Quality values <=-200 are missing",
+      "normalization": "No source scaler used. Fit fresh A_fit/A60 population statistics in the training consumer; reset causal history fill per window",
+      "protected_numeric_access": {
+        "T_final": false,
+        "old_EVAL": false,
+        "full_raw_file": false
+      },
+      "development_exposure": "Previously used public source or family; this adaptive development search is not independent test evidence",
+      "source_row_count_note": "Original row count follows the bound existing source schema metadata",
+      "source_sha256": "8ccda143eb223154e6bae9c4568cfaec304501995cdbf8cbed5189e45ddc6962",
+      "dependency_source_hashes": {
+        "research/b2_dataset_extension_20261018_v1/data.py": "3f814bb95b5a5720826e1c6601ee659a6b7959cc004d9aea564bf8779a1c5497"
+      },
+      "prefix_sha256": "ec1af987e6f67bbe4dd0b787fb889e2a6f0b67d0f682c96c3dc6cfcc8823d14f",
+      "prefix_bytes": 831735
+    },
+    {
+      "schema_version": 1,
+      "status": "READY",
+      "dataset": "ETTh1",
+      "C": 7,
+      "L": 512,
+      "H": 48,
+      "interval_seconds": 3600,
+      "period": 24,
+      "original_rows": 17420,
+      "prefix_rows": 13936,
+      "prefix_only_approved": true,
+      "candidate_training_admitted": true,
+      "columns": [
+        "HUFL",
+        "HULL",
+        "MUFL",
+        "MULL",
+        "LUFL",
+        "LULL",
+        "OT"
+      ],
+      "clock": "Source naive hourly timestamps; timezone unspecified",
+      "split_ranges": {
+        "A_fit": [
+          0,
+          8710
+        ],
+        "A_stop": [
+          8710,
+          10452
+        ],
+        "A60": [
+          0,
+          10452
+        ],
+        "M_cal": [
+          10452,
+          12194
+        ],
+        "V_select": [
+          12194,
+          13936
+        ],
+        "T_final": [
+          13936,
+          17420
+        ]
+      },
+      "train_structure": {
+        "scope": "A_fit_only",
+        "rows": 8710,
+        "columns": 7,
+        "observed_counts": [
+          8710,
+          8710,
+          8710,
+          8710,
+          8710,
+          8710,
+          8710
+        ],
+        "missing_fraction_per_channel": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "all_channel_missing_rows": 0,
+        "unobserved_columns": [],
+        "constant_columns": [],
+        "numerical_rank": 7,
+        "participation_effective_rank": 3.572062877304564,
+        "standardized_energy_fraction_by_k": {
+          "2": 0.6655088005741439,
+          "4": 0.9302931880854464
+        },
+        "rank_definition": "Observed A_fit channel centering/scaling; missing cells set to A_fit mean solely for this structure diagnostic; no interpolation or forecast scoring",
+        "selection_information": "TRAIN structure only; no target error or A_stop/M_cal/V_select/T_final value enters this diagnostic"
+      },
+      "role_observability": {
+        "A_fit": {
+          "origin_stride": 1,
+          "origins": 8151,
+          "first_origin": 512,
+          "last_origin": 8662,
+          "observed_targets_per_channel": [
+            391248,
+            391248,
+            391248,
+            391248,
+            391248,
+            391248,
+            391248
+          ],
+          "observed_scalar_targets": 2738736,
+          "possible_scalar_targets": 2738736,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            8710,
+            8710,
+            8710,
+            8710,
+            8710,
+            8710,
+            8710
+          ]
+        },
+        "A_stop": {
+          "origin_stride": 48,
+          "origins": 36,
+          "first_origin": 8710,
+          "last_origin": 10390,
+          "observed_targets_per_channel": [
+            1728,
+            1728,
+            1728,
+            1728,
+            1728,
+            1728,
+            1728
+          ],
+          "observed_scalar_targets": 12096,
+          "possible_scalar_targets": 12096,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            1742,
+            1742,
+            1742,
+            1742,
+            1742,
+            1742,
+            1742
+          ]
+        },
+        "A60": {
+          "origin_stride": 1,
+          "origins": 9893,
+          "first_origin": 512,
+          "last_origin": 10404,
+          "observed_targets_per_channel": [
+            474864,
+            474864,
+            474864,
+            474864,
+            474864,
+            474864,
+            474864
+          ],
+          "observed_scalar_targets": 3324048,
+          "possible_scalar_targets": 3324048,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            10452,
+            10452,
+            10452,
+            10452,
+            10452,
+            10452,
+            10452
+          ]
+        },
+        "V_select": {
+          "origin_stride": 48,
+          "origins": 36,
+          "first_origin": 12194,
+          "last_origin": 13874,
+          "observed_targets_per_channel": [
+            1728,
+            1728,
+            1728,
+            1728,
+            1728,
+            1728,
+            1728
+          ],
+          "observed_scalar_targets": 12096,
+          "possible_scalar_targets": 12096,
+          "unobserved_columns": [],
+          "origins_with_no_observed_target": 0,
+          "row_observed_counts": [
+            1742,
+            1742,
+            1742,
+            1742,
+            1742,
+            1742,
+            1742
+          ]
+        }
+      },
+      "readiness_issues": [],
+      "qualification_scope": "A_fit_and_A_stop_observability_only",
+      "column_selection": "All preregistered physical channels retained; no validation-based channel removal",
+      "source_metadata": [
+        {
+          "reference": "asset-parent://tsfm-peft-method-screen/results/rollout_uncertainty_peft_v1_20260921/DATA_AND_SPLIT_AUDIT.json",
+          "sha256": "ac8ad1bfdb6e9701c76ca10ca4c297d4314fd364397326675ace617ed3954348",
+          "bytes": 18577
+        },
+        {
+          "reference": "asset-parent://covariate-trust-pilot/data/external_datasets_manifest.json",
+          "sha256": "a736cd59edaa77b5e2b515e9536ef59c5bd2e1b29cc4c99e6b3c24ec9a7c371c",
+          "bytes": 2108
+        }
+      ],
+      "source_full_file_hashed": false,
+      "source_prefix_consumed_records": 13936,
+      "source_prefix_consumed_bytes": 2069521,
+      "source_prefix_consumed_sha256": "c26f2488484700d44bcc7e94f39e320127ed9fc7ce8f9285605fedd263784733",
+      "source_prefix_hash_scope": "Only header and exactly floor(.8N) CSV records consumed by the parser; not a full-source hash",
+      "source_prefix_hash_encoding": "Consumed original CSV bytes",
+      "historical_full_raw_sha256_in_metadata_not_recomputed": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+      "source_reference": "asset-parent://covariate-trust-pilot/data/ett_small/ETTh1.csv",
+      "prefix_array_hashes": {
+        "physical": "2f321cafd3d515af085cd1deff442b781dae7cecd717567726c43791dfa0863c",
+        "observed": "51abb167188ac0732c1dfb5cf140eec99d3fea66dca8ab0335d66bd069fb9770",
+        "times": "3e644d1ea785c8d452882586b9ac45b0c20d9b4a74ba052cc3658a1b0e183a99",
+        "columns": "2330ae00c0acd367eb47fc8288715e771725dc90a1edb1665eecbed4b85da784"
+      },
+      "missingness": "Original observed values and missing mask; missing targets remain NaN; Air Quality values <=-200 are missing",
+      "normalization": "No source scaler used. Fit fresh A_fit/A60 population statistics in the training consumer; reset causal history fill per window",
+      "protected_numeric_access": {
+        "T_final": false,
+        "old_EVAL": false,
+        "full_raw_file": false
+      },
+      "development_exposure": "Previously used public source or family; this adaptive development search is not independent test evidence",
+      "source_row_count_note": "Original row count follows the bound existing source schema metadata",
+      "source_sha256": "8ccda143eb223154e6bae9c4568cfaec304501995cdbf8cbed5189e45ddc6962",
+      "dependency_source_hashes": {
+        "research/b2_dataset_extension_20261018_v1/data.py": "3f814bb95b5a5720826e1c6601ee659a6b7959cc004d9aea564bf8779a1c5497"
+      },
+      "prefix_sha256": "a2986c7a579e3d8d8a7dd4c45f0e480d36ead937dcc9f52f5ab7ff1572f0a1f4",
+      "prefix_bytes": 246335
+    }
+  ],
+  "ready_datasets": [
+    "ETTh2",
+    "appliances",
+    "ETTh1"
+  ],
+  "source_sha256": "8ccda143eb223154e6bae9c4568cfaec304501995cdbf8cbed5189e45ddc6962"
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "registration_stage": "BEFORE_NEW_NUMERIC_PREPARATION_OR_FORECASTING",
+  "minimum_ready_datasets_in_first_batch": 3,
+  "ordered_candidates": [
+    {"dataset": "uci360_air_quality", "N": 9357, "C": 13, "interval_seconds": 3600, "K_grid": [2, 4, 8]},
+    {"dataset": "ETTh2", "N": 17420, "C": 7, "interval_seconds": 3600, "K_grid": [1, 2, 4]},
+    {"dataset": "appliances", "N": 19735, "C": 26, "interval_seconds": 600, "K_grid": [4, 7, 14]},
+    {"dataset": "ETTh1", "N": 17420, "C": 7, "interval_seconds": 3600, "K_grid": [1, 2, 4]}
+  ],
+  "readiness_rule": "Keep all registered physical channels; exclude a dataset if any channel has no observed A_fit or A_stop target support, if time/schema/prefix validation fails, or if no complete role window exists. No forecast scores used.",
+  "batch_rule": "Admit ready candidates in the registered order until at least three datasets. Seal exact admitted jobs and data bindings before training. Preserve excluded diagnostics.",
+  "known_preparation_risk": "AirQuality NMHC may have no A_stop observations. Do not drop that column using V information; retain a NOT_READY diagnosis and proceed to the registered fallback.",
+  "dataset_dependence": "ETTh1 and ETTh2 are separate transformer stations in the same benchmark family; Appliances is a separate building-sensor dataset.",
+  "future_queue": ["ETTm1", "ETTm2", "Solar full channels", "Beijing pollution", "Exchange if an admissible source is obtained", "Electricity full channels", "Traffic full channels"],
+  "future_queue_rule": "Register concrete source metadata, preprocessing, channels and dataset order before any future batch's new numeric preparation or forecast scores. Continue if no positive example is verified.",
+  "seeds": [92601, 92602],
+  "epochs": [0, 0.25, 1, 3],
+  "row_policies": ["DEFAULT128", "COMMON_CAP"],
+  "protected_TEST_numeric_access": false
+}
