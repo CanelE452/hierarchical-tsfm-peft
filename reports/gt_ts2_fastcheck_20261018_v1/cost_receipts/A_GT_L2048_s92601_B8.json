@@ -1,0 +1,3005 @@
+{
+  "F_row_microbatch": 128,
+  "TS2_present": false,
+  "TS2_pretrained_weights_used": false,
+  "TS2cache_used": false,
+  "batch": 8,
+  "boundary": "physical history+mask -> local fill/TRAIN scale -> H2D -> encoders/bridge/F/native D -> D2H -> physical FP64 inverse scale",
+  "checkpoint_sha256": {
+    "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+    "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+  },
+  "context_and_reference_loading_seconds": 0.369295600001351,
+  "device": "NVIDIA GeForce RTX 4070",
+  "ended_unix": 1792318743.059505,
+  "excluded_from_timing": [
+    "model loading",
+    "physical window slicing",
+    "reference file I/O",
+    "parity checks",
+    "state hashing"
+  ],
+  "loaded_baseline": {
+    "RSS_MiB": 861.1015625,
+    "allocated_MiB": 182.03662109375,
+    "loading_peak_allocated_MiB": 182.03662109375,
+    "loading_peak_reserved_MiB": 258.0,
+    "reserved_MiB": 258.0
+  },
+  "loaded_source_sha256": {
+    "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+    "GT_parent": {
+      "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+      "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+      "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+      "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+      "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+      "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+      "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+    },
+    "new_campaign": {
+      "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+      "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+      "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+      "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+      "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+      "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+      "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+      "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+      "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+      "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+      "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+      "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+      "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+      "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+      "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+      "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+      "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+    }
+  },
+  "memory_scope": "allocated/reserved peaks include all currently resident models; RSS is a sampled process value; no process-GPU hard-cap certification",
+  "model_loading_seconds": 0.8012423000036506,
+  "pid": 33344,
+  "precision": "FP32, TF32 disabled, no AMP",
+  "process_create_time_unix": 1792318729.786513,
+  "reference_artifact_sha256": "0ff06c7531edd5861c1b15c08a75e90cee9b74cda84b5c8af9f7d97969d03864",
+  "reference_prediction_sha256": "51c9a850cda95594633f433253221d1e4df8f0efa064acc68aff5ddef896d00d",
+  "resident_inventory": {
+    "actual_devices": [
+      "cuda:0"
+    ],
+    "aliases_skipped": {
+      "buffer_objects": 0,
+      "parameter_objects": 0
+    },
+    "by_device": {
+      "cpu": {
+        "buffer_bytes": 0,
+        "parameter_bytes": 0,
+        "parameters": 0
+      },
+      "cuda": {
+        "buffer_bytes": 1800,
+        "parameter_bytes": 190873040,
+        "parameters": 47718260
+      }
+    },
+    "by_module": {
+      "F": {
+        "cpu": {
+          "buffer_bytes": 0,
+          "parameter_bytes": 0,
+          "parameters": 0
+        },
+        "cuda": {
+          "buffer_bytes": 36,
+          "parameter_bytes": 190872064,
+          "parameters": 47718016
+        }
+      },
+      "GT_adapter": {
+        "cpu": {
+          "buffer_bytes": 0,
+          "parameter_bytes": 0,
+          "parameters": 0
+        },
+        "cuda": {
+          "buffer_bytes": 1764,
+          "parameter_bytes": 976,
+          "parameters": 244
+        }
+      }
+    },
+    "counting_rule": "unique Parameter object id across modules; unique buffer object id separately; actual numel*element_size bytes",
+    "scope": "all loaded model weights, including unused TS2 online CPU copy; F counted once; latent compression does not compress resident weights",
+    "total_unique_buffer_bytes": 1800,
+    "total_unique_parameter_bytes": 190873040,
+    "total_unique_parameters": 47718260
+  },
+  "run_id": "A_GT_L2048_s92601",
+  "spec": {
+    "L": 2048,
+    "arm": "GT_FROZEN",
+    "mode": "gt",
+    "phase": "A",
+    "run_id": "A_GT_L2048_s92601",
+    "seed": 92601,
+    "updates": 0
+  },
+  "started_unix": 1792318736.5383785,
+  "states_after_sha256": {
+    "F": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+    "GT_adapter": "51ee03f5a8b13abccc94dc306bde3d873b0e42cee7493abe00ceaa16085fc595"
+  },
+  "states_before_sha256": {
+    "F": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+    "GT_adapter": "51ee03f5a8b13abccc94dc306bde3d873b0e42cee7493abe00ceaa16085fc595"
+  },
+  "status": "COMPLETE",
+  "summary": {
+    "CPU_resident_buffer_bytes": 0,
+    "CPU_resident_parameter_bytes": 0,
+    "CPU_resident_parameters": 0,
+    "CUDA_resident_buffer_bytes": 1800,
+    "CUDA_resident_parameter_bytes": 190873040,
+    "CUDA_resident_parameters": 47718260,
+    "L": 2048,
+    "RSS_MiB": 1407.734375,
+    "TS2cache_used": false,
+    "arm": "GT_FROZEN",
+    "batch": 8,
+    "iqr_ms": 4.087425004399847,
+    "mode": "gt",
+    "origins_per_second_at_median": 68.74659489592892,
+    "p50_ms": 116.36939999880269,
+    "p95_ms": 122.03382500010775,
+    "peak_allocated_MiB": 354.212890625,
+    "peak_reserved_MiB": 430.0,
+    "phase": "A",
+    "q25_ms": 114.69639999995707,
+    "q75_ms": 118.78382500435691,
+    "quantile_method": "NumPy linear empirical quantiles",
+    "repetitions": 20,
+    "resident_inventory": {
+      "actual_devices": [
+        "cuda:0"
+      ],
+      "aliases_skipped": {
+        "buffer_objects": 0,
+        "parameter_objects": 0
+      },
+      "by_device": {
+        "cpu": {
+          "buffer_bytes": 0,
+          "parameter_bytes": 0,
+          "parameters": 0
+        },
+        "cuda": {
+          "buffer_bytes": 1800,
+          "parameter_bytes": 190873040,
+          "parameters": 47718260
+        }
+      },
+      "by_module": {
+        "F": {
+          "cpu": {
+            "buffer_bytes": 0,
+            "parameter_bytes": 0,
+            "parameters": 0
+          },
+          "cuda": {
+            "buffer_bytes": 36,
+            "parameter_bytes": 190872064,
+            "parameters": 47718016
+          }
+        },
+        "GT_adapter": {
+          "cpu": {
+            "buffer_bytes": 0,
+            "parameter_bytes": 0,
+            "parameters": 0
+          },
+          "cuda": {
+            "buffer_bytes": 1764,
+            "parameter_bytes": 976,
+            "parameters": 244
+          }
+        }
+      },
+      "counting_rule": "unique Parameter object id across modules; unique buffer object id separately; actual numel*element_size bytes",
+      "scope": "all loaded model weights, including unused TS2 online CPU copy; F counted once; latent compression does not compress resident weights",
+      "total_unique_buffer_bytes": 1800,
+      "total_unique_parameter_bytes": 190873040,
+      "total_unique_parameters": 47718260
+    },
+    "resident_parameter_scope": "resident_parameters is CUDA only; CPU/system counts are separate",
+    "resident_parameters": 47718260,
+    "run_id": "A_GT_L2048_s92601",
+    "scope": "20 repetitions cycling three fixed origin groups; not a service-tail latency estimate",
+    "seed": 92601,
+    "system_resident_parameters": 47718260,
+    "updates": 0,
+    "warmups": 10
+  },
+  "trials": [
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.1640625,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 0,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 22.194343660403046,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 360.452200002328
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.47265625,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 1,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 65.63117086926586,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 121.89329999819165
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.5234375,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 2,
+      "groupstart": 363,
+      "iteration": 2,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 64.7265424956498,
+      "origins_sha256": "a61b0abcefcdf0d9b9a5b3e9dfa2f7845e32592b733a74468b1763d3f77e9891",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "7cfb86bb6e61c6084a1db28bb64f0db4008d2934ec79c7e28b9b692a000b7058",
+        "atol": 1e-05,
+        "max_abs": 5.960464477539062e-07,
+        "max_relative": 0.00022712441096569658,
+        "reference_sha256": "e5810bb0c8054aa89f3ed5306693644feeba2b84459e6693d8959c0b240bbb51",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 123.59689999721013
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.52734375,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 3,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 63.914865402086164,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 125.16649999452056
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.53125,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 4,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 67.01604364226874,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 119.37439999746857
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.54296875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 2,
+      "groupstart": 363,
+      "iteration": 5,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 72.31769161896509,
+      "origins_sha256": "a61b0abcefcdf0d9b9a5b3e9dfa2f7845e32592b733a74468b1763d3f77e9891",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "7cfb86bb6e61c6084a1db28bb64f0db4008d2934ec79c7e28b9b692a000b7058",
+        "atol": 1e-05,
+        "max_abs": 5.960464477539062e-07,
+        "max_relative": 0.00022712441096569658,
+        "reference_sha256": "e5810bb0c8054aa89f3ed5306693644feeba2b84459e6693d8959c0b240bbb51",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 110.62300000048708
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.56640625,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 6,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 66.82548857829926,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 119.7147999992012
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.578125,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 7,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 68.4054768839295,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 116.94970000098692
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.5859375,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 2,
+      "groupstart": 363,
+      "iteration": 8,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 68.1850337225217,
+      "origins_sha256": "a61b0abcefcdf0d9b9a5b3e9dfa2f7845e32592b733a74468b1763d3f77e9891",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "7cfb86bb6e61c6084a1db28bb64f0db4008d2934ec79c7e28b9b692a000b7058",
+        "atol": 1e-05,
+        "max_abs": 5.960464477539062e-07,
+        "max_relative": 0.00022712441096569658,
+        "reference_sha256": "e5810bb0c8054aa89f3ed5306693644feeba2b84459e6693d8959c0b240bbb51",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 117.32780000602361
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.59765625,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 9,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "cumulative warmup phase",
+      "origins_per_second": 68.88078200098273,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "warmup",
+      "updates": 0,
+      "whole_batch_ms": 116.14270000427496
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.59765625,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 0,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 69.61976296022608,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 114.90990000311285
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.60546875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 1,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 68.79708300599677,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 116.28399999608519
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.6171875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 2,
+      "groupstart": 363,
+      "iteration": 2,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 69.49982711938067,
+      "origins_sha256": "a61b0abcefcdf0d9b9a5b3e9dfa2f7845e32592b733a74468b1763d3f77e9891",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "7cfb86bb6e61c6084a1db28bb64f0db4008d2934ec79c7e28b9b692a000b7058",
+        "atol": 1e-05,
+        "max_abs": 5.960464477539062e-07,
+        "max_relative": 0.00022712441096569658,
+        "reference_sha256": "e5810bb0c8054aa89f3ed5306693644feeba2b84459e6693d8959c0b240bbb51",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 115.1081999996677
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.6171875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 3,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 68.69618083492968,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 116.4548000015202
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.6171875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 4,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 69.69138910692878,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 114.79179999878397
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.6875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 2,
+      "groupstart": 363,
+      "iteration": 5,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 73.06016139203176,
+      "origins_sha256": "a61b0abcefcdf0d9b9a5b3e9dfa2f7845e32592b733a74468b1763d3f77e9891",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "7cfb86bb6e61c6084a1db28bb64f0db4008d2934ec79c7e28b9b692a000b7058",
+        "atol": 1e-05,
+        "max_abs": 5.960464477539062e-07,
+        "max_relative": 0.00022712441096569658,
+        "reference_sha256": "e5810bb0c8054aa89f3ed5306693644feeba2b84459e6693d8959c0b240bbb51",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 109.49879999679979
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.6875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 6,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 71.19984193323056,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 112.35980000492418
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.6875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 7,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 66.95765346660538,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 119.47850000433391
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.6875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 2,
+      "groupstart": 363,
+      "iteration": 8,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 70.02758211795799,
+      "origins_sha256": "a61b0abcefcdf0d9b9a5b3e9dfa2f7845e32592b733a74468b1763d3f77e9891",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "7cfb86bb6e61c6084a1db28bb64f0db4008d2934ec79c7e28b9b692a000b7058",
+        "atol": 1e-05,
+        "max_abs": 5.960464477539062e-07,
+        "max_relative": 0.00022712441096569658,
+        "reference_sha256": "e5810bb0c8054aa89f3ed5306693644feeba2b84459e6693d8959c0b240bbb51",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 114.24069999338826
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.6875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 9,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 69.92383546009815,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 114.41020000347635
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.69140625,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 10,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 69.03502837333802,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 115.88320000009844
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.703125,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 2,
+      "groupstart": 363,
+      "iteration": 11,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 67.38175554490874,
+      "origins_sha256": "a61b0abcefcdf0d9b9a5b3e9dfa2f7845e32592b733a74468b1763d3f77e9891",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "7cfb86bb6e61c6084a1db28bb64f0db4008d2934ec79c7e28b9b692a000b7058",
+        "atol": 1e-05,
+        "max_abs": 5.960464477539062e-07,
+        "max_relative": 0.00022712441096569658,
+        "reference_sha256": "e5810bb0c8054aa89f3ed5306693644feeba2b84459e6693d8959c0b240bbb51",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 118.72650000441354
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.703125,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 12,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 66.2475405605195,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 120.75919999915641
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.70703125,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 13,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 67.25187001994365,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 118.95580000418704
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.71875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 2,
+      "groupstart": 363,
+      "iteration": 14,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 64.5206558833371,
+      "origins_sha256": "a61b0abcefcdf0d9b9a5b3e9dfa2f7845e32592b733a74468b1763d3f77e9891",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "7cfb86bb6e61c6084a1db28bb64f0db4008d2934ec79c7e28b9b692a000b7058",
+        "atol": 1e-05,
+        "max_abs": 5.960464477539062e-07,
+        "max_relative": 0.00022712441096569658,
+        "reference_sha256": "e5810bb0c8054aa89f3ed5306693644feeba2b84459e6693d8959c0b240bbb51",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 123.99130000267178
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.71875,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 15,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 68.1480926184378,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 117.39140000281623
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.72265625,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 16,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 71.71022614824543,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 111.5600999983144
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.734375,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 2,
+      "groupstart": 363,
+      "iteration": 17,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 65.61098590349431,
+      "origins_sha256": "a61b0abcefcdf0d9b9a5b3e9dfa2f7845e32592b733a74468b1763d3f77e9891",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "7cfb86bb6e61c6084a1db28bb64f0db4008d2934ec79c7e28b9b692a000b7058",
+        "atol": 1e-05,
+        "max_abs": 5.960464477539062e-07,
+        "max_relative": 0.00022712441096569658,
+        "reference_sha256": "e5810bb0c8054aa89f3ed5306693644feeba2b84459e6693d8959c0b240bbb51",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 121.9307999999728
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.734375,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 0,
+      "groupstart": 0,
+      "iteration": 18,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 68.6268202175266,
+      "origins_sha256": "b427f13a2e080caadaac3bb5e1a0ae22d99245663b8bde174a5141b4b157d70f",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "870e51c39e43a9b62d156f87efbf66ca16ac29b9de4c565a79373e303f4af090",
+        "atol": 1e-05,
+        "max_abs": 5.828670879282072e-15,
+        "max_relative": 5.206010314702631e-11,
+        "reference_sha256": "d8b5bec35e274d03db73d357166f232ea5fbe6b9d93a5dc685731f4f3459560b",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 116.57250000280328
+    },
+    {
+      "F_calls": 3,
+      "F_context_records": [
+        {
+          "actual_context_length": 512,
+          "requested_context_length": 512,
+          "row_sizes": [
+            128,
+            128,
+            80
+          ],
+          "streams": 336
+        }
+      ],
+      "F_streams": 336,
+      "L": 2048,
+      "RSS_MiB": 1407.734375,
+      "TS2cache_used": false,
+      "actual_context_length": [
+        512
+      ],
+      "batch": 8,
+      "checkpoint_sha256": {
+        "F_tensor_state": "354fe0801e121851c0a9886349cab5939f1059a292f019f6a197924d485e7965",
+        "GT_full_calibrated_parent": "014aef056a3b29cb6836539f8923651d075bcafdf8d3fa1a511e9df9be3f0d3b"
+      },
+      "group_index": 1,
+      "groupstart": 181,
+      "iteration": 19,
+      "loaded_source_sha256": {
+        "F_installed_model_implementation": "93b3af9e4521ea981c4228b1acaa252321f7a190512f956088394426182c8b8c",
+        "GT_parent": {
+          "research/professor_compressor_direct_20261011/common_direct.py": "b4a5305ab3d3af7082eb7e13ef8735516ae2171b3f69c8245c103c04f2dfe8dd",
+          "research/professor_compressor_direct_20261011/data_io.py": "c1a1ff96521e8a7b1e7121f94517e039209d47f461e2a6ca68ba5c69de3d432e",
+          "research/professor_compressor_direct_20261011/foundation.py": "7fb2b5f6ddeb54ce3ec2057e4aa50f65e9efff1e5386d0b1eaa0a64035e8c05a",
+          "research/professor_compressor_direct_20261011/models_gt.py": "a4f181a3c030cdc6acc17b784f3773648fe277bd0220790c1a7935814cf4039a",
+          "research/professor_compressor_direct_20261011/protocol.json": "d8da7c161c75a55d0e5c15b1c9a1861d352472720c4e5fdb57a571dc82a08967",
+          "research/professor_compressor_direct_20261011/run_support.py": "f32acf5bca736e63c00462798d04171fcfbd5e0a74599682cc976dbd9e9bc948",
+          "research/professor_compressor_direct_20261011/runner_gt.py": "daddb757574904837bd80a3cd8042a9fc707989a83cbb3d9c252290b572c3339"
+        },
+        "new_campaign": {
+          "research/gt_ts2_fastcheck_20261018_v1/__init__.py": "8338129cfbe2572b85082a45b895524fc27b4d0fee238e95e0c2f2c6cb2d6b43",
+          "research/gt_ts2_fastcheck_20261018_v1/admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+          "research/gt_ts2_fastcheck_20261018_v1/analysis.py": "8bdd4243c7140a0fc052b3e97623593956af0c645f8bfa81b7cd323f947fa351",
+          "research/gt_ts2_fastcheck_20261018_v1/campaign.py": "9d66d833e5d8d0f3b31de7fd5d28a9a9c0beed0c69272148f67e659c8ea26a77",
+          "research/gt_ts2_fastcheck_20261018_v1/common.py": "22b787a585fd0cd458375a41f65fac42c80d9c87c47924bc67ea6083c73a9608",
+          "research/gt_ts2_fastcheck_20261018_v1/cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+          "research/gt_ts2_fastcheck_20261018_v1/data.py": "0b375dd57fc4fe1f3ed17b3df6c3e65a8ff6b1637f96c4aff5fb7b162f531d36",
+          "research/gt_ts2_fastcheck_20261018_v1/execution.py": "6f71e345e132268247514a34c87eb970c9b1b681e7ab237ddf3f3d4e864ca8ea",
+          "research/gt_ts2_fastcheck_20261018_v1/feature_cache.py": "333acf9d2239dbfd5d2fa44c82f3c50efdc433057b7b40c3a87ef5e220d2b7a3",
+          "research/gt_ts2_fastcheck_20261018_v1/model.py": "70c6d53a63f8c8648c6c6605704c866364335c672f35c8e77965e547089cf194",
+          "research/gt_ts2_fastcheck_20261018_v1/observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+          "research/gt_ts2_fastcheck_20261018_v1/parents.py": "c7edc68e3d79fe6743c6f6a2d9b352302d22d87c924c3a7eb5994851584e9b3e",
+          "research/gt_ts2_fastcheck_20261018_v1/public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+          "research/gt_ts2_fastcheck_20261018_v1/reporting.py": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+          "research/gt_ts2_fastcheck_20261018_v1/run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5",
+          "research/gt_ts2_fastcheck_20261018_v1/training.py": "eef1aa3103b9462f24ba970c6f9f27d291ea99556fef20acbb6693989064fa64",
+          "research/gt_ts2_fastcheck_20261018_v1/verify.py": "ff4894d2cd1472a386282ca3639f2beb7f7bd0c21b1fe19f779984e909a9488d"
+        }
+      },
+      "memory_peak_scope": "one timed repetition including all resident models",
+      "origins_per_second": 68.31814393439937,
+      "origins_sha256": "3cd2872d16c48ba2adaca3d595029393bfeda0270851e0d93055718b0a54c835",
+      "peak_allocated_MiB": 354.212890625,
+      "peak_reserved_MiB": 430.0,
+      "phase": "A",
+      "pid": 33344,
+      "prediction_parity": {
+        "actual_sha256": "bd6cf84833e31717b31cfcb9b36b48efafb98005d483d5308e4dcb6d0dfd8bda",
+        "atol": 1e-05,
+        "max_abs": 9.5367431640625e-07,
+        "max_relative": 0.022945474280593153,
+        "reference_sha256": "9fde73f4bf6194313e199c10f27a0f69552d9213cd3a7f818c12f1c6a9c30e74",
+        "relative_diagnostic_denominator_floor": 1e-12,
+        "rtol": 0.0001,
+        "shape": [
+          8,
+          48,
+          21
+        ],
+        "status": "PASS"
+      },
+      "process_create_time_unix": 1792318729.786513,
+      "requested_context_length": [
+        512
+      ],
+      "run_id": "A_GT_L2048_s92601",
+      "seed": 92601,
+      "stage": "timed",
+      "updates": 0,
+      "whole_batch_ms": 117.09919999702834
+    }
+  ],
+  "validation": {
+    "F_unchanged": true,
+    "TS2_unchanged": true,
+    "all_loaded_states_unchanged": true,
+    "max_abs_prediction_difference": 9.5367431640625e-07,
+    "parameter_gradients_absent": {
+      "F": true,
+      "GT_adapter": true
+    },
+    "prediction_parity_trials": 30,
+    "status": "PASS"
+  },
+  "wall_seconds": 6.5212384999977075,
+  "warmup_peaks": {
+    "RSS_MiB": 1407.59765625,
+    "peak_allocated_MiB": 354.212890625,
+    "peak_reserved_MiB": 430.0
+  },
+  "window_slicing_seconds": 0.002172499996959232
+}

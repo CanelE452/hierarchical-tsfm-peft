@@ -1,0 +1,23 @@
+{
+  "completed_unix": 1792317273.309419,
+  "critical_findings": [],
+  "followup_source_sha256": {
+    "admission.py": "90d352b9e03c72f4fd96eb2b01a88c3f494836e974440322355b06a7b1dca4d5",
+    "cost.py": "13a87e33539f571fc4f011a8255886a67b8e4a112de137eba220a30111e6bd08",
+    "observation.py": "a5bd6ac42bd141a98d360480ae8811bc921f9d91f01548d8c1576eead60a58b3",
+    "public_replay.py": "8f8a4f078ed6260fd2f53e73486bc7db8cbdff217171f60d7197b8e19334c20e",
+    "reporting.py": "bbb551398bfd94ea79f7e9ab700af2e655b61c52a7e4cd968650a6de3b445d51",
+    "run.py": "8ee2526fca2d08bad27bb3e71570ed9fdef6401ac4c9c95a57d62fbcc4d586b5"
+  },
+  "important_findings": [],
+  "limitations": [
+    "Cost trials repeat three fixed origin groups; measured p95 is not a service tail guarantee.",
+    "Public-only replay independently verifies public sufficient-statistic reductions, comparisons, cost quantiles and rendered image bytes; it cannot independently prove model or gradient execution.",
+    "Reporter local private rescoring uses the producer analysis module; the separate CPU verifier implements its own FP64 score reductions.",
+    "Fully observed history subset is post-hoc descriptive and does not replace the primary full cohort."
+  ],
+  "resolved_prior_finding": "Phase B now rechecks remaining wall/GPU training reservation after Phase A, in both coordinator and actual worker; fixed 300 updates remain unchanged.",
+  "reviewer": "independent read-only review agent",
+  "scope": "Scientific core and campaign first reviewed separately; this follow-up traced current budget admission, full online costs, report completion/interpretation and public replay. No GPU or heavy tests performed by reviewer.",
+  "status": "PASS_WITH_LIMITATIONS"
+}

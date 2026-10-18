@@ -1,0 +1,21 @@
+{
+  "failed_actual_regression": {
+    "exit_code": 1,
+    "failed": 2,
+    "log_reference": "cache://CPU_REGRESSION_1792317376576903500.log",
+    "log_sha256": "280ec5b03aa49fe703e2b02ded1fd83dd4ee57e7e4131e038a81cca4ade19319",
+    "passed": 798,
+    "private_receipt_sha256": "c0a67735dca0642fc90fe8c1bc006bfe605b3faac36c1acb0b636e8902709ff7",
+    "status": "FAIL"
+  },
+  "final_actual_regression_reference": "TEST_VALIDATION.json",
+  "fix": "Each report figure now uses complete Matplotlib rcParamsDefault plus explicit campaign style inside scoped rc_context, preserving caller settings. Hash equality is unchanged.",
+  "model_retraining_due_to_this_fix": 0,
+  "original_failure_log_preserved": true,
+  "reason": "The broad CPU regression revealed inherited Matplotlib global rc settings from an unrelated legacy plot test; all 15 non-image outputs matched but all 6 images differed between parent and fresh child.",
+  "reporter_after_sha256": "f4b54a9b5c8c7cf0294433fa7ead2425e94e6ffa9cccc51b17545918a398468d",
+  "reporter_before_sha256": "bbb551398bfd94ea79f7e9ab700af2e655b61c52a7e4cd968650a6de3b445d51",
+  "root_cause": "Legacy adapter_improvements global legend.fontsize=8 and axes.titlesize=11 were inherited by a partial rc_context; injecting exactly those two values reproduced the failed parent images byte-for-byte.",
+  "scientific_core_changed": false,
+  "test_after_sha256": "7538191db6fcdb5033784f25d43d8bce5ce8583a54394d8d755f0ad8f9eab0be"
+}
