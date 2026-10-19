@@ -1,0 +1,6288 @@
+{
+  "status": "COMPLETE",
+  "row": {
+    "status": "COMPLETE",
+    "cost_valid": true,
+    "cost_id": "Raw_pems32_native_B1",
+    "dataset": "pems32",
+    "accuracy_run_id": "Raw_pems32",
+    "family": "RAW",
+    "mode": null,
+    "schedule": "native",
+    "operation": null,
+    "device": "cuda",
+    "batch_size": 1,
+    "B": 1,
+    "C": 32,
+    "K": 32,
+    "L": 512,
+    "H": 12,
+    "warmups": 10,
+    "timed_trials": 20,
+    "row_microbatch": 128,
+    "parity_status": "PASS",
+    "MSE": 0.0905137868150281,
+    "MAE": 0.1952114872005566,
+    "p50_batch_ms": 14.135249999526422,
+    "median_batch_ms": 14.135249999526422,
+    "IQR_batch_ms": 2.38867499956541,
+    "p95_batch_ms": 18.014689999654365,
+    "p50_ms_per_origin": 14.135249999526422,
+    "median_ms_per_origin": 14.135249999526422,
+    "IQR_ms_per_origin": 2.38867499956541,
+    "p95_ms_per_origin": 18.014689999654365,
+    "resident_parameters": 47718016,
+    "trainable_parameters": 0,
+    "resident_buffer_elements": 9,
+    "resident_weights_cpu_MiB": 0.0,
+    "resident_weights_gpu_MiB": 182.0298194885254,
+    "foundation_instances_created": 1,
+    "baseline_allocated_MiB": 182.03173828125,
+    "baseline_reserved_MiB": 258.0,
+    "model_loaded_CPU_RSS_MiB": 824.1640625,
+    "peak_allocated_MiB": 225.28955078125,
+    "peak_reserved_MiB": 260.0,
+    "F_calls": 1,
+    "F_logical_streams": 32,
+    "F_physical_streams": 32,
+    "F_invocations": [
+      {
+        "route_id": "Raw_pems32",
+        "input_shape": [
+          1,
+          512,
+          32
+        ],
+        "requested_context": 512,
+        "actual_context": 512,
+        "wrapper_horizon": 12,
+        "used_horizon": 12,
+        "actual_head_horizon": 64,
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "row_microbatch": 128
+      }
+    ],
+    "loaded_F_state_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "model_load_seconds": 4.372492300000886,
+    "foundation_load_seconds": 4.367081199998211,
+    "input_extraction_seconds": 0.003707700001541525,
+    "full_V_parity_seconds": 2.009303300001193,
+    "lora_merge_parity_seconds": 0.0,
+    "lora_merge_parity": {
+      "status": "NOT_APPLICABLE"
+    },
+    "process_pid": 24228,
+    "process_create_time": 1792384166.368212,
+    "fresh_process_cli": true,
+    "process_scope": "fresh CLI worker, one route load",
+    "CPU_RSS_sampled_peak_MiB": 1363.66796875,
+    "process_GPU_sampled_peak_MiB": null,
+    "process_GPU_sampling_status": "UNAVAILABLE",
+    "process_GPU_sampling_reason": "ModuleNotFoundError: No module named 'pynvml'",
+    "memory_layer": "pytorch_allocated_tensor",
+    "comparison_scope": "GPU",
+    "p95_scope": "20-trial descriptive quantile; no service tail guarantee",
+    "baseline_scope": "after one-time LoRA merge, before whole-V parity and warmups",
+    "peak_reset_scope": "after warmup and before each timed trial; summary maximum across timed trials",
+    "timing_scope": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+    "cached_forecast_reads_in_timed_path": 0,
+    "stage_probe_trials": 0,
+    "protocol": {
+      "warmups": 10,
+      "timed_trials": 20,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "stage_probe_trials": 0,
+      "whole_path": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+      "cached_forecast_reads_in_timed_path": 0,
+      "timing_origins": "first eight fixed V origins; B1 cycles, B8 repeats their ordered bundle"
+    }
+  },
+  "summary": {
+    "status": "COMPLETE",
+    "cost_valid": true,
+    "cost_id": "Raw_pems32_native_B1",
+    "dataset": "pems32",
+    "accuracy_run_id": "Raw_pems32",
+    "family": "RAW",
+    "mode": null,
+    "schedule": "native",
+    "operation": null,
+    "device": "cuda",
+    "batch_size": 1,
+    "B": 1,
+    "C": 32,
+    "K": 32,
+    "L": 512,
+    "H": 12,
+    "warmups": 10,
+    "timed_trials": 20,
+    "row_microbatch": 128,
+    "parity_status": "PASS",
+    "MSE": 0.0905137868150281,
+    "MAE": 0.1952114872005566,
+    "p50_batch_ms": 14.135249999526422,
+    "median_batch_ms": 14.135249999526422,
+    "IQR_batch_ms": 2.38867499956541,
+    "p95_batch_ms": 18.014689999654365,
+    "p50_ms_per_origin": 14.135249999526422,
+    "median_ms_per_origin": 14.135249999526422,
+    "IQR_ms_per_origin": 2.38867499956541,
+    "p95_ms_per_origin": 18.014689999654365,
+    "resident_parameters": 47718016,
+    "trainable_parameters": 0,
+    "resident_buffer_elements": 9,
+    "resident_weights_cpu_MiB": 0.0,
+    "resident_weights_gpu_MiB": 182.0298194885254,
+    "foundation_instances_created": 1,
+    "baseline_allocated_MiB": 182.03173828125,
+    "baseline_reserved_MiB": 258.0,
+    "model_loaded_CPU_RSS_MiB": 824.1640625,
+    "peak_allocated_MiB": 225.28955078125,
+    "peak_reserved_MiB": 260.0,
+    "F_calls": 1,
+    "F_logical_streams": 32,
+    "F_physical_streams": 32,
+    "F_invocations": [
+      {
+        "route_id": "Raw_pems32",
+        "input_shape": [
+          1,
+          512,
+          32
+        ],
+        "requested_context": 512,
+        "actual_context": 512,
+        "wrapper_horizon": 12,
+        "used_horizon": 12,
+        "actual_head_horizon": 64,
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "row_microbatch": 128
+      }
+    ],
+    "loaded_F_state_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "model_load_seconds": 4.372492300000886,
+    "foundation_load_seconds": 4.367081199998211,
+    "input_extraction_seconds": 0.003707700001541525,
+    "full_V_parity_seconds": 2.009303300001193,
+    "lora_merge_parity_seconds": 0.0,
+    "lora_merge_parity": {
+      "status": "NOT_APPLICABLE"
+    },
+    "process_pid": 24228,
+    "process_create_time": 1792384166.368212,
+    "fresh_process_cli": true,
+    "process_scope": "fresh CLI worker, one route load",
+    "CPU_RSS_sampled_peak_MiB": 1363.66796875,
+    "process_GPU_sampled_peak_MiB": null,
+    "process_GPU_sampling_status": "UNAVAILABLE",
+    "process_GPU_sampling_reason": "ModuleNotFoundError: No module named 'pynvml'",
+    "memory_layer": "pytorch_allocated_tensor",
+    "comparison_scope": "GPU",
+    "p95_scope": "20-trial descriptive quantile; no service tail guarantee",
+    "baseline_scope": "after one-time LoRA merge, before whole-V parity and warmups",
+    "peak_reset_scope": "after warmup and before each timed trial; summary maximum across timed trials",
+    "timing_scope": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+    "cached_forecast_reads_in_timed_path": 0,
+    "stage_probe_trials": 0,
+    "protocol": {
+      "warmups": 10,
+      "timed_trials": 20,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "stage_probe_trials": 0,
+      "whole_path": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+      "cached_forecast_reads_in_timed_path": 0,
+      "timing_origins": "first eight fixed V origins; B1 cycles, B8 repeats their ordered bundle"
+    }
+  },
+  "trials": [
+    {
+      "phase": "warmup",
+      "trial": 0,
+      "whole_seconds": 0.014039499998034444,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "f140bf78fcb3bc0b82b020113dfd83d6ebc937026df9b7ae3d0b4a219e9da4ac",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.31640625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 1,
+      "whole_seconds": 0.013891599999624304,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "848d4d0aac411f783d79bd4e339ef5a1b3d6a34bb33ca30c26fe5c14523b60be",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.359375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 2,
+      "whole_seconds": 0.01669209999818122,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "cd77c2996f60b153d0aee2684d385180fa09eaf8994cd07d7c27ce11854eeaec",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.3984375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 3,
+      "whole_seconds": 0.014924499999324325,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "fb848579958d8df9376b1661bfad0ce4244c9c55f6327cc262e4c508fff839c9",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.3984375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 4,
+      "whole_seconds": 0.015253400000801776,
+      "origins": [
+        12547
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "3373a773f158e658cc17a0bbf1e7a934ee3ca8b46d37c5bc1344275caf37f4e1",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.3984375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 5,
+      "whole_seconds": 0.014359900000272319,
+      "origins": [
+        12559
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "57805a20d8473b06d4392ca60d3a8814472182383dbc853f79dd470f3065afc1",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.4453125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 6,
+      "whole_seconds": 0.011992399999144254,
+      "origins": [
+        12571
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "c875b1b14e20068ae5e0c3c4d03d8c619ad2f8c041c91bc3a5a1ba515513f28b",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.5078125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 7,
+      "whole_seconds": 0.016501900001458125,
+      "origins": [
+        12583
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "e9ea81d9167a8d188e927363077cc9df8da18fc6cf9deddfd74f3921887d4f3f",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.5078125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 8,
+      "whole_seconds": 0.01518489999943995,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "f140bf78fcb3bc0b82b020113dfd83d6ebc937026df9b7ae3d0b4a219e9da4ac",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.5078125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 9,
+      "whole_seconds": 0.012081500000931555,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "848d4d0aac411f783d79bd4e339ef5a1b3d6a34bb33ca30c26fe5c14523b60be",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1363.5078125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 0,
+      "whole_seconds": 0.017994199999520788,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "f140bf78fcb3bc0b82b020113dfd83d6ebc937026df9b7ae3d0b4a219e9da4ac",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.53125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 1,
+      "whole_seconds": 0.014095200000156183,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "848d4d0aac411f783d79bd4e339ef5a1b3d6a34bb33ca30c26fe5c14523b60be",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.59765625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 2,
+      "whole_seconds": 0.015607299999828683,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "cd77c2996f60b153d0aee2684d385180fa09eaf8994cd07d7c27ce11854eeaec",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.59765625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 3,
+      "whole_seconds": 0.013672600001882529,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "fb848579958d8df9376b1661bfad0ce4244c9c55f6327cc262e4c508fff839c9",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.6015625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 4,
+      "whole_seconds": 0.012830199997551972,
+      "origins": [
+        12547
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "3373a773f158e658cc17a0bbf1e7a934ee3ca8b46d37c5bc1344275caf37f4e1",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.6015625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 5,
+      "whole_seconds": 0.014175299998896662,
+      "origins": [
+        12559
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "57805a20d8473b06d4392ca60d3a8814472182383dbc853f79dd470f3065afc1",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.6015625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 6,
+      "whole_seconds": 0.014253699999244418,
+      "origins": [
+        12571
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "c875b1b14e20068ae5e0c3c4d03d8c619ad2f8c041c91bc3a5a1ba515513f28b",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.640625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 7,
+      "whole_seconds": 0.013761300000624033,
+      "origins": [
+        12583
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "e9ea81d9167a8d188e927363077cc9df8da18fc6cf9deddfd74f3921887d4f3f",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.640625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 8,
+      "whole_seconds": 0.015532500001427252,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "f140bf78fcb3bc0b82b020113dfd83d6ebc937026df9b7ae3d0b4a219e9da4ac",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.640625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 9,
+      "whole_seconds": 0.015701799999078503,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "848d4d0aac411f783d79bd4e339ef5a1b3d6a34bb33ca30c26fe5c14523b60be",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.640625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 10,
+      "whole_seconds": 0.01568069999848376,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "cd77c2996f60b153d0aee2684d385180fa09eaf8994cd07d7c27ce11854eeaec",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.640625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 11,
+      "whole_seconds": 0.01700200000050245,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "fb848579958d8df9376b1661bfad0ce4244c9c55f6327cc262e4c508fff839c9",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.64453125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 12,
+      "whole_seconds": 0.017598599999473663,
+      "origins": [
+        12547
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "3373a773f158e658cc17a0bbf1e7a934ee3ca8b46d37c5bc1344275caf37f4e1",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.6484375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 13,
+      "whole_seconds": 0.018404000002192333,
+      "origins": [
+        12559
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "57805a20d8473b06d4392ca60d3a8814472182383dbc853f79dd470f3065afc1",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.6484375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 14,
+      "whole_seconds": 0.013452999999572057,
+      "origins": [
+        12571
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "c875b1b14e20068ae5e0c3c4d03d8c619ad2f8c041c91bc3a5a1ba515513f28b",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.6484375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 15,
+      "whole_seconds": 0.013632299996970687,
+      "origins": [
+        12583
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "e9ea81d9167a8d188e927363077cc9df8da18fc6cf9deddfd74f3921887d4f3f",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.6484375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 16,
+      "whole_seconds": 0.011643099998764228,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "f140bf78fcb3bc0b82b020113dfd83d6ebc937026df9b7ae3d0b4a219e9da4ac",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.66796875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 17,
+      "whole_seconds": 0.012372500001220033,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "848d4d0aac411f783d79bd4e339ef5a1b3d6a34bb33ca30c26fe5c14523b60be",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.66796875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 18,
+      "whole_seconds": 0.011674900000798516,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "cd77c2996f60b153d0aee2684d385180fa09eaf8994cd07d7c27ce11854eeaec",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.66796875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 19,
+      "whole_seconds": 0.01153379999959725,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "fb848579958d8df9376b1661bfad0ce4244c9c55f6327cc262e4c508fff839c9",
+      "peak_allocated_MiB": 225.28955078125,
+      "peak_reserved_MiB": 260.0,
+      "CPU_RSS_MiB": 1363.66796875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 32,
+      "F_physical_streams": 32,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "Raw_pems32",
+          "input_shape": [
+            1,
+            512,
+            32
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 32,
+          "F_physical_streams": 32,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    }
+  ],
+  "parity": {
+    "status": "PASS",
+    "saved_reference": "PASS",
+    "max_abs": 2.384185791015625e-06,
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "n_origins": 148,
+    "prediction": {
+      "shape": [
+        148,
+        12,
+        32
+      ],
+      "dtype": "float32",
+      "sha256": "16b9291c34c3122f7d08a8dca88592661185367a8da1e85c3552243e4d029d3a"
+    },
+    "origins": {
+      "shape": [
+        148
+      ],
+      "dtype": "int64",
+      "sha256": "9cf012ce9e2f496dd3e10056955bc2f79623ee65e7a1d1be52a98f1e455fbf4f"
+    },
+    "target": {
+      "shape": [
+        148,
+        12,
+        32
+      ],
+      "dtype": "float32",
+      "sha256": "395f29dacec1c46ec936f6473dda72c7dae4f77ce026c4ff2e8ebabaf58fcc3a"
+    },
+    "observed": {
+      "shape": [
+        148,
+        12,
+        32
+      ],
+      "dtype": "bool",
+      "sha256": "e5c12f7865fd4aad7c9cebc742f504f2474748b444ca51e79ac5ab3dd5ef2127"
+    },
+    "independent_metrics": {
+      "mse": 0.0905137868150281,
+      "mae": 0.1952114872005566,
+      "n_observed": 56832,
+      "n_origins": 148,
+      "horizon": 12,
+      "channels": 32,
+      "channel_counts": [
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776
+      ],
+      "horizon_channel_sse": [
+        [
+          8.958235342945141,
+          8.539988354591198,
+          6.886830974493012,
+          8.085237873762958,
+          4.083255705287309,
+          17.22742490696402,
+          1.5893296541830382,
+          6.898231749262058,
+          5.186932707657871,
+          1.5483864372793994,
+          7.623655228655548,
+          2.7537437764063197,
+          11.716673936052914,
+          8.885798160617203,
+          1.5893296541830382,
+          1.543231712359407,
+          15.294743579339546,
+          6.727236876466188,
+          5.366536862918311,
+          7.333145328063993,
+          5.226908109227215,
+          1.543231712359407,
+          10.706782665029621,
+          18.873948038114833,
+          1.543231712359407,
+          12.597270587352671,
+          8.15185372628691,
+          7.770144215115487,
+          3.2872069597622,
+          3.336258765177616,
+          14.131569512534288,
+          5.859092080836513
+        ],
+        [
+          10.975630951295773,
+          8.24489391678838,
+          4.304746961715363,
+          11.437957581091787,
+          5.662727839892015,
+          20.218909120944467,
+          2.534816133718797,
+          9.922725862441315,
+          6.267297184723626,
+          2.5529004866208487,
+          11.779480933314776,
+          3.712646972583047,
+          15.82558627415791,
+          10.24840269219214,
+          2.534816133718797,
+          2.52003710223722,
+          15.602158420095378,
+          9.765605718326213,
+          6.575554156416623,
+          7.0228857821568305,
+          5.742147492283518,
+          2.52003710223722,
+          12.593614252848376,
+          19.135687041626543,
+          2.52003710223722,
+          17.88541829519724,
+          8.210210748154577,
+          9.298548397041497,
+          5.196958871954416,
+          4.993872673530552,
+          11.291451262730064,
+          41.58794286525016
+        ],
+        [
+          16.50563347961103,
+          7.873119049699992,
+          6.830398079860936,
+          13.712300282913233,
+          7.098892722947613,
+          20.05077535079697,
+          3.073532596426651,
+          11.631343582692539,
+          6.6864567548322835,
+          3.034563262485629,
+          11.355093833287484,
+          4.542441177462151,
+          14.682261251684,
+          11.856139264760245,
+          3.073532596426651,
+          3.0220756246506175,
+          17.669916228834083,
+          10.679745446275913,
+          4.901852198432779,
+          9.444346009728275,
+          5.832764246411067,
+          3.0220756246506175,
+          16.283289817090417,
+          27.46630958075783,
+          3.0220756246506175,
+          24.78981170965573,
+          8.081811769465126,
+          9.059221544315314,
+          4.7684117692606325,
+          7.382249275554612,
+          14.423093537410677,
+          42.389119716253234
+        ],
+        [
+          14.70923949028725,
+          7.807571772592619,
+          5.19504265188921,
+          12.583582839896401,
+          19.242387371196912,
+          20.024566033901646,
+          2.1477193952728557,
+          9.184588006908655,
+          9.468534937218198,
+          2.1267238071608077,
+          14.670427372656562,
+          4.763663780062384,
+          14.743455028411319,
+          9.450242322003849,
+          2.1477193952728557,
+          2.1326050427931422,
+          32.758769675465274,
+          9.636866236694793,
+          4.230943792502393,
+          11.202129709092194,
+          8.924518523994099,
+          2.1326050427931422,
+          11.094240396772745,
+          20.933349959516143,
+          2.1326050427931422,
+          21.31038891577713,
+          8.806303994069019,
+          11.7804244201228,
+          6.24468505340855,
+          6.9376941976831805,
+          11.519181861566484,
+          44.54779284947026
+        ],
+        [
+          18.751468873449916,
+          7.806521465607217,
+          5.022209931815807,
+          17.40671892718362,
+          7.706570651989123,
+          19.136967205477866,
+          2.6269162693493167,
+          13.69587743583051,
+          9.743157363354996,
+          2.6237827071110527,
+          15.903084883946086,
+          4.478927058025026,
+          14.420710307904294,
+          11.863591599043517,
+          2.6269162693493167,
+          2.6107269830129036,
+          26.261661259964676,
+          8.251758838657162,
+          5.414059873698384,
+          8.685747967150109,
+          9.684790981090956,
+          2.6107269830129036,
+          13.81140285655275,
+          28.309939361191415,
+          2.6107269830129036,
+          21.95571000779189,
+          11.521474848820345,
+          13.988344562912623,
+          5.707714266742671,
+          8.265912512230614,
+          11.229324023461805,
+          43.64995733584657
+        ],
+        [
+          17.341816259394136,
+          8.839659326305327,
+          7.421610467206254,
+          13.075363534951915,
+          9.09269132473895,
+          23.44319025148236,
+          3.0078425657477403,
+          11.088047258827913,
+          9.469719483312883,
+          3.0237117156324578,
+          20.998885179793675,
+          5.934645782966594,
+          16.580838852959584,
+          15.661619659222687,
+          3.0078425657477403,
+          2.9995760180862794,
+          22.89870764538591,
+          9.38410742739206,
+          6.5293081797907355,
+          9.62846268939764,
+          7.9569917800654135,
+          2.9995760180862794,
+          13.755463652864833,
+          23.412390451059277,
+          2.9995760180862794,
+          24.543474209155853,
+          13.096689702790636,
+          8.918006568419301,
+          4.704312741526867,
+          9.66179086744943,
+          10.467352010046522,
+          44.582267044203775
+        ],
+        [
+          14.749689057367888,
+          20.330656407527545,
+          6.854912995804165,
+          17.725323009898208,
+          10.346992543478414,
+          22.284604063450328,
+          3.0021128140526816,
+          14.340746814839344,
+          8.197921318500448,
+          3.053096682726898,
+          21.427862559695605,
+          6.041384605996602,
+          17.33179168314022,
+          12.44717235458142,
+          3.0021128140526816,
+          3.0042542558054084,
+          27.444770739205097,
+          9.449089537450691,
+          5.413367531297006,
+          9.817147092477608,
+          8.419441512227898,
+          3.0042542558054084,
+          10.748786395658371,
+          25.743331423109176,
+          3.0042542558054084,
+          25.693070049749622,
+          17.654592486389966,
+          13.412535859116444,
+          6.5323335974502195,
+          9.238015784491584,
+          15.932826331696628,
+          50.02278835012264
+        ],
+        [
+          18.91660829075788,
+          20.789487405677146,
+          8.444771873430668,
+          16.17079061663232,
+          11.65715692172684,
+          20.831118131039677,
+          3.5081616372726243,
+          14.694725508363353,
+          12.924117983292545,
+          3.460718924941289,
+          24.08519522094134,
+          5.790134678181312,
+          20.070020970534703,
+          12.194454799838946,
+          3.5081616372726243,
+          3.4405673958288228,
+          35.99964297018309,
+          8.438783693116385,
+          7.357884979601253,
+          12.299403012373961,
+          9.732436016565744,
+          3.4405673958288228,
+          14.702058561927956,
+          30.10786751644617,
+          3.4405673958288228,
+          35.28632472997043,
+          18.40400704645079,
+          17.122056159788652,
+          6.310817699230795,
+          9.64127968478612,
+          12.61325841606668,
+          49.07236087739797
+        ],
+        [
+          20.112418383367924,
+          24.201953209344847,
+          7.428668084099669,
+          17.93457576753539,
+          11.279048419913229,
+          18.121999775260434,
+          3.390357494246154,
+          14.806779638902746,
+          13.480634994377144,
+          3.4005803403493426,
+          26.4348905986337,
+          7.198153112202363,
+          16.28961203540393,
+          12.071513574139907,
+          3.390357494246154,
+          3.3745137247632884,
+          45.909524501782094,
+          9.664432154369441,
+          7.101192708650915,
+          11.561805277303488,
+          10.711889795452045,
+          3.3745137247632884,
+          13.984823247125238,
+          27.647202720205883,
+          3.3745137247632884,
+          40.12536208264967,
+          25.3155856752408,
+          19.108471564870168,
+          6.001176685814881,
+          9.396239979726712,
+          14.422032561755643,
+          49.23745260366668
+        ],
+        [
+          21.68649109457213,
+          21.257871568310406,
+          11.138514359731621,
+          18.45263277817446,
+          14.190599878396064,
+          21.036825554895493,
+          4.4556346517466325,
+          11.646568080393308,
+          13.055588649317421,
+          4.435043746988444,
+          23.202135262028996,
+          7.6679204723859895,
+          20.436864078926018,
+          13.779705770365307,
+          4.4556346517466325,
+          4.385345153643266,
+          56.22181994757892,
+          10.016130653610396,
+          9.462991308567531,
+          11.290505138208857,
+          10.045990595042493,
+          4.385345153643266,
+          19.314947166853848,
+          33.61284459386023,
+          4.385345153643266,
+          39.508907263427446,
+          24.994811051368117,
+          18.743716655931053,
+          5.575624996838717,
+          11.40216485539753,
+          15.816185265412624,
+          51.63113050216147
+        ],
+        [
+          26.37466003977608,
+          15.281652585942737,
+          10.424002543210769,
+          22.252277934616274,
+          15.38876525919245,
+          19.893089806105337,
+          4.885802802223147,
+          15.166370893993133,
+          17.813521482068655,
+          4.849252090235506,
+          28.820739911813263,
+          7.971554202140003,
+          16.943756946328072,
+          13.9136223893841,
+          4.885802802223147,
+          4.899349592920555,
+          51.914854345066715,
+          9.178887387314,
+          8.229803427364924,
+          11.180814843388855,
+          10.191553700970474,
+          4.899349592920555,
+          18.480225648415768,
+          42.61027111703507,
+          4.899349592920555,
+          35.997461194428155,
+          27.964309015395536,
+          21.085798081961737,
+          5.713175461964962,
+          13.38040307188217,
+          16.65280746522401,
+          53.86473647660391
+        ],
+        [
+          26.68385808211321,
+          14.835269185155802,
+          10.567299185513956,
+          20.438827654630508,
+          15.199308278245006,
+          26.8211806761823,
+          5.694416380941137,
+          16.59678649289146,
+          16.877246875335903,
+          5.690158568538992,
+          26.98381697284777,
+          9.261493013474514,
+          18.98004952804027,
+          15.414005319712036,
+          5.694416380941137,
+          5.649871205397316,
+          51.12245024452601,
+          12.412304139282082,
+          12.96493689134228,
+          13.628572707925755,
+          12.62728971175795,
+          5.649871205397316,
+          29.5466297014315,
+          43.17396500810581,
+          5.649871205397316,
+          48.914928748526435,
+          28.903915755930058,
+          15.36695087773716,
+          7.284318814245263,
+          13.837721794580805,
+          17.210517262541483,
+          53.42309064521227
+        ]
+      ],
+      "horizon_channel_sae": [
+        [
+          28.500677017495036,
+          26.956115800887346,
+          24.116301697213203,
+          26.279570590239018,
+          17.124749976210296,
+          38.28717050328851,
+          10.704084202181548,
+          24.286751870065928,
+          19.759852973744273,
+          10.521362962201238,
+          25.802191202528775,
+          15.750374093651772,
+          28.59364553540945,
+          27.69635129906237,
+          10.704084202181548,
+          10.560902430675924,
+          32.63940857272246,
+          24.635596474225167,
+          18.078290276578628,
+          25.09111012518406,
+          21.368819670402445,
+          10.560902430675924,
+          26.084748988971114,
+          41.412660184898414,
+          10.560902430675924,
+          33.39291426166892,
+          24.213017781919916,
+          24.47415636247024,
+          16.61618521530181,
+          17.553327962756157,
+          36.26183282292914,
+          20.56026941962773
+        ],
+        [
+          28.743043521943036,
+          28.116962637752295,
+          19.66484529711306,
+          28.963430925738066,
+          19.254705010913312,
+          40.27771132765338,
+          12.971654020249844,
+          30.02116349613061,
+          22.358915249002166,
+          12.982679814100266,
+          30.2997510926798,
+          17.90206298418343,
+          32.926051042973995,
+          29.618809059029445,
+          12.971654020249844,
+          12.869906520470977,
+          33.890655130147934,
+          29.401466563344,
+          19.813814222812653,
+          25.269750352948904,
+          22.910951842088252,
+          12.869906520470977,
+          28.86093394830823,
+          38.41318065440282,
+          12.869906520470977,
+          37.99412610568106,
+          25.32538531254977,
+          28.296728862449527,
+          20.914682026952505,
+          19.165939292870462,
+          32.03068119287491,
+          27.425842551514506
+        ],
+        [
+          34.81991104222834,
+          25.6303409608081,
+          24.911878868937492,
+          31.821164020802826,
+          22.86122478917241,
+          42.00539852073416,
+          14.857751682400703,
+          32.43081325246021,
+          24.59798594925087,
+          14.720215074717999,
+          29.75277670007199,
+          19.81874831020832,
+          33.27425407618284,
+          32.162303189048544,
+          14.857751682400703,
+          14.750114273279905,
+          33.90237779013114,
+          30.157165030017495,
+          21.43554413912352,
+          28.3874944280833,
+          22.417755510192364,
+          14.750114273279905,
+          33.203685734421015,
+          47.77043526247144,
+          14.750114273279905,
+          44.90867977030575,
+          26.707686005160213,
+          27.612812341656536,
+          19.747774623334408,
+          22.339574310928583,
+          35.222266014665365,
+          30.645565844140947
+        ],
+        [
+          33.19885994121432,
+          27.162187763489783,
+          22.18204341083765,
+          30.52919340133667,
+          24.44116370473057,
+          41.27956719137728,
+          13.605584971606731,
+          28.78964303905377,
+          27.58829684194643,
+          13.535685021430254,
+          33.54638931713998,
+          20.554443664848804,
+          33.27309761568904,
+          26.91715675010346,
+          13.605584971606731,
+          13.595388542860746,
+          43.60210964005091,
+          27.920410387218,
+          18.972867012023926,
+          30.217546209692955,
+          26.172901947051287,
+          13.595388542860746,
+          30.039845248684287,
+          41.412616721354425,
+          13.595388542860746,
+          39.07276084087789,
+          24.77573911473155,
+          32.63933453336358,
+          22.940673474688083,
+          20.986323405057192,
+          32.153251753537916,
+          29.631969893351197
+        ],
+        [
+          36.6509494712227,
+          25.94789794459939,
+          21.583065315149724,
+          32.16511541279033,
+          21.742354234913364,
+          40.992133607622236,
+          13.808761702850461,
+          33.776410437130835,
+          27.80072857439518,
+          13.746541162021458,
+          33.571724977344275,
+          18.343359664082527,
+          32.75263776630163,
+          30.86367829889059,
+          13.808761702850461,
+          13.831519233062863,
+          36.4819657788903,
+          26.664100788533688,
+          20.38704533164855,
+          26.681367240846157,
+          27.73665082640946,
+          13.831519233062863,
+          30.753903763368726,
+          47.738509740680456,
+          13.831519233062863,
+          43.712764486670494,
+          28.688334579579532,
+          33.09755513910204,
+          21.158370699733496,
+          22.19458708073944,
+          32.385463662445545,
+          30.6204273737967
+        ],
+        [
+          36.08860218391055,
+          29.079055028036237,
+          25.804869055747986,
+          32.38810105063021,
+          23.59107081219554,
+          43.935293974820524,
+          14.578837831970304,
+          27.716836489737034,
+          28.06493730202783,
+          14.653964332304895,
+          34.32278821896762,
+          22.410696716979146,
+          33.74955213069916,
+          36.02179786376655,
+          14.578837831970304,
+          14.487951318733394,
+          37.12174581500585,
+          28.5499413497746,
+          21.454293368034996,
+          28.73554822616279,
+          25.884870178997517,
+          14.487951318733394,
+          31.502589412033558,
+          44.46601431304589,
+          14.487951318733394,
+          44.8597605843097,
+          29.718883114866912,
+          27.131654515862465,
+          19.50094183674082,
+          23.164470930583775,
+          30.194552093744278,
+          33.457215808855835
+        ],
+        [
+          33.1345902037574,
+          33.37640554830432,
+          24.995032750070095,
+          36.093935074983165,
+          25.712567975511774,
+          43.8888827804476,
+          15.35788919776678,
+          34.19950890541077,
+          26.191841971245594,
+          15.307362905237824,
+          36.6600155858323,
+          22.076852791011333,
+          34.87445758469403,
+          31.47744458913803,
+          15.35788919776678,
+          15.332401361316442,
+          39.14335897035198,
+          26.85064536333084,
+          20.41758675163146,
+          29.236815692856908,
+          26.352957135415636,
+          15.332401361316442,
+          29.459790335968137,
+          46.52059484506026,
+          15.332401361316442,
+          44.888531966134906,
+          34.16758345319249,
+          33.19450204633176,
+          24.141231464222074,
+          22.39179206173867,
+          36.06080250442028,
+          37.48576098680496
+        ],
+        [
+          39.77206375688547,
+          35.709990040399134,
+          27.313855603337288,
+          32.7933842621278,
+          26.743243643199094,
+          43.26513096084818,
+          16.8453296944499,
+          35.022476114332676,
+          32.46794029697776,
+          16.631885390728712,
+          36.03268125280738,
+          22.151101764291525,
+          38.14803031273186,
+          32.37637153081596,
+          16.8453296944499,
+          16.599754029884934,
+          41.1506916366925,
+          27.143003907054663,
+          25.569374926388264,
+          31.809464529156685,
+          28.20407570526004,
+          16.599754029884934,
+          32.34028469957411,
+          51.01659922581166,
+          16.599754029884934,
+          47.700752664357424,
+          35.28971136920154,
+          34.43765649339184,
+          23.42617830540985,
+          25.016008694656193,
+          34.020140416920185,
+          36.42351797968149
+        ],
+        [
+          40.22234072961146,
+          38.74662075936794,
+          26.602086720988154,
+          35.115183835849166,
+          27.303669738583267,
+          38.66580868512392,
+          16.65082198381424,
+          35.838308577483986,
+          34.135336743551306,
+          16.6527808457613,
+          38.969722165726125,
+          24.28168600425124,
+          35.30607011914253,
+          30.543582310900092,
+          16.65082198381424,
+          16.60471037402749,
+          48.3093215636909,
+          29.866944757290184,
+          23.908929593861103,
+          30.406435262411833,
+          28.10809150955174,
+          16.60471037402749,
+          31.47167406976223,
+          45.61844823509455,
+          16.60471037402749,
+          52.387901263311505,
+          41.62898961547762,
+          34.31159786507487,
+          23.468871769029647,
+          25.074322402477264,
+          34.61813633982092,
+          40.0238608494401
+        ],
+        [
+          39.75404332019389,
+          38.75491783488542,
+          31.35907293681521,
+          36.19953380711377,
+          29.81573764886707,
+          41.543175645172596,
+          18.24616337567568,
+          31.486459777748678,
+          33.48863937065471,
+          18.18275808542967,
+          35.03100049344357,
+          24.85953973606229,
+          38.913298171013594,
+          34.32569104805589,
+          18.24616337567568,
+          18.02302713599056,
+          52.19115437194705,
+          30.540361013787333,
+          26.986805319786072,
+          30.424575440585613,
+          28.188879208639264,
+          18.02302713599056,
+          37.07391098514199,
+          51.701672311872244,
+          18.02302713599056,
+          53.59414015337825,
+          39.73386272294738,
+          36.566642481833696,
+          22.603773253038526,
+          26.796061761677265,
+          38.104499283246696,
+          41.512571464292705
+        ],
+        [
+          45.513470186444465,
+          35.56556908367202,
+          29.70608383778017,
+          38.931751335505396,
+          30.2789812926203,
+          40.85408146120608,
+          19.211175985634327,
+          36.39251106604934,
+          37.950949193909764,
+          18.999209441244602,
+          40.72027029469609,
+          24.96529308706522,
+          35.75238886848092,
+          34.18156770244241,
+          19.211175985634327,
+          19.084172485396266,
+          46.89857816990116,
+          27.992065558210015,
+          25.511984030832537,
+          29.99078754708171,
+          27.88518225774169,
+          19.084172485396266,
+          37.01150504499674,
+          58.67447196645662,
+          19.084172485396266,
+          50.65194472670555,
+          43.96280760104128,
+          39.39338880777359,
+          22.150141386315227,
+          27.171269971877337,
+          36.31430364132393,
+          41.24494642484933
+        ],
+        [
+          45.177742064523045,
+          35.94837146997452,
+          30.071742173284292,
+          35.61235725088045,
+          29.516795220784843,
+          45.72070714086294,
+          20.16499221511185,
+          35.051355857402086,
+          36.86329289351124,
+          20.000913184601814,
+          40.381263739429414,
+          27.384121803566813,
+          36.97120822221041,
+          36.66597987129353,
+          20.16499221511185,
+          19.91394974850118,
+          47.12914034273126,
+          31.038693386130035,
+          30.234324464574456,
+          32.723985651507974,
+          32.42555744154379,
+          19.91394974850118,
+          40.545387828722596,
+          58.04242332512513,
+          19.91394974850118,
+          62.272199247032404,
+          43.46835329756141,
+          35.80144312977791,
+          25.107079830486327,
+          27.410927813500166,
+          38.24912944808602,
+          41.70446406956762
+        ]
+      ],
+      "horizon_channel_count": [
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ]
+      ],
+      "accumulation": "float64",
+      "aggregation": "equal-channel observed macro"
+    },
+    "F_work": [
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 32,
+        "F_physical_streams": 32,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "Raw_pems32",
+            "input_shape": [
+              1,
+              512,
+              32
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 32,
+            "F_physical_streams": 32,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      }
+    ]
+  },
+  "sampling": {
+    "CPU_RSS_sampled_peak_MiB": 1363.66796875,
+    "process_GPU_sampled_peak_MiB": null,
+    "process_GPU_sampling_status": "UNAVAILABLE",
+    "process_GPU_sampling_reason": "ModuleNotFoundError: No module named 'pynvml'",
+    "sampling_interval_seconds": 0.05,
+    "sample_count": 9,
+    "samples": [
+      {
+        "phase": "warmup",
+        "elapsed_seconds": 2.9400001949397847e-05,
+        "CPU_RSS_MiB": 1363.25390625,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "warmup",
+        "elapsed_seconds": 0.055407600000762613,
+        "CPU_RSS_MiB": 1363.3984375,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "warmup",
+        "elapsed_seconds": 0.11842520000209333,
+        "CPU_RSS_MiB": 1363.5078125,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.18129430000044522,
+        "CPU_RSS_MiB": 1363.53125,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.24341819999972358,
+        "CPU_RSS_MiB": 1363.6015625,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.30572029999893857,
+        "CPU_RSS_MiB": 1363.640625,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.36888579999867943,
+        "CPU_RSS_MiB": 1363.6484375,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.43040839999957825,
+        "CPU_RSS_MiB": 1363.66796875,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.461324700001569,
+        "CPU_RSS_MiB": 1363.6640625,
+        "process_GPU_MiB": null
+      }
+    ],
+    "sampled_peaks_are_not_instantaneous_guarantees": true,
+    "scope": "warmups and timed trials plus inter-trial checks/hashing; model load and full V parity excluded"
+  },
+  "timing_origin_bundles": [
+    [
+      12499
+    ],
+    [
+      12511
+    ],
+    [
+      12523
+    ],
+    [
+      12535
+    ],
+    [
+      12547
+    ],
+    [
+      12559
+    ],
+    [
+      12571
+    ],
+    [
+      12583
+    ]
+  ],
+  "request_contract_sha256": "33411edb20f88fcd0bcc73f54589210dbdfc0f2fb35bf1eaaeaff6be647c04b3",
+  "route_spec": {
+    "family": "RAW",
+    "run_id": "Raw_pems32",
+    "canonical_fit_end": 10713
+  },
+  "prediction_reference_sha256": "fa3abbb761a5aa90530acac66165f4af0fc392a8c3b12e4f5ade2a3e6a550e54",
+  "producer_sources": {
+    "research/raw_context_multiscale_20261018_v1/common.py": "90e621bbbcf1c8f389332316ccfa0d785cbadaf0d299ac28b4060b2118bfc1f6",
+    "research/raw_context_multiscale_20261018_v1/data.py": "26f74cae954a0842417b18aade2deeb6187acc339dff5cff078cf60d6d2b8a2c",
+    "research/raw_context_multiscale_20261018_v1/models.py": "bf5df3f189116cbf5346cd591b7fdd2ec50f272c5a8771533174535469851542",
+    "research/raw_context_multiscale_20261018_v1/training.py": "1f2e62ec6350a1802c60ee5c9c3a3456b2d17a9786afdb004a5ea20aad7769fd",
+    "research/informs_broad_validation_20261015_v1/priority_b2_validation_20261016_v1/safe_jena_prefix.py": "6b496dcbbb6cef48acb9010c630ed81359a2d60bff89aaec9e9e77c4b6d0b541",
+    "research/informs_broad_validation_20261015_v1/priority_core_followup_20261016_v1/pems_fixed_head_runner.py": "e49457c0598d390822418e06b67a241a38a74afcac036a52b3e340b2248aa6b4",
+    "research/informs_broad_validation_20261015_v1/priority_pems_subset_20261016_v1/subset_minimum_runner.py": "caf332f445121ae03249c23023fde916fefb17ab0eb7685dbd9cefe7be566381",
+    "research/raw_context_multiscale_20261018_v1/costs.py": "73273504101701e052de65cfe893b47cd9732b13c61ec185aad29f661e2d0178",
+    "research/raw_context_multiscale_20261018_v1/deployment.py": "56726f87ce314037602b687b1d050c17770a52e33adb1e942009db0e6b03f813",
+    "research/informs_broad_validation_20261015_v1/deployment.py": "9ccf6a6e142ce49ab3cb1c1a0dc8d1594890f05c3a7dfea80fa217111c57deba",
+    "research/informs_broad_validation_20261015_v1/fit_base.py": "c59cc77ba48e3f061ffa8d2385442286ea989b3ab86c17ea352caeb6d2c1bf20",
+    "research/informs_broad_validation_20261015_v1/training.py": "ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07",
+    "research/informs_broad_validation_20261015_v1/data_contract.py": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+    "research/informs_broad_validation_20261015_v1/evaluation.py": "275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd",
+    "research/informs_broad_validation_20261015_v1/networks.py": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+    "research/informs_broad_validation_20261015_v1/gpu_runtime.py": "c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158",
+    "research/informs_broad_validation_20261015_v1/combination.py": "266986206456312031c618251388793ffae18bf53682e65aa9980156b14cba93",
+    "research/memory_budget_20261018_v1/worker.py": "a3aecb423ac5cf495676e09a78b81003c1ce0886c3f2a0a940d6d38cb895e697",
+    "research/temporal_frontend_campaign_20261015_v1/runtime.py": "a11e7eb6b1c4dc043ff36489ec51688d57b3102a6a2f6cd6666b597986c4e07a"
+  },
+  "producer_environment": {
+    "python": "3.11.16",
+    "numpy": "2.4.6",
+    "torch": "2.10.0+cu128",
+    "cublas_workspace_config": null
+  },
+  "request_binding": {
+    "reference": "cache://cost_requests/Raw_pems32_native_B1.json",
+    "sha256": "70e4aa66bf3828a2ad889117c5d85e40749fea0f55676e93818d800d5c64015c"
+  },
+  "trials_sha256": "9d98e6102fbc703f00437b079f152ec268f103837b733d67742c752cc48046c1"
+}

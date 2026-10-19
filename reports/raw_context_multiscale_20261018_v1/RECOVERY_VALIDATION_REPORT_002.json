@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "manifest_bindings": {
+    "SCORES.json": {
+      "reference": "report://SCORES.json",
+      "sha256": "af0c25be95365a6786b709dfd0a2d36196923a7d71b9c4b2144d250e78f7b816"
+    },
+    "COST_INDEX.json": {
+      "reference": "report://COST_INDEX.json",
+      "sha256": "e23f5c54f81fc04e2155a1323ea2a839b6316338d378a369e8f11e1039bce5da"
+    },
+    "MODELS_SEALED_BEFORE_V.json": {
+      "reference": "report://MODELS_SEALED_BEFORE_V.json",
+      "sha256": "81bc994290f08a7878ba4eb6ebccab93fb6aa9f037a7d3e3a1cb0d3549d0441d"
+    },
+    "registered_plan": {
+      "reference": "report://EXPERIMENT_PLAN_REPAIR_002.json",
+      "sha256": "8750d363940f91b5359d57ae3e903232978d58e9512ae60acf24f50e4364515f"
+    }
+  },
+  "actual_F_gate_bindings": [
+    {
+      "reference": "report://VALIDATION_PROFILE_GPU_GPU_REPAIR_002.json",
+      "sha256": "d2564cf0b0cbe1311fcffb8451d8fe9c20df588e04ceea12b38eb31968d0bf5d"
+    }
+  ],
+  "models": 56,
+  "cost_facets": 120,
+  "checks": {
+    "independent_FP64_rescore": "PASS",
+    "canonical_target_mask_origin_channel_scaler": "PASS",
+    "source_model_config_data_bundle_identity": "PASS",
+    "earliest_A_stop_including_CP0": "PASS",
+    "transfer_two_seed_A_stop_tie_A": "PASS",
+    "M_cal_head_selection_fresh_fit": "PASS",
+    "all_whole_V_saved_reference_parity": "PASS",
+    "raw_cost_trials_statistics": "PASS",
+    "fresh_PID_create_time_per_facet": "PASS",
+    "actual_F_work_lengths": "PASS",
+    "allocator_reserved_per_PID_memory_distinct": "PASS",
+    "minimum_actual_F_gates": "PASS"
+  },
+  "required_gates": {
+    "G1_data_masks_origins": "PASS: canonical arrays and source-bound actual-F future canary/batch independence",
+    "G2_shapes_original_time_grid": "PASS: actual 512/256 invocations and original-grid horizon/lag contract; toy regressions are identified by the recorded unit suite",
+    "G3_identical_control_initialization": "PASS: source-bound actual-F initialization and A/B(s1) output/gradient parity",
+    "G4_gradient_shared_F": "PASS: source-bound actual-F gradient and frozen-weight gates",
+    "G5_selection_cache_scope": "PASS: SHA-bound pre-M_cal parents; independent alpha/head selection replay; before-V model seal"
+  },
+  "accumulation": "independent FP64 channel/horizon SSE SAE count; observed equal-channel macro",
+  "independence": "Scoring, alpha algebra and window fill are independent; saved head checkpoint inference reuses the pure existing head forward",
+  "T_access": false,
+  "V_independent_test": false,
+  "overlap_is_not_independent_replication": true,
+  "convergence_scope": "Budget-limited cap results remain unresolved when the last checkpoint is best",
+  "publication_verification": "No remote publication claim is made by this numerical audit"
+}

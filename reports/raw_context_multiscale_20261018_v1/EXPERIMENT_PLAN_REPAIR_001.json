@@ -1,0 +1,168 @@
+{
+  "status": "REGISTERED_BEFORE_NEW_V",
+  "campaign": "raw_context_multiscale_20261018_v1",
+  "registered_unix": 1792352937.691935,
+  "started_unix": 1792344783.118742,
+  "primary_metric": "normalized original-channel observed equal-channel MSE",
+  "secondary_metric": "MAE",
+  "seeds": [
+    92601,
+    92602
+  ],
+  "tasks": {
+    "jena": {
+      "C": 21,
+      "K": 12,
+      "L": 512,
+      "H": 48,
+      "N": 20965,
+      "V_origins": 43
+    },
+    "pems32": {
+      "C": 32,
+      "K": 8,
+      "L": 512,
+      "H": 12,
+      "N": 17856,
+      "V_origins": 148
+    }
+  },
+  "new_body_configurations": 6,
+  "Jena_modes": [
+    "A",
+    "B"
+  ],
+  "PeMS_mode_selection": "Jena two-seed mean A_stop; exact tie A",
+  "recipe": {
+    "lr": 0.001,
+    "effective_batch": 16,
+    "microbatch": 4,
+    "F_row_microbatch": 128,
+    "checkpoint_inputs": false,
+    "optimizer": "AdamW",
+    "weight_decay": 0,
+    "gradient_clip": 1,
+    "core_dtype": "float32",
+    "outer_RevIN": false
+  },
+  "search_endpoints": {
+    "jena_initial": [
+      0,
+      0.25,
+      1,
+      3
+    ],
+    "jena_extended": [
+      0,
+      0.25,
+      1,
+      3,
+      4,
+      5,
+      6
+    ],
+    "pems_initial": [
+      0,
+      0.25,
+      1,
+      3,
+      4,
+      5,
+      6
+    ],
+    "pems_extended": [
+      0,
+      0.25,
+      1,
+      3,
+      4,
+      5,
+      6,
+      9,
+      12
+    ]
+  },
+  "extension": "A_stop strict-cap minimum; admit entire corresponding group plus fresh refits and reporting reserve",
+  "limits": {
+    "wall_seconds": 21600,
+    "GPU_reservation_seconds": 14400,
+    "report_fraction": 0.2
+  },
+  "budget_wall_clock_anchor": "EXECUTION_START.started_unix after preceding dataset remote-main publication; preparation included in overall elapsed",
+  "tolerance": {
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "shape_index_hash": "exact"
+  },
+  "calibration": {
+    "M_fit_fraction": 0.6,
+    "selection_split": "M_select",
+    "epochs": [
+      0,
+      0.25,
+      1,
+      3
+    ],
+    "parents": "original completed JenaK12cap3 / PeMSK8OFFcap6; single G shared across two S seeds",
+    "fresh_refit": "entire M_cal at M_select selected epoch",
+    "V_used_for_selection": false
+  },
+  "source_document_sha256": "87775f87111087308223bfbe459a583ad74373b87707b7617a74e5e44c6d6a0c",
+  "T_access": false,
+  "V_independent_test": false,
+  "prior_results_and_presentations": "preserve",
+  "execution_precondition": "One additional independently checked development example published and remote-main verified",
+  "source_files": {
+    "research/raw_context_multiscale_20261018_v1/__init__.py": "657417024aa8ed526546bea05332bb69158a7cbc8886ee25444783857a6bdb52",
+    "research/raw_context_multiscale_20261018_v1/audit.py": "ff35de6b29c55ca7d35c839138b64b40d1e9f273323698c9b27213731150746d",
+    "research/raw_context_multiscale_20261018_v1/calibration.py": "b8d11230f9db72db5a4e7e02dd461dcecca6914f1cc5baa055f96aecfd6f37ed",
+    "research/raw_context_multiscale_20261018_v1/common.py": "90e621bbbcf1c8f389332316ccfa0d785cbadaf0d299ac28b4060b2118bfc1f6",
+    "research/raw_context_multiscale_20261018_v1/costs.py": "73273504101701e052de65cfe893b47cd9732b13c61ec185aad29f661e2d0178",
+    "research/raw_context_multiscale_20261018_v1/data.py": "26f74cae954a0842417b18aade2deeb6187acc339dff5cff078cf60d6d2b8a2c",
+    "research/raw_context_multiscale_20261018_v1/deployment.py": "69e63f7a5a882259d3a11b8f6f163b19e47f9b869f2c5d3be3e4ce623592051e",
+    "research/raw_context_multiscale_20261018_v1/gates.py": "5a92c49eff3c5fdd74a350ccb22c91f34b89030623c2336e59bf2387a7e6394b",
+    "research/raw_context_multiscale_20261018_v1/models.py": "7c141d9827f4dd7b1a2ed324c883a935652aac4d158160ba7655b5e7bd8cd9d9",
+    "research/raw_context_multiscale_20261018_v1/pipeline.py": "a0810653286c88f8ab621e021d681a51e0fb3428f86762271c9516b7e7a3e2e3",
+    "research/raw_context_multiscale_20261018_v1/report.py": "74b71f0b89f6cce5d7b398a785ac507b504542c674aad9651eed8c6f91123901",
+    "research/raw_context_multiscale_20261018_v1/run.py": "019a34d80326d702259d13a90fc3a168b94cf6493c0498b9bab4d8b5a463d87c",
+    "research/raw_context_multiscale_20261018_v1/training.py": "1f2e62ec6350a1802c60ee5c9c3a3456b2d17a9786afdb004a5ea20aad7769fd"
+  },
+  "supersedes": {
+    "reference": "report://EXPERIMENT_PLAN.json",
+    "sha256": "c41a674e6cad9cf5dbb3afd4dfd3babe71b25f9a9529e7e7b8a8c783c9da4909"
+  },
+  "repair": {
+    "status": "REGISTERED_BEFORE_NEW_BODY_SEARCH",
+    "scientific_contract_changed": false,
+    "new_body_searches_or_V_scores": 0,
+    "RawContext_GPU_sessions_started": 0,
+    "changed_source_paths": [
+      "research/raw_context_multiscale_20261018_v1/report.py",
+      "research/raw_context_multiscale_20261018_v1/run.py"
+    ],
+    "reason": "Include every completed native combination/head/CPU route and matched B1/B8 in cost figures; bind the preserved-contract report revision",
+    "original_source_snapshot": "cache://source_snapshots/registration_001",
+    "root_focused_tests": {
+      "passed": 188,
+      "exit_code": 0,
+      "seconds": 30.72,
+      "scope": "Explicit eleven RawContext and two wave003 safe test files; no legacy full suite",
+      "source_files": {
+        "tests/test_b2_dataset_search_wave003_analysis.py": "d88cd3beaacd954d903afdeac72b388d27f06e4d471b8a5a83ee4ddf970b1a5e",
+        "tests/test_b2_dataset_search_wave003_independent.py": "0e029594bd0e61236e107a70f4a1bef237fc8c51b09f55a902908e4f19c66d8d",
+        "tests/test_raw_context_multiscale_calibration.py": "955416ec7a72cd954e7e9c02e8a96c86cccc8b293b38f6d40f0d6b853a33b0e3",
+        "tests/test_raw_context_multiscale_cost_provenance.py": "7370e4336af8e2d0d229e196d99c0a69e3611d7ec14e73ce8015e0d330fa29d1",
+        "tests/test_raw_context_multiscale_costs.py": "c5f0de2670ccda4300cb68808ae0522697ecd21dd8df7824868d5bc7c411473a",
+        "tests/test_raw_context_multiscale_gates.py": "5135e1498cd6acd3056bf54a07b58da9c58e5980dca1b7f57ea7b9cc5c9f4c78",
+        "tests/test_raw_context_multiscale_models.py": "72844a62e910ed165e54d5297feb5f43f6bcb3d3e8f43bdaca6835103ec8960c",
+        "tests/test_raw_context_multiscale_pipeline_costs.py": "5e57d7aec04e2223850ad6c2fda684aade6ca786ff517a30ee092d1931049432",
+        "tests/test_raw_context_multiscale_plan_repair.py": "111e2917ed2685a2fdf49159da6129e89d8576ef8a391de7677ad633ede021c0",
+        "tests/test_raw_context_multiscale_provenance.py": "144e1eb8cd395b1b2ee7ceb0561fc9019a7324aeb578f2b80be1863ecc9d353c",
+        "tests/test_raw_context_multiscale_report.py": "7eee9f073ae9834ad5004c82c786cfeca2f726853b26aeb40e7b5d1623729f87",
+        "tests/test_raw_context_multiscale_run.py": "9a9e363b944a3acbb82f18f8df3444e802848bb18f81325b0bd2c80bd45b24fb",
+        "tests/test_raw_context_multiscale_training.py": "0a935dd4d818d18b359b88383ee861835f1ec557ad84d4071e7b9a2de8c049b6"
+      }
+    },
+    "read_only_review": "Only run.py/report.py changed; scientific contract and model sources preserved"
+  }
+}

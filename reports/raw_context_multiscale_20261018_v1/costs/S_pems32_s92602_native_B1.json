@@ -1,0 +1,6285 @@
+{
+  "status": "COMPLETE",
+  "row": {
+    "status": "COMPLETE",
+    "cost_valid": true,
+    "cost_id": "S_pems32_s92602_native_B1",
+    "dataset": "pems32",
+    "accuracy_run_id": "S_pems32_s92602",
+    "family": "B2",
+    "mode": "S",
+    "schedule": "native",
+    "operation": null,
+    "device": "cuda",
+    "batch_size": 1,
+    "B": 1,
+    "C": 32,
+    "K": 8,
+    "L": 512,
+    "H": 12,
+    "warmups": 10,
+    "timed_trials": 20,
+    "row_microbatch": 128,
+    "parity_status": "PASS",
+    "MSE": 0.09221473462217807,
+    "MAE": 0.2026237778851909,
+    "p50_batch_ms": 12.049549999574083,
+    "median_batch_ms": 12.049549999574083,
+    "IQR_batch_ms": 0.5578250020334963,
+    "p95_batch_ms": 12.771994998183802,
+    "p50_ms_per_origin": 12.049549999574083,
+    "median_ms_per_origin": 12.049549999574083,
+    "IQR_ms_per_origin": 0.5578250020334963,
+    "p95_ms_per_origin": 12.771994998183802,
+    "resident_parameters": 47755488,
+    "trainable_parameters": 37472,
+    "resident_buffer_elements": 41,
+    "resident_weights_cpu_MiB": 0.0,
+    "resident_weights_gpu_MiB": 182.1728858947754,
+    "foundation_instances_created": 1,
+    "baseline_allocated_MiB": 182.17626953125,
+    "baseline_reserved_MiB": 258.0,
+    "model_loaded_CPU_RSS_MiB": 836.68359375,
+    "peak_allocated_MiB": 199.89990234375,
+    "peak_reserved_MiB": 270.0,
+    "F_calls": 1,
+    "F_logical_streams": 8,
+    "F_physical_streams": 8,
+    "F_invocations": [
+      {
+        "route_id": "S_pems32_s92602",
+        "input_shape": [
+          1,
+          512,
+          8
+        ],
+        "requested_context": 512,
+        "actual_context": 512,
+        "wrapper_horizon": 12,
+        "used_horizon": 12,
+        "actual_head_horizon": 64,
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "row_microbatch": 128
+      }
+    ],
+    "loaded_F_state_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "model_load_seconds": 4.537369800000306,
+    "foundation_load_seconds": 4.475083499997709,
+    "input_extraction_seconds": 0.003962599999795202,
+    "full_V_parity_seconds": 1.9658533000001626,
+    "lora_merge_parity_seconds": 0.0,
+    "lora_merge_parity": {
+      "status": "NOT_APPLICABLE"
+    },
+    "process_pid": 10784,
+    "process_create_time": 1792384047.8857636,
+    "fresh_process_cli": true,
+    "process_scope": "fresh CLI worker, one route load",
+    "CPU_RSS_sampled_peak_MiB": 1390.7734375,
+    "process_GPU_sampled_peak_MiB": null,
+    "process_GPU_sampling_status": "UNAVAILABLE",
+    "process_GPU_sampling_reason": "ModuleNotFoundError: No module named 'pynvml'",
+    "memory_layer": "pytorch_allocated_tensor",
+    "comparison_scope": "GPU",
+    "p95_scope": "20-trial descriptive quantile; no service tail guarantee",
+    "baseline_scope": "after one-time LoRA merge, before whole-V parity and warmups",
+    "peak_reset_scope": "after warmup and before each timed trial; summary maximum across timed trials",
+    "timing_scope": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+    "cached_forecast_reads_in_timed_path": 0,
+    "stage_probe_trials": 0,
+    "protocol": {
+      "warmups": 10,
+      "timed_trials": 20,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "stage_probe_trials": 0,
+      "whole_path": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+      "cached_forecast_reads_in_timed_path": 0,
+      "timing_origins": "first eight fixed V origins; B1 cycles, B8 repeats their ordered bundle"
+    }
+  },
+  "summary": {
+    "status": "COMPLETE",
+    "cost_valid": true,
+    "cost_id": "S_pems32_s92602_native_B1",
+    "dataset": "pems32",
+    "accuracy_run_id": "S_pems32_s92602",
+    "family": "B2",
+    "mode": "S",
+    "schedule": "native",
+    "operation": null,
+    "device": "cuda",
+    "batch_size": 1,
+    "B": 1,
+    "C": 32,
+    "K": 8,
+    "L": 512,
+    "H": 12,
+    "warmups": 10,
+    "timed_trials": 20,
+    "row_microbatch": 128,
+    "parity_status": "PASS",
+    "MSE": 0.09221473462217807,
+    "MAE": 0.2026237778851909,
+    "p50_batch_ms": 12.049549999574083,
+    "median_batch_ms": 12.049549999574083,
+    "IQR_batch_ms": 0.5578250020334963,
+    "p95_batch_ms": 12.771994998183802,
+    "p50_ms_per_origin": 12.049549999574083,
+    "median_ms_per_origin": 12.049549999574083,
+    "IQR_ms_per_origin": 0.5578250020334963,
+    "p95_ms_per_origin": 12.771994998183802,
+    "resident_parameters": 47755488,
+    "trainable_parameters": 37472,
+    "resident_buffer_elements": 41,
+    "resident_weights_cpu_MiB": 0.0,
+    "resident_weights_gpu_MiB": 182.1728858947754,
+    "foundation_instances_created": 1,
+    "baseline_allocated_MiB": 182.17626953125,
+    "baseline_reserved_MiB": 258.0,
+    "model_loaded_CPU_RSS_MiB": 836.68359375,
+    "peak_allocated_MiB": 199.89990234375,
+    "peak_reserved_MiB": 270.0,
+    "F_calls": 1,
+    "F_logical_streams": 8,
+    "F_physical_streams": 8,
+    "F_invocations": [
+      {
+        "route_id": "S_pems32_s92602",
+        "input_shape": [
+          1,
+          512,
+          8
+        ],
+        "requested_context": 512,
+        "actual_context": 512,
+        "wrapper_horizon": 12,
+        "used_horizon": 12,
+        "actual_head_horizon": 64,
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "row_microbatch": 128
+      }
+    ],
+    "loaded_F_state_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "model_load_seconds": 4.537369800000306,
+    "foundation_load_seconds": 4.475083499997709,
+    "input_extraction_seconds": 0.003962599999795202,
+    "full_V_parity_seconds": 1.9658533000001626,
+    "lora_merge_parity_seconds": 0.0,
+    "lora_merge_parity": {
+      "status": "NOT_APPLICABLE"
+    },
+    "process_pid": 10784,
+    "process_create_time": 1792384047.8857636,
+    "fresh_process_cli": true,
+    "process_scope": "fresh CLI worker, one route load",
+    "CPU_RSS_sampled_peak_MiB": 1390.7734375,
+    "process_GPU_sampled_peak_MiB": null,
+    "process_GPU_sampling_status": "UNAVAILABLE",
+    "process_GPU_sampling_reason": "ModuleNotFoundError: No module named 'pynvml'",
+    "memory_layer": "pytorch_allocated_tensor",
+    "comparison_scope": "GPU",
+    "p95_scope": "20-trial descriptive quantile; no service tail guarantee",
+    "baseline_scope": "after one-time LoRA merge, before whole-V parity and warmups",
+    "peak_reset_scope": "after warmup and before each timed trial; summary maximum across timed trials",
+    "timing_scope": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+    "cached_forecast_reads_in_timed_path": 0,
+    "stage_probe_trials": 0,
+    "protocol": {
+      "warmups": 10,
+      "timed_trials": 20,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "stage_probe_trials": 0,
+      "whole_path": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+      "cached_forecast_reads_in_timed_path": 0,
+      "timing_origins": "first eight fixed V origins; B1 cycles, B8 repeats their ordered bundle"
+    }
+  },
+  "trials": [
+    {
+      "phase": "warmup",
+      "trial": 0,
+      "whole_seconds": 0.01265409999905387,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "767a243172dc013a2cc5abd4218a8ec5dcbe70723d9c6ffbd7637faa165090c0",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.359375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 1,
+      "whole_seconds": 0.012363099998765392,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "b4e5edd6ae48329d74015fe2f6b31b2d71be698e0830bfdd32b9291c98c1f36a",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.40625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 2,
+      "whole_seconds": 0.01300670000273385,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "43d42ef81fb01fe86e04c4e54ce4e8711e1fa2aeb386a01dc235109e3a72fbd7",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.4296875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 3,
+      "whole_seconds": 0.012568499998451443,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "e3b2f15889efc0925e1d8bd35bc19d0b4bb0f14e42e4ee58e9dfd56cf6261e4f",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.4296875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 4,
+      "whole_seconds": 0.011483700000098906,
+      "origins": [
+        12547
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "83a833a264013469fad09c225718998232140567b8458c7e17b298b781f2e98a",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.4609375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 5,
+      "whole_seconds": 0.012074800000846153,
+      "origins": [
+        12559
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "129ba494dddec3c2bf11ee81efaa5af760611591b8ac76ab73cbd015930d8d8d",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.53125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 6,
+      "whole_seconds": 0.011615399998845533,
+      "origins": [
+        12571
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "05a797b59edeb31234740b4b226b19c1d6921fb85a96bd36504b7b287380dcf3",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.53125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 7,
+      "whole_seconds": 0.011979699997027637,
+      "origins": [
+        12583
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "388c8570e68161da1ec3158ad252e1882bcfcb96e0ad3c9303ec9c8c5dd0f336",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.53125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 8,
+      "whole_seconds": 0.012775600000168197,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "767a243172dc013a2cc5abd4218a8ec5dcbe70723d9c6ffbd7637faa165090c0",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.54296875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 9,
+      "whole_seconds": 0.012265899997146334,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "b4e5edd6ae48329d74015fe2f6b31b2d71be698e0830bfdd32b9291c98c1f36a",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1390.58984375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 0,
+      "whole_seconds": 0.012062599998898804,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "767a243172dc013a2cc5abd4218a8ec5dcbe70723d9c6ffbd7637faa165090c0",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.6328125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 1,
+      "whole_seconds": 0.011612800000875723,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "b4e5edd6ae48329d74015fe2f6b31b2d71be698e0830bfdd32b9291c98c1f36a",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.6328125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 2,
+      "whole_seconds": 0.011659299998427741,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "43d42ef81fb01fe86e04c4e54ce4e8711e1fa2aeb386a01dc235109e3a72fbd7",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.6328125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 3,
+      "whole_seconds": 0.011976000001595821,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "e3b2f15889efc0925e1d8bd35bc19d0b4bb0f14e42e4ee58e9dfd56cf6261e4f",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.6328125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 4,
+      "whole_seconds": 0.012485100000048988,
+      "origins": [
+        12547
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "83a833a264013469fad09c225718998232140567b8458c7e17b298b781f2e98a",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.6640625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 5,
+      "whole_seconds": 0.012671899999986636,
+      "origins": [
+        12559
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "129ba494dddec3c2bf11ee81efaa5af760611591b8ac76ab73cbd015930d8d8d",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.71875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 6,
+      "whole_seconds": 0.012640300003113225,
+      "origins": [
+        12571
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "05a797b59edeb31234740b4b226b19c1d6921fb85a96bd36504b7b287380dcf3",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.71875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 7,
+      "whole_seconds": 0.014650999997684266,
+      "origins": [
+        12583
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "388c8570e68161da1ec3158ad252e1882bcfcb96e0ad3c9303ec9c8c5dd0f336",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.71875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 8,
+      "whole_seconds": 0.012673099998210091,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "767a243172dc013a2cc5abd4218a8ec5dcbe70723d9c6ffbd7637faa165090c0",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.71875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 9,
+      "whole_seconds": 0.011951200001931284,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "b4e5edd6ae48329d74015fe2f6b31b2d71be698e0830bfdd32b9291c98c1f36a",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.72265625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 10,
+      "whole_seconds": 0.011704399999871384,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "43d42ef81fb01fe86e04c4e54ce4e8711e1fa2aeb386a01dc235109e3a72fbd7",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.74609375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 11,
+      "whole_seconds": 0.012354800001048716,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "e3b2f15889efc0925e1d8bd35bc19d0b4bb0f14e42e4ee58e9dfd56cf6261e4f",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.75,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 12,
+      "whole_seconds": 0.011934499998460524,
+      "origins": [
+        12547
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "83a833a264013469fad09c225718998232140567b8458c7e17b298b781f2e98a",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.75,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 13,
+      "whole_seconds": 0.012098600000172155,
+      "origins": [
+        12559
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "129ba494dddec3c2bf11ee81efaa5af760611591b8ac76ab73cbd015930d8d8d",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.75,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 14,
+      "whole_seconds": 0.011710099999618251,
+      "origins": [
+        12571
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "05a797b59edeb31234740b4b226b19c1d6921fb85a96bd36504b7b287380dcf3",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.75,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 15,
+      "whole_seconds": 0.011871700000483543,
+      "origins": [
+        12583
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "388c8570e68161da1ec3158ad252e1882bcfcb96e0ad3c9303ec9c8c5dd0f336",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.7734375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 16,
+      "whole_seconds": 0.012473800001316704,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "767a243172dc013a2cc5abd4218a8ec5dcbe70723d9c6ffbd7637faa165090c0",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.7734375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 17,
+      "whole_seconds": 0.012398299997585127,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "b4e5edd6ae48329d74015fe2f6b31b2d71be698e0830bfdd32b9291c98c1f36a",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.7734375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 18,
+      "whole_seconds": 0.011984200002189027,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "43d42ef81fb01fe86e04c4e54ce4e8711e1fa2aeb386a01dc235109e3a72fbd7",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.7734375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 19,
+      "whole_seconds": 0.012036500000249362,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "e3b2f15889efc0925e1d8bd35bc19d0b4bb0f14e42e4ee58e9dfd56cf6261e4f",
+      "peak_allocated_MiB": 199.89990234375,
+      "peak_reserved_MiB": 270.0,
+      "CPU_RSS_MiB": 1390.7734375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "S_pems32_s92602",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    }
+  ],
+  "parity": {
+    "status": "PASS",
+    "saved_reference": "PASS",
+    "max_abs": 1.3113021850585938e-06,
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "n_origins": 148,
+    "prediction": {
+      "shape": [
+        148,
+        12,
+        32
+      ],
+      "dtype": "float32",
+      "sha256": "c868a8fa70e7bbfe76304634f5fd3c77b15a2d0009ebdad2c41e37a77fb41c2a"
+    },
+    "origins": {
+      "shape": [
+        148
+      ],
+      "dtype": "int64",
+      "sha256": "9cf012ce9e2f496dd3e10056955bc2f79623ee65e7a1d1be52a98f1e455fbf4f"
+    },
+    "target": {
+      "shape": [
+        148,
+        12,
+        32
+      ],
+      "dtype": "float32",
+      "sha256": "395f29dacec1c46ec936f6473dda72c7dae4f77ce026c4ff2e8ebabaf58fcc3a"
+    },
+    "observed": {
+      "shape": [
+        148,
+        12,
+        32
+      ],
+      "dtype": "bool",
+      "sha256": "e5c12f7865fd4aad7c9cebc742f504f2474748b444ca51e79ac5ab3dd5ef2127"
+    },
+    "independent_metrics": {
+      "mse": 0.09221473462217807,
+      "mae": 0.2026237778851909,
+      "n_observed": 56832,
+      "n_origins": 148,
+      "horizon": 12,
+      "channels": 32,
+      "channel_counts": [
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776
+      ],
+      "horizon_channel_sse": [
+        [
+          10.063571853413176,
+          9.809498990815158,
+          8.86636036624325,
+          11.297717249029748,
+          5.551163141328094,
+          19.344566037979618,
+          1.376234060090267,
+          8.75372691263196,
+          6.552016586246305,
+          1.3633814858230564,
+          9.481978410520313,
+          3.0851199340005673,
+          14.421654589974867,
+          11.180207875622568,
+          1.3762340744166068,
+          1.363650062719664,
+          13.214579232642372,
+          7.721834623985857,
+          6.623666072782141,
+          11.738936616941292,
+          7.3611294364569,
+          1.363650062719664,
+          16.72570273478476,
+          17.96653700165053,
+          1.363650062719664,
+          14.701039273998077,
+          9.110830796531591,
+          9.3771676153833,
+          4.70403387292811,
+          4.139494100866172,
+          12.723348560972045,
+          8.135253851789209
+        ],
+        [
+          11.427900177246666,
+          12.442824187131558,
+          6.118912315773718,
+          13.803060532399503,
+          7.015495515365231,
+          22.519828610633002,
+          1.9866886188410988,
+          11.417160903483495,
+          8.668825805231695,
+          2.020293892890014,
+          11.8053692189131,
+          4.23629743400429,
+          16.032202357416402,
+          12.39361755799601,
+          1.9866886409475673,
+          1.9931279476792636,
+          12.951219719783612,
+          10.858726755277388,
+          8.183851607315876,
+          11.359046069366666,
+          7.43605252242059,
+          1.9931279476792636,
+          20.08036907029217,
+          17.18840938642405,
+          1.9931279476792636,
+          19.61864556890619,
+          8.719256069794463,
+          10.12051843371772,
+          7.6682240179065655,
+          6.232922293170283,
+          13.577245426430341,
+          43.63640407747739
+        ],
+        [
+          16.537354260540386,
+          12.135315979986279,
+          9.76404797729701,
+          14.193468220533099,
+          8.241023579736762,
+          24.2384053675256,
+          2.416640596268154,
+          12.01721735136784,
+          8.535392298026721,
+          2.3712645014532505,
+          13.249996020502557,
+          5.583274324199036,
+          17.060796833022728,
+          13.08482970189641,
+          2.416640616488464,
+          2.353010081083341,
+          13.182988672768563,
+          13.18730390667312,
+          5.735049148925761,
+          13.143936981716436,
+          8.274821808060533,
+          2.353010081083341,
+          27.66010897854999,
+          25.861168033850706,
+          2.353010081083341,
+          25.713113939080998,
+          8.56658802355711,
+          9.710981332144673,
+          7.5277236845927655,
+          8.87611297805968,
+          14.043761950563058,
+          43.52257359697207
+        ],
+        [
+          12.994205377353197,
+          13.404154231815657,
+          7.894308870686019,
+          15.081704012598923,
+          20.22827971633224,
+          21.928212443397868,
+          1.3739652754764147,
+          10.77553417388909,
+          9.863748168948323,
+          1.370356554770785,
+          15.958772384168208,
+          5.47782033885434,
+          16.224713601948178,
+          11.06785000996777,
+          1.3739652729048426,
+          1.3499244220463218,
+          18.378524847118495,
+          12.808757874179626,
+          6.384305186104307,
+          15.90883554291008,
+          11.12306865973879,
+          1.3499244220463218,
+          18.380395188172724,
+          18.05364606458388,
+          1.3499244220463218,
+          27.339443603147902,
+          9.746696009837539,
+          12.212019021618085,
+          8.699138955787589,
+          9.77749217945934,
+          13.919091406752585,
+          43.783798672771546
+        ],
+        [
+          18.936416829987976,
+          12.204055927092686,
+          6.886660643528311,
+          20.448045480085987,
+          7.869882932808024,
+          22.467996284029187,
+          1.8978913032633196,
+          13.572325190599438,
+          10.810059078092259,
+          1.9061988118172821,
+          18.03494397315364,
+          5.741150469317358,
+          16.02970659818989,
+          13.692988230805991,
+          1.897891296631624,
+          1.8768077346992769,
+          13.5356514505377,
+          10.602742704513448,
+          7.2398148976654815,
+          13.311628997754102,
+          12.921640196080114,
+          1.8768077346992769,
+          21.531492125902783,
+          23.272275190889683,
+          1.8768077346992769,
+          20.8540973251805,
+          10.097942692921963,
+          13.571457795408614,
+          7.869940371138041,
+          10.1671109684002,
+          12.82657168203093,
+          41.76805478093366
+        ],
+        [
+          19.490025869929646,
+          14.792407901565646,
+          9.809192068571587,
+          16.961046211083055,
+          9.28495708838345,
+          27.530144390113293,
+          2.060030471154663,
+          13.574000452479394,
+          10.041587623933104,
+          2.0664534255324973,
+          24.32643718964312,
+          6.593952502547734,
+          18.809768538932065,
+          16.713081403346102,
+          2.0600305743644354,
+          2.0146780730045935,
+          12.721035681529077,
+          11.903921443350566,
+          7.826258715116724,
+          14.343408186599468,
+          10.828302927809585,
+          2.0146780730045935,
+          25.139535200244193,
+          18.89816678749504,
+          2.0146780730045935,
+          26.84357094265039,
+          10.583014758776363,
+          9.846553355510402,
+          7.163013900507695,
+          10.869277244323904,
+          13.054894278361793,
+          43.6414403035102
+        ],
+        [
+          13.808080743191468,
+          24.453192834558944,
+          8.514264217343182,
+          17.814600039676655,
+          9.62020644609792,
+          22.519181760442756,
+          1.657454097986113,
+          15.30565731942214,
+          8.648129219466625,
+          1.6910992217716816,
+          23.727060407015667,
+          5.495611045216601,
+          18.79938002612302,
+          14.77790606935024,
+          1.6574540049229363,
+          1.6512511440901851,
+          15.153026667604829,
+          13.15628964319798,
+          5.986732163896537,
+          13.23488412231341,
+          11.154277156033402,
+          1.6512511440901851,
+          21.107418342572544,
+          18.78623195663559,
+          1.6512511440901851,
+          30.19656769453248,
+          13.067861660389413,
+          12.197174401837122,
+          8.677557346582208,
+          11.526070773746799,
+          16.104479110965872,
+          48.741295206970904
+        ],
+        [
+          16.20973438286095,
+          25.354410744289485,
+          10.310667801896605,
+          18.870971347988945,
+          11.064186905400172,
+          22.22653336435452,
+          2.2671297555080034,
+          15.548955623674436,
+          13.504292798950999,
+          2.2227459834212344,
+          26.704921752530186,
+          7.090584345627443,
+          16.379039136444888,
+          14.241592938015025,
+          2.267129663193011,
+          2.213695992726546,
+          14.895002523667642,
+          9.822023545446086,
+          7.490688574922959,
+          17.196144054155994,
+          11.510880025777956,
+          2.213695992726546,
+          26.29635985669315,
+          24.17593382757593,
+          2.213695992726546,
+          33.60190123178727,
+          13.806156445382157,
+          15.464397697608181,
+          7.007443938511895,
+          11.699231466685575,
+          14.10861085047248,
+          48.65585904811128
+        ],
+        [
+          17.960704309918707,
+          28.735262456681145,
+          8.851546526053532,
+          20.00310744032757,
+          10.523288958831667,
+          18.941652357775308,
+          2.3872615114433513,
+          14.912658128859272,
+          13.175922982050569,
+          2.3456081474484103,
+          26.319126173800147,
+          9.161626433163036,
+          17.402098037345517,
+          15.922921290585116,
+          2.38726141829185,
+          2.3379759029955722,
+          20.066439508136067,
+          10.993407417533797,
+          9.089650082881423,
+          16.047710783413635,
+          11.016219083255685,
+          2.3379759029955722,
+          26.038702371839495,
+          24.768011158869168,
+          2.3379759029955722,
+          32.189831480092025,
+          17.97168032721853,
+          18.514880321977895,
+          7.025327348358532,
+          11.297971519520976,
+          16.689932394832734,
+          48.843716349749855
+        ],
+        [
+          20.86290980814696,
+          24.257066604907326,
+          11.802489875666256,
+          20.62560936443202,
+          13.708818490370357,
+          24.690561902753405,
+          2.8831451334030347,
+          15.044067516485692,
+          14.205257862926945,
+          2.8354658813103812,
+          25.63070178130538,
+          10.538450825711504,
+          22.088747246531472,
+          14.089784202975686,
+          2.883145128277165,
+          2.789106973399895,
+          24.62790884890755,
+          12.7961519401528,
+          9.703486182948076,
+          16.192475920002533,
+          12.179468417485648,
+          2.789106973399895,
+          30.55008441934535,
+          31.304309956989123,
+          2.789106973399895,
+          35.375817075735554,
+          20.239455723389156,
+          15.46167242879011,
+          6.990135643207753,
+          12.775112870718257,
+          15.801917612463654,
+          56.2434143470901
+        ],
+        [
+          23.856274811322233,
+          19.595539689031543,
+          10.770020733647065,
+          23.948844137636662,
+          13.623512058659653,
+          21.779934756835782,
+          2.7728137956979637,
+          15.154685200193514,
+          16.454350026137966,
+          2.7531605531035805,
+          30.30207880269638,
+          8.906906032925725,
+          18.8046035511613,
+          15.262830272414547,
+          2.772813674012551,
+          2.7462193455510033,
+          26.010455999074388,
+          10.918271210609515,
+          9.495183818731721,
+          12.165494464342569,
+          9.399209739646516,
+          2.7462193455510033,
+          29.32920075872388,
+          34.31404775601722,
+          2.7462193455510033,
+          31.88032934589883,
+          18.337004742506924,
+          19.249467823726906,
+          6.092610117142264,
+          15.072771417609353,
+          13.85201397057999,
+          58.3175055216382
+        ],
+        [
+          24.93483399165094,
+          16.713396932205427,
+          11.458489511261256,
+          22.285536603516533,
+          12.129034381545234,
+          26.72723424281652,
+          3.0090382091271954,
+          17.00810141702084,
+          17.49582232734337,
+          2.989785830144801,
+          27.2419993697024,
+          10.544829270841301,
+          20.035408500777834,
+          15.215281661343305,
+          3.009038253210806,
+          2.9437654380893794,
+          30.426023540054512,
+          12.820799160186905,
+          11.024705329829555,
+          15.420416641032322,
+          12.095238526986076,
+          2.9437654380893794,
+          36.61609550860622,
+          35.03045033366586,
+          2.9437654380893794,
+          37.34656319554274,
+          19.85418190999583,
+          12.9383001532753,
+          7.505097796868596,
+          13.012200671745042,
+          17.42956287444864,
+          60.395034981210465
+        ]
+      ],
+      "horizon_channel_sae": [
+        [
+          29.058961249887943,
+          27.84208569303155,
+          26.929475082550198,
+          30.737904517445713,
+          19.82403293903917,
+          42.20895941928029,
+          9.783937928732485,
+          27.617842871695757,
+          22.578767491155304,
+          9.686117146164179,
+          27.883403796702623,
+          16.246660724282265,
+          33.513172671198845,
+          31.289311485365033,
+          9.783937729429454,
+          9.684256316162646,
+          32.694361046742415,
+          25.275985825399403,
+          19.891642652102746,
+          31.79771370254457,
+          26.797940804739483,
+          9.684256316162646,
+          30.932173701003194,
+          40.46404341328889,
+          9.684256316162646,
+          37.48274142667651,
+          26.919276572487433,
+          26.709046243224293,
+          19.675529206171632,
+          19.310606960207224,
+          35.04401600069832,
+          25.420259461330716
+        ],
+        [
+          30.202927777485456,
+          31.485505513846874,
+          23.567165760323405,
+          30.1070749158971,
+          22.233813929371536,
+          41.607864279765636,
+          11.616537008434534,
+          32.1715048411279,
+          26.24417182256002,
+          11.7692258246243,
+          30.018850333988667,
+          18.51229784451425,
+          35.32725454121828,
+          32.91726138792001,
+          11.616537168622017,
+          11.627629758790135,
+          31.672220207750797,
+          29.828994430601597,
+          22.460879873484373,
+          31.873315416276455,
+          25.422493919264525,
+          11.627629758790135,
+          35.79879131913185,
+          37.976059299428016,
+          11.627629758790135,
+          41.842726146802306,
+          26.01755658071488,
+          28.424371123313904,
+          26.535955511499196,
+          23.01333229895681,
+          35.28140117228031,
+          33.61619362980127
+        ],
+        [
+          34.35920390300453,
+          33.30111570749432,
+          28.708262561354786,
+          33.398833215702325,
+          24.420093327760696,
+          45.53403502097353,
+          13.08367245271802,
+          32.991459750104696,
+          25.664690818521194,
+          13.114353351294994,
+          32.41946175415069,
+          20.634713381528854,
+          35.62906424701214,
+          34.161969270789996,
+          13.083672363311052,
+          12.96699284017086,
+          33.471413737453986,
+          33.60621180944145,
+          21.12305262160953,
+          33.51435983367264,
+          27.129656366538256,
+          12.96699284017086,
+          42.292001485824585,
+          45.483580807223916,
+          12.96699284017086,
+          44.0158072989434,
+          26.574615398421884,
+          29.26928271492943,
+          25.43817142955959,
+          24.804743967950344,
+          34.10736119374633,
+          35.073918893001974
+        ],
+        [
+          33.24208087101579,
+          34.07656043861061,
+          26.50149006024003,
+          33.90910001471639,
+          25.73650969658047,
+          41.21080788038671,
+          10.379951518028975,
+          31.375475146865938,
+          27.46853199240286,
+          10.521082922816277,
+          36.324457013979554,
+          21.371568977832794,
+          35.795556116849184,
+          28.238613405963406,
+          10.379951532930136,
+          10.377161461859941,
+          38.192772220034385,
+          32.90749581903219,
+          22.261719793081284,
+          35.71823912858963,
+          29.961190339177847,
+          10.377161461859941,
+          36.30970558896661,
+          37.449844810180366,
+          10.377161461859941,
+          45.15926288999617,
+          28.026739548891783,
+          32.9735496006906,
+          28.18056944059208,
+          28.08535678498447,
+          35.61957097926643,
+          33.15750540327281
+        ],
+        [
+          38.423724284919444,
+          31.63082905113697,
+          25.158545094542205,
+          37.716333808843046,
+          23.079234656877816,
+          42.792739985045046,
+          11.123177589848638,
+          34.11914703150978,
+          26.63205194938928,
+          11.197285863570869,
+          35.48304231092334,
+          21.276786908507347,
+          34.23571117222309,
+          33.69934397935867,
+          11.123177545145154,
+          11.026418762281537,
+          32.83462405655882,
+          29.88754241913557,
+          21.49373877455946,
+          33.34864788129926,
+          33.88844416476786,
+          11.026418762281537,
+          37.20641618967056,
+          44.15863882750273,
+          11.026418762281537,
+          43.841114558279514,
+          27.88673652242869,
+          32.74833838548511,
+          24.870379891246557,
+          27.07575751747936,
+          34.30675793066621,
+          34.8672312553972
+        ],
+        [
+          38.45642287336523,
+          35.47852159291506,
+          29.307142049074173,
+          36.09947134740651,
+          24.780602894723415,
+          47.84784392872825,
+          11.88884333288297,
+          33.17060789838433,
+          28.57083531387616,
+          11.943208775483072,
+          37.48696839530021,
+          23.143531491979957,
+          39.23545750230551,
+          37.196269838139415,
+          11.888843779917806,
+          11.769102129153907,
+          32.91755395461223,
+          32.43895863741636,
+          22.756596734398045,
+          33.294399531558156,
+          31.283097840845585,
+          11.769102129153907,
+          40.311732614412904,
+          41.9558295966126,
+          11.769102129153907,
+          47.65510572865605,
+          27.928019556216896,
+          29.180848695337772,
+          24.94554846128449,
+          26.785875256173313,
+          34.79384909570217,
+          40.003119710308965
+        ],
+        [
+          32.82803227461409,
+          38.91143969632685,
+          26.645429208874702,
+          39.29663082072511,
+          25.833656060509384,
+          46.287564450874925,
+          10.963619742542505,
+          35.782027408480644,
+          25.745534818735905,
+          11.11688342737034,
+          37.26361619587988,
+          21.849086694419384,
+          39.50118705071509,
+          35.23246481269598,
+          10.963619526475668,
+          11.006175760179758,
+          35.11942854739027,
+          33.72246153932065,
+          21.21719843929168,
+          34.388834768906236,
+          29.970090685761534,
+          11.006175760179758,
+          36.30232890881598,
+          39.819028256926686,
+          11.006175760179758,
+          51.401128793135285,
+          31.897496807112475,
+          32.41030919738114,
+          27.272175943478942,
+          28.502490806393325,
+          36.584139965474606,
+          42.218523000366986
+        ],
+        [
+          38.66144974209601,
+          40.31147334817797,
+          30.395032696425915,
+          37.65971427736804,
+          28.699066207860596,
+          45.675592998508364,
+          13.682153046131134,
+          34.082932118326426,
+          32.17293193563819,
+          13.476608414202929,
+          39.91021649912,
+          24.76115470379591,
+          36.371660981327295,
+          35.75586884282529,
+          13.682152524590492,
+          13.492631571367383,
+          32.31336233901675,
+          30.154583774507046,
+          22.20262989960611,
+          38.47545636445284,
+          29.69183101132512,
+          13.492631571367383,
+          40.080928513780236,
+          45.68630012869835,
+          13.492631571367383,
+          48.56457722559571,
+          32.27517765574157,
+          31.313202717807144,
+          24.488813585601747,
+          30.378293830901384,
+          35.15031245350838,
+          42.204985212534666
+        ],
+        [
+          39.86435120605165,
+          42.60991367418319,
+          28.137959549203515,
+          41.492085084319115,
+          28.734781590290368,
+          39.27331789955497,
+          14.543909139931202,
+          34.26103777537355,
+          30.67343169252854,
+          14.379127018153667,
+          37.376503019593656,
+          27.857647072523832,
+          38.291926277801394,
+          35.516653979197145,
+          14.543908812105656,
+          14.407470483332872,
+          37.34584609727608,
+          31.654883748851717,
+          25.614620238542557,
+          37.09813226759434,
+          28.702744631678797,
+          14.407470483332872,
+          39.91923305764794,
+          44.35209682025015,
+          14.407470483332872,
+          49.8130036406219,
+          38.13237807992846,
+          34.395398914813995,
+          25.148276938591152,
+          30.127142261713743,
+          39.083916088566184,
+          44.007906168699265
+        ],
+        [
+          41.23549794964492,
+          43.55051257926971,
+          32.0695719422074,
+          39.24839906953275,
+          32.19045128393918,
+          45.454137571156025,
+          15.675025805830956,
+          35.074127071595285,
+          34.57059873465914,
+          15.416436433792114,
+          37.25160666403826,
+          29.303035456687212,
+          43.86780291609466,
+          35.52948743477464,
+          15.675025790929794,
+          15.379948413930833,
+          41.25589255616069,
+          32.83958457730478,
+          26.52579927071929,
+          39.29121208190918,
+          31.671537140384316,
+          15.379948413930833,
+          43.85490218177438,
+          48.84469533711672,
+          15.379948413930833,
+          52.183355854824185,
+          39.17501253941737,
+          34.41470891609788,
+          24.437114221975207,
+          31.537446036934853,
+          37.9525960162282,
+          51.62827383261174
+        ],
+        [
+          44.24930453061825,
+          38.64674410969019,
+          29.623630388989113,
+          43.04237048467621,
+          31.916034216061234,
+          44.01214231736958,
+          15.054266564548016,
+          36.68608145788312,
+          35.17549275420606,
+          14.991482265293598,
+          39.47724973782897,
+          27.658162511885166,
+          40.94709685817361,
+          36.21976947039366,
+          15.054266132414341,
+          14.939352123066783,
+          41.0718467317929,
+          32.24099765531719,
+          26.250035352655686,
+          31.65714254230261,
+          27.91092599928379,
+          14.939352123066783,
+          45.229945410043,
+          50.17561588762328,
+          14.939352123066783,
+          50.08909081853926,
+          38.6192180232174,
+          39.10886067338288,
+          23.839416906237602,
+          32.83702930808067,
+          35.448738307808526,
+          52.014193951152265
+        ],
+        [
+          44.87130065954989,
+          38.97093880921602,
+          31.671503648161888,
+          42.59854811942205,
+          29.954152571968734,
+          47.143258658237755,
+          15.085170956328511,
+          37.08400558307767,
+          35.72701073589269,
+          14.924325306434184,
+          37.82387466263026,
+          30.085223054513335,
+          40.29018626362085,
+          37.159184681018814,
+          15.08517106063664,
+          14.857635093852878,
+          44.331836878467584,
+          33.10261248704046,
+          29.24350822158158,
+          36.24340139888227,
+          32.17233862308785,
+          14.857635093852878,
+          46.96116109378636,
+          51.66030113538727,
+          14.857635093852878,
+          55.354390263557434,
+          39.75397101417184,
+          35.049853444099426,
+          25.901895292568952,
+          30.51518851518631,
+          40.58834790810943,
+          51.952701007016
+        ]
+      ],
+      "horizon_channel_count": [
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ]
+      ],
+      "accumulation": "float64",
+      "aggregation": "equal-channel observed macro"
+    },
+    "F_work": [
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "S_pems32_s92602",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      }
+    ]
+  },
+  "sampling": {
+    "CPU_RSS_sampled_peak_MiB": 1390.7734375,
+    "process_GPU_sampled_peak_MiB": null,
+    "process_GPU_sampling_status": "UNAVAILABLE",
+    "process_GPU_sampling_reason": "ModuleNotFoundError: No module named 'pynvml'",
+    "sampling_interval_seconds": 0.05,
+    "sample_count": 8,
+    "samples": [
+      {
+        "phase": "warmup",
+        "elapsed_seconds": 2.9800001357216388e-05,
+        "CPU_RSS_MiB": 1390.296875,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "warmup",
+        "elapsed_seconds": 0.05607220000092639,
+        "CPU_RSS_MiB": 1390.4296875,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "warmup",
+        "elapsed_seconds": 0.1178503000010096,
+        "CPU_RSS_MiB": 1390.53125,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.1803222000016831,
+        "CPU_RSS_MiB": 1390.6328125,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.2429669000011927,
+        "CPU_RSS_MiB": 1390.71875,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.3036467000019911,
+        "CPU_RSS_MiB": 1390.75,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.36594550000154413,
+        "CPU_RSS_MiB": 1390.7734375,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.3936965000029886,
+        "CPU_RSS_MiB": 1390.76953125,
+        "process_GPU_MiB": null
+      }
+    ],
+    "sampled_peaks_are_not_instantaneous_guarantees": true,
+    "scope": "warmups and timed trials plus inter-trial checks/hashing; model load and full V parity excluded"
+  },
+  "timing_origin_bundles": [
+    [
+      12499
+    ],
+    [
+      12511
+    ],
+    [
+      12523
+    ],
+    [
+      12535
+    ],
+    [
+      12547
+    ],
+    [
+      12559
+    ],
+    [
+      12571
+    ],
+    [
+      12583
+    ]
+  ],
+  "request_contract_sha256": "d6e51b7ec170a1eee42f7edb15f65eada5d50b451000984c7d54e6f8031db454",
+  "route_spec": {
+    "family": "B2",
+    "run_id": "S_pems32_s92602",
+    "latent_k": 8,
+    "artifact_cache_relative_path": "runs/S_pems32_s92602/cap12/selected_bundle.pt",
+    "artifact_sha256": "6e9ce227c64a5df4fd5becbd2dec3dabcf83018ac29695e2eb10d53956f35b27",
+    "canonical_fit_end": 10713
+  },
+  "prediction_reference_sha256": "8b5bdd7d415319396291e60eb9012134566a5c1bb371e6e01691eb84e97d9143",
+  "producer_sources": {
+    "research/raw_context_multiscale_20261018_v1/common.py": "90e621bbbcf1c8f389332316ccfa0d785cbadaf0d299ac28b4060b2118bfc1f6",
+    "research/raw_context_multiscale_20261018_v1/data.py": "26f74cae954a0842417b18aade2deeb6187acc339dff5cff078cf60d6d2b8a2c",
+    "research/raw_context_multiscale_20261018_v1/models.py": "bf5df3f189116cbf5346cd591b7fdd2ec50f272c5a8771533174535469851542",
+    "research/raw_context_multiscale_20261018_v1/training.py": "1f2e62ec6350a1802c60ee5c9c3a3456b2d17a9786afdb004a5ea20aad7769fd",
+    "research/informs_broad_validation_20261015_v1/priority_b2_validation_20261016_v1/safe_jena_prefix.py": "6b496dcbbb6cef48acb9010c630ed81359a2d60bff89aaec9e9e77c4b6d0b541",
+    "research/informs_broad_validation_20261015_v1/priority_core_followup_20261016_v1/pems_fixed_head_runner.py": "e49457c0598d390822418e06b67a241a38a74afcac036a52b3e340b2248aa6b4",
+    "research/informs_broad_validation_20261015_v1/priority_pems_subset_20261016_v1/subset_minimum_runner.py": "caf332f445121ae03249c23023fde916fefb17ab0eb7685dbd9cefe7be566381",
+    "research/raw_context_multiscale_20261018_v1/costs.py": "73273504101701e052de65cfe893b47cd9732b13c61ec185aad29f661e2d0178",
+    "research/raw_context_multiscale_20261018_v1/deployment.py": "56726f87ce314037602b687b1d050c17770a52e33adb1e942009db0e6b03f813",
+    "research/informs_broad_validation_20261015_v1/deployment.py": "9ccf6a6e142ce49ab3cb1c1a0dc8d1594890f05c3a7dfea80fa217111c57deba",
+    "research/informs_broad_validation_20261015_v1/fit_base.py": "c59cc77ba48e3f061ffa8d2385442286ea989b3ab86c17ea352caeb6d2c1bf20",
+    "research/informs_broad_validation_20261015_v1/training.py": "ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07",
+    "research/informs_broad_validation_20261015_v1/data_contract.py": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+    "research/informs_broad_validation_20261015_v1/evaluation.py": "275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd",
+    "research/informs_broad_validation_20261015_v1/networks.py": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+    "research/informs_broad_validation_20261015_v1/gpu_runtime.py": "c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158",
+    "research/informs_broad_validation_20261015_v1/combination.py": "266986206456312031c618251388793ffae18bf53682e65aa9980156b14cba93",
+    "research/memory_budget_20261018_v1/worker.py": "a3aecb423ac5cf495676e09a78b81003c1ce0886c3f2a0a940d6d38cb895e697",
+    "research/temporal_frontend_campaign_20261015_v1/runtime.py": "a11e7eb6b1c4dc043ff36489ec51688d57b3102a6a2f6cd6666b597986c4e07a"
+  },
+  "producer_environment": {
+    "python": "3.11.16",
+    "numpy": "2.4.6",
+    "torch": "2.10.0+cu128",
+    "cublas_workspace_config": null
+  },
+  "request_binding": {
+    "reference": "cache://cost_requests/S_pems32_s92602_native_B1.json",
+    "sha256": "7c66aa78d3b62765146e872794c908657c1ecde01ccc3d5eca7c2fcd9abae910"
+  },
+  "trials_sha256": "066eb6d0b31a48df6f698dea152f147c9d83d6adcc41eece6d5b1c61ca9dbfb8"
+}

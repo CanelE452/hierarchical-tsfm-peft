@@ -1,0 +1,209 @@
+{
+  "status": "PASS_RELEVANT_TEXT_AND_CALL_PATH_REVIEW",
+  "created_unix": 1792386407.600994,
+  "file_count": 11,
+  "source_document_sha256": "87775f87111087308223bfbe459a583ad74373b87707b7617a74e5e44c6d6a0c",
+  "scope": "Read-only exact11 explicitly requested legacy files; public text/source/metadata only. No old/new training, inference, raw protected T or selection change.",
+  "files": [
+    {
+      "reference": "repo://research/informs_broad_validation_20261015_v1/networks.py",
+      "sha256": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+      "line_count": 500,
+      "reviewed_line_ranges": [
+        [
+          46,
+          116
+        ],
+        [
+          132,
+          181
+        ],
+        [
+          225,
+          351
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "REUSED_PURE_MODULES",
+      "finding": "B2 P already adds temporal and channel residuals after full-window LayerNorm and GELU; ForecastAdapter learns total E and lag-major D initialized with pinv(E), then adds one original-current anchor. ConditionalHead preserves G only at zero-output initialization and past_control substitutes the last H observed past values.",
+      "current_application": "New models.py imports ForecastAdapter/LAGS and retains parameter objects; calibration.py imports ConditionalHead/module_state_hash. Existing B4 fuses all scales back to L before F, unlike the new coarse-F future route."
+    },
+    {
+      "reference": "repo://research/informs_broad_validation_20261015_v1/combination.py",
+      "sha256": "266986206456312031c618251388793ffae18bf53682e65aa9980156b14cba93",
+      "line_count": 468,
+      "reviewed_line_ranges": [
+        [
+          25,
+          58
+        ],
+        [
+          198,
+          217
+        ],
+        [
+          229,
+          358
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "LEGACY_FITTER_NOT_REUSED",
+      "finding": "The historical fit_combination receipt explicitly sets checkpoint_split=V_select_strideH and resume state stores best_V_mse. Calling this fitter would violate the new M_cal-internal checkpoint selection contract.",
+      "current_application": "The new calibration.py implements its own M_fit/M_select split and fresh full-M_cal fit using pure ConditionalHead/alpha operations. Historical combination results are preserved as development results; no retroactive relabeling."
+    },
+    {
+      "reference": "repo://research/informs_broad_validation_20261015_v1/evaluation.py",
+      "sha256": "275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd",
+      "line_count": 102,
+      "reviewed_line_ranges": [
+        [
+          1,
+          102
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "REUSED_ALPHA_ALGEBRA_METRIC_REFERENCE",
+      "finding": "error_statistics computes normalized original-channel observed macro scores from channel sufficient statistics; channels use global observed counts. fit_global_alpha clips one channel-count-weighted scalar to [0,1] and returns alpha0 on zero denominator.",
+      "current_application": "calibration.py directly imports fit_global_alpha. Independent FP64 audit uses its own math.fsum arithmetic; the old horizon_bands uses quarter/half edges, so the new required near/middle/far thirds are defined separately in the supplement."
+    },
+    {
+      "reference": "repo://research/informs_broad_validation_20261015_v1/data_contract.py",
+      "sha256": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+      "line_count": 240,
+      "reviewed_line_ranges": [
+        [
+          27,
+          131
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "REUSED_PURE_PREPROCESSING_NOT_FULL_LOADER",
+      "finding": "fit_statistics is restricted to fit_end and emits FP32 mean/std; causal_forward_fill visits only supplied history rows and starts from fitting means. origins returns exact int64 half-open legal windows; PCA uses fitting-prefix causal fills and ordered eigenvectors.",
+      "current_application": "New bounded_task supplies pre-T prefixes and frozen original N/splits; no call to the historical full load_task is required for this experiment. Raw X and P(X) share the same normalized filled past."
+    },
+    {
+      "reference": "repo://research/b2_revin_20261018_v1/training_jobs.py",
+      "sha256": "3f5f277e130a3873882d9e72e99453214c51138374ebd1d29f8e732318455518",
+      "line_count": 370,
+      "reviewed_line_ranges": [
+        [
+          20,
+          190
+        ],
+        [
+          191,
+          259
+        ],
+        [
+          279,
+          344
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "REUSED_RECIPE_STATE_FINGERPRINT_AND_PARENT_CONTRACT",
+      "finding": "The fixed recipe creates source/config/data/model/scaler/PCA identities; import_parent validates optimizer/sampler/RNG/exposures and changes only contract in a serialized copied checkpoint. Search uses A_fit/A_stop and refit freshly fits A60 at the sealed epoch.",
+      "current_application": "The new training.py retains the same AdamW/effective16/micro4/row128 recipe and uses the recursive state fingerprint for migration. New raw/context definitions and M_cal selection live in new sources; no RevIN ON campaign is resumed."
+    },
+    {
+      "reference": "repo://reports/b2_revin_20261018_v1/CAMPAIGN_CONTRACT.json",
+      "sha256": "b758cb50104b5a675600beae9f1d2e83fbf865ab613a19c9dc0ca85c31d5c011",
+      "line_count": 187,
+      "reviewed_line_ranges": [
+        [
+          1,
+          187
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "RECIPE_AND_SCOPE_REFERENCE",
+      "finding": "The registered old campaign has Jena K6 and PeMS32 K8, OFF/ON two seeds, .25/1/3 endpoints with group extension to6, A_stop selection, and no new T access. It is not a Jena K12 parent manifest.",
+      "current_application": "Reuse optimizer/precision/selection rules; choose Jena K12 from the separately bound memory-budget artifacts instead of mislabeling old K6 as K12."
+    },
+    {
+      "reference": "repo://reports/b2_revin_20261018_v1/DATA_CONTRACT.json",
+      "sha256": "11e9a2fbedb7e297f59ba4a1c3d37122fbd6df26bf3d985e774e280631cc809e",
+      "line_count": 137,
+      "reviewed_line_ranges": [
+        [
+          1,
+          137
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "REUSED_EXACT_COHORT_AND_SPLITS",
+      "finding": "Jena C21/L512/H48/N20965 and PeMS32 C32/L512/H12/N17856 have fixed ordered channels and A_fit/A_stop/M_cal/V/T ranges. Jena hashes retain inherited full-task identities while numeric materialization ends16772; PeMS32 materialization ends14284.",
+      "current_application": "The current Jena K changes to12 while data/time/mask/origin identities remain; the data contract K6 value is not used to overwrite the new registered K12."
+    },
+    {
+      "reference": "repo://reports/b2_revin_20261018_v1/DECISIONS.json",
+      "sha256": "300850d51b5db0d09cc6cd367a90e09d02b51597c72d67c1787f8f9be74e0d8e",
+      "line_count": 168,
+      "reviewed_line_ranges": [
+        [
+          1,
+          168
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "REUSED_OFF_SELECTION_AND_PEMS_CAP6",
+      "finding": "All recorded decisions use A_stop and V_used=false; OFF wins both dataset two-seed means. PeMS OFF remains strictly best at cap6 and is selected at epoch6 for both seeds.",
+      "current_application": "The new experiment fixes OFF, retains both original cap6 PeMS calibration parents, and separately extends the whole S/A group to12. Empty resume queues are not evidence of convergence."
+    },
+    {
+      "reference": "repo://reports/memory_budget_20261018_v1/B_TRAINING_SUMMARY.json",
+      "sha256": "df0f144425f6b93ab71fbe986de135c749fc34182ed3b87eab63aff3c8375ade",
+      "line_count": 148,
+      "reviewed_line_ranges": [
+        [
+          1,
+          148
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "REUSED_EXACT_JENA_K12_TWO_SEEDS",
+      "finding": "Four separately trained K3/K12 models are recorded; the two K12 entries use seeds92601/92602, cap3, selected epoch1 and distinct exact bundle bindings. Search/refit times are actual old run times and all selections precede new V.",
+      "current_application": "The two K12 bundle SHA values match current calibration/reused Jena S: d4f0159f715a6d33f5573b653cbf9b2d238f5639d42b9503a9cbc30c25c76fba and4f8e1c87744d2f8a593af4730133ce3f2efd8ab1662cadf7678c410b2e50db7a. K3 and K6 are not substituted."
+    },
+    {
+      "reference": "repo://reports/memory_budget_20261018_v1/PROTOCOL.md",
+      "sha256": "ebd67e42d459eef459aba45324b386e6ce894a2fd07aba2d193cc08051f4a14f",
+      "line_count": 43,
+      "reviewed_line_ranges": [
+        [
+          1,
+          43
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "COST_SCOPE_AND_LEGACY_LIMITATION_REFERENCE",
+      "finding": "The timed path spans physical input/mask through fill/global normalization/P/E/F/D/inverse normalization/CPU numpy; model load/window extraction/merge are separate. Median/IQR/p95 and allocated/reserved/per-PID memory are distinct, with unavailable per-PID memory never replaced by whole-device totals.",
+      "current_application": "Retain those cost semantics and exact artifact/cohort identities. Its row-chunk search and earlier operating budgets are historical protocols, not additional experiments or replacement budgets for the new frozen six-hour/four-hour campaign."
+    },
+    {
+      "reference": "repo://research/temporal_frontend_campaign_20261015_v1/REPORT_KO_v3.md",
+      "sha256": "1fa4373712b15570027e481f10540aacd52593d3bde5f71e13fbc2158ee55f78",
+      "line_count": 748,
+      "reviewed_line_ranges": [
+        [
+          1,
+          69
+        ],
+        [
+          176,
+          195
+        ],
+        [
+          736,
+          748
+        ]
+      ],
+      "read_scope": "Actual relevant text/code sections inspected; hash is recorded after reading, not substituted for reading.",
+      "reuse": "HISTORICAL_CONTEXT_NOT_POOLABLE_NEW_EVIDENCE",
+      "finding": "The old R1-R5 report uses its own Beijing/Jena K2/K5 and A/B/C cohorts; it already distinguishes B2 residual P, B4 past-scale fusion before F, output G controls, no-Bolt alternatives and unresolved convergence. It explicitly warns that old C periods were historically exposed and that upstream raw reconstruction is not lossless.",
+      "current_application": "Do not pool those numeric results with the new43/148-origin cohort or claim new causal necessity of Bolt. Its negative G/direct comparisons motivate, but do not select, the current fixed controls; prior T/preprocessing/pretraining uncertainty must remain explicit."
+    }
+  ],
+  "new_private_prediction_values_read": 0,
+  "new_T_numeric_values_read": 0,
+  "claim": "This receipt records actual code/text review and reuse/mismatch reasoning; it does not assert runtime success, independent-test status, convergence or publication."
+}

@@ -1,0 +1,6300 @@
+{
+  "status": "COMPLETE",
+  "row": {
+    "status": "COMPLETE",
+    "cost_valid": true,
+    "cost_id": "Head_pems32_conditional_s92601_native_B1",
+    "dataset": "pems32",
+    "accuracy_run_id": "Head_pems32_conditional_s92601",
+    "family": "COMBINED",
+    "mode": null,
+    "schedule": "native",
+    "operation": "conditional",
+    "device": "cuda",
+    "batch_size": 1,
+    "B": 1,
+    "C": 32,
+    "K": 8,
+    "L": 512,
+    "H": 12,
+    "warmups": 10,
+    "timed_trials": 20,
+    "row_microbatch": 128,
+    "parity_status": "PASS",
+    "MSE": 0.07510754591233358,
+    "MAE": 0.17865079980343612,
+    "p50_batch_ms": 12.679700001172023,
+    "median_batch_ms": 12.679700001172023,
+    "IQR_batch_ms": 0.8161499999914668,
+    "p95_batch_ms": 14.169264997508435,
+    "p50_ms_per_origin": 12.679700001172023,
+    "median_ms_per_origin": 12.679700001172023,
+    "IQR_ms_per_origin": 0.8161499999914668,
+    "p95_ms_per_origin": 14.169264997508435,
+    "resident_parameters": 47789880,
+    "trainable_parameters": 71864,
+    "resident_buffer_elements": 41,
+    "resident_weights_cpu_MiB": 0.0,
+    "resident_weights_gpu_MiB": 182.30408096313477,
+    "foundation_instances_created": 1,
+    "baseline_allocated_MiB": 182.31103515625,
+    "baseline_reserved_MiB": 256.0,
+    "model_loaded_CPU_RSS_MiB": 833.21484375,
+    "peak_allocated_MiB": 200.0361328125,
+    "peak_reserved_MiB": 268.0,
+    "F_calls": 1,
+    "F_logical_streams": 8,
+    "F_physical_streams": 8,
+    "F_invocations": [
+      {
+        "route_id": "B2_pems32_REVIN_OFF_s92601",
+        "input_shape": [
+          1,
+          512,
+          8
+        ],
+        "requested_context": 512,
+        "actual_context": 512,
+        "wrapper_horizon": 12,
+        "used_horizon": 12,
+        "actual_head_horizon": 64,
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "row_microbatch": 128
+      }
+    ],
+    "loaded_F_state_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "model_load_seconds": 4.484855200000311,
+    "foundation_load_seconds": 4.335129200000665,
+    "input_extraction_seconds": 0.0038918999998713844,
+    "full_V_parity_seconds": 2.0642700999997032,
+    "lora_merge_parity_seconds": 0.0,
+    "lora_merge_parity": {
+      "status": "NOT_APPLICABLE"
+    },
+    "process_pid": 27780,
+    "process_create_time": 1792384630.341752,
+    "fresh_process_cli": true,
+    "process_scope": "fresh CLI worker, one route load",
+    "CPU_RSS_sampled_peak_MiB": 1386.90625,
+    "process_GPU_sampled_peak_MiB": null,
+    "process_GPU_sampling_status": "UNAVAILABLE",
+    "process_GPU_sampling_reason": "ModuleNotFoundError: No module named 'pynvml'",
+    "memory_layer": "pytorch_allocated_tensor",
+    "comparison_scope": "GPU",
+    "p95_scope": "20-trial descriptive quantile; no service tail guarantee",
+    "baseline_scope": "after one-time LoRA merge, before whole-V parity and warmups",
+    "peak_reset_scope": "after warmup and before each timed trial; summary maximum across timed trials",
+    "timing_scope": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+    "cached_forecast_reads_in_timed_path": 0,
+    "stage_probe_trials": 0,
+    "protocol": {
+      "warmups": 10,
+      "timed_trials": 20,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "stage_probe_trials": 0,
+      "whole_path": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+      "cached_forecast_reads_in_timed_path": 0,
+      "timing_origins": "first eight fixed V origins; B1 cycles, B8 repeats their ordered bundle"
+    }
+  },
+  "summary": {
+    "status": "COMPLETE",
+    "cost_valid": true,
+    "cost_id": "Head_pems32_conditional_s92601_native_B1",
+    "dataset": "pems32",
+    "accuracy_run_id": "Head_pems32_conditional_s92601",
+    "family": "COMBINED",
+    "mode": null,
+    "schedule": "native",
+    "operation": "conditional",
+    "device": "cuda",
+    "batch_size": 1,
+    "B": 1,
+    "C": 32,
+    "K": 8,
+    "L": 512,
+    "H": 12,
+    "warmups": 10,
+    "timed_trials": 20,
+    "row_microbatch": 128,
+    "parity_status": "PASS",
+    "MSE": 0.07510754591233358,
+    "MAE": 0.17865079980343612,
+    "p50_batch_ms": 12.679700001172023,
+    "median_batch_ms": 12.679700001172023,
+    "IQR_batch_ms": 0.8161499999914668,
+    "p95_batch_ms": 14.169264997508435,
+    "p50_ms_per_origin": 12.679700001172023,
+    "median_ms_per_origin": 12.679700001172023,
+    "IQR_ms_per_origin": 0.8161499999914668,
+    "p95_ms_per_origin": 14.169264997508435,
+    "resident_parameters": 47789880,
+    "trainable_parameters": 71864,
+    "resident_buffer_elements": 41,
+    "resident_weights_cpu_MiB": 0.0,
+    "resident_weights_gpu_MiB": 182.30408096313477,
+    "foundation_instances_created": 1,
+    "baseline_allocated_MiB": 182.31103515625,
+    "baseline_reserved_MiB": 256.0,
+    "model_loaded_CPU_RSS_MiB": 833.21484375,
+    "peak_allocated_MiB": 200.0361328125,
+    "peak_reserved_MiB": 268.0,
+    "F_calls": 1,
+    "F_logical_streams": 8,
+    "F_physical_streams": 8,
+    "F_invocations": [
+      {
+        "route_id": "B2_pems32_REVIN_OFF_s92601",
+        "input_shape": [
+          1,
+          512,
+          8
+        ],
+        "requested_context": 512,
+        "actual_context": 512,
+        "wrapper_horizon": 12,
+        "used_horizon": 12,
+        "actual_head_horizon": 64,
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "row_microbatch": 128
+      }
+    ],
+    "loaded_F_state_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "model_load_seconds": 4.484855200000311,
+    "foundation_load_seconds": 4.335129200000665,
+    "input_extraction_seconds": 0.0038918999998713844,
+    "full_V_parity_seconds": 2.0642700999997032,
+    "lora_merge_parity_seconds": 0.0,
+    "lora_merge_parity": {
+      "status": "NOT_APPLICABLE"
+    },
+    "process_pid": 27780,
+    "process_create_time": 1792384630.341752,
+    "fresh_process_cli": true,
+    "process_scope": "fresh CLI worker, one route load",
+    "CPU_RSS_sampled_peak_MiB": 1386.90625,
+    "process_GPU_sampled_peak_MiB": null,
+    "process_GPU_sampling_status": "UNAVAILABLE",
+    "process_GPU_sampling_reason": "ModuleNotFoundError: No module named 'pynvml'",
+    "memory_layer": "pytorch_allocated_tensor",
+    "comparison_scope": "GPU",
+    "p95_scope": "20-trial descriptive quantile; no service tail guarantee",
+    "baseline_scope": "after one-time LoRA merge, before whole-V parity and warmups",
+    "peak_reset_scope": "after warmup and before each timed trial; summary maximum across timed trials",
+    "timing_scope": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+    "cached_forecast_reads_in_timed_path": 0,
+    "stage_probe_trials": 0,
+    "protocol": {
+      "warmups": 10,
+      "timed_trials": 20,
+      "F_row_microbatch": 128,
+      "atol": 1e-05,
+      "rtol": 0.0001,
+      "stage_probe_trials": 0,
+      "whole_path": "physical+bool mask -> causal fill -> fixed scaler -> actual model/F/repeat/lag -> inverse scaler -> CPU numpy",
+      "cached_forecast_reads_in_timed_path": 0,
+      "timing_origins": "first eight fixed V origins; B1 cycles, B8 repeats their ordered bundle"
+    }
+  },
+  "trials": [
+    {
+      "phase": "warmup",
+      "trial": 0,
+      "whole_seconds": 0.013696700003492879,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "7283bdb64782550aec3f9a115eaf86ba73de7440913f6a20d6d445776ba372ef",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.5703125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 1,
+      "whole_seconds": 0.013181800000893418,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "0632aab02d51dd9375cf1b15ceebc1c623181985cac4e3323b966a300f1c695f",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.61328125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 2,
+      "whole_seconds": 0.012245899997651577,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "46326ef5b2536dcf8f061b723f0fdffcaced333b729b5df0dfd8af35ccb602a8",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.6171875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 3,
+      "whole_seconds": 0.012083800000254996,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "32be264826d01ca0950e2aa0bcdd6b641e5f54ef3d353d9db54cb96c41ae31d2",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.6171875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 4,
+      "whole_seconds": 0.0122546999991755,
+      "origins": [
+        12547
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "a09b5032b54ee7e5e287a176262eb03fce75612ae9e5b16c48aaa34e5e2d6cf4",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.68359375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 5,
+      "whole_seconds": 0.013093000001390465,
+      "origins": [
+        12559
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "8d6e2de1fe5d0e1b525df1f6385078faf64075072727da2ee9dd954cad46066d",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.6875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 6,
+      "whole_seconds": 0.012327600001299288,
+      "origins": [
+        12571
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "657aa013530d3f8fbf20f4424018fc69effc2a85c71fe22771d5534c746a855f",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.69140625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 7,
+      "whole_seconds": 0.012058599997544661,
+      "origins": [
+        12583
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "49c08f64b7e4413b6b310dcd347e246223742733fddef69baa218ac56c201305",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.69140625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 8,
+      "whole_seconds": 0.012398400001984555,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "7283bdb64782550aec3f9a115eaf86ba73de7440913f6a20d6d445776ba372ef",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.76953125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "warmup",
+      "trial": 9,
+      "whole_seconds": 0.01259819999904721,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "0632aab02d51dd9375cf1b15ceebc1c623181985cac4e3323b966a300f1c695f",
+      "peak_allocated_MiB": null,
+      "peak_reserved_MiB": null,
+      "CPU_RSS_MiB": 1386.77734375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 0,
+      "whole_seconds": 0.012216400002216687,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "7283bdb64782550aec3f9a115eaf86ba73de7440913f6a20d6d445776ba372ef",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.77734375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 1,
+      "whole_seconds": 0.012542100001155632,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "0632aab02d51dd9375cf1b15ceebc1c623181985cac4e3323b966a300f1c695f",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.77734375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 2,
+      "whole_seconds": 0.012096999998902902,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "46326ef5b2536dcf8f061b723f0fdffcaced333b729b5df0dfd8af35ccb602a8",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.7890625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 3,
+      "whole_seconds": 0.013288100002682768,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "32be264826d01ca0950e2aa0bcdd6b641e5f54ef3d353d9db54cb96c41ae31d2",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.859375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 4,
+      "whole_seconds": 0.012831899999582674,
+      "origins": [
+        12547
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "a09b5032b54ee7e5e287a176262eb03fce75612ae9e5b16c48aaa34e5e2d6cf4",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.86328125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 5,
+      "whole_seconds": 0.011907600000995444,
+      "origins": [
+        12559
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "8d6e2de1fe5d0e1b525df1f6385078faf64075072727da2ee9dd954cad46066d",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.86328125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 6,
+      "whole_seconds": 0.014164599997457117,
+      "origins": [
+        12571
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "657aa013530d3f8fbf20f4424018fc69effc2a85c71fe22771d5534c746a855f",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.86328125,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 7,
+      "whole_seconds": 0.012567400000989437,
+      "origins": [
+        12583
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "49c08f64b7e4413b6b310dcd347e246223742733fddef69baa218ac56c201305",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.87109375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 8,
+      "whole_seconds": 0.013157500001398148,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "7283bdb64782550aec3f9a115eaf86ba73de7440913f6a20d6d445776ba372ef",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.88671875,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 9,
+      "whole_seconds": 0.012874399999418529,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "0632aab02d51dd9375cf1b15ceebc1c623181985cac4e3323b966a300f1c695f",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.890625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 10,
+      "whole_seconds": 0.012077799998223782,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "46326ef5b2536dcf8f061b723f0fdffcaced333b729b5df0dfd8af35ccb602a8",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.890625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 11,
+      "whole_seconds": 0.013668600000528386,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "32be264826d01ca0950e2aa0bcdd6b641e5f54ef3d353d9db54cb96c41ae31d2",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.890625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 12,
+      "whole_seconds": 0.012792000001354609,
+      "origins": [
+        12547
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "a09b5032b54ee7e5e287a176262eb03fce75612ae9e5b16c48aaa34e5e2d6cf4",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.890625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 13,
+      "whole_seconds": 0.012540700001409277,
+      "origins": [
+        12559
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "8d6e2de1fe5d0e1b525df1f6385078faf64075072727da2ee9dd954cad46066d",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.8984375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 14,
+      "whole_seconds": 0.012344799997663358,
+      "origins": [
+        12571
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "657aa013530d3f8fbf20f4424018fc69effc2a85c71fe22771d5534c746a855f",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.8984375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 15,
+      "whole_seconds": 0.012379699997836724,
+      "origins": [
+        12583
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "49c08f64b7e4413b6b310dcd347e246223742733fddef69baa218ac56c201305",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.8984375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 16,
+      "whole_seconds": 0.014257899998483481,
+      "origins": [
+        12499
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "7283bdb64782550aec3f9a115eaf86ba73de7440913f6a20d6d445776ba372ef",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.8984375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 17,
+      "whole_seconds": 0.011944400001084432,
+      "origins": [
+        12511
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "0632aab02d51dd9375cf1b15ceebc1c623181985cac4e3323b966a300f1c695f",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.90234375,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 18,
+      "whole_seconds": 0.013119299997924827,
+      "origins": [
+        12523
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "46326ef5b2536dcf8f061b723f0fdffcaced333b729b5df0dfd8af35ccb602a8",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.90625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    },
+    {
+      "phase": "timed",
+      "trial": 19,
+      "whole_seconds": 0.012853000000177417,
+      "origins": [
+        12535
+      ],
+      "batch_size": 1,
+      "prediction_sha256": "32be264826d01ca0950e2aa0bcdd6b641e5f54ef3d353d9db54cb96c41ae31d2",
+      "peak_allocated_MiB": 200.0361328125,
+      "peak_reserved_MiB": 268.0,
+      "CPU_RSS_MiB": 1386.91015625,
+      "process_GPU_MiB": null,
+      "F_logical_streams": 8,
+      "F_physical_streams": 8,
+      "F_calls": 1,
+      "F_invocations": [
+        {
+          "route_id": "B2_pems32_REVIN_OFF_s92601",
+          "input_shape": [
+            1,
+            512,
+            8
+          ],
+          "requested_context": 512,
+          "actual_context": 512,
+          "wrapper_horizon": 12,
+          "used_horizon": 12,
+          "actual_head_horizon": 64,
+          "F_logical_streams": 8,
+          "F_physical_streams": 8,
+          "F_calls": 1,
+          "row_microbatch": 128
+        }
+      ]
+    }
+  ],
+  "parity": {
+    "status": "PASS",
+    "saved_reference": "PASS",
+    "max_abs": 9.5367431640625e-07,
+    "atol": 1e-05,
+    "rtol": 0.0001,
+    "n_origins": 148,
+    "prediction": {
+      "shape": [
+        148,
+        12,
+        32
+      ],
+      "dtype": "float32",
+      "sha256": "6ed3ecd3525e9a5b564797ef75ebcb92b5a345a2ea84084c528fa4b2b9adfdc9"
+    },
+    "origins": {
+      "shape": [
+        148
+      ],
+      "dtype": "int64",
+      "sha256": "9cf012ce9e2f496dd3e10056955bc2f79623ee65e7a1d1be52a98f1e455fbf4f"
+    },
+    "target": {
+      "shape": [
+        148,
+        12,
+        32
+      ],
+      "dtype": "float32",
+      "sha256": "395f29dacec1c46ec936f6473dda72c7dae4f77ce026c4ff2e8ebabaf58fcc3a"
+    },
+    "observed": {
+      "shape": [
+        148,
+        12,
+        32
+      ],
+      "dtype": "bool",
+      "sha256": "e5c12f7865fd4aad7c9cebc742f504f2474748b444ca51e79ac5ab3dd5ef2127"
+    },
+    "independent_metrics": {
+      "mse": 0.07510754591233358,
+      "mae": 0.17865079980343612,
+      "n_observed": 56832,
+      "n_origins": 148,
+      "horizon": 12,
+      "channels": 32,
+      "channel_counts": [
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776,
+        1776
+      ],
+      "horizon_channel_sse": [
+        [
+          8.510457088055972,
+          9.221311327945465,
+          6.326940120875067,
+          7.140826524307208,
+          4.763222910001936,
+          18.434405342393127,
+          1.0936823927497343,
+          6.278222293473154,
+          4.820163867892384,
+          1.0670696803215123,
+          7.130009522284977,
+          2.208051039760978,
+          12.238620436314264,
+          8.467510310276896,
+          1.093682388499918,
+          1.0781576726595676,
+          12.06809040023095,
+          6.2148192871253425,
+          4.917193766516137,
+          6.749949047117938,
+          5.875945777951255,
+          1.0781576726595676,
+          6.64519146506513,
+          17.274323853954773,
+          1.0781576726595676,
+          11.376805929136903,
+          8.527193928850965,
+          8.139815676377129,
+          2.8576782084551953,
+          3.310942200463853,
+          13.89429633961129,
+          7.937589999245917
+        ],
+        [
+          10.291427609536374,
+          7.512952265219422,
+          3.8063145447378224,
+          9.195623528512314,
+          6.479479450534794,
+          18.969892853293043,
+          1.7717006785756884,
+          9.548721981973756,
+          6.446282137798296,
+          1.7990169105021885,
+          10.120656624203033,
+          3.1354390698153884,
+          15.005910075154876,
+          9.790809191219488,
+          1.771700704345144,
+          1.7821448597373435,
+          12.330316145755166,
+          8.96214690667424,
+          5.818871809432235,
+          5.555298894072625,
+          7.6256687897774205,
+          1.7821448597373435,
+          10.118346770268335,
+          18.131607794918054,
+          1.7821448597373435,
+          16.722050646734072,
+          8.160326690523412,
+          9.921447600449138,
+          4.7478800704716235,
+          5.286715223122033,
+          12.738416291451568,
+          44.42024898181614
+        ],
+        [
+          15.321751439722263,
+          7.509197922229023,
+          6.947263618839226,
+          12.169167962066387,
+          8.54489329465718,
+          20.544519206534712,
+          2.167012084463357,
+          9.843244244585208,
+          6.693743205574868,
+          2.1330350211023283,
+          10.34995052055577,
+          3.6760094853210434,
+          14.726545498625693,
+          10.821125131865196,
+          2.1670120725923345,
+          2.116958994210843,
+          11.779245182541601,
+          10.904872371859334,
+          4.777102084258031,
+          7.936737343508013,
+          6.423511545312525,
+          2.116958994210843,
+          13.31628022293599,
+          24.473684524274887,
+          2.116958994210843,
+          22.338579003419984,
+          8.075191278140053,
+          8.807491065755435,
+          4.386275820104825,
+          7.223169464998697,
+          14.656466902945843,
+          45.93553927030558
+        ],
+        [
+          12.707724597927985,
+          7.451019586194686,
+          5.03718781026867,
+          10.360893609592074,
+          18.526737425074806,
+          19.57985704852891,
+          1.3004438937731342,
+          8.246342487598746,
+          7.863342295941751,
+          1.2906510065594636,
+          12.2299559962484,
+          3.5534295952403685,
+          12.967093865286447,
+          8.591985249698219,
+          1.300443881751143,
+          1.2821670335430593,
+          17.970029727807816,
+          8.072339522251877,
+          3.7373352771175123,
+          9.618869498183411,
+          6.6043755704222225,
+          1.2821670335430593,
+          8.647782767477615,
+          17.97942125615495,
+          1.2821670335430593,
+          22.482840319003436,
+          8.372855221668928,
+          8.936715824072353,
+          5.519431273396475,
+          6.980472515299653,
+          13.14568283044669,
+          46.86702604969183
+        ],
+        [
+          16.493992545056475,
+          6.919433844542128,
+          4.421634095050745,
+          14.410056591105835,
+          6.619429483887304,
+          18.75625548935785,
+          1.68338734982571,
+          10.269627731371767,
+          7.444378957738876,
+          1.693088370035572,
+          15.145372506508151,
+          3.296543732766456,
+          12.62460253832688,
+          10.314187638057914,
+          1.6833873523304723,
+          1.684378633505169,
+          14.392785104956562,
+          7.028728126883079,
+          4.7343794938311765,
+          7.009649278596623,
+          7.70480695609773,
+          1.684378633505169,
+          11.364298146425199,
+          24.827319432433885,
+          1.684378633505169,
+          17.036782975857943,
+          10.595659591452149,
+          10.547027757799432,
+          5.4099154833683505,
+          7.506893284539796,
+          11.098375746530698,
+          45.41851547484313
+        ],
+        [
+          16.23429770213293,
+          6.771243423966776,
+          6.910071839749898,
+          9.394953587249322,
+          8.077869046784546,
+          24.01358090156877,
+          2.0828036145462283,
+          8.897484751392113,
+          7.350591599955438,
+          2.11388735168929,
+          19.341169571128454,
+          3.7729066253177295,
+          15.066410549826703,
+          12.523180798257606,
+          2.082803624996804,
+          2.0705222285567553,
+          12.036253574529544,
+          7.318535365982668,
+          5.879942028091129,
+          8.707386483941718,
+          7.662875428766409,
+          2.0705222285567553,
+          12.784412028180657,
+          16.413978813961336,
+          2.0705222285567553,
+          23.831501173650402,
+          11.107052181417076,
+          7.399619691113814,
+          3.9561792447321693,
+          8.791026429428026,
+          11.037671512829338,
+          45.02191026570478
+        ],
+        [
+          11.124367499125805,
+          18.146604245871313,
+          6.309382559524025,
+          11.80023423720919,
+          9.272492275243694,
+          22.116325549044163,
+          1.4338675482678476,
+          11.135615532279193,
+          6.322729909406599,
+          1.46912091717045,
+          18.676273036667776,
+          3.20847660037097,
+          15.43677079080529,
+          10.105290672104353,
+          1.4338675616543428,
+          1.438419545457896,
+          13.777364730602986,
+          7.9957625892383435,
+          4.028330142767116,
+          8.207242457358705,
+          6.491655395122234,
+          1.438419545457896,
+          9.921658801588432,
+          17.592172523912044,
+          1.438419545457896,
+          27.052888940252867,
+          12.785043200563672,
+          9.698739732102158,
+          4.860191379955514,
+          7.805829739510405,
+          16.889792802516205,
+          50.31840878730955
+        ],
+        [
+          14.464674541896027,
+          17.873467513329324,
+          7.873651087674608,
+          10.374133994030515,
+          10.319027854909757,
+          21.332781835450373,
+          1.6977395520761553,
+          10.27183011855212,
+          9.894772589416004,
+          1.6558925260859345,
+          20.7488805884113,
+          3.5990575506454725,
+          15.564582840635067,
+          11.388071057848878,
+          1.6977394482404773,
+          1.6628741661290167,
+          16.771902459578207,
+          6.166373219445258,
+          4.678414201567834,
+          9.847729288211687,
+          7.407848532383524,
+          1.6628741661290167,
+          11.542588164673838,
+          21.124323425840686,
+          1.6628741661290167,
+          30.603879581863836,
+          13.000062341037498,
+          12.713373285830194,
+          4.905050140218613,
+          6.921445043446362,
+          14.367557498876895,
+          49.452325657462524
+        ],
+        [
+          14.179164609316253,
+          21.763107866752613,
+          6.345239106520958,
+          10.895635150062922,
+          10.323134528978187,
+          16.64713530339251,
+          1.6418605592877875,
+          11.646790888155966,
+          10.95806570249469,
+          1.619616935550019,
+          22.343356816691514,
+          4.609367868599457,
+          13.67085363860744,
+          11.60752161276558,
+          1.6418605015194996,
+          1.6042554739227253,
+          21.141724923098206,
+          7.0458555637850875,
+          4.944670429730862,
+          9.222107039681829,
+          8.641582690264443,
+          1.6042554739227253,
+          10.830137374787931,
+          21.96421943328066,
+          1.6042554739227253,
+          30.821425021469913,
+          18.706480354884672,
+          14.34017946119813,
+          4.6458172354246035,
+          8.340438960334515,
+          17.081685503068336,
+          49.355044228531014
+        ],
+        [
+          16.586577180108716,
+          17.696737631610613,
+          9.199063852439554,
+          11.149446134033546,
+          11.64661664556726,
+          21.675095597862942,
+          2.054020056397597,
+          9.315293445441032,
+          11.494497507803956,
+          2.025207481350472,
+          20.572768878539105,
+          5.255805156384157,
+          16.42754966065387,
+          13.083510312730258,
+          2.0540200544093485,
+          1.9993081682498577,
+          29.76416813958011,
+          7.210712076513639,
+          6.427205851363369,
+          8.32146170866352,
+          7.477019366709523,
+          1.9993081682498577,
+          15.419196936894046,
+          28.508088684471407,
+          1.9993081682498577,
+          33.91840748971558,
+          17.186641717313655,
+          13.287478432932502,
+          4.671042196466275,
+          9.756026955923527,
+          15.38247922086521,
+          55.0990115688287
+        ],
+        [
+          20.947333510886725,
+          12.438591071298804,
+          8.366806012122076,
+          14.176221846225268,
+          13.006990045033039,
+          19.35166190169746,
+          2.2671312414672804,
+          10.976536784162967,
+          15.203068874221865,
+          2.2554994110272895,
+          24.92857710432895,
+          4.4343528692969025,
+          13.443967863956097,
+          12.208650813127363,
+          2.267131216005077,
+          2.2473256411917175,
+          28.745704006606296,
+          5.889909278809488,
+          5.170253106610305,
+          7.0030025408029415,
+          6.614408782935451,
+          2.2473256411917175,
+          15.508746936620488,
+          33.779437791930235,
+          2.2473256411917175,
+          30.212670061370968,
+          18.27723501501766,
+          15.264293581896332,
+          4.846888722836245,
+          11.625061405785953,
+          14.315719565761823,
+          57.02751321130762
+        ],
+        [
+          22.101260025317984,
+          13.088246001362016,
+          8.72192771888049,
+          12.768180760479549,
+          12.418444000729437,
+          23.356595451082097,
+          2.7002742263416772,
+          12.99026862030906,
+          14.10012278474522,
+          2.6876531489208797,
+          21.3189856341035,
+          5.51689723362769,
+          15.800163487259475,
+          12.511570090616388,
+          2.7002741426900676,
+          2.6635570239812547,
+          29.85496133632568,
+          8.344738830928176,
+          7.987156386865817,
+          11.008912041934071,
+          9.603080223554038,
+          2.6635570239812547,
+          23.767968302121428,
+          32.07317134502529,
+          2.6635570239812547,
+          40.51584017654103,
+          19.929893098073663,
+          10.525929928100705,
+          5.908573930435863,
+          11.257549370813074,
+          16.19971679664647,
+          55.602917503945676
+        ]
+      ],
+      "horizon_channel_sae": [
+        [
+          27.015909895300865,
+          26.013656701892614,
+          23.109723072033376,
+          24.88211921742186,
+          18.648807010613382,
+          40.44296140782535,
+          8.406776004005224,
+          23.342251570895314,
+          18.98568850220181,
+          8.422996854409575,
+          24.049971364438534,
+          13.849450822919607,
+          28.576380491256714,
+          26.805343693122268,
+          8.406775996554643,
+          8.42171421367675,
+          29.939720227237558,
+          23.16235548403347,
+          17.356695739901625,
+          23.689662849530578,
+          21.61727026256267,
+          8.42171421367675,
+          22.968030320480466,
+          38.72075094655156,
+          8.42171421367675,
+          31.899626060388982,
+          25.480603256917675,
+          23.75010940199718,
+          16.020532046444714,
+          16.546404842287302,
+          35.04647845670115,
+          23.054969144810457
+        ],
+        [
+          27.460046441701706,
+          25.343210965394974,
+          18.22240597754717,
+          26.511451275553554,
+          22.265714964829385,
+          37.41169427707791,
+          10.416481371968985,
+          29.671837397792842,
+          22.298726191860624,
+          10.642069092020392,
+          27.502763968892395,
+          15.549110850319266,
+          30.806185387074947,
+          28.98588440543972,
+          10.41648143157363,
+          10.626071818172932,
+          30.785225300118327,
+          27.872303787618876,
+          18.030367994681,
+          22.2401915602386,
+          24.514020873699337,
+          10.626071818172932,
+          27.921896869316697,
+          38.58742707921192,
+          10.626071818172932,
+          36.152951795607805,
+          26.239012292586267,
+          28.14078428223729,
+          20.25631637685001,
+          20.17380588222295,
+          32.81527169793844,
+          33.168929568491876
+        ],
+        [
+          33.64441644586623,
+          25.71397351194173,
+          24.189754508435726,
+          31.383554722648114,
+          26.376432741060853,
+          42.50084755057469,
+          11.73368738591671,
+          29.44925583479926,
+          23.859742935630493,
+          11.793664291501045,
+          28.678030992858112,
+          17.350773636251688,
+          31.933345049619675,
+          30.312768219271675,
+          11.733687356114388,
+          11.739573583006859,
+          30.403022645332385,
+          29.54206125624478,
+          19.826994953327812,
+          25.84630602877587,
+          23.676423588301986,
+          11.739573583006859,
+          30.521714687347412,
+          43.72438503615558,
+          11.739573583006859,
+          40.89155285060406,
+          26.30912441946566,
+          26.927880795206875,
+          19.27032344881445,
+          21.81524959206581,
+          33.94854748621583,
+          35.246583567000926
+        ],
+        [
+          33.17744987271726,
+          26.673532568849623,
+          21.34915895946324,
+          29.369563028216362,
+          24.844096607528627,
+          40.42574894987047,
+          9.558006633073092,
+          25.996273498109076,
+          24.317585704731755,
+          9.60690913721919,
+          30.005890995264053,
+          17.21815086901188,
+          31.131204422563314,
+          26.297341735800728,
+          9.558006647974253,
+          9.440903961658478,
+          36.455707357410574,
+          25.561404570937157,
+          16.939193470403552,
+          27.34870356321335,
+          23.14054634142667,
+          9.440903961658478,
+          26.86205887980759,
+          37.35912318434566,
+          9.440903961658478,
+          39.23813011869788,
+          26.241669077426195,
+          27.76161915808916,
+          21.55637336941436,
+          22.49806188698858,
+          33.177454353659414,
+          34.44051400758326
+        ],
+        [
+          34.845357823593076,
+          25.22874377667904,
+          19.606697221286595,
+          29.975122632924467,
+          22.81642149295658,
+          40.63052002387121,
+          10.406335545703769,
+          28.70149977406254,
+          22.918559049256146,
+          10.501237538643181,
+          31.7878230586648,
+          16.741944374516606,
+          30.238931506872177,
+          29.174575795419514,
+          10.406335759907961,
+          10.415851870551705,
+          31.44755777050159,
+          24.076968543231487,
+          18.465344841009937,
+          24.257769966498017,
+          25.54893659427762,
+          10.415851870551705,
+          27.324259494431317,
+          44.894713673740625,
+          10.415851870551705,
+          39.38885588385165,
+          30.12296813260764,
+          27.943599638529122,
+          20.752977022901177,
+          21.85082474630326,
+          31.934433437883854,
+          36.19934822246432
+        ],
+        [
+          35.181750060466584,
+          25.195055909454823,
+          23.962193872779608,
+          27.528328916057944,
+          24.088489413261414,
+          43.385835812892765,
+          13.034041145350784,
+          24.919783457182348,
+          24.403312537935562,
+          13.06747995596379,
+          32.76551161427051,
+          18.144705520942807,
+          33.890096705406904,
+          32.32485653832555,
+          13.034041322302073,
+          12.938915294595063,
+          31.086467356566573,
+          26.022336948662996,
+          21.853508133091964,
+          28.27543910034001,
+          26.15743736550212,
+          12.938915294595063,
+          30.164994172751904,
+          38.467832820955664,
+          12.938915294595063,
+          44.61304188892245,
+          29.89958349149674,
+          25.499614216387272,
+          18.548938579391688,
+          23.80183140281588,
+          29.923920940607786,
+          37.652031211706344
+        ],
+        [
+          30.276927511091344,
+          31.39167201705277,
+          22.962283737957478,
+          32.365265768021345,
+          26.454698888817802,
+          44.02211656421423,
+          11.055363385006785,
+          30.315010661259294,
+          23.243671576376073,
+          11.138490340206772,
+          32.08150071557611,
+          17.04049201309681,
+          35.56778102274984,
+          28.361805126070976,
+          11.055363465100527,
+          11.092587038874626,
+          32.608543936745264,
+          25.97404472529888,
+          18.072078757337295,
+          28.57103374786675,
+          24.08355606382247,
+          11.092587038874626,
+          27.80205048713833,
+          37.0072799124755,
+          11.092587038874626,
+          46.925406804308295,
+          31.980629373996635,
+          28.768755650147796,
+          20.33131949417293,
+          22.171013894490898,
+          36.25917141791433,
+          40.71584761235863
+        ],
+        [
+          35.55204352416331,
+          30.73555615451187,
+          26.69806358218193,
+          29.6364238653332,
+          29.0423590290593,
+          44.26718428591266,
+          11.158648330718279,
+          27.985469536855817,
+          27.711483282968402,
+          10.965995559468865,
+          30.872304240241647,
+          17.770645859651268,
+          33.87144869379699,
+          29.440997829660773,
+          11.158647933974862,
+          11.024936681613326,
+          33.29203283708193,
+          23.03401618078351,
+          18.51419577561319,
+          29.476023849099874,
+          23.45908233895898,
+          11.024936681613326,
+          28.891477514989674,
+          42.898019440472126,
+          11.024936681613326,
+          45.38971400074661,
+          32.459686206653714,
+          28.319577290210873,
+          20.706686750985682,
+          23.30147536098957,
+          35.42962632328272,
+          41.087123945355415
+        ],
+        [
+          34.98474522359902,
+          34.30745076853782,
+          23.910500403493643,
+          31.252765091136098,
+          30.280467660166323,
+          40.15870225429535,
+          11.984184823930264,
+          29.92487993190298,
+          28.698165688547306,
+          12.05686566606164,
+          32.900748130865395,
+          19.791025284677744,
+          32.74555091187358,
+          30.618195855990052,
+          11.984184548258781,
+          11.970067450776696,
+          38.41890441440046,
+          25.34745190758258,
+          19.099961994215846,
+          28.4660453684628,
+          25.01927786192391,
+          11.970067450776696,
+          29.371090818196535,
+          40.29747940786183,
+          11.970067450776696,
+          46.00428995490074,
+          38.88293080497533,
+          29.075745347887278,
+          20.217226068023592,
+          24.63412306830287,
+          38.370670994743705,
+          42.311461286619306
+        ],
+        [
+          35.50149700976908,
+          35.87784618977457,
+          29.221308838692494,
+          29.359403306618333,
+          29.805308296345174,
+          43.66900662146509,
+          12.980260491371155,
+          28.306661916023586,
+          31.04420276370365,
+          12.84189934656024,
+          30.960362682468258,
+          21.609982166439295,
+          36.027657091617584,
+          32.32287439890206,
+          12.980260513722897,
+          12.741021131165326,
+          43.25017452985048,
+          24.797119851631578,
+          21.498391130939126,
+          27.4797335639596,
+          24.10340885259211,
+          12.741021131165326,
+          32.440347731113434,
+          45.48294685035944,
+          12.741021131165326,
+          48.54989409260452,
+          37.584748621375184,
+          31.533515475690365,
+          20.32943064905703,
+          27.003387462347746,
+          37.5085560195148,
+          46.62956945132464
+        ],
+        [
+          41.5799282839871,
+          32.21589185670018,
+          27.23806964920368,
+          33.791708959732205,
+          32.13440191373229,
+          41.447399189695716,
+          14.113370656967163,
+          31.35381354391575,
+          34.41160334087908,
+          13.99573576822877,
+          34.677256651222706,
+          20.85288245230913,
+          33.3074497282505,
+          31.706832433119416,
+          14.113370604813099,
+          13.860231569036841,
+          39.065782082121586,
+          22.496609268710017,
+          19.479271806427278,
+          24.441814064979553,
+          24.60335803590715,
+          13.860231569036841,
+          34.13589197769761,
+          49.9784789304249,
+          13.860231569036841,
+          46.64023003727198,
+          40.70184062952467,
+          32.64979347959161,
+          21.068178083747625,
+          27.4618024751544,
+          35.09515984088648,
+          48.075541202910244
+        ],
+        [
+          41.79027796682203,
+          33.567333929240704,
+          26.877413786947727,
+          32.200594931375235,
+          31.323559093289077,
+          42.962047858163714,
+          15.382810832932591,
+          30.822605781257153,
+          32.565587533521466,
+          15.409500368405133,
+          33.092245201580226,
+          24.12277795933187,
+          33.648837542161345,
+          32.38731666072272,
+          15.382810587063432,
+          15.315144220367074,
+          40.827106236625696,
+          26.70776256825775,
+          25.568438560701907,
+          29.995565554127097,
+          29.767757318448275,
+          15.315144220367074,
+          35.899030374363065,
+          50.34005148941651,
+          15.315144220367074,
+          57.49484988115728,
+          40.78813287988305,
+          30.595219906419516,
+          23.508928493130952,
+          26.921705389395356,
+          37.52144617214799,
+          48.062685205601156
+        ]
+      ],
+      "horizon_channel_count": [
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ],
+        [
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148,
+          148
+        ]
+      ],
+      "accumulation": "float64",
+      "aggregation": "equal-channel observed macro"
+    },
+    "F_work": [
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      },
+      {
+        "F_logical_streams": 8,
+        "F_physical_streams": 8,
+        "F_calls": 1,
+        "F_invocations": [
+          {
+            "route_id": "B2_pems32_REVIN_OFF_s92601",
+            "input_shape": [
+              1,
+              512,
+              8
+            ],
+            "requested_context": 512,
+            "actual_context": 512,
+            "wrapper_horizon": 12,
+            "used_horizon": 12,
+            "actual_head_horizon": 64,
+            "F_logical_streams": 8,
+            "F_physical_streams": 8,
+            "F_calls": 1,
+            "row_microbatch": 128
+          }
+        ]
+      }
+    ]
+  },
+  "sampling": {
+    "CPU_RSS_sampled_peak_MiB": 1386.90625,
+    "process_GPU_sampled_peak_MiB": null,
+    "process_GPU_sampling_status": "UNAVAILABLE",
+    "process_GPU_sampling_reason": "ModuleNotFoundError: No module named 'pynvml'",
+    "sampling_interval_seconds": 0.05,
+    "sample_count": 8,
+    "samples": [
+      {
+        "phase": "warmup",
+        "elapsed_seconds": 3.400000059627928e-05,
+        "CPU_RSS_MiB": 1386.515625,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "warmup",
+        "elapsed_seconds": 0.05491239999901154,
+        "CPU_RSS_MiB": 1386.6171875,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "warmup",
+        "elapsed_seconds": 0.11655339999924763,
+        "CPU_RSS_MiB": 1386.69140625,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.17788930000097025,
+        "CPU_RSS_MiB": 1386.79296875,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.23985480000192183,
+        "CPU_RSS_MiB": 1386.86328125,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.3027488000006997,
+        "CPU_RSS_MiB": 1386.890625,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.365835500000685,
+        "CPU_RSS_MiB": 1386.8984375,
+        "process_GPU_MiB": null
+      },
+      {
+        "phase": "timed",
+        "elapsed_seconds": 0.40704360000017914,
+        "CPU_RSS_MiB": 1386.90625,
+        "process_GPU_MiB": null
+      }
+    ],
+    "sampled_peaks_are_not_instantaneous_guarantees": true,
+    "scope": "warmups and timed trials plus inter-trial checks/hashing; model load and full V parity excluded"
+  },
+  "timing_origin_bundles": [
+    [
+      12499
+    ],
+    [
+      12511
+    ],
+    [
+      12523
+    ],
+    [
+      12535
+    ],
+    [
+      12547
+    ],
+    [
+      12559
+    ],
+    [
+      12571
+    ],
+    [
+      12583
+    ]
+  ],
+  "request_contract_sha256": "7e9c6ea8ceed15bc6adeee53644c1b3693137058f57e20e8f1429759d11584a8",
+  "route_spec": {
+    "family": "COMBINED",
+    "run_id": "Head_pems32_conditional_s92601",
+    "operation": "conditional",
+    "g_route": {
+      "run_id": "postT_cpu_pems08_E1_SUBSET_DIRECT_G_k0_s92601_C32_priority_v1",
+      "family": "DIRECT_G",
+      "artifact_cache_relative_path": "parents/G_pems32_92601.pt",
+      "artifact_sha256": "8bcc85b1a7d99de25a31ee32e096f1bf6ed4e4076c35a3c41507136ef1c09d8f",
+      "canonical_fit_end": 10713,
+      "latent_k": 0
+    },
+    "b_route": {
+      "run_id": "B2_pems32_REVIN_OFF_s92601",
+      "family": "B2",
+      "artifact_cache_relative_path": "parents/S_pems32_92601.pt",
+      "artifact_sha256": "6a82891560a63ebbba83b575a9f2f2cc80e5a6c0ef5df636e3686aaf7ac37d50",
+      "canonical_fit_end": 10713,
+      "latent_k": 8
+    },
+    "head_state_path": "calibration_heads/Head_pems32_conditional_s92601.pt",
+    "head_state_sha256": "6e8861390668fd2dfc32ba090e7fe12ea5363837e515a2970cc4d9038e559beb"
+  },
+  "prediction_reference_sha256": "fe32785a43a75930a76fda6a3f141969f0591006d848b9d9b9cbf0bee6bdbc57",
+  "producer_sources": {
+    "research/raw_context_multiscale_20261018_v1/common.py": "90e621bbbcf1c8f389332316ccfa0d785cbadaf0d299ac28b4060b2118bfc1f6",
+    "research/raw_context_multiscale_20261018_v1/data.py": "26f74cae954a0842417b18aade2deeb6187acc339dff5cff078cf60d6d2b8a2c",
+    "research/raw_context_multiscale_20261018_v1/models.py": "bf5df3f189116cbf5346cd591b7fdd2ec50f272c5a8771533174535469851542",
+    "research/raw_context_multiscale_20261018_v1/training.py": "1f2e62ec6350a1802c60ee5c9c3a3456b2d17a9786afdb004a5ea20aad7769fd",
+    "research/informs_broad_validation_20261015_v1/priority_b2_validation_20261016_v1/safe_jena_prefix.py": "6b496dcbbb6cef48acb9010c630ed81359a2d60bff89aaec9e9e77c4b6d0b541",
+    "research/informs_broad_validation_20261015_v1/priority_core_followup_20261016_v1/pems_fixed_head_runner.py": "e49457c0598d390822418e06b67a241a38a74afcac036a52b3e340b2248aa6b4",
+    "research/informs_broad_validation_20261015_v1/priority_pems_subset_20261016_v1/subset_minimum_runner.py": "caf332f445121ae03249c23023fde916fefb17ab0eb7685dbd9cefe7be566381",
+    "research/raw_context_multiscale_20261018_v1/costs.py": "73273504101701e052de65cfe893b47cd9732b13c61ec185aad29f661e2d0178",
+    "research/raw_context_multiscale_20261018_v1/deployment.py": "56726f87ce314037602b687b1d050c17770a52e33adb1e942009db0e6b03f813",
+    "research/informs_broad_validation_20261015_v1/deployment.py": "9ccf6a6e142ce49ab3cb1c1a0dc8d1594890f05c3a7dfea80fa217111c57deba",
+    "research/informs_broad_validation_20261015_v1/fit_base.py": "c59cc77ba48e3f061ffa8d2385442286ea989b3ab86c17ea352caeb6d2c1bf20",
+    "research/informs_broad_validation_20261015_v1/training.py": "ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07",
+    "research/informs_broad_validation_20261015_v1/data_contract.py": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+    "research/informs_broad_validation_20261015_v1/evaluation.py": "275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd",
+    "research/informs_broad_validation_20261015_v1/networks.py": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+    "research/informs_broad_validation_20261015_v1/gpu_runtime.py": "c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158",
+    "research/informs_broad_validation_20261015_v1/combination.py": "266986206456312031c618251388793ffae18bf53682e65aa9980156b14cba93",
+    "research/memory_budget_20261018_v1/worker.py": "a3aecb423ac5cf495676e09a78b81003c1ce0886c3f2a0a940d6d38cb895e697",
+    "research/temporal_frontend_campaign_20261015_v1/runtime.py": "a11e7eb6b1c4dc043ff36489ec51688d57b3102a6a2f6cd6666b597986c4e07a"
+  },
+  "producer_environment": {
+    "python": "3.11.16",
+    "numpy": "2.4.6",
+    "torch": "2.10.0+cu128",
+    "cublas_workspace_config": null
+  },
+  "request_binding": {
+    "reference": "cache://cost_requests/Head_pems32_conditional_s92601_native_B1.json",
+    "sha256": "57b6c67f20dd495473b7c5fe57aa203a395825022934159aed09c3195f43c15d"
+  },
+  "trials_sha256": "af34bb282a6dfd0ba6fcbf68e6faf84e0c730dc22c6923efd05a371815b7a1e0"
+}
