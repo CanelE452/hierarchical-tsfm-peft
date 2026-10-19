@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "tests": {
+    "exit_code": 0,
+    "passed": 59,
+    "seconds": 9.64,
+    "command": [
+      "python",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_incremental_models.py",
+      "tests/test_incremental_probes.py",
+      "tests/test_incremental_engine.py",
+      "tests/test_incremental_blocks.py",
+      "tests/test_incremental_costs.py",
+      "tests/test_incremental_report.py",
+      "tests/test_incremental_verify.py",
+      "-q"
+    ],
+    "stdout_summary": "59 passed in 9.64s",
+    "sources": {
+      "tests/test_incremental_models.py": "f3abdd131ea0695ae935ce3ba450d64c2c0cd7fd8ffb6d0147d552d1d9eb5d65",
+      "tests/test_incremental_probes.py": "55ce4a4b1831224e8d50f981ceda40190b00da832dabd2074c9ab21ab3365373",
+      "tests/test_incremental_engine.py": "683c471fabe5491c097f44c60a994399d77c729c275c7eab7f48b094ad43619e",
+      "tests/test_incremental_blocks.py": "87874a2feb73636f047986f63e52ec27a3eca767e15afd8ae2d0517263dfd3eb",
+      "tests/test_incremental_costs.py": "ee3163a75fe3380006a07dc1e299c2bb759398a1e176b88a6c046823528bf151",
+      "tests/test_incremental_report.py": "c9d48b40ada3cf8abae2079f1b21947cc2a35183187dac8f1c4dbb74cb925e9b",
+      "tests/test_incremental_verify.py": "1415b74adbcb1a7f90f96c0e7e9d44c07f384afd64fac092db60e0f45a9d58c3"
+    }
+  },
+  "checks": {
+    "zero_correction_G": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_models.py::test_anchor_parity_zero_and_later_input_gradients"
+      ]
+    },
+    "residual_loss_value_gradient": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_models.py::test_residual_loss_and_gradient_match_masked_channel_macro"
+      ]
+    },
+    "mask_channel_macro": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_models.py::test_residual_loss_and_gradient_match_masked_channel_macro",
+        "tests/test_incremental_probes.py::test_masked_penalty_uses_total_channel_count_and_unpenalized_intercept"
+      ]
+    },
+    "causal_future_canary": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_models.py::test_readout_frozen_parent_and_future_canary",
+        "tests/test_incremental_costs.py::test_g_uses_causal_past_fill_and_no_foundation"
+      ]
+    },
+    "normalization_inverse_once": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_costs.py::test_raw_executes_original_channels_and_single_inverse"
+      ]
+    },
+    "prefix_F_skip_and_concat_parity": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_blocks.py::test_concatenation_matches_block_calls_and_later_block_preserves_prefix",
+        "tests/test_incremental_costs.py::test_C_zero_prefix_is_G_only_without_S_or_model_artifact"
+      ]
+    },
+    "CPU_complete_state_resume": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_engine.py::test_extension_restarts_optimizer_sampler_and_rng_exactly"
+      ]
+    },
+    "parent_gradient_smoke": {
+      "status": "PASS",
+      "evidence": [
+        "SMOKE_jena.json"
+      ]
+    }
+  },
+  "scope": "Focused meaningful CPU tests plus separately recorded actual F-parent input-gradient smoke; actual final array and CUDA resume checks are separate receipts"
+}

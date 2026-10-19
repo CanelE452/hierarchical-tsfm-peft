@@ -1,0 +1,124 @@
+{
+  "schema": "incremental_latent_duplicate_audit_v1",
+  "campaign": "incremental_latent_adaptation_20261019_v1",
+  "status": "CONTRACT_REVIEW_COMPLETE",
+  "base_commit": "451fb6c2b493f501776ecf945cc41913d764d299",
+  "reviewed_utc": "2026-10-19T15:06:11Z",
+  "source_document": {
+    "filename": "CLI_Incremental_Latent_Adaptation_20261019_KO.md",
+    "sha256": "8cece29908bc9e42b0ecd5e34150da5a75e5669312787364beb7075664ea07ad"
+  },
+  "scope": {
+    "review_kind": "bounded source, historical public contract/status and primary literature review",
+    "exhaustive_repository_absence_proof": false,
+    "new_training_launched_by_this_review": false,
+    "project_modules_imported_by_this_review": false,
+    "private_predictions_or_targets_opened_by_this_review": false,
+    "new_V_predictions_or_scores_generated_by_this_review": false,
+    "protected_T_numeric_access_by_this_review": false,
+    "old_campaigns_modified_or_resumed_by_this_review": false,
+    "old_public_status_and_interpretation_reports_read": true,
+    "scientific_result_validation": "Separate parent/data audit and new execution validation required"
+  },
+  "decisions": [
+    {
+      "family": "V9_STAGED_P_AND_RAW",
+      "decision": "NO_EXACT_RESULT_REUSE_FOR_NEW_PHASE_B_OR_C",
+      "confirmed_source_behavior": [
+        "Frozen selected LEVEL parent, retained fixed PCA or original past, zero-initialized shared bias-free 512-32-48 temporal head",
+        "Final forecast equals parent plus one scalar-weighted correction",
+        "Parent and fixed past reconstruction are inside no_grad; P/E/F are not newly trained through the correction",
+        "Jena K6 and Robin K5; full VAL checkpoint and alpha selection; different normalization and update contract"
+      ],
+      "new_contract_difference": [
+        "Jena K12 and PeMS32 K8 fixed A60 G/S parents",
+        "M_fit learning and M_select selection, full M_cal fresh refit",
+        "RESIDUAL_F changes P/E through frozen F input gradients, residual D starts at zero",
+        "Conditional C compares two blocks against JOINT_FULL and JOINT_PREFIX"
+      ],
+      "reusable_principles": ["zero correction preserves parent", "frozen-parent checks", "residual and side-correction interpretation boundary"],
+      "not_reusable_as_new_completed_models": true
+    },
+    {
+      "family": "SMALLK_MAIN_RESIDUAL",
+      "decision": "MATH_AND_AUDIT_REFERENCE_ONLY_NEW_FITS_REQUIRED",
+      "confirmed_source_behavior": [
+        "Frozen MAIN plus residual Ridge on RAW33C, E33K or E512K",
+        "FP32 target minus MAIN before FP64 solver",
+        "16-point means plus last feature summary",
+        "One thin SVD per common observation-mask group reused across alpha values",
+        "Channel-total count across all origins and horizons supplies alpha*N_c penalty; intercept is unpenalized",
+        "Robin and Beijing H48 with FIT/TUNE and historically exposed evaluation"
+      ],
+      "new_contract_difference": [
+        "New residual baseline is fixed G, with Jena and PeMS32 M_fit/M_select cohorts",
+        "New OWN feature is per-channel; ALL uses all 33C features",
+        "New lambda grid is 0.01,0.1,1,10 and exact ties choose larger lambda",
+        "Old correction wrapper enforces H48 and cannot directly serve PeMS H12",
+        "Old candidate selection jointly ranks ZERO,MEAN and seven Ridge candidates by first exact tie"
+      ],
+      "drop_in_old_selector_allowed": false,
+      "drop_in_old_H48_wrapper_for_PeMS_allowed": false,
+      "new_phase_B_training_replaced": 0
+    },
+    {
+      "family": "RAW_CONTEXT_MCAL_ALPHA",
+      "decision": "REUSE_CANDIDATE_CONDITIONAL_ON_EXACT_PARENT_DATA_BINDING",
+      "confirmed_source_behavior": [
+        "Dense M_cal split at chronological 60 percent with crossing target-window purge",
+        "M_fit alpha and M_select scores separated from full M_cal refit alpha",
+        "Registered old combination parents are original Jena K12 cap3 and PeMS K8 OFF cap6, with one G shared across S seeds"
+      ],
+      "required_binding_checks_owned_by_parent_data_audit": ["exact G/S checkpoint and training/selection scope", "scaler", "origins", "original bool observed mask", "channel order", "full-precision prediction identity"],
+      "private_asset_binding_verified_by_this_review": false,
+      "reused_new_phase_B_models": 0
+    },
+    {
+      "family": "RAW_CONTEXT_CONDITIONAL_HEAD",
+      "decision": "NOT_EQUIVALENT_TO_NEW_READOUT_ONLY",
+      "confirmed_source_behavior": ["Fixed G/S predictions and original past feed a separately trained ConditionalHead"],
+      "new_contract_difference": ["READOUT_ONLY freezes exact S P/E/F and trains only zero residual D on the same lag features and new common schedule"],
+      "reused_new_phase_B_models": 0
+    }
+  ],
+  "new_configuration_accounting": {
+    "mandatory_configuration_count": 16,
+    "conditional_configuration_count_maximum": 12,
+    "exact_completed_mandatory_configurations_reused_from_reviewed_old_families": 0,
+    "exact_completed_conditional_configurations_reused_from_reviewed_old_families": 0,
+    "note": "This is a duplicate-contract count, not the campaign execution count. Current execution is recorded separately."
+  },
+  "local_sources": [
+    {"path":"research/tsfm_peft_staged_p_v9_20260929/PRIOR_ART.md","sha256":"67ecd2af7ee12fcc8ce19516bb6274e9289a0236dfe1ef6b3c323d57d1de752d","read_scope":"full"},
+    {"path":"research/tsfm_peft_staged_p_v9_20260929/protocol.json","sha256":"8dd67b06056a5b7fbc00a6e6f19c6839ac75e1900086636b362d69e73dcc0dbb","read_scope":"setup, datasets and first fit entries"},
+    {"path":"research/tsfm_peft_staged_p_v9_20260929/model_v9.py","sha256":"6e2b9a69201f10c1cf9a318da4e28b62725d82ec0619c07c2cb3ccc9b9e9e48b","read_scope":"full"},
+    {"path":"research/tsfm_peft_staged_p_v9_20260929/STATUS.md","sha256":"d3a484aad141c17b8077adb1c4439c7cf8a044752ede913af2dcacd173652b6b","read_scope":"full historical public status; no stored prediction replay"},
+    {"path":"research/smallk_failure_followup_20261014/METHOD_LOCK_MAIN_RESIDUAL_v1.md","sha256":"8b3fe6d4f346aaa0e975908c743a057d2cdc465d43f5e25bc8316cdd6a1e35a0","read_scope":"full"},
+    {"path":"research/smallk_failure_followup_20261014/main_forecast_residual_readout_v1.py","sha256":"47ba5afa771ce0bee990284d23c922492d7f65c90e2ff7d466d758a5a144a379","read_scope":"full"},
+    {"path":"research/smallk_failure_followup_20261014/matched_readout_math_v1.py","sha256":"304b5ae9bf5fa1cc3957cf14c17bea4d2f24fd9c87b00e271e1fc77d01c0088f","read_scope":"feature summaries and prepare_thin_masked_ridge"},
+    {"path":"research/smallk_failure_followup_20261014/stage_separation_math_v1.py","sha256":"8ce0ceb4d7247e05d517f2658aad92e3835e46134cfd48d7c2ad482fe69a2eab","read_scope":"RidgeSolution and PreparedRidge.fit penalty computation"},
+    {"path":"research/smallk_failure_followup_20261014/MAIN_RESIDUAL_INTERPRETATION_KO_v1.md","sha256":"997d3105abc2cc48d1005fb79814dde6df8f708cc2c47d053ec61efd8e47107a","read_scope":"full historical public interpretation; no private arrays opened"},
+    {"path":"research/raw_context_multiscale_20261018_v1/calibration.py","sha256":"b8d11230f9db72db5a4e7e02dd461dcecca6914f1cc5baa055f96aecfd6f37ed","read_scope":"calibration_split, parent scope, alpha diagnostic, head fitting helpers through _recipe"},
+    {"path":"reports/raw_context_multiscale_20261018_v1/EXPERIMENT_PLAN_REPAIR_002.json","sha256":"8750d363940f91b5359d57ae3e903232978d58e9512ae60acf24f50e4364515f","read_scope":"full public plan"}
+  ],
+  "external_reading": [
+    {"id":"CATS2024","primary_url":"https://proceedings.mlr.press/v235/lu24d.html","read_scope":"official publication abstract plus author README and selected Model construction/forward source","code_url":"https://github.com/LJC-FVNR/ARMA-Attention/blob/main/models/CATS.py","full_final_pdf_read":false,"limitations":"Official PDF extraction failed; OpenReview challenge; no full baseline reproduction"},
+    {"id":"AdaPTS2025","primary_url":"https://proceedings.mlr.press/v267/benechehab25a.html","read_scope":"official abstract; MultichannelProjector torch transform/inverse; adapter_supervised_fine_tuning forecast, loss and optimizer/selection code","code_urls":["https://github.com/abenechehab/AdaPTS/blob/main/src/adapts/adapters.py","https://github.com/abenechehab/AdaPTS/blob/main/src/adapts/adapts.py"],"full_final_pdf_read":false,"limitations":"Final proceedings PDF access failed; no full framework reproduction"},
+    {"id":"Friedman2001_and_1999_draft","primary_url":"https://doi.org/10.1214/aos/1013203451","read_text_url":"https://www.cse.iitb.ac.in/~soumen/readings/papers/Friedman1999GreedyFuncApprox.pdf","read_scope":"1999-02-24 draft sections 3,4.1,5 and Algorithm 1/LS Boost/shrinkage","full_final_pdf_read":false,"limitations":"Final DOI resolved to inaccessible iframe; draft is not represented as final paper"},
+    {"id":"sklearn_gradient_boosting","primary_url":"https://scikit-learn.org/stable/modules/ensemble.html#mathematical-formulation","read_scope":"mathematical formulation of additive model and fitting subsequent loss/negative-gradient direction","full_paper_read":false},
+    {"id":"NestedDropout2014","primary_url":"https://proceedings.mlr.press/v32/rippel14.html","read_text_url":"https://proceedings.mlr.press/v32/rippel14.pdf","read_scope":"official abstract; section 2 truncation mixture objective; section 3 special semi-linear PCA conditions","all_proofs_or_experiments_reproduced":false},
+    {"id":"SideTuning2020","primary_url":"https://www.ecva.net/papers/eccv_2020/papers_ECCV/html/1104_ECCV_2020_paper.php","read_text_url":"https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123480698.pdf","read_scope":"residual/boosting relation; section 3 and 3.1 base/side/blending; section 3.2 opening","whole_paper_and_code_reproduced":false},
+    {"id":"CawleyTalbot2010","primary_url":"https://jmlr.org/papers/v11/cawley10a.html","read_scope":"official publication record and abstract","full_paper_read":false},
+    {"id":"PyTorchAutograd","primary_url":"https://docs.pytorch.org/docs/stable/notes/autograd.html","versioned_url":"https://docs.pytorch.org/docs/2.10/notes/autograd.html","read_scope":"requires_grad, no_grad/grad modes and eval; stable redirect observed to 2.14","implementation_behavior_requires_real_smoke":true}
+  ],
+  "claim_boundaries": {
+    "residual_learning_is_new": false,
+    "frozen_base_plus_side_network_is_new": false,
+    "latent_F_input_output_adapter_is_new": false,
+    "using_a_representation_prefix_is_new": false,
+    "sequential_addition_alone_is_new": false,
+    "fair_CATS_or_AdaPTS_superiority_established": false,
+    "new_contribution_established_by_this_review": false,
+    "conditional_empirical_question": "Does a bounded learned latent route through frozen F add value beyond fixed G and matched practical simple alternatives under recorded selection and whole-path cost?"
+  }
+}

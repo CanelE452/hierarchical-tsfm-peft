@@ -1,0 +1,138 @@
+{
+  "campaign": "incremental_latent_adaptation_20261019_v1",
+  "version": 1,
+  "document_sha256": "8cece29908bc9e42b0ecd5e34150da5a75e5669312787364beb7075664ea07ad",
+  "initial_main": "451fb6c2b493f501776ecf945cc41913d764d299",
+  "registration_unix": 1792422768.5689867,
+  "methods": [
+    "RESIDUAL_F",
+    "RESIDUAL_Q",
+    "RESIDUAL_RAW_MLP",
+    "READOUT_ONLY"
+  ],
+  "datasets": [
+    "jena",
+    "pems32"
+  ],
+  "seeds": [
+    92601,
+    92602
+  ],
+  "axes": {
+    "jena": {
+      "C": 21,
+      "K": 12,
+      "L": 512,
+      "H": 48,
+      "N": 20965,
+      "V_origins": 43
+    },
+    "pems32": {
+      "C": 32,
+      "K": 8,
+      "L": 512,
+      "H": 12,
+      "N": 17856,
+      "V_origins": 148
+    }
+  },
+  "correction": "G + phi(z,F(z)) @ zero_initialized_D; no additional x_last",
+  "parents": "exact A60 G single seed92601 and original S Jena K12 cap3 / PeMS K8 cap6",
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0,
+    "clip_norm": 1,
+    "effective_batch": 16,
+    "microbatch": 4,
+    "F_row_microbatch": 128,
+    "dtype": "FP32"
+  },
+  "endpoints": [
+    0,
+    0.25,
+    1,
+    3
+  ],
+  "extension_endpoints": [
+    4,
+    5,
+    6
+  ],
+  "extension_rule": "if any last checkpoint strictly best, all four methods and both seeds for that dataset extend together if complete-group budget fits",
+  "selection": "M_select minimum MSE; exact tie earlier epoch; lambda exact tie larger",
+  "residual_probes": [
+    "ZERO",
+    "MEAN",
+    "OWN",
+    "ALL",
+    "S_DIFF"
+  ],
+  "lambdas": [
+    0.01,
+    0.1,
+    1,
+    10
+  ],
+  "ridge_objective": "for channel c: sum_h sum_i observed*(r-XW-b)^2/N_c + lambda*sum_h ||W_h||^2; intercept unpenalized; normal penalty lambda*N_c",
+  "feature_scaling": "fit features on M_fit only; fresh full-Mcal scaling for refit",
+  "C_gate": "both F seeds beat G; mean F beats min(mean alpha,Q,RAW_MLP,READOUT_ONLY), within numerical-error ties reject; complete-group budget",
+  "C_priority": [
+    "jena",
+    "pems32"
+  ],
+  "C_methods": [
+    "SEQ_BLOCKS",
+    "JOINT_FULL",
+    "JOINT_PREFIX"
+  ],
+  "C_blocks": {
+    "jena": [
+      6,
+      6
+    ],
+    "pems32": [
+      4,
+      4
+    ]
+  },
+  "C_shared_P": "fixed original A60 S",
+  "V_policy": "no new V numeric reads/forecasts until all B/C decisions sealed; evaluate fixed full V once for final models",
+  "T_policy": "no new protected numeric access or full-source numeric hash",
+  "refit": "fresh reset to same A60 parent initialization on full Mcal using selected epoch",
+  "resource_clock": {
+    "NEW_campaign": "incremental_latent_adaptation_20261019_v1",
+    "start_unix": 1792422011,
+    "start_policy": "conservative goal creation before first actual audit; never reset",
+    "wall_limit_seconds": 21600,
+    "gpu_owned_limit_seconds": 14400,
+    "training_deadline_unix": 1792439291,
+    "final_deadline_unix": 1792443611,
+    "report_reserve_fraction": 0.2,
+    "initial_HEAD": "451fb6c2b493f501776ecf945cc41913d764d299",
+    "initial_remote_main": "451fb6c2b493f501776ecf945cc41913d764d299",
+    "branch": "codex/adapter-diagnostics-v2",
+    "managed_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original_HEAD": "c7a06e522e1cd8e100a3e2291a7f693dd3f7125f",
+    "original_status_default_sha256": "614d7291b6b5ca7e580cef0e5a2a74d6a1436693ce80fca419b19311d66ad7ae",
+    "document_sha256": "8cece29908bc9e42b0ecd5e34150da5a75e5669312787364beb7075664ea07ad",
+    "document_lines": 503,
+    "python": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.venv\\Scripts\\python.exe",
+    "captured_unix": 1792422282.121176
+  },
+  "sources": {
+    "research/incremental_latent_adaptation_20261019_v1/models.py": "72e67b26aa555f33fc04ea6cb13fd2cd61f42450b84bd0c9ae9bb00665258fc3",
+    "research/incremental_latent_adaptation_20261019_v1/engine.py": "60720b7def1d82635bb7956555f1fe65db4b6dc93f9d8a824fa17c72ff7d7023",
+    "research/incremental_latent_adaptation_20261019_v1/data_contract.py": "9f92169666d249e20a027a2315073bdc749ed1246d9722aa74f326322a37a455",
+    "research/incremental_latent_adaptation_20261019_v1/probes.py": "47f0240e6b3b9488d9848f1d8f088d920581d62d360f13ed1bcc674d65f002e2",
+    "research/informs_broad_validation_20261015_v1/networks.py": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+    "research/informs_broad_validation_20261015_v1/training.py": "ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07",
+    "research/informs_broad_validation_20261015_v1/gpu_runtime.py": "c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158"
+  },
+  "limitations": [
+    "V repeatedly used development data",
+    "M_select repeated selection",
+    "upstream preprocessing/pretraining overlap unresolved",
+    "two seeds do not give confidence intervals"
+  ]
+}

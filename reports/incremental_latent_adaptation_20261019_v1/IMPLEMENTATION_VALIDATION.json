@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "tests": {
+    "exit_code": 0,
+    "passed": 65,
+    "seconds": 9.98,
+    "command": [
+      "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_incremental_models.py",
+      "tests/test_incremental_probes.py",
+      "tests/test_incremental_engine.py",
+      "tests/test_incremental_blocks.py",
+      "tests/test_incremental_costs.py",
+      "tests/test_incremental_report.py",
+      "tests/test_incremental_verify.py",
+      "tests/test_incremental_finalize.py",
+      "-q"
+    ],
+    "stdout_summary": "65 passed in 9.98s",
+    "sources": {
+      "tests/test_incremental_models.py": "f3abdd131ea0695ae935ce3ba450d64c2c0cd7fd8ffb6d0147d552d1d9eb5d65",
+      "tests/test_incremental_probes.py": "55ce4a4b1831224e8d50f981ceda40190b00da832dabd2074c9ab21ab3365373",
+      "tests/test_incremental_engine.py": "683c471fabe5491c097f44c60a994399d77c729c275c7eab7f48b094ad43619e",
+      "tests/test_incremental_blocks.py": "87874a2feb73636f047986f63e52ec27a3eca767e15afd8ae2d0517263dfd3eb",
+      "tests/test_incremental_costs.py": "636166d757e05fd703f9a1417598378c63ebb2634ac9e368605bffec5b1e1708",
+      "tests/test_incremental_report.py": "1c594f379f9d5319db0b1a4994fedbdc7422052806bf852675e7be2fb4fb61f2",
+      "tests/test_incremental_verify.py": "1415b74adbcb1a7f90f96c0e7e9d44c07f384afd64fac092db60e0f45a9d58c3",
+      "tests/test_incremental_finalize.py": "f31f6250edddd9b5823ce7ea7f4f3ba55c17202baf85feaeeaf436bfb229e41e"
+    },
+    "previous_receipt": "attempts/implementation_tests_001/IMPLEMENTATION_VALIDATION.json"
+  },
+  "checks": {
+    "zero_correction_G": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_models.py::test_anchor_parity_zero_and_later_input_gradients"
+      ]
+    },
+    "residual_loss_value_gradient": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_models.py::test_residual_loss_and_gradient_match_masked_channel_macro"
+      ]
+    },
+    "mask_channel_macro": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_models.py::test_residual_loss_and_gradient_match_masked_channel_macro",
+        "tests/test_incremental_probes.py::test_masked_penalty_uses_total_channel_count_and_unpenalized_intercept"
+      ]
+    },
+    "causal_future_canary": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_models.py::test_readout_frozen_parent_and_future_canary",
+        "tests/test_incremental_costs.py::test_g_uses_causal_past_fill_and_no_foundation"
+      ]
+    },
+    "normalization_inverse_once": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_costs.py::test_raw_executes_original_channels_and_single_inverse"
+      ]
+    },
+    "prefix_F_skip_and_concat_parity": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_blocks.py::test_concatenation_matches_block_calls_and_later_block_preserves_prefix",
+        "tests/test_incremental_costs.py::test_C_zero_prefix_is_G_only_without_S_or_model_artifact"
+      ]
+    },
+    "CPU_complete_state_resume": {
+      "status": "PASS",
+      "evidence": [
+        "tests/test_incremental_engine.py::test_extension_restarts_optimizer_sampler_and_rng_exactly"
+      ]
+    },
+    "parent_gradient_smoke": {
+      "status": "PASS",
+      "evidence": [
+        "SMOKE_jena.json"
+      ]
+    }
+  },
+  "scope": "Current eight focused test files; actual F-parent input-gradient smoke, CUDA next-update resume, final-array FP64 audit and full V C-call parity have separate receipts",
+  "report_post_packaging_tests": {
+    "exit_code": 0,
+    "passed": 6,
+    "seconds": 6.52,
+    "stdout_summary": "6 passed in 6.52s",
+    "command": [
+      "python",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_incremental_report.py",
+      "-q"
+    ],
+    "report_source_sha256": "98537fc4ea912b388c549a71a4ae8fde06de01b346d0a953a8d3e1b769cd4b9e",
+    "scope": "After narrative, seed/prefix/provenance cost columns and publication-scope wording changes"
+  }
+}

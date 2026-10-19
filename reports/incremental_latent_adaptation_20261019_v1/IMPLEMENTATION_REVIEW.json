@@ -1,0 +1,113 @@
+{
+  "schema": "incremental_latent_implementation_review_v1",
+  "reviewed_utc": "2026-10-19T15:31:14Z",
+  "status": "PASS_WITH_DOCUMENTED_NONBLOCKING_LIMITATION",
+  "scope": "Independent bounded source-flow review of execution, selection seals, resume, numerical mask/scalar contracts and final-evaluation entry points. This is not a substitute for final numerical/cost/runtime validation.",
+  "primary_sources": [
+    {"path":"research/incremental_latent_adaptation_20261019_v1/run.py","sha256":"cb3f0601e61bd43958538871239ca98acf942018c4895b3a42bd7306548b87b5","read_scope":"full"},
+    {"path":"research/incremental_latent_adaptation_20261019_v1/evaluate.py","sha256":"28dccce79f73c7b7558e7e1ee572d58b3bbc957aed75d4db85bf69fc92e5d166","read_scope":"full latest source, including repaired save path, F tensor binding and training-information metadata"},
+    {"path":"research/incremental_latent_adaptation_20261019_v1/diagnostics.py","sha256":"08d6c8d5868d994964915321387d5a806048ab7896744a495c478674786d4ba3","read_scope":"full"},
+    {"path":"research/incremental_latent_adaptation_20261019_v1/probes.py","sha256":"47f0240e6b3b9488d9848f1d8f088d920581d62d360f13ed1bcc674d65f002e2","read_scope":"full"}
+  ],
+  "supporting_sources": [
+    {"path":"research/incremental_latent_adaptation_20261019_v1/common.py","sha256":"57d63354f06ea6eada728f427a1cfc57e1d5534b370f219d83862bf6efe13504","read_scope":"full latest source; core registration replay checked against existing plan"},
+    {"path":"research/incremental_latent_adaptation_20261019_v1/c_stage.py","sha256":"0b212bd252fef83fcefbc3015c7b4e641f9db9ce27c927ada2af1a1eea656843","read_scope":"previous implementation review plus counter helper recheck; unchanged during actual C execution"},
+    {"path":"research/informs_broad_validation_20261015_v1/gpu_runtime.py","sha256":"c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158","read_scope":"RowForecaster/FrozenBolt counter names and forward accounting"},
+    {"path":"research/raw_context_multiscale_20261018_v1/common.py","sha256":"90e621bbbcf1c8f389332316ccfa0d785cbadaf0d299ac28b4060b2118bfc1f6","read_scope":"context, inherited resolver import, scoring and save_prediction implementation"}
+  ],
+  "reviewer_actions": {
+    "scientific_or_orchestration_code_modified": false,
+    "actual_training_or_GPU_jobs_launched": false,
+    "actual_V_predictions_targets_or_scores_opened": false,
+    "protected_T_numeric_access": false,
+    "training_checkpoints_deserialized": false,
+    "synthetic_checks": "AST-extracted functions with in-memory stubs; no imported project runtime, real filesystem writes, GPU calls or V reads",
+    "only_owned_persistent_output": "reports/incremental_latent_adaptation_20261019_v1/IMPLEMENTATION_REVIEW.json"
+  },
+  "resolved_findings": [
+    {
+      "id": "B_SEAL_RESUME_TIME_RECOMPUTATION",
+      "priority": 2,
+      "status": "RESOLVED_BY_ROOT_AND_RECHECKED",
+      "file": "research/incremental_latent_adaptation_20261019_v1/run.py",
+      "line": 48,
+      "trigger": "Interruption after B_DECISIONS is sealed but before C_ADMISSION is written",
+      "before": "train_B regenerated available_training_seconds and other time-dependent dataset-decision fields, then attempted to seal unequal B_DECISIONS. This reproducibly raised Preserve prior sealed evidence and blocked that resume path.",
+      "after": "Existing sealed B dataset decisions are reused; model/checkpoint/result identities are still reconstructed and compared by the immutable seal.",
+      "evidence": {
+        "before_fixture": "CONFIRMED_REPLAY_FAILURE: Preserve prior sealed evidence: report/B_DECISIONS.json",
+        "after_fixture": "PASS_AFTER_ROOT_FIX",
+        "fixture": "Both complete synthetic B groups, in-memory B seal retained, C admission removed, synthetic clock advanced from 100 to 200, then train_B rerun",
+        "assertions": ["No worker launched", "B_DECISIONS remained identical", "Original available_training_seconds=99900 retained"],
+        "real_filesystem_writes": 0,
+        "real_GPU_calls": 0,
+        "real_V_reads": 0
+      },
+      "effect_on_running_C": "None; original discovery did not require changing frozen C scientific sources or restarting training"
+    },
+    {
+      "id": "PARTIAL_FINAL_NPZ_CANONICAL_WRITE",
+      "priority": 2,
+      "status": "RESOLVED_BY_ROOT_AND_RECHECKED_BEFORE_FIRST_ACTUAL_V",
+      "file": "research/incremental_latent_adaptation_20261019_v1/evaluate.py",
+      "line": 63,
+      "trigger": "Interruption inside compressed NPZ writing before a per-method final forecast has finished saving",
+      "before": "The inherited saver wrote directly to canonical V.npz with open('xb'). A truncated canonical file would then be opened by np.load on resume, preventing normal replay.",
+      "after": "The new evaluator writes a numbered private attempt path and atomically replaces canonical V.npz only after saving succeeds. Earlier interrupted attempt files remain preserved. Complete canonical files are validated by the inherited saver.",
+      "evidence": {
+        "after_fixture": "PASS_AFTER_ROOT_FIX",
+        "fixture": "Execute the repaired nested save function extracted from its AST with an in-memory NPZ writer that raises InterruptedError during its first write",
+        "assertions": ["Canonical V.npz absent after interrupted first write", "Partial attempt001 preserved", "Second attempt completely saved then renamed to canonical", "Subsequent replay reused complete canonical without another NPZ write"],
+        "real_filesystem_writes": 0,
+        "project_modules_imported": 0,
+        "real_GPU_calls": 0,
+        "real_V_reads": 0
+      },
+      "limitation": "The fixture validates save-control flow and preservation, not real-GPU bitwise repeatability. Actual final prediction binding/parity remains a separate required check."
+    }
+  ],
+  "open_nonblocking_findings": [
+    {
+      "id": "C_AGGREGATE_CALLS_COUNTER_UNAVAILABLE",
+      "priority": 2,
+      "status": "PRESERVE_PRIVATE_HISTORY_AND_REPORT_PUBLIC_NULL",
+      "file": "research/incremental_latent_adaptation_20261019_v1/c_stage.py",
+      "line": 32,
+      "observation": "_foundation_counts requests an attribute named calls with default zero. Actual RowForecaster/FrozenBolt exposes row_calls and physical_calls, not calls. Therefore foundation_counts_all_work.calls=0 is an unavailable-counter fallback, not a measured absence of calls.",
+      "required_public_interpretation": "Report this aggregate legacy calls field as N/A or null with reason attribute absent. Preserve the original private result and frozen scientific source. Never claim no F calls from that zero.",
+      "unaffected_evidence": [
+        "Engine training_F_forward_rows",
+        "Engine gradient-hook training_F_backward_rows",
+        "Engine training_F_physical_rows",
+        "Per-block optimizer updates and target exposures",
+        "Independent deployment/cost worker physical_calls measurements"
+      ],
+      "current_training_blocked": false,
+      "actual_inference_call_verification": "PENDING_REQUIRED_COST_AND_FULL_V_PARITY"
+    }
+  ],
+  "contract_trace_checks": [
+    {"contract":"Mandatory matched B matrix and extension","status":"SOURCE_TRACE_CONFIRMED","evidence":"Four methods times two seeds per dataset; cap extension operates on the complete corresponding group, not only a favorable seed."},
+    {"contract":"Checkpoint and C admission selection","status":"SOURCE_TRACE_CONFIRMED","evidence":"B selected epochs come from M_select results. C gate uses both F seeds against G and full-precision two-seed means against fixed alpha/Q/raw/readout alternatives. No V loader occurs in train_B or finish_training."},
+    {"contract":"All C decisions before new V","status":"SOURCE_TRACE_CONFIRMED","evidence":"finish_training verifies complete required B refits and every admitted C method/seed before SEALED_BEFORE_V; evaluate checks this seal before inherited full-V prefix loading."},
+    {"contract":"Parent and scientific source binding","status":"SOURCE_TRACE_CONFIRMED","evidence":"B worker binds models/engine/data-contract sources, exact G/S artifact/scaler and F identity; C registers blocks/c_stage/models/engine. Worker checks original parent hashes and F invariance after training, and C explicitly checks original A60 P/center."},
+    {"contract":"Observed objective and Ridge scaling","status":"SOURCE_TRACE_CONFIRMED","evidence":"Probe residuals are FP32 Y-G before FP64 fitting, unobserved targets are excluded by original bool masks, fitting feature statistics use M_fit, final statistics use full Mcal. Ridge normal equations add lambda times channel-total observed count across origins and horizons; intercept is unpenalized; no explicit matrix inverse. Exact lambda tie selects larger lambda."},
+    {"contract":"Fixed scalar G/S combinations","status":"SOURCE_TRACE_CONFIRMED","evidence":"Existing fit_alpha_diagnostic supplies M_fit selection coefficients separately from full-Mcal refit coefficients. Evaluator retains alpha 0,0.5,1 and fitted without a new per-channel or per-horizon grid."},
+    {"contract":"Future data excluded from inference path","status":"SOURCE_TRACE_CONFIRMED","evidence":"Model corrections receive only historical normalized x and the foundation callable. Actual deployment receives physical history plus its past bool mask. Targets/masks are loss/scoring inputs, not latent/F forecasting inputs. Original target_window fills unobserved target storage with normalized zero while preserving the false mask."},
+    {"contract":"M_fit-only diagnostics","status":"SOURCE_TRACE_CONFIRMED","evidence":"Diagnostic covariance uses filled past histories and explicitly labels overlapping histories; channel/horizon/time-block scores retain the original target mask. No V loader exists in diagnostics/probes."},
+    {"contract":"Resource clock and resume state","status":"SOURCE_TRACE_CONFIRMED","evidence":"Clock remains anchored at Unix1792422011, training deadline1792439291 and final deadline1792443611. Ledger charges owned GPU worker spawn-to-exit wall. Engine checkpoints bind state/optimizer/sampler/CPU-CUDA RNG, data/source identity and exposures; no clock reset is introduced by these reviewed entry points."}
+  ],
+  "pending_workflow_items_not_classified_as_bugs": [
+    "Completion and binding verification of actual admitted C training group",
+    "Final sealed full-V evaluation and C concat-versus-block-call parity",
+    "Fresh-process whole-path costs including real physical F call counts, memory and raw trials",
+    "Independent saved-prediction FP64 sufficient-statistic replay",
+    "Final claim/report/figure regeneration, publication and remote verification"
+  ],
+  "remaining_blocking_findings_in_reviewed_source": 0,
+  "additional_metadata_checks": [
+    {"case":"register_replay_current_core_scientific_sources","status":"PASS","registered_count":7,"different_paths":[]},
+    {"case":"C_scientific_source_immutability","status":"PASS","source_count":4}
+  ],
+  "interpretation": "The two confirmed interruption/resume failures were repaired by the root and rechecked without actual experimental data. One aggregate C call-count field needs explicit unavailable-counter interpretation. This review does not declare the experiment complete or its scientific claims established."
+}
