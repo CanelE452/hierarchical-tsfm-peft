@@ -1,0 +1,81 @@
+{
+  "schema": "K_TAU_GATE_AUDIT_v1",
+  "status": "STOPPED_AT_G1_PENDING_SCOPE_CLARIFICATION",
+  "campaign": "k_tau_rule_20261023_v1",
+  "base_main": "4aa930e5fb1b85ec5643d9e31116c6bb9d2ce72c",
+  "instruction_path": "C:\\Users\\User\\Downloads\\k_tau_rule_executor_instructions.md",
+  "instruction_sha256": "f93a15da4311c022b7e9d3a2544fa7c3d2efa6e7d64f63d575e4f0d0adf0ad2b",
+  "gates": {
+    "G1": "STOP: historic model initialization already computed PCA eigenvalues for all four named datasets; no evidence found of a previous new K_tau rule computation in examined campaign paths",
+    "G2": "NOT_RUN: no new eigenvalue calculations",
+    "G3": "No raw data, V/T arrays, models, checkpoints or data loaders opened during this audit",
+    "G4": "NOT_COMPLETED: audited training-core source hashes match historical contracts for sampled Jena/ETTh1; full environment/model/data fingerprint and fallback reruns not performed",
+    "G5": "CLARIFY: compare scientific recipe fields; new run_id/source provenance/scientific identity necessarily differ for a new campaign",
+    "G6": "NOT_COMPLETED: historical summary tables read; no independent per-run metric recalculation claimed",
+    "G7": "NOT_COMPLETED",
+    "G8": "Proposed fixed seeds 92601-92610 not changed; no runs started",
+    "G9": "Named functions/keys exist; target namespace did not exist before this audit"
+  },
+  "historical_pca_receipts": [
+    {
+      "path": "reports/memory_budget_20261018_v1/runs/B2_jena_K3_OFF_s92601/cap3/BASE_FIT_RECEIPT.json",
+      "status": "COMPLETE_VALID",
+      "sha256": "c9a6c6db41845dbb3fdda44c60bf417010f04d331e347d6a7c579cc683821798"
+    },
+    {
+      "path": "reports/b2_dataset_search_20261019_v1/datasets/ETTh1/runs/B2_ETTh1_K1_OFF_s92601/cap3/BASE_FIT_RECEIPT.json",
+      "status": "COMPLETE_VALID",
+      "sha256": "5502f01ef6aefbf678de5e5a2360738a6ce9d8bb137401001f987a39b4a6c7ed"
+    },
+    {
+      "path": "reports/b2_dataset_search_20261019_v1/datasets/ETTh2_safe17400/runs/B2_ETTh2_safe17400_K1_OFF_s92601/cap3/BASE_FIT_RECEIPT.json",
+      "status": "COMPLETE_VALID",
+      "sha256": "c9e1ebabf22ecb1107f0bc48ef14c772958deb2fca2dee5a7d97ca1ede6e1137"
+    },
+    {
+      "path": "reports/b2_dataset_search_20261019_v1/datasets/appliances/runs/B2_appliances_K4_OFF_s92601/cap3/BASE_FIT_RECEIPT.json",
+      "status": "COMPLETE_VALID",
+      "sha256": "aa850b4fa886f91dce53ec3a4079c1e7d12f79c4dcd72f27403de6134c7516f7"
+    }
+  ],
+  "source_evidence": [
+    {
+      "path": "research/informs_broad_validation_20261015_v1/data_contract.py",
+      "lines": [
+        109,
+        114,
+        119,
+        128
+      ],
+      "finding": "initialize_pca computes full eigenvalues from standardized training rows"
+    },
+    {
+      "path": "research/informs_broad_validation_20261015_v1/fit_base.py",
+      "lines": [
+        98,
+        103,
+        106
+      ],
+      "finding": "Compressed models invoke PCA and preserve scalar explained variance; K=C uses identity"
+    },
+    {
+      "path": "research/b2_revin_20261018_v1/training_jobs.py",
+      "lines": [
+        46,
+        54,
+        230,
+        237,
+        272,
+        308,
+        314
+      ],
+      "finding": "Existing registry has two-seed/fixed-arm constraints and provenance fields; shared fit_base core can be reused by a new registry wrapper"
+    }
+  ],
+  "proposed_clarification": "See PROPOSED_GATE_CLARIFICATION.md. Do not weaken tau, seeds, recipe, comparison/reuse checks, decisions, protected T policy or budget.",
+  "new_eigenvalue_computations": 0,
+  "training_jobs_started": 0,
+  "models_loaded": 0,
+  "commits_created": 0,
+  "files_changed_outside_new_namespace": 0
+}
