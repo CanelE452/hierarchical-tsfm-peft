@@ -1,0 +1,49 @@
+{
+  "status": "PASS_FOR_PLANNED_SINGLE_CONTINUOUS_TRAIN_PROCESS",
+  "created_unix": 1792719926.6074228,
+  "preregistration_commit": "480c2211af3fd195916645b13ba952084a7b4eb9",
+  "source_review_only": true,
+  "registered_source_hash_matches": {
+    "research/k_tau_rule_20261023_v1/__init__.py": true,
+    "research/k_tau_rule_20261023_v1/analysis.py": true,
+    "research/k_tau_rule_20261023_v1/data.py": true,
+    "research/k_tau_rule_20261023_v1/execute.py": true,
+    "research/k_tau_rule_20261023_v1/runner.py": true,
+    "research/k_tau_rule_20261023_v1/spectrum.py": true,
+    "research/k_tau_rule_20261023_v1/test_analysis.py": true,
+    "research/k_tau_rule_20261023_v1/test_data.py": true,
+    "research/k_tau_rule_20261023_v1/test_execute.py": true,
+    "research/k_tau_rule_20261023_v1/test_runner.py": true,
+    "research/k_tau_rule_20261023_v1/test_spectrum.py": true
+  },
+  "core6_hash_matches": {
+    "fit_base.py": true,
+    "training.py": true,
+    "networks.py": true,
+    "data_contract.py": true,
+    "gpu_runtime.py": true,
+    "evaluation.py": true
+  },
+  "limit_seconds": 24300,
+  "fixed_clock_anchor": 1792718425.745118,
+  "charged_preparation_seconds": 2700,
+  "checks": {
+    "clock": "elapsed=charged_preparation+wall_since_fixed_anchor; no retry/reset changes",
+    "initial_admission": "elapsed + sum(dataset upper per planned remaining job) <= 24300",
+    "G4_failed": "10 main seeds plus 3 historical K x 2 comparison seeds; no historical main reuse",
+    "G4_passed": "reuse first two only for an existing K; otherwise all ten main seeds",
+    "profile": "first fresh new-K job wall time updates remaining admission using max(old upper, measured wall)",
+    "retry": "same job_id; controller and runner permit at most two attempts; checkpoint restoration remains existing core",
+    "overrun": "controller refuses new jobs after global cutoff; current fixed-cap worker has global deadline + 7200",
+    "report": "RUN_PLAN.G4 marks missing comparisons incomplete even with zero comparison rows"
+  },
+  "immediate_blockers": [],
+  "operational_constraint": {
+    "trigger": "train process restart after a completed new-K job",
+    "issue": "cached first job can be remeasured near zero because train() resets measured; prior profile file is not loaded",
+    "mitigation": "Root confirmed single continuous train process; before any restart use saved per-job controller receipts and prior profile in an external admission check"
+  },
+  "prohibited_operations_performed": false,
+  "PCA_or_training_called": false,
+  "namespace_sources_modified": false
+}
