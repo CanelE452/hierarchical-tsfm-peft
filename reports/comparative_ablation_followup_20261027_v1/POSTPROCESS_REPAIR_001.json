@@ -1,0 +1,61 @@
+{
+  "repair_id": "POSTPROCESS_REPAIR_001",
+  "status": "PASS",
+  "created_utc": "2026-10-27T03:40:44.645475+00:00",
+  "created_kst": "2026-10-27T12:40:44.645475+09:00",
+  "reason": "Interim D1 originally requested only A4 while PREDICTION_CHECK also evaluates C2/C3, incorrectly showing existing completed comparator evidence as n=0 INCOMPLETE.",
+  "change": "Interim and final call floors.run with methods=(C2,C3,A4); interim retains include_d0=False and excludes A1/jena extension jobs from the result snapshot.",
+  "scientific_definitions_changed": false,
+  "prediction_thresholds_changed": false,
+  "training_executed": false,
+  "actual_analysis_executed": false,
+  "learning_sources_changed": false,
+  "registered_sources_changed": false,
+  "interim_outputs_existed_at_repair": false,
+  "reporting_source": {
+    "path": "research\\comparative_ablation_followup_20261027_v1\\reporting.py",
+    "before_copy": "reports\\comparative_ablation_followup_20261027_v1\\postprocess_repairs\\reporting_before_001.py",
+    "before_sha256": "e762d8ed6101e7401ab859f7d3d0badadccd285c3c1ca1aa1e51f91f11ea28c8",
+    "after_sha256": "b8ab4abc1f2df9ee5771a257783cd9e829d5153e04aa86d88c23445faceb48d1"
+  },
+  "test_source": {
+    "path": "research/comparative_ablation_followup_20261027_v1/test_reporting.py",
+    "before_sha256": "24ae60b28132205d1a53b5c7b6539030a8ef8d773d4fc53cae743dccd24cff08",
+    "after_sha256": "5966aa180c4de0309a1fb7e10e9320ca342b0137109fa064d9840f77e25465dd"
+  },
+  "frozen_before_sha256": {
+    "research/comparative_ablation_followup_20261027_v1/common.py": "62027d258b352e140d683226e8ec2a4310c1af19212a117bb8f0d0e736941cfa",
+    "research/comparative_ablation_followup_20261027_v1/controller.py": "f34845f4e331cd1fc4dc377454735f97aeef7ce09c48e532b66a782412b22afa",
+    "research/comparative_ablation_followup_20261027_v1/floors.py": "a40fb0a335c568affb0971b61e5ec66c807495bd2c752d34bcfd7ff6e3f07313",
+    "research/comparative_ablation_followup_20261027_v1/job_worker.py": "f6dcd0ffa719ddb7a447ea76cfa5fc1b9b2f858dbb37de0c0435842fb9e1898a",
+    "research/comparative_ablation_20261025_v1/models.py": "9d781503b9cfc7d704a99179cef896665f97f9aad50fbb0528bc59c12a853697",
+    "research/comparative_ablation_20261025_v1/runtime.py": "dac1e4d67b8bdd9e4ad1734628789be46ecea96c855b3c60bca6383dd74998a6",
+    "research/comparative_ablation_20261025_v1/run_one.py": "8c03011340efcc168b08dfbac021ce60ed673a51c5ae487f62605036b6ecadc0",
+    "research/comparative_ablation_20261025_v1/analysis.py": "0a3348cc6a4dcbe16d124a1dd9f12a5c1b184b03c0a4cab4b122b8ea3c231080"
+  },
+  "frozen_after_sha256": {
+    "research/comparative_ablation_followup_20261027_v1/common.py": "62027d258b352e140d683226e8ec2a4310c1af19212a117bb8f0d0e736941cfa",
+    "research/comparative_ablation_followup_20261027_v1/controller.py": "f34845f4e331cd1fc4dc377454735f97aeef7ce09c48e532b66a782412b22afa",
+    "research/comparative_ablation_followup_20261027_v1/floors.py": "a40fb0a335c568affb0971b61e5ec66c807495bd2c752d34bcfd7ff6e3f07313",
+    "research/comparative_ablation_followup_20261027_v1/job_worker.py": "f6dcd0ffa719ddb7a447ea76cfa5fc1b9b2f858dbb37de0c0435842fb9e1898a",
+    "research/comparative_ablation_20261025_v1/models.py": "9d781503b9cfc7d704a99179cef896665f97f9aad50fbb0528bc59c12a853697",
+    "research/comparative_ablation_20261025_v1/runtime.py": "dac1e4d67b8bdd9e4ad1734628789be46ecea96c855b3c60bca6383dd74998a6",
+    "research/comparative_ablation_20261025_v1/run_one.py": "8c03011340efcc168b08dfbac021ce60ed673a51c5ae487f62605036b6ecadc0",
+    "research/comparative_ablation_20261025_v1/analysis.py": "0a3348cc6a4dcbe16d124a1dd9f12a5c1b184b03c0a4cab4b122b8ea3c231080"
+  },
+  "interim_D1_inputs": {
+    "existing_C2_C3_complete_results": 80,
+    "new_comparator_jobs": 0,
+    "existing_only": true,
+    "additional_method": "completed registered A4 results",
+    "no_A1_extension": true
+  },
+  "validation": {
+    "command": "python -B -X utf8 -m pytest --import-mode=importlib research/comparative_ablation_followup_20261027_v1/test_reporting.py -q -p no:cacheprovider",
+    "exit_code": 0,
+    "passed": 28,
+    "seconds": 0.96,
+    "regression": "Mocked interim reporting.run sends all existing C2/C3 plus completed A4 to fixed floors; ETT C2/C3 prediction checks each retain n=10 MATCH, and concurrent A1 extension stays excluded.",
+    "output": "28 passed in 0.96s"
+  }
+}
