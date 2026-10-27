@@ -1,0 +1,996 @@
+{
+  "campaign": "comparative_ablation_followup_20261027_v1",
+  "created_kst": "2026-10-27T10:55:17.039363+09:00",
+  "base_commit": "06f142dbba1ab0370fb69366eb6cd28b721d5505",
+  "training_started": false,
+  "push_authorized": false,
+  "instruction_sha256": "95d26858812925e9b9d8f1fee2c8453696af53b39a2af8ed739620a27877f64d",
+  "verbatim_sections": {
+    "0": "## 0. 목적\n\n첫 캠페인 결과(`06f142db`)에 남은 공백 중 발표에 가장 중요한 두 개를 메운다.\n- D의 순수 효과가 없다(A4 미실행). \"ETT에서 AdaPTS식 어댑터가 무너지는 이유는 마지막 관측값을 압축 없이 더하는 경로가 없어서\"라는 설명이 [추정]으로 남아 있다.\n- Jena에서 A1(No P)의 CONTRIBUTES가 잠정이다. A1은 10 seed 모두 상한 3 epoch를 골랐다(아직 개선 중).\n\n이번 실험이 답할 질문:\n- **Q4 D**: D 구조 전체(마지막 관측값 + 변화량 + lag)를 단순 선형 디코더로 바꾸면 데이터별 V MSE가 얼마나 바뀌나?\n- **Q5 기제**: AdaPTS식 어댑터와 A4의 오차가 \"출력이 K차원 공간에 갇혀 V 구간의 수준 이동을 따라가지 못한다\"로 설명되나?\n- **Q2 갱신**: A1을 10 epoch까지 학습해도 Jena에서 P 효과가 남나?\n\n이번에도 남는 공백(보고서에 명시): Jena 비교의 TIE_PROVISIONAL, lag만의 효과(A5), E의 효과(A3).\n\n결과를 보는 사람: INFORMS 2026 Annual Meeting(11월 1–4일) 발표 청중과 교수님 사전 검토.\n결과로 16·18장의 절제 문장과, 발표에서 P와 D 중 무엇을 중심에 둘지를 정한다.\n\n용어: V(개발용 검증 구간), T(보호 테스트 구간), A_fit(학습 구간), A_stop(선택 구간), A60(재학습 구간), IQR(사분위 범위, Q3 − Q1).\n\n",
+    "3": "## 3. 승인된 고정값 (바꾸지 말 것)\n\n### 실행 대상과 순서\n모두 원 `RUN_PLAN.json`에 있는 job이고, 필드를 그대로 쓴다.\n1. A4 기본 40개.\n   - seed를 데이터 사이에서 돌아가며 실행한다(92601을 4개 데이터에, 그다음 92602 …).\n2. A4가 다 끝나면 중간 분석을 보고한다(4절 Step 2.5). 학습은 멈추지 않고 바로 3으로 넘어간다.\n3. A1/jena 연장 10개(`CA_A1_jena_K6_s{seed}_ext10`).\n\n### 실행하지 않는 것\n- A5, A3, C2·C3의 모든 연장, A1/ETTh2 연장, A4 연장(규칙이 걸려도), RUN_PLAN 밖의 모든 실험.\n- 사유는 NOT_RUN_SCOPE로 기록한다(예산 부족과 구분).\n- A4에서 연장 규칙이 걸리면, 연장 없이 해당 판정에 PROVISIONAL을 붙인다.\n\n### 그대로 유지하는 것\n- 레시피·선택 규칙·지표 정의: 첫 캠페인 등록 코드 그대로.\n- 한 번에 한 실행. 첫 캠페인의 동시 실행 시험이 직렬을 택했다(`CONCURRENCY_PROBE.json`).\n- 실패 처리: 첫 캠페인과 같다. 한 번 재시도하고, 같은 family에서 FAILED가 3개면 그 family를 멈춘다.\n- 진행 파일 교체는 WinError 5/32/33 재시도 수정이 들어간 방식으로 한다(첫 캠페인 `RECOVERY_001.json`).\n\n",
+    "5": "## 5. 정의와 결정 기준\n\n### 기존 기준 (첫 사전 등록 그대로)\n- 절제 판정, spread(비교하는 두 대상의 IQR 중 큰 값), PROVISIONAL, 연장 규칙은 `reports/comparative_ablation_20261025_v1/PREREGISTRATION.md` 그대로 쓴다. 바꾸지 않는다.\n- 해석 고정: A4 대 OURS는 **D 구조 전체**(마지막 관측값 + 변화량 + lag)의 효과다. 마지막 관측값과 lag의 효과를 나눠 말하지 않는다(A5를 돌리지 않으므로).\n- 4개 데이터를 모두 보고하고, 요약은 판정 대상 3개(jena, ETTh1, appliances)로 한다.\n\n### D0 — 고정 PCA 부분공간 하한 (학습 없음)\n데이터마다 등록 로더, A60 scaler, `initialize_pca`와 같은 PCA(K = 등록 K)로 계산한다.\n- **A60 기준값**: A60 누적 설명분산, A60 행의 공간 밖 MSE.\n- **하한**: V 평가 대상점(origin × horizon, 모든 채널이 관측된 점)에서 공간 밖 성분 제곱합 ÷ C의 평균.\n  - 이것이 C1 V MSE의 하한이다.\n  - 일부 채널만 관측된 점은 빼고 그 비율을 보고한다.\n- **추가 값**:\n  - V 에너지(A60 center 기준) 중 공간 밖 비율\n  - V 자체 최적 K차원 공간의 하한\n  - V 평균 이동(채널별, A60 σ 단위)과 그중 공간 밖 성분\n- **점검**: 같은 대상점 집합에서 저장된 C1 예측으로 MSE를 다시 계산하고, 그 값이 하한 이상인지 본다. 어기면 멈추고 보고한다(계산이나 해석 오류).\n- **참고 열**: Raw, C1, C2, C3, OURS, A1의 중앙값.\n\n### D1 — 학습된 디코더 출력 공간 하한 (학습 없음)\n- C2·C3·A4의 출력은 b + (W의 K차원 행공간)에 갇힌다.\n- 각 job의 선택 모델 디코더(W, b)로, V 평가 대상점에서 공간 밖 성분 제곱합 ÷ C의 평균을 계산한다. 대상점 규칙은 D0와 같다.\n- job별로 실제 V MSE(같은 대상점), 하한, 비율(하한 ÷ 실제)을 보고하고, 데이터별 중앙값을 낸다.\n- C3는 디코더 가중치로 계산한다. 출력 공간은 dropout 표본 평균과 무관하다.\n\n### 계획자 예측 (판정이 아니다. 맞았는지 보고만 한다)\n- A4: ETTh1·ETTh2에서 OURS 대비 중앙값이 +50% 이상 높다. Jena·Appliances에서는 |effect| < OURS 중앙값의 10%다.\n- D1: ETTh1·ETTh2에서 A4·C2·C3의 하한이 실제 V MSE의 절반 이상이다.\n- A1/jena 연장: 예측 없음.\n\n이 숫자들은 합의용 임시 기준이다. 결과를 본 뒤 바꾸지 않는다.\n\n",
+    "6": "## 6. 중단 조건\n\n- **게이트 실패**: 멈추고 보고한다.\n- **예산·마감**: 학습 경과 13시간 또는 2026-10-28 00:00 KST 중 먼저 오는 시점이 지나면\n  - 진행 중인 실행만 마치고 새 실행은 시작하지 않는다.\n  - 끝난 것까지로 분석·보고하고, 미완료 family는 n을 표시한다.\n- **실행 실패**: 첫 캠페인 규칙과 같다.\n- **기존 파일 변경**: 원 이름공간이나 이전 캠페인 파일의 hash가 바뀌면 즉시 멈추고 보고한다.\n- **계획 밖 실험 금지**: 시간이 남아도 3절 밖(A5, A3, C2·C3 연장, 다른 K, VAE 계열, T 평가 등)은 시작하지 않는다. 남은 시간만 보고한다.\n\n"
+  },
+  "markdown": "# comparative_ablation_followup_20261027_v1 — 사전등록 추가본\n\n작성: 2026-10-27T10:55:17.039363+09:00\n\n기준 커밋: `06f142dbba1ab0370fb69366eb6cd28b721d5505`\n\n새 학습 전 작성 및 로컬 커밋. 원격 push는 별도 사용자 확인 후에만 수행한다.\n\n## 범위 선택의 시점과 해석\n\nThe subset was chosen after inspecting the first campaign results, to fill the D-whole-structure ablation gap and the provisional Jena No-P result under the available time. Job definitions, seeds, original decision rules, and original training code remain fixed. This is a disclosed post-hoc scope selection, not an outcome-independent choice of which experiments to run.\n\nA4는 D 구조 전체의 효과이며 마지막 관측값과 lag를 분리하지 않는다. V는 개발 평가이며 보호 T 숫자를 읽지 않는다.\n\n## 예산의 실측 갱신\n\nA4 40개: 6.242085시간. A1/Jena 연장 10개: 6.981477시간. 총 13.223562시간 [추정].\n\n지시문의 약 11.3시간은 이전 K_tau 프로파일의 연장 추정에 근거했다. 이번에는 첫 캠페인 A1 실측 search/refit 시간과 실행 부대 시간을 반영한다. A4만으로 13시간 이내이므로 FG6은 통과한다. A4 종료 시 원래 13시간 시계와 2026-10-28 00:00 KST 마감 안에 연장 10개가 모두 끝날 것으로 추정될 때만 묶음으로 진입한다. 그렇지 않으면 10개 모두 NOT_RUN_BUDGET이다. 진행 중인 job은 마친다.\n\n## 학습 전 D0 결과\n\n```csv\ndataset,K,C,status,A60_fit_end,A60_rows,A60_explained_variance,A60_floor_MSE,V_floor_MSE,V_energy_MSE,V_energy_outside_ratio,V_optimal_rankK_floor_MSE,V_mean_shift_vs_A60_causalfilled_mean_outside_MSE,V_mean_shift_vs_A60_observed_scaler_mean_outside_MSE,V_mean_shift_vs_PCA_center_outside_MSE,C1_actual_same_cohort_MSE,C1_floor_fraction,total_points,complete_points,excluded_points,excluded_fraction,rank,rank_tolerance,singular_values,prediction_space_residual_MSE,prediction_space_residual_limit,lower_bound_tolerance,ref_RAW_MSE,ref_RAW_n,ref_RAW_extended,ref_C1_MSE,ref_C1_n,ref_C1_extended,ref_C2_MSE,ref_C2_n,ref_C2_extended,ref_C3_MSE,ref_C3_n,ref_C3_extended,ref_OURS_MSE,ref_OURS_n,ref_OURS_extended,ref_A1_MSE,ref_A1_n,ref_A1_extended\njena,6,21,PASS,12579,12579,0.9088954938978033,0.09110450616819522,0.17473377007276672,1.7812058562879827,0.09809858274153127,0.0830917608024298,0.0034782742251612177,0.0034782693915226424,0.0034782742251611826,1.0794886734636069,0.16186716393431205,2064,2064,0,0.0,6,4.6629367372484656e-15,\"[1.0000000072535422, 1.0000000017066075, 0.9999999978010584, 0.9999999931762075, 0.9999999919005058, 0.9999999813594924]\",2.8939619958931442e-15,2.34134245324924e-09,4.497436158658862e-08,0.8491941389472366,1,False,1.079488673463609,1,False,0.7150672744180276,10,False,0.7157531985161767,10,False,0.6977704154364386,10,False,0.7661766256358824,10,False\nETTh1,4,7,PASS,10452,10452,0.920902503908644,0.07909749545758728,0.46137119957766604,1.0486954431510844,0.43994774897786676,0.008380127262615052,0.42393875764270667,0.4239387520034713,0.42393875764270766,0.7157426458978436,0.6446048760988827,1728,1728,0,0.0,4,1.5543122628030744e-15,\"[1.0000000182253312, 1.0000000109061635, 0.999999990941056, 0.9999999740385206]\",4.867463906247668e-16,5.598986829724595e-10,2.997138140633676e-08,0.28340453716596214,1,False,0.7157426458978442,1,False,0.6783253016312557,10,False,0.6661532687941905,10,False,0.2796426202734389,10,False,0.27922592486593145,10,False\nETTh2_safe17400,4,7,PASS,10440,10440,0.9331520953231541,0.06684790479481184,0.6919420115123488,3.2351327108563814,0.2138836558977461,0.012011489500532649,0.6255406147203003,0.6255406411905314,0.6255406147202999,0.9019343168197984,0.7671756120247447,1728,1728,0,0.0,4,1.5543122576778948e-15,\"[1.0000000149279373, 1.0000000130537563, 0.9999999933121944, 0.9999999729653372]\",4.355788363537078e-15,2.5914146384309333e-09,1.0979897822437694e-07,0.2595548743245539,1,False,0.9019343168197952,1,False,1.0911035753073155,10,False,1.1373325400074006,10,False,0.27723074241953666,10,False,0.263364830221251,10,False\nappliances,10,26,PASS,11841,11841,0.9102052500190577,0.08979474997919101,0.1346360977566276,1.397011742984494,0.09637434934440776,0.04711373391041925,0.03974719945675774,0.03974721035857187,0.03974719945675842,0.41731451276976445,0.3226250073668235,1968,1968,0,0.0,10,5.773159830381884e-15,\"[1.000000017725314, 1.000000008886319, 1.0000000047302275, 1.0000000013575372, 0.9999999997807147, 0.9999999941699032, 0.9999999926088651, 0.9999999850596131, 0.9999999716133186, 0.9999999684177852]\",4.928455309004279e-15,6.753928971647838e-09,5.1518861419486613e-08,0.347579137172896,1,False,0.41731451276976345,1,False,0.32493083911635734,10,False,0.3326621451263595,10,False,0.2820186407011106,10,False,0.283611553958266,10,False\n```\n\n## 기존 C2/C3의 학습 전 D1 요약\n\n```csv\ndataset,method_id,n,expected_n,complete,skipped_n,status,aggregation,floor_MSE_median,actual_same_cohort_MSE_median,floor_fraction_median,excluded_fraction_median,prediction_space_residual_MSE_median\njena,C2,10,10,True,0,PASS,median of primary per-job values; floor_fraction is median of ratios,0.23394020994944809,0.7150672744180272,0.3272373945193644,0.0,3.0099597083953005e-15\njena,C3,10,10,True,0,PASS,median of primary per-job values; floor_fraction is median of ratios,0.2369005951001198,0.7157531985161765,0.3300434416061121,0.0,3.1337815429486736e-15\nETTh1,C2,10,10,True,0,PASS,median of primary per-job values; floor_fraction is median of ratios,0.422568160143868,0.6783253016312547,0.6273893658704971,0.0,5.843683626917032e-16\nETTh1,C3,10,10,True,0,PASS,median of primary per-job values; floor_fraction is median of ratios,0.4137835664582573,0.6661532687941896,0.6295552115427436,0.0,5.145487733394556e-16\nETTh2_safe17400,C2,10,10,True,0,PASS,median of primary per-job values; floor_fraction is median of ratios,0.7732298486640334,1.091103575307315,0.7086150147743007,0.0,2.1004126600114413e-15\nETTh2_safe17400,C3,10,10,True,0,PASS,median of primary per-job values; floor_fraction is median of ratios,0.7983225027161247,1.1373325400074017,0.6922663094775943,0.0,1.9283144170439835e-15\nappliances,C2,10,10,True,0,PASS,median of primary per-job values; floor_fraction is median of ratios,0.15801456960739008,0.324930839116358,0.48500222207384397,0.0,2.239182284017291e-15\nappliances,C3,10,10,True,0,PASS,median of primary per-job values; floor_fraction is median of ratios,0.15544905123552766,0.33266214512636033,0.4717223507909152,0.0,2.1778989637714284e-15\n```\n\n독립 최소제곱 검산과 원 파일 보존 점검은 PASS이며 원본 CSV/검증 영수증 SHA는 JSON에 기록한다.\n\n## 실행 목록과 순서\n\nA4는 seed별 4개 데이터를 순회한 뒤 A1/Jena 연장 10개를 조건부 실행한다.\n\n- `CA_A4_jena_K6_s92601`\n- `CA_A4_ETTh1_K4_s92601`\n- `CA_A4_ETTh2_safe17400_K4_s92601`\n- `CA_A4_appliances_K10_s92601`\n- `CA_A4_jena_K6_s92602`\n- `CA_A4_ETTh1_K4_s92602`\n- `CA_A4_ETTh2_safe17400_K4_s92602`\n- `CA_A4_appliances_K10_s92602`\n- `CA_A4_jena_K6_s92603`\n- `CA_A4_ETTh1_K4_s92603`\n- `CA_A4_ETTh2_safe17400_K4_s92603`\n- `CA_A4_appliances_K10_s92603`\n- `CA_A4_jena_K6_s92604`\n- `CA_A4_ETTh1_K4_s92604`\n- `CA_A4_ETTh2_safe17400_K4_s92604`\n- `CA_A4_appliances_K10_s92604`\n- `CA_A4_jena_K6_s92605`\n- `CA_A4_ETTh1_K4_s92605`\n- `CA_A4_ETTh2_safe17400_K4_s92605`\n- `CA_A4_appliances_K10_s92605`\n- `CA_A4_jena_K6_s92606`\n- `CA_A4_ETTh1_K4_s92606`\n- `CA_A4_ETTh2_safe17400_K4_s92606`\n- `CA_A4_appliances_K10_s92606`\n- `CA_A4_jena_K6_s92607`\n- `CA_A4_ETTh1_K4_s92607`\n- `CA_A4_ETTh2_safe17400_K4_s92607`\n- `CA_A4_appliances_K10_s92607`\n- `CA_A4_jena_K6_s92608`\n- `CA_A4_ETTh1_K4_s92608`\n- `CA_A4_ETTh2_safe17400_K4_s92608`\n- `CA_A4_appliances_K10_s92608`\n- `CA_A4_jena_K6_s92609`\n- `CA_A4_ETTh1_K4_s92609`\n- `CA_A4_ETTh2_safe17400_K4_s92609`\n- `CA_A4_appliances_K10_s92609`\n- `CA_A4_jena_K6_s92610`\n- `CA_A4_ETTh1_K4_s92610`\n- `CA_A4_ETTh2_safe17400_K4_s92610`\n- `CA_A4_appliances_K10_s92610`\n- `CA_A1_jena_K6_s92601_ext10`\n- `CA_A1_jena_K6_s92602_ext10`\n- `CA_A1_jena_K6_s92603_ext10`\n- `CA_A1_jena_K6_s92604_ext10`\n- `CA_A1_jena_K6_s92605_ext10`\n- `CA_A1_jena_K6_s92606_ext10`\n- `CA_A1_jena_K6_s92607_ext10`\n- `CA_A1_jena_K6_s92608_ext10`\n- `CA_A1_jena_K6_s92609_ext10`\n- `CA_A1_jena_K6_s92610_ext10`\n\n## 지시문 원문: 0·3·5·6절\n\n## 0. 목적\n\n첫 캠페인 결과(`06f142db`)에 남은 공백 중 발표에 가장 중요한 두 개를 메운다.\n- D의 순수 효과가 없다(A4 미실행). \"ETT에서 AdaPTS식 어댑터가 무너지는 이유는 마지막 관측값을 압축 없이 더하는 경로가 없어서\"라는 설명이 [추정]으로 남아 있다.\n- Jena에서 A1(No P)의 CONTRIBUTES가 잠정이다. A1은 10 seed 모두 상한 3 epoch를 골랐다(아직 개선 중).\n\n이번 실험이 답할 질문:\n- **Q4 D**: D 구조 전체(마지막 관측값 + 변화량 + lag)를 단순 선형 디코더로 바꾸면 데이터별 V MSE가 얼마나 바뀌나?\n- **Q5 기제**: AdaPTS식 어댑터와 A4의 오차가 \"출력이 K차원 공간에 갇혀 V 구간의 수준 이동을 따라가지 못한다\"로 설명되나?\n- **Q2 갱신**: A1을 10 epoch까지 학습해도 Jena에서 P 효과가 남나?\n\n이번에도 남는 공백(보고서에 명시): Jena 비교의 TIE_PROVISIONAL, lag만의 효과(A5), E의 효과(A3).\n\n결과를 보는 사람: INFORMS 2026 Annual Meeting(11월 1–4일) 발표 청중과 교수님 사전 검토.\n결과로 16·18장의 절제 문장과, 발표에서 P와 D 중 무엇을 중심에 둘지를 정한다.\n\n용어: V(개발용 검증 구간), T(보호 테스트 구간), A_fit(학습 구간), A_stop(선택 구간), A60(재학습 구간), IQR(사분위 범위, Q3 − Q1).\n\n\n## 3. 승인된 고정값 (바꾸지 말 것)\n\n### 실행 대상과 순서\n모두 원 `RUN_PLAN.json`에 있는 job이고, 필드를 그대로 쓴다.\n1. A4 기본 40개.\n   - seed를 데이터 사이에서 돌아가며 실행한다(92601을 4개 데이터에, 그다음 92602 …).\n2. A4가 다 끝나면 중간 분석을 보고한다(4절 Step 2.5). 학습은 멈추지 않고 바로 3으로 넘어간다.\n3. A1/jena 연장 10개(`CA_A1_jena_K6_s{seed}_ext10`).\n\n### 실행하지 않는 것\n- A5, A3, C2·C3의 모든 연장, A1/ETTh2 연장, A4 연장(규칙이 걸려도), RUN_PLAN 밖의 모든 실험.\n- 사유는 NOT_RUN_SCOPE로 기록한다(예산 부족과 구분).\n- A4에서 연장 규칙이 걸리면, 연장 없이 해당 판정에 PROVISIONAL을 붙인다.\n\n### 그대로 유지하는 것\n- 레시피·선택 규칙·지표 정의: 첫 캠페인 등록 코드 그대로.\n- 한 번에 한 실행. 첫 캠페인의 동시 실행 시험이 직렬을 택했다(`CONCURRENCY_PROBE.json`).\n- 실패 처리: 첫 캠페인과 같다. 한 번 재시도하고, 같은 family에서 FAILED가 3개면 그 family를 멈춘다.\n- 진행 파일 교체는 WinError 5/32/33 재시도 수정이 들어간 방식으로 한다(첫 캠페인 `RECOVERY_001.json`).\n\n\n## 5. 정의와 결정 기준\n\n### 기존 기준 (첫 사전 등록 그대로)\n- 절제 판정, spread(비교하는 두 대상의 IQR 중 큰 값), PROVISIONAL, 연장 규칙은 `reports/comparative_ablation_20261025_v1/PREREGISTRATION.md` 그대로 쓴다. 바꾸지 않는다.\n- 해석 고정: A4 대 OURS는 **D 구조 전체**(마지막 관측값 + 변화량 + lag)의 효과다. 마지막 관측값과 lag의 효과를 나눠 말하지 않는다(A5를 돌리지 않으므로).\n- 4개 데이터를 모두 보고하고, 요약은 판정 대상 3개(jena, ETTh1, appliances)로 한다.\n\n### D0 — 고정 PCA 부분공간 하한 (학습 없음)\n데이터마다 등록 로더, A60 scaler, `initialize_pca`와 같은 PCA(K = 등록 K)로 계산한다.\n- **A60 기준값**: A60 누적 설명분산, A60 행의 공간 밖 MSE.\n- **하한**: V 평가 대상점(origin × horizon, 모든 채널이 관측된 점)에서 공간 밖 성분 제곱합 ÷ C의 평균.\n  - 이것이 C1 V MSE의 하한이다.\n  - 일부 채널만 관측된 점은 빼고 그 비율을 보고한다.\n- **추가 값**:\n  - V 에너지(A60 center 기준) 중 공간 밖 비율\n  - V 자체 최적 K차원 공간의 하한\n  - V 평균 이동(채널별, A60 σ 단위)과 그중 공간 밖 성분\n- **점검**: 같은 대상점 집합에서 저장된 C1 예측으로 MSE를 다시 계산하고, 그 값이 하한 이상인지 본다. 어기면 멈추고 보고한다(계산이나 해석 오류).\n- **참고 열**: Raw, C1, C2, C3, OURS, A1의 중앙값.\n\n### D1 — 학습된 디코더 출력 공간 하한 (학습 없음)\n- C2·C3·A4의 출력은 b + (W의 K차원 행공간)에 갇힌다.\n- 각 job의 선택 모델 디코더(W, b)로, V 평가 대상점에서 공간 밖 성분 제곱합 ÷ C의 평균을 계산한다. 대상점 규칙은 D0와 같다.\n- job별로 실제 V MSE(같은 대상점), 하한, 비율(하한 ÷ 실제)을 보고하고, 데이터별 중앙값을 낸다.\n- C3는 디코더 가중치로 계산한다. 출력 공간은 dropout 표본 평균과 무관하다.\n\n### 계획자 예측 (판정이 아니다. 맞았는지 보고만 한다)\n- A4: ETTh1·ETTh2에서 OURS 대비 중앙값이 +50% 이상 높다. Jena·Appliances에서는 |effect| < OURS 중앙값의 10%다.\n- D1: ETTh1·ETTh2에서 A4·C2·C3의 하한이 실제 V MSE의 절반 이상이다.\n- A1/jena 연장: 예측 없음.\n\n이 숫자들은 합의용 임시 기준이다. 결과를 본 뒤 바꾸지 않는다.\n\n\n## 6. 중단 조건\n\n- **게이트 실패**: 멈추고 보고한다.\n- **예산·마감**: 학습 경과 13시간 또는 2026-10-28 00:00 KST 중 먼저 오는 시점이 지나면\n  - 진행 중인 실행만 마치고 새 실행은 시작하지 않는다.\n  - 끝난 것까지로 분석·보고하고, 미완료 family는 n을 표시한다.\n- **실행 실패**: 첫 캠페인 규칙과 같다.\n- **기존 파일 변경**: 원 이름공간이나 이전 캠페인 파일의 hash가 바뀌면 즉시 멈추고 보고한다.\n- **계획 밖 실험 금지**: 시간이 남아도 3절 밖(A5, A3, C2·C3 연장, 다른 K, VAE 계열, T 평가 등)은 시작하지 않는다. 남은 시간만 보고한다.\n\n",
+  "scope_selection_disclosure": "The subset was chosen after inspecting the first campaign results, to fill the D-whole-structure ablation gap and the provisional Jena No-P result under the available time. Job definitions, seeds, original decision rules, and original training code remain fixed. This is a disclosed post-hoc scope selection, not an outcome-independent choice of which experiments to run.",
+  "D0_before_A4": [
+    {
+      "dataset": "jena",
+      "K": "6",
+      "C": "21",
+      "status": "PASS",
+      "A60_fit_end": "12579",
+      "A60_rows": "12579",
+      "A60_explained_variance": "0.9088954938978033",
+      "A60_floor_MSE": "0.09110450616819522",
+      "V_floor_MSE": "0.17473377007276672",
+      "V_energy_MSE": "1.7812058562879827",
+      "V_energy_outside_ratio": "0.09809858274153127",
+      "V_optimal_rankK_floor_MSE": "0.0830917608024298",
+      "V_mean_shift_vs_A60_causalfilled_mean_outside_MSE": "0.0034782742251612177",
+      "V_mean_shift_vs_A60_observed_scaler_mean_outside_MSE": "0.0034782693915226424",
+      "V_mean_shift_vs_PCA_center_outside_MSE": "0.0034782742251611826",
+      "C1_actual_same_cohort_MSE": "1.0794886734636069",
+      "C1_floor_fraction": "0.16186716393431205",
+      "total_points": "2064",
+      "complete_points": "2064",
+      "excluded_points": "0",
+      "excluded_fraction": "0.0",
+      "rank": "6",
+      "rank_tolerance": "4.6629367372484656e-15",
+      "singular_values": "[1.0000000072535422, 1.0000000017066075, 0.9999999978010584, 0.9999999931762075, 0.9999999919005058, 0.9999999813594924]",
+      "prediction_space_residual_MSE": "2.8939619958931442e-15",
+      "prediction_space_residual_limit": "2.34134245324924e-09",
+      "lower_bound_tolerance": "4.497436158658862e-08",
+      "ref_RAW_MSE": "0.8491941389472366",
+      "ref_RAW_n": "1",
+      "ref_RAW_extended": "False",
+      "ref_C1_MSE": "1.079488673463609",
+      "ref_C1_n": "1",
+      "ref_C1_extended": "False",
+      "ref_C2_MSE": "0.7150672744180276",
+      "ref_C2_n": "10",
+      "ref_C2_extended": "False",
+      "ref_C3_MSE": "0.7157531985161767",
+      "ref_C3_n": "10",
+      "ref_C3_extended": "False",
+      "ref_OURS_MSE": "0.6977704154364386",
+      "ref_OURS_n": "10",
+      "ref_OURS_extended": "False",
+      "ref_A1_MSE": "0.7661766256358824",
+      "ref_A1_n": "10",
+      "ref_A1_extended": "False"
+    },
+    {
+      "dataset": "ETTh1",
+      "K": "4",
+      "C": "7",
+      "status": "PASS",
+      "A60_fit_end": "10452",
+      "A60_rows": "10452",
+      "A60_explained_variance": "0.920902503908644",
+      "A60_floor_MSE": "0.07909749545758728",
+      "V_floor_MSE": "0.46137119957766604",
+      "V_energy_MSE": "1.0486954431510844",
+      "V_energy_outside_ratio": "0.43994774897786676",
+      "V_optimal_rankK_floor_MSE": "0.008380127262615052",
+      "V_mean_shift_vs_A60_causalfilled_mean_outside_MSE": "0.42393875764270667",
+      "V_mean_shift_vs_A60_observed_scaler_mean_outside_MSE": "0.4239387520034713",
+      "V_mean_shift_vs_PCA_center_outside_MSE": "0.42393875764270766",
+      "C1_actual_same_cohort_MSE": "0.7157426458978436",
+      "C1_floor_fraction": "0.6446048760988827",
+      "total_points": "1728",
+      "complete_points": "1728",
+      "excluded_points": "0",
+      "excluded_fraction": "0.0",
+      "rank": "4",
+      "rank_tolerance": "1.5543122628030744e-15",
+      "singular_values": "[1.0000000182253312, 1.0000000109061635, 0.999999990941056, 0.9999999740385206]",
+      "prediction_space_residual_MSE": "4.867463906247668e-16",
+      "prediction_space_residual_limit": "5.598986829724595e-10",
+      "lower_bound_tolerance": "2.997138140633676e-08",
+      "ref_RAW_MSE": "0.28340453716596214",
+      "ref_RAW_n": "1",
+      "ref_RAW_extended": "False",
+      "ref_C1_MSE": "0.7157426458978442",
+      "ref_C1_n": "1",
+      "ref_C1_extended": "False",
+      "ref_C2_MSE": "0.6783253016312557",
+      "ref_C2_n": "10",
+      "ref_C2_extended": "False",
+      "ref_C3_MSE": "0.6661532687941905",
+      "ref_C3_n": "10",
+      "ref_C3_extended": "False",
+      "ref_OURS_MSE": "0.2796426202734389",
+      "ref_OURS_n": "10",
+      "ref_OURS_extended": "False",
+      "ref_A1_MSE": "0.27922592486593145",
+      "ref_A1_n": "10",
+      "ref_A1_extended": "False"
+    },
+    {
+      "dataset": "ETTh2_safe17400",
+      "K": "4",
+      "C": "7",
+      "status": "PASS",
+      "A60_fit_end": "10440",
+      "A60_rows": "10440",
+      "A60_explained_variance": "0.9331520953231541",
+      "A60_floor_MSE": "0.06684790479481184",
+      "V_floor_MSE": "0.6919420115123488",
+      "V_energy_MSE": "3.2351327108563814",
+      "V_energy_outside_ratio": "0.2138836558977461",
+      "V_optimal_rankK_floor_MSE": "0.012011489500532649",
+      "V_mean_shift_vs_A60_causalfilled_mean_outside_MSE": "0.6255406147203003",
+      "V_mean_shift_vs_A60_observed_scaler_mean_outside_MSE": "0.6255406411905314",
+      "V_mean_shift_vs_PCA_center_outside_MSE": "0.6255406147202999",
+      "C1_actual_same_cohort_MSE": "0.9019343168197984",
+      "C1_floor_fraction": "0.7671756120247447",
+      "total_points": "1728",
+      "complete_points": "1728",
+      "excluded_points": "0",
+      "excluded_fraction": "0.0",
+      "rank": "4",
+      "rank_tolerance": "1.5543122576778948e-15",
+      "singular_values": "[1.0000000149279373, 1.0000000130537563, 0.9999999933121944, 0.9999999729653372]",
+      "prediction_space_residual_MSE": "4.355788363537078e-15",
+      "prediction_space_residual_limit": "2.5914146384309333e-09",
+      "lower_bound_tolerance": "1.0979897822437694e-07",
+      "ref_RAW_MSE": "0.2595548743245539",
+      "ref_RAW_n": "1",
+      "ref_RAW_extended": "False",
+      "ref_C1_MSE": "0.9019343168197952",
+      "ref_C1_n": "1",
+      "ref_C1_extended": "False",
+      "ref_C2_MSE": "1.0911035753073155",
+      "ref_C2_n": "10",
+      "ref_C2_extended": "False",
+      "ref_C3_MSE": "1.1373325400074006",
+      "ref_C3_n": "10",
+      "ref_C3_extended": "False",
+      "ref_OURS_MSE": "0.27723074241953666",
+      "ref_OURS_n": "10",
+      "ref_OURS_extended": "False",
+      "ref_A1_MSE": "0.263364830221251",
+      "ref_A1_n": "10",
+      "ref_A1_extended": "False"
+    },
+    {
+      "dataset": "appliances",
+      "K": "10",
+      "C": "26",
+      "status": "PASS",
+      "A60_fit_end": "11841",
+      "A60_rows": "11841",
+      "A60_explained_variance": "0.9102052500190577",
+      "A60_floor_MSE": "0.08979474997919101",
+      "V_floor_MSE": "0.1346360977566276",
+      "V_energy_MSE": "1.397011742984494",
+      "V_energy_outside_ratio": "0.09637434934440776",
+      "V_optimal_rankK_floor_MSE": "0.04711373391041925",
+      "V_mean_shift_vs_A60_causalfilled_mean_outside_MSE": "0.03974719945675774",
+      "V_mean_shift_vs_A60_observed_scaler_mean_outside_MSE": "0.03974721035857187",
+      "V_mean_shift_vs_PCA_center_outside_MSE": "0.03974719945675842",
+      "C1_actual_same_cohort_MSE": "0.41731451276976445",
+      "C1_floor_fraction": "0.3226250073668235",
+      "total_points": "1968",
+      "complete_points": "1968",
+      "excluded_points": "0",
+      "excluded_fraction": "0.0",
+      "rank": "10",
+      "rank_tolerance": "5.773159830381884e-15",
+      "singular_values": "[1.000000017725314, 1.000000008886319, 1.0000000047302275, 1.0000000013575372, 0.9999999997807147, 0.9999999941699032, 0.9999999926088651, 0.9999999850596131, 0.9999999716133186, 0.9999999684177852]",
+      "prediction_space_residual_MSE": "4.928455309004279e-15",
+      "prediction_space_residual_limit": "6.753928971647838e-09",
+      "lower_bound_tolerance": "5.1518861419486613e-08",
+      "ref_RAW_MSE": "0.347579137172896",
+      "ref_RAW_n": "1",
+      "ref_RAW_extended": "False",
+      "ref_C1_MSE": "0.41731451276976345",
+      "ref_C1_n": "1",
+      "ref_C1_extended": "False",
+      "ref_C2_MSE": "0.32493083911635734",
+      "ref_C2_n": "10",
+      "ref_C2_extended": "False",
+      "ref_C3_MSE": "0.3326621451263595",
+      "ref_C3_n": "10",
+      "ref_C3_extended": "False",
+      "ref_OURS_MSE": "0.2820186407011106",
+      "ref_OURS_n": "10",
+      "ref_OURS_extended": "False",
+      "ref_A1_MSE": "0.283611553958266",
+      "ref_A1_n": "10",
+      "ref_A1_extended": "False"
+    }
+  ],
+  "D1_C2_C3_before_A4": [
+    {
+      "dataset": "jena",
+      "method_id": "C2",
+      "n": "10",
+      "expected_n": "10",
+      "complete": "True",
+      "skipped_n": "0",
+      "status": "PASS",
+      "aggregation": "median of primary per-job values; floor_fraction is median of ratios",
+      "floor_MSE_median": "0.23394020994944809",
+      "actual_same_cohort_MSE_median": "0.7150672744180272",
+      "floor_fraction_median": "0.3272373945193644",
+      "excluded_fraction_median": "0.0",
+      "prediction_space_residual_MSE_median": "3.0099597083953005e-15"
+    },
+    {
+      "dataset": "jena",
+      "method_id": "C3",
+      "n": "10",
+      "expected_n": "10",
+      "complete": "True",
+      "skipped_n": "0",
+      "status": "PASS",
+      "aggregation": "median of primary per-job values; floor_fraction is median of ratios",
+      "floor_MSE_median": "0.2369005951001198",
+      "actual_same_cohort_MSE_median": "0.7157531985161765",
+      "floor_fraction_median": "0.3300434416061121",
+      "excluded_fraction_median": "0.0",
+      "prediction_space_residual_MSE_median": "3.1337815429486736e-15"
+    },
+    {
+      "dataset": "ETTh1",
+      "method_id": "C2",
+      "n": "10",
+      "expected_n": "10",
+      "complete": "True",
+      "skipped_n": "0",
+      "status": "PASS",
+      "aggregation": "median of primary per-job values; floor_fraction is median of ratios",
+      "floor_MSE_median": "0.422568160143868",
+      "actual_same_cohort_MSE_median": "0.6783253016312547",
+      "floor_fraction_median": "0.6273893658704971",
+      "excluded_fraction_median": "0.0",
+      "prediction_space_residual_MSE_median": "5.843683626917032e-16"
+    },
+    {
+      "dataset": "ETTh1",
+      "method_id": "C3",
+      "n": "10",
+      "expected_n": "10",
+      "complete": "True",
+      "skipped_n": "0",
+      "status": "PASS",
+      "aggregation": "median of primary per-job values; floor_fraction is median of ratios",
+      "floor_MSE_median": "0.4137835664582573",
+      "actual_same_cohort_MSE_median": "0.6661532687941896",
+      "floor_fraction_median": "0.6295552115427436",
+      "excluded_fraction_median": "0.0",
+      "prediction_space_residual_MSE_median": "5.145487733394556e-16"
+    },
+    {
+      "dataset": "ETTh2_safe17400",
+      "method_id": "C2",
+      "n": "10",
+      "expected_n": "10",
+      "complete": "True",
+      "skipped_n": "0",
+      "status": "PASS",
+      "aggregation": "median of primary per-job values; floor_fraction is median of ratios",
+      "floor_MSE_median": "0.7732298486640334",
+      "actual_same_cohort_MSE_median": "1.091103575307315",
+      "floor_fraction_median": "0.7086150147743007",
+      "excluded_fraction_median": "0.0",
+      "prediction_space_residual_MSE_median": "2.1004126600114413e-15"
+    },
+    {
+      "dataset": "ETTh2_safe17400",
+      "method_id": "C3",
+      "n": "10",
+      "expected_n": "10",
+      "complete": "True",
+      "skipped_n": "0",
+      "status": "PASS",
+      "aggregation": "median of primary per-job values; floor_fraction is median of ratios",
+      "floor_MSE_median": "0.7983225027161247",
+      "actual_same_cohort_MSE_median": "1.1373325400074017",
+      "floor_fraction_median": "0.6922663094775943",
+      "excluded_fraction_median": "0.0",
+      "prediction_space_residual_MSE_median": "1.9283144170439835e-15"
+    },
+    {
+      "dataset": "appliances",
+      "method_id": "C2",
+      "n": "10",
+      "expected_n": "10",
+      "complete": "True",
+      "skipped_n": "0",
+      "status": "PASS",
+      "aggregation": "median of primary per-job values; floor_fraction is median of ratios",
+      "floor_MSE_median": "0.15801456960739008",
+      "actual_same_cohort_MSE_median": "0.324930839116358",
+      "floor_fraction_median": "0.48500222207384397",
+      "excluded_fraction_median": "0.0",
+      "prediction_space_residual_MSE_median": "2.239182284017291e-15"
+    },
+    {
+      "dataset": "appliances",
+      "method_id": "C3",
+      "n": "10",
+      "expected_n": "10",
+      "complete": "True",
+      "skipped_n": "0",
+      "status": "PASS",
+      "aggregation": "median of primary per-job values; floor_fraction is median of ratios",
+      "floor_MSE_median": "0.15544905123552766",
+      "actual_same_cohort_MSE_median": "0.33266214512636033",
+      "floor_fraction_median": "0.4717223507909152",
+      "excluded_fraction_median": "0.0",
+      "prediction_space_residual_MSE_median": "2.1778989637714284e-15"
+    }
+  ],
+  "planner_predictions": {
+    "A4_ETTh1_ETTh2": "median V MSE effect versus OURS >= +50 percent",
+    "A4_jena_appliances": "absolute median V MSE effect versus OURS < 10 percent",
+    "D1_ETTh1_ETTh2_A4_C2_C3": "median per-job floor/actual V MSE ratio >= 0.5",
+    "A1_jena_extension": "No prediction",
+    "role": "Fixed descriptive predictions, not replacement decision rules"
+  },
+  "budget": {
+    "status": "PASS_A4_WITHIN_LIMIT",
+    "basis": "Original campaign actual RUNS stage times and RESULT elapsed_seconds; no followup outcomes used.",
+    "per_dataset_a4_seconds": {
+      "jena": 724.6284093737602,
+      "ETTh1": 528.3225228786469,
+      "ETTh2_safe17400": 525.0935826897621,
+      "appliances": 469.1060230255127
+    },
+    "a1_jena_extension_seconds_per_job": 2513.331863030691,
+    "A4_40_estimated_seconds": 22471.50537967682,
+    "A1_jena_10_estimated_seconds": 25133.31863030691,
+    "all_50_estimated_seconds": 47604.82400998373,
+    "limit_seconds": 46800,
+    "latest_start": "2026-10-28T00:00:00+09:00",
+    "profiles": {
+      "jena": {
+        "n": 20,
+        "proxy_methods": [
+          "A1",
+          "A2"
+        ],
+        "mean_stage_seconds": 714.2519561400229,
+        "mean_job_elapsed_seconds": 724.6284093737602,
+        "max_job_elapsed_seconds": 1001.3576462268829,
+        "job_ids": [
+          "CA_A1_jena_K6_s92601",
+          "CA_A1_jena_K6_s92602",
+          "CA_A1_jena_K6_s92603",
+          "CA_A1_jena_K6_s92604",
+          "CA_A1_jena_K6_s92605",
+          "CA_A1_jena_K6_s92606",
+          "CA_A1_jena_K6_s92607",
+          "CA_A1_jena_K6_s92608",
+          "CA_A1_jena_K6_s92609",
+          "CA_A1_jena_K6_s92610",
+          "CA_A2_jena_K6_s92601",
+          "CA_A2_jena_K6_s92602",
+          "CA_A2_jena_K6_s92603",
+          "CA_A2_jena_K6_s92604",
+          "CA_A2_jena_K6_s92605",
+          "CA_A2_jena_K6_s92606",
+          "CA_A2_jena_K6_s92607",
+          "CA_A2_jena_K6_s92608",
+          "CA_A2_jena_K6_s92609",
+          "CA_A2_jena_K6_s92610"
+        ]
+      },
+      "ETTh1": {
+        "n": 20,
+        "proxy_methods": [
+          "A1",
+          "A2"
+        ],
+        "mean_stage_seconds": 520.2374284999853,
+        "mean_job_elapsed_seconds": 528.3225228786469,
+        "max_job_elapsed_seconds": 801.7584314346313,
+        "job_ids": [
+          "CA_A1_ETTh1_K4_s92601",
+          "CA_A1_ETTh1_K4_s92602",
+          "CA_A1_ETTh1_K4_s92603",
+          "CA_A1_ETTh1_K4_s92604",
+          "CA_A1_ETTh1_K4_s92605",
+          "CA_A1_ETTh1_K4_s92606",
+          "CA_A1_ETTh1_K4_s92607",
+          "CA_A1_ETTh1_K4_s92608",
+          "CA_A1_ETTh1_K4_s92609",
+          "CA_A1_ETTh1_K4_s92610",
+          "CA_A2_ETTh1_K4_s92601",
+          "CA_A2_ETTh1_K4_s92602",
+          "CA_A2_ETTh1_K4_s92603",
+          "CA_A2_ETTh1_K4_s92604",
+          "CA_A2_ETTh1_K4_s92605",
+          "CA_A2_ETTh1_K4_s92606",
+          "CA_A2_ETTh1_K4_s92607",
+          "CA_A2_ETTh1_K4_s92608",
+          "CA_A2_ETTh1_K4_s92609",
+          "CA_A2_ETTh1_K4_s92610"
+        ]
+      },
+      "ETTh2_safe17400": {
+        "n": 20,
+        "proxy_methods": [
+          "A1",
+          "A2"
+        ],
+        "mean_stage_seconds": 516.9349884999799,
+        "mean_job_elapsed_seconds": 525.0935826897621,
+        "max_job_elapsed_seconds": 822.900025844574,
+        "job_ids": [
+          "CA_A1_ETTh2_safe17400_K4_s92601",
+          "CA_A1_ETTh2_safe17400_K4_s92602",
+          "CA_A1_ETTh2_safe17400_K4_s92603",
+          "CA_A1_ETTh2_safe17400_K4_s92604",
+          "CA_A1_ETTh2_safe17400_K4_s92605",
+          "CA_A1_ETTh2_safe17400_K4_s92606",
+          "CA_A1_ETTh2_safe17400_K4_s92607",
+          "CA_A1_ETTh2_safe17400_K4_s92608",
+          "CA_A1_ETTh2_safe17400_K4_s92609",
+          "CA_A1_ETTh2_safe17400_K4_s92610",
+          "CA_A2_ETTh2_safe17400_K4_s92601",
+          "CA_A2_ETTh2_safe17400_K4_s92602",
+          "CA_A2_ETTh2_safe17400_K4_s92603",
+          "CA_A2_ETTh2_safe17400_K4_s92604",
+          "CA_A2_ETTh2_safe17400_K4_s92605",
+          "CA_A2_ETTh2_safe17400_K4_s92606",
+          "CA_A2_ETTh2_safe17400_K4_s92607",
+          "CA_A2_ETTh2_safe17400_K4_s92608",
+          "CA_A2_ETTh2_safe17400_K4_s92609",
+          "CA_A2_ETTh2_safe17400_K4_s92610"
+        ]
+      },
+      "appliances": {
+        "n": 20,
+        "proxy_methods": [
+          "A1",
+          "A2"
+        ],
+        "mean_stage_seconds": 459.74984484502346,
+        "mean_job_elapsed_seconds": 469.1060230255127,
+        "max_job_elapsed_seconds": 596.5140025615692,
+        "job_ids": [
+          "CA_A1_appliances_K10_s92601",
+          "CA_A1_appliances_K10_s92602",
+          "CA_A1_appliances_K10_s92603",
+          "CA_A1_appliances_K10_s92604",
+          "CA_A1_appliances_K10_s92605",
+          "CA_A1_appliances_K10_s92606",
+          "CA_A1_appliances_K10_s92607",
+          "CA_A1_appliances_K10_s92608",
+          "CA_A1_appliances_K10_s92609",
+          "CA_A1_appliances_K10_s92610",
+          "CA_A2_appliances_K10_s92601",
+          "CA_A2_appliances_K10_s92602",
+          "CA_A2_appliances_K10_s92603",
+          "CA_A2_appliances_K10_s92604",
+          "CA_A2_appliances_K10_s92605",
+          "CA_A2_appliances_K10_s92606",
+          "CA_A2_appliances_K10_s92607",
+          "CA_A2_appliances_K10_s92608",
+          "CA_A2_appliances_K10_s92609",
+          "CA_A2_appliances_K10_s92610"
+        ]
+      }
+    },
+    "extension_formula": "mean(search_seconds/training_cap)*10 + mean(refit_seconds/selected_epoch)*10 + mean(evaluation_seconds) + mean(non-stage elapsed overhead); conservatively assumes refit at epoch 10",
+    "extension_components": {
+      "search_per_epoch": 113.9458574366717,
+      "refit_per_epoch": 136.55930010000787,
+      "evaluation": 0.18721904001431539,
+      "overhead_mean": 8.09306862388039
+    },
+    "planner_legacy_profile_extension_seconds": 1841.6267243332309,
+    "planner_legacy_profile_total_seconds": 40528.009423182426,
+    "interpretation": "Planner's ~11.3h arithmetic uses older K_tau profile for extension and omits per-job non-stage overhead. Actual first-campaign measured profile is used for admission. Extension is decided only after A4 and requires all 10 seeds to fit the remaining wall-clock/deadline window.",
+    "all10_admission_rule": "No partial seed selection. If all 10 are not expected to finish, all ten are NOT_RUN_BUDGET."
+  },
+  "jobs_in_order": [
+    {
+      "job_id": "CA_A4_jena_K6_s92601",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92601,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92601",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92601,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92601",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92601,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92601",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92601,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_jena_K6_s92602",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92602,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92602",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92602,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92602",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92602,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92602",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92602,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_jena_K6_s92603",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92603,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92603",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92603,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92603",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92603,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92603",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92603,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_jena_K6_s92604",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92604,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92604",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92604,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92604",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92604,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92604",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92604,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_jena_K6_s92605",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92605,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92605",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92605,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92605",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92605,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92605",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92605,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_jena_K6_s92606",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92606,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92606",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92606,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92606",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92606,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92606",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92606,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_jena_K6_s92607",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92607,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92607",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92607,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92607",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92607,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92607",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92607,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_jena_K6_s92608",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92608,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92608",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92608,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92608",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92608,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92608",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92608,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_jena_K6_s92609",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92609,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92609",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92609,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92609",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92609,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92609",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92609,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_jena_K6_s92610",
+      "method_id": "A4",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92610,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh1_K4_s92610",
+      "method_id": "A4",
+      "dataset": "ETTh1",
+      "K": 4,
+      "seed": 92610,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_ETTh2_safe17400_K4_s92610",
+      "method_id": "A4",
+      "dataset": "ETTh2_safe17400",
+      "K": 4,
+      "seed": 92610,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A4_appliances_K10_s92610",
+      "method_id": "A4",
+      "dataset": "appliances",
+      "K": 10,
+      "seed": 92610,
+      "extended": false
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92601_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92601,
+      "extended": true
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92602_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92602,
+      "extended": true
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92603_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92603,
+      "extended": true
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92604_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92604,
+      "extended": true
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92605_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92605,
+      "extended": true
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92606_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92606,
+      "extended": true
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92607_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92607,
+      "extended": true
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92608_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92608,
+      "extended": true
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92609_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92609,
+      "extended": true
+    },
+    {
+      "job_id": "CA_A1_jena_K6_s92610_ext10",
+      "method_id": "A1",
+      "dataset": "jena",
+      "K": 6,
+      "seed": 92610,
+      "extended": true
+    }
+  ],
+  "input_hashes": [
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/BUDGET.json",
+      "sha256": "99d7293f77ba5ae2f33ce8bc4f3877ad1e7102a7a04ba5a7727786a715255193"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/EXECUTION_PLAN.json",
+      "sha256": "137342413133dd945b381d52ec42734c997624021e8e481669560239dd10d3e0"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/PRESERVATION_BASELINE.json",
+      "sha256": "e6fe8674fc1292b1784b0e62ef7ccd11a81673ff9428b64a11bbbdecc32cdec5"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/ENVIRONMENT_VALIDATION.json",
+      "sha256": "54557625f8fe115348af49e25ab51506e21c098c3fe75db9f27bcb21cbe755ef"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/VALIDATION_PRETRAINING.json",
+      "sha256": "4149709d5d08f4c1994fb81f83945949af9f1f3e7b4fc33de9db42638a67f897"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/preflight/D0_D1_INDEPENDENT_CHECK.json",
+      "sha256": "a42a64678b9f54abd5a5d060d1c98d811a07e77b7d7ca0fd44c5c7d759f1ebce"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/preflight/D0_D1_VALIDATION.json",
+      "sha256": "4f9151d2d2c15b31a36f054a0047a77a57e3351ad05e72b9215c1ca6c3b81548"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/preflight/D0_MEAN_SHIFT_CHANNELS.csv",
+      "sha256": "056694aa742f5ac02a28823dce85f45cc4c6477362929a0161517fcc471e4ac8"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/preflight/D0_SUBSPACE_FLOOR.csv",
+      "sha256": "8743382160e31027c9827ac03d4497b7dfaecddf4e9835760aa03e72d9fcace0"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/preflight/D1_DECODER_FLOOR.csv",
+      "sha256": "d6f37224fad3926b5a3304171dac51d346eb4ee08c068cf4196da408f200a06a"
+    },
+    {
+      "path": "reports/comparative_ablation_followup_20261027_v1/preflight/D1_DECODER_FLOOR_SUMMARY.csv",
+      "sha256": "85b3558a451b4b63be5a2f7f0c7e6c67949dbdbf16339992b0942a3ded744bf0"
+    }
+  ],
+  "new_source_hashes_at_registration": [
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/bundle.py",
+      "sha256": "91781fbb0a92b6e2d540475aa360bc5a8dc13d1d9f769bb96c089c7673f0c999"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/common.py",
+      "sha256": "62027d258b352e140d683226e8ec2a4310c1af19212a117bb8f0d0e736941cfa"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/controller.py",
+      "sha256": "f34845f4e331cd1fc4dc377454735f97aeef7ce09c48e532b66a782412b22afa"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/floors.py",
+      "sha256": "a40fb0a335c568affb0971b61e5ec66c807495bd2c752d34bcfd7ff6e3f07313"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/job_worker.py",
+      "sha256": "f6dcd0ffa719ddb7a447ea76cfa5fc1b9b2f858dbb37de0c0435842fb9e1898a"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/preflight.py",
+      "sha256": "007d4c694b018d62bd5ef5db3be0cf86ae6b5e18c02e505fa056a849f3acc9b3"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/register.py",
+      "sha256": "17c59664603c8a5d1dd82c656029a68643f73781e76eea33bd4dc71281bf9fa6"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/reporting.py",
+      "sha256": "e762d8ed6101e7401ab859f7d3d0badadccd285c3c1ca1aa1e51f91f11ea28c8"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/test_common.py",
+      "sha256": "c5e0f30e2afb5305500ffe7bf4c40efc605f54d82c8a0a35fe4e940d47b0115c"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/test_controller.py",
+      "sha256": "f1e5da8387c8d3fc9f2de564def18ca4cfce5cd2d4c54354fe375e101356e346"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/test_floors.py",
+      "sha256": "bf694d93f67d40ccb6f7d5f0f4ef1e47a028062711a44abea9620b9a5c0253fb"
+    },
+    {
+      "path": "research/comparative_ablation_followup_20261027_v1/test_reporting.py",
+      "sha256": "24ae60b28132205d1a53b5c7b6539030a8ef8d773d4fc53cae743dccd24cff08"
+    }
+  ],
+  "preservation": {
+    "status": "PASS",
+    "checked": 7393,
+    "changed": [],
+    "scope": "All pre-existing original campaign public/source files and private cache files, plus original PRE_HASHES allowlist; future selected job folders and new temporary files may be added, no baseline file may change."
+  }
+}
