@@ -1,0 +1,287 @@
+"""Finite subprocess queue with time limits, retry policy and automatic packaging."""
+from datetime import datetime
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+
+from . import runtime
+
+
+def atomic(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix('.tmp')
+    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False), encoding='utf8')
+    temporary.replace(path)
+
+
+def finalize(state):
+    marker=runtime.REPORT/'ANALYSIS_COMPLETE.json'
+    if marker.is_file():
+        for item in runtime.read(marker)['files']:
+            if runtime.sha(runtime.REPORT/item['name'])!=item['sha256']:
+                raise ValueError('Completed analysis output changed: '+item['name'])
+    else:
+        from .analysis import GENERATED_FILES, report
+        results=[runtime.read(path) for path in sorted((runtime.REPORT/'jobs').glob('*/RESULT.json'))]
+        report(runtime.REPORT,results,state)
+        files=[runtime.REPORT/name for name in GENERATED_FILES]
+        if not all(path.is_file() for path in files):
+            raise ValueError('Required analysis output is missing')
+        runtime.write_new(marker,dict(files=[dict(name=p.name,sha256=runtime.sha(p)) for p in sorted(files)]))
+    from .bundle import build_bundle
+    print(json.dumps(build_bundle()),flush=True)
+
+
+def main():
+    runtime.guard_preserved()
+    plan = runtime.read(runtime.REPORT/'RUN_PLAN.json')
+    # Worker validation also checks the actual Git object before every job.
+    if not (runtime.REPORT/'PREREGISTRATION_COMMIT.json').is_file():
+        raise RuntimeError('Directly approved preregistration commit must exist before launch')
+    completion=runtime.REPORT/'EXECUTION_COMPLETION.json'
+    if completion.exists():
+        finished=runtime.read(completion)
+        if finished['status']!='STOPPED':
+            finalize(finished)
+            return
+        raise RuntimeError('A prior gate stop requires explicit resolution; do not resume training')
+    cache = runtime.CACHE
+    clock_path = runtime.REPORT/'EXECUTION_CLOCK.json'
+    cutoff = datetime.fromisoformat(plan['latest_start']).timestamp()
+    status_path = runtime.REPORT/'PROGRESS.json'
+    state = runtime.read(status_path) if status_path.exists() else dict(
+        status='RUNNING', run_statuses={}, extension_status={}, started_utc=datetime.now().astimezone().isoformat(),
+        last_start_cutoff=plan['latest_start'], stop_reason=None, elapsed_seconds=0.)
+    durations = {}
+    active = {}
+    failed_per_family = {}
+
+    def end_time():
+        if clock_path.exists():
+            return min(cutoff, runtime.read(clock_path)['training_started_unix'] + plan['limit_seconds'])
+        return cutoff
+
+    def progress():
+        if clock_path.exists():
+            state['elapsed_seconds'] = time.time()-runtime.read(clock_path)['training_started_unix']
+        state['active'] = {key: dict(pid=p['process'].pid, attempt=p['attempt']) for key,p in active.items()}
+        atomic(status_path, state)
+
+    def result_path(job):
+        return runtime.REPORT/'jobs'/job['job_id']/'RESULT.json'
+
+    def estimate(job):
+        key = job['method_id']+'/'+job['dataset']
+        if job['extended']:
+            profile=plan['budget']['profiles'][job['dataset']]
+            return profile['search_cap3_max_seconds']*10/3+profile['refit_per_epoch_max_seconds']*10+180
+        if key in durations:
+            return max(durations[key])*1.1
+        ratios=[max(values)/plan['budget']['per_job_expected_seconds'][name]
+                for name,values in durations.items() if name.startswith(job['method_id']+'/')]
+        return plan['budget']['per_job_expected_seconds'][key]*(max(ratios)*1.1 if ratios else 1.)
+
+    def prune_remaining(method):
+        future=methods[methods.index(method):]
+        remaining=[job for job in plan['jobs'] if job['method_id'] in future
+                   and not result_path(job).is_file() and job['job_id'] not in state['run_statuses']]
+        for tail in reversed(future[1:]):
+            if sum(estimate(j) for j in remaining)<=max(0,end_time()-time.time()):
+                break
+            for job in list(remaining):
+                if job['method_id']==tail:
+                    state['run_statuses'][job['job_id']]='NOT_RUN_BUDGET'
+                    remaining.remove(job)
+
+    def start(job, attempt):
+        if time.time() >= end_time():
+            state['run_statuses'][job['job_id']]='NOT_RUN_BUDGET'
+            return False
+        if job['method_id']!='C1' and not clock_path.exists():
+            runtime.write_new(clock_path, dict(training_started_unix=time.time(), limit_seconds=plan['limit_seconds'],
+                                               latest_start=plan['latest_start']))
+        runtime.guard_preserved()
+        descriptor=cache/'job_inputs'/(job['job_id']+'.json')
+        if descriptor.exists():
+            if runtime.read(descriptor)!=job:
+                raise ValueError('Existing job descriptor changed')
+        else:
+            runtime.write_new(descriptor,job)
+        log=cache/'logs'/f'{job["job_id"]}_attempt{attempt}.log'
+        log.parent.mkdir(parents=True,exist_ok=True)
+        stream=log.open('x',encoding='utf8')
+        environment=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='2',MKL_NUM_THREADS='2',
+                         OPENBLAS_NUM_THREADS='2',NUMEXPR_NUM_THREADS='2')
+        command=[sys.executable,'-B','-X','utf8','-m','research.'+runtime.NAME+'.run_one',
+                 '--job',str(descriptor),'--attempt',str(attempt)]
+        if time.time()>=end_time():
+            stream.close()
+            state['run_statuses'][job['job_id']]='NOT_RUN_BUDGET'
+            runtime.write_new(log.with_suffix('.json'),dict(job_id=job['job_id'],attempt=attempt,
+                              process_started=False,status='NOT_RUN_BUDGET'))
+            return False
+        process=subprocess.Popen(command,cwd=runtime.REPO,env=environment,stdout=stream,stderr=subprocess.STDOUT,
+                                 creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+        active[job['job_id']]=dict(process=process,stream=stream,job=job,attempt=attempt,started=time.time(),log=str(log))
+        print(json.dumps(dict(event='START',job_id=job['job_id'],attempt=attempt,pid=process.pid)),flush=True)
+        progress()
+        return True
+
+    def finish():
+        completed=[]
+        for identifier,item in list(active.items()):
+            code=item['process'].poll()
+            if code is None:
+                continue
+            item['stream'].close()
+            seconds=time.time()-item['started']
+            job=item['job']
+            del active[identifier]
+            successful=code==0 and result_path(job).is_file()
+            receipt=dict(job_id=identifier,attempt=item['attempt'],seconds=seconds,exit_code=code,
+                         result_present=result_path(job).is_file(),log=item['log'])
+            runtime.write_new(cache/'logs'/f'{identifier}_attempt{item["attempt"]}.json',receipt)
+            print(json.dumps(dict(event='EXIT',**receipt)),flush=True)
+            if successful:
+                state['run_statuses'][identifier]='COMPLETE'
+                durations.setdefault(job['method_id']+'/'+job['dataset'],[]).append(seconds)
+                completed.append(job)
+            elif item['attempt']==1 and time.time()<end_time() and state['status']=='RUNNING':
+                start(job,2)
+            elif item['attempt']==1:
+                state['run_statuses'][identifier]=('FAILED_ONCE_RETRY_NOT_RUN_BUDGET'
+                    if time.time()>=end_time() else 'FAILED_ONCE_CONTROLLER_STOPPED')
+            else:
+                state['run_statuses'][identifier]='FAILED'
+                family=job['method_id']
+                failed_per_family[family]=failed_per_family.get(family,0)+1
+            progress()
+        return completed
+
+    def run_group(group, benchmark=False):
+        pending=[]
+        for job in group:
+            if result_path(job).is_file():
+                from .run_one import run_job
+                run_job(job)  # Reuse verifies registration, bundle and prediction bytes.
+                state['run_statuses'][job['job_id']]='COMPLETE'
+                continue
+            if state['run_statuses'].get(job['job_id']) in ('FAILED','NOT_RUN_BUDGET','NOT_RUN_FAMILY_FAILURE',
+                                                         'FAILED_ONCE_RETRY_NOT_RUN_BUDGET'):
+                continue
+            if failed_per_family.get(job['method_id'],0)>=3:
+                state['run_statuses'][job['job_id']]='NOT_RUN_FAMILY_FAILURE'
+                continue
+            pending.append(job)
+        began=time.time()
+        for job in pending:
+            existing=[attempt for attempt in (1,2) if (cache/'logs'/f'{job["job_id"]}_attempt{attempt}.log').exists()]
+            if existing:
+                # Completed failure receipts permit exactly one retry; a log
+                # without receipt may still belong to a live/orphaned worker.
+                if any(not (cache/'logs'/f'{job["job_id"]}_attempt{a}.json').exists() for a in existing):
+                    raise RuntimeError('Unresolved previous worker; inspect process before resuming '+job['job_id'])
+                attempt=max(existing)+1
+                if attempt>2:
+                    state['run_statuses'][job['job_id']]='FAILED'
+                    failed_per_family[job['method_id']]=failed_per_family.get(job['method_id'],0)+1
+                    continue
+            else:
+                attempt=1
+            start(job,attempt)
+        peak=0
+        while active:
+            if benchmark:
+                sample=subprocess.run(['nvidia-smi','--query-gpu=memory.used','--format=csv,noheader,nounits'],
+                                      text=True,capture_output=True,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+                if sample.returncode==0:
+                    peak=max(peak,int(sample.stdout.strip().splitlines()[0]))
+            finish()
+            if active:
+                time.sleep(1)
+        if benchmark:
+            runtime.write_new(runtime.REPORT/'CONCURRENCY_PROBE.json',dict(
+                jobs=[j['job_id'] for j in pending],wall_seconds=time.time()-began,gpu_total_peak_mib=peak,
+                subsequent_concurrency=1,
+                decision='Keep serial: cross-dataset solo/pair timing does not establish a matched-workload 1.4x speedup.'))
+        progress()
+
+    try:
+        methods=['C1','C2','C3','A1','A2','A3','A4','A5']
+        for job in plan['jobs']+plan['extension_jobs']:
+            if state['run_statuses'].get(job['job_id'])=='FAILED':
+                method=job['method_id']
+                failed_per_family[method]=failed_per_family.get(method,0)+1
+            if result_path(job).is_file() and not job['extended']:
+                result=runtime.read(result_path(job))
+                key=job['method_id']+'/'+job['dataset']
+                durations.setdefault(key,[]).append(float(result['elapsed_seconds']))
+        for method in methods:
+            family=[job for job in plan['jobs'] if job['method_id']==method]
+            if clock_path.exists():
+                prune_remaining(method)
+            index=0
+            while index<len(family):
+                # Required initial C2 probe: Jena solo, then the two ETT datasets together.
+                pair=(method=='C2' and index==1 and not (runtime.REPORT/'CONCURRENCY_PROBE.json').exists())
+                group=family[index:index+2] if pair else [family[index]]
+                run_group(group,benchmark=pair)
+                index+=len(group)
+                if clock_path.exists():
+                    prune_remaining(method)
+        order=[(m,d) for d in ('jena','appliances','ETTh1','ETTh2_safe17400') for m in ('C2','C3')]
+        order += [(m,d) for m in ('A1','A2','A3','A4','A5') for d in runtime.KS]
+        for method,dataset in order:
+            base=[j for j in plan['jobs'] if (j['method_id'],j['dataset'])==(method,dataset)]
+            results=[runtime.read(result_path(j)) for j in base if result_path(j).is_file()]
+            cap=6 if method in ('C2','C3') else 3
+            selected=[float(r['row']['selected_epoch']) for r in results]
+            trigger=len(selected)==10 and sum(e==cap for e in selected)>=5
+            extension=[j for j in plan['extension_jobs'] if (j['method_id'],j['dataset'])==(method,dataset)]
+            allowed=trigger and sum(estimate(j) for j in extension)<=max(0,end_time()-time.time())
+            item=dict(triggered=trigger,performed=False,cap_count=sum(e==cap for e in selected),n=len(selected),
+                      status='NOT_TRIGGERED' if not trigger else 'NOT_RUN_BUDGET')
+            if allowed:
+                for job in extension:
+                    run_group([job])
+                extended=[runtime.read(result_path(j)) for j in extension if result_path(j).is_file()]
+                item['performed']=len(extended)==10
+                count=sum(float(r['row']['selected_epoch'])==10 for r in extended)
+                item['status']='UNDERTRAINED_AT_10' if len(extended)==10 and count>=5 else (
+                    'EXTENDED' if len(extended)==10 else 'INCOMPLETE_EXTENSION')
+                item['cap10_count']=count
+            state['extension_status'][method+'/'+dataset]=item
+            progress()
+        state['status']='COMPLETE' if all(state['run_statuses'].get(j['job_id'])=='COMPLETE' for j in plan['jobs']) else 'PARTIAL'
+        if state['status']=='PARTIAL':
+            state['stop_reason']='Budget, deadline or recorded family/job failure; see run_statuses.'
+    except Exception as exc:
+        state['status']='STOPPED'
+        state['stop_reason']=f'{type(exc).__name__}: {exc}'
+        # Never terminate an in-flight scientific job just because the controller failed.
+        while active:
+            finish()
+            if active:
+                time.sleep(1)
+        runtime.write_new(runtime.REPORT/'CONTROLLER_STOP.json',dict(
+            status=state['status'],reason=state['stop_reason'],run_statuses=state['run_statuses']))
+    finally:
+        progress()
+    runtime.write_new(runtime.REPORT/'EXECUTION_COMPLETION.json',state)
+    if state['status']=='STOPPED':
+        # A gate may have failed; do not read further numeric data to make plots.
+        with (runtime.REPORT/'RESULTS_KO.md').open('x',encoding='utf8') as stream:
+            stream.write('# 실행 중단\n\n[확인] '+state['stop_reason']+
+                         '\n\n완료된 개별 결과와 로그를 보존했다. 후속 학습·분석은 실행하지 않았다.\n')
+        from .bundle import build_bundle
+        print(json.dumps(build_bundle()),flush=True)
+        return
+    runtime.guard_preserved()
+    finalize(state)
+
+
+if __name__=='__main__':
+    main()

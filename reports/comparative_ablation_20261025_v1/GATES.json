@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "created_kst": "2026-10-25T16:22:47.284715+09:00",
+  "status": "PRETRAINING_GATE_EVIDENCE_PASS_FINAL_INTEGRATED_VALIDATION_PENDING",
+  "training_admission": "PENDING latest integrated test rerun after controller fixture correction; corrected MAPE analysis has passed",
+  "new_training_executed_at_snapshot": false,
+  "G1": {
+    "status": "PASS",
+    "ours_arrays": 40,
+    "raw_arrays": 4,
+    "new_historical_composition": [
+      34,
+      6
+    ],
+    "max_mse_delta": 2.220446049250313e-16,
+    "max_mae_delta": 1.6653345369377348e-16,
+    "current_runtime_status": "PASS_CURRENT_F_DATA_SPLITS_NORMALIZATION",
+    "historical_raw_resolution": "PASS_COMPOUND_F_STATE_BINDING",
+    "evidence": [
+      "G1_REUSE_AUDIT.json",
+      "G1_RUNTIME_AUDIT_ATTEMPT003.json",
+      "G1_JENA_RAW_PROVENANCE.json"
+    ],
+    "note": "Original reuse PARTIAL gaps are resolved by the later runtime and compound-F audit; original records retained."
+  },
+  "G2": {
+    "status": "PASS_REGISTERED_ADAPTER_STRUCTURE",
+    "evidence": [
+      "G2_FIDELITY.md",
+      "DEVIATIONS_FROM_ADAPTS.md",
+      "PCA_SUBSPACE_VALIDATION.json",
+      "STEP0_SMOKE.json"
+    ],
+    "pca_max_projector_abs_error": 4.544619480739698e-08,
+    "pca_max_reconstruction_abs_error": 3.7643758243888215e-07,
+    "pca_tolerance": 0.0001,
+    "scope": "Architectural fidelity under explicit common-backbone/training deviations; not original-paper reproduction"
+  },
+  "G3": {
+    "status": "PASS_SYNTHETIC_STRUCTURAL_TESTS",
+    "reported_passed": 13,
+    "result_provenance": "Root session / model-worker actual pytest output reported to coordinator",
+    "test_source": "research/comparative_ablation_20261025_v1/test_models.py",
+    "covered": [
+      "all dataset parameter counts",
+      "A2 capacity within 10",
+      "A3 QR orthogonality and pinverse decoder",
+      "A4/A5 algebra",
+      "unchanged-component hashes",
+      "C3 dropout placement, sample count, repeatability and RNG restoration"
+    ]
+  },
+  "G4": {
+    "status": "PASS_PRETRAINING_BOUNDARIES_RUNTIME_ENFORCEMENT_REQUIRED",
+    "T_numeric_values_parsed": 0,
+    "evidence": [
+      "G1_RUNTIME_AUDIT_ATTEMPT003.json",
+      "OPENED_FILES_RUNTIME_ATTEMPT003.json",
+      "STEP0_SMOKE.json",
+      "G5_REVIEW.json"
+    ],
+    "limits": "Approved prefix loaders enforce numeric bounds; Python open audit is not complete native/OS I/O tracing. Jena archive is hashed opaquely; tail values are never decoded. Training paths have not yet been exercised on real data."
+  },
+  "G5": {
+    "status": "PASS_G5_SCIENTIFIC_CONDITIONS",
+    "validated_job_specs": 564,
+    "field_comparison_rows": 1980,
+    "current_reviewed_source_hash_matches": {
+      "research/comparative_ablation_20261025_v1/models.py": true,
+      "research/comparative_ablation_20261025_v1/runtime.py": true,
+      "research/comparative_ablation_20261025_v1/run_one.py": true
+    },
+    "evidence": [
+      "G5_REVIEW.json",
+      "G5_CONTRACT_FIELDS.csv"
+    ]
+  },
+  "G6": {
+    "status": "PASS_ESTIMATE",
+    "comparison_upper_hours": 22.196984408893492,
+    "expected_base_hours": 38.22656998951849,
+    "cap_selected_base_upper_hours": 48.60988158667703,
+    "worst_extension_additional_hours": 119.48240905187869,
+    "hard_wall_hours": 40,
+    "note": "Full completion is not guaranteed. Comparison estimate is below 40h, permitting admission; dynamic tail-family budget removal remains required. Original 30/35h estimate was optimistic."
+  },
+  "G7": {
+    "status": "PASS_AFTER_CHECKOUT_RESOLUTION",
+    "required_head": "769db577da01bb2a7ccbd179909d7e12fd13c7fe",
+    "evidence": [
+      "GIT_PREFLIGHT.json",
+      "SESSION_LOG.md"
+    ],
+    "original_checkout": "E:/CODING/proj/hierarchical-tsfm-peft",
+    "original_head": "c7a06e522e1cd8e100a3e2291a7f693dd3f7125f",
+    "output_collision_check": "New campaign destinations checked before creation; audit attempts preserved with unique suffixes",
+    "named_symbols": {
+      "create_model": "research/informs_broad_validation_20261015_v1/fit_base.py:67",
+      "predict_model": "research/informs_broad_validation_20261015_v1/fit_base.py:119",
+      "fit_base": "research/informs_broad_validation_20261015_v1/fit_base.py:316",
+      "ForecastAdapter": "research/informs_broad_validation_20261015_v1/networks.py:225",
+      "AdaPTSLinearPort": "research/informs_broad_validation_20261015_v1/networks.py:352",
+      "_FixedPCA": "research/informs_broad_validation_20261015_v1/fit_base.py:55",
+      "qr_basis": "research/adapter_diagnostics_20261017_v2/new_jobs.py:15",
+      "PointwiseMLP": "reports/informs_b2_why_where_20261017/code/cap_control.py:48",
+      "B2_CAP_POINTWISE": "research/adapter_diagnostics_20261017_v2/existing_jobs.py:20",
+      "initialize_pca": "research/informs_broad_validation_20261015_v1/data_contract.py:109"
+    }
+  },
+  "G8": {
+    "status": "PASS",
+    "seeds": [
+      92601,
+      92602,
+      92603,
+      92604,
+      92605,
+      92606,
+      92607,
+      92608,
+      92609,
+      92610
+    ],
+    "C1_seed": 92601,
+    "base_jobs": 284,
+    "training_jobs": 280,
+    "extension_jobs": 280,
+    "evidence": [
+      "RUN_PLAN.json",
+      "PREREGISTRATION.json"
+    ]
+  },
+  "evidence_sha256": {
+    "G1_REUSE_AUDIT.json": "a741a90e7ae3f3ccaada94c1e4f0c2c6567ace77c95529a5725a10c0ad18ba7b",
+    "G1_RUNTIME_AUDIT_ATTEMPT003.json": "d50d61a40976d2ae03fec88a49126b71d7e40c35edb3fcb7b21c5006f551b1be",
+    "G1_JENA_RAW_PROVENANCE.json": "3ca804999aaed15412afda44d8ffb10f02e9b769341eb0e84e06666274747221",
+    "PCA_SUBSPACE_VALIDATION.json": "8f32b5737bacb347d2fc538bbb6351ed4179b9d2f92a230e84f60c5b224e4848",
+    "STEP0_SMOKE.json": "330a6527485e7553b7d606239cfa2503036400eda8ef3897180a20a4daa5412b",
+    "G5_REVIEW.json": "353663e895e0f5f3596697b222e3e4732c36e598b362589b30ba81682f774c28",
+    "G6_BUDGET.json": "f9c695e7527de92fcc022d2c3a7f77eb4b74facd9e9e139e295b776ff1528edb",
+    "GIT_PREFLIGHT.json": "3cbd0921d506eb65c8e41bbd469418184688337474289be69dbc35f8c232552f",
+    "RUN_PLAN.json": "c1c6fd3d6fe02d25cb9d3802a2b46b223b82af0ce085ece056132d4dca9b994b",
+    "PREREGISTRATION_COMMIT.json": "429741759943879e0103bd06214a66ff6e1b2f46fceb6c8050a6e3c5d5d6f79b"
+  }
+}

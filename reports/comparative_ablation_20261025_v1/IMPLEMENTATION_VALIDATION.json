@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "created_kst": "2026-10-25T16:22:47.284715+09:00",
+  "status": "PENDING_FINAL_INTEGRATED_VALIDATION",
+  "new_training_executed": false,
+  "observed_test_batches": [
+    {
+      "scope": "Root early models + runner suite",
+      "passed": 26,
+      "evidence": "Root session actual pytest output; earlier code snapshot"
+    },
+    {
+      "scope": "Model synthetic structural gates",
+      "passed": 13,
+      "evidence": "Model worker/root session actual pytest output"
+    },
+    {
+      "scope": "Runner synthetic contract/selection tests",
+      "passed": 13,
+      "evidence": "Runner worker/root session actual pytest output"
+    },
+    {
+      "scope": "Analysis synthetic metrics/report tests",
+      "passed": 15,
+      "evidence": "Analysis worker session actual pytest output before current MAPE correction"
+    },
+    {
+      "scope": "Controller simulation tests",
+      "passed": 11,
+      "evidence": "Controller worker session actual pytest output"
+    },
+    {
+      "scope": "Analysis tests after exact-zero MAPE correction",
+      "passed": 17,
+      "evidence": "Root message: actual output; actual 44-run A0 export exit 0 at 2026-10-25 16:20 KST"
+    }
+  ],
+  "counts_must_not_be_summed": true,
+  "latest_integrated_pass_count": null,
+  "analysis_final_validation": "PASS_REPORTED: physical-unit exact-zero MAPE correction; 17 analysis tests and actual 44-run A0 export passed. Latest root integrated rerun remains pending.",
+  "measured_runtime_checks": {
+    "V_batch_forwards_passed": 12,
+    "pca_datasets_passed": 4,
+    "G1_V_arrays_rescored": 44,
+    "current_dataset_contracts_passed": 4,
+    "foundation_frozen_hash_pass": true
+  },
+  "G5_source_hash_match_at_snapshot": {
+    "research/comparative_ablation_20261025_v1/models.py": true,
+    "research/comparative_ablation_20261025_v1/runtime.py": true,
+    "research/comparative_ablation_20261025_v1/run_one.py": true
+  },
+  "pending_before_training": [
+    "Root confirmation of latest combined test run after controller fixture correction",
+    "Final source-binding review if code changes after this snapshot"
+  ],
+  "test_files_sha256": {
+    "test_analysis.py": "f8ace09847107aba68313189012ef17ab504177a9c5fd2f215627c243cc9d4cd",
+    "test_bundle.py": "0ab9ecf9ac0f48fa10d0de5b9132438afb6b54219c1128a16666e4fc43ffef68",
+    "test_controller.py": "9e267aac923271ecea25556f7a742f4cc53b42c60846a6ecf11c91955d3e35b2",
+    "test_models.py": "d34a72e5bf1f198a3921ab8c3a2f38a2b1bb43167fa7f88fadc018c33bf9627d",
+    "test_run_one.py": "3b36ba33958e1db6f45ce52160a99f5c7b639dcb71c5c88d3c734f4da4a46e40"
+  },
+  "limitations": [
+    "Synthetic tests do not establish convergence or real training throughput.",
+    "Step0 runs only one V-origin batch for each of C1/C2/A1 per dataset; no V score or selection was computed.",
+    "Two initial runtime-audit attempts failed on instrumentation (NUL/tempfile handling) before data loading; successful attempt003 supersedes those attempts."
+  ],
+  "actual_existing_metrics_export": {
+    "status": "COMPLETE_REPORTED_BY_ROOT",
+    "exit_code": 0,
+    "runs": 44,
+    "completed_approx_kst": "2026-10-25T16:20:00+09:00",
+    "outputs": [
+      "METRICS_EXISTING.csv",
+      "ERROR_DISTRIBUTION_EXISTING.csv",
+      "VMSE_DEFINITION.md",
+      "OPENED_FILES_EXISTING_METRICS.json"
+    ]
+  }
+}
