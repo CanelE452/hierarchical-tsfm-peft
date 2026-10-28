@@ -1,0 +1,218 @@
+{
+  "campaign": "ppt_justification_20261028_v1",
+  "status": "PREREGISTERED_BEFORE_TRAINING",
+  "authority": "User explicitly approved further justified experiments and main publication; parent orchestrator owns Git and launch.",
+  "base_commit": "909267da21de37c14adb9aeb5ca7eed1849c6750",
+  "registered_sources": {
+    "research/ppt_justification_20261028_v1/models.py": "fe7fae55b95d4dd5f850f0fbf793a13b38acd31f32376b6a211eb448498caaa1",
+    "research/ppt_justification_20261028_v1/runtime.py": "d3db5bb9e4242079de77f9e11300b351e636d63fa0b800808db750bf0ea6fddd",
+    "research/ppt_justification_20261028_v1/run_one.py": "d9612c6b83d23320946e3e1227b72034a73d8ec31291dbc37140aaa552078b30",
+    "research/ppt_justification_20261028_v1/controller.py": "e9515c6126b4bab963496a296a10c0cc36617c85447315c90e533c741b852ec9",
+    "research/ppt_justification_20261028_v1/prepare.py": "5b5015634436a26cd627a6da206ad6d14db4c1b2e58d81da2770f0f6f2458209"
+  },
+  "training_deadline": "2026-10-28T17:30:00+09:00",
+  "delivery_deadline": "2026-10-28T20:00:00+09:00",
+  "seeds": [
+    92601,
+    92602,
+    92603,
+    92604,
+    92605
+  ],
+  "base_runs": 20,
+  "optional_base_runs": 10,
+  "datasets": {
+    "jena": 6,
+    "ETTh1": 4,
+    "appliances": 10
+  },
+  "methods": {
+    "NO_F_LINEAR": "Fresh original P/E/D plus channel-shared Linear(512,48,bias=True) instead of F; all jointly trained. Head initialized to latent persistence, adds 24624 parameters; zero foundation construction/calls.",
+    "NO_F_LINEAR_NO_P": "Same fresh original B2 initialization, then replace P by Identity; retain initialized E/D and add the identical trainable shared Linear512-to48. With existing Full-P/No-P Bolt and new Full-P Linear, forms an exploratory 2x2 with disclosed cap schedules.",
+    "NO_ANCHOR": "Remove only the explicit x_last output addition. Keep P/E/frozen F/lag7 D, latent differencing, original PCA initialization, and no new decoder bias.",
+    "A5_LAG0": "Keep x_last anchor and only lag0 decoder (future-z_last)D0, removing lag1/2/4/8/16/32 coefficients."
+  },
+  "initialization": "Construct original full B2 at each original seed and stage. Common P/E/D tensors are unchanged before the registered intervention. NO_F head is added only after P/E/D initialization.",
+  "training": {
+    "L": 512,
+    "H": 48,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0,
+    "gradient_clip": 1,
+    "effective_batch": 16,
+    "microbatch": 4,
+    "F_row_microbatch": 128,
+    "checkpoint_inputs": false,
+    "device": "cuda",
+    "dtype": "float32",
+    "revin": false,
+    "base_epochs": [
+      0,
+      0.25,
+      1,
+      3
+    ],
+    "extension_epochs": [
+      0,
+      0.25,
+      1,
+      3,
+      6,
+      10
+    ],
+    "selection": "Minimum A_stop MSE, earlier exact tie, sealed before fresh A60 refit and V evaluation."
+  },
+  "data_bounds": {
+    "FIT_ENDS": {
+      "jena": [
+        10482,
+        12579
+      ],
+      "ETTh1": [
+        8710,
+        10452
+      ],
+      "ETTh2_safe17400": [
+        8700,
+        10440
+      ],
+      "appliances": [
+        9867,
+        11841
+      ]
+    },
+    "T_numeric_values_parsed": 0,
+    "chronology": "A_fit 0-50%; A_stop 50-60%; fresh A60 refit; V70-80%; bounded loaders exclude protected T80-100%."
+  },
+  "extension_policy": {
+    "trigger": "At least 3/5 base seeds select cap3",
+    "terminal": "At least 3/5 cap10 selections imply UNDERTRAINED_AT_10; no further extension.",
+    "action": "Whole five-seed family cap10 only if time admission fits; no partial family is primary.",
+    "order": "Required base20, required family extensions, optional A5_LAG0 ETTh1 plus its extension, optional NO_ANCHOR Appliances plus its extension.",
+    "decision_data": "A_stop selected epochs and wall time only; no V score controls execution.",
+    "baseline_extension": {
+      "jena": {
+        "selected_epochs": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.25
+        ],
+        "cap_selected_count": 0,
+        "trigger": 3,
+        "required": false
+      },
+      "ETTh1": {
+        "selected_epochs": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "cap_selected_count": 0,
+        "trigger": 3,
+        "required": false
+      },
+      "appliances": {
+        "selected_epochs": [
+          0.25,
+          0.25,
+          1.0,
+          1.0,
+          0.25
+        ],
+        "cap_selected_count": 0,
+        "trigger": 3,
+        "required": false
+      }
+    }
+  },
+  "controller_policy": {
+    "concurrency": 1,
+    "base_job_seconds": 1080,
+    "extension_job_seconds": 1800,
+    "admission_margin_seconds": 120,
+    "no_F_reestimate": "max completed same-method/same-dataset base wall time *1.35; cap10 multiplier10/3; floor60s",
+    "admission": "Whole family five seeds before any family admission; worker hard deadline17:30KST.",
+    "retries": 1,
+    "retry": "Technical same-configuration failure only; verified completed jobs reused, scientific failures stop."
+  },
+  "analysis": {
+    "primary_metric": "Normalized development-V MSE",
+    "secondary_metric": "Normalized development-V MAE",
+    "contrasts": [
+      {
+        "comparison_id": "F_WITH_P_JENA",
+        "dataset": "jena",
+        "variant_method_id": "NO_F_LINEAR",
+        "reference_method_id": "OURS"
+      },
+      {
+        "comparison_id": "F_WITHOUT_P_JENA",
+        "dataset": "jena",
+        "variant_method_id": "NO_F_LINEAR_NO_P",
+        "reference_method_id": "A1"
+      },
+      {
+        "comparison_id": "P_WITHOUT_F_JENA",
+        "dataset": "jena",
+        "variant_method_id": "NO_F_LINEAR_NO_P",
+        "reference_method_id": "NO_F_LINEAR"
+      },
+      {
+        "comparison_id": "P_WITH_F_JENA",
+        "dataset": "jena",
+        "variant_method_id": "A1",
+        "reference_method_id": "OURS"
+      },
+      {
+        "comparison_id": "F_WITH_P_APPLIANCES",
+        "dataset": "appliances",
+        "variant_method_id": "NO_F_LINEAR",
+        "reference_method_id": "OURS"
+      },
+      {
+        "comparison_id": "ANCHOR_ETTH1",
+        "dataset": "ETTh1",
+        "variant_method_id": "NO_ANCHOR",
+        "reference_method_id": "OURS"
+      },
+      {
+        "comparison_id": "LAG_ETTH1",
+        "dataset": "ETTh1",
+        "variant_method_id": "A5_LAG0",
+        "reference_method_id": "OURS"
+      },
+      {
+        "comparison_id": "ANCHOR_APPLIANCES",
+        "dataset": "appliances",
+        "variant_method_id": "NO_ANCHOR",
+        "reference_method_id": "OURS"
+      }
+    ],
+    "interaction": "Per matched Jena seed: (NO_F_LINEAR_NO_P - NO_F_LINEAR) - (A1 - OURS) in V MSE; report all differences and their median. Descriptive schedule-conditional interaction, not a causal interaction test.",
+    "comparator": "Reuse Full-P same dataset first five seeds; no new Full baseline needed (all cap3 counts0/5). Reuse Jena No-P cap10 first5; original cap3 selections5/5, extended cap10 selections0/5.",
+    "summaries": [
+      "all seed points",
+      "median",
+      "Q1/Q3",
+      "paired seed difference",
+      "wall time",
+      "parameters",
+      "selected epochs"
+    ],
+    "decision": "Descriptive median gap versus maximum IQR, unchanged from preceding campaign; not significance or equivalence.",
+    "limits": [
+      "Exploratory development V repeatedly viewed; no independent T claim.",
+      "n=5 is a time-limited pilot and does not establish equivalence.",
+      "F comparison jointly retrains P/E/D; replacement has extra24624 trainable parameters.",
+      "Jena 2x2 reveals a descriptive interaction only; historical Full-P cap3 and No-P cap10 schedules are disclosed and not a fully balanced compute control.",
+      "No-anchor retains latent differences and no new bias; an optimization/parameterization intervention, not universal necessity of a direct path.",
+      "A5 tests decoder lag removal only, not an input temporal-branch claim.",
+      "Budget-excluded or cap-limited comparisons stay explicitly incomplete/provisional."
+    ]
+  }
+}
