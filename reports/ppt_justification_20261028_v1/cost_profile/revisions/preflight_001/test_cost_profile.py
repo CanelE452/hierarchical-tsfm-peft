@@ -1,0 +1,162 @@
+"""Mock-only cost-core integration: no CUDA access, foundation load, or training."""
+import math
+from types import SimpleNamespace
+
+import numpy as np
+import pytest
+import torch
+
+from research.memory_budget_20261018_v1 import worker as core
+from research.ppt_justification_20261028_v1 import cost_profile as cost, runtime
+
+
+class Sampler:
+    driver='CPU_MOCK'
+    latest_gpu_mib=None
+
+    def __init__(self,*args,**kwargs):
+        pass
+
+    def start(self):
+        pass
+
+    def set_phase(self,phase):
+        pass
+
+    def stop(self):
+        return dict(process_GPU_sampled_peak_MiB=None,process_GPU_sampling_status='CPU_MOCK',
+                    process_GPU_sampling_reason='Synthetic test; no GPU queried',CPU_RSS_sampled_peak_MiB=0.)
+
+
+class Route:
+    def __init__(self,inputs,mutate=False,drift=False):
+        candidate=inputs['candidate']
+        self.family,self.latent_k=candidate['family'],candidate['K']
+        self.device='cpu'
+        self.spec=dict(row_microbatch=128,F_row_microbatch=128)
+        self.mean,self.std=inputs['saved']['mean'],inputs['saved']['std']
+        self.artifact_sha256='c'*64 if self.family=='B2' else None
+        self.model=torch.nn.Linear(1,1,bias=False).eval() if self.family=='B2' else None
+        frozen=torch.nn.Linear(1,1,bias=False).eval().requires_grad_(False)
+        self.pool=SimpleNamespace(instances_created=1,load_seconds=0.,
+                                  foundation=SimpleNamespace(initial_hash='f'*64,checkpoint_inputs=False,model=frozen))
+        self.last_receipt={}
+        self.calls=[]
+        self.closed=False
+        self.mutate,self.drift=mutate,drift
+
+    def predict_physical(self,physical,observed):
+        batch=len(physical)
+        streams=batch*self.latent_k
+        cap=self.spec['F_row_microbatch']
+        self.last_receipt=dict(F_logical_streams=streams,F_physical_streams=streams,
+                               F_calls=math.ceil(streams/cap),whole_seconds=.001)
+        self.calls.append((batch,streams,self.last_receipt['F_calls']))
+        if self.mutate and len(self.calls)==1:
+            with torch.no_grad():
+                self.pool.foundation.model.weight.add_(1.)
+        return np.full((batch,48,26),2. if self.drift else .25,np.float64)
+
+    def memory_state(self):
+        return dict(resident_weights_gpu_MiB=0.,resident_weights_cpu_MiB=.001,active_adapter_MiB=0.)
+
+    def close(self):
+        self.closed=True
+
+
+def inputs(family='B2',mutate=False,drift=False):
+    task=dict(L=512,H=48,columns=[f'c{i}' for i in range(26)],
+              physical=np.zeros((15788,26),np.float32),observed=np.ones((15788,26),bool),
+              split_ranges=dict(V_select=[13814,15788]))
+    saved=dict(pred_normalized=np.full((41,48,26),.25,np.float32),
+               target_normalized=np.zeros((41,48,26),np.float32),observed=np.ones((41,48,26),bool),
+               origins=np.arange(13814,15741,48,dtype=np.int64),channel_ids=np.asarray(task['columns']),
+               mean=np.zeros(26,np.float32),std=np.ones(26,np.float32))
+    candidate=dict(run_id='Raw_appliances' if family=='RAW' else 'KTAU_main_appliances_K10_s92601',
+                   family=family,K=26 if family=='RAW' else 10,C=26,L=512,H=48,seed=92601,
+                   dataset='appliances',MSE=.0625,MAE=.25,prediction_binding={'sha256':'a'*64})
+    if family=='B2':
+        candidate['bundle_binding']={'sha256':'c'*64}
+    value=dict(task=task,saved=saved,candidate=candidate,expected_f_sha='f'*64,expected_f_params=1)
+    routes=[]
+    def loader():
+        route=Route(value,mutate,drift)
+        routes.append(route)
+        return route
+    value['loader']=loader
+    return value,routes
+
+
+@pytest.mark.parametrize('family,streams,calls,effective_cap',[('RAW',208,2,128),('B2',80,1,80)])
+def test_real_measurement_core_contract_with_cpu_mock(family,streams,calls,effective_cap):
+    value,routes=inputs(family)
+    result,saved=cost.measure(value,'0'*64,device='cpu',sampler_factory=Sampler)
+    assert len(routes)==1 and routes[0].closed
+    assert len(routes[0].calls)==6+10+20
+    assert [r['phase'] for r in result['trials']]==['warmup']*10+['timed']*20
+    assert result['parity']['status']=='PASS' and result['parity']['full_V_origins']==41
+    assert result['parity']['last_batch_size']==1
+    assert result['summary']['requested_row_microbatch']==128
+    assert result['summary']['effective_row_microbatch']==effective_cap
+    assert all(r['F_logical_streams']==streams and r['F_calls']==calls for r in result['trials'])
+    assert result['states_before']==result['states_after']
+    assert result['training_executed'] is False
+    assert saved['pred_normalized'].shape==(41,48,26)
+
+
+def test_mutated_foundation_state_is_rejected():
+    value,routes=inputs(mutate=True)
+    with pytest.raises(ValueError,match='tensor states changed'):
+        cost.measure(value,'0'*64,device='cpu',sampler_factory=Sampler)
+    assert routes[0].closed
+
+
+def test_full_V_prediction_drift_is_rejected_before_timing():
+    value,routes=inputs(drift=True)
+    with pytest.raises(ValueError,match='Full V chunk prediction parity failed'):
+        cost.measure(value,'0'*64,device='cpu',sampler_factory=Sampler)
+    assert routes[0].closed and len(routes[0].calls)==6
+
+
+def test_reference_validation_uses_full_cohort_and_macro_fp64():
+    value,_=inputs()
+    row=value['candidate']
+    assert cost.verify_reference(row,value['saved'])['aggregation']=='equal-channel observed macro'
+    value['saved']['origins'][0]+=1
+    with pytest.raises(ValueError,match='origin grid'):
+        cost.verify_reference(row,value['saved'])
+
+
+def test_reference_target_or_scaler_mismatch_is_rejected():
+    value,_=inputs()
+    other={k:v.copy() for k,v in value['saved'].items()}
+    other['std'][0]=2
+    with pytest.raises(ValueError,match='cohort/scaler'):
+        cost.verify_reference(value['candidate'],value['saved'],other)
+
+
+@pytest.mark.parametrize('state',[None,'RUNNING','STOPPED','READY'])
+def test_measurement_is_blocked_until_training_terminal(tmp_path,monkeypatch,state):
+    monkeypatch.setattr(runtime,'REPORT',tmp_path)
+    if state is not None:
+        (tmp_path/'EXECUTION_COMPLETION.json').write_text('{"status":"'+state+'"}')
+    with pytest.raises(RuntimeError,match='forbidden until'):
+        cost.ensure_training_finished()
+
+
+def test_training_terminal_is_required_without_loading_gpu(tmp_path,monkeypatch):
+    monkeypatch.setattr(runtime,'REPORT',tmp_path)
+    (tmp_path/'EXECUTION_COMPLETION.json').write_text('{"status":"TRAINING_COMPLETE"}')
+    cost.ensure_training_finished()
+
+
+def test_measure_never_loads_foundation_or_creates_optimizer(monkeypatch):
+    def forbidden(*args,**kwargs):
+        raise AssertionError('GPU/train call is forbidden in CPU/mock validation')
+    monkeypatch.setattr(runtime,'load_foundation',forbidden)
+    monkeypatch.setattr(torch.optim,'AdamW',forbidden)
+    monkeypatch.setattr(torch.cuda,'synchronize',forbidden)
+    monkeypatch.setattr(torch.cuda,'reset_peak_memory_stats',forbidden)
+    value,_=inputs()
+    result,_=cost.measure(value,'0'*64,device='cpu',sampler_factory=Sampler)
+    assert result['status']=='COMPLETE'
