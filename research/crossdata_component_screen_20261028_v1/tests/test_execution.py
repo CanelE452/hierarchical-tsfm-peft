@@ -148,3 +148,21 @@ def test_write_boundary_allows_only_campaign_outputs_and_exact_shared_locks(tmp_
         assert runtime.allowed_write_path(path)
     for path in (tmp_path/'research/models.py',runtime.SHARED_CACHE/'SOURCE.json',tmp_path/'other/result.json'):
         assert not runtime.allowed_write_path(path)
+
+
+def test_null_device_exception_is_exact_and_open_only(tmp_path,monkeypatch):
+    monkeypatch.setattr(runtime,'read',lambda path:dict(files=[]))
+    hooks=[]
+    monkeypatch.setattr(runtime.sys,'addaudithook',hooks.append)
+    runtime.install_write_guard();audit=hooks[0]
+    allowed=[runtime.os.devnull]
+    denied=[str(tmp_path/'outside.bin'),str(tmp_path/'nul'),str(tmp_path/'link_to_null')]
+    if runtime.os.name=='nt':
+        allowed += ['NUL',r'\\.\NUL','//./nul']
+        denied += [r'.\nul',r'C:\outside\NUL',r'\\.\CON',r'\\.\COM1',r'\\.\NUL\child',r'\\?\C:\outside\NUL']
+    for path in allowed:
+        audit('open',(path,'r+',runtime.os.O_RDWR))
+        with pytest.raises(PermissionError):audit('os.remove',(path,-1))
+    for path in denied:
+        assert not runtime.is_native_null_device(path)
+        with pytest.raises(OSError):audit('open',(path,'w',runtime.os.O_WRONLY))

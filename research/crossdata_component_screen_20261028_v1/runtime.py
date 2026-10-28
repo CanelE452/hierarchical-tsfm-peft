@@ -391,6 +391,15 @@ def allowed_write_path(path):
             or path in {(SHARED_CACHE/name).resolve() for name in ('controller.lock','worker.lock')})
 
 
+def is_native_null_device(path):
+    if not isinstance(path,(str,bytes,os.PathLike)):
+        return False
+    raw=os.fsdecode(path)
+    if os.name=='nt':
+        return raw.replace('/','\\').casefold() in {os.devnull.casefold(),r'\\.\nul'}
+    return raw==os.devnull
+
+
 def install_write_guard():
     protected = {os.path.normcase(os.path.abspath(row['path']))
                  for row in read(REPORT / 'PRESERVATION_BASELINE.json')['files']}
@@ -409,7 +418,8 @@ def install_write_guard():
             path, mode, flags = args
             if ((isinstance(mode, str) and any(c in mode for c in 'wax+'))
                     or flags & (os.O_WRONLY | os.O_RDWR | os.O_CREAT | os.O_TRUNC | os.O_APPEND)):
-                reject((path,))
+                if not is_native_null_device(path):
+                    reject((path,))
         elif event in ('os.remove', 'os.unlink', 'os.truncate', 'os.chmod', 'os.utime'):
             reject(args[:1])
         elif event in ('os.rename', 'os.replace'):

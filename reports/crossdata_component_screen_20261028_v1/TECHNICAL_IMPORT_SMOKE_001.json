@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "created_utc": "2026-10-28T04:44:55.454079+00:00",
+  "purpose": "Fresh process: strict write guard before scientific imports and registered safe-prefix reads",
+  "checks": [
+    {
+      "dataset": "pems32",
+      "shape": [
+        14284,
+        32
+      ],
+      "T_numeric_values_parsed": 0,
+      "registry": "EXACT_MATCH"
+    },
+    {
+      "dataset": "beijing",
+      "shape": [
+        16830,
+        11
+      ],
+      "T_numeric_values_parsed": 0,
+      "registry": "EXACT_MATCH"
+    }
+  ],
+  "write_events": [
+    {
+      "path": "\\\\.\\nul",
+      "mode": "None",
+      "flags": 130
+    },
+    {
+      "path": "\\\\.\\nul",
+      "mode": "None",
+      "flags": 32898
+    },
+    {
+      "path": "\\\\.\\nul",
+      "mode": "None",
+      "flags": 33665
+    },
+    {
+      "path": "\\\\.\\nul",
+      "mode": "r+",
+      "flags": 32898
+    },
+    {
+      "path": "\\\\.\\nul",
+      "mode": "w",
+      "flags": 33665
+    }
+  ],
+  "CUDA_initialized": false,
+  "GPU_training_calls": 0,
+  "T_numeric_values_parsed": 0,
+  "wall_seconds": 1.779395900084637,
+  "source_sha256": {
+    "research/crossdata_component_screen_20261028_v1/runtime.py": "be2f5f3f37e495ea14239afd3448c2b6fb6cc1f3941c9b5ad5407b0de81b1f02",
+    "research/crossdata_component_screen_20261028_v1/tests/test_execution.py": "e935efd89948fde9164fc58f25e059bcaa55b249aff83443348e2688da1716ff"
+  },
+  "regression": {
+    "before_fix": "FAILED native os.devnull write rejected",
+    "after_fix": "96 passed in 4.00s",
+    "scope": "Only exact native null-device open exception; ordinary external files, nested NUL and other Windows devices remain rejected; remove/rename operations unchanged"
+  }
+}
