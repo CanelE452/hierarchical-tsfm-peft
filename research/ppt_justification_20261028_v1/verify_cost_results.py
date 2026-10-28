@@ -16,7 +16,7 @@ NAME = 'ppt_justification_20261028_v1'
 REPORT = REPO / 'reports' / NAME / 'cost_profile'
 FACETS = ('Raw_appliances', 'KTAU_main_appliances_K10_s92601',
           'KTAU_main_appliances_K10_s92602')
-PREVIOUS_SEAL_SHA = '7c3e8880b563cf9ab5bc5bfe8993b7ec5bc359b219e2e6b13be549798bd8368e'
+PREVIOUS_SEAL_SHA = '32e7ade306e3d78bf742e4d5ce412210731ade3de6ee35d2d4f31d05cd2e722d'
 F_SHA = 'c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874'
 COHORT_KEYS = ('target_normalized', 'observed', 'origins', 'channel_ids', 'mean', 'std')
 
@@ -332,13 +332,14 @@ def validate(report=REPORT):
     report = Path(report).resolve()
     require(report == REPORT.resolve(), 'Validator is restricted to the registered campaign cost directory')
     required = ['COST_SEAL.json', 'COST_PROTOCOL.json', 'COST_INPUTS.json', 'ROOT_LAUNCH_GATE.json',
-                'COST_LAUNCH.json', 'COST_SUMMARY.json', 'HOST_GPU_CONTRACT.json', 'AMENDMENT_002.json', 'HOST_GATE_CPU_TESTS.json'] + [
+                'COST_LAUNCH.json', 'COST_SUMMARY.json', 'HOST_GPU_CONTRACT.json', 'AMENDMENT_003.json',
+                'HOST_ADMISSION_FAILURE_001.json', 'HOST_GATE_CPU_TESTS.json'] + [
                     name+'_'+suffix+'.json' for name in FACETS for suffix in ('MEASUREMENT','HOST_PREFLIGHT','HOST_OBSERVATION')]
     require(all((report/name).is_file() for name in required), 'Actual complete measurements required; no validation file written')
     seal_sha=sha(report/'COST_SEAL.json')
     seal, protocol, rows = read(report/'COST_SEAL.json'), read(report/'COST_PROTOCOL.json'), read(report/'COST_INPUTS.json')['rows']
-    require(seal['revision']==protocol['revision']==3 and seal['previous_seal_sha256']==PREVIOUS_SEAL_SHA,
-            'Cost host amendment must replace and retain the original v2 seal')
+    require(seal['revision']==protocol['revision']==4 and seal['previous_seal_sha256']==PREVIOUS_SEAL_SHA,
+            'System creation amendment must replace and retain the original v3 seal')
     for name, expected in seal['files'].items():
         require(sha(report/name) == expected, 'Sealed file changed: ' + name)
     protocol_sha = sha(report/'COST_PROTOCOL.json')

@@ -65,10 +65,15 @@ def validate_registration(job):
     seal = runtime.read(runtime.REPORT / 'REGISTRATION_SEAL.json')
     expected_names = {'PREREGISTRATION.json', 'PREREGISTRATION.md', 'RUN_PLAN.json',
                       'PRESERVATION_BASELINE.json', 'REFERENCE_RUNS.json'}
-    if protocol.get('amendment') == 'AMENDMENT_001.json':
+    amendment = protocol.get('amendment')
+    if amendment == 'AMENDMENT_001.json':
         expected_names.add('AMENDMENT_001.json')
+    elif amendment == 'AMENDMENT_002.json':
+        expected_names.update({'AMENDMENT_001.json', 'AMENDMENT_002.json'})
+    elif amendment is not None:
+        raise ValueError('Unrecognized prospective registration amendment')
     if set(seal['files']) != expected_names:
-        raise ValueError('Registration seal differs from the five registered input documents')
+        raise ValueError('Registration seal differs from the exact registered input documents')
     for name, digest in seal['files'].items():
         if runtime.sha(runtime.REPORT / name) != digest:
             raise ValueError('Registration document changed after sealing: ' + name)

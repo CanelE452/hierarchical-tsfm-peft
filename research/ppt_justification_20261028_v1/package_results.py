@@ -55,8 +55,9 @@ def public_path(repo,relative):
     parts=[p.lower() for p in pure.parts];name=pure.name.lower()
     if (set(parts)&{'presentation','.cache','private','__pycache__'} or 'draft' in name
             or name.startswith(('speaker_notes','base_notes'))
-            or any(x in name for x in ('raw_counter','raw_host','private_policy','private_identity','stderr','snapshot'))
-            or name in ('policy.json','identity.json')):
+            or any(x in name for x in ('raw_counter','raw_host','raw_inventory','raw_log','private_inventory',
+                                      'private_policy','private_identity','stderr','snapshot'))
+            or name in ('policy.json','identity.json','inventory.json')):
         raise ValueError('Private or presentation member is excluded: '+relative)
     if pure.suffix.lower() not in ('.json','.csv','.md','.py','.png','.svg','.pdf'):
         raise ValueError('Unsupported public member type: '+relative)
@@ -187,7 +188,8 @@ def prepare_results(repo):
     else:raise ValueError('Explicit E verified-result or non-completion disposition required')
 
     cost=gate['cost'];cost_status=cost.get('status');cost_phase='POST_MEASUREMENT'
-    cost_files=cost_public_files(repo)
+    archive_exclusions=[]
+    cost_files=cost_public_files(repo,archive_exclusions=archive_exclusions)
     if cost_status=='VERIFIED':
         cs=read(bind(COST+'COST_SUMMARY.json',cost['summary_sha256']))
         cv=read(bind(COST+'COST_VALIDATION.json',cost['validation_sha256']))
@@ -234,6 +236,7 @@ def prepare_results(repo):
     metadata={'campaign':NAME,'scope':'EXPERIMENT_RESULTS_ONLY','base_complete':analysis['base_complete'],
         'optional_complete':analysis.get('optional_complete'),'total_new_results':analysis['new_result_count'],
         'coverage':analysis['coverage'],'e_status':e_status,'e_coverage':e_coverage,'cost_status':cost_status,'cost_phase':cost_phase,
+        'archive_members_excluded':archive_exclusions,
         'gate_sha256':bindings[MAIN+'ROOT_RESULTS_GATE.json'],'delivery_scope_sha256':gate['delivery_scope_sha256'],
         'limitations':'Exploratory development V. No independent-test, equivalence, universal superiority or exclusive-idle-GPU claim.'}
     return files,bindings,metadata

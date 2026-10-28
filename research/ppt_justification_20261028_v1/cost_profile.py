@@ -165,8 +165,8 @@ def validate_seal():
         if runtime.sha(COST_REPORT/name)!=digest:
             raise ValueError('Cost input/protocol seal changed: '+name)
     protocol=runtime.read(COST_REPORT/'COST_PROTOCOL.json')
-    if protocol.get('revision')!=3 or seal.get('revision')!=3:
-        raise ValueError('WDDM admission requires the prospective cost-v3 amendment and seal')
+    if protocol.get('revision')!=4 or seal.get('revision')!=4:
+        raise ValueError('System creation admission requires the prospective cost-v4 amendment and seal')
     host=protocol['host_gpu_gate']
     if runtime.sha(COST_REPORT/host['contract_path'])!=host['contract_sha256']:
         raise ValueError('Registered host contract changed')
@@ -577,6 +577,69 @@ def prepare_host_amendment(*, seal=False):
     return dict(status='SEALED_NOT_MEASURED',revision=3,seal_sha256=runtime.sha(COST_REPORT/'COST_SEAL.json'))
 
 
+def prepare_system_identity_amendment(*, seal=False):
+    archive=COST_REPORT/'revisions/preflight_003/ARCHIVE_RECEIPT.json'
+    preserved=runtime.read(archive)
+    if (COST_REPORT/'COST_LAUNCH.json').exists() or list(COST_REPORT.glob('*_MEASUREMENT.json')):
+        raise RuntimeError('System identity can only be amended before any cost measurement')
+    for row in preserved['files']:
+        if runtime.sha(runtime.REPO/row['archived'])!=row['sha256']:
+            raise ValueError('Archived cost-v3 evidence changed')
+        if Path(row['source']).name in ('COST_INPUTS.json','COST_PROTOCOL.json','COST_SEAL.json','HOST_GPU_CONTRACT.json'):
+            if runtime.sha(runtime.REPO/row['source'])!=row['sha256']:
+                raise ValueError('Current cost-v3 registration differs from its preserved original')
+    private_receipt=runtime.REPO/preserved['private_archive_receipt_relative_path']
+    if runtime.sha(private_receipt)!=preserved['private_archive_receipt_sha256']:
+        raise ValueError('Private preflight archive receipt changed')
+    if any(runtime.sha(runtime.REPO/row['archived'])!=row['sha256'] for row in runtime.read(private_receipt)['files']):
+        raise ValueError('Private failed preflight evidence changed')
+    failure=runtime.read(COST_REPORT/'HOST_ADMISSION_FAILURE_001.json')
+    if failure['phase']!='PREFLIGHT' or failure['measurement_count']!=0 or failure['scientific_retries_used']!=0:
+        raise ValueError('System identity amendment requires the preserved pre-measurement failure')
+    contract_draft=COST_REPORT/'HOST_GPU_CONTRACT_v2_DRAFT.json'
+    contract,_=host_gpu_gate.load_policy(contract_draft)
+    current_sources={name:runtime.sha(runtime.REPO/name) for name in SOURCE_FILES}
+    tests=runtime.read(COST_REPORT/'HOST_GATE_CPU_TESTS.json')
+    if tests.get('status')!='PASS' or tests.get('source_sha256')!=current_sources:
+        raise ValueError('Current system identity source has no matching CPU test receipt')
+    old_seal=preserved['previous_seal_sha256']
+    if runtime.sha(COST_REPORT/'COST_SEAL.json')!=old_seal:
+        raise ValueError('Only the preserved cost-v3 seal can receive the system identity amendment')
+    amendment_path=COST_REPORT/'AMENDMENT_003.json'
+    draft=COST_REPORT/'COST_PROTOCOL_v4_DRAFT.json'
+    if not seal:
+        runtime.write_new(amendment_path,dict(status='PROSPECTIVE_SYSTEM_IDENTITY_AMENDMENT',revision=4,
+            created_utc=datetime.now(timezone.utc).isoformat(),previous_seal_sha256=old_seal,
+            archive_receipt_sha256=runtime.sha(archive),failure_receipt_sha256=runtime.sha(COST_REPORT/'HOST_ADMISSION_FAILURE_001.json'),
+            phase='PREFLIGHT',cost_measurements_before_amendment=0,scientific_retries_used=0,
+            reason='Installed psutil Windows boot_time is a wall-clock-minus-uptime estimate cached per Python process; exact cross-process equality is not a stable kernel identity.',
+            changes='Explicit windows_system_creation_counter_only provider checks exact System PID4 creation time at every identity snapshot and replay; boot estimate is provenance only. Old boot-only provider policies are rejected.',
+            unchanged='Exact39 desktop identities, device/engine set, all process/lease/lock exclusions, 60s/1Hz/p95<=5%/max<=15% observation, scientific methods, inputs, seeds, facet order, measurement core and deadlines.',
+            public_contract_sha256=runtime.sha(contract_draft),immutable_private_policy_sha256=contract['policy_sha256']))
+        protocol=runtime.read(COST_REPORT/'COST_PROTOCOL.json')
+        protocol.update(revision=4,created_utc=datetime.now(timezone.utc).isoformat(),source_hashes=current_sources,
+            host_cpu_test_receipt_sha256=runtime.sha(COST_REPORT/'HOST_GATE_CPU_TESTS.json'),
+            amendment=dict(path='AMENDMENT_003.json',sha256=runtime.sha(amendment_path),previous_seal_sha256=old_seal))
+        protocol['host_gpu_gate'].update(contract_sha256=runtime.sha(contract_draft),policy_sha256=contract['policy_sha256'])
+        runtime.write_new(draft,protocol)
+        return dict(status='DRAFT_READY_NOT_SEALED',revision=4,draft=str(draft),previous_seal_sha256=old_seal)
+    protocol=runtime.read(draft)
+    if (protocol['source_hashes']!=current_sources or
+            protocol['host_gpu_gate']['contract_sha256']!=runtime.sha(contract_draft) or
+            protocol['amendment']['sha256']!=runtime.sha(amendment_path) or
+            protocol['host_cpu_test_receipt_sha256']!=runtime.sha(COST_REPORT/'HOST_GATE_CPU_TESTS.json')):
+        raise ValueError('Reviewed system identity draft/source/evidence changed before sealing')
+    runtime.atomic(COST_REPORT/'HOST_GPU_CONTRACT.json',contract)
+    if runtime.sha(COST_REPORT/'HOST_GPU_CONTRACT.json')!=runtime.sha(contract_draft):
+        raise ValueError('Activated host contract bytes differ from reviewed draft')
+    runtime.atomic(COST_REPORT/'COST_PROTOCOL.json',protocol)
+    runtime.atomic(COST_REPORT/'COST_SEAL.json',dict(revision=4,created_utc=datetime.now(timezone.utc).isoformat(),
+        previous_seal_sha256=old_seal,files={name:runtime.sha(COST_REPORT/name) for name in
+            ('COST_INPUTS.json','COST_PROTOCOL.json','HOST_GPU_CONTRACT.json','AMENDMENT_003.json','HOST_ADMISSION_FAILURE_001.json')}))
+    validate_seal()
+    return dict(status='SEALED_NOT_MEASURED',revision=4,seal_sha256=runtime.sha(COST_REPORT/'COST_SEAL.json'))
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     group=parser.add_mutually_exclusive_group(required=True)
@@ -586,9 +649,12 @@ def main():
     group.add_argument('--worker',choices=FACETS)
     group.add_argument('--prepare-host-amendment',action='store_true')
     group.add_argument('--seal-host-amendment',action='store_true')
+    group.add_argument('--prepare-system-identity-amendment',action='store_true')
+    group.add_argument('--seal-system-identity-amendment',action='store_true')
     parser.add_argument('--lease-token')
     args=parser.parse_args()
-    result=(prepare_host_amendment(seal=args.seal_host_amendment) if args.prepare_host_amendment or args.seal_host_amendment else
+    result=(prepare_system_identity_amendment(seal=args.seal_system_identity_amendment) if args.prepare_system_identity_amendment or args.seal_system_identity_amendment else
+            prepare_host_amendment(seal=args.seal_host_amendment) if args.prepare_host_amendment or args.seal_host_amendment else
             prepare(amend=args.amend_preflight) if args.prepare or args.amend_preflight else
             run_worker(args.worker,args.lease_token) if args.worker else run_all())
     print(json.dumps(result,ensure_ascii=False))

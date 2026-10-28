@@ -8,7 +8,7 @@ import zipfile
 from . import runtime
 
 
-def archived_public_files(repo, archive_relative, allowed_sources):
+def archived_public_files(repo, archive_relative, allowed_sources, excluded_sources=(), exclusions=None):
     """Include only receipt-bound public originals within this archive."""
     repo=repo.resolve()
     archive=repo/archive_relative
@@ -22,7 +22,9 @@ def archived_public_files(repo, archive_relative, allowed_sources):
     rows=json.loads(receipt.read_text(encoding='utf-8-sig'))['files']
     if not isinstance(rows,list) or not rows:
         raise ValueError('Public archive receipt has no files')
-    files={receipt};seen_sources=set()
+    if not set(excluded_sources)<=allowed_sources:
+        raise ValueError('Excluded archive source must still be explicitly allowed and verified')
+    files={receipt};seen_sources=set();seen_archived=set()
     for row in rows:
         source=row['source']
         archived=row['archived']
@@ -35,18 +37,25 @@ def archived_public_files(repo, archive_relative, allowed_sources):
             raise ValueError('Archived path differs from its public source: '+str(archived))
         p=repo/archived
         if (not p.resolve().is_relative_to(archive.resolve()) or p.suffix.lower() not in ('.json','.md','.py')
-                or p.suffix!=Path(source).suffix or p in files):
+                or p.suffix!=Path(source).suffix or p in seen_archived):
             raise ValueError('Archived public path or suffix is invalid: '+archived)
         if not p.is_file() or p.stat().st_size!=row['bytes'] or runtime.sha(p)!=row['sha256']:
             raise ValueError('Archived bytes or SHA differs from receipt: '+archived)
-        files.add(p)
+        seen_archived.add(p)
+        if source not in excluded_sources:
+            files.add(p)
+        elif exclusions is not None:
+            exclusions.append({'path':archived,'source':source,'bytes':row['bytes'],'sha256':row['sha256'],
+                'archive_receipt':archive_relative+'/ARCHIVE_RECEIPT.json',
+                'reason':'Archived draft is preserved locally and verified against its receipt; the final non-draft protocol is bundled instead.'})
     return files
 
 
-def cost_public_files(repo):
+def cost_public_files(repo, archive_exclusions=None):
     report=repo/'reports/ppt_justification_20261028_v1/cost_profile'
     names=('COST_INPUTS.json','COST_PROTOCOL.json','COST_SEAL.json','CPU_TESTS.json',
-        'AMENDMENT_001.json','AMENDMENT_002.json','HOST_GPU_CONTRACT.json','HOST_GATE_CPU_TESTS.json','HOST_CODE_REVIEW.json',
+        'AMENDMENT_001.json','AMENDMENT_002.json','AMENDMENT_003.json','HOST_ADMISSION_FAILURE_001.json',
+        'HOST_GPU_CONTRACT.json','HOST_GATE_CPU_TESTS.json','HOST_CODE_REVIEW.json',
         'ROOT_LAUNCH_GATE.json','COST_LAUNCH.json','COST_SUMMARY.json','COST_VALIDATION.json')
     facets=('Raw_appliances','KTAU_main_appliances_K10_s92601','KTAU_main_appliances_K10_s92602')
     names+=tuple(facet+'_'+suffix+'.json' for facet in facets
@@ -61,6 +70,19 @@ def cost_public_files(repo):
     second=first|{prefix+'AMENDMENT_001.json',source+'verify_cost_results.py',source+'tests/test_cost_validation.py'}
     files.update(archived_public_files(repo,prefix+'revisions/preflight_001',first))
     files.update(archived_public_files(repo,prefix+'revisions/preflight_002',second))
+    third=second|{prefix+n for n in ('AMENDMENT_002.json','COST_PROTOCOL_v3_DRAFT.json',
+        'HOST_CODE_REVIEW.json','HOST_GATE_CPU_TESTS.json','HOST_GPU_CONTRACT.json','ROOT_LAUNCH_GATE.json')}
+    third.update(source+n for n in ('runtime.py','host_gpu_gate.py','tests/test_host_gpu_gate.py'))
+    third.update(('research/memory_budget_20261018_v1/worker.py','research/b2_dataset_extension_20261018_v1/costs.py'))
+    third.update('research/informs_broad_validation_20261015_v1/'+n for n in
+        ('deployment.py','combination.py','data_contract.py','fit_base.py','training.py','networks.py','gpu_runtime.py','evaluation.py'))
+    excluded=[]
+    files.update(archived_public_files(repo,prefix+'revisions/preflight_003',third,
+        excluded_sources={prefix+'COST_PROTOCOL_v3_DRAFT.json'},exclusions=excluded))
+    if excluded and report/'COST_PROTOCOL.json' not in files:
+        raise ValueError('Archived draft exclusion requires the final non-draft cost protocol')
+    if archive_exclusions is not None:
+        archive_exclusions.extend(excluded)
     return files
 
 
@@ -69,7 +91,7 @@ def e_public_files(repo, fixed_e):
     source=repo/'research/ppt_e_fixed_20261028_v1'
     report_names=('PREREGISTRATION.md','PREREGISTRATION.json','RUN_PLAN.json','REGISTRATION_SEAL.json',
         'PRESERVATION_BASELINE.json','REFERENCE_RUNS.json','PREPARATION_READY.json','UNIT_TESTS.json',
-        'ROOT_DESIGN_LOCK_BEFORE_PREVIEW.json','ROOT_LAUNCH_GATE.json','BUDGET_DECISION.json','LAUNCH.json','AMENDMENT_001.json',
+        'ROOT_DESIGN_LOCK_BEFORE_PREVIEW.json','ROOT_LAUNCH_GATE.json','BUDGET_DECISION.json','LAUNCH.json','AMENDMENT_001.json','AMENDMENT_002.json',
         'PROGRESS.json','EXECUTION_COMPLETION.json','COMPLETION_VALIDATION.json','ANALYSIS_VALIDATION.json',
         'POSTPROCESS_TESTS.json','RUNS.csv','ALL_NEW_RUNS.csv','SUMMARY.csv','CONTRASTS.csv','PAIRED_DIFFERENCES.csv',
         'RESULTS_KO.md','FIG_E_FIXED.png','FIG_E_FIXED.svg','FIG_E_FIXED.pdf')
@@ -101,6 +123,13 @@ def e_public_files(repo, fixed_e):
     archive_sources.update('research/ppt_e_fixed_20261028_v1/'+n for n in
         ('models.py','runtime.py','run_one.py','controller.py','prepare.py','tests/test_contract.py'))
     files.update(archived_public_files(repo,'reports/ppt_e_fixed_20261028_v1/revisions/preflight_001',archive_sources))
+    second=archive_sources|{'reports/ppt_e_fixed_20261028_v1/'+n for n in
+        ('AMENDMENT_001.json','POSTPROCESS_TESTS.json')}
+    second.update('research/ppt_e_fixed_20261028_v1/'+n for n in ('postprocess.py','tests/test_postprocess.py'))
+    second.add('research/ppt_justification_20261028_v1/host_gpu_gate.py')
+    second.update('reports/ppt_justification_20261028_v1/cost_profile/'+n for n in
+        ('HOST_GPU_CONTRACT.json','HOST_GATE_CPU_TESTS.json'))
+    files.update(archived_public_files(repo,'reports/ppt_e_fixed_20261028_v1/revisions/preflight_002',second))
     return files
 
 

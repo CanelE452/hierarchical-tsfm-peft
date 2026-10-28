@@ -165,6 +165,68 @@ def test_measure_never_loads_foundation_or_creates_optimizer(monkeypatch):
 
 
 @pytest.fixture
+def system_amendment_context(tmp_path,monkeypatch):
+    public=tmp_path/'reports'; public.mkdir()
+    private=tmp_path/'cache'; private.mkdir()
+    monkeypatch.setattr(cost,'COST_REPORT',public)
+    monkeypatch.setattr(runtime,'REPO',tmp_path)
+    monkeypatch.setattr(runtime,'REPORT',public)
+    monkeypatch.setattr(runtime,'CACHE',private)
+    monkeypatch.setattr(cost,'SOURCE_FILES',('source.py',))
+    (tmp_path/'source.py').write_text('synthetic source')
+    old=dict(revision=3,warmups=10,timed_trials=20,batch_size=8,host_gpu_gate=dict(contract_path='HOST_GPU_CONTRACT.json'))
+    originals={'COST_INPUTS.json':dict(rows=[]),'COST_PROTOCOL.json':old,
+               'COST_SEAL.json':dict(revision=3,files={}),'HOST_GPU_CONTRACT.json':dict(old=True)}
+    archive=public/'revisions/preflight_003'; archive.mkdir(parents=True)
+    rows=[]
+    for name,value in originals.items():
+        runtime.write_new(public/name,value); (archive/name).write_bytes((public/name).read_bytes())
+        rows.append(dict(source=(public/name).relative_to(tmp_path).as_posix(),
+                         archived=(archive/name).relative_to(tmp_path).as_posix(),sha256=runtime.sha(public/name)))
+    runtime.write_new(private/'archive.json',dict(files=[]))
+    runtime.write_new(archive/'ARCHIVE_RECEIPT.json',dict(files=rows,previous_seal_sha256=runtime.sha(public/'COST_SEAL.json'),
+        private_archive_receipt_relative_path='cache/archive.json',private_archive_receipt_sha256=runtime.sha(private/'archive.json')))
+    runtime.write_new(public/'HOST_ADMISSION_FAILURE_001.json',dict(phase='PREFLIGHT',measurement_count=0,scientific_retries_used=0))
+    contract=dict(policy_sha256='a'*64)
+    runtime.write_new(public/'HOST_GPU_CONTRACT_v2_DRAFT.json',contract)
+    monkeypatch.setattr(cost.host_gpu_gate,'load_policy',lambda path:(contract,{}))
+    runtime.write_new(public/'HOST_GATE_CPU_TESTS.json',dict(status='PASS',source_sha256={'source.py':runtime.sha(tmp_path/'source.py')}))
+    return public,old
+
+
+def test_system_amendment_draft_preserves_science_and_only_explicit_seal_activates(system_amendment_context,monkeypatch):
+    public,old=system_amendment_context
+    previous=runtime.sha(public/'COST_SEAL.json')
+    result=cost.prepare_system_identity_amendment()
+    assert result['status']=='DRAFT_READY_NOT_SEALED'
+    assert runtime.sha(public/'COST_SEAL.json')==previous
+    draft=runtime.read(public/'COST_PROTOCOL_v4_DRAFT.json')
+    assert all(draft[k]==old[k] for k in ('warmups','timed_trials','batch_size'))
+    monkeypatch.setattr(cost,'validate_seal',lambda:None)
+    assert cost.prepare_system_identity_amendment(seal=True)['status']=='SEALED_NOT_MEASURED'
+    assert runtime.read(public/'COST_SEAL.json')['previous_seal_sha256']==previous
+    assert runtime.sha(public/'HOST_GPU_CONTRACT.json')==draft['host_gpu_gate']['contract_sha256']
+    assert not (public/'COST_LAUNCH.json').exists()
+
+
+@pytest.mark.parametrize('fault',['measurement','archive_changed','stale_cpu','nonzero_scientific_retries'])
+def test_system_amendment_refuses_unpreserved_or_measured_state(system_amendment_context,fault):
+    public,_=system_amendment_context
+    if fault=='measurement': (public/'Raw_MEASUREMENT.json').write_text('{}')
+    elif fault=='archive_changed': (public/'revisions/preflight_003/COST_PROTOCOL.json').write_text('{}')
+    elif fault=='stale_cpu': (public/'HOST_GATE_CPU_TESTS.json').write_text('{"status":"PASS","source_sha256":{}}')
+    else: (public/'HOST_ADMISSION_FAILURE_001.json').write_text('{"phase":"PREFLIGHT","measurement_count":0,"scientific_retries_used":1}')
+    with pytest.raises((RuntimeError,ValueError)):
+        cost.prepare_system_identity_amendment()
+    assert not (public/'COST_PROTOCOL_v4_DRAFT.json').exists()
+
+
+def test_old_v3_seal_is_not_reused_with_new_kernel_identity(system_amendment_context):
+    with pytest.raises(ValueError,match='cost-v4'):
+        cost.validate_seal()
+
+
+@pytest.fixture
 def lease_context(tmp_path,monkeypatch):
     public=tmp_path/'reports'
     cache=tmp_path/'cache'

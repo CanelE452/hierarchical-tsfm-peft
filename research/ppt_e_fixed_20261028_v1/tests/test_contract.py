@@ -348,3 +348,35 @@ def test_T_boundary_receipt_requires_zero_tail_parsing():
     runtime.assert_protected_T(dict(job=prepare.jobs()[0],task_access=access))
     access['members'][0]['tail_numeric_values_parsed']=1
     with pytest.raises(ValueError): runtime.assert_protected_T(dict(job=prepare.jobs()[0],task_access=access))
+
+
+@pytest.mark.parametrize('case',['original','amendment001','amendment002','missing001','missing002','extra','unknown','changed002'])
+def test_registration_binds_exact_prospective_amendment_chain(tmp_path,monkeypatch,case):
+    monkeypatch.setattr(runtime,'REPORT',tmp_path)
+    monkeypatch.setattr(runtime,'guard_preserved',lambda:{'changed':[]})
+    monkeypatch.setattr(runtime,'verify_host_gpu_binding',lambda protocol:{'mode':'identity_only'})
+    monkeypatch.setattr(run_one,'source_hashes',lambda:{})
+    job=prepare.jobs()[0]
+    runtime.atomic(tmp_path/'RUN_PLAN.json',dict(jobs=[job]))
+    runtime.atomic(tmp_path/'UNIT_TESTS.json',dict(status='PASS',synthetic=True))
+    protocol=dict(registered_sources={},unit_test_receipt_sha256=runtime.sha(tmp_path/'UNIT_TESTS.json'))
+    names={'PREREGISTRATION.json','PREREGISTRATION.md','RUN_PLAN.json','PRESERVATION_BASELINE.json','REFERENCE_RUNS.json'}
+    if case=='amendment001':
+        protocol['amendment']='AMENDMENT_001.json';names.add('AMENDMENT_001.json')
+    elif case=='unknown':
+        protocol['amendment']='AMENDMENT_UNKNOWN.json'
+    elif case!='original':
+        protocol['amendment']='AMENDMENT_002.json';names.update({'AMENDMENT_001.json','AMENDMENT_002.json'})
+    if case=='missing001':names.remove('AMENDMENT_001.json')
+    if case=='missing002':names.remove('AMENDMENT_002.json')
+    if case=='extra':names.add('UNREGISTERED.json')
+    runtime.atomic(tmp_path/'PREREGISTRATION.json',protocol)
+    for name in names-{'PREREGISTRATION.json','RUN_PLAN.json'}:
+        (tmp_path/name).write_text('synthetic-only',encoding='utf-8')
+    runtime.atomic(tmp_path/'REGISTRATION_SEAL.json',dict(created_utc='2026-01-01T00:00:00+00:00',
+        files={name:runtime.sha(tmp_path/name) for name in names}))
+    if case=='changed002':(tmp_path/'AMENDMENT_002.json').write_text('unsealed-change',encoding='utf-8')
+    if case in ('original','amendment001','amendment002'):
+        assert set(run_one.validate_registration(job)['files'])==names
+    else:
+        with pytest.raises(ValueError):run_one.validate_registration(job)

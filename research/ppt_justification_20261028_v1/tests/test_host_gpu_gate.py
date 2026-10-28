@@ -17,7 +17,7 @@ def scene(tmp_path):
     target = dict(adapter_luid='0x00000000_0x00000001', physical_index=0,
                   engine_keys=['0x00000000_0x00000001/phys0/eng0/3d', '0x00000000_0x00000001/phys0/eng9/copy'])
     policy = dict(device=dict(gpu_uuid='GPU-synthetic'), desktop_processes=[identity], counter_target=target,
-                  kernel_engine_provider=dict(kind='windows_system_counter_only', pid=4, name='System', boot_time=50.))
+                  kernel_engine_provider=dict(kind='windows_system_creation_counter_only', pid=4, name='System', created=50., observed_boot_time=50.))
     records = {20: dict(identity, name='desktop.exe', ppid=1, command=['desktop.exe']),
                4: dict(pid=4, created=50., name='System', exe=None, command=[], ppid=0)}
     contexts = [dict(pid=20, gpu_uuid='GPU-synthetic')]
@@ -40,7 +40,7 @@ def contract(policy):
         background_engine_p95_limit_percent=5., background_engine_max_limit_percent=15.))
 
 
-def test_reviewed_desktop_and_boot_bound_System_are_explicit(scene):
+def test_reviewed_desktop_and_creation_bound_System_are_explicit(scene):
     snapshot = admit(scene)
     totals = host.background_engines(raw_sample(), scene[0], snapshot)
     assert sorted(totals.values()) == [1., 1.]
@@ -48,8 +48,50 @@ def test_reviewed_desktop_and_boot_bound_System_are_explicit(scene):
     assert snapshot['observed'][0]['exe_sha256'] == scene[0]['desktop_processes'][0]['exe_sha256']
 
 
+def test_System_creation_survives_cross_process_boot_estimate_drift(scene):
+    scene[0]['kernel_engine_provider'] = dict(kind='windows_system_creation_counter_only',
+        pid=4, name='System', created=50., observed_boot_time=50.)
+    snapshot = host.validate_identity(*scene, boot_time=50.009)
+    assert snapshot['kernel_engine_provider']['created'] == 50.
+    assert snapshot['kernel_engine_provider']['observed_boot_time'] == 50.009
+    host.validate_stored_identity(snapshot, scene[0])
+
+
+def test_changed_System_creation_rejected_even_when_boot_estimate_matches(scene):
+    scene[0]['kernel_engine_provider'] = dict(kind='windows_system_creation_counter_only',
+        pid=4, name='System', created=50., observed_boot_time=50.)
+    scene[1][4]['created'] = 50.001
+    with pytest.raises(RuntimeError, match='System creation identity changed'):
+        host.validate_identity(*scene, boot_time=50.)
+
+
+def test_old_boot_only_policy_cannot_silently_change_meaning(scene):
+    scene[0]['kernel_engine_provider'] = dict(kind='windows_system_counter_only', pid=4, name='System', boot_time=50.)
+    with pytest.raises(RuntimeError, match='boot-only policies are unsupported'):
+        admit(scene)
+
+
+@pytest.mark.parametrize('fault', ['missing_created', 'nan_created', 'missing_System', 'nan_provenance'])
+def test_System_identity_cannot_be_missing_or_nonfinite(scene, fault):
+    if fault == 'missing_created': scene[1][4].pop('created')
+    elif fault == 'nan_created': scene[1][4]['created'] = float('nan')
+    elif fault == 'missing_System': scene[1].pop(4)
+    with pytest.raises(RuntimeError):
+        host.validate_identity(*scene, boot_time=float('nan') if fault == 'nan_provenance' else 50.)
+
+
+@pytest.mark.parametrize('fault', ['changed_created', 'old_provider', 'missing_provider'])
+def test_recorded_System_identity_is_rechecked_not_only_copied(scene, fault):
+    snapshot = admit(scene)
+    if fault == 'changed_created': snapshot['kernel_engine_provider']['created'] += .001
+    elif fault == 'old_provider': snapshot['kernel_engine_provider']['kind'] = 'windows_system_counter_only'
+    else: snapshot['kernel_engine_provider'] = None
+    with pytest.raises(RuntimeError):
+        host.validate_stored_identity(snapshot, scene[0])
+
+
 @pytest.mark.parametrize('fault', ['unknown', 'reused_pid', 'spoofed_path', 'changed_image', 'different_gpu',
-                                  'System_boot', 'System_name', 'missing_identity', 'duplicate_policy'])
+                                  'System_created', 'System_name', 'missing_identity', 'duplicate_policy'])
 def test_identity_faults_rejected(scene, tmp_path, fault):
     policy, records, contexts = scene
     if fault == 'unknown':
@@ -64,8 +106,8 @@ def test_identity_faults_rejected(scene, tmp_path, fault):
         Path(records[20]['exe']).write_bytes(b'changed executable')
     elif fault == 'different_gpu':
         contexts[0]['gpu_uuid'] = 'GPU-other'
-    elif fault == 'System_boot':
-        policy['kernel_engine_provider']['boot_time'] = 1.
+    elif fault == 'System_created':
+        policy['kernel_engine_provider']['created'] = 1.
     elif fault == 'System_name':
         records[4]['name'] = 'Unknown'
     elif fault == 'missing_identity':
@@ -187,6 +229,21 @@ def test_identity_receipt_independently_binds_private_bytes(scene, tmp_path, mon
         host.verify_identity_receipt(receipt,cfg_path)
 
 
+def test_actual_admission_records_current_System_identity_and_replays(scene, tmp_path, monkeypatch):
+    monkeypatch.setattr(host, 'REPO', tmp_path)
+    monkeypatch.setattr(host, 'PRIVATE', tmp_path/'private')
+    cfg=contract(scene[0]); path=tmp_path/'contract.json'; host.write_new(path,cfg)
+    monkeypatch.setattr(host, 'load_policy', lambda p:(cfg,scene[0]))
+    monkeypatch.setattr(host, 'process_records', lambda:scene[1])
+    monkeypatch.setattr(host, 'gpu_contexts', lambda:scene[2])
+    monkeypatch.setattr(host.psutil, 'boot_time', lambda:50.009)
+    receipt=host.admit_identity(path)
+    snapshot=host.read(tmp_path/receipt['private_snapshot_relative_path'])
+    assert snapshot['kernel_engine_provider']['observed_boot_time']==50.009
+    assert snapshot['kernel_engine_provider']['created']==50.
+    assert host.verify_identity_receipt(receipt,path)['status']=='PASS'
+
+
 def test_cost_trace_recomputed_from_raw_counters_and_private_hash(scene, tmp_path, monkeypatch):
     monkeypatch.setattr(host, 'REPO', tmp_path)
     monkeypatch.setattr(host, 'PRIVATE', tmp_path/'private')
@@ -201,6 +258,12 @@ def test_cost_trace_recomputed_from_raw_counters_and_private_hash(scene, tmp_pat
     assert host.verify_observation_receipt(receipt,cfg_path)['status']=='PASS'
     receipt['background_engine_statistics'][next(iter(receipt['background_engine_statistics']))]['p95_percent']=0.
     with pytest.raises(RuntimeError,match='summary differs'):
+        host.verify_observation_receipt(receipt,cfg_path)
+    receipt['background_engine_statistics']=host.validate_observation(rows,cfg,required_start=0.,required_end=60.,preflight=True)['background_engine_statistics']
+    rows[10]['identity']['kernel_engine_provider']['created']+=.001
+    trace.write_text(''.join(json.dumps(row)+'\n' for row in rows),encoding='utf8')
+    receipt['private_trace_sha256']=host.sha(trace)
+    with pytest.raises(RuntimeError,match='System creation identity changed'):
         host.verify_observation_receipt(receipt,cfg_path)
 
 
@@ -243,6 +306,8 @@ def test_valid_utf8_json_capture_keeps_policy_semantics(capture_context, monkeyp
     assert cfg['performance']['background_engine_max_limit_percent']==15.
     assert cfg['E_scope']=='Identity-only host admission before CUDA at each worker start; controller enforces upstream-process exclusion and shared reservations; no performance claim'
     assert policy['kernel_engine_provider']['pid']==4
+    assert policy['kernel_engine_provider']['kind']=='windows_system_creation_counter_only'
+    assert policy['kernel_engine_provider']['created']==50.
     assert [row['pid'] for row in policy['desktop_processes']]==[20]
     assert not list(host.PRIVATE.glob('capture_stderr_*.bin'))
 
@@ -269,6 +334,7 @@ def test_counter_timeout_keeps_binary_stderr_and_refuses_capture(capture_context
 def test_observer_stderr_is_a_binary_fd(capture_context, scene, monkeypatch):
     cfg=contract(scene[0]); host.write_new(host.CONTRACT,cfg)
     monkeypatch.setattr(host, 'load_policy', lambda p:(cfg,scene[0]))
+    monkeypatch.setattr(host.psutil, 'boot_time', lambda:50.009)
     error='원본 오류'.encode('cp949')
     def popen(*args, **kwargs):
         assert 'b' in kwargs['stderr'].mode
@@ -278,3 +344,4 @@ def test_observer_stderr_is_a_binary_fd(capture_context, scene, monkeypatch):
     observer=host.HostObservation(host.CONTRACT,'synthetic_binary_stderr',{}).start()
     observer.finish(0.,0.)
     assert observer.stderr_path.suffix=='.bin' and observer.stderr_path.read_bytes()==error
+    assert observer.samples[0]['identity']['kernel_engine_provider']['observed_boot_time']==50.009

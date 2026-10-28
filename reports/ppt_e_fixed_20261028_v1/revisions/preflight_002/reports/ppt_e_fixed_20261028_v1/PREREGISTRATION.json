@@ -1,0 +1,149 @@
+{
+  "campaign": "ppt_e_fixed_20261028_v1",
+  "status": "PREREGISTERED_BEFORE_TRAINING",
+  "authority": "User authorized PPT justification experiments; root alone reviews, seals, commits, and launches this separate study.",
+  "base_commit": "e8d2c7534e215c28467d8fbbc13515b00f3fdedb",
+  "registered_sources": {
+    "research/ppt_e_fixed_20261028_v1/models.py": "f664872a048521b1fb0b189de4b64ff25500a8169baa50d5affadf0828055661",
+    "research/ppt_e_fixed_20261028_v1/runtime.py": "80e3f68f28c0ff4ed8d58ff52ac01bcf47104760892227b8c99157a8ea427508",
+    "research/ppt_e_fixed_20261028_v1/run_one.py": "c54229b2c29f50306a564cccdb5fcee149ce1e10cbf0601a1d382e916c613c12",
+    "research/ppt_e_fixed_20261028_v1/controller.py": "4ec0683f782c43dc2589bfe7381c843bdff0beb99b18eb1192f9b0fcbb68a495",
+    "research/ppt_e_fixed_20261028_v1/prepare.py": "616ddadf609fc6057468f574f5415becc98eca2d78ffb4b2b459100038120d44",
+    "research/ppt_e_fixed_20261028_v1/tests/test_contract.py": "80eaa6fcfca0c53dce0f2698bf170d3205879b6c1c0f4ea03ff27ca0d91ee2c0"
+  },
+  "unit_test_receipt_sha256": "37f04c8f15bd17c8df01bc762db4bbcacb6c3dd1d9e4c1aa10a63884fd31b011",
+  "training_deadline": "2026-10-28T17:30:00+09:00",
+  "delivery_deadline": "2026-10-28T20:00:00+09:00",
+  "seeds": [
+    92601,
+    92602,
+    92603,
+    92604,
+    92605
+  ],
+  "datasets": {
+    "jena": 6
+  },
+  "base_runs": 5,
+  "optional_base_runs": 0,
+  "extension_runs": 5,
+  "hypothesis": "At the selected K6/PCA initialization and original P/frozen F/lag7 D/anchor, allowing E to learn improves development forecasting versus freezing only E.",
+  "intervention": "Construct the same original fresh B2 at each seed/stage, then only model.E.requires_grad_(False). P, D, anchor, frozen F, initial tensors, losses and optimizer schedule otherwise unchanged.",
+  "identification": "Learning E at this chosen architecture/K/initialization; not PCA optimality, K optimality, or universal necessity. F remains frozen; P and D still adapt.",
+  "reference": {
+    "source_sha256": "102912b2d32e319d39cd4478112d1c82f856a551a2ee8d24e1ff73809d3ba678",
+    "Full_seed_count": 5,
+    "cap3_selected_count": 0,
+    "selected_epochs": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.25
+    ]
+  },
+  "training": {
+    "L": 512,
+    "H": 48,
+    "K": 6,
+    "C": 21,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0,
+    "gradient_clip": 1,
+    "effective_batch": 16,
+    "microbatch": 4,
+    "F_row_microbatch": 128,
+    "checkpoint_inputs": false,
+    "device": "cuda",
+    "dtype": "float32",
+    "revin": false,
+    "base_epochs": [
+      0,
+      0.25,
+      1,
+      3
+    ],
+    "extension_epochs": [
+      0,
+      0.25,
+      1,
+      3,
+      6,
+      10
+    ],
+    "selection": "Minimum A_stop MSE, earlier exact tie; selection sealed before fresh A60 refit and V evaluation."
+  },
+  "data_bounds": {
+    "A_fit": [
+      0,
+      10482
+    ],
+    "A_stop": [
+      10482,
+      12579
+    ],
+    "A60_refit": [
+      0,
+      12579
+    ],
+    "V_select": [
+      14675,
+      16772
+    ],
+    "T_start": 16772,
+    "chronology": "Only bounded pre-T Jena prefix; no protected T numeric values."
+  },
+  "invariants": [
+    "Exact initial/live/selected E equality separately within search and fresh refit.",
+    "Original PCA is independently re-fitted on each allowed training endpoint; E need not equal between A_fit and A60.",
+    "E absent from actual optimizer groups at every training segment, E gradient absent.",
+    "All other parameter values match original seeded B2 immediately before training.",
+    "Full-P matched predictions are reused; completed E-fixed jobs are hash-verified, never repeated."
+  ],
+  "extension_policy": {
+    "trigger": "At least3/5 base seeds select cap3",
+    "action": "Run all five cap10 candidates if triggered.",
+    "terminal": "At least3/5 cap10 selections means UNDERTRAINED_AT_10; no further runs.",
+    "partial": "Incomplete five-seed groups never become the primary result; required incomplete extension remains provisional."
+  },
+  "controller_policy": {
+    "concurrency": 1,
+    "base_job_seconds": 1080,
+    "extension_job_seconds": 1800,
+    "admission_margin_seconds": 120,
+    "admission": "Before any new study training reserve all unfinished base jobs plus every possible unfinished extension: first start requires14520s (4h2m). Time and A_stop only; V never changes admission.",
+    "retries": 1,
+    "retry": "One same-setting technical retry; scientific integrity failure stops.",
+    "prerequisites": "Upstream training terminal and actual controller/run_one/cost processes absent; explicit root gate tied to this seal.",
+    "locking": "Parent holds upstream controller.lock; GPU child holds upstream worker.lock plus own worker.lock for its full lifetime. Lease verifies owner PID/creation/module and limited matching Python ancestry. Before CUDA loading, the shared host gate permits only prospectively sealed exact desktop identities and rejects unknown/new/Python/WSL GPU contexts."
+  },
+  "analysis": {
+    "primary_metric": "Normalized development-V channel-macro FP64 MSE",
+    "secondary_metric": "Normalized development-V channel-macro FP64 MAE",
+    "contrast": "E_FIXED minus matched OURS for each seed; positive means learning E helped.",
+    "descriptive": "All five points, paired differences, median/Q1/Q3, maximum-IQR descriptive rule inherited from parent. No significance or equivalence claim.",
+    "report": [
+      "Actual selected epochs/caps",
+      "Frozen126 E parameters; expected35591 trainable versus Full35717",
+      "All attempts and wall time",
+      "Budget and optimization status"
+    ],
+    "limits": [
+      "Jena selected prospectively from prior known P benefit; development V already viewed repeatedly.",
+      "n5 is a time-limited exploratory pilot, not an independent final test.",
+      "A null or worse result must remain visible and cannot be converted into a necessity claim.",
+      "Freezing changes the optimization space by126 parameters; no claim that E learning is the only possible effective parameterization."
+    ]
+  },
+  "host_gpu_gate": {
+    "mode": "identity_only",
+    "helper_relative_path": "research/ppt_justification_20261028_v1/host_gpu_gate.py",
+    "helper_sha256": "944936b5a1b025de45d6cc470ea5301bc73c77f539794a56668aece58c10e898",
+    "contract_relative_path": "reports/ppt_justification_20261028_v1/cost_profile/HOST_GPU_CONTRACT.json",
+    "contract_sha256": "831738eb0fe187af50f142b4d9b85a261f6337d1222131272c26bf165c97b844",
+    "desktop_concurrent_load": true,
+    "load_policy": "Only prospectively sealed exact desktop identities may coexist. Unknown/new/Python/WSL GPU contexts are rejected. No utilization ceiling: this E study is not a performance benchmark."
+  },
+  "amendment": "AMENDMENT_001.json"
+}

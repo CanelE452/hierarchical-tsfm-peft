@@ -159,7 +159,8 @@ class ResultsBundleTests(unittest.TestCase):
 
     def test_path_escape_and_private_reviewed_files_are_rejected(self):
         for name in ('../outside.json','C:/private.json',pack.MAIN+'presentation/secret.json',
-                     pack.MAIN+'talk.pdf',pack.COST+'private_policy.json',pack.MAIN+'SPEAKER_NOTES.md'):
+                     pack.MAIN+'talk.pdf',pack.COST+'private_policy.json',pack.MAIN+'SPEAKER_NOTES.md',
+                     pack.COST+'inventory.json',pack.COST+'private_inventory.json',pack.COST+'raw_logs.json'):
             with self.subTest(name=name),self.assertRaises(ValueError):pack.public_path(self.repo,name)
 
     def test_complete_e_and_provisional_five_seed_result_are_both_preserved(self):
@@ -198,6 +199,41 @@ class ResultsBundleTests(unittest.TestCase):
         self.include_cost();files,_,metadata=pack.prepare_results(self.repo)
         self.assertEqual(metadata['cost_status'],'VERIFIED')
         self.assertIn(self.repo/(pack.COST+'COST_SUMMARY.json'),files)
+
+    def test_operational_amendments_and_archives_flow_into_results_only_bundle(self):
+        expected=set()
+        for relative in (pack.COST+'AMENDMENT_003.json',pack.COST+'HOST_ADMISSION_FAILURE_001.json',pack.COST+'COST_PROTOCOL.json',
+                         pack.E+'AMENDMENT_002.json'):
+            expected.add(self.put(relative,{'status':'SYNTHETIC_PUBLIC_EVIDENCE'}))
+        for archive,sources in (
+            (pack.COST+'revisions/preflight_003/',[pack.COST+'HOST_GPU_CONTRACT.json',
+                'research/ppt_justification_20261028_v1/host_gpu_gate.py',pack.COST+'COST_PROTOCOL_v3_DRAFT.json']),
+            (pack.E+'revisions/preflight_002/',[pack.E+'AMENDMENT_001.json',
+                pack.COST+'HOST_GPU_CONTRACT.json','research/ppt_e_fixed_20261028_v1/postprocess.py'])):
+            rows=[]
+            for source in sources:
+                relative=archive+source;p=self.put(relative,'preserved synthetic original')
+                rows.append({'source':source,'archived':relative,'bytes':p.stat().st_size,'sha256':self.digest(relative)})
+                if 'DRAFT' not in source:expected.add(p)
+            expected.add(self.put(archive+'ARCHIVE_RECEIPT.json',{'files':rows}))
+        denied=[pack.COST+'COST_PROTOCOL_v4_DRAFT.json',pack.COST+'HOST_GPU_CONTRACT_v2_DRAFT.json',
+                pack.COST+'private_inventory.json','.cache/ppt_justification_20261028_v1/host_inventory.json']
+        for relative in denied:self.put(relative,'not public')
+        files,bindings,metadata=pack.prepare_results(self.repo)
+        self.assertTrue(expected<=files)
+        self.assertFalse(any('draft' in p.name.lower() for p in files))
+        self.assertFalse({self.repo/p for p in denied}&files)
+        self.assertTrue(all(bindings[p.relative_to(self.repo).as_posix()]==pack.sha(p) for p in expected))
+        excluded=metadata['archive_members_excluded']
+        self.assertEqual(len(excluded),1)
+        self.assertEqual(excluded[0]['source'],pack.COST+'COST_PROTOCOL_v3_DRAFT.json')
+        self.assertEqual(excluded[0]['sha256'],self.digest(excluded[0]['path']))
+        receipt=pack.write_results_bundle(self.repo,files,bindings,metadata)
+        self.assertEqual(receipt['archive_members_excluded'],excluded)
+        with zipfile.ZipFile(receipt['zip_path']) as archive:
+            manifest=json.loads(archive.read(pack.MAIN+pack.MANIFEST_NAME))
+            self.assertEqual(manifest['archive_members_excluded'],excluded)
+            self.assertNotIn(excluded[0]['path'],archive.namelist())
 
     def test_contaminated_cost_excludes_aggregate_and_explains_phase(self):
         p=self.gate['cost']['disposition_path']

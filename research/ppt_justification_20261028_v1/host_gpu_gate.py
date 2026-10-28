@@ -131,6 +131,21 @@ def module_name(record):
     return command[command.index('-m')+1] if '-m' in command and command.index('-m')+1 < len(command) else None
 
 
+def validate_kernel_identity(observed, registered):
+    if registered is None:
+        require(observed is None, 'Unregistered System counter provider')
+        return
+    fields = ('kind', 'pid', 'name', 'created')
+    keys = set(fields) | {'observed_boot_time'}
+    for row in (registered, observed):
+        require(isinstance(row, dict) and set(row) == keys and
+                row['kind'] == 'windows_system_creation_counter_only' and row['pid'] == 4 and row['name'] == 'System',
+                'Explicit System creation provider policy required; boot-only policies are unsupported')
+        require(all(type(row[key]) in (int, float) and math.isfinite(row[key]) and row[key] > 0
+                    for key in ('created', 'observed_boot_time')), 'System identity/provenance is unavailable')
+    require(all(observed[key] == registered[key] for key in fields), 'System creation identity changed')
+
+
 def validate_identity(policy, records, contexts, allowed_processes=None, allowed_gpu_processes=None, *, boot_time=None):
     allowed_processes, allowed_gpu_processes = allowed_processes or {}, allowed_gpu_processes or {}
     allowed_modules = set()
@@ -162,8 +177,11 @@ def validate_identity(policy, records, contexts, allowed_processes=None, allowed
         observed.append(dict(pid=pid, role='desktop', created=current['created'], exe=exe, exe_sha256=expected['exe_sha256']))
     system = policy.get('kernel_engine_provider')
     if system is not None:
-        require(system == dict(kind='windows_system_counter_only', pid=4, name='System', boot_time=boot_time), 'System counter provider boot identity changed')
         require(4 in records and records[4]['name'] == 'System', 'System counter provider identity unavailable')
+        observed_system = dict(kind='windows_system_creation_counter_only', pid=4, name=records[4]['name'],
+                               created=records[4].get('created'), observed_boot_time=boot_time)
+        validate_kernel_identity(observed_system, system)
+        system = observed_system
     return dict(timestamp_unix=time.time(), observed=observed, kernel_engine_provider=system,
                 allowed_processes={str(pid): created for pid, created in allowed_processes.items()})
 
@@ -176,6 +194,7 @@ def load_policy(contract_path=CONTRACT):
     require(policy_path.is_relative_to(PRIVATE.resolve()), 'Host policy is outside its private campaign directory')
     require(sha(policy_path) == contract['policy_sha256'], 'Immutable private desktop policy changed')
     policy = read(policy_path)
+    validate_kernel_identity(policy.get('kernel_engine_provider'), policy.get('kernel_engine_provider'))
     require(policy['device'] == contract['device'] and policy['counter_target'] == contract['counter_target'], 'Host device/counter binding differs')
     require(contract['performance'] == dict(sample_interval_seconds=1, preflight_seconds=60,
                 maximum_sample_gap_seconds=2.5, background_engine_p95_limit_percent=5.,
@@ -209,7 +228,7 @@ def validate_stored_identity(snapshot, policy, *, gpu_worker_allowed=False):
         else:
             require(row['role'] == 'desktop' and row['pid'] in desktops, 'Unregistered recorded desktop identity')
             require(all(row[key] == desktops[row['pid']][key] for key in ('pid', 'created', 'exe', 'exe_sha256')), 'Recorded desktop tuple differs from immutable policy')
-    require(snapshot['kernel_engine_provider'] == policy.get('kernel_engine_provider'), 'Recorded kernel identity differs')
+    validate_kernel_identity(snapshot['kernel_engine_provider'], policy.get('kernel_engine_provider'))
 
 
 def verify_identity_receipt(receipt, contract_path=CONTRACT):
@@ -415,7 +434,9 @@ def capture_policy(pids, adapter_luid, physical_index, include_system=False):
     kernel = None
     if include_system:
         require(4 in records and records[4]['name'] == 'System', 'Windows System provider could not be identified')
-        kernel = dict(kind='windows_system_counter_only', pid=4, name='System', boot_time=psutil.boot_time())
+        kernel = dict(kind='windows_system_creation_counter_only', pid=4, name='System',
+                      created=records[4]['created'], observed_boot_time=psutil.boot_time())
+        validate_kernel_identity(kernel, kernel)
     try:
         counter_result = subprocess.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command',
             COUNTER_SCRIPT.replace('-Continuous', '-MaxSamples 1')], capture_output=True,
@@ -447,7 +468,7 @@ def capture_policy(pids, adapter_luid, physical_index, include_system=False):
     contract = dict(schema_version=1, mode='wddm_registered_desktop_concurrency', created_utc=policy['created_utc'],
                     private_policy_relative_path=POLICY.relative_to(REPO).as_posix(), policy_sha256=sha(POLICY),
                     device=device, counter_target=policy['counter_target'], source_sha256=sha(__file__),
-                    desktop_identity_count=len(entries), kernel_provider='Windows System PID4 + boot identity; counter attribution only' if kernel else None,
+                    desktop_identity_count=len(entries), kernel_provider='Windows System PID4 + exact creation time; boot estimate is provenance only; counter attribution only' if kernel else None,
                     performance=dict(sample_interval_seconds=1, preflight_seconds=60, maximum_sample_gap_seconds=2.5,
                         background_engine_p95_limit_percent=5., background_engine_max_limit_percent=15.),
                     limits=['Engineering admission limits fixed before measurement; not a universal safety/performance guarantee.',
