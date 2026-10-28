@@ -1,0 +1,142 @@
+{
+  "status": "REGISTERED_BEFORE_MEASUREMENT",
+  "revision": 4,
+  "created_utc": "2026-10-28T10:50:53.018822+00:00",
+  "scope": "One new3-facet inference measurement attempt after disclosed environmental repair; unchanged selectedRaw/FullPmodels2seeds and same settings; no training/refit/modelselection.",
+  "facet_order": [
+    "Raw_appliances",
+    "KTAU_main_appliances_K10_s92601",
+    "KTAU_main_appliances_K10_s92602"
+  ],
+  "fresh_process_per_facet": true,
+  "concurrency": 1,
+  "device": "cuda",
+  "dtype": "float32",
+  "threads": 2,
+  "TF32": false,
+  "autocast": false,
+  "quantization": false,
+  "compile": false,
+  "batch_size": 8,
+  "requested_F_row_microbatch": 128,
+  "warmups": 10,
+  "timed_trials": 20,
+  "expected_work": {
+    "RAW": {
+      "streams": 208,
+      "calls": 2,
+      "row_sizes": [
+        128,
+        80
+      ]
+    },
+    "B2": {
+      "streams": 80,
+      "calls": 1,
+      "row_sizes": [
+        80
+      ]
+    }
+  },
+  "core": "Unmodified research.memory_budget_20261018_v1.worker.evaluate_facet(stage=confirm)",
+  "deployment": "Unmodified broad-validation deployment.Route with selected exact original bundle, fixed A60 scaler, frozen Bolt.",
+  "timing_scope": "physical history and mask -> local causal fill -> fixed A60 scale -> P/E/F/D or Raw -> inverse -> CPU output; excludes window slicing, load, full-V parity, hashes, metric scoring.",
+  "parity": {
+    "full_V_origins": 41,
+    "complete_target_shape": [
+      41,
+      48,
+      26
+    ],
+    "prediction_atol": 1e-05,
+    "prediction_rtol": 0.0001,
+    "source_metric_atol": 1e-12,
+    "regenerated_metric_atol": 1e-05,
+    "regenerated_metric_rtol": 0.0001,
+    "metric": "equal-channel observed macro FP64",
+    "state": "Exact adapter/F tensor hashes before and after inference"
+  },
+  "synchronization": "Before and after every warmup/timed whole-path call; CUDA peak reset before each timed call.",
+  "memory_scope": "Core empty_cache once after deployed model load and before loaded baseline/full-V parity; peak allocated=max20 timed trials, reserved reported separately, resident weights included.",
+  "summary": "median/IQR/p95 from20 repeated first-B8 calls; descriptive p95, not service-tail guarantee.",
+  "restrictions": "Never run while the scientific controller/worker is active. No GPU action in preparation. Root authorizes measurement after training.",
+  "launch_gate": {
+    "root_gate": "ROOT_LAUNCH_GATE.json: status PASS, allow_gpu true, registration_seal_sha256 equals COST_SEAL hash",
+    "parent": "Live PID/create_time/exact command plus ACTIVE facet/token lease; shared campaign controller.lock for whole parent lifetime.",
+    "child": "At most five Python process ancestry links through the exact worker command; shared campaign worker.lock and cost worker.lock for whole actual GPU child lifetime.",
+    "handoff": "Parent holds shared worker.lock only between children, releases immediately before spawning; child reacquires before any CUDA work and retains through process exit.",
+    "exclusion": "Existing terminal training/live experiment/lease/shared-lock exclusion retained; exact registered WDDM desktop identities with cost-only bounded all-engine host telemetry."
+  },
+  "model_load_seconds_scope": "Actual deployment loader time excludes pre-inference adapter/foundation state hashes; wrapper including hash time reported separately.",
+  "estimated_minutes": [
+    8,
+    18
+  ],
+  "training_deadline": "2026-10-28T17:30:00+09:00",
+  "delivery_deadline": "2026-10-28T20:00:00+09:00",
+  "reference_source": {
+    "path": "C:\\Users\\User\\.codex\\worktrees\\comparative-ablation-20261025\\hierarchical-tsfm-peft\\reports\\comparative_ablation_followup_20261027_v1\\RUNS.csv",
+    "sha256": "d6fd3017403cb4f5e7b74df7fe47ae4237eacb671265b2b5aa39d161354f893e"
+  },
+  "safe_data": {
+    "prefix_path": "C:\\Users\\User\\.codex\\worktrees\\adapter-diagnostics-v2\\hierarchical-tsfm-peft\\.cache\\b2_dataset_search_20261019_v1\\data\\appliances\\PREFIX_PHYSICAL.npz",
+    "prefix_sha256": "ec1af987e6f67bbe4dd0b787fb889e2a6f0b67d0f682c96c3dc6cfcc8823d14f",
+    "config_path": "C:\\Users\\User\\.codex\\worktrees\\adapter-diagnostics-v2\\hierarchical-tsfm-peft\\.cache\\b2_dataset_search_20261019_v1\\data\\appliances\\DATA_DIAGNOSTIC.json",
+    "config_sha256": "c4ba8cefbbfb69dacc89474d24d04c8cb8cd3b9061f4cdcc3159552892f5c2b5",
+    "A60_fit_end": 11841,
+    "V": [
+      13814,
+      15788
+    ],
+    "T_start": 15788,
+    "T_numeric_values_parsed": 0
+  },
+  "foundation": {
+    "state_sha256": "c2b4edf7db22d3f18e58ca79299a5c7e864e9b8f277e4e29e2f88d07dbb35874",
+    "parameters": 47718016,
+    "model_path": "E:\\CODING\\proj\\hierarchical-tsfm-peft\\.cache\\huggingface\\models--amazon--chronos-bolt-small\\snapshots\\772f3d25d38aec6d914c8949dab4462e2d46f5d8"
+  },
+  "source_hashes": {
+    "research/appliances_cost_20261028_v2/cost_profile.py": "54edcebed072ca02918eb19f15ae12f36c17b38e0476c214d3b13f53e4bf7e97",
+    "research/appliances_cost_20261028_v2/runtime.py": "2264dc68c61f26ae4d45832fef676ce801e78a591925c5c337519c68c22e138b",
+    "research/appliances_cost_20261028_v2/tests/test_isolation.py": "979dc2efbdfe1d8cb5b911bdebbc560009099b9aa5b0eca14e09e64c27f37e3c",
+    "research/ppt_justification_20261028_v1/runtime.py": "d3db5bb9e4242079de77f9e11300b351e636d63fa0b800808db750bf0ea6fddd",
+    "research/ppt_justification_20261028_v1/cost_profile.py": "228d360b2e28a35a94cf544ad8d4ab1e94d2fb043c5986b6330eeb4bf43d777e",
+    "research/ppt_justification_20261028_v1/verify_cost_results.py": "ac25a5df5752f1cdb1e1c94e8a84d72d7e4bdfc97fa394a28a0f0f819a6f3e52",
+    "research/ppt_justification_20261028_v1/tests/test_cost_profile.py": "f511b24cd307d28164927d2da903574dceea12c5b24f2bf9df2311566ac0d7ce",
+    "research/ppt_justification_20261028_v1/host_gpu_gate.py": "b7026cd91bbd1d318df50741abfd3e240947d6ecf133afab73d80f3e410401cc",
+    "research/ppt_justification_20261028_v1/tests/test_host_gpu_gate.py": "2cf422720f314cfbe2fd821b4f1b9fae76495bab4575c6320c8ba92213beb97b",
+    "research/appliances_cost_20261028_v2/verify_cost_results.py": "70b2fb4cd6d80f8f96761bc27386d4bcb4d987661c4a49d2b4a60a4cd0a0fd5c",
+    "research/ppt_justification_20261028_v1/tests/test_cost_validation.py": "648e5e74ff649075437d806ca6935a014516d566f9ad9cd3a9b67fd5c79aab7e",
+    "research/memory_budget_20261018_v1/worker.py": "a3aecb423ac5cf495676e09a78b81003c1ce0886c3f2a0a940d6d38cb895e697",
+    "research/b2_dataset_extension_20261018_v1/costs.py": "f304e5b36ede02021ddc954f844bdd111f960f2db3fe38d056bc50d60ac11e34",
+    "research/informs_broad_validation_20261015_v1/deployment.py": "9ccf6a6e142ce49ab3cb1c1a0dc8d1594890f05c3a7dfea80fa217111c57deba",
+    "research/informs_broad_validation_20261015_v1/combination.py": "266986206456312031c618251388793ffae18bf53682e65aa9980156b14cba93",
+    "research/informs_broad_validation_20261015_v1/data_contract.py": "0e5fb9a03bd44fe13a9777b774601a54573f221abc0eb41a5bb41764b864b31b",
+    "research/informs_broad_validation_20261015_v1/fit_base.py": "c59cc77ba48e3f061ffa8d2385442286ea989b3ab86c17ea352caeb6d2c1bf20",
+    "research/informs_broad_validation_20261015_v1/training.py": "ca19a2a93b68e4fcea8d8782494915de54c86eeddd85568aab66e4174ea84f07",
+    "research/informs_broad_validation_20261015_v1/networks.py": "787f9caf91f32a001f929f324c7bcb570b9270331f6f60f0f56872529f86dc54",
+    "research/informs_broad_validation_20261015_v1/gpu_runtime.py": "c633f1ebf4eb24ea3fa2b025ffa6cea4ec3697c8e9285d971174179560596158",
+    "research/informs_broad_validation_20261015_v1/evaluation.py": "275cd8be02b277ceba916eb6b00e7296f46694d0d592dbc1e0fb231f349f2fbd",
+    "research/appliances_cost_20261028_v3/cost_profile.py": "67105682d749805aa077e6785106319ef70720ad08892c3968d7bf77feaa1b73",
+    "research/appliances_cost_20261028_v3/verify_cost_results.py": "96da0c2307c864e298d06382d0de7c50aa28f9ed0085d2267c8e6e1315aa5d5c",
+    "research/appliances_cost_20261028_v3/tests/test_routing.py": "d454fbdeb50479484c156e05b805e4b17bce33c8f2f94d098cfacd8e77e15a68"
+  },
+  "amendment": {
+    "path": "AMENDMENT_003.json",
+    "sha256": "b1204d97661d9530114bb2367626b25cffb6610d12b23b1c15fce40e00012c9f",
+    "previous_seal_sha256": "32e7ade306e3d78bf742e4d5ce412210731ade3de6ee35d2d4f31d05cd2e722d"
+  },
+  "host_cpu_test_receipt_sha256": "f5c56812d4e15c0f809d856f4ba3713dc5c99e0572d98bc3e5e940b96c7809ad",
+  "host_preflight_overhead_seconds": 180,
+  "host_gpu_gate": {
+    "contract_path": "HOST_GPU_CONTRACT.json",
+    "contract_sha256": "3e992ae639b26e80151ab79755463d28309eee460a1ffa35fcbaf337d2a95876",
+    "policy_sha256": "88d6e546088edd48cb671a961340a6819b17974c7e50085c3ef009eaa8ae1ac0",
+    "condition": "Registered desktopconcurrency withRustDeskGPUcontextremoved; same bounded allengine observation, not idle/exclusiveGPU"
+  },
+  "retry_registration": {
+    "path": "RETRY_REGISTRATION.json",
+    "sha256": "982c10ccab00a1438fea069c7888dea783decda953b441ff5acda0994146c1bf"
+  }
+}
