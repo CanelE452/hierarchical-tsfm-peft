@@ -65,6 +65,8 @@ def validate_registration(job):
     seal = runtime.read(runtime.REPORT / 'REGISTRATION_SEAL.json')
     expected_names = {'PREREGISTRATION.json', 'PREREGISTRATION.md', 'RUN_PLAN.json',
                       'PRESERVATION_BASELINE.json', 'REFERENCE_RUNS.json'}
+    if protocol.get('amendment') == 'AMENDMENT_001.json':
+        expected_names.add('AMENDMENT_001.json')
     if set(seal['files']) != expected_names:
         raise ValueError('Registration seal differs from the five registered input documents')
     for name, digest in seal['files'].items():
@@ -78,6 +80,7 @@ def validate_registration(job):
             raise ValueError('Registered source changed: ' + path)
     if any(sources.get(path) != digest for path, digest in source_hashes().items()):
         raise ValueError('Campaign source missing or changed in registration')
+    runtime.verify_host_gpu_binding(protocol)
     created = datetime.fromisoformat(seal['created_utc']).timestamp()
     if created > time.time():
         raise ValueError('Registration seal is in the future')
@@ -219,7 +222,7 @@ def run_stages(job, task, foundation, modules, spec, cache, public, deadline):
         deterministic_diagnostic=deterministic, task_access=task['_campaign_access'], contract=contract)
 
 
-def run_job(job, *, attempt=1, deadline=None, source=runtime.DEFAULT_SOURCE, asset=runtime.DEFAULT_ASSET):
+def run_job(job, *, host_gate, attempt=1, deadline=None, source=runtime.DEFAULT_SOURCE, asset=runtime.DEFAULT_ASSET):
     registration = validate_registration(job)
     if attempt not in (1, 2):
         raise ValueError('Only the first attempt and one retry are permitted')
@@ -241,6 +244,7 @@ def run_job(job, *, attempt=1, deadline=None, source=runtime.DEFAULT_SOURCE, ass
         raise FileExistsError('Attempt already exists; controller must use the next registered attempt')
     cache.mkdir(parents=True)
     public.mkdir(parents=True)
+    runtime.write_new(public/'HOST_GPU_GATE.json', host_gate)
     opened = runtime.record_opens()
     started, foundation, result = time.time(), None, None
     receipt = dict(job=job, attempt=attempt, started_utc=datetime.now(timezone.utc).isoformat(),
@@ -320,9 +324,9 @@ def main(argv=None):
             reservation.__enter__()
             WORKER_RESERVATIONS.append(reservation)
         runtime.require_active_lease(args.lease_token)
-        runtime.require_idle_gpu()
+        host_gate = runtime.require_idle_gpu(args.lease_token)
         runtime.atomic(runtime.CACHE / 'LIVE_WORKER.json', dict(receipt, status='RUNNING', job=job))
-        result = run_job(job, attempt=args.attempt, deadline=args.deadline)
+        result = run_job(job, host_gate=host_gate, attempt=args.attempt, deadline=args.deadline)
         runtime.assert_protected_T(result)
         runtime.guard_preserved()
         receipt.update(status='COMPLETE', exit_code=0)

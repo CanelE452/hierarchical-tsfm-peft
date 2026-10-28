@@ -247,15 +247,22 @@ def test_stale_terminal_file_cannot_override_live_training_process(lease_context
 
 
 def test_external_gpu_compute_process_blocks_cost(lease_context,monkeypatch):
-    monkeypatch.setattr(cost.subprocess,'run',lambda *a,**k:SimpleNamespace(stdout='9876, external.exe\n'))
-    with pytest.raises(RuntimeError,match='GPU compute processes'):
+    def reject(*args,**kwargs):
+        raise RuntimeError('Unknown GPU context PID: 9876')
+    monkeypatch.setattr(cost.host_gpu_gate,'admit_identity',reject)
+    with pytest.raises(RuntimeError,match='Unknown GPU context'):
         cost.assert_no_gpu_conflicts({100,200,300})
 
 
 def test_idle_gpu_snapshot_passes_without_cuda_calls(lease_context,monkeypatch):
-    monkeypatch.setattr(cost.subprocess,'run',lambda *a,**k:SimpleNamespace(stdout=''))
+    seen=[]
+    def admit(path,**kwargs):
+        seen.append(kwargs['allowed_processes'])
+        return dict(status='PASS',desktop_concurrent_load=True)
+    monkeypatch.setattr(cost.host_gpu_gate,'admit_identity',admit)
     monkeypatch.setattr(torch.cuda,'init',lambda:pytest.fail('CPU preflight must not initialize CUDA'))
     cost.assert_no_gpu_conflicts({100,200,300})
+    assert seen==[{100:10.,200:11.,300:12.}]
 
 
 def test_missing_parent_shared_reservation_rejects_worker(lease_context):
@@ -285,4 +292,41 @@ def test_actual_child_retains_shared_lock_on_parent_loss(lease_context,monkeypat
     finally:
         for lock in cost.WORKER_RESERVATIONS[initial:]:
             lock.__exit__(None,None,None)
+        del cost.WORKER_RESERVATIONS[initial:]
+
+
+def test_host_contamination_preserves_results_and_forbids_silent_repeat(lease_context,monkeypatch):
+    _,run_id=lease_context
+    monkeypatch.setattr(runtime,'REPORT',cost.COST_REPORT.parent)
+    (cost.COST_REPORT/'COST_PROTOCOL.json').write_text('{}')
+    monkeypatch.setattr(cost,'ensure_training_finished',lambda:None)
+    monkeypatch.setattr(cost,'assert_no_gpu_conflicts',lambda *a,**k:dict(status='PASS'))
+    monkeypatch.setattr(cost,'validate_seal',lambda:({},[dict(run_id=run_id)]))
+    monkeypatch.setattr(cost,'make_inputs',lambda *a:None)
+    monkeypatch.setattr(cost,'measure',lambda *a,**k:(dict(status='COMPLETE',summary=dict(status='COMPLETE')),dict(synthetic=np.zeros(1))))
+    class Observer:
+        def __init__(self,*a,**k): pass
+        def start(self): return self
+        def wait_preflight(self): return dict(status='PASS')
+        def finish(self,*a,**k): return dict(status='CONTAMINATED',errors=['background_load_limit_exceeded'])
+    monkeypatch.setattr(cost.host_gpu_gate,'HostObservation',Observer)
+    monkeypatch.setattr(torch.cuda,'init',lambda:pytest.fail('No GPU access in synthetic test'))
+    initial=len(cost.WORKER_RESERVATIONS)
+    try:
+        with runtime.CampaignLock(runtime.CACHE/'controller.lock'):
+            with pytest.raises(RuntimeError,match='host condition was contaminated'):
+                cost.run_worker(run_id,'TOKEN')
+        receipt=runtime.read(cost.COST_REPORT/(run_id+'_MEASUREMENT.json'))
+        assert receipt['status']==receipt['summary']['status']=='CONTAMINATED'
+        assert (cost.COST_CACHE/(run_id+'_predictions.npz')).is_file()
+        assert (cost.COST_REPORT/(run_id+'_HOST_OBSERVATION.json')).is_file()
+    finally:
+        for lock in cost.WORKER_RESERVATIONS[initial:]: lock.__exit__(None,None,None)
+        del cost.WORKER_RESERVATIONS[initial:]
+    try:
+        with runtime.CampaignLock(runtime.CACHE/'controller.lock'):
+            with pytest.raises(FileExistsError,match='never overwrite'):
+                cost.run_worker(run_id,'TOKEN')
+    finally:
+        for lock in cost.WORKER_RESERVATIONS[initial:]: lock.__exit__(None,None,None)
         del cost.WORKER_RESERVATIONS[initial:]

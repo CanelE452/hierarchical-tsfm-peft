@@ -209,6 +209,17 @@ def test_windows_venv_launcher_ancestry_is_accepted(tmp_path, monkeypatch):
     assert runtime.require_active_lease('token-fixed')['pid'] == 100
 
 
+def test_controller_launcher_is_bound_only_when_in_owner_ancestry_with_same_args(tmp_path,monkeypatch):
+    snapshot=setup_lease(tmp_path,monkeypatch)
+    snapshot[100]['ppid']=50
+    snapshot[50]=dict(pid=50,ppid=1,created_utc='controller-wrapper',command_line=snapshot[100]['command_line'])
+    snapshot[900]=dict(pid=900,ppid=1,created_utc='unrelated-controller',command_line=snapshot[100]['command_line'])
+    identities=runtime.require_active_lease('token-fixed')['verified_ancestry']
+    assert [r['pid'] for r in identities]==[300,200,100,50]
+    snapshot[50]['command_line']+=' --unregistered-option'
+    assert [r['pid'] for r in runtime.require_active_lease('token-fixed')['verified_ancestry']]==[300,200,100]
+
+
 @pytest.mark.parametrize('mutation', ['token','pid_reused','intermediate','unrelated_parent','upstream_live'])
 def test_direct_or_stale_or_conflicting_worker_is_rejected(tmp_path, monkeypatch, mutation):
     snapshot = setup_lease(tmp_path, monkeypatch)
@@ -229,15 +240,61 @@ def test_missing_root_gate_prevents_execution(tmp_path, monkeypatch):
     with pytest.raises(FileNotFoundError): runtime.require_active_lease('token-fixed')
 
 
-@pytest.mark.parametrize('output', ['17, external-python.exe\n', '[Not Supported]\n'])
-def test_gpu_occupancy_or_unverifiable_query_blocks_loading(monkeypatch, output):
-    monkeypatch.setattr(runtime.subprocess, 'check_output', lambda *a,**k: output)
-    with pytest.raises(RuntimeError): runtime.require_idle_gpu()
+def mock_host_helper(monkeypatch):
+    binding={'mode':'identity_only','synthetic':True}
+    lease={'verified_ancestry':[dict(pid=300,created_utc='child'),dict(pid=100,created_utc='parent')]}
+    calls=[]
+    def creation_times(pids):
+        calls.append(('identities',pids));return {300:3.,100:1.}
+    def admit(contract,*,allowed_processes):
+        calls.append(('admit',str(contract),allowed_processes))
+        return dict(status='PASS',mode='identity_only',unexpected_gpu_pids=[],desktop_concurrent_load=True)
+    helper=SimpleNamespace(__file__=str(runtime.REPO/runtime.HOST_GPU_HELPER_REL),creation_times=creation_times,admit_identity=admit)
+    monkeypatch.setattr(runtime,'require_active_lease',lambda token:lease)
+    monkeypatch.setattr(runtime,'verify_host_gpu_binding',lambda:binding)
+    monkeypatch.setattr(runtime,'sha',lambda path:'synthetic-seal')
+    monkeypatch.setitem(sys.modules,f'research.{runtime.UPSTREAM_NAME}.host_gpu_gate',helper)
+    return helper,lease,calls,binding
 
 
-def test_empty_gpu_query_passes_without_loading_cuda(monkeypatch):
-    monkeypatch.setattr(runtime.subprocess, 'check_output', lambda *a,**k: '')
-    assert runtime.require_idle_gpu() == dict(status='PASS',compute_pids=[])
+def test_host_identity_gate_uses_only_verified_ancestry_and_preserves_receipt(monkeypatch):
+    _,_,calls,binding=mock_host_helper(monkeypatch)
+    receipt=runtime.require_idle_gpu('synthetic-token')
+    assert calls[0]==('identities',[300,100])
+    assert calls[1][2]=={300:3.,100:1.}
+    assert receipt['host_gpu_binding']==binding and receipt['registration_seal_sha256']=='synthetic-seal'
+    assert receipt['desktop_concurrent_load'] is True
+
+
+@pytest.mark.parametrize('mutation',['new_context','failed_receipt','unexpected_pid','wrong_mode','wrong_module','ancestry_changed'])
+def test_host_identity_gate_fails_closed_before_any_cuda(monkeypatch,mutation):
+    helper,lease,calls,_=mock_host_helper(monkeypatch)
+    if mutation=='new_context':
+        def deny(*args,**kwargs): raise RuntimeError('Unknown Python/WSL/new context')
+        helper.admit_identity=deny
+    elif mutation=='wrong_module': helper.__file__='another_checkout/host_gpu_gate.py'
+    elif mutation=='ancestry_changed':
+        snapshots=iter([lease,{'verified_ancestry':[dict(pid=300,created_utc='new identity')]}])
+        monkeypatch.setattr(runtime,'require_active_lease',lambda token:next(snapshots))
+    else:
+        receipt=dict(status='PASS',mode='identity_only',unexpected_gpu_pids=[])
+        receipt[{'failed_receipt':'status','unexpected_pid':'unexpected_gpu_pids','wrong_mode':'mode'}[mutation]]={'failed_receipt':'FAILED','unexpected_pid':[99],'wrong_mode':'benchmark'}[mutation]
+        helper.admit_identity=lambda *args,**kwargs:receipt
+    with pytest.raises((ValueError,RuntimeError)): runtime.require_idle_gpu('synthetic-token')
+
+
+@pytest.mark.parametrize('mutation',[None,'helper','contract','mode'])
+def test_host_helper_and_contract_are_pinned_in_registration(tmp_path,monkeypatch,mutation):
+    monkeypatch.setattr(runtime,'REPO',tmp_path)
+    for name in (runtime.HOST_GPU_HELPER_REL,runtime.HOST_GPU_CONTRACT_REL):
+        path=tmp_path/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text('synthetic')
+    binding=runtime.host_gpu_registration();protocol={'host_gpu_gate':binding}
+    if mutation=='helper': (tmp_path/runtime.HOST_GPU_HELPER_REL).write_text('changed')
+    elif mutation=='contract': (tmp_path/runtime.HOST_GPU_CONTRACT_REL).write_text('changed')
+    elif mutation=='mode': binding['mode']='benchmark'
+    if mutation:
+        with pytest.raises(ValueError): runtime.verify_host_gpu_binding(protocol)
+    else: assert runtime.verify_host_gpu_binding(protocol)==binding
 
 
 def test_worker_reservations_remain_live_after_main_returns(tmp_path, monkeypatch):
@@ -252,7 +309,7 @@ def test_worker_reservations_remain_live_after_main_returns(tmp_path, monkeypatc
         def __exit__(self,*args): released.append(self.path)
     monkeypatch.setattr(runtime,'CampaignLock',Lock)
     for name in ('install_write_guard','require_idle_gpu','guard_preserved'):
-        monkeypatch.setattr(runtime,name,lambda: None)
+        monkeypatch.setattr(runtime,name,lambda *args: None)
     monkeypatch.setattr(runtime,'require_active_lease',lambda token: None)
     monkeypatch.setattr(runtime,'atomic',lambda *args: None)
     monkeypatch.setattr(runtime,'write_new',lambda *args: None)
@@ -265,6 +322,24 @@ def test_worker_reservations_remain_live_after_main_returns(tmp_path, monkeypatc
         assert released == [] and len(run_one.WORKER_RESERVATIONS) == before+2
     finally:
         del run_one.WORKER_RESERVATIONS[before:]
+
+
+def test_host_receipt_is_saved_after_new_attempt_creation_before_model_loading(tmp_path,monkeypatch):
+    monkeypatch.setattr(runtime,'REPORT',tmp_path/'reports');monkeypatch.setattr(runtime,'CACHE',tmp_path/'cache')
+    monkeypatch.setattr(run_one,'validate_registration',lambda job:{'seal':'synthetic'})
+    monkeypatch.setattr(runtime,'guard_preserved',lambda:{'changed':[]})
+    monkeypatch.setattr(runtime,'record_opens',lambda:set())
+    job=prepare.jobs()[0];public=runtime.REPORT/'jobs'/job['job_id']/'attempt_001'
+    gate=dict(status='PASS',mode='identity_only')
+    def stop_before_loading():
+        assert runtime.read(public/'HOST_GPU_GATE.json')==gate
+        raise RuntimeError('synthetic stop before any model or CUDA loading')
+    monkeypatch.setattr(runtime,'load_modules',stop_before_loading)
+    with pytest.raises(RuntimeError,match='synthetic stop'):
+        run_one.run_job(job,host_gate=gate)
+    digest=runtime.sha(public/'HOST_GPU_GATE.json')
+    with pytest.raises(FileExistsError): run_one.run_job(job,host_gate=gate)
+    assert runtime.sha(public/'HOST_GPU_GATE.json')==digest
 
 
 def test_T_boundary_receipt_requires_zero_tail_parsing():

@@ -24,6 +24,8 @@ MODEL_REL = '.cache/huggingface/models--amazon--chronos-bolt-small/snapshots/772
 UPSTREAM_NAME = 'ppt_justification_20261028_v1'
 UPSTREAM_REPORT = REPO / 'reports' / UPSTREAM_NAME
 SHARED_CACHE = REPO / '.cache' / UPSTREAM_NAME
+HOST_GPU_HELPER_REL = f'research/{UPSTREAM_NAME}/host_gpu_gate.py'
+HOST_GPU_CONTRACT_REL = f'reports/{UPSTREAM_NAME}/cost_profile/HOST_GPU_CONTRACT.json'
 
 
 def process_snapshot():
@@ -71,32 +73,61 @@ def require_active_lease(token):
             or f'research.{NAME}.controller' not in str(owner.get('command_line', ''))):
         raise RuntimeError('The lease owner is not the original live E study controller')
     ancestor = os.getpid()
+    verified_ancestry = []
     for _ in range(5):
         if ancestor == lease['pid']:
-            return lease
+            verified_ancestry.append(dict(owner))
+            marker = f'-m research.{NAME}.controller'
+            owner_line = str(owner.get('command_line',''))
+            owner_args = owner_line.split(marker,1)[1].strip() if marker in owner_line else None
+            launcher = owner
+            for _ in range(3):
+                parent = processes.get(int(launcher.get('ppid',0)),{})
+                line = str(parent.get('command_line',''))
+                if owner_args is None or marker not in line or line.split(marker,1)[1].strip()!=owner_args:
+                    break
+                verified_ancestry.append(dict(parent))
+                launcher = parent
+            return dict(lease, verified_ancestry=verified_ancestry)
         intermediate = processes.get(ancestor, {})
         line = str(intermediate.get('command_line', ''))
         if f'research.{NAME}.run_one' not in line or '--lease-token' not in line or token not in line:
             raise ValueError('The worker ancestry contains an unrelated Python process')
+        verified_ancestry.append(dict(intermediate))
         ancestor = int(intermediate.get('ppid', 0))
     raise ValueError('Direct worker invocation is forbidden; the lease owner must be its ancestor')
 
 
-def require_idle_gpu():
-    output = subprocess.check_output(['nvidia-smi', '--query-compute-apps=pid,process_name',
-                                      '--format=csv,noheader,nounits'], text=True,
-                                     creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
-    pids = []
-    for line in output.splitlines():
-        if not line.strip():
-            continue
-        first = line.split(',', 1)[0].strip()
-        if not first.isdigit():
-            raise RuntimeError('Cannot verify idle GPU from the compute-process query')
-        pids.append(int(first))
-    if pids:
-        raise RuntimeError('GPU compute processes are already live: ' + str(pids))
-    return dict(status='PASS', compute_pids=[])
+def host_gpu_registration():
+    return dict(mode='identity_only', helper_relative_path=HOST_GPU_HELPER_REL,
+                helper_sha256=sha(REPO/HOST_GPU_HELPER_REL), contract_relative_path=HOST_GPU_CONTRACT_REL,
+                contract_sha256=sha(REPO/HOST_GPU_CONTRACT_REL), desktop_concurrent_load=True,
+                load_policy='Only prospectively sealed exact desktop identities may coexist. Unknown/new/Python/WSL GPU contexts are rejected. No utilization ceiling: this E study is not a performance benchmark.')
+
+
+def verify_host_gpu_binding(protocol=None):
+    protocol = read(REPORT/'PREREGISTRATION.json') if protocol is None else protocol
+    binding = protocol.get('host_gpu_gate')
+    if binding != host_gpu_registration():
+        raise ValueError('Shared host GPU helper/contract differs from this study registration')
+    return binding
+
+
+def require_idle_gpu(token):
+    lease = require_active_lease(token)
+    binding = verify_host_gpu_binding()
+    helper = importlib.import_module(f'research.{UPSTREAM_NAME}.host_gpu_gate')
+    if Path(helper.__file__).resolve() != (REPO/HOST_GPU_HELPER_REL).resolve():
+        raise ValueError('Host GPU gate loaded from another checkout')
+    allowed = helper.creation_times([row['pid'] for row in lease['verified_ancestry']])
+    if require_active_lease(token)['verified_ancestry'] != lease['verified_ancestry']:
+        raise RuntimeError('Verified worker/controller identity changed before host admission')
+    receipt = helper.admit_identity(REPO/HOST_GPU_CONTRACT_REL, allowed_processes=allowed)
+    verify_host_gpu_binding()
+    if receipt.get('status')!='PASS' or receipt.get('mode')!='identity_only' or receipt.get('unexpected_gpu_pids')!=[]:
+        raise ValueError('Shared host GPU identity gate did not pass')
+    return dict(receipt, host_gpu_binding=binding,
+                registration_seal_sha256=sha(REPORT/'REGISTRATION_SEAL.json'))
 
 
 def sha(path):

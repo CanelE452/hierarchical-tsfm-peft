@@ -1,0 +1,257 @@
+{
+  "status": "HISTORICAL_EVIDENCE_VERIFIED",
+  "source_hashes": {
+    "research/informs_broad_validation_20261015_v1/priority_core_followup_20261016_v1/RESULTS_v2.csv": "0cfd809a0345ac5a35a1135553786eb945cbe114833700108e132a7bb6266393",
+    "reports/adapter_diagnostics_20261017_v2/QUESTIONS_AND_DECISIONS_KO.md": "68b6f9d6725f14e9efc20f0fa3cb612fa80efdebd35a1ab0380bb05d42b8c72b",
+    "reports/adapter_diagnostics_20261017_v2/METHOD_CONTRACT.md": "b8ff9af34bbec5183729d7cb6649992e73ab582c3b4a9647857676fff136ce16"
+  },
+  "preparation_audit_sha256": "4dc7c207a123e2580a85b60a688cd01c3a24301c8f2e674b806f6a4fe03617ec",
+  "historical_claims": [
+    {
+      "claim_id": "C01",
+      "topic_ko": "채널 관계와 외부 적응 동기",
+      "status": "STRUCTURAL_MOTIVATION_HETEROGENEOUS_EMPIRICAL",
+      "evidence_ids": [
+        "original_networks",
+        "diagnostics_questions"
+      ],
+      "existing_evidence_ko": "Raw F호출은 단일 시계열이며 P/E/D는 채널 계산을 허용한다.",
+      "limitation_or_counterexample_ko": "own/all Ridge는 Jena에서 악화, PeMS32에서 개선. 관계와 예측 이득은 다르다.",
+      "new_registered_question_ko": "오늘 새 직접대조 없음.",
+      "remaining_question_ko": "모든 데이터에서 다변량 관계가 이득이라는 일반 주장은 불가."
+    },
+    {
+      "claim_id": "C02",
+      "topic_ko": "P의 성능 기여와 용량",
+      "status": "CONDITIONAL_10_SEED_COMPONENT_EVIDENCE",
+      "evidence_ids": [
+        "current_p_summary",
+        "current_p_contrasts",
+        "paper_ablation"
+      ],
+      "existing_evidence_ko": "Jena NoP와 시간분기 제거에서 FullP가 낮은 오차.",
+      "limitation_or_counterexample_ko": "채널분기 제거와 A2는 UNCLEAR; 축별 용량과 LayerNorm/E/D 결합이 남음.",
+      "new_registered_question_ko": "Jena Full/NoP × frozenF/sharedLinear의 조건부 interaction.",
+      "remaining_question_ko": "시간축 자체의 우월성, 완전한 용량·연산 통제."
+    },
+    {
+      "claim_id": "C03",
+      "topic_ko": "P가 예측 정보를 보존한다는 메커니즘",
+      "status": "EXISTING_LINEAR_PROBE_COUNTEREVIDENCE",
+      "evidence_ids": [
+        "diagnostics_questions",
+        "diagnostics_contract",
+        "diagnostics_completion"
+      ],
+      "existing_evidence_ko": "고정PE full-history reader가 실제2seed에서 평가됨.",
+      "limitation_or_counterexample_ko": "B2 probe MSE/MAE가 B0보다 모두 높음; 고정lambda1 reader 조건에 한정.",
+      "new_registered_question_ko": "오늘2x2는 F와의 결합을 질문하며 정보량 직접 측정은 아님.",
+      "remaining_question_ko": "정보/정렬 메커니즘을 식별하는 별도 진단."
+    },
+    {
+      "claim_id": "C04",
+      "topic_ko": "PCA 초기화",
+      "status": "EXISTING_2_SEED_JOINT_INITIALIZATION_SUPPORT",
+      "evidence_ids": [
+        "diagnostics_questions",
+        "initialization_diagnostics",
+        "initialization_source"
+      ],
+      "existing_evidence_ko": "Jena2seed에서 PCA arm이 QR보다 MSE/MAE가 낮음.",
+      "limitation_or_counterexample_ko": "QR는 E와 D0=pinv(E)를 같이 변경. 현재10seed A3 미실행과 구분.",
+      "new_registered_question_ko": "오늘 재실행 없음.",
+      "remaining_question_ko": "E만의 효과 및 다른 데이터/충분학습 재현."
+    },
+    {
+      "claim_id": "C05",
+      "topic_ko": "E 학습의 필요성",
+      "status": "MATCHED_FIXED_E_CONTROL_NOT_LOCATED",
+      "evidence_ids": [
+        "diagnostics_contract",
+        "initialization_diagnostics",
+        "paper_comparison"
+      ],
+      "existing_evidence_ko": "E의 실제 변화는 기록됨.",
+      "limitation_or_counterexample_ko": "변화는 필요성 증거가 아니며 C1은 P/D/학습도 바뀜.",
+      "new_registered_question_ko": "오늘 직접대조 없음.",
+      "remaining_question_ko": "현재PED에서 E만 고정한 대조."
+    },
+    {
+      "claim_id": "C06",
+      "topic_ko": "K와tau=.9",
+      "status": "REPRODUCIBLE_HEURISTIC_WITH_SENSITIVITY_LIMITS",
+      "evidence_ids": [
+        "k_rule_report",
+        "k_rule_values",
+        "k_rule_decision"
+      ],
+      "existing_evidence_ko": "A_fit의 고정규칙 및40개 주 결과/기존K민감도.",
+      "limitation_or_counterexample_ko": "Jena에서 K12가 K6보다 좋음; 예측최적성·정보90% 보장 아님.",
+      "new_registered_question_ko": "오늘K는 고정.",
+      "remaining_question_ko": "배포 목적별 K 규칙 및 독립검증."
+    },
+    {
+      "claim_id": "C07",
+      "topic_ko": "원채널 last-context anchor",
+      "status": "STRUCTURAL_BOUNDARY_VERIFIED_COMPONENT_TEST_PENDING",
+      "evidence_ids": [
+        "original_training",
+        "original_networks",
+        "d0_floor",
+        "paper_ablation"
+      ],
+      "existing_evidence_ko": "입력[o-L,o), target[o,o+H); x_last는 과거만으로 채운 입력 끝.",
+      "limitation_or_counterexample_ko": "A4는 전체D변경; D0 약90%는 조건부하한의 비율.",
+      "new_registered_question_ko": "NO_ANCHOR ETTh1 기본5/Appliances 선택5.",
+      "remaining_question_ko": "모든 수준이동 강건성; 모든 observed-value 사용 필요성은 이 실험 범위 밖."
+    },
+    {
+      "claim_id": "C08",
+      "topic_ko": "lag 묶음의 기여",
+      "status": "NO_PREVIOUS_A5_RESULTS_OPTIONAL_TEST_PENDING",
+      "evidence_ids": [
+        "base_runs",
+        "updated_runs",
+        "original_networks"
+      ],
+      "existing_evidence_ko": "기존A5 전데이터 n=0.",
+      "limitation_or_counterexample_ko": "미실행은 효과없음의 증거 아님.",
+      "new_registered_question_ko": "A5_LAG0 ETTh1 선택5는 anchor유지·lag1..32제거.",
+      "remaining_question_ko": "개별lag 최적성/물리주기/인과시차."
+    },
+    {
+      "claim_id": "C09",
+      "topic_ko": "동결F의 추가 가치",
+      "status": "EXISTING_LIMITED_CONTROLS_REPLICATION_PENDING",
+      "evidence_ids": [
+        "historical_f_results",
+        "historical_f_report"
+      ],
+      "existing_evidence_ko": "Jena1seed R5a/R5b와 PeMS1seed 고정head 대조가 이미 있음.",
+      "limitation_or_counterexample_ko": "Jena2seed는B0/B2반복만. PeMS joint noF 없음. CPU결과를 현재GPU5seed표에혼합불가.",
+      "new_registered_question_ko": "NO_F_LINEAR Jena/App각5; Jena NO_F_LINEAR_NO_P5.",
+      "remaining_question_ko": "모든직접모델 대비필요성 및 사전학습만의 인과효과."
+    },
+    {
+      "claim_id": "C10",
+      "topic_ko": "비교어댑터 대비 우위",
+      "status": "PROVISIONAL_INCOMPLETE_OPTIMIZATION",
+      "evidence_ids": [
+        "paper_comparison",
+        "adapts_deviations"
+      ],
+      "existing_evidence_ko": "고정조건10seed C1/C2/C3비교가 있음.",
+      "limitation_or_counterexample_ko": "C2/C3 필요한연장미완료, JenaTIE_PROVISIONAL; MAE및ETTh2반례.",
+      "new_registered_question_ko": "오늘anchor/F실험이 비교최적화공백을 해소하지 않음.",
+      "remaining_question_ko": "사전규칙상 연장완료 및 공정한 충분최적화 비교."
+    },
+    {
+      "claim_id": "C11",
+      "topic_ko": "실제 비용과 효율",
+      "status": "MEASURED_ONLY_FOR_BOUND_FACETS",
+      "evidence_ids": [
+        "current_ppt_notes",
+        "k_rule_report"
+      ],
+      "existing_evidence_ko": "Jena/ETT의 측정 장치·B8·행정책별 비용 근거.",
+      "limitation_or_counterexample_ko": "현재PPT AppK10 비용미측정; 논리F행수/학습시간/배포비용을 혼동하면 안됨.",
+      "new_registered_question_ko": "오늘정확도실행만으로 비용공백을 채우지 않음.",
+      "remaining_question_ko": "현재선택checkpoint의동일프로토콜App/noF비용."
+    },
+    {
+      "claim_id": "C12",
+      "topic_ko": "독립일반화와F고정 연구조건",
+      "status": "EXPLORATORY_DEVELOPMENT_ONLY",
+      "evidence_ids": [
+        "k_rule_report",
+        "current_p_results",
+        "historical_f_report"
+      ],
+      "existing_evidence_ko": "개발V/seed 반복·입력경계/동결검사.",
+      "limitation_or_counterexample_ko": "seed는독립미래데이터가 아니며 구현PASS는가설증명이 아님.",
+      "new_registered_question_ko": "오늘도개발V탐색, 보호T비접근.",
+      "remaining_question_ko": "새독립평가 및 폭넓은기준선 일반화."
+    }
+  ],
+  "source_rows": [
+    {
+      "dataset": "jena",
+      "role": "R5a",
+      "seed": "92601",
+      "L": "512",
+      "H": "48",
+      "C": "21",
+      "K": "6",
+      "MSE": "0.7378513781149217",
+      "MAE": "0.503803264016238",
+      "accuracy_device": "cpu",
+      "accuracy_scope": "REUSED_COMPLETE_V43",
+      "V_origins": "43"
+    },
+    {
+      "dataset": "jena",
+      "role": "R5b",
+      "seed": "92601",
+      "L": "512",
+      "H": "48",
+      "C": "21",
+      "K": "6",
+      "MSE": "0.7201979035862862",
+      "MAE": "0.5096956056913189",
+      "accuracy_device": "cpu",
+      "accuracy_scope": "REUSED_COMPLETE_V43",
+      "V_origins": "43"
+    },
+    {
+      "dataset": "jena",
+      "role": "R4_B2",
+      "seed": "92601",
+      "L": "512",
+      "H": "48",
+      "C": "21",
+      "K": "6",
+      "MSE": "0.6834428963980711",
+      "MAE": "0.49388492449756366",
+      "accuracy_device": "cpu",
+      "accuracy_scope": "REUSED_COMPLETE_V43",
+      "V_origins": "43"
+    },
+    {
+      "dataset": "pems08",
+      "role": "B2_PARENT_CPU_FULL",
+      "seed": "92601",
+      "L": "512",
+      "H": "12",
+      "C": "170",
+      "K": "43",
+      "MSE": "0.1042596968257376",
+      "MAE": "0.2058417915000405",
+      "accuracy_device": "cpu",
+      "accuracy_scope": "NEW_FULL_CPU_V148_AND_INDEPENDENT_FP64",
+      "V_origins": "148"
+    },
+    {
+      "dataset": "pems08",
+      "role": "FIXED_B2_NO_BOLT_HEAD",
+      "seed": "92601",
+      "L": "512",
+      "H": "12",
+      "C": "170",
+      "K": "43",
+      "MSE": "0.12062288970242162",
+      "MAE": "0.21817543249412344",
+      "accuracy_device": "cpu",
+      "accuracy_scope": "NEW_FULL_CPU_V148_FP64_CPU6",
+      "V_origins": "148"
+    }
+  ],
+  "correction_ko": "F 대조가 전혀 없었다는 이전 설명을 정정한다. Jena CPU 1seed R5a/R5b와 PeMS CPU 1seed 고정 head 대조가 이미 있었다. 새 5seed 비교는 이 근거를 확장하며 기존 결과를 대체하거나 삭제하지 않는다.",
+  "limitations_ko": [
+    "R5a는 최종 PED 고정 후 head 학습이고 R5b는 새 공동학습이다. 동일한 최종 PED 가중치 비교가 아니다.",
+    "PeMS의 고정 head 대조는 현재의 Jena/Appliances 공동학습 no-F 실험과 데이터·예측 길이·채널 수가 다르다.",
+    "Jena PCA/QR 2seed에서 QR MSE는 각각 +2.86%, +6.21%였다. E와 D 초기화가 함께 바뀌므로 E만의 인과 효과는 아니다.",
+    "고정 PE·전체512×6 history 선형 reader에서 P 표현은 B0보다 두 seed MSE가 +2.28%, +0.71%였다. 이 제한된 선형 접근성 반례를 보존한다.",
+    "과거 A5 lag0는 모든 데이터 n=0으로 예산상 미실행이었다. 효과 없음으로 해석할 수 없다."
+  ],
+  "new_experiment_status": "REPORTED_SEPARATELY_AS_MATCHED_FIVE_SEED_EXPLORATORY_RESULTS"
+}

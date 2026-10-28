@@ -1,0 +1,273 @@
+{
+  "status": "NEW_RESULTS_AVAILABLE",
+  "claims": {
+    "F_VALUE": {
+      "question": "Does frozen F add value compared with a trainable linear temporal head?",
+      "historical": "Jena R5a/R5b and PeMS fixed-head single-seed contrasts exist; old omission corrected.",
+      "new_families": [
+        "NO_F_LINEAR:jena",
+        "NO_F_LINEAR:appliances",
+        "NO_F_LINEAR_NO_P:jena"
+      ],
+      "boundary": "No-F adds 24,624 trainable parameters. Hardware, optimization, P and historical cap differences remain explicit."
+    },
+    "ANCHOR_VALUE": {
+      "question": "Does the direct last-observation output bypass help under the tested parameterization?",
+      "design": "The last available C-channel context value bypasses K-dimensional compression; it may be forward-filled if raw observations are missing. The learned path predicts changes.",
+      "new_families": [
+        "NO_ANCHOR:ETTh1",
+        "NO_ANCHOR:appliances"
+      ],
+      "boundary": "Input history and latent last-value differencing remain. This tests the direct output level-preservation bypass, not whether observations should be used at all; all-shift robustness is not established."
+    },
+    "LAG_VALUE": {
+      "question": "Does the multi-lag decoder add value beyond lag0 while retaining the anchor?",
+      "historical": "Earlier A5 had n=0; A4 changed the complete decoder and did not isolate lag features.",
+      "new_families": [
+        "A5_LAG0:ETTh1"
+      ],
+      "boundary": "Lag0 retains the last-observation anchor and uses fewer decoder parameters; this is not a pure parameter-matched lag test."
+    },
+    "P_GENERALITY": {
+      "question": "How broadly does the pre-compression P module help?",
+      "historical": "Jena 10seed branches: full vs time-only unclear; full vs channel-only lower. Fixed-PE full-history reader two-seed counterexample retained.",
+      "new_families": [
+        "NO_F_LINEAR_NO_P:jena"
+      ],
+      "boundary": "Five-seed P×F context is exploratory, with Full P cap3 and historical No P cap10; no intrinsic-axis superiority or independent-test claim."
+    },
+    "PCA_SCOPE": {
+      "question": "What supports PCA initialization and the K heuristic?",
+      "historical": "PCA/QR two-seed evidence changed E and decoder initialization jointly; K variance is an initial-input heuristic.",
+      "new_families": [],
+      "boundary": "No new PCA/QR or K tuning in this campaign."
+    }
+  },
+  "contrasts": [
+    {
+      "comparison_id": "F_WITH_P_JENA",
+      "dataset": "jena",
+      "method_id": "NO_F_LINEAR",
+      "reference_method_id": "OURS",
+      "n": 5,
+      "seed_ids": "[92601, 92602, 92603, 92604, 92605]",
+      "delta_median_MSE": 0.03014546631534687,
+      "effect_pct": 4.391810104076955,
+      "spread": 0.021760857713512327,
+      "descriptive_decision": "REFERENCE_LOWER",
+      "paired_delta_median": 0.03014546631534687,
+      "paired_MAE_delta_median": 0.014297128739736431,
+      "seeds_reference_lower": 4,
+      "seeds_variant_lower": 1,
+      "seeds_equal": 0,
+      "inference": "Exploratory development V; descriptive median/max-IQR rule, not significance or equivalence."
+    },
+    {
+      "comparison_id": "F_WITH_P_APPLIANCES",
+      "dataset": "appliances",
+      "method_id": "NO_F_LINEAR",
+      "reference_method_id": "OURS",
+      "n": 5,
+      "seed_ids": "[92601, 92602, 92603, 92604, 92605]",
+      "delta_median_MSE": -0.014337864320408067,
+      "effect_pct": -5.082777106809807,
+      "spread": 0.004964321447028075,
+      "descriptive_decision": "VARIANT_LOWER",
+      "paired_delta_median": -0.014200718274356094,
+      "paired_MAE_delta_median": -0.005749157591445564,
+      "seeds_reference_lower": 1,
+      "seeds_variant_lower": 4,
+      "seeds_equal": 0,
+      "inference": "Exploratory development V; descriptive median/max-IQR rule, not significance or equivalence."
+    },
+    {
+      "comparison_id": "ANCHOR_ETTH1",
+      "dataset": "ETTh1",
+      "method_id": "NO_ANCHOR",
+      "reference_method_id": "OURS",
+      "n": 5,
+      "seed_ids": "[92601, 92602, 92603, 92604, 92605]",
+      "delta_median_MSE": 0.5276387531185818,
+      "effect_pct": 189.35374610140144,
+      "spread": 0.06241745980037772,
+      "descriptive_decision": "REFERENCE_LOWER",
+      "paired_delta_median": 0.5295659054944428,
+      "paired_MAE_delta_median": 0.38568923841070046,
+      "seeds_reference_lower": 5,
+      "seeds_variant_lower": 0,
+      "seeds_equal": 0,
+      "inference": "Exploratory development V; descriptive median/max-IQR rule, not significance or equivalence."
+    },
+    {
+      "comparison_id": "ANCHOR_APPLIANCES",
+      "dataset": "appliances",
+      "method_id": "NO_ANCHOR",
+      "reference_method_id": "OURS",
+      "n": 5,
+      "seed_ids": "[92601, 92602, 92603, 92604, 92605]",
+      "delta_median_MSE": 0.13718942047034677,
+      "effect_pct": 48.63368979372079,
+      "spread": 0.022355534066050953,
+      "descriptive_decision": "REFERENCE_LOWER",
+      "paired_delta_median": 0.14255105541849172,
+      "paired_MAE_delta_median": 0.133405965608565,
+      "seeds_reference_lower": 5,
+      "seeds_variant_lower": 0,
+      "seeds_equal": 0,
+      "inference": "Exploratory development V; descriptive median/max-IQR rule, not significance or equivalence."
+    },
+    {
+      "comparison_id": "LAG_ETTH1",
+      "dataset": "ETTh1",
+      "method_id": "A5_LAG0",
+      "reference_method_id": "OURS",
+      "n": 5,
+      "seed_ids": "[92601, 92602, 92603, 92604, 92605]",
+      "delta_median_MSE": 0.002372679389739618,
+      "effect_pct": 0.851483572973673,
+      "spread": 0.01913981885600563,
+      "descriptive_decision": "UNCLEAR",
+      "paired_delta_median": 0.002372679389739618,
+      "paired_MAE_delta_median": -0.0015356826204677154,
+      "seeds_reference_lower": 3,
+      "seeds_variant_lower": 2,
+      "seeds_equal": 0,
+      "inference": "Exploratory development V; descriptive median/max-IQR rule, not significance or equivalence."
+    },
+    {
+      "comparison_id": "F_WITHOUT_P_JENA",
+      "dataset": "jena",
+      "method_id": "NO_F_LINEAR_NO_P",
+      "reference_method_id": "A1",
+      "n": 5,
+      "seed_ids": "[92601, 92602, 92603, 92604, 92605]",
+      "delta_median_MSE": -0.054332982934542695,
+      "effect_pct": -7.066502911487526,
+      "spread": 0.020091188477109778,
+      "descriptive_decision": "VARIANT_LOWER",
+      "paired_delta_median": -0.05604190437911005,
+      "paired_MAE_delta_median": -0.00113580754915521,
+      "seeds_reference_lower": 0,
+      "seeds_variant_lower": 5,
+      "seeds_equal": 0,
+      "inference": "Exploratory development V; descriptive median/max-IQR rule, not significance or equivalence."
+    },
+    {
+      "comparison_id": "P_WITHOUT_F_JENA",
+      "dataset": "jena",
+      "method_id": "NO_F_LINEAR_NO_P",
+      "reference_method_id": "NO_F_LINEAR",
+      "n": 5,
+      "seed_ids": "[92601, 92602, 92603, 92604, 92605]",
+      "delta_median_MSE": -0.001999527664350631,
+      "effect_pct": -0.2790503273490126,
+      "spread": 0.021760857713512327,
+      "descriptive_decision": "UNCLEAR",
+      "paired_delta_median": -0.005195248405948538,
+      "paired_MAE_delta_median": 0.015608615032794204,
+      "seeds_reference_lower": 2,
+      "seeds_variant_lower": 3,
+      "seeds_equal": 0,
+      "inference": "Exploratory development V; descriptive median/max-IQR rule, not significance or equivalence."
+    },
+    {
+      "comparison_id": "P_WITH_F_JENA",
+      "dataset": "jena",
+      "method_id": "A1",
+      "reference_method_id": "OURS",
+      "n": 5,
+      "seed_ids": "[92601, 92602, 92603, 92604, 92605]",
+      "delta_median_MSE": 0.08247892158553893,
+      "effect_pct": 12.016127314253248,
+      "spread": 0.02033254317740385,
+      "descriptive_decision": "REFERENCE_LOWER",
+      "paired_delta_median": 0.0859287546677251,
+      "paired_MAE_delta_median": 0.02009301631183924,
+      "seeds_reference_lower": 5,
+      "seeds_variant_lower": 0,
+      "seeds_equal": 0,
+      "inference": "Exploratory development V; descriptive median/max-IQR rule, not significance or equivalence."
+    }
+  ],
+  "coverage": [
+    {
+      "method_id": "NO_F_LINEAR",
+      "dataset": "jena",
+      "required": true,
+      "completed_base": 5,
+      "planned_base": 5,
+      "completed_extension": 0,
+      "primary_complete": true,
+      "primary_n": 5,
+      "extension_status": "NOT_REQUIRED",
+      "provisional": false,
+      "interpretation": "Five-seed estimate available"
+    },
+    {
+      "method_id": "NO_F_LINEAR",
+      "dataset": "appliances",
+      "required": true,
+      "completed_base": 5,
+      "planned_base": 5,
+      "completed_extension": 0,
+      "primary_complete": true,
+      "primary_n": 5,
+      "extension_status": "NOT_REQUIRED",
+      "provisional": false,
+      "interpretation": "Five-seed estimate available"
+    },
+    {
+      "method_id": "NO_ANCHOR",
+      "dataset": "ETTh1",
+      "required": true,
+      "completed_base": 5,
+      "planned_base": 5,
+      "completed_extension": 0,
+      "primary_complete": true,
+      "primary_n": 5,
+      "extension_status": "NOT_REQUIRED",
+      "provisional": false,
+      "interpretation": "Five-seed estimate available"
+    },
+    {
+      "method_id": "NO_F_LINEAR_NO_P",
+      "dataset": "jena",
+      "required": true,
+      "completed_base": 5,
+      "planned_base": 5,
+      "completed_extension": 0,
+      "primary_complete": true,
+      "primary_n": 5,
+      "extension_status": "NOT_REQUIRED",
+      "provisional": false,
+      "interpretation": "Five-seed estimate available"
+    },
+    {
+      "method_id": "A5_LAG0",
+      "dataset": "ETTh1",
+      "required": false,
+      "completed_base": 5,
+      "planned_base": 5,
+      "completed_extension": 0,
+      "primary_complete": true,
+      "primary_n": 5,
+      "extension_status": "NOT_REQUIRED",
+      "provisional": false,
+      "interpretation": "Five-seed estimate available"
+    },
+    {
+      "method_id": "NO_ANCHOR",
+      "dataset": "appliances",
+      "required": false,
+      "completed_base": 5,
+      "planned_base": 5,
+      "completed_extension": 0,
+      "primary_complete": true,
+      "primary_n": 5,
+      "extension_status": "NOT_REQUIRED",
+      "provisional": false,
+      "interpretation": "Five-seed estimate available"
+    }
+  ],
+  "all_new_results_scope": "Exploratory development V, same five seeds per completed family; never mixed with 10seed tables."
+}

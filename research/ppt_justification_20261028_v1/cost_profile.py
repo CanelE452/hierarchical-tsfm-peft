@@ -15,7 +15,7 @@ import time
 import numpy as np
 import psutil
 
-from . import runtime
+from . import runtime, host_gpu_gate
 
 
 COST_REPORT = runtime.REPORT / 'cost_profile'
@@ -25,6 +25,8 @@ WORKER_RESERVATIONS = []
 SOURCE_FILES = [
     f'research/{runtime.NAME}/cost_profile.py', f'research/{runtime.NAME}/runtime.py',
     f'research/{runtime.NAME}/tests/test_cost_profile.py',
+    f'research/{runtime.NAME}/host_gpu_gate.py', f'research/{runtime.NAME}/tests/test_host_gpu_gate.py',
+    f'research/{runtime.NAME}/verify_cost_results.py', f'research/{runtime.NAME}/tests/test_cost_validation.py',
     'research/memory_budget_20261018_v1/worker.py',
     'research/b2_dataset_extension_20261018_v1/costs.py',
     *[f'research/informs_broad_validation_20261015_v1/{name}.py' for name in
@@ -163,6 +165,16 @@ def validate_seal():
         if runtime.sha(COST_REPORT/name)!=digest:
             raise ValueError('Cost input/protocol seal changed: '+name)
     protocol=runtime.read(COST_REPORT/'COST_PROTOCOL.json')
+    if protocol.get('revision')!=3 or seal.get('revision')!=3:
+        raise ValueError('WDDM admission requires the prospective cost-v3 amendment and seal')
+    host=protocol['host_gpu_gate']
+    if runtime.sha(COST_REPORT/host['contract_path'])!=host['contract_sha256']:
+        raise ValueError('Registered host contract changed')
+    contract,_=host_gpu_gate.load_policy(COST_REPORT/host['contract_path'])
+    if contract['policy_sha256']!=host['policy_sha256']:
+        raise ValueError('Registered immutable desktop policy changed')
+    if runtime.sha(COST_REPORT/'HOST_GATE_CPU_TESTS.json')!=protocol['host_cpu_test_receipt_sha256']:
+        raise ValueError('Bound host CPU test receipt changed')
     if 'amendment' in protocol:
         amendment=protocol['amendment']
         if runtime.sha(COST_REPORT/amendment['path'])!=amendment['sha256']:
@@ -286,18 +298,8 @@ def assert_no_gpu_conflicts(allowed_pids,records=None):
                (module_name(r) in modules or cost_command(r,'--run') or cost_command(r,'--worker'))]
     if conflicts:
         raise RuntimeError('Live main/E/cost processes prohibit measurement: '+str(conflicts))
-    result=subprocess.run(['nvidia-smi','--query-compute-apps=pid,process_name','--format=csv,noheader,nounits'],
-                          capture_output=True,text=True,timeout=10,check=True,
-                          creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
-    active=[]
-    for line in result.stdout.splitlines():
-        if line.strip():
-            field=line.split(',',1)[0].strip()
-            if not field.isdigit():
-                raise RuntimeError('Cannot establish an idle GPU from nvidia-smi')
-            active.append(int(field))
-    if active:
-        raise RuntimeError('GPU compute processes prohibit fresh cost measurement: '+str(active))
+    allowed={pid:records[pid]['created'] for pid in allowed_pids}
+    return host_gpu_gate.admit_identity(COST_REPORT/'HOST_GPU_CONTRACT.json',allowed_processes=allowed)
 
 
 class StateCheckedRoute:
@@ -431,19 +433,34 @@ def run_worker(run_id,lease_token=None):
     validate_worker_lease(run_id,lease_token)
     verify_parent_reservation()
     ensure_training_finished()
-    assert_no_gpu_conflicts(allowed)
+    host_admission=assert_no_gpu_conflicts(allowed)
     protocol,rows=validate_seal()
     row=next(r for r in rows if r['run_id']==run_id)
     receipt=COST_REPORT/(run_id+'_MEASUREMENT.json')
     prediction=COST_CACHE/(run_id+'_predictions.npz')
     if receipt.exists() or prediction.exists():
         raise FileExistsError('Preserve existing cost attempt; never overwrite a measured facet')
+    identity_records=process_snapshot()
+    identities={pid:identity_records[pid]['created'] for pid in allowed}
+    preflight=host_gpu_gate.HostObservation(COST_REPORT/'HOST_GPU_CONTRACT.json',run_id+'_preflight',identities).start().wait_preflight()
+    runtime.write_new(COST_REPORT/(run_id+'_HOST_PREFLIGHT.json'),preflight)
+    if preflight['status']!='PASS':
+        raise RuntimeError('Cost host preflight failed before inference; preserve all evidence')
     import torch
     torch.set_num_threads(2)
     torch.backends.cuda.matmul.allow_tf32=False
     torch.backends.cudnn.allow_tf32=False
     torch.set_float32_matmul_precision('highest')
-    result,values=measure(make_inputs(row,protocol),runtime.sha(COST_REPORT/'COST_PROTOCOL.json'))
+    observer=host_gpu_gate.HostObservation(COST_REPORT/'HOST_GPU_CONTRACT.json',run_id+'_measurement',identities,gpu_worker=True).start()
+    measured_from=time.time()
+    try:
+        result,values=measure(make_inputs(row,protocol),runtime.sha(COST_REPORT/'COST_PROTOCOL.json'))
+    finally:
+        observation=observer.finish(measured_from,time.time())
+        runtime.write_new(COST_REPORT/(run_id+'_HOST_OBSERVATION.json'),observation)
+    if observation['status']!='PASS':
+        result['status']=result['summary']['status']='CONTAMINATED'
+    result.update(host_admission=host_admission,host_preflight=preflight,host_observation=observation)
     validate_seal()
     prediction.parent.mkdir(parents=True,exist_ok=True)
     with prediction.open('xb') as stream:
@@ -453,6 +470,8 @@ def run_worker(run_id,lease_token=None):
                   parent_lease_identity={key:value for key,value in lease.items() if key!='token'},actual_worker_pid=os.getpid(),
                   CUBLAS_WORKSPACE_CONFIG=os.environ.get('CUBLAS_WORKSPACE_CONFIG'))
     runtime.write_new(receipt,result)
+    if observation['status']!='PASS':
+        raise RuntimeError('Completed cost measurements retained but host condition was contaminated; no comparison PASS or automatic repeat')
     return dict(status=result['status'],run_id=run_id,receipt=str(receipt))
 
 
@@ -503,6 +522,61 @@ def run_all():
     return dict(status='COMPLETE',facets=3)
 
 
+def prepare_host_amendment(*, seal=False):
+    archive=COST_REPORT/'revisions/preflight_002/ARCHIVE_RECEIPT.json'
+    preserved=runtime.read(archive)
+    if (COST_REPORT/'COST_LAUNCH.json').exists() or list(COST_REPORT.glob('*_MEASUREMENT.json')):
+        raise RuntimeError('Host admission can only be amended before any cost measurement')
+    for row in preserved['files']:
+        if runtime.sha(runtime.REPO/row['archived'])!=row['sha256']:
+            raise ValueError('Archived cost-v2 evidence changed')
+        if Path(row['source']).name in ('COST_INPUTS.json','COST_PROTOCOL.json','COST_SEAL.json'):
+            if runtime.sha(runtime.REPO/row['source'])!=row['sha256']:
+                raise ValueError('Current cost-v2 registration differs from its preserved original')
+    old=runtime.REPO/next(row['archived'] for row in preserved['files'] if row['source'].endswith('/COST_PROTOCOL.json'))
+    old_seal=next(row['sha256'] for row in preserved['files'] if row['source'].endswith('/COST_SEAL.json'))
+    if runtime.sha(COST_REPORT/'COST_SEAL.json')!=old_seal:
+        raise ValueError('Only the preserved cost-v2 registration may receive this prospective amendment')
+    contract,_=host_gpu_gate.load_policy(COST_REPORT/'HOST_GPU_CONTRACT.json')
+    test_receipt=runtime.read(COST_REPORT/'HOST_GATE_CPU_TESTS.json')
+    current_sources={name:runtime.sha(runtime.REPO/name) for name in SOURCE_FILES}
+    if test_receipt.get('status')!='PASS' or test_receipt.get('source_sha256')!=current_sources:
+        raise ValueError('Current cost host source has no matching successful CPU test receipt')
+    amendment_path=COST_REPORT/'AMENDMENT_002.json'
+    draft=COST_REPORT/'COST_PROTOCOL_v3_DRAFT.json'
+    if not seal:
+        amendment=dict(status='PROSPECTIVE_HOST_ADMISSION_AMENDMENT',revision=3,created_utc=datetime.now(timezone.utc).isoformat(),
+            previous_seal_sha256=old_seal,archive_receipt_sha256=runtime.sha(archive),cost_measurements_before_amendment=0,
+            reason='Windows WDDM lists registered desktop compute+graphics contexts; context existence alone is not an independent experiment workload.',
+            changes='Retain scientific process/lease/locks; exact immutable desktop identities plus System PID4 boot-bound counter attribution; cost-only 60s/1Hz all-engine preflight and continuous observation, p95<=5% and max<=15%.',
+            unchanged='Model/data/scaler/seed/facet order/B8/F128/FP32/10warmup20timed/scientific selection/deadlines and measurement core.',
+            contamination='Preserve every result and raw host trace; any host violation blocks comparative PASS, with no selective trial deletion or automatic rerun.',
+            public_contract_sha256=runtime.sha(COST_REPORT/'HOST_GPU_CONTRACT.json'),immutable_private_policy_sha256=contract['policy_sha256'],
+            limitations=contract['limits'])
+        runtime.write_new(amendment_path,amendment)
+        protocol=runtime.read(old)
+        protocol.update(revision=3,created_utc=datetime.now(timezone.utc).isoformat(),
+            source_hashes=current_sources,host_cpu_test_receipt_sha256=runtime.sha(COST_REPORT/'HOST_GATE_CPU_TESTS.json'),
+            estimated_minutes=[8,18],host_preflight_overhead_seconds=180,
+            host_gpu_gate=dict(contract_path='HOST_GPU_CONTRACT.json',contract_sha256=runtime.sha(COST_REPORT/'HOST_GPU_CONTRACT.json'),
+                               policy_sha256=contract['policy_sha256'],condition='Registered desktop concurrency; not idle/exclusive GPU'),
+            amendment=dict(path='AMENDMENT_002.json',sha256=runtime.sha(amendment_path),previous_seal_sha256=old_seal))
+        protocol['launch_gate']['exclusion']='Existing terminal training/live experiment/lease/shared-lock exclusion retained; exact registered WDDM desktop identities with cost-only bounded all-engine host telemetry.'
+        runtime.write_new(draft,protocol)
+        return dict(status='DRAFT_READY_NOT_SEALED',draft=str(draft),previous_seal_sha256=old_seal)
+    protocol=runtime.read(draft)
+    if (protocol['source_hashes']!={name:runtime.sha(runtime.REPO/name) for name in SOURCE_FILES}
+            or protocol['host_gpu_gate']['contract_sha256']!=runtime.sha(COST_REPORT/'HOST_GPU_CONTRACT.json')
+            or protocol['amendment']['sha256']!=runtime.sha(amendment_path)):
+        raise ValueError('Reviewed host amendment draft/source/contract changed before sealing')
+    runtime.atomic(COST_REPORT/'COST_PROTOCOL.json',protocol)
+    runtime.atomic(COST_REPORT/'COST_SEAL.json',dict(revision=3,created_utc=datetime.now(timezone.utc).isoformat(),
+        previous_seal_sha256=old_seal,files={name:runtime.sha(COST_REPORT/name) for name in
+            ('COST_INPUTS.json','COST_PROTOCOL.json','HOST_GPU_CONTRACT.json','AMENDMENT_002.json')}))
+    validate_seal()
+    return dict(status='SEALED_NOT_MEASURED',revision=3,seal_sha256=runtime.sha(COST_REPORT/'COST_SEAL.json'))
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     group=parser.add_mutually_exclusive_group(required=True)
@@ -510,9 +584,12 @@ def main():
     group.add_argument('--amend-preflight',action='store_true')
     group.add_argument('--run',action='store_true')
     group.add_argument('--worker',choices=FACETS)
+    group.add_argument('--prepare-host-amendment',action='store_true')
+    group.add_argument('--seal-host-amendment',action='store_true')
     parser.add_argument('--lease-token')
     args=parser.parse_args()
-    result=(prepare(amend=args.amend_preflight) if args.prepare or args.amend_preflight else
+    result=(prepare_host_amendment(seal=args.seal_host_amendment) if args.prepare_host_amendment or args.seal_host_amendment else
+            prepare(amend=args.amend_preflight) if args.prepare or args.amend_preflight else
             run_worker(args.worker,args.lease_token) if args.worker else run_all())
     print(json.dumps(result,ensure_ascii=False))
 

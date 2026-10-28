@@ -1,21 +1,40 @@
 {
   "status": "PASS",
-  "created_utc": "2026-10-28T01:41:30.574323+00:00",
-  "command": "python -B -m pytest research/ppt_e_fixed_20261028_v1/tests/test_contract.py -q -p no:cacheprovider",
+  "created_utc": "2026-10-28T02:14:31.293985+00:00",
+  "command": "python -B -m pytest research/ppt_e_fixed_20261028_v1/tests/test_contract.py research/ppt_e_fixed_20261028_v1/tests/test_postprocess.py -q -p no:cacheprovider",
   "exit_code": 0,
-  "tests_passed": 28,
-  "seconds": 3.37,
+  "tests_passed": 38,
+  "combined_tests_passed": 109,
+  "combined_seconds": 5.94,
   "source_sha256": {
     "research/ppt_e_fixed_20261028_v1/models.py": "f664872a048521b1fb0b189de4b64ff25500a8169baa50d5affadf0828055661",
-    "research/ppt_e_fixed_20261028_v1/runtime.py": "68e54e297e4020a4c8f621d6753835828186861318f0e70994bd36ce0016e444",
-    "research/ppt_e_fixed_20261028_v1/run_one.py": "47032c33a2d5bfea67e67e35af2214254df3d957e16f30de5d15f07c354d3988",
+    "research/ppt_e_fixed_20261028_v1/runtime.py": "80e3f68f28c0ff4ed8d58ff52ac01bcf47104760892227b8c99157a8ea427508",
+    "research/ppt_e_fixed_20261028_v1/run_one.py": "c54229b2c29f50306a564cccdb5fcee149ce1e10cbf0601a1d382e916c613c12",
     "research/ppt_e_fixed_20261028_v1/controller.py": "4ec0683f782c43dc2589bfe7381c843bdff0beb99b18eb1192f9b0fcbb68a495",
-    "research/ppt_e_fixed_20261028_v1/prepare.py": "054b27b5e888771627ea5ae2187b9cc6d9a15629c6d9e14afb0d3638c3eb1b65",
-    "research/ppt_e_fixed_20261028_v1/tests/test_contract.py": "8ad6478b721be041d307017166a7f8ca37798188f1df928b179d4161d470877d"
+    "research/ppt_e_fixed_20261028_v1/prepare.py": "616ddadf609fc6057468f574f5415becc98eca2d78ffb4b2b459100038120d44",
+    "research/ppt_e_fixed_20261028_v1/tests/test_contract.py": "80eaa6fcfca0c53dce0f2698bf170d3205879b6c1c0f4ea03ff27ca0d91ee2c0"
   },
-  "scope": "Synthetic CPU only: original initialization/RNG, real optimizer updates, frozen E invariance, fresh per-stage PCA, zero updates, corruption/optimizer rejection, whole-study time reserve, parent/launcher/lease/lock gates, mock GPU occupancy, protected-T receipt.",
+  "scope": "Synthetic CPU only: original initial tensors/RNG, real optimizer/P-D updates with frozen E, separate PCA stages, zero updates, scheduling, locks/lease/ancestry; new mocked shared host gate and pre-CUDA receipt order. Shared helper implementation is reviewed/tested separately by its owner.",
+  "amendment": "AMENDMENT_001.json",
   "real_training_executed": false,
   "real_GPU_execution": false,
   "new_experiment_V_values_read": false,
-  "T_numeric_values_parsed": 0
+  "T_numeric_values_parsed": 0,
+  "host_binding_added_utc": "2026-10-28T03:02:31.663164+00:00",
+  "host_gpu_gate": {
+    "mode": "identity_only",
+    "helper_relative_path": "research/ppt_justification_20261028_v1/host_gpu_gate.py",
+    "helper_sha256": "944936b5a1b025de45d6cc470ea5301bc73c77f539794a56668aece58c10e898",
+    "contract_relative_path": "reports/ppt_justification_20261028_v1/cost_profile/HOST_GPU_CONTRACT.json",
+    "contract_sha256": "831738eb0fe187af50f142b4d9b85a261f6337d1222131272c26bf165c97b844",
+    "desktop_concurrent_load": true,
+    "load_policy": "Only prospectively sealed exact desktop identities may coexist. Unknown/new/Python/WSL GPU contexts are rejected. No utilization ceiling: this E study is not a performance benchmark."
+  },
+  "shared_host_gate_evidence": {
+    "path": "reports/ppt_justification_20261028_v1/cost_profile/HOST_GATE_CPU_TESTS.json",
+    "sha256": "756632e2f36502ec6c0315ccfbb4d22d9f2078925b290b325f8f85e5398528da",
+    "passed": 125,
+    "scope": "Shared helper CPU tests; E integration separately passed109 synthetic CPU cases. No actual E execution."
+  },
+  "host_binding_scope": "Prospective byte-hash binding only; unchanged tests were not rerun and no actual GPU admission was performed here."
 }
