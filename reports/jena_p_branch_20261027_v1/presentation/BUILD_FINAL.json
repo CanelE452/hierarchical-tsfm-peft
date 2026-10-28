@@ -1,0 +1,232 @@
+{
+  "output": "C:\\Users\\User\\.codex\\worktrees\\comparative-ablation-20261025\\hierarchical-tsfm-peft\\reports\\jena_p_branch_20261027_v1\\presentation\\Temporal_Channel_Input_Adaptation_revised.pptx",
+  "slide_count": 19,
+  "branch_status": "COMPLETE",
+  "source_sha256": "fae848b8a82cf0e0e8db2f4a2984f1d4febf3d9847b3ff69b7dff5e566d59de2",
+  "fully_rewritten_slides": [
+    3,
+    5,
+    6,
+    8,
+    9,
+    10,
+    16,
+    18
+  ],
+  "partially_rewritten_slide": 7,
+  "partially_rewritten_slides": [
+    7,
+    14,
+    15,
+    17
+  ],
+  "notes_rewritten_slides": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "raster_preservation_other_slides": true,
+  "branch_results": {
+    "status": "COMPLETE",
+    "n": 10,
+    "rows": [
+      {
+        "id": "A1",
+        "label": "No P",
+        "chart_label": "No P\ncap 10 / ext",
+        "median_mse": 0.7753621100390198,
+        "q1": 0.766592020790893,
+        "q3": 0.7838025600629861,
+        "trainable_parameters": 1008,
+        "selected_epochs": [
+          3,
+          6,
+          6,
+          6,
+          6,
+          6,
+          10,
+          10,
+          3,
+          10
+        ],
+        "cap": 10,
+        "extended": true,
+        "provisional": false
+      },
+      {
+        "id": "P_TIME_ONLY",
+        "label": "Time only",
+        "chart_label": "Time only\ncap 3 / base",
+        "median_mse": 0.6989290990931875,
+        "q1": 0.6860446694100453,
+        "q3": 0.7107373980638034,
+        "trainable_parameters": 34320,
+        "selected_epochs": [
+          1,
+          1,
+          1,
+          0.25,
+          3,
+          1,
+          3,
+          1,
+          3,
+          3
+        ],
+        "cap": 3,
+        "extended": false,
+        "provisional": false
+      },
+      {
+        "id": "P_CHANNEL_ONLY",
+        "label": "Channel only",
+        "chart_label": "Channel only\ncap 3 / base",
+        "median_mse": 0.7600052594320604,
+        "q1": 0.7534475582180331,
+        "q3": 0.77312294560776,
+        "trainable_parameters": 2405,
+        "selected_epochs": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          3
+        ],
+        "cap": 3,
+        "extended": false,
+        "provisional": false
+      },
+      {
+        "id": "OURS",
+        "label": "Full P",
+        "chart_label": "Full P\ncap 3 / base",
+        "median_mse": 0.6977704154364386,
+        "q1": 0.6838144868572558,
+        "q3": 0.7049882486525166,
+        "trainable_parameters": 35717,
+        "selected_epochs": [
+          1,
+          1,
+          1,
+          1,
+          0.25,
+          3,
+          3,
+          1,
+          1,
+          1
+        ],
+        "cap": 3,
+        "extended": false,
+        "provisional": false
+      },
+      {
+        "id": "A2",
+        "label": "A2",
+        "chart_label": "A2\ncap 3 / base",
+        "median_mse": 0.7235012732624411,
+        "q1": 0.71855848960104,
+        "q3": 0.7475004144851713,
+        "trainable_parameters": 35708,
+        "selected_epochs": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          3,
+          3,
+          1,
+          1
+        ],
+        "cap": 3,
+        "extended": false,
+        "provisional": false
+      }
+    ],
+    "contrasts": [
+      {
+        "method_id": "P_TIME_ONLY",
+        "contrast": "Time branch only minus Full P",
+        "delta_median_MSE": 0.0011586836567488712,
+        "effect_pct": 0.1660551423671556,
+        "spread": 0.024692728653758156,
+        "descriptive_decision": "UNCLEAR",
+        "paired_delta_median": -0.011872827005205311,
+        "seeds_full_P_lower": 3,
+        "n": 10,
+        "inference": "Descriptive exploratory V comparison; no significance/equivalence claim."
+      },
+      {
+        "method_id": "P_CHANNEL_ONLY",
+        "contrast": "Channel branch only minus Full P",
+        "delta_median_MSE": 0.06223484399562185,
+        "effect_pct": 8.91910041165839,
+        "spread": 0.02117376179526087,
+        "descriptive_decision": "FULL_P_LOWER",
+        "paired_delta_median": 0.06044407660623913,
+        "seeds_full_P_lower": 10,
+        "n": 10,
+        "inference": "Descriptive exploratory V comparison; no significance/equivalence claim."
+      },
+      {
+        "method_id": "A1",
+        "contrast": "No P minus Full P",
+        "delta_median_MSE": 0.0775916946025812,
+        "effect_pct": 11.119946172273506,
+        "spread": 0.02117376179526087,
+        "descriptive_decision": "FULL_P_LOWER",
+        "paired_delta_median": 0.07759169460258125,
+        "seeds_full_P_lower": 10,
+        "n": 10,
+        "inference": "Descriptive exploratory V comparison; no significance/equivalence claim."
+      },
+      {
+        "method_id": "A2",
+        "contrast": "A2: large channel replacement minus Full P",
+        "delta_median_MSE": 0.025730857826002485,
+        "effect_pct": 3.687582227158263,
+        "spread": 0.028941924884131387,
+        "descriptive_decision": "UNCLEAR",
+        "paired_delta_median": 0.03867469400796775,
+        "seeds_full_P_lower": 9,
+        "n": 10,
+        "inference": "Descriptive exploratory V comparison; no significance/equivalence claim."
+      }
+    ],
+    "takeaway_en": "Time only +0.17%; channel only +8.92% vs full P.",
+    "takeaway_ko": "채널 분기 제거 시 중앙값 MSE 차이는 +0.17%이며 등록된 기술통계 판정 규칙에서 차이는 불명확합니다. 동등하다는 뜻은 아닙니다. 시간 분기를 제거하면 중앙값 MSE가 +8.92%이고 등록된 기술통계 판정 규칙에서 Full P가 더 낮습니다.",
+    "conclusion_en": "Jena: vs time-only, unclear; vs channel-only, full P lower.",
+    "conclusion_ko": "채널 분기 제거 시 중앙값 MSE 차이는 +0.17%이며 등록된 기술통계 판정 규칙에서 차이는 불명확합니다. 동등하다는 뜻은 아닙니다. 시간 분기를 제거하면 중앙값 MSE가 +8.92%이고 등록된 기술통계 판정 규칙에서 Full P가 더 낮습니다.",
+    "schedule_notes_ko": "No P: cap 10, 연장 있음, 잠정 아님, 선택 epoch 분포 3 epoch 2개, 6 epoch 5개, 10 epoch 3개.\nTime only: cap 3, 연장 없음, 잠정 아님, 선택 epoch 분포 0.25 epoch 1개, 1 epoch 5개, 3 epoch 4개.\nChannel only: cap 3, 연장 없음, 잠정 아님, 선택 epoch 분포 1 epoch 9개, 3 epoch 1개.\nFull P: cap 3, 연장 없음, 잠정 아님, 선택 epoch 분포 0.25 epoch 1개, 1 epoch 7개, 3 epoch 2개.\nA2: cap 3, 연장 없음, 잠정 아님, 선택 epoch 분포 1 epoch 8개, 3 epoch 2개.",
+    "provenance": {
+      "analysis_validation_sha256": "06f3924d011996a1fa34a7c355ae1ec83651a4c720c69a460c150921b6a26a37",
+      "summary_sha256": "e9dbaf563e9a3a2930483bcb2a22759727f23933d43dcc0f9df2e9213e5cca93",
+      "contrasts_sha256": "ae15a54de8329f54540be5055e42590b733b2933aece9c8d2da7031481ed4095",
+      "completion_sha256": "68c4c8b0d22014c9c963bb9890af1218966c2db288f7838c258eddbc3011e5cc",
+      "total_new_runs": 20
+    }
+  },
+  "created_at": "2026-10-27T17:17:26.845Z"
+}
